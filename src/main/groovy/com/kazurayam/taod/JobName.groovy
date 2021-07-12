@@ -9,7 +9,7 @@ class JobName implements Comparable {
         this.jobName_ = jobName
     }
 
-    private void validate(String s) {
+    static void validate(String s) {
         if (! Filename.isValid(s)) {
             throw new IllegalArgumentException("${s} is not valid as a file/directory name")
         }

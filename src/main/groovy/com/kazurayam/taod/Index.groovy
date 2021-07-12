@@ -1,23 +1,46 @@
 package com.kazurayam.taod
 
+import groovy.json.JsonSlurper
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
 import java.nio.file.Files
 import java.nio.file.Path
 
+/**
+ * The "index" file is a list of files contained in the "Job" directory.
+ * The line contains a set of metadata about each file.
+ *
+ * Every lines of "index" is in the format as follows
+ * 1. ID as 40 HexDecimal characters
+ * 2. seperated by a TAB
+ * 3. FileType such as "png" = filename extension
+ * 4. seperated by a TAB
+ * 5. Metadata in List literal: "data" seperated by a comma, enclosed by [ and ]
+ *
+ * e.g,
+ * 6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t["DevelopEnv","image/png","http://demoaut-mimic.kazurayam.com/"]
+ *
+ * How you construct and use a Metadata?
+ * For example, a screenshot image file will be best described by a URL of the
+ * Web page. You would certainly want to save the URL in the Metadata.
+ * You would want to annotate the image file with further detail.
+ * For Example, assuming you have a Web page may consists of 3 `<iframe id="frameX">`
+ * HTML elements. Then you may want to take screenshots of each iframe elements.
+ * In that case, you can append the id value of iframes to the Metadata.
+ * It is up to you which information to be recoded as Metadata.
+ * TAOD just stores what you gave. TAOD just retrieves the Metadata as you recorded.
+ */
 class Index implements Comparable {
 
-    private final Path file_
+    private static final Logger logger_ = LoggerFactory.getLogger(Index.class)
 
-    private Map<Metadata, ID> index_ = null
+    private final Path indexFile_
+    private final List<Tuple3> lines_
+    // Tuple3 of (ID, FileType, Metadata)
 
-    private Index() { throw new UnsupportedOperationException() }
-
-    Index(Path jobDir) {
-        file_ = jobDir.resolve("index")
-        if (Files.exists(file_)) {
-            index_ = loadFile(file_)
-        } else {
-            index_ = new HashMap<Metadata, ID>()
-        }
+    Index() {
+        lines_ = new ArrayList<Tuple3>()
     }
 
     /**
@@ -25,7 +48,50 @@ class Index implements Comparable {
      * @return
      */
     List<ID> listIDs() {
-        return index_.values().toSorted()
+        List<ID> idList = new ArrayList<ID>()
+        lines_.each { Tuple3 item ->
+            idList(item[0])
+        }
+        return idList
+    }
+
+    static Path getIndexFile(Path jobDir) {
+        return jobDir.resolve("index")
+    }
+
+    void put(ID id, FileType fileType, Metadata metadata) {
+        lines_.add(new Tuple3(id, fileType, metadata))
+    }
+
+    void serialize(Path indexFile) {
+        FileOutputStream fos = new FileOutputStream(indexFile.toFile())
+        OutputStreamWriter osw = new OutputStreamWriter(fos, "utf-8")
+        BufferedWriter br = new BufferedWriter(osw)
+        lines_.each { Tuple3 tuple ->
+            String s = formatLine(tuple)
+            br.println(s)
+        }
+        br.flush()
+        br.close()
+    }
+
+    static String formatLine(Tuple3 tuple) {
+        Objects.requireNonNull(tuple)
+        ID id = tuple[0]
+        FileType ft = tuple[1]
+        Metadata md = tuple[2]
+        StringBuilder sb = new StringBuilder()
+        sb.append(id.toString())
+        sb.append("\t")
+        sb.append(ft.getExtension())
+        sb.append("\t")
+        sb.append(md.toString())
+        return sb.toString()
+    }
+
+    void deserialize(Path indexFile) {
+        List<Tuple3> loaded = loadFile(indexFile)
+        lines_.addAll(loaded)
     }
 
     /**
@@ -36,63 +102,65 @@ class Index implements Comparable {
      * @param file
      * @return
      */
-    static Map<Metadata, ID> loadFile(Path filePath) {
+    private static List<Tuple3> loadFile(Path filePath) {
         Objects.requireNonNull(filePath)
         if (! Files.exists(filePath)) {
             throw new IllegalArgumentException("${filePath} is not found")
         }
-        Map<Metadata, ID> m = new HashMap<Metadata, ID>()
+        List<Tuple3> list = new ArrayList<Tuple3>()
         //
         File file = filePath.toFile()
         String line
+        int x = 0
         file.withReader { reader ->
             while ((line = reader.readLine()) != null) {
-                List<String> items = line.split('\\t') as List<String>
-                if (items.size() > 0) {
-                    // check if the left-most item is a valid SHA1 Digital
-                    String idStr = items.remove(0)
-                    if (! ID.isValid(idStr)) {
-                        throw new IllegalStateException("id ${id} is not a valid ID")
+                x += 1
+                try {
+                    Tuple3 items = parseLine(line)
+                    if (items != null) {
+                        list.add(items)
                     }
-                    ID id = new ID(idStr)
-                    Metadata metadata = new Metadata(items)
-                    m.put(metadata, id)
-                } else {
-                    ; // ignore blank lines
+                } catch (IndexParseException e) {
+                    logger_.warn("LINE#=${x} \'${line}\' ${e.message()}")
                 }
             }
         }
-        return m
+        return list
     }
 
-
-    Path getFile() {
-        return file_
-    }
-
-
-    void put(Metadata metadata, ID id) {
-        index_.put(metadata, id)
-    }
-
-
-    void serialize() {
-        FileOutputStream fos = new FileOutputStream(file_.toFile())
-        OutputStreamWriter osw = new OutputStreamWriter(fos, "utf-8")
-        BufferedWriter br = new BufferedWriter(osw)
-        for (Metadata metadata in index_.keySet()) {
-            ID id = index_.get(metadata)
-            StringBuilder sb = new StringBuilder()
-            sb.append(id.toString())
-            for (String entry in metadata) {
-                sb.append("\t")
-                sb.append(entry)
+    static Tuple3 parseLine(String line) throws IndexParseException {
+        Objects.requireNonNull(line)
+        List<String> items = line.split('\\t') as List<String>
+        ID id = null
+        FileType fileType = null
+        Metadata metadata = null
+        if (items.size() > 0) {
+            String item1 = items[0]
+            if (! ID.isValid(item1)) {
+                throw new IndexParseException("invalid ID")
             }
-            br.println(sb.toString())
+            id = new ID(item1)
+            if (items.size() > 1) {
+                fileType = FileType.getByExtension(items[1])
+                if (fileType == FileType.UNSUPPORTED) {
+                    throw new IndexParseException("unsupported file extension")
+                }
+                if (items.size() > 2) {
+                    try {
+                        List<String> md = new JsonSlurper().parseText(items[2])
+                        metadata = new Metadata(md)
+                    } catch (Exception e) {
+                        throw new IndexParseException("unable to parse metadata part")
+                    }
+                }
+            }
         }
-        br.flush()
-        br.close()
+        if (id != null && fileType != null && metadata != null) {
+            return new Tuple3(id, fileType, metadata)
+        }
+        return null   // blank line returns null
     }
+
 
     @Override
     boolean equals(Object obj) {
@@ -100,12 +168,12 @@ class Index implements Comparable {
             return false
         }
         Index other = (Index)obj
-        return file_ == file_ && index_ == index_
+        return indexFile_ == indexFile_ && lines_ == lines_
     }
 
     @Override
     int hashCode() {
-        file_.hashCode()
+        indexFile_.hashCode()
     }
 
     @Override
@@ -114,6 +182,6 @@ class Index implements Comparable {
             throw new IllegalArgumentException("obj is not instance of Index")
         }
         Index other = (Index)obj
-        return this.file_ <=> other.file_
+        return this.indexFile_ <=> other.indexFile_
     }
 }

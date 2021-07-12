@@ -3,9 +3,37 @@ package com.kazurayam.taod
 
 import org.junit.jupiter.api.Test
 
+import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertTrue
 
 class MetadataTest {
+
+    @Test
+    void test_constructor_with_List() {
+        Metadata metadata = new Metadata(["foo"])
+        assertEquals("foo", metadata.get(0))
+    }
+
+    @Test
+    void test_add_get() {
+        Metadata metadata = new Metadata()
+        metadata.add("foo")
+        assertEquals("foo", metadata.get(0))
+    }
+
+    @Test
+    void test_addAll() {
+        Metadata metadata = new Metadata()
+        metadata.addAll(["foo"])
+        assertEquals("foo", metadata.get(0))
+    }
+
+    @Test
+    void test_size() {
+        Metadata metadata = new Metadata()
+        metadata.add("foo")
+        assertEquals(1, metadata.size())
+    }
 
     @Test
     void test_compareTo_empty_instances_should_be_equal() {

@@ -14,10 +14,13 @@ class Metadata implements Comparable {
 
     Metadata(List<String> metadata) {
         this.metadata_ = new ArrayList<String>()
+        for (String entry in metadata) {
+            metadata_.add(entry)
+        }
     }
 
     void add(String entry) {
-        metadata_.add(entry.trim())
+        metadata_.add(entry)
     }
 
     void addAll(List<String> entries) {

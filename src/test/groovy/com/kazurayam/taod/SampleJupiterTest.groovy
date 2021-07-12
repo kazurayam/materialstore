@@ -91,7 +91,7 @@ class SampleJupiterTest {
     @Test
     void assertThrowsException() {
         String str = null
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(IllegalArgumentException.class, { ->
             Integer.valueOf(str)
         })
     }

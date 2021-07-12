@@ -1,5 +1,6 @@
 package com.kazurayam.taod
 
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
@@ -10,14 +11,6 @@ class JobTimestamp implements Comparable {
     static private DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("yyyyMMdd_kkmmss")
 
-    JobTimestamp(String jobTimestamp) {
-        if (! validFormat(jobTimestamp)) {
-            throw new IllegalArgumentException("jobTimestamp(${jobTimestamp})" +
-                    "must be in the format of ${formatter.toString()}")
-        }
-        this.jobTimestamp_ = jobTimestamp
-    }
-
     static boolean validFormat(String s) {
         try {
             formatter.parse(s)
@@ -26,6 +19,20 @@ class JobTimestamp implements Comparable {
             return false
         }
     }
+
+    static JobTimestamp now() {
+        LocalDateTime now = LocalDateTime.now()
+        return new JobTimestamp(formatter.format(now))
+    }
+
+    JobTimestamp(String jobTimestamp) {
+        if (! validFormat(jobTimestamp)) {
+            throw new IllegalArgumentException("jobTimestamp(${jobTimestamp})" +
+                    "must be in the format of ${formatter.toString()}")
+        }
+        this.jobTimestamp_ = jobTimestamp
+    }
+
 
     @Override
     boolean equals(Object obj) {

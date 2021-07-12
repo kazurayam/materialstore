@@ -5,17 +5,19 @@ import org.apache.commons.codec.digest.DigestUtils
 import java.nio.file.Files
 import java.nio.file.Path
 
-class Blob {
+class Artifact {
 
-    byte[] data_ = null
+    private final byte[] data_
 
-    private static int BUFFER_SIZE = 8000
+    private final FileType fileType_
+
+    private static final int BUFFER_SIZE = 8000
 
     static String hash(byte[] data) {
         return DigestUtils.sha1Hex(data)
     }
 
-    static Blob deserialize(Path blobsDir, ID id) {
+    static Artifact deserialize(Path blobsDir, ID id) {
         Objects.requireNonNull(blobsDir)
         Objects.requireNonNull(id)
         Path blob = blobsDir.resolve(id.toString())
@@ -34,9 +36,10 @@ class Blob {
         baos.close()
     }
 
-    Blob(byte[] data) {
+    Artifact(byte[] data, FileType fileType) {
         Objects.requireNonNull(data)
         this.data_ = data
+        this.fileType_ = fileType
     }
 
     ID getID() {
@@ -61,10 +64,10 @@ class Blob {
 
     @Override
     boolean equals(Object obj) {
-        if (! obj instanceof Blob) {
+        if (! obj instanceof Artifact) {
             return false
         }
-        Blob other = (Blob)obj
+        Artifact other = (Artifact)obj
         return
     }
 

@@ -4,14 +4,13 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import javax.imageio.ImageIO
-import javax.imageio.stream.ImageInputStream
 import java.awt.image.BufferedImage
 import java.nio.file.Files
 import java.nio.file.Path
 
 class Organizer {
 
-    private static Logger logger = LoggerFactory.getLogger(Organizer.class)
+    private static final Logger logger = LoggerFactory.getLogger(Organizer.class)
 
     private Path root_
     private Set<Index> indexSet_
@@ -30,27 +29,26 @@ class Organizer {
 
 
     ID write(JobName jobName, JobTimestamp jobTimestamp,
-                 Metadata meta, File file) {
-        FileInputStream fis = new FileInputStream(file)
+                 Metadata meta, File input, FileType fileType) {
+        Objects.requireNonNull(input)
+        assert input.exists()
+        FileInputStream fis = new FileInputStream(input)
         byte[] data = toByteArray(fis)
-        return this.write(jobName, jobTimestamp, meta, data)
+        return this.write(jobName, jobTimestamp, meta, data, fileType)
     }
 
     ID write(JobName jobName, JobTimestamp jobTimestamp,
-                 Metadata meta, Path path) {
-        FileInputStream fis = new FileInputStream(path.toFile())
+                 Metadata meta, Path input, FileType fileType) {
+        Objects.requireNonNull(input)
+        assert Files.exists(input)
+        FileInputStream fis = new FileInputStream(input.toFile())
         byte[] data = toByteArray(fis)
-        return this.write(jobName, jobTimestamp, meta, data)
+        return this.write(jobName, jobTimestamp, meta, data, fileType)
     }
 
-    ID write(JobName jobName, JobTimestamp jobTimestamp,
-                 Metadata meta, BufferedImage bufferedImage) {
-        ImageInputStream iis = ImageIO.createImageInputStream(bufferedImage)
-        byte[] data = toByteArray(iis)
-        return this.write(jobName, jobTimestamp, meta, data)
-    }
 
     private static byte[] toByteArray(InputStream inputStream) {
+        Objects.requireNonNull(inputStream)
         byte[] buff = new byte[BUFFER_SIZE]
         int bytesRead
         ByteArrayOutputStream baos = new ByteArrayOutputStream()
@@ -61,22 +59,31 @@ class Organizer {
     }
 
     ID write(JobName jobName, JobTimestamp jobTimestamp,
-                 Metadata meta, byte[] data) {
-        Artifacts artifacts = new Artifacts(root_, jobName, jobTimestamp)
-        return artifacts.commit(meta, data)
+             Metadata meta, BufferedImage input, FileType fileType) {
+        Objects.requireNonNull(input)
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(input, fileType.extension, baos);
+        byte[] data = baos.toByteArray()
+        return this.write(jobName, jobTimestamp, meta, data, fileType)
+    }
+
+    ID write(JobName jobName, JobTimestamp jobTimestamp,
+                 Metadata meta, byte[] input, FileType fileType) {
+        Objects.requireNonNull(root_)
+        Objects.requireNonNull(jobName)
+        Objects.requireNonNull(jobTimestamp)
+        Objects.requireNonNull(meta)
+        Objects.requireNonNull(fileType)
+        Job job = new Job(root_, jobName, jobTimestamp)
+        return job.commit(meta, input, fileType)
     }
 
 
-    private Index getIndex(JobName jobName, JobTimestamp jobTimestamp) {
-        Path file = root_.resolve(jobName.toString()).resolve(jobTimestamp.toString())
-        for (Index cached in indexSet_) {
-            if (cached.getFile() == file) {
-                return cached
-            }
-        }
-        Index newIndex = new Index(root_, jobName, jobTimestamp)
-        indexSet_.add(newIndex)
-        return newIndex
+    Job getJob(JobName jobName, JobTimestamp jobTimestamp) {
+        Objects.requireNonNull(jobName)
+        Objects.requireNonNull(jobTimestamp)
+        Job job = new Job(root_, jobName, jobTimestamp)
+        return job
     }
 
 }

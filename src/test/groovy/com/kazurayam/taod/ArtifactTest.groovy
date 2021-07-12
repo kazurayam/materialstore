@@ -1,4 +1,6 @@
 package com.kazurayam.taod
 
-interface Differ {
+class ArtifactTest {
+
+
 }
