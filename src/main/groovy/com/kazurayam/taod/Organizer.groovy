@@ -12,15 +12,17 @@ class Organizer {
 
     private static final Logger logger = LoggerFactory.getLogger(Organizer.class)
 
-    private Path root_
-    private Set<Index> indexSet_
+    private final Path root_
+
+    private final Set<Job> jobCache_
+
     private static int BUFFER_SIZE = 8000
 
     Organizer(Path root) {
         Objects.requireNonNull(root)
         Files.createDirectories(root)
         this.root_ = root
-        this.indexSet_ = new HashSet<Index>()
+        this.jobCache_ = new HashSet<Job>()
     }
 
     Path getRoot() {
@@ -58,6 +60,7 @@ class Organizer {
         return baos.toByteArray()
     }
 
+
     ID write(JobName jobName, JobTimestamp jobTimestamp,
              Metadata meta, BufferedImage input, FileType fileType) {
         Objects.requireNonNull(input)
@@ -67,6 +70,7 @@ class Organizer {
         return this.write(jobName, jobTimestamp, meta, data, fileType)
     }
 
+
     ID write(JobName jobName, JobTimestamp jobTimestamp,
                  Metadata meta, byte[] input, FileType fileType) {
         Objects.requireNonNull(root_)
@@ -74,16 +78,44 @@ class Organizer {
         Objects.requireNonNull(jobTimestamp)
         Objects.requireNonNull(meta)
         Objects.requireNonNull(fileType)
-        Job job = new Job(root_, jobName, jobTimestamp)
+        Job job = this.getJob(jobName, jobTimestamp)
         return job.commit(meta, input, fileType)
     }
 
 
+    /**
+     * return an instance of Job.
+     * if cached, return the found.
+     * if not cached, return the new one.
+     *
+     * @param jobName
+     * @param jobTimestamp
+     * @return
+     */
     Job getJob(JobName jobName, JobTimestamp jobTimestamp) {
-        Objects.requireNonNull(jobName)
-        Objects.requireNonNull(jobTimestamp)
-        Job job = new Job(root_, jobName, jobTimestamp)
-        return job
+        Job job = getCachedJob(jobName, jobTimestamp)
+        if (job != null) {
+            return job
+        } else {
+            Job newJob = new Job(root_, jobName, jobTimestamp)
+            // put the new Job object in the cache
+            jobCache_.add(newJob)
+            return newJob
+        }
+    }
+
+
+    Job getCachedJob(JobName jobName, JobTimestamp jobTimestamp) {
+        Job result = null
+        for (int i = 0; jobCache_.size(); i++) {
+            Job cached = jobCache_[i]
+            if (cached.getJobName() == jobName &&
+                        cached.getJobTimestamp() == jobTimestamp) {
+                result = cached
+                break
+            }
+        }
+        return result
     }
 
 }

@@ -36,11 +36,11 @@ class Index implements Comparable {
     private static final Logger logger_ = LoggerFactory.getLogger(Index.class)
 
     private final Path indexFile_
-    private final List<Tuple3> lines_
-    // Tuple3 of (ID, FileType, Metadata)
+    private final List<Tuple> lines_
+    // Tuple of (ID, FileType, Metadata)
 
     Index() {
-        lines_ = new ArrayList<Tuple3>()
+        lines_ = new ArrayList<Tuple>()
     }
 
     /**
@@ -49,7 +49,7 @@ class Index implements Comparable {
      */
     List<ID> listIDs() {
         List<ID> idList = new ArrayList<ID>()
-        lines_.each { Tuple3 item ->
+        lines_.each { Tuple item ->
             idList(item[0])
         }
         return idList
@@ -60,14 +60,14 @@ class Index implements Comparable {
     }
 
     void put(ID id, FileType fileType, Metadata metadata) {
-        lines_.add(new Tuple3(id, fileType, metadata))
+        lines_.add(new Tuple(id, fileType, metadata))
     }
 
     void serialize(Path indexFile) {
         FileOutputStream fos = new FileOutputStream(indexFile.toFile())
         OutputStreamWriter osw = new OutputStreamWriter(fos, "utf-8")
         BufferedWriter br = new BufferedWriter(osw)
-        lines_.each { Tuple3 tuple ->
+        lines_.each { Tuple tuple ->
             String s = formatLine(tuple)
             br.println(s)
         }
@@ -75,7 +75,7 @@ class Index implements Comparable {
         br.close()
     }
 
-    static String formatLine(Tuple3 tuple) {
+    static String formatLine(Tuple tuple) {
         Objects.requireNonNull(tuple)
         ID id = tuple[0]
         FileType ft = tuple[1]
@@ -90,7 +90,7 @@ class Index implements Comparable {
     }
 
     void deserialize(Path indexFile) {
-        List<Tuple3> loaded = loadFile(indexFile)
+        List<Tuple> loaded = loadFile(indexFile)
         lines_.addAll(loaded)
     }
 
@@ -102,12 +102,12 @@ class Index implements Comparable {
      * @param file
      * @return
      */
-    private static List<Tuple3> loadFile(Path filePath) {
+    private static List<Tuple> loadFile(Path filePath) {
         Objects.requireNonNull(filePath)
         if (! Files.exists(filePath)) {
             throw new IllegalArgumentException("${filePath} is not found")
         }
-        List<Tuple3> list = new ArrayList<Tuple3>()
+        List<Tuple> list = new ArrayList<Tuple>()
         //
         File file = filePath.toFile()
         String line
@@ -116,7 +116,7 @@ class Index implements Comparable {
             while ((line = reader.readLine()) != null) {
                 x += 1
                 try {
-                    Tuple3 items = parseLine(line)
+                    Tuple items = parseLine(line)
                     if (items != null) {
                         list.add(items)
                     }
@@ -128,7 +128,7 @@ class Index implements Comparable {
         return list
     }
 
-    static Tuple3 parseLine(String line) throws IndexParseException {
+    static Tuple parseLine(String line) throws IndexParseException {
         Objects.requireNonNull(line)
         List<String> items = line.split('\\t') as List<String>
         ID id = null
@@ -156,7 +156,7 @@ class Index implements Comparable {
             }
         }
         if (id != null && fileType != null && metadata != null) {
-            return new Tuple3(id, fileType, metadata)
+            return new Tuple(id, fileType, metadata)
         }
         return null   // blank line returns null
     }

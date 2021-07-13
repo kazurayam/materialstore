@@ -21,6 +21,10 @@ import static org.junit.jupiter.api.Assumptions.assumeFalse
 import static org.junit.jupiter.api.Assumptions.assumeTrue
 import static org.junit.jupiter.api.Assumptions.assumingThat
 
+/**
+ * An example of JUnit5 Test class based on https://www.baeldung.com/junit-5
+ * modified to be runnable on Groovy 2.4.x
+ */
 class SampleJupiterTest {
 
     private static Logger logger = LoggerFactory.getLogger(SampleJupiterTest.class)
@@ -41,13 +45,15 @@ class SampleJupiterTest {
     void testShowSomething() {
     }
 
-    @DisplayName("Lambda Expressions")
+    /**
+    @DisplayName("Java Lambda Expressions")
     @Test
     void lambdaExpressions() {
         assertTrue(Stream.of(1, 2, 3)
-                .mapToInt(i -> i)
+                .mapToInt (i -> Integer.valueOf(i) )
                 .sum() > 5, () -> "Sum should be greater than 5")
     }
+     */
 
     @Test
     void groupAssertions() {
@@ -76,13 +82,13 @@ class SampleJupiterTest {
         String someString = "Just a string"
         assumingThat(
                 someString.equals("Just a string"),
-                () -> assertEquals(2 + 2, 4)
+                { -> assertEquals(2 + 2, 4) }
         )
     }
 
     @Test
     void shouldThrowException() {
-        Throwable exception = assertThrows(UnsupportedOperationException.class, () -> {
+        Throwable exception = assertThrows(UnsupportedOperationException.class, { ->
             throw new UnsupportedOperationException("Not supported")
         })
         assertEquals(exception.getMessage(), "Not supported")

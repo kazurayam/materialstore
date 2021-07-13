@@ -19,7 +19,7 @@ class IndexTest {
     @Test
     void test_parseLine_smoke() {
         try {
-            Tuple3 t = Index.parseLine(sampleLine)
+            Tuple t = Index.parseLine(sampleLine)
             assertNotNull(t)
             assertTrue(t[0] instanceof ID)
             assertTrue(t[1] instanceof FileType)
@@ -34,7 +34,7 @@ class IndexTest {
         ID id = new ID("6141b40cfe9e7340a483a3097c4f6ff5d20e04ea")
         FileType fileType = FileType.PNG
         Metadata metadata = new Metadata("DevelopEnv", "http://demoaut-mimic.kazurayam.com/")
-        Tuple3 t = new Tuple(id, fileType, metadata)
+        Tuple t = new Tuple(id, fileType, metadata)
         String line = Index.formatLine(t)
         assertEquals(sampleLine, line)
     }
