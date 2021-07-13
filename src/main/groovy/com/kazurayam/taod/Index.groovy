@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory
 
 import java.nio.file.Files
 import java.nio.file.Path
+import java.util.stream.Collectors
 
 /**
  * The "index" file is a list of files contained in the "Job" directory.
@@ -36,11 +37,11 @@ class Index implements Comparable {
     private static final Logger logger_ = LoggerFactory.getLogger(Index.class)
 
     private final Path indexFile_
-    private final List<Tuple> lines_
+    private final List<IndexEntry> lines_
     // Tuple of (ID, FileType, Metadata)
 
     Index() {
-        lines_ = new ArrayList<Tuple>()
+        lines_ = new ArrayList<IndexEntry>()
     }
 
     static Path getIndexFile(Path jobDir) {
@@ -48,26 +49,36 @@ class Index implements Comparable {
     }
 
     void put(ID id, FileType fileType, Metadata metadata) {
-        lines_.add(new Tuple(id, fileType, metadata))
+        lines_.add(new IndexEntry(id, fileType, metadata))
     }
 
+    int size() {
+        return lines_.size()
+    }
+
+    /**
+     * write data int "index" file.
+     * lines are sorted by the order of Metadata > FileType > ID
+     * @param indexFile
+     */
     void serialize(Path indexFile) {
         FileOutputStream fos = new FileOutputStream(indexFile.toFile())
         OutputStreamWriter osw = new OutputStreamWriter(fos, "utf-8")
         BufferedWriter br = new BufferedWriter(osw)
-        lines_.each { Tuple tuple ->
-            String s = formatLine(tuple)
+        List<IndexEntry> sorted = lines_.stream().sorted().collect(Collectors.toList())
+        sorted.each { IndexEntry indexEntry ->
+            String s = formatLine(indexEntry)
             br.println(s)
         }
         br.flush()
         br.close()
     }
 
-    static String formatLine(Tuple tuple) {
-        Objects.requireNonNull(tuple)
-        ID id = tuple[0]
-        FileType ft = tuple[1]
-        Metadata md = tuple[2]
+    static String formatLine(IndexEntry indexEntry) {
+        Objects.requireNonNull(indexEntry)
+        ID id = indexEntry.getID()
+        FileType ft = indexEntry.getFileType()
+        Metadata md = indexEntry.getMetadata()
         StringBuilder sb = new StringBuilder()
         sb.append(id.toString())
         sb.append("\t")
@@ -99,12 +110,12 @@ class Index implements Comparable {
             while ((line = reader.readLine()) != null) {
                 x += 1
                 try {
-                    Tuple items = parseLine(line)
-                    if (items != null) {
+                    IndexEntry indexEntry = parseLine(line)
+                    if (indexEntry != null) {
                         index.put(
-                                (ID)items[0],
-                                (FileType)items[1],
-                                (Metadata)items[2])
+                                indexEntry.getID(),
+                                indexEntry.getFileType(),
+                                indexEntry.getMetadata())
                     }
                 } catch (IllegalArgumentException e) {
                     logger_.warn("LINE#=${x} \'${line}\' ${e.message()}")
@@ -114,7 +125,7 @@ class Index implements Comparable {
         return index
     }
 
-    static Tuple parseLine(String line) throws IllegalArgumentException {
+    static IndexEntry parseLine(String line) throws IllegalArgumentException {
         Objects.requireNonNull(line)
         List<String> items = line.split('\\t') as List<String>
         ID id = null
@@ -142,7 +153,7 @@ class Index implements Comparable {
             }
         }
         if (id != null && fileType != null && metadata != null) {
-            return new Tuple(id, fileType, metadata)
+            return new IndexEntry(id, fileType, metadata)
         }
         return null   // blank line returns null
     }

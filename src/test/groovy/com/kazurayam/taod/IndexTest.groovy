@@ -26,11 +26,8 @@ class IndexTest {
     @Test
     void test_parseLine_smoke() {
         try {
-            Tuple t = Index.parseLine(sampleLine)
-            assertNotNull(t)
-            assertTrue(t[0] instanceof ID)
-            assertTrue(t[1] instanceof FileType)
-            assertTrue(t[2] instanceof Metadata)
+            IndexEntry indexEntry = Index.parseLine(sampleLine)
+            assertNotNull(indexEntry)
         } catch (IllegalArgumentException e) {
             fail(e.getMessage())
         }
@@ -41,8 +38,8 @@ class IndexTest {
         ID id = new ID("6141b40cfe9e7340a483a3097c4f6ff5d20e04ea")
         FileType fileType = FileType.PNG
         Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
-        Tuple t = new Tuple(id, fileType, metadata)
-        String line = Index.formatLine(t)
+        IndexEntry indexEntry = new IndexEntry(id, fileType, metadata)
+        String line = Index.formatLine(indexEntry)
         assertEquals(sampleLine, line)
     }
 
@@ -51,20 +48,22 @@ class IndexTest {
         Path indexFile = Index.getIndexFile(resultsDir.resolve("20210713_093357"))
         Index index = Index.deserialize(indexFile)
         assertNotNull(index)
+        assertEquals(2, index.size())
     }
 
     @Test
     void test_serialize() {
         Path source = Index.getIndexFile(resultsDir.resolve("20210713_093357"))
         Index index = Index.deserialize(source)
+        assert index.size() == 2
         //
         Path root = outputDir.resolve(".taod")
         Path jobNameDir = root.resolve("test_serialized")
-        Path jobResultDir = jobNameDir.resolve(JobTimestamp.now().toString())
-        Files.createDirectories(jobResultDir)
-        Path indexFile = Index.getIndexFile(jobResultDir)
-        index.serialize(indexFile)
-        assertTrue(Files.exists(indexFile))
-        assertTrue(indexFile.toFile().length() > 0)
+        Path jobTimestampDir = jobNameDir.resolve(JobTimestamp.now().toString())
+        Files.createDirectories(jobTimestampDir)
+        Path target = Index.getIndexFile(jobTimestampDir)
+        index.serialize(target)
+        assertTrue(Files.exists(target))
+        assertTrue(target.toFile().length() > 0)
     }
 }
