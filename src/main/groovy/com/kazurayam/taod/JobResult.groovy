@@ -17,7 +17,7 @@ class JobResult implements Comparable {
         this.jobName = jobName
         this.jobTimestamp = jobTimestamp
         jobResultDir = root.resolve(jobName.toString()).resolve(jobTimestamp.toString())
-        Files.createDirectories(getArtifactsDir())
+        Files.createDirectories(getObjectsDir())
 
         // the content of "index" is cached in memory
         index = new Index()
@@ -39,8 +39,8 @@ class JobResult implements Comparable {
         return jobTimestamp
     }
 
-    Path getArtifactsDir() {
-        return getJobResultDir().resolve("artifacts")
+    Path getObjectsDir() {
+        return getJobResultDir().resolve("objects")
     }
 
     /**
@@ -52,19 +52,19 @@ class JobResult implements Comparable {
      * @return
      */
     ID commit(Metadata metadata, byte[] data, FileType fileType) {
-        Artifact artifact = new Artifact(data, fileType)
+        ProductObject productObject = new ProductObject(data, fileType)
 
         // save the "byte[] data" into disk
-        Path artifactFile = this.getArtifactsDir().resolve(artifact.getFileName())
-        artifact.serialize(artifactFile)
+        Path objectFile = this.getObjectsDir().resolve(productObject.getFileName())
+        productObject.serialize(objectFile)
 
         // insert a line into the "index" content on memory
-        index.put(artifact.getID(), fileType, metadata)
+        index.put(productObject.getID(), fileType, metadata)
 
         // save the content of "index" into disk everytime when a commit is made
         index.serialize(Index.getIndexFile(jobResultDir))
 
-        return artifact.getID()
+        return productObject.getID()
     }
 
     @Override

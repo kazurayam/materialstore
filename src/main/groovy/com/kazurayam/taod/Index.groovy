@@ -19,7 +19,7 @@ import java.nio.file.Path
  * 5. Metadata in List literal: "data" seperated by a comma, enclosed by [ and ]
  *
  * e.g,
- * 6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t["DevelopEnv","image/png","http://demoaut-mimic.kazurayam.com/"]
+ * 6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t["DevelopmentEnv","http://demoaut-mimic.kazurayam.com/"]
  *
  * How you construct and use a Metadata?
  * For example, a screenshot image file will be best described by a URL of the
@@ -80,7 +80,7 @@ class Index implements Comparable {
     /**
      * read the "index" file, which is in the format like
      * ```
-     * <Artifact ID>\t<Artifact Metadata[0]>\t<Metadata[1]>\t<Metadata[2]>...
+     * <Project ID>\t<Product Metadata[0]>\t<Metadata[1]>\t<Metadata[2]>...
      * ```
      * @param file
      * @return

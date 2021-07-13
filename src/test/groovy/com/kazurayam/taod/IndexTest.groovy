@@ -14,7 +14,7 @@ import java.nio.file.Paths
 
 class IndexTest {
 
-    private final String sampleLine = """6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t["DevelopEnv","http://demoaut-mimic.kazurayam.com/"]"""
+    private final String sampleLine = """6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t["DevelopmentEnv","http://demoaut-mimic.kazurayam.com/"]"""
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
@@ -40,7 +40,7 @@ class IndexTest {
     void test_formatLine_smoke() {
         ID id = new ID("6141b40cfe9e7340a483a3097c4f6ff5d20e04ea")
         FileType fileType = FileType.PNG
-        Metadata metadata = new Metadata("DevelopEnv", "http://demoaut-mimic.kazurayam.com/")
+        Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
         Tuple t = new Tuple(id, fileType, metadata)
         String line = Index.formatLine(t)
         assertEquals(sampleLine, line)

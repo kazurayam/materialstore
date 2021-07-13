@@ -5,7 +5,7 @@ import org.apache.commons.codec.digest.DigestUtils
 import java.nio.file.Files
 import java.nio.file.Path
 
-class Artifact {
+class ProductObject {
 
     private final byte[] data_
 
@@ -17,7 +17,7 @@ class Artifact {
         return DigestUtils.sha1Hex(data)
     }
 
-    Artifact(byte[] data, FileType fileType) {
+    ProductObject(byte[] data, FileType fileType) {
         Objects.requireNonNull(data)
         this.data_ = data
         this.fileType_ = fileType
@@ -35,10 +35,10 @@ class Artifact {
         return "${ID.toString()}.${fileType_.getExtension()}"
     }
 
-    void serialize(Path artifactFile) {
-        Objects.requireNonNull(artifactFile)
+    void serialize(Path objectsDir) {
+        Objects.requireNonNull(objectsDir)
         //
-        FileOutputStream fos = new FileOutputStream(artifactFile.toFile())
+        FileOutputStream fos = new FileOutputStream(objectsDir.toFile())
         ByteArrayInputStream bais = new ByteArrayInputStream(data_)
         byte[] buff = new byte[BUFFER_SIZE]
         int bytesRead
@@ -50,13 +50,13 @@ class Artifact {
         bais.close()
     }
 
-    static Artifact deserialize(Path artifactFile, FileType fileType) {
-        Objects.requireNonNull(artifactFile)
+    static ProductObject deserialize(Path objectFile, FileType fileType) {
+        Objects.requireNonNull(objectFile)
         Objects.requireNonNull(fileType)
-        if (!Files.exists(artifactFile)) {
-            throw new IllegalArgumentException("${artifactFile} is not present")
+        if (!Files.exists(objectFile)) {
+            throw new IllegalArgumentException("${objectFile} is not present")
         }
-        FileInputStream fis = new FileInputStream(artifactFile.toFile())
+        FileInputStream fis = new FileInputStream(objectFile.toFile())
         ByteArrayOutputStream baos = new ByteArrayOutputStream()
         byte[] buff = new byte[BUFFER_SIZE]
         int bytesRead
@@ -66,15 +66,15 @@ class Artifact {
         byte[] data = baos.toByteArray()
         fis.close()
         baos.close()
-        return new Artifact(data, fileType)
+        return new ProductObject(data, fileType)
     }
 
     @Override
     boolean equals(Object obj) {
-        if (! obj instanceof Artifact) {
+        if (! obj instanceof ProductObject) {
             return false
         }
-        Artifact other = (Artifact)obj
+        ProductObject other = (ProductObject)obj
         return this.getID() == other.getID() && this.getFileType() == other.getFileType()
     }
 

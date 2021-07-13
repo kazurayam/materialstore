@@ -36,8 +36,8 @@ class JobResultTest {
         Path root = outputDir.resolve(".taod")
         Organizer repos = new Organizer(root)
         JobResult jobResult = repos.getJobResult(new JobName("test_commit"), JobTimestamp.now())
-        Metadata metadata = new Metadata("DevelopEnv", "http://demoaut-mimic.katalon.com/")
-        BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.develop.png").toFile())
+        Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.katalon.com/")
+        BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, FileType.PNG.getExtension(), baos);
         byte[] data = baos.toByteArray()
