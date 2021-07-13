@@ -43,18 +43,6 @@ class Index implements Comparable {
         lines_ = new ArrayList<Tuple>()
     }
 
-    /**
-     *
-     * @return
-     */
-    List<ID> listIDs() {
-        List<ID> idList = new ArrayList<ID>()
-        lines_.each { Tuple item ->
-            idList(item[0])
-        }
-        return idList
-    }
-
     static Path getIndexFile(Path jobDir) {
         return jobDir.resolve("index")
     }
@@ -89,11 +77,6 @@ class Index implements Comparable {
         return sb.toString()
     }
 
-    void deserialize(Path indexFile) {
-        List<Tuple> loaded = loadFile(indexFile)
-        lines_.addAll(loaded)
-    }
-
     /**
      * read the "index" file, which is in the format like
      * ```
@@ -102,14 +85,14 @@ class Index implements Comparable {
      * @param file
      * @return
      */
-    private static List<Tuple> loadFile(Path filePath) {
-        Objects.requireNonNull(filePath)
-        if (! Files.exists(filePath)) {
-            throw new IllegalArgumentException("${filePath} is not found")
+    static Index deserialize(Path indexFile) {
+        Objects.requireNonNull(indexFile)
+        if (! Files.exists(indexFile)) {
+            throw new IllegalArgumentException("${indexFile} is not found")
         }
-        List<Tuple> list = new ArrayList<Tuple>()
+        Index index = new Index()
         //
-        File file = filePath.toFile()
+        File file = indexFile.toFile()
         String line
         int x = 0
         file.withReader { reader ->
@@ -118,14 +101,17 @@ class Index implements Comparable {
                 try {
                     Tuple items = parseLine(line)
                     if (items != null) {
-                        list.add(items)
+                        index.put(
+                                (ID)items[0],
+                                (FileType)items[1],
+                                (Metadata)items[2])
                     }
                 } catch (IndexParseException e) {
                     logger_.warn("LINE#=${x} \'${line}\' ${e.message()}")
                 }
             }
         }
-        return list
+        return index
     }
 
     static Tuple parseLine(String line) throws IndexParseException {
@@ -147,8 +133,8 @@ class Index implements Comparable {
                 }
                 if (items.size() > 2) {
                     try {
-                        List<String> md = new JsonSlurper().parseText(items[2])
-                        metadata = new Metadata(md)
+                        List<String> list = new JsonSlurper().parseText(items[2])
+                        metadata = new Metadata(list)
                     } catch (Exception e) {
                         throw new IndexParseException("unable to parse metadata part")
                     }

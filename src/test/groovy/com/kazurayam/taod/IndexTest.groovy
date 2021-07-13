@@ -16,6 +16,13 @@ class IndexTest {
 
     private final String sampleLine = """6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t["DevelopEnv","http://demoaut-mimic.kazurayam.com/"]"""
 
+    private static Path outputDir =
+            Paths.get(".").resolve("build/tmp/testOutput")
+                    .resolve(IndexTest.class.getName())
+
+    private static Path resultsDir =
+            Paths.get(".").resolve("src/test/resources/fixture/sample_results")
+
     @Test
     void test_parseLine_smoke() {
         try {
@@ -37,5 +44,27 @@ class IndexTest {
         Tuple t = new Tuple(id, fileType, metadata)
         String line = Index.formatLine(t)
         assertEquals(sampleLine, line)
+    }
+
+    @Test
+    void test_deserialize() {
+        Path indexFile = Index.getIndexFile(resultsDir.resolve("20210713_093357"))
+        Index index = Index.deserialize(indexFile)
+        assertNotNull(index)
+    }
+
+    @Test
+    void test_serialize() {
+        Path source = Index.getIndexFile(resultsDir.resolve("20210713_093357"))
+        Index index = Index.deserialize(source)
+        //
+        Path root = outputDir.resolve(".taod")
+        Path jobNameDir = root.resolve("test_serialized")
+        Path jobResultDir = jobNameDir.resolve(JobTimestamp.now().toString())
+        Files.createDirectories(jobResultDir)
+        Path indexFile = Index.getIndexFile(jobResultDir)
+        index.serialize(indexFile)
+        assertTrue(Files.exists(indexFile))
+        assertTrue(indexFile.toFile().length() > 0)
     }
 }

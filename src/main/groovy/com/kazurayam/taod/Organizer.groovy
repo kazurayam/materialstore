@@ -37,6 +37,7 @@ class Organizer {
         assert input.exists()
         FileInputStream fis = new FileInputStream(input)
         byte[] data = toByteArray(fis)
+        fis.close()
         return this.write(jobName, jobTimestamp, meta, data, fileType)
     }
 
@@ -46,6 +47,7 @@ class Organizer {
         assert Files.exists(input)
         FileInputStream fis = new FileInputStream(input.toFile())
         byte[] data = toByteArray(fis)
+        fis.close()
         return this.write(jobName, jobTimestamp, meta, data, fileType)
     }
 
@@ -58,6 +60,7 @@ class Organizer {
         while ((bytesRead = inputStream.read(buff)) != -1) {
             baos.write(buff, 0, bytesRead)
         }
+        inputStream.close()
         return baos.toByteArray()
     }
 
@@ -68,6 +71,7 @@ class Organizer {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(input, fileType.extension, baos);
         byte[] data = baos.toByteArray()
+        baos.close()
         return this.write(jobName, jobTimestamp, meta, data, fileType)
     }
 

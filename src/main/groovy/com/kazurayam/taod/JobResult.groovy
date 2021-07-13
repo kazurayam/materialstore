@@ -44,10 +44,11 @@ class JobResult implements Comparable {
     }
 
     /**
-     * This "commit" method is the most significant one of the TAOD project.
+     * This "commit" method is the most significant operation in the TAOD project.
      *
      * @param metadata
      * @param data
+     * @param fileType
      * @return
      */
     ID commit(Metadata metadata, byte[] data, FileType fileType) {
