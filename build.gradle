@@ -20,7 +20,6 @@ ext {
     slf4jVersion = '1.7.31'
     commonscodecVersion = '1.15'
     commonsioVersion = '2.8.0'
-    gsonVersion = '2.8.5'
 }
 
 dependencies {
@@ -37,8 +36,6 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: "${commonsioVersion}"
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
     implementation group: 'commons-codec', name: 'commons-codec', version: "${commonscodecVersion}"
-    // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    implementation group: 'com.google.code.gson', name: 'gson', version: "${gsonVersion}"
 }
 
 test {

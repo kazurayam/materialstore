@@ -6,18 +6,15 @@ import org.junit.jupiter.api.Test
 
 import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
-
-import static org.junit.jupiter.api.Assertions.*
-
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-class JobResultTest {
+class JobberTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(JobResultTest.class.getName())
+                    .resolve(JobberTest.class.getName())
 
     private static Path imagesDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_images")
@@ -34,8 +31,8 @@ class JobResultTest {
     @Test
     void test_commit() {
         Path root = outputDir.resolve(".taod")
-        Organizer repos = new Organizer(root)
-        JobResult jobResult = repos.getJobResult(new JobName("test_commit"), JobTimestamp.now())
+        Store repos = new Store(root)
+        Jobber jobResult = repos.getJobber(new JobName("test_commit"), JobTimestamp.now())
         Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.katalon.com/")
         BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -43,17 +40,5 @@ class JobResultTest {
         byte[] data = baos.toByteArray()
         jobResult.commit(metadata, data, FileType.PNG)
         //
-
-    }
-
-    @Test
-    void test_toString() {
-        Path root = outputDir.resolve(".taod")
-        Organizer organizer = new Organizer(root)
-        JobResult jobResult = organizer.getJobResult(new JobName("test_toString"), JobTimestamp.now())
-        //println job.toString()
-        assertTrue(jobResult.toString().contains("\"jobName\":\"test_toString\""))
-        assertTrue(jobResult.toString().contains("\"jobTimestamp\":"))
-        assertTrue(jobResult.toString().contains("\"jobResultDir\":"))
     }
 }

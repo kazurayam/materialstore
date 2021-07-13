@@ -5,7 +5,7 @@ import org.apache.commons.codec.digest.DigestUtils
 import java.nio.file.Files
 import java.nio.file.Path
 
-class ProductObject {
+class MObject {
 
     private final byte[] data_
 
@@ -17,7 +17,7 @@ class ProductObject {
         return DigestUtils.sha1Hex(data)
     }
 
-    ProductObject(byte[] data, FileType fileType) {
+    MObject(byte[] data, FileType fileType) {
         Objects.requireNonNull(data)
         this.data_ = data
         this.fileType_ = fileType
@@ -50,7 +50,7 @@ class ProductObject {
         bais.close()
     }
 
-    static ProductObject deserialize(Path objectFile, FileType fileType) {
+    static MObject deserialize(Path objectFile, FileType fileType) {
         Objects.requireNonNull(objectFile)
         Objects.requireNonNull(fileType)
         if (!Files.exists(objectFile)) {
@@ -66,15 +66,15 @@ class ProductObject {
         byte[] data = baos.toByteArray()
         fis.close()
         baos.close()
-        return new ProductObject(data, fileType)
+        return new MObject(data, fileType)
     }
 
     @Override
-    boolean equals(Object obj) {
-        if (! obj instanceof ProductObject) {
+    boolean equals(java.lang.Object obj) {
+        if (! obj instanceof MObject) {
             return false
         }
-        ProductObject other = (ProductObject)obj
+        MObject other = (MObject)obj
         return this.getID() == other.getID() && this.getFileType() == other.getFileType()
     }
 

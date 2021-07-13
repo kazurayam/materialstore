@@ -1,6 +1,6 @@
 package com.kazurayam.taod
 
-import com.google.gson.Gson
+import groovy.json.JsonOutput
 
 class Metadata implements Comparable {
 
@@ -87,7 +87,6 @@ class Metadata implements Comparable {
 
     @Override
     String toString() {
-        Gson gson = new Gson()
-        return gson.toJson(metadata_)
+        return new JsonOutput().toJson(metadata_)
     }
 }

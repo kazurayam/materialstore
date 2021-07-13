@@ -5,7 +5,7 @@ import groovy.json.JsonOutput
 import java.nio.file.Files
 import java.nio.file.Path
 
-class JobResult implements Comparable {
+class Jobber {
 
     private final JobName jobName
     private final JobTimestamp jobTimestamp
@@ -13,7 +13,7 @@ class JobResult implements Comparable {
 
     private final Index index
 
-    JobResult(Path root, JobName jobName, JobTimestamp jobTimestamp) {
+    Jobber(Path root, JobName jobName, JobTimestamp jobTimestamp) {
         this.jobName = jobName
         this.jobTimestamp = jobTimestamp
         jobResultDir = root.resolve(jobName.toString()).resolve(jobTimestamp.toString())
@@ -49,53 +49,25 @@ class JobResult implements Comparable {
      * @param metadata
      * @param data
      * @param fileType
-     * @return
+     * @return Material
      */
-    ID commit(Metadata metadata, byte[] data, FileType fileType) {
-        ProductObject productObject = new ProductObject(data, fileType)
+    Material commit(Metadata metadata, byte[] data, FileType fileType) {
+        Objects.requireNonNull(metadata)
+        if (data.length == 0 ) throw new IllegalArgumentException("length of the data is 0")
+        Objects.requireNonNull(fileType)
+
+        MObject mObject = new MObject(data, fileType)
 
         // save the "byte[] data" into disk
-        Path objectFile = this.getObjectsDir().resolve(productObject.getFileName())
-        productObject.serialize(objectFile)
+        Path objectFile = this.getObjectsDir().resolve(mObject.getFileName())
+        mObject.serialize(objectFile)
 
         // insert a line into the "index" content on memory
-        index.put(productObject.getID(), fileType, metadata)
+        index.put(mObject.getID(), fileType, metadata)
 
         // save the content of "index" into disk everytime when a commit is made
         index.serialize(Index.getIndexFile(jobResultDir))
 
-        return productObject.getID()
-    }
-
-    @Override
-    boolean equals(Object obj) {
-        if (! obj instanceof JobResult) {
-            return false
-        }
-        JobResult other = (JobResult)obj
-        return other.getJobResultDir() == this.getJobResultDir()
-    }
-
-    @Override
-    int hashCode() {
-        return this.getJobResultDir().hashCode()
-    }
-
-    @Override
-    int compareTo(Object obj) {
-        if (! obj instanceof JobResult) {
-            throw new IllegalArgumentException("obj is not instance of Job")
-        }
-        JobResult other = (JobResult)obj
-        return this.getJobResultDir() <=> other.getJobResultDir()
-    }
-
-    @Override
-    String toString() {
-        Map m = ["jobName": this.jobName.toString(),
-                 "jobTimestamp": this.jobTimestamp.toString(),
-                 "jobResultDir": this.jobResultDir.toString()]
-        String json = JsonOutput.toJson(m)
-        return json
+        return new Material(metadata, mObject)
     }
 }

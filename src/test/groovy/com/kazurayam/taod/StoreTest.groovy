@@ -12,11 +12,11 @@ import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.*
 
-class OrganizerTest {
+class StoreTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(OrganizerTest.class.getName())
+                    .resolve(StoreTest.class.getName())
 
     private static Path imagesDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_images")
@@ -32,18 +32,18 @@ class OrganizerTest {
     @Test
     void test_getRoot() {
         Path root = outputDir.resolve(".taod")
-        Organizer organizer = new Organizer(root)
-        assertTrue(Files.exists(organizer.getRoot()), "${root} is not present")
-        assertEquals(".taod", organizer.getRoot().getFileName().toString())
+        Store store = new Store(root)
+        assertTrue(Files.exists(store.getRoot()), "${root} is not present")
+        assertEquals(".taod", store.getRoot().getFileName().toString())
     }
 
     @Test
     void test_getJobResult() {
         Path root = outputDir.resolve(".taod")
-        Organizer organizer = new Organizer(root)
+        Store store = new Store(root)
         JobName jobName = new JobName("test_getJob")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        JobResult job = organizer.getJobResult(jobName, jobTimestamp)
+        Jobber job = store.getJobber(jobName, jobTimestamp)
         assertNotNull(job)
         assertEquals("test_getJob", job.getJobName().toString())
     }
@@ -54,70 +54,70 @@ class OrganizerTest {
     @Test
     void test_getCachedJob() {
         Path root = outputDir.resolve(".taod")
-        Organizer organizer = new Organizer(root)
+        Store store = new Store(root)
         JobName jobName = new JobName("test_getCachedJob")
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
         // make sure the Job directory to be empty
         FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
         // null should be returned if the Job directory is not present or empty
-        JobResult expectedNull = organizer.getCachedJob(jobName, jobTimestamp)
+        Jobber expectedNull = store.getCachedJobber(jobName, jobTimestamp)
         assertNull(expectedNull, "expected null but was not")
         // stuff the Job directory with a fixture
         Path jobNameDir = root.resolve(jobName.toString())
         FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
         // new Job object should be created by calling the getJob() method
-        JobResult newlyCreatedJob = organizer.getJobResult(jobName, jobTimestamp)
+        Jobber newlyCreatedJob = store.getJobber(jobName, jobTimestamp)
         assertNotNull(newlyCreatedJob, "should not be null")
         // a Job object should be returned from the cache by the getCachedJob() method
-        JobResult cachedJob = organizer.getCachedJob(jobName, jobTimestamp)
+        Jobber cachedJob = store.getCachedJobber(jobName, jobTimestamp)
         assertNotNull(cachedJob, "expected non-null but was null")
     }
 
     @Test
     void test_write_path() {
         Path root = outputDir.resolve(".taod")
-        Organizer organizer = new Organizer(root)
+        Store store = new Store(root)
         JobName jobName = new JobName("test_write_path")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
         Path input = imagesDir.resolve("20210710_142631.development.png")
-        ID id = organizer.write(jobName, jobTimestamp, metadata, input, FileType.PNG)
-        assertNotNull(id)
-        assertTrue(ID.isValid(id.toString()))
+        Material material = store.write(jobName, jobTimestamp, metadata, input, FileType.PNG)
+        assertNotNull(material)
+        assertTrue(ID.isValid(material.getMObject().getID().toString()))
     }
 
 
     @Test
     void test_write_File() {
         Path root = outputDir.resolve(".taod")
-        Organizer organizer = new Organizer(root)
+        Store store = new Store(root)
         JobName jobName = new JobName("test_write_file")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
         File input = imagesDir.resolve("20210710_142631.development.png").toFile()
-        ID id = organizer.write(jobName, jobTimestamp, metadata, input, FileType.PNG)
-        assertNotNull(id)
-        assertTrue(ID.isValid(id.toString()))
+        Material material = store.write(jobName, jobTimestamp, metadata, input, FileType.PNG)
+        assertNotNull(material)
+        assertTrue(ID.isValid(material.getMObject().getID().toString()))
     }
 
     @Test
     void test_write_BufferedImage() {
         Path root = outputDir.resolve(".taod")
-        Organizer organizer = new Organizer(root)
+        Store store = new Store(root)
         JobName jobName = new JobName("test_write_BufferedImage")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new Metadata("ProductionEnv", "http://demoaut.katalon.com/")
         Path input = imagesDir.resolve("20210710_142628.production.png")
         BufferedImage image = ImageIO.read(input.toFile())
-        ID id = organizer.write(jobName, jobTimestamp, metadata, image, FileType.PNG)
-        assertNotNull(id)
-        assertTrue(ID.isValid(id.toString()))
+        Material material = store.write(jobName, jobTimestamp, metadata, image, FileType.PNG)
+        assertNotNull(material)
+        assertTrue(ID.isValid(material.getMObject().getID().toString()))
     }
 
     @Test
     void test_listJobResultOf() {
         Path root = outputDir.resolve(".taod")
-        Organizer organizer = new Organizer(root)
+        Store store = new Store(root)
         JobName jobName = new JobName("test_getCachedJob")
         // make sure the Job directory to be empty
         FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
@@ -126,7 +126,7 @@ class OrganizerTest {
         FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
         //
-        List<JobResult> jobs = organizer.listJobResultOf(jobName)
+        List<Jobber> jobs = store.listJobberOf(jobName)
         assertNotNull(jobs, "should not be null")
         assertEquals(1, jobs.size())
     }
