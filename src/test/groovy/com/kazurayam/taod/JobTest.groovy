@@ -46,6 +46,5 @@ class JobTest {
         assertTrue(job.toString().contains("\"jobName\":\"test_toString\""))
         assertTrue(job.toString().contains("\"jobTimestamp\":"))
         assertTrue(job.toString().contains("\"jobDir\":"))
-
     }
 }

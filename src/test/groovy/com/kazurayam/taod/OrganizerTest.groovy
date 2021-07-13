@@ -114,4 +114,21 @@ class OrganizerTest {
         assertTrue(ID.isValid(id.toString()))
     }
 
+    @Test
+    void test_listJobsOf() {
+        Path root = outputDir.resolve(".taod")
+        Organizer organizer = new Organizer(root)
+        JobName jobName = new JobName("test_getCachedJob")
+        // make sure the Job directory to be empty
+        FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
+        // stuff the Job directory with a fixture
+        Path jobNameDir = root.resolve(jobName.toString())
+        FileUtils.copyDirectory(jobsDir.toFile(), jobNameDir.toFile())
+        JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
+        //
+        List<Job> jobs = organizer.listJobsOf(jobName)
+        assertNotNull(jobs, "should not be null")
+        assertEquals(1, jobs.size())
+    }
+
 }

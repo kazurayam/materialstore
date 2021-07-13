@@ -1,7 +1,5 @@
 package com.kazurayam.taod
 
-import com.google.gson.Gson
-import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 
 import java.nio.file.Files
@@ -13,7 +11,7 @@ class Job implements Comparable {
     private final JobTimestamp jobTimestamp
     private final Path jobDir
 
-    private final Index index_
+    private final Index index
 
     Job(Path root, JobName jobName, JobTimestamp jobTimestamp) {
         this.jobName = jobName
@@ -22,10 +20,10 @@ class Job implements Comparable {
         Files.createDirectories(getArtifactsDir())
 
         // the content of "index" is cached in memory
-        index_ = new Index()
+        index = new Index()
         Path indexFile = Index.getIndexFile(jobDir)
         if (Files.exists(indexFile)) {
-            index_.deserialize(indexFile)
+            index.deserialize(indexFile)
         }
     }
 
@@ -55,10 +53,10 @@ class Job implements Comparable {
         artifact.serialize(getArtifactsDir())
 
         // insert a line into the "index" content on memory
-        index_.put(artifact.getID(), fileType, metadata)
+        index.put(artifact.getID(), fileType, metadata)
 
         // save the content of "index" into disk everytime when a commit is made
-        index_.serialize(Index.getIndexFile(jobDir))
+        index.serialize(Index.getIndexFile(jobDir))
 
         return artifact.getID()
     }

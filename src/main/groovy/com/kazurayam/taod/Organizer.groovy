@@ -7,6 +7,7 @@ import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
 import java.nio.file.Files
 import java.nio.file.Path
+import java.util.stream.Collectors
 
 class Organizer {
 
@@ -118,4 +119,21 @@ class Organizer {
         return result
     }
 
+    /**
+     *
+     * @param jobName
+     * @return null if directory of the jobName does not exists
+     */
+    List<Job> listJobsOf(JobName jobName) {
+        Path jobNamePath = root_.resolve(jobName.toString())
+        if (! Files.exists(jobNamePath)) {
+            return null
+        }
+        List<Job> result = Files.list(jobNamePath)
+                .filter { Path p -> JobTimestamp.isValidFormat(p.getFileName().toString() ) }
+                .map { Path p -> new JobTimestamp(p.getFileName().toString()) }
+                .map { JobTimestamp jt -> new Job(root_, jobName, jt) }
+                .collect(Collectors.toList())
+        return result
+    }
 }

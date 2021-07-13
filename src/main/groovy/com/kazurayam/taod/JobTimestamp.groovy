@@ -11,7 +11,7 @@ class JobTimestamp implements Comparable {
     static private DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("yyyyMMdd_kkmmss")
 
-    static boolean validFormat(String s) {
+    static boolean isValidFormat(String s) {
         try {
             formatter.parse(s)
             return true
@@ -26,7 +26,7 @@ class JobTimestamp implements Comparable {
     }
 
     JobTimestamp(String jobTimestamp) {
-        if (! validFormat(jobTimestamp)) {
+        if (! isValidFormat(jobTimestamp)) {
             throw new IllegalArgumentException("jobTimestamp(${jobTimestamp})" +
                     "must be in the format of ${formatter.toString()}")
         }
