@@ -17,25 +17,6 @@ class Artifact {
         return DigestUtils.sha1Hex(data)
     }
 
-    static Artifact deserialize(Path blobsDir, ID id) {
-        Objects.requireNonNull(blobsDir)
-        Objects.requireNonNull(id)
-        Path blob = blobsDir.resolve(id.toString())
-        if (!Files.exists(blob)) {
-            throw new IllegalArgumentException("${blob} is not present")
-        }
-        FileInputStream fis = new FileInputStream(blob.toFile())
-        ByteArrayOutputStream baos = new ByteArrayOutputStream()
-        byte[] buff = new byte[BUFFER_SIZE]
-        int bytesRead
-        while ((bytesRead = fis.read(buff)) != -1) {
-            baos.write(buff, 0, bytesRead)
-        }
-        byte[] data = baos.toByteArray()
-        fis.close()
-        baos.close()
-    }
-
     Artifact(byte[] data, FileType fileType) {
         Objects.requireNonNull(data)
         this.data_ = data
@@ -46,11 +27,18 @@ class Artifact {
         return new ID(hash(data_))
     }
 
-    void serialize(Path blobs) {
-        Objects.requireNonNull(blobs)
-        Path blobPath = blobs.resolve(this.getID().toString())
+    FileType getFileType() {
+        return this.fileType_
+    }
+
+    String getFileName() {
+        return "${ID.toString()}.${fileType_.getExtension()}"
+    }
+
+    void serialize(Path artifactFile) {
+        Objects.requireNonNull(artifactFile)
         //
-        FileOutputStream fos = new FileOutputStream(blobPath.toFile())
+        FileOutputStream fos = new FileOutputStream(artifactFile.toFile())
         ByteArrayInputStream bais = new ByteArrayInputStream(data_)
         byte[] buff = new byte[BUFFER_SIZE]
         int bytesRead
@@ -62,13 +50,32 @@ class Artifact {
         bais.close()
     }
 
+    static Artifact deserialize(Path artifactFile, FileType fileType) {
+        Objects.requireNonNull(artifactFile)
+        Objects.requireNonNull(fileType)
+        if (!Files.exists(artifactFile)) {
+            throw new IllegalArgumentException("${artifactFile} is not present")
+        }
+        FileInputStream fis = new FileInputStream(artifactFile.toFile())
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        byte[] buff = new byte[BUFFER_SIZE]
+        int bytesRead
+        while ((bytesRead = fis.read(buff)) != -1) {
+            baos.write(buff, 0, bytesRead)
+        }
+        byte[] data = baos.toByteArray()
+        fis.close()
+        baos.close()
+        return new Artifact(data, fileType)
+    }
+
     @Override
     boolean equals(Object obj) {
         if (! obj instanceof Artifact) {
             return false
         }
         Artifact other = (Artifact)obj
-        return
+        return this.getID() == other.getID() && this.getFileType() == other.getFileType()
     }
 
     @Override

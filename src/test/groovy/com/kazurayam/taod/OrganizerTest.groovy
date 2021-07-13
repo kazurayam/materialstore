@@ -21,8 +21,8 @@ class OrganizerTest {
     private static Path imagesDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_images")
 
-    private static Path jobsDir =
-            Paths.get(".").resolve("src/test/resources/fixture/sample_jobs")
+    private static Path resultsDir =
+            Paths.get(".").resolve("src/test/resources/fixture/sample_results")
 
     @BeforeAll
     static void beforeAll() {
@@ -38,12 +38,12 @@ class OrganizerTest {
     }
 
     @Test
-    void test_getJob() {
+    void test_getJobResult() {
         Path root = outputDir.resolve(".taod")
         Organizer organizer = new Organizer(root)
         JobName jobName = new JobName("test_getJob")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Job job = organizer.getJob(jobName, jobTimestamp)
+        JobResult job = organizer.getJobResult(jobName, jobTimestamp)
         assertNotNull(job)
         assertEquals("test_getJob", job.getJobName().toString())
     }
@@ -60,16 +60,16 @@ class OrganizerTest {
         // make sure the Job directory to be empty
         FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
         // null should be returned if the Job directory is not present or empty
-        Job expectedNull = organizer.getCachedJob(jobName, jobTimestamp)
+        JobResult expectedNull = organizer.getCachedJob(jobName, jobTimestamp)
         assertNull(expectedNull, "expected null but was not")
         // stuff the Job directory with a fixture
         Path jobNameDir = root.resolve(jobName.toString())
-        FileUtils.copyDirectory(jobsDir.toFile(), jobNameDir.toFile())
+        FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
         // new Job object should be created by calling the getJob() method
-        Job newlyCreatedJob = organizer.getJob(jobName, jobTimestamp)
+        JobResult newlyCreatedJob = organizer.getJobResult(jobName, jobTimestamp)
         assertNotNull(newlyCreatedJob, "should not be null")
         // a Job object should be returned from the cache by the getCachedJob() method
-        Job cachedJob = organizer.getCachedJob(jobName, jobTimestamp)
+        JobResult cachedJob = organizer.getCachedJob(jobName, jobTimestamp)
         assertNotNull(cachedJob, "expected non-null but was null")
     }
 
@@ -115,7 +115,7 @@ class OrganizerTest {
     }
 
     @Test
-    void test_listJobsOf() {
+    void test_listJobResultOf() {
         Path root = outputDir.resolve(".taod")
         Organizer organizer = new Organizer(root)
         JobName jobName = new JobName("test_getCachedJob")
@@ -123,10 +123,10 @@ class OrganizerTest {
         FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
         // stuff the Job directory with a fixture
         Path jobNameDir = root.resolve(jobName.toString())
-        FileUtils.copyDirectory(jobsDir.toFile(), jobNameDir.toFile())
+        FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
         //
-        List<Job> jobs = organizer.listJobsOf(jobName)
+        List<JobResult> jobs = organizer.listJobResultOf(jobName)
         assertNotNull(jobs, "should not be null")
         assertEquals(1, jobs.size())
     }

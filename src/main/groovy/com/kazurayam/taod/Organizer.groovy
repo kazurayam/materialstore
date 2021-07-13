@@ -15,7 +15,7 @@ class Organizer {
 
     private final Path root_
 
-    private final Set<Job> jobCache_
+    private final Set<JobResult> jobCache_
 
     private static int BUFFER_SIZE = 8000
 
@@ -23,7 +23,7 @@ class Organizer {
         Objects.requireNonNull(root)
         Files.createDirectories(root)
         this.root_ = root
-        this.jobCache_ = new HashSet<Job>()
+        this.jobCache_ = new HashSet<JobResult>()
     }
 
     Path getRoot() {
@@ -79,7 +79,7 @@ class Organizer {
         Objects.requireNonNull(jobTimestamp)
         Objects.requireNonNull(meta)
         Objects.requireNonNull(fileType)
-        Job job = this.getJob(jobName, jobTimestamp)
+        JobResult job = this.getJobResult(jobName, jobTimestamp)
         return job.commit(meta, input, fileType)
     }
 
@@ -93,12 +93,12 @@ class Organizer {
      * @param jobTimestamp
      * @return
      */
-    Job getJob(JobName jobName, JobTimestamp jobTimestamp) {
-        Job job = getCachedJob(jobName, jobTimestamp)
+    JobResult getJobResult(JobName jobName, JobTimestamp jobTimestamp) {
+        JobResult job = getCachedJob(jobName, jobTimestamp)
         if (job != null) {
             return job
         } else {
-            Job newJob = new Job(root_, jobName, jobTimestamp)
+            JobResult newJob = new JobResult(root_, jobName, jobTimestamp)
             // put the new Job object in the cache
             jobCache_.add(newJob)
             return newJob
@@ -106,10 +106,10 @@ class Organizer {
     }
 
 
-    Job getCachedJob(JobName jobName, JobTimestamp jobTimestamp) {
-        Job result = null
+    JobResult getCachedJob(JobName jobName, JobTimestamp jobTimestamp) {
+        JobResult result = null
         for (int i = 0; jobCache_.size(); i++) {
-            Job cached = jobCache_[i]
+            JobResult cached = jobCache_[i]
             if (cached.getJobName() == jobName &&
                         cached.getJobTimestamp() == jobTimestamp) {
                 result = cached
@@ -124,15 +124,15 @@ class Organizer {
      * @param jobName
      * @return null if directory of the jobName does not exists
      */
-    List<Job> listJobsOf(JobName jobName) {
+    List<JobResult> listJobResultOf(JobName jobName) {
         Path jobNamePath = root_.resolve(jobName.toString())
         if (! Files.exists(jobNamePath)) {
             return null
         }
-        List<Job> result = Files.list(jobNamePath)
+        List<JobResult> result = Files.list(jobNamePath)
                 .filter { Path p -> JobTimestamp.isValidFormat(p.getFileName().toString() ) }
                 .map { Path p -> new JobTimestamp(p.getFileName().toString()) }
-                .map { JobTimestamp jt -> new Job(root_, jobName, jt) }
+                .map { JobTimestamp jt -> new JobResult(root_, jobName, jt) }
                 .collect(Collectors.toList())
         return result
     }

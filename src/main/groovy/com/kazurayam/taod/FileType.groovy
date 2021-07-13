@@ -9,10 +9,11 @@ enum FileType {
     BMP  ('bmp',    ['image/bmp']),
     GIF  ('gif',    ['image/gif']),
     HTML ('html',   ['text/html']),
+    MHTML('mht',    ['']),
     JPG  ('jpg',    ['image/jpeg']),
     JPEG ('jpeg',   ['image/jpeg']),
     PNG  ('png' ,   ['image/png']),
-    SVG  ('svg',   ['image/svg+xml']),
+    SVG  ('svg',    ['image/svg+xml']),
     JSON ('json',   ['application/json']),
     PDF  ('pdf',    ['application/pdf']),
     XLS  ('xls',    [
