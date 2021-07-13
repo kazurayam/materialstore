@@ -128,13 +128,13 @@ class Store {
      * @param jobName
      * @return null if directory of the jobName does not exists
      */
-    List<Jobber> listJobberOf(JobName jobName) {
+    List<Jobber> findJobbersOf(JobName jobName) {
         Path jobNamePath = root_.resolve(jobName.toString())
         if (! Files.exists(jobNamePath)) {
             return null
         }
         List<Jobber> result = Files.list(jobNamePath)
-                .filter { Path p -> JobTimestamp.isValidFormat(p.getFileName().toString() ) }
+                .filter { Path p -> JobTimestamp.isValid(p.getFileName().toString() ) }
                 .map { Path p -> new JobTimestamp(p.getFileName().toString()) }
                 .map { JobTimestamp jt -> new Jobber(root_, jobName, jt) }
                 .collect(Collectors.toList())

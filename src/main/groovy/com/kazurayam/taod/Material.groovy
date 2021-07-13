@@ -14,7 +14,7 @@ class Material implements Comparable {
     private final Metadata metadata_
     private final MObject mObject_
 
-    Material(Metadata metadata, MObject mObject) {
+    Material(MObject mObject, Metadata metadata) {
         this.metadata_ = metadata
         this.mObject_ = mObject
     }

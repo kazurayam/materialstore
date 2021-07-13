@@ -31,7 +31,7 @@ class IndexTest {
             assertTrue(t[0] instanceof ID)
             assertTrue(t[1] instanceof FileType)
             assertTrue(t[2] instanceof Metadata)
-        } catch (IndexParseException e) {
+        } catch (IllegalArgumentException e) {
             fail(e.getMessage())
         }
     }

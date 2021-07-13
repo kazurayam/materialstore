@@ -5,14 +5,14 @@ class JobName implements Comparable {
     String jobName_
 
     JobName(String jobName) {
-        validate(jobName)
+        if (!isValid(jobName)) {
+            throw new IllegalArgumentException("${jobName} is not a valid JobName")
+        }
         this.jobName_ = jobName
     }
 
-    static void validate(String s) {
-        if (! Filename.isValid(s)) {
-            throw new IllegalArgumentException("${s} is not valid as a file/directory name")
-        }
+    static boolean isValid(String s) {
+        return Filename.isValid(s)
     }
 
     @Override

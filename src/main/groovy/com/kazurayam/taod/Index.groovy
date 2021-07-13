@@ -106,7 +106,7 @@ class Index implements Comparable {
                                 (FileType)items[1],
                                 (Metadata)items[2])
                     }
-                } catch (IndexParseException e) {
+                } catch (IllegalArgumentException e) {
                     logger_.warn("LINE#=${x} \'${line}\' ${e.message()}")
                 }
             }
@@ -114,7 +114,7 @@ class Index implements Comparable {
         return index
     }
 
-    static Tuple parseLine(String line) throws IndexParseException {
+    static Tuple parseLine(String line) throws IllegalArgumentException {
         Objects.requireNonNull(line)
         List<String> items = line.split('\\t') as List<String>
         ID id = null
@@ -123,20 +123,20 @@ class Index implements Comparable {
         if (items.size() > 0) {
             String item1 = items[0]
             if (! ID.isValid(item1)) {
-                throw new IndexParseException("invalid ID")
+                throw new IllegalArgumentException("invalid ID")
             }
             id = new ID(item1)
             if (items.size() > 1) {
                 fileType = FileType.getByExtension(items[1])
                 if (fileType == FileType.UNSUPPORTED) {
-                    throw new IndexParseException("unsupported file extension")
+                    throw new IllegalArgumentException("unsupported file extension")
                 }
                 if (items.size() > 2) {
                     try {
                         List<String> list = new JsonSlurper().parseText(items[2])
                         metadata = new Metadata(list)
                     } catch (Exception e) {
-                        throw new IndexParseException("unable to parse metadata part")
+                        throw new IllegalArgumentException("unable to parse metadata part")
                     }
                 }
             }

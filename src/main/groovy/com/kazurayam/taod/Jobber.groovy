@@ -68,6 +68,6 @@ class Jobber {
         // save the content of "index" into disk everytime when a commit is made
         index.serialize(Index.getIndexFile(jobResultDir))
 
-        return new Material(metadata, mObject)
+        return new Material(mObject, metadata)
     }
 }

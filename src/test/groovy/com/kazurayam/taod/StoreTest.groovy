@@ -115,7 +115,7 @@ class StoreTest {
     }
 
     @Test
-    void test_listJobResultOf() {
+    void test_findJobbersOf_JobName() {
         Path root = outputDir.resolve(".taod")
         Store store = new Store(root)
         JobName jobName = new JobName("test_getCachedJob")
@@ -126,7 +126,7 @@ class StoreTest {
         FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
         //
-        List<Jobber> jobs = store.listJobberOf(jobName)
+        List<Jobber> jobs = store.findJobbersOf(jobName)
         assertNotNull(jobs, "should not be null")
         assertEquals(1, jobs.size())
     }
