@@ -32,7 +32,7 @@ class JobberTest {
     @Test
     void test_commit() {
         Path root = outputDir.resolve("Materials")
-        Store repos = new Store(root)
+        StoreImpl repos = new StoreImpl(root)
         Jobber jobResult = repos.getJobber(new JobName("test_commit"), JobTimestamp.now())
         Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.katalon.com/")
         BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())

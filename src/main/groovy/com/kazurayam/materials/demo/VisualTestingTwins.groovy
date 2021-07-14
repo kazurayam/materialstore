@@ -5,13 +5,14 @@ import com.kazurayam.materials.diff.Differ
 import com.kazurayam.materials.diff.Reporter
 import com.kazurayam.materials.selenium.AShotWrapper
 import com.kazurayam.materials.store.FileType
-import com.kazurayam.materials.store.IStore
+import com.kazurayam.materials.store.Store
 import com.kazurayam.materials.store.JobName
 import com.kazurayam.materials.store.JobTimestamp
 import com.kazurayam.materials.store.Material
 import com.kazurayam.materials.store.Metadata
 import com.kazurayam.materials.store.MetadataPattern
-import com.kazurayam.materials.store.Store
+import com.kazurayam.materials.store.StoreImpl
+import com.kazurayam.materials.store.Stores
 import io.github.bonigarcia.wdm.WebDriverManager
 import org.openqa.selenium.Dimension
 import org.openqa.selenium.WebDriver
@@ -43,7 +44,7 @@ class VisualTestingTwins {
         Files.createDirectories(root_)
     }
 
-    WebDriver createChromeDriver() {
+    static WebDriver createChromeDriver() {
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--no-sandbox");
@@ -57,7 +58,7 @@ class VisualTestingTwins {
 
     void execute() {
         init()
-        IStore store = new Store(root_)
+        Store store = Stores.newInstance(root_)
         JobName jobName = new JobName("VisualTestingTwins")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         // open the Chrome browser
@@ -103,7 +104,7 @@ class VisualTestingTwins {
     }
 
     private Tuple doAction(WebDriver driver,
-                           Store store, JobName jobName, JobTimestamp jobTimestamp,
+                           StoreImpl store, JobName jobName, JobTimestamp jobTimestamp,
                            String profile, URL url) {
         // visit the page
         driver.navigate().to(url.toString())

@@ -95,7 +95,7 @@ class Metadata implements Comparable {
             return false
         }
         for (int i = 0; i < other.size(); i++) {
-            if (other.get(i) != this.get(i)) {
+            if (other.entry(i) != this.entry(i)) {
                 return false
             }
         }

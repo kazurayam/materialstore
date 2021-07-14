@@ -13,11 +13,11 @@ import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.*
 
-class StoreTest {
+class StoreImplTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(StoreTest.class.getName())
+                    .resolve(StoreImplTest.class.getName())
 
     private static Path imagesDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_images")
@@ -33,7 +33,7 @@ class StoreTest {
     @Test
     void test_getRoot() {
         Path root = outputDir.resolve("Materials")
-        Store store = new Store(root)
+        StoreImpl store = new StoreImpl(root)
         assertTrue(Files.exists(store.getRoot()), "${root} is not present")
         assertEquals("Materials", store.getRoot().getFileName().toString())
     }
@@ -41,7 +41,7 @@ class StoreTest {
     @Test
     void test_getJobResult() {
         Path root = outputDir.resolve("Materials")
-        Store store = new Store(root)
+        StoreImpl store = new StoreImpl(root)
         JobName jobName = new JobName("test_getJob")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber job = store.getJobber(jobName, jobTimestamp)
@@ -55,7 +55,7 @@ class StoreTest {
     @Test
     void test_getCachedJob() {
         Path root = outputDir.resolve("Materials")
-        Store store = new Store(root)
+        StoreImpl store = new StoreImpl(root)
         JobName jobName = new JobName("test_getCachedJob")
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
         // make sure the Job directory to be empty
@@ -77,7 +77,7 @@ class StoreTest {
     @Test
     void test_write_path() {
         Path root = outputDir.resolve("Materials")
-        Store store = new Store(root)
+        StoreImpl store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_path")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
@@ -91,7 +91,7 @@ class StoreTest {
     @Test
     void test_write_File() {
         Path root = outputDir.resolve("Materials")
-        Store store = new Store(root)
+        StoreImpl store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_file")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
@@ -104,7 +104,7 @@ class StoreTest {
     @Test
     void test_write_BufferedImage() {
         Path root = outputDir.resolve("Materials")
-        Store store = new Store(root)
+        StoreImpl store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_BufferedImage")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new Metadata("ProductionEnv", "http://demoaut.katalon.com/")
@@ -118,7 +118,7 @@ class StoreTest {
     @Test
     void test_write_string() {
         Path root = outputDir.resolve("Materials")
-        Store store = new Store(root)
+        StoreImpl store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_String")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new Metadata("ProductionEnv", "http://demoaut.katalon.com/")
@@ -130,7 +130,7 @@ class StoreTest {
     @Test
     void test_findJobbersOf_JobName() {
         Path root = outputDir.resolve("Materials")
-        Store store = new Store(root)
+        StoreImpl store = new StoreImpl(root)
         JobName jobName = new JobName("test_getCachedJob")
         // make sure the Job directory to be empty
         FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
