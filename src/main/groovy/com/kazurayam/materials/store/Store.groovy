@@ -1,6 +1,10 @@
 package com.kazurayam.materials.store
 
+import com.kazurayam.materials.diff.DefaultDiffer
+import com.kazurayam.materials.diff.DefaultReporter
 import com.kazurayam.materials.diff.DiffArtifact
+import com.kazurayam.materials.diff.Differ
+import com.kazurayam.materials.diff.Reporter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -11,7 +15,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.stream.Collectors
 
-class Store {
+class Store implements IStore {
 
     private static final Logger logger = LoggerFactory.getLogger(Store.class)
 
@@ -39,6 +43,7 @@ class Store {
     }
 
 
+    @Override
     Material write(JobName jobName, JobTimestamp jobTimestamp,
                  Metadata meta, File input, FileType fileType) {
         Objects.requireNonNull(input)
@@ -49,6 +54,7 @@ class Store {
         return this.write(jobName, jobTimestamp, meta, data, fileType)
     }
 
+    @Override
     Material write(JobName jobName, JobTimestamp jobTimestamp,
                  Metadata meta, Path input, FileType fileType) {
         Objects.requireNonNull(input)
@@ -73,6 +79,7 @@ class Store {
     }
 
 
+    @Override
     Material write(JobName jobName, JobTimestamp jobTimestamp,
              Metadata meta, BufferedImage input, FileType fileType) {
         Objects.requireNonNull(input)
@@ -84,6 +91,7 @@ class Store {
     }
 
 
+    @Override
     Material write(JobName jobName, JobTimestamp jobTimestamp,
                    Metadata meta, String input, FileType fileType,
                    String charsetName = "UTF-8") {
@@ -98,7 +106,7 @@ class Store {
         return this.write(jobName, jobTimestamp, meta, data, fileType)
     }
 
-
+    @Override
     Material write(JobName jobName, JobTimestamp jobTimestamp,
                  Metadata meta, byte[] input, FileType fileType) {
         Objects.requireNonNull(root_)
@@ -108,6 +116,24 @@ class Store {
         Objects.requireNonNull(fileType)
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
         return jobber.commit(meta, input, fileType)
+    }
+
+
+    @Override
+    Differ newDiffer(JobName jobName, JobTimestamp jobTimestamp) {
+        return new DefaultDiffer(this.getRoot(), jobName, jobTimestamp)
+    }
+
+    @Override
+    Reporter newReporter(JobName jobName, JobTimestamp jobTimestamp) {
+        return new DefaultReporter(this.getRoot(), jobName, jobTimestamp)
+    }
+
+
+    @Override
+    List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
+                          FileType fileType, MetadataPattern metadataPattern) {
+        throw new UnsupportedOperationException("TODO")
     }
 
 
@@ -164,8 +190,9 @@ class Store {
         return result
     }
 
-    List<DiffArtifact> selectMaterialPairsToDiff(JobName jobName, JobTimestamp jobTimestamp,
-                                                 MetadataPattern pattern1, MetadataPattern pattern2) {
-
+    @Override
+    List<DiffArtifact> zipMaterialsToDiff(JobName jobName, JobTimestamp jobTimestamp,
+                                          MetadataPattern pattern1, MetadataPattern pattern2) {
+        throw new UnsupportedOperationException("TODO")
     }
 }

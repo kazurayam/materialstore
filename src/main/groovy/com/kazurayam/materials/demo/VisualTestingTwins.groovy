@@ -2,9 +2,10 @@ package com.kazurayam.materials.demo
 
 import com.kazurayam.materials.diff.DiffArtifact
 import com.kazurayam.materials.diff.Differ
-import com.kazurayam.materials.report.Reporter
+import com.kazurayam.materials.diff.Reporter
 import com.kazurayam.materials.selenium.AShotWrapper
 import com.kazurayam.materials.store.FileType
+import com.kazurayam.materials.store.IStore
 import com.kazurayam.materials.store.JobName
 import com.kazurayam.materials.store.JobTimestamp
 import com.kazurayam.materials.store.Material
@@ -56,7 +57,7 @@ class VisualTestingTwins {
 
     void execute() {
         init()
-        Store store = new Store(root_)
+        IStore store = new Store(root_)
         JobName jobName = new JobName("VisualTestingTwins")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         // open the Chrome browser
@@ -78,12 +79,12 @@ class VisualTestingTwins {
         driver.quit()
 
         // pickup the screenshots that belongs to the 2 "profiles", make image-diff files of each.
-        List<Material> screenshotsOfProfile1 = store.query(jobName, jobTimestamp,
-                FileType.PNG, new Metadata([ profile1 ]))
-        List<Material> screenshotsOfProfile2 = store.query(jobName, jobTimestamp,
-                FileType.PNG, new Metadata([ profile2 ]))
+        List<Material> screenshotsOfProfile1 = store.select(jobName, jobTimestamp,
+                FileType.PNG, new MetadataPattern([ profile1 ]))
+        List<Material> screenshotsOfProfile2 = store.select(jobName, jobTimestamp,
+                FileType.PNG, new MetadataPattern([ profile2 ]))
 
-        List<DiffArtifact> materialPairsToDiff = store.selectMaterialPairsToDiff(
+        List<DiffArtifact> materialPairsToDiff = store.zipMaterialsToDiff(
                 jobName,
                 jobTimestamp,
                 new MetadataPattern([ profile1 ]),
@@ -93,12 +94,12 @@ class VisualTestingTwins {
         // make imageDiffs and save them into disk,
         // returns the list of DiffResult with the diff property stuffed
         Differ differ = store.newDiffer(jobName, jobTimestamp)
-        List<DiffArtifact> diffArtifacts = differ.process(materialPairsToDiff)
+        List<DiffArtifact> diffArtifacts = differ.makeDiff(materialPairsToDiff)
 
         // compile HTML report
         Reporter reporter = store.newReporter(jobName, jobTimestamp)
         Path reportFile = store.getRoot().resolve("index.html")
-        reporter.report(reportFile)
+        reporter.report(diffArtifacts, reportFile)
     }
 
     private Tuple doAction(WebDriver driver,

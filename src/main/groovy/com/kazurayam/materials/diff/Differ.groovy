@@ -2,6 +2,6 @@ package com.kazurayam.materials.diff
 
 interface Differ {
 
-    List<DiffArtifact> process(List<DiffArtifact> dto)
+    List<DiffArtifact> makeDiff(List<DiffArtifact> dto)
 
 }
