@@ -57,25 +57,34 @@ class VisualTestingTwins {
         JobTimestamp jobTimestamp = JobTimestamp.now()
         // open the Chrome browser
         WebDriver driver = createChromeDriver()
-
-        // 1st screenshot
-        driver.navigate().to("http://demoaut.katalon.com/")
-        BufferedImage image1 = AShotWrapper.takeEntirePageImage(driver)
-        Metadata metadata1 = new Metadata("ProductionEnv", driver.getCurrentUrl())
-        Material expected = store.write(jobName, jobTimestamp, metadata1, image1, FileType.PNG)
-        assert expected != null
-
-        // 2nd screenshot
-        driver.navigate().to("http://demoaut-mimic.kazurayam.com")
-        BufferedImage image2 = AShotWrapper.takeEntirePageImage(driver)
-        Metadata metadata2 = new Metadata("DevelopmentEnv", driver.getCurrentUrl())
-        Material actual = store.write(jobName, jobTimestamp, metadata2, image2, FileType.PNG)
-        assert actual != null
-
+        // visit the 1st page
+        URL url1 = new URL("http://demoaut.katalon.com/")
+        doAction(store, jobName, jobTimestamp, driver, url1, "ProductionEnv")
+        // visit the 2nd page
+        URL url2 = new URL("http://demoaut-mimic.kazurayam.com/")
+        doAction(store, jobName, jobTimestamp, driver, url2, "DevelopmentEnv")
         // close the Chrome browser
         driver.quit()
+        // query for image pairs, take diff, and compile a HTML reportgi
+    }
 
-        // query for image pairs, take diff, and compile a HTML report
+    private void doAction(Store store, JobName jobName, JobTimestamp jobTimestamp,
+                          WebDriver driver, URL url, String profile) {
+        // visit the page
+        driver.navigate().to(url.toString())
+        Metadata metadata2 = new Metadata(profile, driver.getCurrentUrl())
+
+        // take and store screenshot of the page
+        BufferedImage image = AShotWrapper.takeEntirePageImage(driver)
+        Material mateG = store.write(jobName, jobTimestamp, metadata2,
+                image, FileType.PNG)
+        assert mateG != null
+
+        // get and store the HTML page source of the page
+        String html = driver.getPageSource()
+        Material mateH = store.write(
+                jobName, jobTimestamp, metadata2, html, FileType.HTML)
+        assert mateH != null
     }
 
     static void main(String[] args) {

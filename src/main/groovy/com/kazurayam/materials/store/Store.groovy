@@ -84,6 +84,20 @@ class Store {
 
 
     Material write(JobName jobName, JobTimestamp jobTimestamp,
+                   Metadata meta, String input, FileType fileType) {
+        Objects.requireNonNull(input)
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        Writer wrt = new BufferedWriter(
+                new OutputStreamWriter(baos, "UTF-8"))
+        wrt.write(input)
+        wrt.flush()
+        byte[] data = baos.toByteArray()
+        wrt.close()
+        return this.write(jobName, jobTimestamp, meta, data, fileType)
+    }
+
+
+    Material write(JobName jobName, JobTimestamp jobTimestamp,
                  Metadata meta, byte[] input, FileType fileType) {
         Objects.requireNonNull(root_)
         Objects.requireNonNull(jobName)

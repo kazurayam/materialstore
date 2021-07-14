@@ -116,6 +116,18 @@ class StoreTest {
     }
 
     @Test
+    void test_write_string() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new Store(root)
+        JobName jobName = new JobName("test_write_String")
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        Metadata metadata = new Metadata("ProductionEnv", "http://demoaut.katalon.com/")
+        String input = "犬も歩けば棒に当たる"
+        Material material = store.write(jobName, jobTimestamp, metadata, input, FileType.TXT)
+        assertTrue(ID.isValid(material.getMObject().getID().toString()))
+    }
+
+    @Test
     void test_findJobbersOf_JobName() {
         Path root = outputDir.resolve("Materials")
         Store store = new Store(root)
