@@ -1,4 +1,4 @@
-package com.kazurayam.taod
+package com.kazurayam.materials.store
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -7,6 +7,7 @@ import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
 import java.util.stream.Collectors
 
 class Store {
@@ -17,7 +18,13 @@ class Store {
 
     private final Set<Jobber> jobberCache_
 
-    private static int BUFFER_SIZE = 8000
+    private static final int BUFFER_SIZE = 8000
+
+    private static final String ROOT_DIRECTORY_NAME = "Materials"
+
+    Store() {
+        this(Paths.get(ROOT_DIRECTORY_NAME))
+    }
 
     Store(Path root) {
         Objects.requireNonNull(root)

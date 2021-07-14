@@ -1,4 +1,5 @@
-package com.kazurayam.taod
+package com.kazurayam.materials.store
+
 
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test

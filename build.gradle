@@ -5,7 +5,7 @@ plugins {
 }
 
 group 'com.kazurayam'
-version '0.0.0'
+version '0.80.0'
 
 repositories {
     mavenCentral()
@@ -20,10 +20,14 @@ ext {
     slf4jVersion = '1.7.31'
     commonscodecVersion = '1.15'
     commonsioVersion = '2.8.0'
+    seleniumjavaVersion = '3.141.59'
+    webdrivermanager = '4.4.3'
+    ashotVersion = '1.5.4'
 }
 
 dependencies {
     implementation "org.codehaus.groovy:groovy-all:${groovyVersion}"
+    implementation 'org.junit.jupiter:junit-jupiter:5.7.0'
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitjupiterVersion}"
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
@@ -36,12 +40,18 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: "${commonsioVersion}"
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
     implementation group: 'commons-codec', name: 'commons-codec', version: "${commonscodecVersion}"
+    implementation "org.seleniumhq.selenium:selenium-java:${seleniumjavaVersion}"
+    // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: "${webdrivermanager}"
+    // https://mvnrepository.com/artifact/ru.yandex.qatools.ashot/ashot
+    implementation group: 'ru.yandex.qatools.ashot', name: 'ashot', version: "${ashotVersion}"
 }
 
 test {
     useJUnitPlatform()
     finalizedBy jacocoTestReport
 }
+
 jacocoTestReport {
     dependsOn test
     reports {

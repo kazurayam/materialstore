@@ -1,4 +1,4 @@
-package com.kazurayam.taod
+package com.kazurayam.materials.store
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

@@ -1,4 +1,5 @@
-package com.kazurayam.taod
+package com.kazurayam.materials.store
+
 
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
@@ -31,15 +32,15 @@ class StoreTest {
 
     @Test
     void test_getRoot() {
-        Path root = outputDir.resolve(".taod")
+        Path root = outputDir.resolve("Materials")
         Store store = new Store(root)
         assertTrue(Files.exists(store.getRoot()), "${root} is not present")
-        assertEquals(".taod", store.getRoot().getFileName().toString())
+        assertEquals("Materials", store.getRoot().getFileName().toString())
     }
 
     @Test
     void test_getJobResult() {
-        Path root = outputDir.resolve(".taod")
+        Path root = outputDir.resolve("Materials")
         Store store = new Store(root)
         JobName jobName = new JobName("test_getJob")
         JobTimestamp jobTimestamp = JobTimestamp.now()
@@ -53,7 +54,7 @@ class StoreTest {
      */
     @Test
     void test_getCachedJob() {
-        Path root = outputDir.resolve(".taod")
+        Path root = outputDir.resolve("Materials")
         Store store = new Store(root)
         JobName jobName = new JobName("test_getCachedJob")
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
@@ -75,7 +76,7 @@ class StoreTest {
 
     @Test
     void test_write_path() {
-        Path root = outputDir.resolve(".taod")
+        Path root = outputDir.resolve("Materials")
         Store store = new Store(root)
         JobName jobName = new JobName("test_write_path")
         JobTimestamp jobTimestamp = JobTimestamp.now()
@@ -89,7 +90,7 @@ class StoreTest {
 
     @Test
     void test_write_File() {
-        Path root = outputDir.resolve(".taod")
+        Path root = outputDir.resolve("Materials")
         Store store = new Store(root)
         JobName jobName = new JobName("test_write_file")
         JobTimestamp jobTimestamp = JobTimestamp.now()
@@ -102,7 +103,7 @@ class StoreTest {
 
     @Test
     void test_write_BufferedImage() {
-        Path root = outputDir.resolve(".taod")
+        Path root = outputDir.resolve("Materials")
         Store store = new Store(root)
         JobName jobName = new JobName("test_write_BufferedImage")
         JobTimestamp jobTimestamp = JobTimestamp.now()
@@ -116,7 +117,7 @@ class StoreTest {
 
     @Test
     void test_findJobbersOf_JobName() {
-        Path root = outputDir.resolve(".taod")
+        Path root = outputDir.resolve("Materials")
         Store store = new Store(root)
         JobName jobName = new JobName("test_getCachedJob")
         // make sure the Job directory to be empty

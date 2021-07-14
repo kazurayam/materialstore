@@ -1,10 +1,12 @@
-package com.kazurayam.taod
+package com.kazurayam.materials.store
 
+import com.kazurayam.materials.store.FileType
+import com.kazurayam.materials.store.ID
+import com.kazurayam.materials.store.IndexEntry
+import com.kazurayam.materials.store.Metadata
 import org.junit.jupiter.api.Test
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertNotNull
-import static org.junit.jupiter.api.Assertions.assertTrue
-import static org.junit.jupiter.api.Assertions.fail
 
 class IndexEntryTest {
 

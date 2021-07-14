@@ -1,4 +1,6 @@
-package com.kazurayam.taod
+package com.kazurayam.materials.store
+
+import com.kazurayam.materials.store.FileType
 
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertTrue

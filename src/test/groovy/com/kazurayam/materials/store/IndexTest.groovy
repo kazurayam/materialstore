@@ -1,6 +1,6 @@
-package com.kazurayam.taod
+package com.kazurayam.materials.store
 
-import org.junit.jupiter.api.BeforeAll
+
 import org.junit.jupiter.api.Test
 
 import static org.junit.jupiter.api.Assertions.assertEquals
@@ -57,7 +57,7 @@ class IndexTest {
         Index index = Index.deserialize(source)
         assert index.size() == 2
         //
-        Path root = outputDir.resolve(".taod")
+        Path root = outputDir.resolve("Materials")
         Path jobNameDir = root.resolve("test_serialized")
         Path jobTimestampDir = jobNameDir.resolve(JobTimestamp.now().toString())
         Files.createDirectories(jobTimestampDir)

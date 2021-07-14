@@ -1,4 +1,5 @@
-package com.kazurayam.taod
+package com.kazurayam.materials.store
+
 
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -30,7 +31,7 @@ class JobberTest {
 
     @Test
     void test_commit() {
-        Path root = outputDir.resolve(".taod")
+        Path root = outputDir.resolve("Materials")
         Store repos = new Store(root)
         Jobber jobResult = repos.getJobber(new JobName("test_commit"), JobTimestamp.now())
         Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.katalon.com/")
