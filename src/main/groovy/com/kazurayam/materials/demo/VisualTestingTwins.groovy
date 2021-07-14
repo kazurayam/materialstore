@@ -1,11 +1,15 @@
 package com.kazurayam.materials.demo
 
+import com.kazurayam.materials.diff.DiffArtifact
+import com.kazurayam.materials.diff.Differ
+import com.kazurayam.materials.report.Reporter
 import com.kazurayam.materials.selenium.AShotWrapper
 import com.kazurayam.materials.store.FileType
 import com.kazurayam.materials.store.JobName
 import com.kazurayam.materials.store.JobTimestamp
 import com.kazurayam.materials.store.Material
 import com.kazurayam.materials.store.Metadata
+import com.kazurayam.materials.store.MetadataPattern
 import com.kazurayam.materials.store.Store
 import io.github.bonigarcia.wdm.WebDriverManager
 import org.openqa.selenium.Dimension
@@ -57,34 +61,61 @@ class VisualTestingTwins {
         JobTimestamp jobTimestamp = JobTimestamp.now()
         // open the Chrome browser
         WebDriver driver = createChromeDriver()
+
         // visit the 1st page
+        String profile1 = "ProductionEnv"
         URL url1 = new URL("http://demoaut.katalon.com/")
-        doAction(store, jobName, jobTimestamp, driver, url1, "ProductionEnv")
+        Tuple result1 = doAction(driver, store, jobName, jobTimestamp, profile1, url1)
+        assert result1 != null
+
         // visit the 2nd page
+        String profile2 = "DevelopmentEnv"
         URL url2 = new URL("http://demoaut-mimic.kazurayam.com/")
-        doAction(store, jobName, jobTimestamp, driver, url2, "DevelopmentEnv")
+        Tuple result2 = doAction(driver, store, jobName, jobTimestamp, profile2, url2)
+        assert result2 != null
+
         // close the Chrome browser
         driver.quit()
-        // query for image pairs, take diff, and compile a HTML reportgi
+
+        // pickup the screenshots that belongs to the 2 "profiles", make image-diff files of each.
+        List<Material> screenshotsOfProfile1 = store.query(jobName, jobTimestamp,
+                FileType.PNG, new Metadata([ profile1 ]))
+        List<Material> screenshotsOfProfile2 = store.query(jobName, jobTimestamp,
+                FileType.PNG, new Metadata([ profile2 ]))
+
+        List<DiffArtifact> materialPairsToDiff = store.selectMaterialPairsToDiff(
+                jobName,
+                jobTimestamp,
+                new MetadataPattern([ profile1 ]),
+                new MetadataPattern([ profile2 ])
+        )
+
+        // make imageDiffs and save them into disk,
+        // returns the list of DiffResult with the diff property stuffed
+        Differ differ = store.newDiffer(jobName, jobTimestamp)
+        List<DiffArtifact> diffArtifacts = differ.process(materialPairsToDiff)
+
+        // compile HTML report
+        Reporter reporter = store.newReporter(jobName, jobTimestamp)
+        Path reportFile = store.getRoot().resolve("index.html")
+        reporter.report(reportFile)
     }
 
-    private void doAction(Store store, JobName jobName, JobTimestamp jobTimestamp,
-                          WebDriver driver, URL url, String profile) {
+    private Tuple doAction(WebDriver driver,
+                           Store store, JobName jobName, JobTimestamp jobTimestamp,
+                           String profile, URL url) {
         // visit the page
         driver.navigate().to(url.toString())
-        Metadata metadata2 = new Metadata(profile, driver.getCurrentUrl())
-
-        // take and store screenshot of the page
+        Metadata metadata = new Metadata(profile, driver.getCurrentUrl())
+        // take and store the PNG screenshot of the page
         BufferedImage image = AShotWrapper.takeEntirePageImage(driver)
-        Material mateG = store.write(jobName, jobTimestamp, metadata2,
-                image, FileType.PNG)
+        Material mateG = store.write(jobName, jobTimestamp, metadata, image, FileType.PNG)
         assert mateG != null
-
         // get and store the HTML page source of the page
         String html = driver.getPageSource()
-        Material mateH = store.write(
-                jobName, jobTimestamp, metadata2, html, FileType.HTML)
+        Material mateH = store.write(jobName, jobTimestamp, metadata, html, FileType.HTML)
         assert mateH != null
+        return new Tuple(mateG, mateH)
     }
 
     static void main(String[] args) {

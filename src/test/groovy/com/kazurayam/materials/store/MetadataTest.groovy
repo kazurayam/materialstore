@@ -1,9 +1,9 @@
 package com.kazurayam.materials.store
 
-import com.kazurayam.materials.store.Metadata
 import org.junit.jupiter.api.Test
 
 import static org.junit.jupiter.api.Assertions.assertEquals
+import static org.junit.jupiter.api.Assertions.assertFalse
 import static org.junit.jupiter.api.Assertions.assertTrue
 
 class MetadataTest {
@@ -11,21 +11,21 @@ class MetadataTest {
     @Test
     void test_constructor_with_List() {
         Metadata metadata = new Metadata(["foo"])
-        assertEquals("foo", metadata.get(0))
+        assertEquals("foo", metadata.entry(0))
     }
 
     @Test
     void test_add_get() {
         Metadata metadata = new Metadata()
         metadata.add("foo")
-        assertEquals("foo", metadata.get(0))
+        assertEquals("foo", metadata.entry(0))
     }
 
     @Test
     void test_addAll() {
         Metadata metadata = new Metadata()
         metadata.addAll(["foo"])
-        assertEquals("foo", metadata.get(0))
+        assertEquals("foo", metadata.entry(0))
     }
 
     @Test
@@ -34,6 +34,43 @@ class MetadataTest {
         metadata.add("foo")
         assertEquals(1, metadata.size())
     }
+
+    @Test
+    void test_match_simplest() {
+        Metadata base = new Metadata("a")
+        MetadataPattern pattern = new MetadataPattern("a")
+        assertTrue(base.match(pattern))
+    }
+
+    @Test
+    void test_match_empty_pattern_matches_everything() {
+        Metadata base = new Metadata("a")
+        MetadataPattern pattern = new MetadataPattern()
+        assertTrue(base.match(pattern))
+    }
+
+    @Test
+    void test_match_asterisk_pattern_matches_everything() {
+        Metadata base = new Metadata("a")
+        MetadataPattern pattern = new MetadataPattern("*")
+        assertTrue(base.match(pattern))
+    }
+
+    @Test
+    void test_match_longer_pattern_doesnt_match() {
+        Metadata base = new Metadata("a")
+        MetadataPattern pattern = new MetadataPattern("*", "b")
+        assertFalse(base.match(pattern), "the pattern longer than the base should fail")
+    }
+
+    @Test
+    void test_match_demonstrative() {
+        Metadata base = new Metadata("ProductionEnv", "http://demoaut.katalon.com")
+        MetadataPattern pattern = new MetadataPattern("ProductionEnv")
+        assertTrue(base.match(pattern))
+    }
+
+
 
     @Test
     void test_compareTo_empty_instances_should_be_equal() {

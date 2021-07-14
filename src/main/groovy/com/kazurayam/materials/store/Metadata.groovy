@@ -4,7 +4,9 @@ import groovy.json.JsonOutput
 
 class Metadata implements Comparable {
 
-    List<String> metadata_ = new ArrayList<String>()
+    static final Metadata NULL_OBJECT = new Metadata()
+
+    private final List<String> metadata_ = new ArrayList<String>()
 
     Metadata(String... metadata) {
         for (String entry in metadata) {
@@ -29,12 +31,36 @@ class Metadata implements Comparable {
         }
     }
 
-    int size() {
-        return metadata_.size()
+    int size()  {
+        metadata_.size()
     }
 
-    String get(int i) {
+    String entry(int i) {
         return metadata_.get(i)
+    }
+
+    Iterator iterator() {
+        return metadata_.iterator()
+    }
+
+    boolean match(MetadataPattern metadataPattern) {
+        boolean result = true
+        metadataPattern.eachWithIndex { pattern, index ->
+            if (index < metadata_.size()) {
+                if (pattern == "*") {
+                    ;
+                } else if (pattern == metadata_.get(index)) {
+                    ;
+                } else {
+                    result = false
+                    return
+                }
+            } else {
+                result = false
+                return
+            }
+        }
+        return result
     }
 
     @Override
@@ -48,7 +74,7 @@ class Metadata implements Comparable {
             if (other.size() <= i) {
                 return 1
             }
-            int result = this.get(i) <=> other.get(i)
+            int result = this.entry(i) <=> other.entry(i)
             if (result != 0) {
                 return result
             }

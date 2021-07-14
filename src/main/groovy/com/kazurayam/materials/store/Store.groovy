@@ -1,5 +1,6 @@
 package com.kazurayam.materials.store
 
+import com.kazurayam.materials.diff.DiffArtifact
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -84,11 +85,12 @@ class Store {
 
 
     Material write(JobName jobName, JobTimestamp jobTimestamp,
-                   Metadata meta, String input, FileType fileType) {
+                   Metadata meta, String input, FileType fileType,
+                   String charsetName = "UTF-8") {
         Objects.requireNonNull(input)
         ByteArrayOutputStream baos = new ByteArrayOutputStream()
         Writer wrt = new BufferedWriter(
-                new OutputStreamWriter(baos, "UTF-8"))
+                new OutputStreamWriter(baos, charsetName))
         wrt.write(input)
         wrt.flush()
         byte[] data = baos.toByteArray()
@@ -160,5 +162,10 @@ class Store {
                 .map { JobTimestamp jt -> new Jobber(root_, jobName, jt) }
                 .collect(Collectors.toList())
         return result
+    }
+
+    List<DiffArtifact> selectMaterialPairsToDiff(JobName jobName, JobTimestamp jobTimestamp,
+                                                 MetadataPattern pattern1, MetadataPattern pattern2) {
+
     }
 }
