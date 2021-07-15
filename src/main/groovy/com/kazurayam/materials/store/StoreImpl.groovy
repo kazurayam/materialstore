@@ -165,8 +165,9 @@ class StoreImpl implements Store {
 
     Jobber getCachedJobber(JobName jobName, JobTimestamp jobTimestamp) {
         Jobber result = null
-        for (int i = 0; jobberCache_.size(); i++) {
+        for (int i = 0; i < jobberCache_.size(); i++) {
             Jobber cached = jobberCache_[i]
+            assert cached != null
             if (cached.getJobName() == jobName &&
                         cached.getJobTimestamp() == jobTimestamp) {
                 result = cached
@@ -195,15 +196,12 @@ class StoreImpl implements Store {
     }
 
     @Override
-    List<DiffArtifact> zipMaterialsToDiff(JobName jobName, JobTimestamp jobTimestamp,
-                                          FileType fileType,
-                                          MetadataPattern pattern1, MetadataPattern pattern2) {
-        Objects.requireNonNull(jobName)
-        Objects.requireNonNull(jobTimestamp)
-        Objects.requireNonNull(fileType)
-        Objects.requireNonNull(pattern1)
-        Objects.requireNonNull(pattern2)
+    List<DiffArtifact> zipMaterialsToDiff(List<Material> expected, List<Material> actual,
+                                          MetadataJoint joint) {
+        Objects.requireNonNull(expected)
+        Objects.requireNonNull(actual)
+        Objects.requireNonNull(joint)
 
-        Jobber jobber = this.getJobber(jobName, jobTimestamp)
+        throw new UnsupportedOperationException("TODO")
     }
 }

@@ -1,6 +1,6 @@
 package com.kazurayam.materials.store
 
-
+import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -34,6 +34,24 @@ class JobberTest {
 
     @BeforeEach
     void beforeEach() {
+    }
+
+    @Test
+    void test_constructor() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_constructor")
+        // make sure the Job directory to be empty
+        FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
+        // stuff the Job directory with a fixture
+        Path jobNameDir = root.resolve(jobName.toString())
+        FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
+        //
+        Jobber jobber = store.getJobber(jobName,
+                new JobTimestamp("20210713_093357"))
+        assertNotNull(jobber)
+        // When constructed, the Jobber object should deserialize the index file from Disk
+        assertEquals(3, jobber.size())
     }
 
     @Test

@@ -6,6 +6,7 @@ import com.kazurayam.materials.diff.Reporter
 import com.kazurayam.materials.selenium.AShotWrapper
 import com.kazurayam.materials.store.FileType
 import com.kazurayam.materials.store.Material
+import com.kazurayam.materials.store.MetadataJoint
 import com.kazurayam.materials.store.Store
 import com.kazurayam.materials.store.JobName
 import com.kazurayam.materials.store.JobTimestamp
@@ -88,13 +89,14 @@ class VisualTestingTwins {
         List<Material> screenshotsOfProfile2 = store.select(jobName, jobTimestamp,
                 FileType.PNG, new MetadataPattern([ profile2 ]))
 
-        /*
+
         List<DiffArtifact> materialPairsToDiff = store.zipMaterialsToDiff(
                 jobName, jobTimestamp, FileType.PNG,
-                new MetadataPattern([ profile1 ]),
-                new MetadataPattern([ profile2 ])
-        )
+                screenshotsOfProfile1,
+                screenshotsOfProfile2,
+                new MetadataJoint("", "+"))
 
+        /*
 
         // make imageDiffs and save them into disk,
         // returns the list of DiffResult with the diff property stuffed
@@ -114,16 +116,21 @@ class VisualTestingTwins {
                            String profile, URL url) {
         // visit the page
         driver.navigate().to(url.toString())
-        Metadata metadata = new Metadata(profile, driver.getCurrentUrl())
+
+        // Metadata("ProductionEnv", "/", "http://demoaut.katalon.com/")
+        Metadata metadata = new Metadata(profile, url.getFile(), url.toExternalForm())
+
         // take and store the PNG screenshot of the page
         BufferedImage image = AShotWrapper.takeEntirePageImage(driver)
         Material imageMaterial = store.write(jobName, jobTimestamp, FileType.PNG, metadata, image)
         assert imageMaterial != null
+
         // get and store the HTML page source of the page
         String html = driver.getPageSource()
         Material htmlMaterial = store.write(jobName, jobTimestamp, FileType.HTML, metadata,
                 html, StandardCharsets.UTF_8)
         assert htmlMaterial != null
+
         return new Tuple(imageMaterial, htmlMaterial)
     }
 

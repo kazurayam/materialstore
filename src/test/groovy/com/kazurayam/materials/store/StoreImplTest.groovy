@@ -1,5 +1,6 @@
 package com.kazurayam.materials.store
 
+import com.kazurayam.materials.diff.DiffArtifact
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -32,7 +33,7 @@ class StoreImplTest {
     @Test
     void test_getRoot() {
         Path root = outputDir.resolve("Materials")
-        StoreImpl store = new StoreImpl(root)
+        Store store = new StoreImpl(root)
         assertTrue(Files.exists(store.getRoot()), "${root} is not present")
         assertEquals("Materials", store.getRoot().getFileName().toString())
     }
@@ -40,7 +41,7 @@ class StoreImplTest {
     @Test
     void test_getJobResult() {
         Path root = outputDir.resolve("Materials")
-        StoreImpl store = new StoreImpl(root)
+        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_getJob")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber job = store.getJobber(jobName, jobTimestamp)
@@ -54,7 +55,7 @@ class StoreImplTest {
     @Test
     void test_getCachedJob() {
         Path root = outputDir.resolve("Materials")
-        StoreImpl store = new StoreImpl(root)
+        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_getCachedJob")
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
         // make sure the Job directory to be empty
@@ -76,7 +77,7 @@ class StoreImplTest {
     @Test
     void test_write_path() {
         Path root = outputDir.resolve("Materials")
-        StoreImpl store = new StoreImpl(root)
+        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_path")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
@@ -89,7 +90,7 @@ class StoreImplTest {
     @Test
     void test_select() {
         Path root = outputDir.resolve("Materials")
-        StoreImpl store = new StoreImpl(root)
+        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_select")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
@@ -105,7 +106,7 @@ class StoreImplTest {
     @Test
     void test_write_File() {
         Path root = outputDir.resolve("Materials")
-        StoreImpl store = new StoreImpl(root)
+        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_file")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
@@ -118,7 +119,7 @@ class StoreImplTest {
     @Test
     void test_write_BufferedImage() {
         Path root = outputDir.resolve("Materials")
-        StoreImpl store = new StoreImpl(root)
+        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_BufferedImage")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new Metadata("ProductionEnv", "http://demoaut.katalon.com/")
@@ -132,7 +133,7 @@ class StoreImplTest {
     @Test
     void test_write_string() {
         Path root = outputDir.resolve("Materials")
-        StoreImpl store = new StoreImpl(root)
+        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_String")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new Metadata("ProductionEnv", "http://demoaut.katalon.com/")
@@ -145,7 +146,7 @@ class StoreImplTest {
     @Test
     void test_findJobbersOf_JobName() {
         Path root = outputDir.resolve("Materials")
-        StoreImpl store = new StoreImpl(root)
+        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_getCachedJob")
         // make sure the Job directory to be empty
         FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
@@ -157,6 +158,36 @@ class StoreImplTest {
         List<Jobber> jobs = store.findJobbersOf(jobName)
         assertNotNull(jobs, "should not be null")
         assertEquals(2, jobs.size())
+    }
+
+    @Test
+    void test_zipMaterialsToDiff() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_zipMaterialsToDiff")
+        // make sure the Job directory to be empty
+        FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
+        // stuff the Job directory with a fixture
+        Path jobNameDir = root.resolve(jobName.toString())
+        FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
+        //
+        Jobber jobberOfExpected = store.getJobber(jobName,
+                new JobTimestamp("20210713_093357"))
+        List<Material> expected = jobberOfExpected.select(FileType.PNG,
+                new MetadataPattern("ProductionEnv", "*"))
+
+        assertEquals(1, expected.size())
+        //
+        Jobber jobberOfActual = store.getJobber(jobName,
+                new JobTimestamp("20210715_145922"))
+        List<Material> actual= jobberOfActual.select(FileType.PNG,
+                new MetadataPattern("DevelopmentEnv", "*"))
+        assertEquals(1, actual.size())
+        //
+        MetadataJoint joint = new MetadataJoint("*", "+")
+        List<DiffArtifact> diffArtifacts = store.zipMaterialsToDiff(expected, actual, joint)
+        assertNotNull(diffArtifacts)
+        assertEquals(3, diffArtifacts.size())
     }
 
 }

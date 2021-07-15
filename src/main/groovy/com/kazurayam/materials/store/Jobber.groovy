@@ -20,11 +20,11 @@ class Jobber {
         jobResultDir = root.resolve(jobName.toString()).resolve(jobTimestamp.toString())
         Files.createDirectories(getObjectsDir())
 
-        // the content of "index" is cached in memory
         index = new Index()
+        // load content of the "index" file
         Path indexFile = Index.getIndexFile(jobResultDir)
         if (Files.exists(indexFile)) {
-            index.deserialize(indexFile)
+            index = Index.deserialize(indexFile)
         }
     }
 
@@ -42,6 +42,10 @@ class Jobber {
 
     Path getObjectsDir() {
         return getJobResultDir().resolve("objects")
+    }
+
+    int size() {
+        return index.size()
     }
 
     /**
@@ -96,6 +100,7 @@ class Jobber {
         Objects.requireNonNull(fileType)
         Objects.requireNonNull(metadataPattern)
         List<Material> result = new ArrayList<Material>()
+
         index.eachWithIndex { IndexEntry entry, x ->
             if (entry.getFileType() == fileType &&
                     entry.getMetadata().match(metadataPattern)) {

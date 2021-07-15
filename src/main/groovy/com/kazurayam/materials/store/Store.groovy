@@ -38,7 +38,7 @@ interface Store {
                    FileType fileType, Metadata meta, String input,
                    Charset charset)
 
-    List<DiffArtifact> zipMaterialsToDiff(
-            JobName jobName, JobTimestamp jobTimestamp, FileType fileType,
-            MetadataPattern pattern1, MetadataPattern pattern2)
+    List<DiffArtifact> zipMaterialsToDiff(List<Material> expected,
+                                          List<Material> actual,
+                                          MetadataJoint joint)
 }
