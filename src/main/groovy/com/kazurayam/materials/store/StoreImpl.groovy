@@ -45,24 +45,24 @@ class StoreImpl implements Store {
 
     @Override
     Material write(JobName jobName, JobTimestamp jobTimestamp,
-                 Metadata meta, File input, FileType fileType) {
+                   FileType fileType, Metadata meta, File input) {
         Objects.requireNonNull(input)
         assert input.exists()
         FileInputStream fis = new FileInputStream(input)
         byte[] data = toByteArray(fis)
         fis.close()
-        return this.write(jobName, jobTimestamp, meta, data, fileType)
+        return this.write(jobName, jobTimestamp, fileType, meta, data)
     }
 
     @Override
     Material write(JobName jobName, JobTimestamp jobTimestamp,
-                 Metadata meta, Path input, FileType fileType) {
+                   FileType fileType, Metadata meta, Path input) {
         Objects.requireNonNull(input)
         assert Files.exists(input)
         FileInputStream fis = new FileInputStream(input.toFile())
         byte[] data = toByteArray(fis)
         fis.close()
-        return this.write(jobName, jobTimestamp, meta, data, fileType)
+        return this.write(jobName, jobTimestamp, fileType, meta, data)
     }
 
 
@@ -81,19 +81,19 @@ class StoreImpl implements Store {
 
     @Override
     Material write(JobName jobName, JobTimestamp jobTimestamp,
-             Metadata meta, BufferedImage input, FileType fileType) {
+                   FileType fileType, Metadata meta, BufferedImage input) {
         Objects.requireNonNull(input)
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(input, fileType.extension, baos);
         byte[] data = baos.toByteArray()
         baos.close()
-        return this.write(jobName, jobTimestamp, meta, data, fileType)
+        return this.write(jobName, jobTimestamp, fileType, meta, data)
     }
 
 
     @Override
     Material write(JobName jobName, JobTimestamp jobTimestamp,
-                   Metadata meta, String input, FileType fileType,
+                   FileType fileType, Metadata meta, String input,
                    String charsetName = "UTF-8") {
         Objects.requireNonNull(input)
         ByteArrayOutputStream baos = new ByteArrayOutputStream()
@@ -103,19 +103,19 @@ class StoreImpl implements Store {
         wrt.flush()
         byte[] data = baos.toByteArray()
         wrt.close()
-        return this.write(jobName, jobTimestamp, meta, data, fileType)
+        return this.write(jobName, jobTimestamp, fileType, meta, data)
     }
 
     @Override
     Material write(JobName jobName, JobTimestamp jobTimestamp,
-                 Metadata meta, byte[] input, FileType fileType) {
+                   FileType fileType, Metadata meta, byte[] input) {
         Objects.requireNonNull(root_)
         Objects.requireNonNull(jobName)
         Objects.requireNonNull(jobTimestamp)
         Objects.requireNonNull(meta)
         Objects.requireNonNull(fileType)
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
-        return jobber.commit(meta, input, fileType)
+        return jobber.commit(input, fileType, meta)
     }
 
 
@@ -193,7 +193,17 @@ class StoreImpl implements Store {
 
     @Override
     List<DiffArtifact> zipMaterialsToDiff(JobName jobName, JobTimestamp jobTimestamp,
+                                          FileType fileType,
                                           MetadataPattern pattern1, MetadataPattern pattern2) {
-        throw new UnsupportedOperationException("TODO")
+        Objects.requireNonNull(jobName)
+        Objects.requireNonNull(jobTimestamp)
+        Objects.requireNonNull(fileType)
+        Objects.requireNonNull(pattern1)
+        Objects.requireNonNull(pattern2)
+
+        Jobber jobber = this.getJobber(jobName, jobTimestamp)
+        List<Material> expected = jobber.select(fileType, pattern1)
+        List<Material> actual = jobber.select(fileType, pattern2)
+
     }
 }

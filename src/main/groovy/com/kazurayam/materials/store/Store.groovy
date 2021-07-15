@@ -20,22 +20,22 @@ interface Store {
                           FileType fileType, MetadataPattern metadataPattern)
 
     Material write(JobName jobName, JobTimestamp jobTimestamp,
-                   Metadata meta, BufferedImage input, FileType fileType)
+                   FileType fileType, Metadata meta, BufferedImage input)
 
     Material write(JobName jobName, JobTimestamp jobTimestamp,
-                   Metadata meta, byte[] input, FileType fileType)
+                   FileType fileType, Metadata meta, byte[] input)
 
     Material write(JobName jobName, JobTimestamp jobTimestamp,
-                   Metadata meta, File input, FileType fileType)
+                   FileType fileType, Metadata meta, File input)
 
     Material write(JobName jobName, JobTimestamp jobTimestamp,
-                   Metadata meta, Path input, FileType fileType)
+                   FileType fileType, Metadata meta, Path input)
 
     Material write(JobName jobName, JobTimestamp jobTimestamp,
-                   Metadata meta, String input, FileType fileType,
+                   FileType fileType, Metadata meta, String input,
                    String charsetName)
 
     List<DiffArtifact> zipMaterialsToDiff(
-            JobName jobName, JobTimestamp jobTimestamp,
+            JobName jobName, JobTimestamp jobTimestamp, FileType fileType,
             MetadataPattern pattern1, MetadataPattern pattern2)
 }

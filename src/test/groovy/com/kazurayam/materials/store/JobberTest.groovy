@@ -39,7 +39,7 @@ class JobberTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, FileType.PNG.getExtension(), baos);
         byte[] data = baos.toByteArray()
-        jobResult.commit(metadata, data, FileType.PNG)
+        jobResult.commit(data, FileType.PNG, metadata)
         //
     }
 }

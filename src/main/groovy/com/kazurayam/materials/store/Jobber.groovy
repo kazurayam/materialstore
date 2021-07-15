@@ -50,7 +50,7 @@ class Jobber {
      * @param fileType
      * @return Material
      */
-    Material commit(Metadata metadata, byte[] data, FileType fileType) {
+    Material commit(byte[] data, FileType fileType, Metadata metadata) {
         Objects.requireNonNull(metadata)
         if (data.length == 0 ) throw new IllegalArgumentException("length of the data is 0")
         Objects.requireNonNull(fileType)
@@ -81,11 +81,11 @@ class Jobber {
         Objects.requireNonNull(metadataPattern)
         List<Material> result = new ArrayList<Material>()
         index.eachWithIndex { Material entry, x ->
-            //ID id = entry.getID()
-            //FileType ft = entry.getFileType()
-            //Metadata md = entry.getMetadata()
-
+            if (entry.getFileType() == fileType &&
+                    entry.getMetadata().match(metadataPattern)) {
+                result.add(entry)
+            }
         }
-        throw new UnsupportedOperationException("TODO")
+        return result
     }
 }

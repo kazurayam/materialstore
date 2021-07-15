@@ -81,7 +81,7 @@ class StoreImplTest {
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
         Path input = imagesDir.resolve("20210710_142631.development.png")
-        Material material = store.write(jobName, jobTimestamp, metadata, input, FileType.PNG)
+        Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
         assertTrue(ID.isValid(material.getID().toString()))
     }
@@ -95,7 +95,7 @@ class StoreImplTest {
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
         File input = imagesDir.resolve("20210710_142631.development.png").toFile()
-        Material material = store.write(jobName, jobTimestamp, metadata, input, FileType.PNG)
+        Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
         assertTrue(ID.isValid(material.getID().toString()))
     }
@@ -109,7 +109,7 @@ class StoreImplTest {
         Metadata metadata = new Metadata("ProductionEnv", "http://demoaut.katalon.com/")
         Path input = imagesDir.resolve("20210710_142628.production.png")
         BufferedImage image = ImageIO.read(input.toFile())
-        Material material = store.write(jobName, jobTimestamp, metadata, image, FileType.PNG)
+        Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, image)
         assertNotNull(material)
         assertTrue(ID.isValid(material.getID().toString()))
     }
@@ -122,7 +122,7 @@ class StoreImplTest {
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new Metadata("ProductionEnv", "http://demoaut.katalon.com/")
         String input = "犬も歩けば棒に当たる"
-        Material material = store.write(jobName, jobTimestamp, metadata, input, FileType.TXT)
+        Material material = store.write(jobName, jobTimestamp, FileType.TXT, metadata, input)
         assertTrue(ID.isValid(material.getID().toString()))
     }
 

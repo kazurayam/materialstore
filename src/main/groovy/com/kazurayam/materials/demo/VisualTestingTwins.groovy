@@ -87,8 +87,7 @@ class VisualTestingTwins {
                 FileType.PNG, new MetadataPattern([ profile2 ]))
 
         List<DiffArtifact> materialPairsToDiff = store.zipMaterialsToDiff(
-                jobName,
-                jobTimestamp,
+                jobName, jobTimestamp, FileType.PNG,
                 new MetadataPattern([ profile1 ]),
                 new MetadataPattern([ profile2 ])
         )
@@ -112,11 +111,11 @@ class VisualTestingTwins {
         Metadata metadata = new Metadata(profile, driver.getCurrentUrl())
         // take and store the PNG screenshot of the page
         BufferedImage image = AShotWrapper.takeEntirePageImage(driver)
-        Material mateG = store.write(jobName, jobTimestamp, metadata, image, FileType.PNG)
+        Material mateG = store.write(jobName, jobTimestamp, FileType.PNG, metadata, image)
         assert mateG != null
         // get and store the HTML page source of the page
         String html = driver.getPageSource()
-        Material mateH = store.write(jobName, jobTimestamp, metadata, html, FileType.HTML)
+        Material mateH = store.write(jobName, jobTimestamp, FileType.HTML, metadata, html)
         assert mateH != null
         return new Tuple(mateG, mateH)
     }
