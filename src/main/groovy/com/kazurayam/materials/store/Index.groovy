@@ -1,5 +1,6 @@
 package com.kazurayam.materials.store
 
+import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -37,26 +38,28 @@ class Index implements Comparable {
     private static final Logger logger_ = LoggerFactory.getLogger(Index.class)
 
     private final Path indexFile_
-    private final List<Material> lines_
+    private final List<IndexEntry> lines_
     // Tuple of (ID, FileType, Metadata)
 
     Index() {
-        lines_ = new ArrayList<Material>()
+        lines_ = new ArrayList<IndexEntry>()
     }
 
     static Path getIndexFile(Path jobDir) {
         return jobDir.resolve("index")
     }
 
-    void put(ID id, FileType fileType, Metadata metadata) {
-        lines_.add(new Material(id, fileType, metadata))
+    IndexEntry put(ID id, FileType fileType, Metadata metadata) {
+        IndexEntry indexEntry = new IndexEntry(id, fileType, metadata)
+        lines_.add(indexEntry)
+        return indexEntry
     }
 
     int size() {
         return lines_.size()
     }
 
-    Iterator<Material> iterator() {
+    Iterator<IndexEntry> iterator() {
         return lines_.iterator()
     }
 
@@ -69,8 +72,8 @@ class Index implements Comparable {
         FileOutputStream fos = new FileOutputStream(indexFile.toFile())
         OutputStreamWriter osw = new OutputStreamWriter(fos, "utf-8")
         BufferedWriter br = new BufferedWriter(osw)
-        List<Material> sorted = lines_.stream().sorted().collect(Collectors.toList())
-        sorted.each { Material indexEntry ->
+        List<IndexEntry> sorted = lines_.stream().sorted().collect(Collectors.toList())
+        sorted.each { IndexEntry indexEntry ->
             String s = formatLine(indexEntry)
             br.println(s)
         }
@@ -78,7 +81,7 @@ class Index implements Comparable {
         br.close()
     }
 
-    static String formatLine(Material indexEntry) {
+    static String formatLine(IndexEntry indexEntry) {
         Objects.requireNonNull(indexEntry)
         ID id = indexEntry.getID()
         FileType ft = indexEntry.getFileType()
@@ -114,7 +117,7 @@ class Index implements Comparable {
             while ((line = reader.readLine()) != null) {
                 x += 1
                 try {
-                    Material indexEntry = parseLine(line)
+                    IndexEntry indexEntry = parseLine(line)
                     if (indexEntry != null) {
                         index.put(
                                 indexEntry.getID(),
@@ -129,7 +132,7 @@ class Index implements Comparable {
         return index
     }
 
-    static Material parseLine(String line) throws IllegalArgumentException {
+    static IndexEntry parseLine(String line) throws IllegalArgumentException {
         Objects.requireNonNull(line)
         List<String> items = line.split('\\t') as List<String>
         ID id = null
@@ -157,7 +160,7 @@ class Index implements Comparable {
             }
         }
         if (id != null && fileType != null && metadata != null) {
-            return new Material(id, fileType, metadata)
+            return new IndexEntry(id, fileType, metadata)
         }
         return null   // blank line returns null
     }
@@ -175,6 +178,12 @@ class Index implements Comparable {
     @Override
     int hashCode() {
         indexFile_.hashCode()
+    }
+
+    @Override
+    String toString() {
+        Map m = ["indexFile": indexFile_, "indexEntries": lines_]
+        return new JsonOutput().toJson(m)
     }
 
     @Override

@@ -6,12 +6,15 @@ import java.time.format.DateTimeParseException
 
 class JobTimestamp implements Comparable {
 
-    String jobTimestamp_
+    static final JobTimestamp NULL_OBJECT = new JobTimestamp("_")
 
     static private DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("yyyyMMdd_kkmmss")
 
     static boolean isValid(String s) {
+        if (s == "_") {
+            return true
+        }
         try {
             formatter.parse(s)
             return true
@@ -24,6 +27,8 @@ class JobTimestamp implements Comparable {
         LocalDateTime now = LocalDateTime.now()
         return new JobTimestamp(formatter.format(now))
     }
+
+    String jobTimestamp_
 
     JobTimestamp(String jobTimestamp) {
         if (! isValid(jobTimestamp)) {

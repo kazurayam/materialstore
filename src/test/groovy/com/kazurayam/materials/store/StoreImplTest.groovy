@@ -83,9 +83,24 @@ class StoreImplTest {
         Path input = imagesDir.resolve("20210710_142631.development.png")
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
-        assertTrue(ID.isValid(material.getID().toString()))
+        assertTrue(ID.isValid(material.getIndexEntry().getID().toString()))
     }
 
+    @Test
+    void test_select() {
+        Path root = outputDir.resolve("Materials")
+        StoreImpl store = new StoreImpl(root)
+        JobName jobName = new JobName("test_select")
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
+        Path input = imagesDir.resolve("20210710_142631.development.png")
+        Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
+        //
+        MetadataPattern pattern = new MetadataPattern("*", "*")
+        List<Material> materials = store.select(jobName, jobTimestamp, FileType.PNG, pattern)
+        assertNotNull(materials)
+        assertEquals(1, materials.size())
+    }
 
     @Test
     void test_write_File() {
@@ -97,7 +112,7 @@ class StoreImplTest {
         File input = imagesDir.resolve("20210710_142631.development.png").toFile()
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
-        assertTrue(ID.isValid(material.getID().toString()))
+        assertTrue(ID.isValid(material.getIndexEntry().getID().toString()))
     }
 
     @Test
@@ -111,7 +126,7 @@ class StoreImplTest {
         BufferedImage image = ImageIO.read(input.toFile())
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, image)
         assertNotNull(material)
-        assertTrue(ID.isValid(material.getID().toString()))
+        assertTrue(ID.isValid(material.getIndexEntry().getID().toString()))
     }
 
     @Test
@@ -123,7 +138,8 @@ class StoreImplTest {
         Metadata metadata = new Metadata("ProductionEnv", "http://demoaut.katalon.com/")
         String input = "犬も歩けば棒に当たる"
         Material material = store.write(jobName, jobTimestamp, FileType.TXT, metadata, input)
-        assertTrue(ID.isValid(material.getID().toString()))
+        assertNotNull(material)
+        assertTrue(ID.isValid(material.getIndexEntry().getID().toString()))
     }
 
     @Test
@@ -140,7 +156,7 @@ class StoreImplTest {
         //
         List<Jobber> jobs = store.findJobbersOf(jobName)
         assertNotNull(jobs, "should not be null")
-        assertEquals(1, jobs.size())
+        assertEquals(2, jobs.size())
     }
 
 }

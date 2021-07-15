@@ -1,6 +1,7 @@
 package com.kazurayam.materials.store
 
 import com.kazurayam.materials.MaterialsException
+import com.kazurayam.materials.diff.DiffArtifact
 
 import java.nio.file.Files
 import java.nio.file.Path
@@ -46,12 +47,18 @@ class Jobber {
     /**
      * This "commit" method is the most significant operation in the TAOD project.
      *
+     * Each MObject is identified by its FileType + Metadata combination.
+     * Jobber ensures that MObject under the "object" is unique by FileType + Metadata.
+     * If you try to commit a MObject with duplicating FileType + Metadata, the commit
+     * will be rejected.
+     *
      * @param metadata
      * @param data
      * @param fileType
      * @return Material
      */
-    Material commit(byte[] data, FileType fileType, Metadata metadata) {
+    Material commit(byte[] data, FileType fileType, Metadata metadata)
+            throws MaterialsException {
         Objects.requireNonNull(metadata)
         if (data.length == 0 ) throw new IllegalArgumentException("length of the data is 0")
         Objects.requireNonNull(fileType)
@@ -71,12 +78,12 @@ class Jobber {
         mObject.serialize(objectFile)
 
         // insert a line into the "index" content on memory
-        index.put(mObject.getID(), fileType, metadata)
+        IndexEntry indexEntry = index.put(mObject.getID(), fileType, metadata)
 
         // save the content of "index" into disk everytime when a commit is made
         index.serialize(Index.getIndexFile(jobResultDir))
 
-        return new Material(mObject.getID(), mObject.getFileType(), metadata)
+        return new Material(this.getJobName(), this.getJobTimestamp(), indexEntry)
     }
 
     /**
@@ -89,12 +96,14 @@ class Jobber {
         Objects.requireNonNull(fileType)
         Objects.requireNonNull(metadataPattern)
         List<Material> result = new ArrayList<Material>()
-        index.eachWithIndex { Material entry, x ->
+        index.eachWithIndex { IndexEntry entry, x ->
             if (entry.getFileType() == fileType &&
                     entry.getMetadata().match(metadataPattern)) {
-                result.add(entry)
+                Material material = new Material(jobName, jobTimestamp, entry)
+                result.add(material)
             }
         }
         return result
     }
+
 }

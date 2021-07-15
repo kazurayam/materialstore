@@ -2,6 +2,8 @@ package com.kazurayam.materials.store
 
 class JobName implements Comparable {
 
+    static final JobName NULL_OBJECT = new JobName("_")
+
     String jobName_
 
     JobName(String jobName) {
@@ -12,6 +14,9 @@ class JobName implements Comparable {
     }
 
     static boolean isValid(String s) {
+        if (s == "_") {
+            return true
+        }
         return Filename.isValid(s)
     }
 

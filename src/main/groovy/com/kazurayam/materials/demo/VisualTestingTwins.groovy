@@ -21,6 +21,7 @@ import org.openqa.selenium.chrome.ChromeDriver
 import org.openqa.selenium.chrome.ChromeOptions
 
 import java.awt.image.BufferedImage
+import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -80,17 +81,20 @@ class VisualTestingTwins {
         // close the Chrome browser
         driver.quit()
 
+
         // pickup the screenshots that belongs to the 2 "profiles", make image-diff files of each.
         List<Material> screenshotsOfProfile1 = store.select(jobName, jobTimestamp,
                 FileType.PNG, new MetadataPattern([ profile1 ]))
         List<Material> screenshotsOfProfile2 = store.select(jobName, jobTimestamp,
                 FileType.PNG, new MetadataPattern([ profile2 ]))
 
+        /*
         List<DiffArtifact> materialPairsToDiff = store.zipMaterialsToDiff(
                 jobName, jobTimestamp, FileType.PNG,
                 new MetadataPattern([ profile1 ]),
                 new MetadataPattern([ profile2 ])
         )
+
 
         // make imageDiffs and save them into disk,
         // returns the list of DiffResult with the diff property stuffed
@@ -101,27 +105,34 @@ class VisualTestingTwins {
         Reporter reporter = store.newReporter(jobName, jobTimestamp)
         Path reportFile = store.getRoot().resolve("index.html")
         reporter.report(diffArtifacts, reportFile)
+
+         */
     }
 
-    private Tuple doAction(WebDriver driver,
-                           StoreImpl store, JobName jobName, JobTimestamp jobTimestamp,
+    private static Tuple doAction(WebDriver driver,
+                           Store store, JobName jobName, JobTimestamp jobTimestamp,
                            String profile, URL url) {
         // visit the page
         driver.navigate().to(url.toString())
         Metadata metadata = new Metadata(profile, driver.getCurrentUrl())
         // take and store the PNG screenshot of the page
         BufferedImage image = AShotWrapper.takeEntirePageImage(driver)
-        Material mateG = store.write(jobName, jobTimestamp, FileType.PNG, metadata, image)
-        assert mateG != null
+        Material imageMaterial = store.write(jobName, jobTimestamp, FileType.PNG, metadata, image)
+        assert imageMaterial != null
         // get and store the HTML page source of the page
         String html = driver.getPageSource()
-        Material mateH = store.write(jobName, jobTimestamp, FileType.HTML, metadata, html)
-        assert mateH != null
-        return new Tuple(mateG, mateH)
+        Material htmlMaterial = store.write(jobName, jobTimestamp, FileType.HTML, metadata,
+                html, StandardCharsets.UTF_8)
+        assert htmlMaterial != null
+        return new Tuple(imageMaterial, htmlMaterial)
     }
 
     static void main(String[] args) {
-        VisualTestingTwins instance = new VisualTestingTwins()
-        instance.execute()
+        try {
+            VisualTestingTwins instance = new VisualTestingTwins()
+            instance.execute()
+        } catch (Exception e) {
+            e.printStackTrace()
+        }
     }
 }

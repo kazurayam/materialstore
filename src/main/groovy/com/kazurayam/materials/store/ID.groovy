@@ -2,6 +2,8 @@ package com.kazurayam.materials.store
 
 class ID implements Comparable {
 
+    static final ID NULL_OBJECT = new ID("0" * 40)
+
     private String sha1_
 
     static boolean isValid(String sha1) {

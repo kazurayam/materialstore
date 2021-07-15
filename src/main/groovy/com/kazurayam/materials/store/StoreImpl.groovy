@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory
 
 import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
+import java.nio.charset.Charset
+import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -38,6 +40,7 @@ class StoreImpl implements Store {
         this.jobberCache_ = new HashSet<Jobber>()
     }
 
+    @Override
     Path getRoot() {
         return root_
     }
@@ -94,11 +97,11 @@ class StoreImpl implements Store {
     @Override
     Material write(JobName jobName, JobTimestamp jobTimestamp,
                    FileType fileType, Metadata meta, String input,
-                   String charsetName = "UTF-8") {
+                   Charset charset = StandardCharsets.UTF_8) {
         Objects.requireNonNull(input)
         ByteArrayOutputStream baos = new ByteArrayOutputStream()
         Writer wrt = new BufferedWriter(
-                new OutputStreamWriter(baos, charsetName))
+                new OutputStreamWriter(baos, charset.name()))
         wrt.write(input)
         wrt.flush()
         byte[] data = baos.toByteArray()
@@ -202,8 +205,5 @@ class StoreImpl implements Store {
         Objects.requireNonNull(pattern2)
 
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
-        List<Material> expected = jobber.select(fileType, pattern1)
-        List<Material> actual = jobber.select(fileType, pattern2)
-
     }
 }

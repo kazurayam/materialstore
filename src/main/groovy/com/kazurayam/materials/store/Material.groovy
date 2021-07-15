@@ -4,26 +4,29 @@ import groovy.json.JsonOutput
 
 class Material implements Comparable {
 
-    private final ID id_
-    private final FileType fileType_
-    private final Metadata metadata_
+    static final Material NULL_OBJECT =
+            new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, IndexEntry.NULL_OBJECT)
 
-    Material(ID id, FileType fileType, Metadata metadata) {
-        this.id_ = id
-        this.fileType_ = fileType
-        this.metadata_ = metadata
+    private final JobName jobName_
+    private final JobTimestamp jobTimestamp_
+    private final IndexEntry indexEntry_
+
+    Material(JobName jobName, JobTimestamp jobTimestamp, IndexEntry indexEntry) {
+        this.jobName_ = jobName
+        this.jobTimestamp_ = jobTimestamp
+        this.indexEntry_ = indexEntry
     }
 
-    ID getID() {
-        return id_
+    JobName getJobName() {
+        return jobName_
     }
 
-    FileType getFileType() {
-        return fileType_
+    JobTimestamp getJobTimestamp() {
+        return jobTimestamp_
     }
 
-    Metadata getMetadata() {
-        return metadata_
+    IndexEntry getIndexEntry() {
+        return indexEntry_
     }
 
     @Override
@@ -32,23 +35,24 @@ class Material implements Comparable {
             return false
         }
         Material other = (Material)obj
-        return this.getID() == other.getID() &&
-                this.getFileType() == other.getFileType() &&
-                this.getMetadata() == other.getMetadata()
+        return this.getJobName() == other.getJobName() &&
+                this.getJobTimestamp() == other.getJobTimestamp() &&
+                this.getIndexEntry() == other.getIndexEntry()
     }
 
     @Override
     int hashCode() {
         int hash = 7
-        hash = 31 * hash + this.getID().hashCode()
-        hash = 31 * hash + this.getFileType().hashCode()
-        hash = 31 * hash + this.getMetadata().hashCode()
+        hash = 31 * hash + this.getJobName().hashCode()
+        hash = 31 * hash + this.getJobTimestamp().hashCode()
+        hash = 31 * hash + this.getIndexEntry().hashCode()
         return hash
     }
 
     @Override
     String toString() {
-        Map m = ["id": this.getID(), "fileType": this.getFileType(), "metadata": this.getMetadata()]
+        Map m = ["jobName": this.getJobName(), "jobTimestamp": this.getJobTimestamp(),
+                 "indexEntry": this.getIndexEntry()]
         return new JsonOutput().toJson(m)
     }
 
@@ -58,16 +62,16 @@ class Material implements Comparable {
             throw new IllegalArgumentException("obj is not an instance of Material")
         }
         Material other = (Material)obj
-        int comparisonByMetadata = this.getMetadata() <=> other.getMetadata()
-        if (comparisonByMetadata == 0) {
-            int comparisonByFileType = this.getFileType() <=> other.getFileType()
-            if (comparisonByFileType == 0) {
-                return this.getID() <=> other.getID()
+        int comparisonByJobName = this.getJobName() <=> other.getJobName()
+        if (comparisonByJobName == 0) {
+            int comparisonByJobTimestamp = this.getJobTimestamp() <=> other.getJobTimestamp()
+            if (comparisonByJobTimestamp == 0) {
+                return this.getIndexEntry() <=> other.getIndexEntry()
             } else {
-                return comparisonByFileType
+                return comparisonByJobTimestamp
             }
         } else {
-            return comparisonByMetadata
+            return comparisonByJobName
         }
     }
 }

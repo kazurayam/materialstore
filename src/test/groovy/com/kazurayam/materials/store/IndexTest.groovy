@@ -26,7 +26,7 @@ class IndexTest {
     @Test
     void test_parseLine_smoke() {
         try {
-            Material indexEntry = Index.parseLine(sampleLine)
+            IndexEntry indexEntry = Index.parseLine(sampleLine)
             assertNotNull(indexEntry)
         } catch (IllegalArgumentException e) {
             fail(e.getMessage())
@@ -38,7 +38,7 @@ class IndexTest {
         ID id = new ID("6141b40cfe9e7340a483a3097c4f6ff5d20e04ea")
         FileType fileType = FileType.PNG
         Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
-        Material indexEntry = new Material(id, fileType, metadata)
+        IndexEntry indexEntry = new IndexEntry(id, fileType, metadata)
         String line = Index.formatLine(indexEntry)
         assertEquals(sampleLine, line)
     }
@@ -48,14 +48,13 @@ class IndexTest {
         Path indexFile = Index.getIndexFile(resultsDir.resolve("20210713_093357"))
         Index index = Index.deserialize(indexFile)
         assertNotNull(index)
-        assertEquals(2, index.size())
+        assertEquals(3, index.size())
     }
 
     @Test
     void test_serialize() {
         Path source = Index.getIndexFile(resultsDir.resolve("20210713_093357"))
         Index index = Index.deserialize(source)
-        assert index.size() == 2
         //
         Path root = outputDir.resolve("Materials")
         Path jobNameDir = root.resolve("test_serialized")

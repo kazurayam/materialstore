@@ -4,7 +4,7 @@ import groovy.json.JsonOutput
 
 class Metadata implements Comparable {
 
-    static final Metadata NULL_OBJECT = new Metadata()
+    static final Metadata NULL_OBJECT = new Metadata([])
 
     private final List<String> metadata_ = new ArrayList<String>()
 
@@ -15,7 +15,6 @@ class Metadata implements Comparable {
     }
 
     Metadata(List<String> metadata) {
-        this.metadata_ = new ArrayList<String>()
         for (String entry in metadata) {
             metadata_.add(entry)
         }

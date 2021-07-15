@@ -24,6 +24,9 @@ class JobberTest {
     private static Path imagesDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_images")
 
+    private static Path resultsDir =
+            Paths.get(".").resolve("src/test/resources/fixture/sample_results")
+
     @BeforeAll
     static void beforeAll() {
         Files.createDirectories(outputDir)
@@ -43,8 +46,9 @@ class JobberTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, FileType.PNG.getExtension(), baos);
         byte[] data = baos.toByteArray()
-        jobber.commit(data, FileType.PNG, metadata)
+        Material material = jobber.commit(data, FileType.PNG, metadata)
         //
+        assertNotNull(material)
     }
 
     @Test
@@ -59,5 +63,23 @@ class JobberTest {
             jobber.commit(data, FileType.TXT, metadata)
         })
         assertTrue(thrown.getMessage().contains("MObject is already in the Store"))
+    }
+
+    @Test
+    void test_select() {
+        Path root = outputDir.resolve("Materials")
+        StoreImpl repos = new StoreImpl(root)
+        Jobber jobber = repos.getJobber(new JobName("test_select"), JobTimestamp.now())
+        Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.katalon.com/")
+        BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, FileType.PNG.getExtension(), baos);
+        byte[] data = baos.toByteArray()
+        Material material = jobber.commit(data, FileType.PNG, metadata)
+        //
+        MetadataPattern pattern = new MetadataPattern("*", "*")
+        List<Material> materials = jobber.select(FileType.PNG, pattern)
+        assertNotNull(materials)
+        assertEquals(1, materials.size())
     }
 }

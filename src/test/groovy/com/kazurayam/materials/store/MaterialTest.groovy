@@ -14,11 +14,13 @@ class MaterialTest {
         ID id = new ID(items[0])
         FileType fileType = FileType.getByExtension(items[1])
         Metadata metadata = new Metadata(items[2])
-        Material material = new Material(id, fileType, metadata)
+        IndexEntry indexEntry = new IndexEntry(id, fileType, metadata)
+        Material material = new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, indexEntry)
         assertNotNull(material)
-        assertEquals(id, material.getID())
-        assertEquals(fileType, material.getFileType())
-        assertEquals(metadata, material.getMetadata())
+        assertEquals(id, material.getIndexEntry().getID())
+        assertEquals(fileType, material.getIndexEntry().getFileType())
+        assertEquals(metadata, material.getIndexEntry().getMetadata())
+        //
         assertEquals(material, material)
     }
 

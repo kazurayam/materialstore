@@ -5,12 +5,15 @@ import com.kazurayam.materials.diff.Differ
 import com.kazurayam.materials.diff.Reporter
 
 import java.awt.image.BufferedImage
+import java.nio.charset.Charset
 import java.nio.file.Path
 
 /**
  * defines the public interface of the Store object
  */
 interface Store {
+
+    Path getRoot()
 
     Differ newDiffer(JobName jobName, JobTimestamp jobTimestamp)
 
@@ -33,7 +36,7 @@ interface Store {
 
     Material write(JobName jobName, JobTimestamp jobTimestamp,
                    FileType fileType, Metadata meta, String input,
-                   String charsetName)
+                   Charset charset)
 
     List<DiffArtifact> zipMaterialsToDiff(
             JobName jobName, JobTimestamp jobTimestamp, FileType fileType,
