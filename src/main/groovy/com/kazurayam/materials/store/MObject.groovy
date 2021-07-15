@@ -35,6 +35,15 @@ class MObject {
         return "${ID.toString()}.${fileType_.getExtension()}"
     }
 
+    Path resolvePath(Path objectsDir) {
+        return objectsDir.resolve(this.getFileName())
+    }
+
+    boolean exists(Path objectsDir) {
+        Path file = this.resolvePath(objectsDir)
+        return Files.exists(file)
+    }
+
     void serialize(Path objectsDir) {
         Objects.requireNonNull(objectsDir)
         //

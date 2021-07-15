@@ -1,5 +1,6 @@
 package com.kazurayam.materials.store
 
+import com.kazurayam.materials.MaterialsException
 
 import java.nio.file.Files
 import java.nio.file.Path
@@ -56,6 +57,14 @@ class Jobber {
         Objects.requireNonNull(fileType)
 
         MObject mObject = new MObject(data, fileType)
+
+        // check if the MObject is already there.
+        if (mObject.exists(this.getObjectsDir())) {
+            throw new MaterialsException("fileType=${fileType} metadata=${metadata}:" +
+                    " MObject is already in the Store." +
+                    " Metadata is duplicating." +
+                    " Give more detailed metadata to make this object uniquely identifiable.")
+        }
 
         // save the "byte[] data" into disk
         Path objectFile = this.getObjectsDir().resolve(mObject.getFileName())
