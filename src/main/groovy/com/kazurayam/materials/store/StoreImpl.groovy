@@ -133,7 +133,8 @@ class StoreImpl implements Store {
     @Override
     List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
                           FileType fileType, MetadataPattern metadataPattern) {
-        throw new UnsupportedOperationException("TODO")
+        Jobber jobber = this.getJobber(jobName, jobTimestamp)
+        return jobber.select(fileType, metadataPattern)
     }
 
 

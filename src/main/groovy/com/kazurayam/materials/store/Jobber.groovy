@@ -67,6 +67,25 @@ class Jobber {
         // save the content of "index" into disk everytime when a commit is made
         index.serialize(Index.getIndexFile(jobResultDir))
 
-        return new Material(mObject, metadata)
+        return new Material(mObject.getID(), mObject.getFileType(), metadata)
+    }
+
+    /**
+     *
+     * @param fileType
+     * @param metadataPattern
+     * @return
+     */
+    List<Material> select(FileType fileType, MetadataPattern metadataPattern) {
+        Objects.requireNonNull(fileType)
+        Objects.requireNonNull(metadataPattern)
+        List<Material> result = new ArrayList<Material>()
+        index.eachWithIndex { Material entry, x ->
+            //ID id = entry.getID()
+            //FileType ft = entry.getFileType()
+            //Metadata md = entry.getMetadata()
+
+        }
+        throw new UnsupportedOperationException("TODO")
     }
 }

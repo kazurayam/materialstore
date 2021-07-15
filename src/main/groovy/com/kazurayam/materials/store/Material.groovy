@@ -2,29 +2,28 @@ package com.kazurayam.materials.store
 
 import groovy.json.JsonOutput
 
-/**
- * This is a sort of Data Transfer Object that carries ProductObject
- * associated with a Metadata.
- *
- * A JobResult object implements a set of query methods that return
- * List<Product>
- */
 class Material implements Comparable {
 
+    private final ID id_
+    private final FileType fileType_
     private final Metadata metadata_
-    private final MObject mObject_
 
-    Material(MObject mObject, Metadata metadata) {
+    Material(ID id, FileType fileType, Metadata metadata) {
+        this.id_ = id
+        this.fileType_ = fileType
         this.metadata_ = metadata
-        this.mObject_ = mObject
+    }
+
+    ID getID() {
+        return id_
+    }
+
+    FileType getFileType() {
+        return fileType_
     }
 
     Metadata getMetadata() {
         return metadata_
-    }
-
-    MObject getMObject() {
-        return mObject_
     }
 
     @Override
@@ -33,35 +32,43 @@ class Material implements Comparable {
             return false
         }
         Material other = (Material)obj
-        return this.getMetadata() == other.getMetadata() &&
-                this.getMObject() == other.getMObject()
+        return this.getID() == other.getID() &&
+                this.getFileType() == other.getFileType() &&
+                this.getMetadata() == other.getMetadata()
     }
 
     @Override
     int hashCode() {
-        int hash = 7;
+        int hash = 7
+        hash = 31 * hash + this.getID().hashCode()
+        hash = 31 * hash + this.getFileType().hashCode()
         hash = 31 * hash + this.getMetadata().hashCode()
-        hash = 31 * hash + this.getMObject().hashCode()
-        return hash;
+        return hash
     }
 
     @Override
     String toString() {
-        Map m = ["metadata": this.getMetadata(), "mObject": this.getMObject()]
+        Map m = ["id": this.getID(), "fileType": this.getFileType(), "metadata": this.getMetadata()]
         return new JsonOutput().toJson(m)
     }
 
     @Override
     int compareTo(Object obj) {
         if (! obj instanceof Material) {
-            throw new IllegalArgumentException("obj is not instance of Material")
+            throw new IllegalArgumentException("obj is not an instance of Material")
         }
         Material other = (Material)obj
-        int metadataComparison = this.getMetadata() <=> other.getMetadata()
-        if (metadataComparison == 0) {
-            return this.getMObject() <=> other.getMObject()
+        int comparisonByMetadata = this.getMetadata() <=> other.getMetadata()
+        if (comparisonByMetadata == 0) {
+            int comparisonByFileType = this.getFileType() <=> other.getFileType()
+            if (comparisonByFileType == 0) {
+                return this.getID() <=> other.getID()
+            } else {
+                return comparisonByFileType
+            }
         } else {
-            return metadataComparison
+            return comparisonByMetadata
         }
     }
 }
+

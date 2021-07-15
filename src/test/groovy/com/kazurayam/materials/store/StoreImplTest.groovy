@@ -1,6 +1,5 @@
 package com.kazurayam.materials.store
 
-
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -84,7 +83,7 @@ class StoreImplTest {
         Path input = imagesDir.resolve("20210710_142631.development.png")
         Material material = store.write(jobName, jobTimestamp, metadata, input, FileType.PNG)
         assertNotNull(material)
-        assertTrue(ID.isValid(material.getMObject().getID().toString()))
+        assertTrue(ID.isValid(material.getID().toString()))
     }
 
 
@@ -98,7 +97,7 @@ class StoreImplTest {
         File input = imagesDir.resolve("20210710_142631.development.png").toFile()
         Material material = store.write(jobName, jobTimestamp, metadata, input, FileType.PNG)
         assertNotNull(material)
-        assertTrue(ID.isValid(material.getMObject().getID().toString()))
+        assertTrue(ID.isValid(material.getID().toString()))
     }
 
     @Test
@@ -112,7 +111,7 @@ class StoreImplTest {
         BufferedImage image = ImageIO.read(input.toFile())
         Material material = store.write(jobName, jobTimestamp, metadata, image, FileType.PNG)
         assertNotNull(material)
-        assertTrue(ID.isValid(material.getMObject().getID().toString()))
+        assertTrue(ID.isValid(material.getID().toString()))
     }
 
     @Test
@@ -124,7 +123,7 @@ class StoreImplTest {
         Metadata metadata = new Metadata("ProductionEnv", "http://demoaut.katalon.com/")
         String input = "犬も歩けば棒に当たる"
         Material material = store.write(jobName, jobTimestamp, metadata, input, FileType.TXT)
-        assertTrue(ID.isValid(material.getMObject().getID().toString()))
+        assertTrue(ID.isValid(material.getID().toString()))
     }
 
     @Test

@@ -1,14 +1,10 @@
 package com.kazurayam.materials.store
 
-import com.kazurayam.materials.store.FileType
-import com.kazurayam.materials.store.ID
-import com.kazurayam.materials.store.IndexEntry
-import com.kazurayam.materials.store.Metadata
 import org.junit.jupiter.api.Test
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertNotNull
 
-class IndexEntryTest {
+class MaterialTest {
 
     private final String sampleLine = """6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t["DevelopmentEnv","http://demoaut-mimic.kazurayam.com/"]"""
 
@@ -18,12 +14,12 @@ class IndexEntryTest {
         ID id = new ID(items[0])
         FileType fileType = FileType.getByExtension(items[1])
         Metadata metadata = new Metadata(items[2])
-        IndexEntry indexEntry = new IndexEntry(id, fileType, metadata)
-        assertNotNull(indexEntry)
-        assertEquals(id, indexEntry.getID())
-        assertEquals(fileType, indexEntry.getFileType())
-        assertEquals(metadata, indexEntry.getMetadata())
-        assertEquals(indexEntry, indexEntry)
+        Material material = new Material(id, fileType, metadata)
+        assertNotNull(material)
+        assertEquals(id, material.getID())
+        assertEquals(fileType, material.getFileType())
+        assertEquals(metadata, material.getMetadata())
+        assertEquals(material, material)
     }
 
 }

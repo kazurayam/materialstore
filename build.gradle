@@ -20,11 +20,11 @@ tasks.withType(GroovyCompile).each {it.groovyOptions.encoding = defaultEncoding 
 
 ext {
     groovyVersion = '2.4.20'   // same version as Katalon Studio 7.9.1
+    seleniumjavaVersion = '3.141.59' // same version as Katalon Studio 7.9.1
     junitjupiterVersion = '5.6.0'
     slf4jVersion = '1.7.31'
     commonscodecVersion = '1.15'
     commonsioVersion = '2.8.0'
-    seleniumjavaVersion = '3.141.59'
     webdrivermanager = '4.4.3'
     ashotVersion = '1.5.4'
 }

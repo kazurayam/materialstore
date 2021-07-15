@@ -5,10 +5,11 @@ import com.kazurayam.materials.diff.Differ
 import com.kazurayam.materials.diff.Reporter
 import com.kazurayam.materials.selenium.AShotWrapper
 import com.kazurayam.materials.store.FileType
+import com.kazurayam.materials.store.Material
 import com.kazurayam.materials.store.Store
 import com.kazurayam.materials.store.JobName
 import com.kazurayam.materials.store.JobTimestamp
-import com.kazurayam.materials.store.Material
+
 import com.kazurayam.materials.store.Metadata
 import com.kazurayam.materials.store.MetadataPattern
 import com.kazurayam.materials.store.StoreImpl

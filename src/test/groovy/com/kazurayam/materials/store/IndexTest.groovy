@@ -26,7 +26,7 @@ class IndexTest {
     @Test
     void test_parseLine_smoke() {
         try {
-            IndexEntry indexEntry = Index.parseLine(sampleLine)
+            Material indexEntry = Index.parseLine(sampleLine)
             assertNotNull(indexEntry)
         } catch (IllegalArgumentException e) {
             fail(e.getMessage())
@@ -38,7 +38,7 @@ class IndexTest {
         ID id = new ID("6141b40cfe9e7340a483a3097c4f6ff5d20e04ea")
         FileType fileType = FileType.PNG
         Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
-        IndexEntry indexEntry = new IndexEntry(id, fileType, metadata)
+        Material indexEntry = new Material(id, fileType, metadata)
         String line = Index.formatLine(indexEntry)
         assertEquals(sampleLine, line)
     }

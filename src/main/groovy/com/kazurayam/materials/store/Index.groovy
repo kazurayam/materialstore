@@ -37,11 +37,11 @@ class Index implements Comparable {
     private static final Logger logger_ = LoggerFactory.getLogger(Index.class)
 
     private final Path indexFile_
-    private final List<IndexEntry> lines_
+    private final List<Material> lines_
     // Tuple of (ID, FileType, Metadata)
 
     Index() {
-        lines_ = new ArrayList<IndexEntry>()
+        lines_ = new ArrayList<Material>()
     }
 
     static Path getIndexFile(Path jobDir) {
@@ -49,11 +49,15 @@ class Index implements Comparable {
     }
 
     void put(ID id, FileType fileType, Metadata metadata) {
-        lines_.add(new IndexEntry(id, fileType, metadata))
+        lines_.add(new Material(id, fileType, metadata))
     }
 
     int size() {
         return lines_.size()
+    }
+
+    Iterator<Material> iterator() {
+        return lines_.iterator()
     }
 
     /**
@@ -65,8 +69,8 @@ class Index implements Comparable {
         FileOutputStream fos = new FileOutputStream(indexFile.toFile())
         OutputStreamWriter osw = new OutputStreamWriter(fos, "utf-8")
         BufferedWriter br = new BufferedWriter(osw)
-        List<IndexEntry> sorted = lines_.stream().sorted().collect(Collectors.toList())
-        sorted.each { IndexEntry indexEntry ->
+        List<Material> sorted = lines_.stream().sorted().collect(Collectors.toList())
+        sorted.each { Material indexEntry ->
             String s = formatLine(indexEntry)
             br.println(s)
         }
@@ -74,7 +78,7 @@ class Index implements Comparable {
         br.close()
     }
 
-    static String formatLine(IndexEntry indexEntry) {
+    static String formatLine(Material indexEntry) {
         Objects.requireNonNull(indexEntry)
         ID id = indexEntry.getID()
         FileType ft = indexEntry.getFileType()
@@ -110,7 +114,7 @@ class Index implements Comparable {
             while ((line = reader.readLine()) != null) {
                 x += 1
                 try {
-                    IndexEntry indexEntry = parseLine(line)
+                    Material indexEntry = parseLine(line)
                     if (indexEntry != null) {
                         index.put(
                                 indexEntry.getID(),
@@ -125,7 +129,7 @@ class Index implements Comparable {
         return index
     }
 
-    static IndexEntry parseLine(String line) throws IllegalArgumentException {
+    static Material parseLine(String line) throws IllegalArgumentException {
         Objects.requireNonNull(line)
         List<String> items = line.split('\\t') as List<String>
         ID id = null
@@ -153,7 +157,7 @@ class Index implements Comparable {
             }
         }
         if (id != null && fileType != null && metadata != null) {
-            return new IndexEntry(id, fileType, metadata)
+            return new Material(id, fileType, metadata)
         }
         return null   // blank line returns null
     }
