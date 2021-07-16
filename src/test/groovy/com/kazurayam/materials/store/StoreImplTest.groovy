@@ -173,19 +173,18 @@ class StoreImplTest {
         //
         Jobber jobberOfExpected = store.getJobber(jobName,
                 new JobTimestamp("20210713_093357"))
-        List<Material> expected = jobberOfExpected.select(FileType.PNG,
+        List<Material> expectedList = jobberOfExpected.select(FileType.PNG,
                 new MetadataPattern("ProductionEnv", "*"))
-
-        assertEquals(1, expected.size())
+        assertEquals(1, expectedList.size())
         //
         Jobber jobberOfActual = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
-        List<Material> actual= jobberOfActual.select(FileType.PNG,
+        List<Material> actualList= jobberOfActual.select(FileType.PNG,
                 new MetadataPattern("DevelopmentEnv", "*"))
-        assertEquals(1, actual.size())
+        assertEquals(1, actualList.size())
         //
-        MetadataJoint joint = new MetadataJoint("*", "+")
-        List<DiffArtifact> diffArtifacts = store.zipMaterialsToDiff(expected, actual, joint)
+        MetadataJoint joint = new MetadataJoint("URL_file")
+        List<DiffArtifact> diffArtifacts = store.zipMaterialsToDiff(expectedList, actualList, joint)
         assertNotNull(diffArtifacts)
         assertEquals(3, diffArtifacts.size())
     }

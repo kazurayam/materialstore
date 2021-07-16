@@ -117,8 +117,12 @@ class VisualTestingTwins {
         // visit the page
         driver.navigate().to(url.toString())
 
-        // Metadata("ProductionEnv", "/", "http://demoaut.katalon.com/")
-        Metadata metadata = new Metadata(profile, url.getFile(), url.toExternalForm())
+        // Metadata("ProductionEnv", "http://demoaut.katalon.com/", "demoaut.katalon.com", "/")
+        Metadata metadata = new Metadata(profile,
+                url.toExternalForm(),
+                url.getHost(),
+                url.getFile()
+        )
 
         // take and store the PNG screenshot of the page
         BufferedImage image = AShotWrapper.takeEntirePageImage(driver)
