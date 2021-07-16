@@ -161,10 +161,10 @@ class StoreImplTest {
     }
 
     @Test
-    void test_zipMatergialsToDiff() {
+    void test_zipMaterials() {
         Path root = outputDir.resolve("Materials")
         Store store = new StoreImpl(root)
-        JobName jobName = new JobName("test_zipMaterialsToDiff")
+        JobName jobName = new JobName("test_zipMaterials")
         // make sure the Job directory to be empty
         FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
         // stuff the Job directory with a fixture
@@ -183,7 +183,7 @@ class StoreImplTest {
                 new MetadataPattern(["profile": "DevelopmentEnv", "URL.file": "*"]))
         assertEquals(1, actualList.size())
         //
-        List<DiffArtifact> diffArtifacts = store.zipMaterialsToDiff(
+        List<DiffArtifact> diffArtifacts = store.zipMaterials(
                 expectedList, actualList, ["URL.file"] as Set)
         assertNotNull(diffArtifacts)
         assertEquals(1, diffArtifacts.size())

@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.store
 
-import com.kazurayam.materialstore.MaterialsException
+
+import com.kazurayam.materialstore.MaterialstoreException
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -76,7 +77,7 @@ class JobberTest {
         Metadata metadata = new Metadata(["profile":"SomeEnv", "URL":"http://example.com"])
         byte[] data = "foo".getBytes()
         jobber.commit(data, FileType.TXT, metadata)
-        MaterialsException thrown = assertThrows(MaterialsException.class, { ->
+        MaterialstoreException thrown = assertThrows(MaterialstoreException.class, { ->
             jobber.commit(data, FileType.TXT, metadata)
         })
         assertTrue(thrown.getMessage().contains("MObject is already in the Store"))

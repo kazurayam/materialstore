@@ -119,17 +119,6 @@ class StoreImpl implements Store {
 
 
     @Override
-    Differ newDiffer(JobName jobName, JobTimestamp jobTimestamp) {
-        return new DefaultDiffer(this.getRoot(), jobName, jobTimestamp)
-    }
-
-    @Override
-    Reporter newReporter(JobName jobName, JobTimestamp jobTimestamp) {
-        return new DefaultReporter(this.getRoot(), jobName, jobTimestamp)
-    }
-
-
-    @Override
     List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
                           FileType fileType, MetadataPattern metadataPattern) {
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
@@ -192,9 +181,9 @@ class StoreImpl implements Store {
     }
 
     @Override
-    List<DiffArtifact> zipMaterialsToDiff(List<Material> expectedList,
-                                          List<Material> actualList,
-                                          Set<String> metadataKeys) {
+    List<DiffArtifact> zipMaterials(List<Material> expectedList,
+                                    List<Material> actualList,
+                                    Set<String> metadataKeys) {
         Objects.requireNonNull(expectedList)
         Objects.requireNonNull(actualList)
         Objects.requireNonNull(metadataKeys)

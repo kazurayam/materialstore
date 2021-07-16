@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.store
 
-import com.kazurayam.materialstore.MaterialsException
+
+import com.kazurayam.materialstore.MaterialstoreException
 
 import java.nio.file.Files
 import java.nio.file.Path
@@ -61,7 +62,7 @@ class Jobber {
      * @return Material
      */
     Material commit(byte[] data, FileType fileType, Metadata metadata)
-            throws MaterialsException {
+            throws MaterialstoreException {
         Objects.requireNonNull(metadata)
         if (data.length == 0 ) throw new IllegalArgumentException("length of the data is 0")
         Objects.requireNonNull(fileType)
@@ -70,7 +71,7 @@ class Jobber {
 
         // check if the MObject is already there.
         if (mObject.exists(this.getObjectsDir())) {
-            throw new MaterialsException("fileType=${fileType} metadata=${metadata}:" +
+            throw new MaterialstoreException("fileType=${fileType} metadata=${metadata}:" +
                     " MObject is already in the Store." +
                     " Metadata is duplicating." +
                     " Give more detailed metadata to make this object uniquely identifiable.")

@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.demo
 
 import com.kazurayam.materialstore.diff.DiffArtifact
+import com.kazurayam.materialstore.diff.DifferDriver
 import com.kazurayam.materialstore.selenium.AShotWrapper
 import com.kazurayam.materialstore.store.*
 import io.github.bonigarcia.wdm.WebDriverManager
@@ -70,33 +71,34 @@ class VisualTestingTwins {
         // close the Chrome browser
         driver.quit()
 
-
         // pickup the screenshots that belongs to the 2 "profiles", make image-diff files of each.
         List<Material> screenshotsOfProfile1 = store.select(jobName, jobTimestamp,
                 FileType.PNG, new MetadataPattern([ "profile": profile1 ]))
+        assert screenshotsOfProfile1 != null
 
         List<Material> screenshotsOfProfile2 = store.select(jobName, jobTimestamp,
                 FileType.PNG, new MetadataPattern([ "profile": profile2 ]))
+        assert screenshotsOfProfile2 != null
 
         //
-        List<DiffArtifact> materialPairsToDiff =
-                store.zipMaterialsToDiff(
+        List<DiffArtifact> artifactsToDiff =
+                store.zipMaterials(
                         screenshotsOfProfile1,
                         screenshotsOfProfile2,
                         ["URL.file"] as Set)
+        assert artifactsToDiff != null
+
+        // makes diff images, save them into "objects" dir with updated "index".
+        // returns the list of DiffArtifact which have the diff property stuffed.
+        List<DiffArtifact> artifactsWithDiff= DifferDriver.makeDiff(artifactsToDiff)
+        assert artifactsWithDiff != null
+        assert artifactsWithDiff.size() > 0
 
         /*
-
-        // make imageDiffs and save them into disk,
-        // returns the list of DiffResult with the diff property stuffed
-        Differ differ = store.newDiffer(jobName, jobTimestamp)
-        List<DiffArtifact> diffArtifacts = differ.makeDiff(materialPairsToDiff)
-
         // compile HTML report
         Reporter reporter = store.newReporter(jobName, jobTimestamp)
         Path reportFile = store.getRoot().resolve("index.html")
-        reporter.report(diffArtifacts, reportFile)
-
+        reporter.report(artifactsWithDiff, reportFile)
          */
     }
 

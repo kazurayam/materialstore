@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.store
 
 import com.kazurayam.materialstore.diff.DiffArtifact
-import com.kazurayam.materialstore.diff.Differ
+import com.kazurayam.materialstore.diff.DifferDriver
 import com.kazurayam.materialstore.diff.Reporter
 
 import java.awt.image.BufferedImage
@@ -14,10 +14,6 @@ import java.nio.file.Path
 interface Store {
 
     Path getRoot()
-
-    Differ newDiffer(JobName jobName, JobTimestamp jobTimestamp)
-
-    Reporter newReporter(JobName jobName, JobTimestamp jobTimestamp)
 
     List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
                           FileType fileType, MetadataPattern metadataPattern)
@@ -38,7 +34,7 @@ interface Store {
                    FileType fileType, Metadata meta, String input,
                    Charset charset)
 
-    List<DiffArtifact> zipMaterialsToDiff(
+    List<DiffArtifact> zipMaterials(
             List<Material> expected,
             List<Material> actual,
             Set<String> metadataKeys)
