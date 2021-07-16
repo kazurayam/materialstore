@@ -2,11 +2,22 @@ package com.kazurayam.materials.store
 
 class MetadataPattern extends Metadata {
 
-    MetadataPattern(String... metadata) {
-        super(metadata)
+    static MetadataPattern create(Set<String> keys, Metadata source) {
+        Objects.requireNonNull(keys)
+        Objects.requireNonNull(source)
+        Map<String, String> m = new HashMap<String, String>()
+        keys.each {key ->
+            if (source.containsKey(key)) {
+                m.put(key, source.get(key))
+            } else {
+                m.put(key, "*")
+            }
+        }
+        return new MetadataPattern(m)
     }
 
-    MetadataPattern(List<String> metadata) {
-        super(metadata)
+    MetadataPattern(Map<String, String> entries) {
+        super(entries)
     }
+
 }

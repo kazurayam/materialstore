@@ -1,19 +1,16 @@
 package com.kazurayam.materials.demo
 
 import com.kazurayam.materials.diff.DiffArtifact
-import com.kazurayam.materials.diff.Differ
-import com.kazurayam.materials.diff.Reporter
 import com.kazurayam.materials.selenium.AShotWrapper
 import com.kazurayam.materials.store.FileType
 import com.kazurayam.materials.store.Material
-import com.kazurayam.materials.store.MetadataJoint
+import com.kazurayam.materials.store.MetadataPattern
 import com.kazurayam.materials.store.Store
 import com.kazurayam.materials.store.JobName
 import com.kazurayam.materials.store.JobTimestamp
 
 import com.kazurayam.materials.store.Metadata
-import com.kazurayam.materials.store.MetadataPattern
-import com.kazurayam.materials.store.StoreImpl
+
 import com.kazurayam.materials.store.Stores
 import io.github.bonigarcia.wdm.WebDriverManager
 import org.openqa.selenium.Dimension
@@ -85,16 +82,17 @@ class VisualTestingTwins {
 
         // pickup the screenshots that belongs to the 2 "profiles", make image-diff files of each.
         List<Material> screenshotsOfProfile1 = store.select(jobName, jobTimestamp,
-                FileType.PNG, new MetadataPattern([ profile1 ]))
+                FileType.PNG, new MetadataPattern([ "profile": profile1 ]))
+
         List<Material> screenshotsOfProfile2 = store.select(jobName, jobTimestamp,
-                FileType.PNG, new MetadataPattern([ profile2 ]))
+                FileType.PNG, new MetadataPattern([ "profile": profile2 ]))
 
-
-        List<DiffArtifact> materialPairsToDiff = store.zipMaterialsToDiff(
-                jobName, jobTimestamp, FileType.PNG,
-                screenshotsOfProfile1,
-                screenshotsOfProfile2,
-                new MetadataJoint("", "+"))
+        //
+        List<DiffArtifact> materialPairsToDiff =
+                store.zipMaterialsToDiff(
+                        screenshotsOfProfile1,
+                        screenshotsOfProfile2,
+                        ["URL.file"] as Set)
 
         /*
 
@@ -117,12 +115,20 @@ class VisualTestingTwins {
         // visit the page
         driver.navigate().to(url.toString())
 
-        // Metadata("ProductionEnv", "http://demoaut.katalon.com/", "demoaut.katalon.com", "/")
-        Metadata metadata = new Metadata(profile,
-                url.toExternalForm(),
-                url.getHost(),
-                url.getFile()
-        )
+        /*
+         * Metadata([
+         *     "profile":"ProductionEnv",
+         *     "URL": "http://demoaut.katalon.com/",
+         *     "URL.host": "demoaut.katalon.com",
+         *     "URL.file": "/"
+         * ])
+         */
+        Metadata metadata = new Metadata([
+                "profile": profile,
+                "URL": url.toExternalForm(),
+                "URL.host": url.getHost(),
+                "URL.file": url.getFile()
+        ])
 
         // take and store the PNG screenshot of the page
         BufferedImage image = AShotWrapper.takeEntirePageImage(driver)

@@ -1,6 +1,7 @@
 package com.kazurayam.materials.store
 
 import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 
 class IndexEntry implements Comparable {
 
@@ -14,6 +15,40 @@ class IndexEntry implements Comparable {
         this.id_ = id
         this.fileType_ = fileType
         this.metadata_ = metadata
+    }
+
+    static IndexEntry parseLine(String line) throws IllegalArgumentException {
+        Objects.requireNonNull(line)
+        List<String> items = line.split('\\t') as List<String>
+        ID id = null
+        FileType fileType = null
+        Metadata metadata = null
+        if (items.size() > 0) {
+            String item1 = items[0]
+            if (! ID.isValid(item1)) {
+                throw new IllegalArgumentException("invalid ID")
+            }
+            id = new ID(item1)
+            if (items.size() > 1) {
+                fileType = FileType.getByExtension(items[1])
+                if (fileType == FileType.UNSUPPORTED) {
+                    throw new IllegalArgumentException("unsupported file extension")
+                }
+                if (items.size() > 2) {
+                    try {
+                        Object obj = new JsonSlurper().parseText(items[2])
+                        assert obj instanceof Map
+                        metadata = new Metadata(obj)
+                    } catch (Exception e) {
+                        throw new IllegalArgumentException("unable to parse metadata part")
+                    }
+                }
+            }
+        }
+        if (id != null && fileType != null && metadata != null) {
+            return new IndexEntry(id, fileType, metadata)
+        }
+        return null   // blank line returns null
     }
 
     ID getID() {

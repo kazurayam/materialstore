@@ -59,7 +59,7 @@ class JobberTest {
         Path root = outputDir.resolve("Materials")
         StoreImpl repos = new StoreImpl(root)
         Jobber jobber = repos.getJobber(new JobName("test_commit"), JobTimestamp.now())
-        Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.katalon.com/")
+        Metadata metadata = new Metadata(["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.katalon.com/"])
         BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, FileType.PNG.getExtension(), baos);
@@ -74,7 +74,7 @@ class JobberTest {
         Path root = outputDir.resolve("Materials")
         StoreImpl repos = new StoreImpl(root)
         Jobber jobber = repos.getJobber(new JobName("test_commit_duplicating"), JobTimestamp.now())
-        Metadata metadata = new Metadata("SomeEnv", "http://example.com")
+        Metadata metadata = new Metadata(["profile":"SomeEnv", "URL":"http://example.com"])
         byte[] data = "foo".getBytes()
         jobber.commit(data, FileType.TXT, metadata)
         MaterialsException thrown = assertThrows(MaterialsException.class, { ->
@@ -88,14 +88,14 @@ class JobberTest {
         Path root = outputDir.resolve("Materials")
         StoreImpl repos = new StoreImpl(root)
         Jobber jobber = repos.getJobber(new JobName("test_select"), JobTimestamp.now())
-        Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.katalon.com/")
+        Metadata metadata = new Metadata(["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.katalon.com/"])
         BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, FileType.PNG.getExtension(), baos);
         byte[] data = baos.toByteArray()
         Material material = jobber.commit(data, FileType.PNG, metadata)
         //
-        MetadataPattern pattern = new MetadataPattern("*", "*")
+        MetadataPattern pattern = new MetadataPattern([ "profile": "*", "URL": "*"])
         List<Material> materials = jobber.select(FileType.PNG, pattern)
         assertNotNull(materials)
         assertEquals(1, materials.size())

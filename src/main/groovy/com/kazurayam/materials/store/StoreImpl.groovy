@@ -196,12 +196,41 @@ class StoreImpl implements Store {
     }
 
     @Override
-    List<DiffArtifact> zipMaterialsToDiff(List<Material> expected, List<Material> actual,
-                                          MetadataJoint joint) {
-        Objects.requireNonNull(expected)
-        Objects.requireNonNull(actual)
-        Objects.requireNonNull(joint)
-
-        throw new UnsupportedOperationException("TODO")
+    List<DiffArtifact> zipMaterialsToDiff(List<Material> expectedList,
+                                          List<Material> actualList,
+                                          Set<String> metadataKeys) {
+        Objects.requireNonNull(expectedList)
+        Objects.requireNonNull(actualList)
+        Objects.requireNonNull(metadataKeys)
+        List<DiffArtifact> result = new ArrayList<DiffArtifact>()
+        //
+        actualList.each { Material actual->
+            Metadata actualMetadata = actual.getIndexEntry().getMetadata()
+            MetadataPattern pattern = MetadataPattern.create(metadataKeys, actualMetadata)
+            expectedList.each { Material expected ->
+                Metadata expectedMetadata = expected.getIndexEntry().getMetadata()
+                if (expectedMetadata.match(pattern)) {
+                    result.add(new DiffArtifact(expected, actual))
+                } else {
+                    result.add(new DiffArtifact(Material.NULL_OBJECT, actual))
+                }
+            }
+        }
+        //
+        expectedList.each { Material expected ->
+            Metadata expectedMetadata = expected.getIndexEntry().getMetadata()
+            MetadataPattern pattern = MetadataPattern.create(metadataKeys, expectedMetadata)
+            actualList.each { Material actual ->
+                Metadata actualMetadata = actual.getIndexEntry().getMetadata()
+                if (expectedMetadata.match(pattern)) {
+                    ;  // already added
+                } else {
+                    result.add(new DiffArtifact(expected, Material.NULL_OBJECT))
+                }
+            }
+        }
+        //
+        Collections.sort(result)
+        return result
     }
 }

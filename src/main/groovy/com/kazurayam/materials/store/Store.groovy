@@ -38,7 +38,8 @@ interface Store {
                    FileType fileType, Metadata meta, String input,
                    Charset charset)
 
-    List<DiffArtifact> zipMaterialsToDiff(List<Material> expected,
-                                          List<Material> actual,
-                                          MetadataJoint joint)
+    List<DiffArtifact> zipMaterialsToDiff(
+            List<Material> expected,
+            List<Material> actual,
+            Set<String> metadataKeys)
 }

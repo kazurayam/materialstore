@@ -4,51 +4,104 @@ import groovy.json.JsonOutput
 
 class Metadata implements Comparable {
 
-    static final Metadata NULL_OBJECT = new Metadata([])
+    static final Metadata NULL_OBJECT = new Metadata([:])
 
-    private final List<String> metadata_ = new ArrayList<String>()
+    private final Map<String, String> metadata_ = new TreeMap<String, String>()  // keys are sorted
 
-    Metadata(String... metadata) {
-        for (String entry in metadata) {
-            metadata_.add(entry)
+    Metadata(Map<String, String> metadata) {
+        Objects.requireNonNull(metadata)
+        metadata_.putAll(metadata)
+    }
+
+    void clear() {
+        metadata_.clear()
+    }
+
+    @Override
+    int compareTo(Object obj) {
+        if (! obj instanceof Metadata) {
+            throw new IllegalArgumentException("obj is not instance of Metadata")
         }
+        Metadata other = (Metadata)(obj)
+        return this.toString() <=> other.toString()
     }
 
-    Metadata(List<String> metadata) {
-        for (String entry in metadata) {
-            metadata_.add(entry)
+    boolean containsKey(Object key) {
+        return metadata_.containsKey((String)key)
+    }
+
+    boolean containsValue(Object value) {
+        return metadata_.containsValue((String)value)
+    }
+
+    Set<Map.Entry<String, String>> entrySet() {
+        return metadata_.entrySet()
+    }
+
+    @Override
+    boolean equals(Object obj) {
+        if (! obj instanceof Metadata) {
+            return false
         }
-    }
-
-    void add(String entry) {
-        metadata_.add(entry)
-    }
-
-    void addAll(List<String> entries) {
-        for (String entry in entries) {
-            this.add(entry)
+        Metadata other = (Metadata)obj
+        if (other.size() != other.metadata_.size()) {
+            return false
         }
+        //
+        Set otherKeySet = other.keySet()
+        if (this.keySet() != otherKeySet) {
+            return false
+        }
+        //
+        boolean result = true
+        this.keySet().each { key ->
+            if (this.get(key) != other.get(key)) {
+                result = false
+                return
+            }
+        }
+        return result
     }
 
-    int size()  {
-        metadata_.size()
+    String get(String key) {
+        return metadata_.get(key)
     }
 
-    String entry(int i) {
-        return metadata_.get(i)
+    @Override
+    int hashCode() {
+        int hash = 7
+        this.keySet().each { key ->
+            hash = 31 * hash + key.hashCode()
+            hash = 31 * hash + this.get(key).hashCode()
+        }
+        return hash
     }
 
-    Iterator iterator() {
-        return metadata_.iterator()
+    boolean isEmpty() {
+        return metadata_.isEmpty()
     }
 
+    /**
+     * will return sorted set of keys, as the metadata_ is an instance of TreeSet
+     * @return
+     */
+    Set<String> keySet() {
+        return metadata_.keySet()
+    }
+
+    /**
+     *
+     * @param metadataPattern
+     * @return
+     */
     boolean match(MetadataPattern metadataPattern) {
         boolean result = true
-        metadataPattern.eachWithIndex { pattern, index ->
-            if (index < metadata_.size()) {
+        metadataPattern.keySet().each { key ->
+            if (this.keySet().contains(key)) {
+                String pattern = metadataPattern.get(key)
                 if (pattern == "*") {
                     ;
-                } else if (pattern == metadata_.get(index)) {
+                } else if (pattern == this.get(key)) {
                     ;
                 } else {
                     result = false
@@ -62,56 +115,31 @@ class Metadata implements Comparable {
         return result
     }
 
-    @Override
-    int compareTo(Object obj) {
-        if (! obj instanceof Metadata) {
-            throw new IllegalArgumentException("obj is not an instance of Metadata")
-        }
-        Metadata other = (Metadata)obj
-        int i = 0
-        for ( ; i < this.size(); i++) {
-            if (other.size() <= i) {
-                return 1
-            }
-            int result = this.entry(i) <=> other.entry(i)
-            if (result != 0) {
-                return result
-            }
-        }
-        if (i < other.size()) {
-            return -1
-        }
-        return 0
+    String put(String key, String value) {
+        Objects.requireNonNull(key)
+        Objects.requireNonNull(value)
+        return metadata_.put(key, value)
     }
 
-    @Override
-    boolean equals(Object obj) {
-        if (! obj instanceof Metadata) {
-            return false
-        }
-        Metadata other = (Metadata)obj
-        if (other.size() != other.metadata_.size()) {
-            return false
-        }
-        for (int i = 0; i < other.size(); i++) {
-            if (other.entry(i) != this.entry(i)) {
-                return false
-            }
-        }
-        return true
+    void putAll(Map<String, String> m) {
+        metadata_.putAll(m)
     }
 
-    @Override
-    int hashCode() {
-        int hash = 7;
-        for (int i = 0; i < this.size(); i++) {
-            hash = 31 * hash + this.get(i).hashCode()
-        }
-        return hash;
+    String remove(String key) {
+        return metadata_.remove(key)
+    }
+
+    int size()  {
+        metadata_.size()
     }
 
     @Override
     String toString() {
         return new JsonOutput().toJson(metadata_)
     }
+
+    Collection<String> values() {
+        return metadata_.values()
+    }
+
 }

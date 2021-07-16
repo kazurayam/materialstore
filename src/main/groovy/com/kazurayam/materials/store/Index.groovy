@@ -1,7 +1,6 @@
 package com.kazurayam.materials.store
 
 import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -21,17 +20,7 @@ import java.util.stream.Collectors
  * 5. Metadata in List literal: "data" seperated by a comma, enclosed by [ and ]
  *
  * e.g,
- * 6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t["DevelopmentEnv","http://demoaut-mimic.kazurayam.com/"]
- *
- * How you construct and use a Metadata?
- * For example, a screenshot image file will be best described by a URL of the
- * Web page. You would certainly want to save the URL in the Metadata.
- * You would want to annotate the image file with further detail.
- * For Example, assuming you have a Web page may consists of 3 `<iframe id="frameX">`
- * HTML elements. Then you may want to take screenshots of each iframe elements.
- * In that case, you can append the id value of iframes to the Metadata.
- * It is up to you which information to be recoded as Metadata.
- * TAOD just stores what you gave. TAOD just retrieves the Metadata as you recorded.
+ * 6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{"URL":"http://demoaut-mimic.kazurayam.com/","profile":"DevelopmentEnv"}
  */
 class Index implements Comparable {
 
@@ -96,10 +85,8 @@ class Index implements Comparable {
     }
 
     /**
-     * read the "index" file, which is in the format like
-     * ```
-     * <Project ID>\t<Product Metadata[0]>\t<Metadata[1]>\t<Metadata[2]>...
-     * ```
+     * read the "index" file
+     *
      * @param file
      * @return
      */
@@ -117,7 +104,7 @@ class Index implements Comparable {
             while ((line = reader.readLine()) != null) {
                 x += 1
                 try {
-                    IndexEntry indexEntry = parseLine(line)
+                    IndexEntry indexEntry = IndexEntry.parseLine(line)
                     if (indexEntry != null) {
                         index.put(
                                 indexEntry.getID(),
@@ -125,44 +112,11 @@ class Index implements Comparable {
                                 indexEntry.getMetadata())
                     }
                 } catch (IllegalArgumentException e) {
-                    logger_.warn("LINE#=${x} \'${line}\' ${e.message()}")
+                    logger_.warn("LINE#=${x} \'${line}\' ${e.getMessage()}")
                 }
             }
         }
         return index
-    }
-
-    static IndexEntry parseLine(String line) throws IllegalArgumentException {
-        Objects.requireNonNull(line)
-        List<String> items = line.split('\\t') as List<String>
-        ID id = null
-        FileType fileType = null
-        Metadata metadata = null
-        if (items.size() > 0) {
-            String item1 = items[0]
-            if (! ID.isValid(item1)) {
-                throw new IllegalArgumentException("invalid ID")
-            }
-            id = new ID(item1)
-            if (items.size() > 1) {
-                fileType = FileType.getByExtension(items[1])
-                if (fileType == FileType.UNSUPPORTED) {
-                    throw new IllegalArgumentException("unsupported file extension")
-                }
-                if (items.size() > 2) {
-                    try {
-                        List<String> list = new JsonSlurper().parseText(items[2])
-                        metadata = new Metadata(list)
-                    } catch (Exception e) {
-                        throw new IllegalArgumentException("unable to parse metadata part")
-                    }
-                }
-            }
-        }
-        if (id != null && fileType != null && metadata != null) {
-            return new IndexEntry(id, fileType, metadata)
-        }
-        return null   // blank line returns null
     }
 
 

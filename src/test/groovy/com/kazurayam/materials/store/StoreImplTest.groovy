@@ -80,7 +80,7 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_path")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
+        Metadata metadata = new Metadata(["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.kazurayam.com/"])
         Path input = imagesDir.resolve("20210710_142631.development.png")
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
@@ -93,11 +93,12 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_select")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
+        Metadata metadata = new Metadata(["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.kazurayam.com/"])
         Path input = imagesDir.resolve("20210710_142631.development.png")
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
+        assertNotNull(material)
         //
-        MetadataPattern pattern = new MetadataPattern("*", "*")
+        MetadataPattern pattern = new MetadataPattern(["profile": "*", "URL": "*"])
         List<Material> materials = store.select(jobName, jobTimestamp, FileType.PNG, pattern)
         assertNotNull(materials)
         assertEquals(1, materials.size())
@@ -109,7 +110,7 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_file")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new Metadata("DevelopmentEnv", "http://demoaut-mimic.kazurayam.com/")
+        Metadata metadata = new Metadata(["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.kazurayam.com/"])
         File input = imagesDir.resolve("20210710_142631.development.png").toFile()
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
@@ -122,7 +123,7 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_BufferedImage")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new Metadata("ProductionEnv", "http://demoaut.katalon.com/")
+        Metadata metadata = new Metadata(["profile": "ProductionEnv", "URL": "http://demoaut.katalon.com/"])
         Path input = imagesDir.resolve("20210710_142628.production.png")
         BufferedImage image = ImageIO.read(input.toFile())
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, image)
@@ -136,7 +137,7 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_String")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new Metadata("ProductionEnv", "http://demoaut.katalon.com/")
+        Metadata metadata = new Metadata(["profile": "ProductionEnv", "URL": "http://demoaut.katalon.com/"])
         String input = "犬も歩けば棒に当たる"
         Material material = store.write(jobName, jobTimestamp, FileType.TXT, metadata, input)
         assertNotNull(material)
@@ -153,7 +154,6 @@ class StoreImplTest {
         // stuff the Job directory with a fixture
         Path jobNameDir = root.resolve(jobName.toString())
         FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
-        JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
         //
         List<Jobber> jobs = store.findJobbersOf(jobName)
         assertNotNull(jobs, "should not be null")
@@ -174,19 +174,18 @@ class StoreImplTest {
         Jobber jobberOfExpected = store.getJobber(jobName,
                 new JobTimestamp("20210713_093357"))
         List<Material> expectedList = jobberOfExpected.select(FileType.PNG,
-                new MetadataPattern("ProductionEnv", "*"))
+                new MetadataPattern(["profile": "ProductionEnv", "URL.file": "*"]))
         assertEquals(1, expectedList.size())
         //
         Jobber jobberOfActual = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
         List<Material> actualList= jobberOfActual.select(FileType.PNG,
-                new MetadataPattern("DevelopmentEnv", "*"))
+                new MetadataPattern(["profile": "DevelopmentEnv", "URL.file": "*"]))
         assertEquals(1, actualList.size())
         //
-        MetadataJoint joint = new MetadataJoint("URL_file")
-        List<DiffArtifact> diffArtifacts = store.zipMaterialsToDiff(expectedList, actualList, joint)
+        List<DiffArtifact> diffArtifacts = store.zipMaterialsToDiff(
+                expectedList, actualList, ["URL.file"] as Set)
         assertNotNull(diffArtifacts)
-        assertEquals(3, diffArtifacts.size())
+        assertEquals(1, diffArtifacts.size())
     }
-
 }

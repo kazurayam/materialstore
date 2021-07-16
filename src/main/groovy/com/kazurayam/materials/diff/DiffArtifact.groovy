@@ -17,7 +17,7 @@ class DiffArtifact implements Comparable {
         Objects.requireNonNull(actual)
         this.expected = expected
         this.actual = actual
-        this.diff = Metadata.NULL_OBJECT
+        this.diff = Material.NULL_OBJECT
     }
 
     void setDiff(Material diff) {
