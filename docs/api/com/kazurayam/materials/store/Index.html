@@ -122,17 +122,7 @@ extends java.lang.Object
  5. Metadata in List literal: "data" seperated by a comma, enclosed by [ and ]
 
  e.g,
- 6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t["DevelopmentEnv","http://demoaut-mimic.kazurayam.com/"]
-
- How you construct and use a Metadata?
- For example, a screenshot image file will be best described by a URL of the
- Web page. You would certainly want to save the URL in the Metadata.
- You would want to annotate the image file with further detail.
- For Example, assuming you have a Web page may consists of 3 `<iframe id="frameX">`
- HTML elements. Then you may want to take screenshots of each iframe elements.
- In that case, you can append the id value of iframes to the Metadata.
- It is up to you which information to be recoded as Metadata.
- TAOD just stores what you gave. TAOD just retrieves the Metadata as you recorded.
+ 6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{"URL":"http://demoaut-mimic.kazurayam.com/","profile":"DevelopmentEnv"}
  </p>
 
           </li>
@@ -204,9 +194,7 @@ extends java.lang.Object
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='../../../../com/kazurayam/materials/store/Index.html'>Index</a></code></td>
-                            <td class="colLast"><code><strong><a href="#deserialize(java.nio.file.Path)">deserialize</a></strong>(java.nio.file.Path indexFile)</code><br>read the "index" file, which is in the format like
- ```
- <Project ID>\t<Product Metadata[0]>\t<Metadata[1]>\t<Metadata[2]></td>
+                            <td class="colLast"><code><strong><a href="#deserialize(java.nio.file.Path)">deserialize</a></strong>(java.nio.file.Path indexFile)</code><br>read the "index" file</td>
                         </tr>
                         
                         <tr class="altColor">
@@ -218,7 +206,7 @@ extends java.lang.Object
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;java.lang.String</code></td>
-                            <td class="colLast"><code><strong><a href="#formatLine(com.kazurayam.materials.store.Material)">formatLine</a></strong>(<a href='../../../../com/kazurayam/materials/store/IndexEntry.html'>IndexEntry</a> indexEntry)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#formatLine(com.kazurayam.materials.store.IndexEntry)">formatLine</a></strong>(<a href='../../../../com/kazurayam/materials/store/IndexEntry.html'>IndexEntry</a> indexEntry)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -235,13 +223,13 @@ extends java.lang.Object
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>static&nbsp;<a href='../../../../com/kazurayam/materials/store/IndexEntry.html'>IndexEntry</a></code></td>
-                            <td class="colLast"><code><strong><a href="#parseLine(java.lang.String)">parseLine</a></strong>(java.lang.String line)</code><br></td>
+                            <td class="colLast"><code>java.util.Iterator&lt;<a href='../../../../com/kazurayam/materials/store/IndexEntry.html' title='IndexEntry'>IndexEntry</a>&gt;</code></td>
+                            <td class="colLast"><code><strong><a href="#iterator()">iterator</a></strong>()</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>void</code></td>
+                            <td class="colLast"><code><a href='../../../../com/kazurayam/materials/store/IndexEntry.html'>IndexEntry</a></code></td>
                             <td class="colLast"><code><strong><a href="#put(com.kazurayam.materials.store.ID, com.kazurayam.materials.store.FileType, com.kazurayam.materials.store.Metadata)">put</a></strong>(<a href='../../../../com/kazurayam/materials/store/ID.html'>ID</a> id, <a href='../../../../com/kazurayam/materials/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materials/store/Metadata.html'>Metadata</a> metadata)</code><br></td>
                         </tr>
                         
@@ -256,6 +244,12 @@ extends java.lang.Object
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>int</code></td>
                             <td class="colLast"><code><strong><a href="#size()">size</a></strong>()</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>java.lang.String</code></td>
+                            <td class="colLast"><code><strong><a href="#toString()">toString</a></strong>()</code><br></td>
                         </tr>
                         
                     </table>
@@ -339,10 +333,7 @@ int <strong>compareTo</strong>(java.lang.Object obj)</h4>
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>static&nbsp;<a href='../../../../com/kazurayam/materials/store/Index.html'>Index</a> <strong>deserialize</strong>(java.nio.file.Path indexFile)</h4>
-                                <p> read the "index" file, which is in the format like
- ```
- <Project ID>\t<Product Metadata[0]>\t<Metadata[1]>\t<Metadata[2]>...
- ``` <DL><DT><B>Parameters:</B></DT><DD>file</DD></DL><DL><DT><B>Returns:</B></DT><DD></DD></DL></p>
+                                <p> read the "index" file <DL><DT><B>Parameters:</B></DT><DD>file</DD></DL><DL><DT><B>Returns:</B></DT><DD></DD></DL></p>
                             </li>
                         </ul>
                     
@@ -355,7 +346,7 @@ boolean <strong>equals</strong>(java.lang.Object obj)</h4>
                             </li>
                         </ul>
                     
-                        <a name="formatLine(com.kazurayam.materials.store.Material)"><!-- --></a>
+                        <a name="formatLine(com.kazurayam.materials.store.IndexEntry)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>static&nbsp;java.lang.String <strong>formatLine</strong>(<a href='../../../../com/kazurayam/materials/store/IndexEntry.html'>IndexEntry</a> indexEntry)</h4>
@@ -380,10 +371,10 @@ int <strong>hashCode</strong>()</h4>
                             </li>
                         </ul>
                     
-                        <a name="parseLine(java.lang.String)"><!-- --></a>
+                        <a name="iterator()"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>static&nbsp;<a href='../../../../com/kazurayam/materials/store/IndexEntry.html'>IndexEntry</a> <strong>parseLine</strong>(java.lang.String line)</h4>
+                                <h4>java.util.Iterator&lt;<a href='../../../../com/kazurayam/materials/store/IndexEntry.html' title='IndexEntry'>IndexEntry</a>&gt; <strong>iterator</strong>()</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -391,7 +382,7 @@ int <strong>hashCode</strong>()</h4>
                         <a name="put(com.kazurayam.materials.store.ID, com.kazurayam.materials.store.FileType, com.kazurayam.materials.store.Metadata)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>void <strong>put</strong>(<a href='../../../../com/kazurayam/materials/store/ID.html'>ID</a> id, <a href='../../../../com/kazurayam/materials/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materials/store/Metadata.html'>Metadata</a> metadata)</h4>
+                                <h4><a href='../../../../com/kazurayam/materials/store/IndexEntry.html'>IndexEntry</a> <strong>put</strong>(<a href='../../../../com/kazurayam/materials/store/ID.html'>ID</a> id, <a href='../../../../com/kazurayam/materials/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materials/store/Metadata.html'>Metadata</a> metadata)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -410,6 +401,15 @@ int <strong>hashCode</strong>()</h4>
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>int <strong>size</strong>()</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="toString()"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>@java.lang.Override
+java.lang.String <strong>toString</strong>()</h4>
                                 <p></p>
                             </li>
                         </ul>

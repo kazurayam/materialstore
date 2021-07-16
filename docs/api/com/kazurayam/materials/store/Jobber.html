@@ -162,7 +162,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../com/kazurayam/materials/store/Material.html'>Material</a></code></td>
-                            <td class="colLast"><code><strong><a href="#commit(com.kazurayam.materials.store.Metadata, byte[], com.kazurayam.materials.store.FileType)">commit</a></strong>(<a href='../../../../com/kazurayam/materials/store/Metadata.html'>Metadata</a> metadata, byte[] data, <a href='../../../../com/kazurayam/materials/store/FileType.html'>FileType</a> fileType)</code><br>This "commit" method is the most significant operation in the TAOD project.</td>
+                            <td class="colLast"><code><strong><a href="#commit(byte[], com.kazurayam.materials.store.FileType, com.kazurayam.materials.store.Metadata)">commit</a></strong>(byte[] data, <a href='../../../../com/kazurayam/materials/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materials/store/Metadata.html'>Metadata</a> metadata)</code><br>This "commit" method is the most significant operation in the TAOD project.</td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -187,6 +187,18 @@ if (location.href.indexOf('is-external=true') == -1) {
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.nio.file.Path</code></td>
                             <td class="colLast"><code><strong><a href="#getObjectsDir()">getObjectsDir</a></strong>()</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>java.util.List&lt;<a href='../../../../com/kazurayam/materials/store/Material.html' title='Material'>Material</a>&gt;</code></td>
+                            <td class="colLast"><code><strong><a href="#select(com.kazurayam.materials.store.FileType, com.kazurayam.materials.store.MetadataPattern)">select</a></strong>(<a href='../../../../com/kazurayam/materials/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materials/store/MetadataPattern.html'>MetadataPattern</a> metadataPattern)</code><br>@param fileType</td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>int</code></td>
+                            <td class="colLast"><code><strong><a href="#size()">size</a></strong>()</code><br></td>
                         </tr>
                         
                     </table>
@@ -257,11 +269,16 @@ if (location.href.indexOf('is-external=true') == -1) {
                 </a>
                     <h3>Method Detail</h3>
                     
-                        <a name="commit(com.kazurayam.materials.store.Metadata, byte[], com.kazurayam.materials.store.FileType)"><!-- --></a>
+                        <a name="commit(byte[], com.kazurayam.materials.store.FileType, com.kazurayam.materials.store.Metadata)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../../../com/kazurayam/materials/store/Material.html'>Material</a> <strong>commit</strong>(<a href='../../../../com/kazurayam/materials/store/Metadata.html'>Metadata</a> metadata, byte[] data, <a href='../../../../com/kazurayam/materials/store/FileType.html'>FileType</a> fileType)</h4>
+                                <h4><a href='../../../../com/kazurayam/materials/store/Material.html'>Material</a> <strong>commit</strong>(byte[] data, <a href='../../../../com/kazurayam/materials/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materials/store/Metadata.html'>Metadata</a> metadata)</h4>
                                 <p> This "commit" method is the most significant operation in the TAOD project.
+
+ Each MObject is identified by its FileType + Metadata combination.
+ Jobber ensures that MObject under the "object" is unique by FileType + Metadata.
+ If you try to commit a MObject with duplicating FileType + Metadata, the commit
+ will be rejected.
      <DL><DT><B>Parameters:</B></DT><DD>metadata</DD><DD>data</DD><DD>fileType</DD></DL><DL><DT><B>Returns:</B></DT><DD>Material</DD></DL></p>
                             </li>
                         </ul>
@@ -294,6 +311,22 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>java.nio.file.Path <strong>getObjectsDir</strong>()</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="select(com.kazurayam.materials.store.FileType, com.kazurayam.materials.store.MetadataPattern)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>java.util.List&lt;<a href='../../../../com/kazurayam/materials/store/Material.html' title='Material'>Material</a>&gt; <strong>select</strong>(<a href='../../../../com/kazurayam/materials/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materials/store/MetadataPattern.html'>MetadataPattern</a> metadataPattern)</h4>
+                                <p> <DL><DT><B>Parameters:</B></DT><DD>fileType</DD><DD>metadataPattern</DD></DL><DL><DT><B>Returns:</B></DT><DD></DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="size()"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>int <strong>size</strong>()</h4>
                                 <p></p>
                             </li>
                         </ul>

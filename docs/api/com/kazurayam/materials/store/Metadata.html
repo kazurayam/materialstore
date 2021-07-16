@@ -140,8 +140,8 @@ extends java.lang.Object
                         </tr>
                         
                         <tr class="altColor">
-                            <td class="colFirst"><code><strong>java.util.List&lt;java.lang.String&gt;</strong></code>&nbsp;</td>
-                            <td class="colLast"><code><a href="#metadata_">metadata_</a></code><br></td>
+                            <td class="colFirst"><code><strong>static&nbsp;<a href='../../../../com/kazurayam/materials/store/Metadata.html'>Metadata</a></strong></code>&nbsp;</td>
+                            <td class="colLast"><code><a href="#NULL_OBJECT">NULL_OBJECT</a></code><br></td>
                         </tr>
                         
                     </table>
@@ -167,14 +167,8 @@ extends java.lang.Object
                         
                         <tr class="altColor">
                             <td class="colFirst">
-                                <code><a href="#Metadata(java.lang.String)">Metadata</a>
-                                (java.lang.String... metadata)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst">
-                                <code><a href="#Metadata(List<String>)">Metadata</a>
-                                (java.util.List&lt;java.lang.String&gt; metadata)</code><br></td>
+                                <code><a href="#Metadata(Map<String, String>)">Metadata</a>
+                                (java.util.Map&lt;java.lang.String, java.lang.String&gt; metadata)</code><br></td>
                         </tr>
                         
                     </table>
@@ -201,19 +195,31 @@ extends java.lang.Object
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>void</code></td>
-                            <td class="colLast"><code><strong><a href="#add(java.lang.String)">add</a></strong>(java.lang.String entry)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#clear()">clear</a></strong>()</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>void</code></td>
-                            <td class="colLast"><code><strong><a href="#addAll(List<String>)">addAll</a></strong>(java.util.List&lt;java.lang.String&gt; entries)</code><br></td>
+                            <td class="colLast"><code>int</code></td>
+                            <td class="colLast"><code><strong><a href="#compareTo(java.lang.Object)">compareTo</a></strong>(java.lang.Object obj)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>int</code></td>
-                            <td class="colLast"><code><strong><a href="#compareTo(java.lang.Object)">compareTo</a></strong>(java.lang.Object obj)</code><br></td>
+                            <td class="colLast"><code>boolean</code></td>
+                            <td class="colLast"><code><strong><a href="#containsKey(java.lang.Object)">containsKey</a></strong>(java.lang.Object key)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>boolean</code></td>
+                            <td class="colLast"><code><strong><a href="#containsValue(java.lang.Object)">containsValue</a></strong>(java.lang.Object value)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>java.util.Set&lt;Map.Entry&lt;java.lang.String, java.lang.String&gt;&gt;</code></td>
+                            <td class="colLast"><code><strong><a href="#entrySet()">entrySet</a></strong>()</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -225,13 +231,51 @@ extends java.lang.Object
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.lang.String</code></td>
-                            <td class="colLast"><code><strong><a href="#get(int)">get</a></strong>(int i)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#get(java.lang.String)">get</a></strong>(java.lang.String key)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>int</code></td>
                             <td class="colLast"><code><strong><a href="#hashCode()">hashCode</a></strong>()</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>boolean</code></td>
+                            <td class="colLast"><code><strong><a href="#isEmpty()">isEmpty</a></strong>()</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>java.util.Set&lt;java.lang.String&gt;</code></td>
+                            <td class="colLast"><code><strong><a href="#keySet()">keySet</a></strong>()</code><br>will return sorted set of keys, as the metadata_ is an instance of TreeSet
+ @return</td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>boolean</code></td>
+                            <td class="colLast"><code><strong><a href="#match(com.kazurayam.materials.store.MetadataPattern)">match</a></strong>(<a href='../../../../com/kazurayam/materials/store/MetadataPattern.html'>MetadataPattern</a> metadataPattern)</code><br>
+ @return<DL><DT><B>Parameters:</B></DT><DD>metadataPattern</DD></DL></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>java.lang.String</code></td>
+                            <td class="colLast"><code><strong><a href="#put(java.lang.String, java.lang.String)">put</a></strong>(java.lang.String key, java.lang.String value)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>void</code></td>
+                            <td class="colLast"><code><strong><a href="#putAll(Map<String, String>)">putAll</a></strong>(java.util.Map&lt;java.lang.String, java.lang.String&gt; m)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>java.lang.String</code></td>
+                            <td class="colLast"><code><strong><a href="#remove(java.lang.String)">remove</a></strong>(java.lang.String key)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -244,6 +288,12 @@ extends java.lang.Object
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.lang.String</code></td>
                             <td class="colLast"><code><strong><a href="#toString()">toString</a></strong>()</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>java.util.Collection&lt;java.lang.String&gt;</code></td>
+                            <td class="colLast"><code><strong><a href="#values()">values</a></strong>()</code><br></td>
                         </tr>
                         
                     </table>
@@ -289,10 +339,10 @@ extends java.lang.Object
                 </a>
                     <h3>Property Detail</h3>
                     
-                        <a name="metadata_"><!-- --></a>
+                        <a name="NULL_OBJECT"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>java.util.List&lt;java.lang.String&gt; <strong>metadata_</strong></h4>
+                                <h4>static&nbsp;final&nbsp;<a href='../../../../com/kazurayam/materials/store/Metadata.html'>Metadata</a> <strong>NULL_OBJECT</strong></h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -311,18 +361,10 @@ extends java.lang.Object
                 </a>
                     <h3>Constructor Detail</h3>
                     
-                        <a name="Metadata(java.lang.String)"><!-- --></a>
+                        <a name="Metadata(Map<String, String>)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><strong>Metadata</strong>(java.lang.String... metadata)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="Metadata(List<String>)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><strong>Metadata</strong>(java.util.List&lt;java.lang.String&gt; metadata)</h4>
+                                <h4><strong>Metadata</strong>(java.util.Map&lt;java.lang.String, java.lang.String&gt; metadata)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -340,18 +382,10 @@ extends java.lang.Object
                 </a>
                     <h3>Method Detail</h3>
                     
-                        <a name="add(java.lang.String)"><!-- --></a>
+                        <a name="clear()"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>void <strong>add</strong>(java.lang.String entry)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="addAll(List<String>)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4>void <strong>addAll</strong>(java.util.List&lt;java.lang.String&gt; entries)</h4>
+                                <h4>void <strong>clear</strong>()</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -365,6 +399,30 @@ int <strong>compareTo</strong>(java.lang.Object obj)</h4>
                             </li>
                         </ul>
                     
+                        <a name="containsKey(java.lang.Object)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>boolean <strong>containsKey</strong>(java.lang.Object key)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="containsValue(java.lang.Object)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>boolean <strong>containsValue</strong>(java.lang.Object value)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="entrySet()"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>java.util.Set&lt;Map.Entry&lt;java.lang.String, java.lang.String&gt;&gt; <strong>entrySet</strong>()</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
                         <a name="equals(java.lang.Object)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
@@ -374,10 +432,10 @@ boolean <strong>equals</strong>(java.lang.Object obj)</h4>
                             </li>
                         </ul>
                     
-                        <a name="get(int)"><!-- --></a>
+                        <a name="get(java.lang.String)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>java.lang.String <strong>get</strong>(int i)</h4>
+                                <h4>java.lang.String <strong>get</strong>(java.lang.String key)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -387,6 +445,54 @@ boolean <strong>equals</strong>(java.lang.Object obj)</h4>
                             <li class="blockList">
                                 <h4>@java.lang.Override
 int <strong>hashCode</strong>()</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="isEmpty()"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>boolean <strong>isEmpty</strong>()</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="keySet()"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>java.util.Set&lt;java.lang.String&gt; <strong>keySet</strong>()</h4>
+                                <p> will return sorted set of keys, as the metadata_ is an instance of TreeSet <DL><DT><B>Returns:</B></DT><DD></DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="match(com.kazurayam.materials.store.MetadataPattern)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>boolean <strong>match</strong>(<a href='../../../../com/kazurayam/materials/store/MetadataPattern.html'>MetadataPattern</a> metadataPattern)</h4>
+                                <p> <DL><DT><B>Parameters:</B></DT><DD>metadataPattern</DD></DL><DL><DT><B>Returns:</B></DT><DD></DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="put(java.lang.String, java.lang.String)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>java.lang.String <strong>put</strong>(java.lang.String key, java.lang.String value)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="putAll(Map<String, String>)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>void <strong>putAll</strong>(java.util.Map&lt;java.lang.String, java.lang.String&gt; m)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="remove(java.lang.String)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>java.lang.String <strong>remove</strong>(java.lang.String key)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -404,6 +510,14 @@ int <strong>hashCode</strong>()</h4>
                             <li class="blockList">
                                 <h4>@java.lang.Override
 java.lang.String <strong>toString</strong>()</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="values()"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>java.util.Collection&lt;java.lang.String&gt; <strong>values</strong>()</h4>
                                 <p></p>
                             </li>
                         </ul>
