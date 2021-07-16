@@ -161,7 +161,7 @@ class StoreImplTest {
     }
 
     @Test
-    void test_zipMaterialsToDiff() {
+    void test_zipMatergialsToDiff() {
         Path root = outputDir.resolve("Materials")
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_zipMaterialsToDiff")
