@@ -173,13 +173,13 @@ class StoreImplTest {
         //
         Jobber jobberOfExpected = store.getJobber(jobName,
                 new JobTimestamp("20210713_093357"))
-        List<Material> expectedList = jobberOfExpected.select(FileType.PNG,
+        List<Material> expectedList = jobberOfExpected.selectMaterials(FileType.PNG,
                 new MetadataPattern(["profile": "ProductionEnv", "URL.file": "*"]))
         assertEquals(1, expectedList.size())
         //
         Jobber jobberOfActual = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
-        List<Material> actualList= jobberOfActual.select(FileType.PNG,
+        List<Material> actualList= jobberOfActual.selectMaterials(FileType.PNG,
                 new MetadataPattern(["profile": "DevelopmentEnv", "URL.file": "*"]))
         assertEquals(1, actualList.size())
         //

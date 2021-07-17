@@ -31,6 +31,7 @@ class StoreImpl implements Store {
 
     StoreImpl(Path root) {
         Objects.requireNonNull(root)
+        // ensure the root directory to exist
         Files.createDirectories(root)
         this.root_ = root
         this.jobberCache_ = new HashSet<Jobber>()
@@ -65,7 +66,7 @@ class StoreImpl implements Store {
     }
 
 
-    private static byte[] toByteArray(InputStream inputStream) {
+    static byte[] toByteArray(InputStream inputStream) {
         Objects.requireNonNull(inputStream)
         byte[] buff = new byte[BUFFER_SIZE]
         int bytesRead
@@ -114,7 +115,7 @@ class StoreImpl implements Store {
         Objects.requireNonNull(meta)
         Objects.requireNonNull(fileType)
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
-        return jobber.commit(input, fileType, meta)
+        return jobber.write(input, fileType, meta)
     }
 
 
@@ -122,7 +123,7 @@ class StoreImpl implements Store {
     List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
                           FileType fileType, MetadataPattern metadataPattern) {
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
-        return jobber.select(fileType, metadataPattern)
+        return jobber.selectMaterials(fileType, metadataPattern)
     }
 
 

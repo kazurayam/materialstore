@@ -35,6 +35,10 @@ class MObject {
         return "${ID.toString()}.${fileType_.getExtension()}"
     }
 
+    byte[] getData() {
+        return data_
+    }
+
     Path resolvePath(Path objectsDir) {
         return objectsDir.resolve(this.getFileName())
     }

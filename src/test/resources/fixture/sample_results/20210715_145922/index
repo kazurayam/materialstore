@@ -1,4 +1,4 @@
-ed045c2ef86ba98ebd2be0a7f3dfe968f381e44c	html	{"profile":"DevelopmentEnv","URL":"http://demoaut-mimic.kazurayam.com/","URL.host":"demoaut-mimic.kazurayam.com","URL.file":"/"}
-7718496876033a8dbe088643df2b7105f83820d1	png	{"profile":"DevelopmentEnv","URL":"http://demoaut-mimic.kazurayam.com/","URL.host":"demoaut-mimic.kazurayam.com","URL.file":"/"}
-f72800f1f8a8cfcc2338f88d873133873e3a803f	html	{"profile":"ProductionEnv","URL":"https://katalon-demo-cura.herokuapp.com/","URL.host":"demoaut.katalon.com","URL.file":"/"}
-464212dbd99fbddc5f7442089523fab4b9247b9b	png	{"profile":"ProductionEnv","URL":"https://katalon-demo-cura.herokuapp.com/","URL.host":"demoaut.katalon.com","URL.file":"/"}
+ed045c2ef86ba98ebd2be0a7f3dfe968f381e44c	html	{"category":"page source","profile":"DevelopmentEnv","URL":"http://demoaut-mimic.kazurayam.com/","URL.host":"demoaut-mimic.kazurayam.com","URL.file":"/"}
+7718496876033a8dbe088643df2b7105f83820d1	png	{"category":"screenshot","profile":"DevelopmentEnv","URL":"http://demoaut-mimic.kazurayam.com/","URL.host":"demoaut-mimic.kazurayam.com","URL.file":"/"}
+f72800f1f8a8cfcc2338f88d873133873e3a803f	html	{"category":"page source","profile":"ProductionEnv","URL":"https://katalon-demo-cura.herokuapp.com/","URL.host":"demoaut.katalon.com","URL.file":"/"}
+464212dbd99fbddc5f7442089523fab4b9247b9b	png	{"category":"screenshot","profile":"ProductionEnv","URL":"https://katalon-demo-cura.herokuapp.com/","URL.host":"demoaut.katalon.com","URL.file":"/"}

@@ -117,6 +117,7 @@ class VisualTestingTwins {
          * ])
          */
         Metadata metadata = new Metadata([
+                "category": "screenshot",
                 "profile": profile,
                 "URL": url.toExternalForm(),
                 "URL.host": url.getHost(),
@@ -130,6 +131,7 @@ class VisualTestingTwins {
 
         // get and store the HTML page source of the page
         String html = driver.getPageSource()
+        metadata["category"] = "page source"
         Material htmlMaterial = store.write(jobName, jobTimestamp, FileType.HTML, metadata,
                 html, StandardCharsets.UTF_8)
         assert htmlMaterial != null

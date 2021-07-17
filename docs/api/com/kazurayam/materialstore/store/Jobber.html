@@ -161,44 +161,70 @@ if (location.href.indexOf('is-external=true') == -1) {
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a></code></td>
-                            <td class="colLast"><code><strong><a href="#commit(byte[], com.kazurayam.materialstore.store.FileType, com.kazurayam.materialstore.store.Metadata)">commit</a></strong>(byte[] data, <a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materialstore/store/Metadata.html'>Metadata</a> metadata)</code><br>This "commit" method is the most significant operation in the TAOD project.</td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a></code></td>
                             <td class="colLast"><code><strong><a href="#getJobName()">getJobName</a></strong>()</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.nio.file.Path</code></td>
                             <td class="colLast"><code><strong><a href="#getJobResultDir()">getJobResultDir</a></strong>()</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a></code></td>
                             <td class="colLast"><code><strong><a href="#getJobTimestamp()">getJobTimestamp</a></strong>()</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.nio.file.Path</code></td>
                             <td class="colLast"><code><strong><a href="#getObjectsDir()">getObjectsDir</a></strong>()</code><br></td>
                         </tr>
                         
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>byte[]</code></td>
+                            <td class="colLast"><code><strong><a href="#read(com.kazurayam.materialstore.store.ID, com.kazurayam.materialstore.store.FileType)">read</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/ID.html'>ID</a> id, <a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType)</code><br>
+ @return<DL><DT><B>Parameters:</B></DT><DD>material</DD></DL></td>
+                        </tr>
+                        
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#select(com.kazurayam.materialstore.store.FileType, com.kazurayam.materialstore.store.MetadataPattern)">select</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materialstore/store/MetadataPattern.html'>MetadataPattern</a> metadataPattern)</code><br>@param fileType</td>
+                            <td class="colLast"><code>byte[]</code></td>
+                            <td class="colLast"><code><strong><a href="#read(com.kazurayam.materialstore.store.IndexEntry)">read</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/IndexEntry.html'>IndexEntry</a> indexEntry)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>byte[]</code></td>
+                            <td class="colLast"><code><strong><a href="#read(com.kazurayam.materialstore.store.Material)">read</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a> material)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a></code></td>
+                            <td class="colLast"><code><strong><a href="#selectMaterial(com.kazurayam.materialstore.store.ID)">selectMaterial</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/ID.html'>ID</a> id)</code><br>
+ @return<DL><DT><B>Parameters:</B></DT><DD>id</DD></DL></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt;</code></td>
+                            <td class="colLast"><code><strong><a href="#selectMaterials(com.kazurayam.materialstore.store.FileType, com.kazurayam.materialstore.store.MetadataPattern)">selectMaterials</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materialstore/store/MetadataPattern.html'>MetadataPattern</a> metadataPattern)</code><br>@param fileType</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>int</code></td>
                             <td class="colLast"><code><strong><a href="#size()">size</a></strong>()</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a></code></td>
+                            <td class="colLast"><code><strong><a href="#write(byte[], com.kazurayam.materialstore.store.FileType, com.kazurayam.materialstore.store.Metadata)">write</a></strong>(byte[] data, <a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materialstore/store/Metadata.html'>Metadata</a> metadata)</code><br>This "commit" method is the most significant operation in the TAOD project.</td>
                         </tr>
                         
                     </table>
@@ -269,20 +295,6 @@ if (location.href.indexOf('is-external=true') == -1) {
                 </a>
                     <h3>Method Detail</h3>
                     
-                        <a name="commit(byte[], com.kazurayam.materialstore.store.FileType, com.kazurayam.materialstore.store.Metadata)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4><a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a> <strong>commit</strong>(byte[] data, <a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materialstore/store/Metadata.html'>Metadata</a> metadata)</h4>
-                                <p> This "commit" method is the most significant operation in the TAOD project.
-
- Each MObject is identified by its FileType + Metadata combination.
- Jobber ensures that MObject under the "object" is unique by FileType + Metadata.
- If you try to commit a MObject with duplicating FileType + Metadata, the commit
- will be rejected.
-     <DL><DT><B>Parameters:</B></DT><DD>metadata</DD><DD>data</DD><DD>fileType</DD></DL><DL><DT><B>Returns:</B></DT><DD>Material</DD></DL></p>
-                            </li>
-                        </ul>
-                    
                         <a name="getJobName()"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
@@ -315,10 +327,42 @@ if (location.href.indexOf('is-external=true') == -1) {
                             </li>
                         </ul>
                     
-                        <a name="select(com.kazurayam.materialstore.store.FileType, com.kazurayam.materialstore.store.MetadataPattern)"><!-- --></a>
+                        <a name="read(com.kazurayam.materialstore.store.ID, com.kazurayam.materialstore.store.FileType)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; <strong>select</strong>(<a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materialstore/store/MetadataPattern.html'>MetadataPattern</a> metadataPattern)</h4>
+                                <h4>byte[] <strong>read</strong>(<a href='../../../../com/kazurayam/materialstore/store/ID.html'>ID</a> id, <a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType)</h4>
+                                <p> <DL><DT><B>Parameters:</B></DT><DD>material</DD></DL><DL><DT><B>Returns:</B></DT><DD></DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="read(com.kazurayam.materialstore.store.IndexEntry)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>byte[] <strong>read</strong>(<a href='../../../../com/kazurayam/materialstore/store/IndexEntry.html'>IndexEntry</a> indexEntry)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="read(com.kazurayam.materialstore.store.Material)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>byte[] <strong>read</strong>(<a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a> material)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="selectMaterial(com.kazurayam.materialstore.store.ID)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a> <strong>selectMaterial</strong>(<a href='../../../../com/kazurayam/materialstore/store/ID.html'>ID</a> id)</h4>
+                                <p> <DL><DT><B>Parameters:</B></DT><DD>id</DD></DL><DL><DT><B>Returns:</B></DT><DD></DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="selectMaterials(com.kazurayam.materialstore.store.FileType, com.kazurayam.materialstore.store.MetadataPattern)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; <strong>selectMaterials</strong>(<a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materialstore/store/MetadataPattern.html'>MetadataPattern</a> metadataPattern)</h4>
                                 <p> <DL><DT><B>Parameters:</B></DT><DD>fileType</DD><DD>metadataPattern</DD></DL><DL><DT><B>Returns:</B></DT><DD></DD></DL></p>
                             </li>
                         </ul>
@@ -328,6 +372,20 @@ if (location.href.indexOf('is-external=true') == -1) {
                             <li class="blockList">
                                 <h4>int <strong>size</strong>()</h4>
                                 <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="write(byte[], com.kazurayam.materialstore.store.FileType, com.kazurayam.materialstore.store.Metadata)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a> <strong>write</strong>(byte[] data, <a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materialstore/store/Metadata.html'>Metadata</a> metadata)</h4>
+                                <p> This "commit" method is the most significant operation in the TAOD project.
+
+ Each MObject is identified by its FileType + Metadata combination.
+ Jobber ensures that MObject under the "object" is unique by FileType + Metadata.
+ If you try to commit a MObject with duplicating FileType + Metadata, the commit
+ will be rejected.
+     <DL><DT><B>Parameters:</B></DT><DD>metadata</DD><DD>data</DD><DD>fileType</DD></DL><DL><DT><B>Returns:</B></DT><DD>Material</DD></DL></p>
                             </li>
                         </ul>
                     

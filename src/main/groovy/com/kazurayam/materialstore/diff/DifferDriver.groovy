@@ -5,13 +5,19 @@ import com.kazurayam.materialstore.store.Material
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import java.nio.file.Path
+
 class DifferDriver {
 
     private static final Logger logger = LoggerFactory.getLogger(DifferDriver.class)
 
-    private DifferDriver() {}
+    private final Path root_
 
-    static List<DiffArtifact> makeDiff(List<DiffArtifact> diffArtifacts) {
+    DifferDriver(Path root) {
+        this.root_ = root
+    }
+
+    List<DiffArtifact> makeDiff(List<DiffArtifact> diffArtifacts) {
         Objects.requireNonNull(diffArtifacts)
         List<DiffArtifact> results = new ArrayList<DiffArtifact>()
         diffArtifacts.each { DiffArtifact da ->
@@ -23,10 +29,10 @@ class DifferDriver {
                 FileType fileType = da.getActual().getIndexEntry().getFileType()
                 switch (fileType) {
                     case (FileType.HTML):
-                        results.add(new HTMLDiffer().makeDiff(da))
+                        results.add(new TextDiffer(root_).makeDiff(da))
                         break
                     case (FileType.PNG):
-                        results.add(new PNGDiffer().makeDiff(da))
+                        results.add(new ImageDiffer(root_).makeDiff(da))
                         break
                     default:
                         logger.warn("FileType ${fileType.getExtension()} is not supported yet." +

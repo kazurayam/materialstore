@@ -9,7 +9,8 @@ enum FileType {
     BMP  ('bmp',    ['image/bmp']),
     GIF  ('gif',    ['image/gif']),
     HTML ('html',   ['text/html']),
-    MHTML('mht',    ['']),
+    MHTML('mht',    [''], "MIME HTML"),
+    MD   ('md',     [''], "Markdown text"),
     JPG  ('jpg',    ['image/jpeg']),
     JPEG ('jpeg',   ['image/jpeg']),
     PNG  ('png' ,   ['image/png']),
@@ -47,15 +48,17 @@ enum FileType {
     DOCX ('docx',   ['application/vnd.openxmlformats-officedocument.wordprocessingml.document']),
     PPTX ('pptx',   ['application/vnd.openxmlformats-officedocument.presentationml.presentation']),
 
-    UNSUPPORTED ('UNSUPPORTED',    ['']),
-    NULL ('',       ['']) ;
+    UNSUPPORTED ('UNSUPPORTED',    [''], "Unsupported FileType"),
+    NULL ('',       [''], "NULL Object") ;
 
     private final String extension_
     private final List<String> mimeTypes_
+    private final String description_
 
-    FileType(String extension, List<String> mimeTypes) {
+    FileType(String extension, List<String> mimeTypes, String description = "") {
         this.extension_ = extension
         this.mimeTypes_  = mimeTypes
+        this.description_ = description
     }
 
     String getExtension() {

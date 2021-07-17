@@ -12,9 +12,13 @@ class Jobber {
     private final JobTimestamp jobTimestamp
     private final Path jobResultDir
 
-    private final Index index
+    private Index index
 
     Jobber(Path root, JobName jobName, JobTimestamp jobTimestamp) {
+        Objects.requireNonNull(root)
+        Objects.requireNonNull(jobName)
+        Objects.requireNonNull(jobTimestamp)
+
         this.jobName = jobName
         this.jobTimestamp = jobTimestamp
         jobResultDir = root.resolve(jobName.toString()).resolve(jobTimestamp.toString())
@@ -44,6 +48,67 @@ class Jobber {
         return getJobResultDir().resolve("objects")
     }
 
+    /**
+     *
+     * @param material
+     * @return
+     */
+    byte[] read(ID id, FileType fileType) {
+        Objects.requireNonNull(id)
+        Objects.requireNonNull(fileType)
+        String fileName = "${id.toString()}.${fileType.getExtension()}"
+        Path objectFile = this.getObjectsDir().resolve(fileName)
+        MObject mObject = MObject.deserialize(objectFile, fileType)
+        return mObject.getData()
+    }
+
+    byte[] read(IndexEntry indexEntry) {
+        Objects.requireNonNull(indexEntry)
+        return this.read(indexEntry.getID(), indexEntry.getFileType())
+    }
+
+    byte[] read(Material material) {
+        Objects.requireNonNull(material)
+        return this.read(material.getIndexEntry())
+    }
+
+    /**
+     *
+     * @param fileType
+     * @param metadataPattern
+     * @return
+     */
+    List<Material> selectMaterials(FileType fileType, MetadataPattern metadataPattern) {
+        Objects.requireNonNull(fileType)
+        Objects.requireNonNull(metadataPattern)
+        List<Material> result = new ArrayList<Material>()
+        index.eachWithIndex { IndexEntry entry, x ->
+            if (entry.getFileType() == fileType &&
+                    entry.getMetadata().match(metadataPattern)) {
+                Material material = new Material(jobName, jobTimestamp, entry)
+                result.add(material)
+            }
+        }
+        return result
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    Material selectMaterial(ID id) {
+        Objects.requireNonNull(id)
+        Material result = null
+        index.eachWithIndex { IndexEntry entry, x ->
+            if (entry.getID() == id) {
+                result = new Material(jobName, jobTimestamp, entry)
+                return
+            }
+        }
+        return result
+    }
+
     int size() {
         return index.size()
     }
@@ -61,7 +126,7 @@ class Jobber {
      * @param fileType
      * @return Material
      */
-    Material commit(byte[] data, FileType fileType, Metadata metadata)
+    Material write(byte[] data, FileType fileType, Metadata metadata)
             throws MaterialstoreException {
         Objects.requireNonNull(metadata)
         if (data.length == 0 ) throw new IllegalArgumentException("length of the data is 0")
@@ -90,25 +155,5 @@ class Jobber {
         return new Material(this.getJobName(), this.getJobTimestamp(), indexEntry)
     }
 
-    /**
-     *
-     * @param fileType
-     * @param metadataPattern
-     * @return
-     */
-    List<Material> select(FileType fileType, MetadataPattern metadataPattern) {
-        Objects.requireNonNull(fileType)
-        Objects.requireNonNull(metadataPattern)
-        List<Material> result = new ArrayList<Material>()
-
-        index.eachWithIndex { IndexEntry entry, x ->
-            if (entry.getFileType() == fileType &&
-                    entry.getMetadata().match(metadataPattern)) {
-                Material material = new Material(jobName, jobTimestamp, entry)
-                result.add(material)
-            }
-        }
-        return result
-    }
 
 }

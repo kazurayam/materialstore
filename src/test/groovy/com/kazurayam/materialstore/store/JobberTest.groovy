@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.store
 
 
 import com.kazurayam.materialstore.MaterialstoreException
+import com.kazurayam.materialstore.TestFixtureUtil
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -36,16 +37,13 @@ class JobberTest {
     void beforeEach() {
     }
 
+
     @Test
     void test_constructor() {
         Path root = outputDir.resolve("Materials")
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_constructor")
-        // make sure the Job directory to be empty
-        FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
-        // stuff the Job directory with a fixture
-        Path jobNameDir = root.resolve(jobName.toString())
-        FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
+        TestFixtureUtil.setupFixture(store, jobName)
         //
         Jobber jobber = store.getJobber(jobName,
                 new JobTimestamp("20210713_093357"))
@@ -55,36 +53,86 @@ class JobberTest {
     }
 
     @Test
-    void test_commit() {
+    void test_write() {
         Path root = outputDir.resolve("Materials")
         StoreImpl repos = new StoreImpl(root)
-        Jobber jobber = repos.getJobber(new JobName("test_commit"), JobTimestamp.now())
+        JobName jobName = new JobName("test_commit")
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        Jobber jobber = repos.getJobber(jobName, jobTimestamp)
         Metadata metadata = new Metadata(["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.katalon.com/"])
         BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, FileType.PNG.getExtension(), baos);
         byte[] data = baos.toByteArray()
-        Material material = jobber.commit(data, FileType.PNG, metadata)
+        Material material = jobber.write(data, FileType.PNG, metadata)
         //
         assertNotNull(material)
     }
 
     @Test
-    void test_commit_duplicating() {
+    void test_write_duplicating() {
         Path root = outputDir.resolve("Materials")
         StoreImpl repos = new StoreImpl(root)
-        Jobber jobber = repos.getJobber(new JobName("test_commit_duplicating"), JobTimestamp.now())
+        JobName jobName = new JobName("test_commit_duplicating")
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        Jobber jobber = repos.getJobber(jobName, jobTimestamp)
         Metadata metadata = new Metadata(["profile":"SomeEnv", "URL":"http://example.com"])
         byte[] data = "foo".getBytes()
-        jobber.commit(data, FileType.TXT, metadata)
+        jobber.write(data, FileType.TXT, metadata)
         MaterialstoreException thrown = assertThrows(MaterialstoreException.class, { ->
-            jobber.commit(data, FileType.TXT, metadata)
+            jobber.write(data, FileType.TXT, metadata)
         })
         assertTrue(thrown.getMessage().contains("MObject is already in the Store"))
     }
 
     @Test
-    void test_select() {
+    void test_read_by_ID() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_read_by_ID")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
+        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        ID id = new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490")
+        byte[] data = jobber.read(id, FileType.PNG)
+        assertNotNull(data)
+    }
+
+    @Test
+    void test_read_by_Material() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_read_by_Material")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
+        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        Material material = jobber.selectMaterial(
+                new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"))
+        byte[] data = jobber.read(material)
+        assertNotNull(data)
+    }
+
+    /**
+     * selecting a single Material object by ID
+     */
+    @Test
+    void test_selectMaterial() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_selectMaterial")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
+        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        Material material = jobber.selectMaterial(
+                new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"))
+        assertNotNull(material)
+    }
+
+    @Test
+    void test_selectMaterials() {
         Path root = outputDir.resolve("Materials")
         StoreImpl repos = new StoreImpl(root)
         Jobber jobber = repos.getJobber(new JobName("test_select"), JobTimestamp.now())
@@ -93,10 +141,10 @@ class JobberTest {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, FileType.PNG.getExtension(), baos);
         byte[] data = baos.toByteArray()
-        Material material = jobber.commit(data, FileType.PNG, metadata)
+        Material material = jobber.write(data, FileType.PNG, metadata)
         //
         MetadataPattern pattern = new MetadataPattern([ "profile": "*", "URL": "*"])
-        List<Material> materials = jobber.select(FileType.PNG, pattern)
+        List<Material> materials = jobber.selectMaterials(FileType.PNG, pattern)
         assertNotNull(materials)
         assertEquals(1, materials.size())
     }

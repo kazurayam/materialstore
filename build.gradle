@@ -49,6 +49,9 @@ dependencies {
     implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: "${webdrivermanager}"
     // https://mvnrepository.com/artifact/ru.yandex.qatools.ashot/ashot
     implementation group: 'ru.yandex.qatools.ashot', name: 'ashot', version: "${ashotVersion}"
+    // https://mvnrepository.com/artifact/io.github.java-diff-utils/java-diff-utils
+    implementation group: 'io.github.java-diff-utils', name: 'java-diff-utils', version: '4.9'
+
 }
 
 test {
