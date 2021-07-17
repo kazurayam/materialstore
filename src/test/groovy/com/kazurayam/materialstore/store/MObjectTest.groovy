@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.store
 
-
+import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
@@ -24,6 +24,9 @@ class MObjectTest {
 
     @BeforeAll
     static void beforeAll() {
+        if (Files.exists(outputDir)) {
+            FileUtils.deleteDirectory(outputDir.toFile())
+        }
         Files.createDirectories(outputDir)
     }
 

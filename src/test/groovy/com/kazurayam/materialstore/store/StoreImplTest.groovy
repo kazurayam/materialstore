@@ -27,6 +27,9 @@ class StoreImplTest {
 
     @BeforeAll
     static void beforeAll() {
+        if (Files.exists(outputDir)) {
+            FileUtils.deleteDirectory(outputDir.toFile())
+        }
         Files.createDirectories(outputDir)
     }
 
