@@ -2,6 +2,9 @@ package com.kazurayam.materialstore.store
 
 import groovy.json.JsonOutput
 
+import java.nio.file.Path
+import java.nio.file.Paths
+
 class Material implements Comparable {
 
     static final Material NULL_OBJECT =
@@ -27,6 +30,35 @@ class Material implements Comparable {
 
     IndexEntry getIndexEntry() {
         return indexEntry_
+    }
+
+    /**
+     *
+     * @return the relative path of the MObject file, relative to the root dir.
+     * On Mac and Linux, the path separator will be '/',
+     * On Windows, the path separator will be '\'
+     *
+     * Materialオブジェクトが表すファイルのパスただしrootを基底とする相対パスを返す。
+     *
+     * ああ、このメソッドひとつをきれいに実装するために materialstore を作ったのだ。
+     * Materialsライブラリのぐちゃぐちゃさ加減に比べてこの実装の簡潔なことよ。
+     */
+    Path getRelativePath() {
+        return Paths.get('.')
+                .resolve(jobName_.toString())
+                .resolve(jobTimestamp_.toString())
+                .resolve(Jobber.OBJECTS_DIR_NAME)
+                .resolve(this.getIndexEntry().getFileName())
+                .normalize()
+    }
+
+    /**
+     * @return the returned value of getRelative() is stringified, and
+     * replace all of `\` character to `/` to make it a valid relative URL string.
+     */
+    String getRelativeURL() {
+        String s = this.getRelativePath().toString()
+        return s.replace("\\", "/")
     }
 
     @Override

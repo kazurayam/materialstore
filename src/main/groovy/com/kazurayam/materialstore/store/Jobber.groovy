@@ -8,6 +8,8 @@ import java.nio.file.Path
 
 class Jobber {
 
+    static final String OBJECTS_DIR_NAME = "objects"
+
     private final JobName jobName
     private final JobTimestamp jobTimestamp
     private final Path jobResultDir
@@ -45,7 +47,7 @@ class Jobber {
     }
 
     Path getObjectsDir() {
-        return getJobResultDir().resolve("objects")
+        return getJobResultDir().resolve(OBJECTS_DIR_NAME)
     }
 
     /**

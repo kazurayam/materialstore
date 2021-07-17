@@ -3,6 +3,9 @@ package com.kazurayam.materialstore.store
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
+import java.nio.file.Path
+import java.nio.file.Paths
+
 class IndexEntry implements Comparable {
 
     static final IndexEntry NULL_OBJECT = new IndexEntry(ID.NULL_OBJECT, FileType.NULL, Metadata.NULL_OBJECT)
@@ -57,6 +60,10 @@ class IndexEntry implements Comparable {
 
     FileType getFileType() {
         return fileType_
+    }
+
+    Path getFileName() {
+        return Paths.get(this.getID().toString() + "." + this.getFileType().getExtension())
     }
 
     Metadata getMetadata() {
