@@ -224,6 +224,20 @@ extends java.lang.Object
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>java.nio.file.Path</code></td>
+                            <td class="colLast"><code><strong><a href="#getRelativePath()">getRelativePath</a></strong>()</code><br>
+ <DL><DT><B>Returns:</B></DT><DD>the relative path of the MObject file, relative to the root dir.</DD></DL></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>java.lang.String</code></td>
+                            <td class="colLast"><code><strong><a href="#getRelativeURL()">getRelativeURL</a></strong>()</code><br>@return the returned value of getRelative() is stringified, and
+ replace all of `\` character to `/` to make it a valid relative URL string.</td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>int</code></td>
                             <td class="colLast"><code><strong><a href="#hashCode()">hashCode</a></strong>()</code><br></td>
                         </tr>
@@ -359,6 +373,32 @@ boolean <strong>equals</strong>(java.lang.Object obj)</h4>
                             <li class="blockList">
                                 <h4><a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a> <strong>getJobTimestamp</strong>()</h4>
                                 <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getRelativePath()"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>java.nio.file.Path <strong>getRelativePath</strong>()</h4>
+                                <p>
+     <DL><DT><B>Returns:</B></DT><DD>the relative path of the MObject file, relative to the root dir.
+ On Mac and Linux, the path separator will be '/',
+ On Windows, the path separator will be '\\'
+
+ Materialオブジェクトが表すファイルのパスただしrootを基底とする相対パスを返す。
+
+ ああ、このメソッドひとつをきれいに実装するために materialstore を作ったのだ。
+ Materialsライブラリのぐちゃぐちゃさ加減に比べてこの実装の簡潔なことよ。</DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getRelativeURL()"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>java.lang.String <strong>getRelativeURL</strong>()</h4>
+                                <p>
+     <DL><DT><B>Returns:</B></DT><DD>the returned value of getRelative() is stringified, and
+ replace all of `\\` character to `/` to make it a valid relative URL string.</DD></DL></p>
                             </li>
                         </ul>
                     

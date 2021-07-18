@@ -17,11 +17,11 @@ import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.*
 
-class BasicDiffReporterTest {
+class BasicDiffReporterImplTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(BasicDiffReporterTest.class.getName())
+                    .resolve(BasicDiffReporterImplTest.class.getName())
 
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
@@ -52,14 +52,13 @@ class BasicDiffReporterTest {
         List<DiffArtifact> input =
                 storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)
         //
-        DifferDriver differDriver = DifferDriverFactory.newDifferDriver()
-        differDriver.setRoot(root)
+        DifferDriver differDriver = new DifferDriverImpl.Builder().root(root).build()
         List<DiffArtifact> stuffed = differDriver.makeDiff(input)
         assertNotNull(stuffed)
         assertEquals(1, stuffed.size())
         //
         Path reportFile = root.resolve("report.md")
-        DiffReporter diffReporter = new BasicDiffReporter(root)
+        DiffReporter diffReporter = new BasicDiffReporterImpl(root)
         diffReporter.reportDiffs(stuffed, reportFile)
         //
         assertTrue(Files.exists(reportFile))

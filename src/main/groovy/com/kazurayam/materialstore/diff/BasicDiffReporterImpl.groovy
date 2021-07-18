@@ -10,13 +10,13 @@ import java.nio.file.Path
 
 import groovy.json.JsonOutput
 
-class BasicDiffReporter implements DiffReporter {
+class BasicDiffReporterImpl implements DiffReporter {
 
-    private static final Logger logger = LoggerFactory.getLogger(BasicDiffReporter.class)
+    private static final Logger logger = LoggerFactory.getLogger(BasicDiffReporterImpl.class)
 
     private final Path root_
 
-    BasicDiffReporter(Path root) {
+    BasicDiffReporterImpl(Path root) {
         Objects.requireNonNull(root)
         ensureRoot(root)
         this.root_ = root

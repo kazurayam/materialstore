@@ -1,8 +1,9 @@
 package com.kazurayam.materialstore.demo
 
+import com.kazurayam.materialstore.diff.DifferDriverImpl
 import com.kazurayam.materialstore.diff.DiffArtifact
 import com.kazurayam.materialstore.diff.DifferDriver
-import com.kazurayam.materialstore.diff.DifferDriverFactory
+
 import com.kazurayam.materialstore.selenium.AShotWrapper
 import com.kazurayam.materialstore.store.*
 import io.github.bonigarcia.wdm.WebDriverManager
@@ -91,8 +92,7 @@ class VisualTestingTwins {
 
         // makes diff images, save them into "objects" dir with updated "index".
         // returns the list of DiffArtifact which have the diff property stuffed.
-        DifferDriver differDriver = DifferDriverFactory.newDifferDriver()
-        differDriver.setRoot(root_)
+        DifferDriver differDriver = new DifferDriverImpl.Builder().root(root_).build()
         List<DiffArtifact> artifactsWithDiff= differDriver.makeDiff(artifactsToDiff)
         assert artifactsWithDiff != null
         assert artifactsWithDiff.size() > 0

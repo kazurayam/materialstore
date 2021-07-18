@@ -13,11 +13,8 @@ class DifferDriverImpl implements DifferDriver {
 
     private Path root_
 
-    DifferDriverImpl() {}
-
-    @Override
-    void setRoot(Path root) {
-        this.root_ = root
+    private DifferDriverImpl(Builder builder) {
+        this.root_ = builder.root;
     }
 
     @Override
@@ -48,4 +45,14 @@ class DifferDriverImpl implements DifferDriver {
         return results
     }
 
+    static class Builder {
+        private Path root
+        Builder root(Path root) {
+            this.root = root
+            return this
+        }
+        DifferDriverImpl build() {
+            return new DifferDriverImpl(this)
+        }
+    }
 }
