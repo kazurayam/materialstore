@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.report
+package com.kazurayam.materialstore.diff
 
 import com.kazurayam.materialstore.diff.DiffArtifact
 

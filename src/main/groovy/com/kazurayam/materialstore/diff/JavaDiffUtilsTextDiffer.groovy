@@ -14,15 +14,20 @@ import java.nio.file.Path
 import java.util.function.Function
 import java.util.stream.Collectors
 
-class TextDiffer implements Differ {
+/**
+ * uses java-diff-utils on GitHub
+ * https://github.com/java-diff-utils/java-diff-utils
+ * to make diff of 2 texts
+ */
+class JavaDiffUtilsTextDiffer implements Differ {
 
     private Path root_
 
     private Charset charset = StandardCharsets.UTF_8
 
-    TextDiffer () {}
+    JavaDiffUtilsTextDiffer() {}
 
-    TextDiffer(Path root) {
+    JavaDiffUtilsTextDiffer(Path root) {
         ensureRoot(root)
         this.root_ = root
     }

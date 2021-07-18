@@ -1,6 +1,6 @@
-package com.kazurayam.materialstore.report
+package com.kazurayam.materialstore.diff
 
-import com.kazurayam.materialstore.diff.DiffArtifact
+
 import com.kazurayam.materialstore.store.Material
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

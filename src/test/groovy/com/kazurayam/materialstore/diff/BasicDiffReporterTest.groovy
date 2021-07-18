@@ -7,30 +7,41 @@ import com.kazurayam.materialstore.store.JobTimestamp
 import com.kazurayam.materialstore.store.Material
 import com.kazurayam.materialstore.store.MetadataPattern
 import com.kazurayam.materialstore.store.StoreImpl
+import org.apache.commons.io.FileUtils
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
+import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.*
 
-class ImageDifferTest {
+class BasicDiffReporterTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(DifferDriverTest.class.getName())
+                    .resolve(BasicDiffReporterTest.class.getName())
 
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
 
+    @BeforeAll
+    static void beforeAll() {
+        if (Files.exists(outputDir)) {
+            FileUtils.deleteDirectory(outputDir.toFile())
+        }
+        Files.createDirectories(outputDir)
+    }
 
     @Test
-    void test_makeDiff() {
+    void test_reportDiffs_PNG() {
         Path root = outputDir.resolve("Materials")
         StoreImpl storeImpl = new StoreImpl(root)
-        JobName jobName = new JobName("test_makeDiff")
-        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
+        assert Files.exists(root)
+        JobName jobName = new JobName("test_reportDiffs_PNG")
         TestFixtureUtil.setupFixture(storeImpl, jobName)
+        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         //
         List<Material> expected = storeImpl.select(jobName, jobTimestamp, FileType.PNG,
                 new MetadataPattern(["profile": "ProductionEnv"]))
@@ -38,14 +49,22 @@ class ImageDifferTest {
         List<Material> actual = storeImpl.select(jobName, jobTimestamp, FileType.PNG,
                 new MetadataPattern(["profile": "DevelopmentEnv"]))
 
-        List<DiffArtifact> diffArtifacts =
+        List<DiffArtifact> input =
                 storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)
-        assertNotNull(diffArtifacts)
-        assertEquals(1, diffArtifacts.size())
         //
-        DiffArtifact stuffed = new ImageDiffer(root).makeDiff(diffArtifacts[0])
+        DifferDriver differDriver = DifferDriverFactory.newDifferDriver()
+        differDriver.setRoot(root)
+        List<DiffArtifact> stuffed = differDriver.makeDiff(input)
         assertNotNull(stuffed)
-        assertNotNull(stuffed.getDiff())
-        assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())
+        assertEquals(1, stuffed.size())
+        //
+        Path reportFile = root.resolve("report.md")
+        DiffReporter diffReporter = new BasicDiffReporter(root)
+        diffReporter.reportDiffs(stuffed, reportFile)
+        //
+        assertTrue(Files.exists(reportFile))
+        assertTrue(reportFile.toFile().length() > 0)
     }
+
+
 }

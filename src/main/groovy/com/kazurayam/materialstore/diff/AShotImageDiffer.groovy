@@ -11,13 +11,13 @@ import java.awt.image.BufferedImage
 import java.nio.file.Files
 import java.nio.file.Path
 
-class ImageDiffer implements Differ {
+class AShotImageDiffer implements Differ {
 
     private Path root_
 
-    ImageDiffer() {}
+    AShotImageDiffer() {}
 
-    ImageDiffer(Path root) {
+    AShotImageDiffer(Path root) {
         ensureRoot(root)
         this.root_ = root
     }

@@ -11,11 +11,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertNotEquals
 import static org.junit.jupiter.api.Assertions.assertNotNull
 
-class TextDifferTest {
+class JavaDiffUtilsTextDifferTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(DifferDriverTest.class.getName())
+                    .resolve(DifferDriverImplTest.class.getName())
 
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
@@ -40,7 +40,7 @@ class TextDifferTest {
         assertNotNull(diffArtifacts)
         assertEquals(1, diffArtifacts.size())
         //
-        DiffArtifact stuffed = new TextDiffer(root).makeDiff(diffArtifacts.get(0))
+        DiffArtifact stuffed = new JavaDiffUtilsTextDiffer(root).makeDiff(diffArtifacts.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())
