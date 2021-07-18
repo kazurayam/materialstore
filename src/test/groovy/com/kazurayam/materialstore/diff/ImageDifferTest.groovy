@@ -12,8 +12,7 @@ import org.junit.jupiter.api.Test
 import java.nio.file.Path
 import java.nio.file.Paths
 
-import static org.junit.jupiter.api.Assertions.assertEquals
-import static org.junit.jupiter.api.Assertions.assertNotNull
+import static org.junit.jupiter.api.Assertions.*
 
 class ImageDifferTest {
 
@@ -47,5 +46,6 @@ class ImageDifferTest {
         DiffArtifact stuffed = new ImageDiffer(root).makeDiff(diffArtifacts[0])
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
+        assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())
     }
 }

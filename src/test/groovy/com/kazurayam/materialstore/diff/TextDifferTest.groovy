@@ -8,6 +8,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.assertEquals
+import static org.junit.jupiter.api.Assertions.assertNotEquals
 import static org.junit.jupiter.api.Assertions.assertNotNull
 
 class TextDifferTest {
@@ -42,5 +43,6 @@ class TextDifferTest {
         DiffArtifact stuffed = new TextDiffer(root).makeDiff(diffArtifacts.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
+        assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())
     }
 }

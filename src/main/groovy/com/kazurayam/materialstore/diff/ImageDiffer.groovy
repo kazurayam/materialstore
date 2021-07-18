@@ -61,6 +61,7 @@ class ImageDiffer implements Differ {
         // write the image diff into disk
         Jobber jobber = new Jobber(root_, actual.getJobName(), actual.getJobTimestamp())
         Material diffMaterial = jobber.write(diffData, FileType.PNG, diffMetadata)
+
         //
         DiffArtifact result = new DiffArtifact(expected, actual)
         result.setDiff(diffMaterial)

@@ -40,6 +40,7 @@ class DifferDriver {
                 }
             }
         }
+        return results
     }
 
 }

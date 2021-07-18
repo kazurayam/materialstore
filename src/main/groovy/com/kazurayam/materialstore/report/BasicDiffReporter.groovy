@@ -1,11 +1,14 @@
 package com.kazurayam.materialstore.report
 
 import com.kazurayam.materialstore.diff.DiffArtifact
+import com.kazurayam.materialstore.store.Material
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import java.nio.file.Files
 import java.nio.file.Path
+
+import groovy.json.JsonOutput
 
 class BasicDiffReporter implements DiffReporter {
 
@@ -29,15 +32,24 @@ class BasicDiffReporter implements DiffReporter {
     @Override
     void reportDiffs(List<DiffArtifact> diffArtifacts, Path reportFile) {
         StringBuilder sb = new StringBuilder()
-        sb.append("# DiffArtifact\n\n")
+        sb.append("# DiffArtifacts\n\n")
         diffArtifacts.eachWithIndex { DiffArtifact da, int index ->
-            sb.append("## ${index} \n")
-            sb.append("- expected : ${da.getExpected().getIndexEntry().getID().toString()}\n")
-            sb.append("- actual   : ${da.getActual().getIndexEntry().getID().toString()}\n")
-            sb.append("- diff     : ${da.getDiff().getIndexEntry().getID().toString()}\n")
+            sb.append("## #${index} \n")
+            sb.append(buildListItem("expected", da.getExpected()))
+            sb.append(buildListItem("actual", da.getActual()))
+            sb.append(buildListItem("diff", da.getDiff()))
             sb.append("\n\n")
         }
         reportFile.toFile().text = sb.toString()
     }
 
+    private static String buildListItem(String name, Material material) {
+        StringBuilder sb = new StringBuilder()
+        sb.append("### ${name}\n")
+        sb.append("![${name}](${material.getRelativeURL()})\n")
+        sb.append("- URL: `${material.getRelativeURL()}`\n")
+        String s = JsonOutput.prettyPrint(material.getIndexEntry().getMetadata().toString())
+        sb.append("- metadata: `${s}`\n")
+        return sb.toString()
+    }
 }
