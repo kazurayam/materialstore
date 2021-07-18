@@ -15,8 +15,11 @@ class DifferDriverImpl implements DifferDriver {
 
     private Path root_
 
+    private Map<FileType, Differ> associations_
+
     private DifferDriverImpl(Builder builder) {
         this.root_ = builder.root;
+        this.associations_ = builder.associations
     }
 
     @Override
@@ -31,6 +34,15 @@ class DifferDriverImpl implements DifferDriver {
                 logger.warn("actual Material was NULL_OBJECT")
             } else {
                 FileType fileType = da.getActual().getIndexEntry().getFileType()
+                if (associations_.containsKey(fileType)) {
+                    Differ differ = associations_.get(fileType)
+                    differ.setRoot(root_)
+                    results.add(differ.makeDiff(da))
+                } else {
+                    logger.warn("FileType ${fileType.getExtension()} is not supported yet." +
+                            " in ${da.getActual().toString()}")
+                }
+                /*
                 switch (fileType) {
                     case (FileType.HTML):
                         Differ textDiffer = new JavaDiffUtilsTextDiffer(root_)
@@ -44,15 +56,38 @@ class DifferDriverImpl implements DifferDriver {
                         logger.warn("FileType ${fileType.getExtension()} is not supported yet." +
                                 " in ${da.getActual().toString()}")
                 }
+                 */
             }
         }
         return results
     }
 
+    @Override
+    boolean hasDiffer(FileType fileType) {
+        return associations_.containsKey(fileType)
+    }
+
     static class Builder {
         private Path root
+        private Map<FileType, Differ> associations
+        Builder() {}
         Builder root(Path root) {
             this.root = root
+
+            associations = new HashMap<FileType, Differ>()
+            JavaDiffUtilsTextDiffer javaDiffUtilsTextDiffer = new JavaDiffUtilsTextDiffer()
+            AShotImageDiffer aShotImageDiffer = new AShotImageDiffer()
+            associations.put(FileType.CSV, javaDiffUtilsTextDiffer)
+            associations.put(FileType.HTML, javaDiffUtilsTextDiffer)
+            associations.put(FileType.JSON, javaDiffUtilsTextDiffer)
+            associations.put(FileType.TXT, javaDiffUtilsTextDiffer)
+            associations.put(FileType.XML, javaDiffUtilsTextDiffer)
+            associations.put(FileType.PNG, aShotImageDiffer)
+
+            return this
+        }
+        Builder differFor(FileType fileType, Differ differ) {
+            associations.put(fileType, differ)
             return this
         }
         DifferDriverImpl build() {

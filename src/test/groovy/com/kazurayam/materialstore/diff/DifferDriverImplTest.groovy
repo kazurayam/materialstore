@@ -1,11 +1,13 @@
 package com.kazurayam.materialstore.diff
 
 import com.kazurayam.materialstore.TestFixtureUtil
+import com.kazurayam.materialstore.diff.differ.AShotImageDiffer
 import com.kazurayam.materialstore.store.FileType
 import com.kazurayam.materialstore.store.JobName
 import com.kazurayam.materialstore.store.JobTimestamp
 import com.kazurayam.materialstore.store.Material
 import com.kazurayam.materialstore.store.MetadataPattern
+import com.kazurayam.materialstore.store.Store
 import com.kazurayam.materialstore.store.StoreImpl
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
@@ -58,6 +60,16 @@ class DifferDriverImplTest {
         assertEquals(1, stuffed.size())
     }
 
+    @Test
+    void test_Builder_differFor() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        DifferDriver differDriver = new DifferDriverImpl.Builder()
+                .root(root)
+                .differFor(FileType.JPEG, new AShotImageDiffer())
+                .build()
+        assertTrue(differDriver.hasDiffer(FileType.JPEG))
+    }
 
     @Test
     void test_TextDiffer() {

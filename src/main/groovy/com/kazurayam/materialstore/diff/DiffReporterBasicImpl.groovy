@@ -10,13 +10,13 @@ import java.nio.file.Path
 
 import groovy.json.JsonOutput
 
-class BasicDiffReporterImpl implements DiffReporter {
+class DiffReporterBasicImpl implements DiffReporter {
 
-    private static final Logger logger = LoggerFactory.getLogger(BasicDiffReporterImpl.class)
+    private static final Logger logger = LoggerFactory.getLogger(DiffReporterBasicImpl.class)
 
     private final Path root_
 
-    BasicDiffReporterImpl(Path root) {
+    DiffReporterBasicImpl(Path root) {
         Objects.requireNonNull(root)
         ensureRoot(root)
         this.root_ = root
@@ -35,15 +35,15 @@ class BasicDiffReporterImpl implements DiffReporter {
         sb.append("# DiffArtifacts\n\n")
         diffArtifacts.eachWithIndex { DiffArtifact da, int index ->
             sb.append("## #${index} \n")
-            sb.append(buildListItem("expected", da.getExpected()))
-            sb.append(buildListItem("actual", da.getActual()))
-            sb.append(buildListItem("diff", da.getDiff()))
+            sb.append(makeListItem("expected", da.getExpected()))
+            sb.append(makeListItem("actual", da.getActual()))
+            sb.append(makeListItem("diff", da.getDiff()))
             sb.append("\n\n")
         }
         reportFile.toFile().text = sb.toString()
     }
 
-    private static String buildListItem(String name, Material material) {
+    private static String makeListItem(String name, Material material) {
         StringBuilder sb = new StringBuilder()
         sb.append("### ${name}\n")
         sb.append("![${name}](${material.getRelativeURL()})\n")

@@ -17,11 +17,11 @@ import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.*
 
-class BasicDiffReporterImplTest {
+class DiffReporterBasicImplTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(BasicDiffReporterImplTest.class.getName())
+                    .resolve(DiffReporterBasicImplTest.class.getName())
 
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
@@ -58,7 +58,7 @@ class BasicDiffReporterImplTest {
         assertEquals(1, stuffed.size())
         //
         Path reportFile = root.resolve("report.md")
-        DiffReporter diffReporter = new BasicDiffReporterImpl(root)
+        DiffReporter diffReporter = new DiffReporterBasicImpl(root)
         diffReporter.reportDiffs(stuffed, reportFile)
         //
         assertTrue(Files.exists(reportFile))
