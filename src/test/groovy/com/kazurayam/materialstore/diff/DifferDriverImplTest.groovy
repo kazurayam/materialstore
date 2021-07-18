@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.diff
 
 import com.kazurayam.materialstore.TestFixtureUtil
-import com.kazurayam.materialstore.diff.differ.AShotImageDiffer
+import com.kazurayam.materialstore.diff.differ.ImageDifferToPNG
 import com.kazurayam.materialstore.store.FileType
 import com.kazurayam.materialstore.store.JobName
 import com.kazurayam.materialstore.store.JobTimestamp
@@ -66,7 +66,7 @@ class DifferDriverImplTest {
         Store store = new StoreImpl(root)
         DifferDriver differDriver = new DifferDriverImpl.Builder()
                 .root(root)
-                .differFor(FileType.JPEG, new AShotImageDiffer())
+                .differFor(FileType.JPEG, new ImageDifferToPNG())
                 .build()
         assertTrue(differDriver.hasDiffer(FileType.JPEG))
     }

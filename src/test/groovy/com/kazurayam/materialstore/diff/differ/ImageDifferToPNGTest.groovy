@@ -3,7 +3,6 @@ package com.kazurayam.materialstore.diff.differ
 import com.kazurayam.materialstore.TestFixtureUtil
 import com.kazurayam.materialstore.diff.DiffArtifact
 import com.kazurayam.materialstore.diff.DifferDriverImplTest
-import com.kazurayam.materialstore.diff.differ.AShotImageDiffer
 import com.kazurayam.materialstore.store.FileType
 import com.kazurayam.materialstore.store.JobName
 import com.kazurayam.materialstore.store.JobTimestamp
@@ -17,7 +16,7 @@ import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.*
 
-class AShotImageDifferTest {
+class ImageDifferToPNGTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
@@ -46,7 +45,7 @@ class AShotImageDifferTest {
         assertNotNull(diffArtifacts)
         assertEquals(1, diffArtifacts.size())
         //
-        DiffArtifact stuffed = new AShotImageDiffer(root).makeDiff(diffArtifacts[0])
+        DiffArtifact stuffed = new ImageDifferToPNG(root).makeDiff(diffArtifacts[0])
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())

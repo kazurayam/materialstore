@@ -1,7 +1,8 @@
 package com.kazurayam.materialstore.diff
 
-import com.kazurayam.materialstore.diff.differ.AShotImageDiffer
-import com.kazurayam.materialstore.diff.differ.JavaDiffUtilsTextDiffer
+
+import com.kazurayam.materialstore.diff.differ.ImageDifferToPNG
+import com.kazurayam.materialstore.diff.differ.TextDifferToMarkdown
 import com.kazurayam.materialstore.store.FileType
 import com.kazurayam.materialstore.store.Material
 import org.slf4j.Logger
@@ -76,14 +77,14 @@ class DifferDriverImpl implements DifferDriver {
             this.root = root
             associations = new HashMap<FileType, Differ>()
             //
-            JavaDiffUtilsTextDiffer javaDiffUtilsTextDiffer = new JavaDiffUtilsTextDiffer()
+            TextDifferToMarkdown javaDiffUtilsTextDiffer = new TextDifferToMarkdown()
             associations.put(FileType.CSV, javaDiffUtilsTextDiffer)
             associations.put(FileType.HTML, javaDiffUtilsTextDiffer)
             associations.put(FileType.JSON, javaDiffUtilsTextDiffer)
             associations.put(FileType.TXT, javaDiffUtilsTextDiffer)
             associations.put(FileType.XML, javaDiffUtilsTextDiffer)
             //
-            AShotImageDiffer aShotImageDiffer = new AShotImageDiffer()
+            ImageDifferToPNG aShotImageDiffer = new ImageDifferToPNG()
             associations.put(FileType.PNG, aShotImageDiffer)
             associations.put(FileType.JPG, aShotImageDiffer)
             associations.put(FileType.JPEG, aShotImageDiffer)

@@ -21,15 +21,15 @@ import java.util.stream.Collectors
  * https://github.com/java-diff-utils/java-diff-utils
  * to make diff of 2 texts
  */
-class JavaDiffUtilsTextDiffer implements Differ {
+class TextDifferToMarkdown implements Differ {
 
     private Path root_
 
     private Charset charset = StandardCharsets.UTF_8
 
-    JavaDiffUtilsTextDiffer() {}
+    TextDifferToMarkdown() {}
 
-    JavaDiffUtilsTextDiffer(Path root) {
+    TextDifferToMarkdown(Path root) {
         ensureRoot(root)
         this.root_ = root
     }
