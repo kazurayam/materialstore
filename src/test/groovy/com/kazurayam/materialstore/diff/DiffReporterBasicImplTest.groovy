@@ -35,27 +35,27 @@ class DiffReporterBasicImplTest {
     }
 
     @Test
-    void test_reportDiffs_PNG() {
+    void test_reportDiffs_PNG_and_HTML() {
         Path root = outputDir.resolve("Materials")
         StoreImpl storeImpl = new StoreImpl(root)
         assert Files.exists(root)
-        JobName jobName = new JobName("test_reportDiffs_PNG")
+        JobName jobName = new JobName("test_reportDiffs_PNG_and_HTML")
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         //
         List<Material> expected = storeImpl.select(jobName, jobTimestamp,
-                new MetadataPattern(["profile": "ProductionEnv"]), FileType.PNG)
+                new MetadataPattern(["profile": "ProductionEnv"]))
 
         List<Material> actual = storeImpl.select(jobName, jobTimestamp,
-                new MetadataPattern(["profile": "DevelopmentEnv"]), FileType.PNG)
+                new MetadataPattern(["profile": "DevelopmentEnv"]))
 
         List<DiffArtifact> input =
-                storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)
+                storeImpl.zipMaterials(expected, actual, ["URL.file", "category"] as Set)
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder().root(root).build()
         List<DiffArtifact> stuffed = differDriver.makeDiff(input)
         assertNotNull(stuffed)
-        assertEquals(1, stuffed.size())
+        assertEquals(2, stuffed.size())
         //
         Path reportFile = root.resolve("report.md")
         DiffReporter diffReporter = new DiffReporterBasicImpl(root)

@@ -198,11 +198,13 @@ class StoreImpl implements Store {
         List<DiffArtifact> result = new ArrayList<DiffArtifact>()
         //
         actualList.each { Material actual->
+            FileType actualFileType = actual.getIndexEntry().getFileType()
             Metadata actualMetadata = actual.getIndexEntry().getMetadata()
             MetadataPattern pattern = MetadataPattern.create(metadataKeys, actualMetadata)
             expectedList.each { Material expected ->
+                FileType expectedFileType = expected.getIndexEntry().getFileType()
                 Metadata expectedMetadata = expected.getIndexEntry().getMetadata()
-                if (expectedMetadata.match(pattern)) {
+                if (expectedFileType == actualFileType && expectedMetadata.match(pattern)) {
                     result.add(new DiffArtifact(expected, actual))
                 } else {
                     result.add(new DiffArtifact(Material.NULL_OBJECT, actual))

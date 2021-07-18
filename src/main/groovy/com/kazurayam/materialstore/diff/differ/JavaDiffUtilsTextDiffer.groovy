@@ -58,7 +58,14 @@ class JavaDiffUtilsTextDiffer implements Differ {
         Objects.requireNonNull(input.getActual())
         //
         Material expected = input.getExpected()
+        if (! expected.isText()) {
+            throw new IllegalArgumentException("is not a text: ${actual}")
+        }
         Material actual = input.getActual()
+        if (! actual.isText()) {
+            throw new IllegalArgumentException("is not a text: ${actual}")
+        }
+
         //
         StringBuilder sb = new StringBuilder()
         sb.append("- original: `${expected.getIndexEntry().getMetadata().toString()}`\n")

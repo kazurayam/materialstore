@@ -46,7 +46,14 @@ class DiffReporterBasicImpl implements DiffReporter {
     private static String makeListItem(String name, Material material) {
         StringBuilder sb = new StringBuilder()
         sb.append("### ${name}\n")
-        sb.append("![${name}](${material.getRelativeURL()})\n")
+        if (material.isImage()) {
+            sb.append("![${name}](${material.getRelativeURL()})\n")
+        } else if (material.isText()) {
+            sb.append("[${material.getRelativeURL()}](${material.getRelativeURL()})\n")
+        } else {
+            // files other than image and text, no way to render in Markdown
+            ;
+        }
         sb.append("- URL: `${material.getRelativeURL()}`\n")
         String s = JsonOutput.prettyPrint(material.getIndexEntry().getMetadata().toString())
         sb.append("- metadata: `${s}`\n")

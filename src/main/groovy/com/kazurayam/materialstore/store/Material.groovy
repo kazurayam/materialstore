@@ -61,6 +61,19 @@ class Material implements Comparable {
         return s.replace("\\", "/")
     }
 
+    boolean isImage() {
+        FileType ft = this.getIndexEntry().getFileType()
+        return ft == FileType.PNG || ft == FileType.JPEG ||
+                ft == FileType.JPG || ft == FileType.GIF
+    }
+
+    boolean isText() {
+        FileType ft = this.getIndexEntry().getFileType()
+        return ft == FileType.CSV || ft == FileType.MD ||
+                ft == FileType.HTML || ft == FileType.JSON ||
+                ft == FileType.XML || ft == FileType.TXT
+    }
+
     @Override
     boolean equals(Object obj) {
         if (! obj instanceof Material) {
@@ -83,8 +96,12 @@ class Material implements Comparable {
 
     @Override
     String toString() {
-        Map m = ["jobName": this.getJobName(), "jobTimestamp": this.getJobTimestamp(),
-                 "indexEntry": this.getIndexEntry()]
+        Map m = ["jobName": this.getJobName().toString(),
+                 "jobTimestamp": this.getJobTimestamp().toString(),
+                 "ID": this.getIndexEntry().getID().toString(),
+                 "fileType": this.getIndexEntry().getFileType().getExtension(),
+                 "metadata": this.getIndexEntry().getMetadata().toString()
+        ]
         return new JsonOutput().toJson(m)
     }
 

@@ -7,6 +7,7 @@ import com.kazurayam.materialstore.store.Jobber
 import com.kazurayam.materialstore.store.Material
 import com.kazurayam.materialstore.store.Metadata
 import ru.yandex.qatools.ashot.comparison.ImageDiff
+import ru.yandex.qatools.ashot.comparison.ImageDiffer
 
 import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
@@ -41,17 +42,25 @@ class AShotImageDiffer implements Differ {
         Objects.requireNonNull(input)
         Objects.requireNonNull(input.getExpected())
         Objects.requireNonNull(input.getActual())
+        //
         Material expected = input.getExpected()
-        byte[] expectedData = readMaterial(root_, expected)
-        BufferedImage expectedImage = createImageFromBytes(expectedData)
+        if (! expected.isImage()) {
+            throw new IllegalArgumentException("the expected material is not an image: ${expected}")
+        }
+        File expectedFile = root_.resolve(expected.getRelativePath()).toFile()
+        BufferedImage expectedImage = readImage(expectedFile)
         assert expectedImage != null
+        //
         Material actual = input.getActual()
-        byte[] actualData = readMaterial(root_, actual)
-        BufferedImage actualImage = createImageFromBytes(actualData)
+        if (! actual.isImage()) {
+            throw new IllegalArgumentException("the actual material is not an image: ${actual}")
+        }
+        File actualFile = root_.resolve(actual.getRelativePath()).toFile()
+        BufferedImage actualImage = readImage(actualFile)
         assert actualImage != null
 
         // make a diff image using AShot
-        ru.yandex.qatools.ashot.comparison.ImageDiffer imgDiff = new ru.yandex.qatools.ashot.comparison.ImageDiffer()
+        ImageDiffer imgDiff = new ImageDiffer()
         ImageDiff imageDiff = imgDiff.makeDiff(expectedImage,actualImage);
         Metadata diffMetadata = new Metadata([
                 "category": "diff",
@@ -70,17 +79,15 @@ class AShotImageDiffer implements Differ {
         return result
     }
 
-    private static byte[] readMaterial(Path root, Material material) {
-        Objects.requireNonNull(root)
-        Objects.requireNonNull(material)
-        Jobber jobber = new Jobber(root, material.getJobName(), material.getJobTimestamp())
-        return jobber.read(material.getIndexEntry())
-    }
 
-    private static BufferedImage createImageFromBytes(byte[] imageData) {
-        ByteArrayInputStream bais = new ByteArrayInputStream(imageData);
+    private static BufferedImage readImage(File imageFile) {
+        if (! imageFile.exists()) {
+            throw new IllegalArgumentException("${imageFile} is not found")
+        }
         try {
-            return ImageIO.read(bais);
+            BufferedImage bufferedImage = ImageIO.read(imageFile)
+            assert bufferedImage != null
+            return bufferedImage
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
