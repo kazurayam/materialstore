@@ -135,10 +135,12 @@ class JobberTest {
     }
 
     @Test
-    void test_selectMaterials() {
+    void test_selectMaterials_with_FileType() {
         Path root = outputDir.resolve("Materials")
         StoreImpl repos = new StoreImpl(root)
-        Jobber jobber = repos.getJobber(new JobName("test_select"), JobTimestamp.now())
+        JobName jobName = new JobName("test_selectMaterials_with_FileType")
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        Jobber jobber = repos.getJobber(jobName, jobTimestamp)
         Metadata metadata = new Metadata(["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.katalon.com/"])
         BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -147,8 +149,25 @@ class JobberTest {
         Material material = jobber.write(data, FileType.PNG, metadata)
         //
         MetadataPattern pattern = new MetadataPattern([ "profile": "*", "URL": "*"])
-        List<Material> materials = jobber.selectMaterials(FileType.PNG, pattern)
+        List<Material> materials = jobber.selectMaterials(pattern, FileType.PNG)
         assertNotNull(materials)
         assertEquals(1, materials.size())
     }
+
+    @Test
+    void test_selectMaterials_without_FileType() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_selectMaterials_without_FileType")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
+        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        MetadataPattern pattern = new MetadataPattern([ "profile": "DevelopmentEnv", "URL": "*"])
+        // select without FileType
+        List<Material> materials = jobber.selectMaterials(pattern)
+        assertNotNull(materials)
+        assertEquals(2, materials.size())
+    }
+
 }

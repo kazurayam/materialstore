@@ -121,9 +121,16 @@ class StoreImpl implements Store {
 
     @Override
     List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
-                          FileType fileType, MetadataPattern metadataPattern) {
+                          MetadataPattern metadataPattern, FileType fileType) {
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
-        return jobber.selectMaterials(fileType, metadataPattern)
+        return jobber.selectMaterials(metadataPattern, fileType)
+    }
+
+    @Override
+    List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
+                          MetadataPattern metadataPattern) {
+        Jobber jobber = this.getJobber(jobName, jobTimestamp)
+        return jobber.selectMaterials(metadataPattern)
     }
 
 

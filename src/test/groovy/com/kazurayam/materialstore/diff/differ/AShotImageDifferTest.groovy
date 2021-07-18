@@ -1,6 +1,9 @@
-package com.kazurayam.materialstore.diff
+package com.kazurayam.materialstore.diff.differ
 
 import com.kazurayam.materialstore.TestFixtureUtil
+import com.kazurayam.materialstore.diff.DiffArtifact
+import com.kazurayam.materialstore.diff.DifferDriverImplTest
+import com.kazurayam.materialstore.diff.differ.AShotImageDiffer
 import com.kazurayam.materialstore.store.FileType
 import com.kazurayam.materialstore.store.JobName
 import com.kazurayam.materialstore.store.JobTimestamp
@@ -32,11 +35,11 @@ class AShotImageDifferTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         //
-        List<Material> expected = storeImpl.select(jobName, jobTimestamp, FileType.PNG,
-                new MetadataPattern(["profile": "ProductionEnv"]))
+        List<Material> expected = storeImpl.select(jobName, jobTimestamp,
+                new MetadataPattern(["profile": "ProductionEnv"]), FileType.PNG)
 
-        List<Material> actual = storeImpl.select(jobName, jobTimestamp, FileType.PNG,
-                new MetadataPattern(["profile": "DevelopmentEnv"]))
+        List<Material> actual = storeImpl.select(jobName, jobTimestamp,
+                new MetadataPattern(["profile": "DevelopmentEnv"]), FileType.PNG)
 
         List<DiffArtifact> diffArtifacts =
                 storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)

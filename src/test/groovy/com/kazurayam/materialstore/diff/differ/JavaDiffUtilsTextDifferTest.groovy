@@ -1,6 +1,9 @@
-package com.kazurayam.materialstore.diff
+package com.kazurayam.materialstore.diff.differ
 
 import com.kazurayam.materialstore.TestFixtureUtil
+import com.kazurayam.materialstore.diff.DiffArtifact
+import com.kazurayam.materialstore.diff.DifferDriverImplTest
+import com.kazurayam.materialstore.diff.differ.JavaDiffUtilsTextDiffer
 import com.kazurayam.materialstore.store.*
 import org.junit.jupiter.api.Test
 
@@ -29,11 +32,13 @@ class JavaDiffUtilsTextDifferTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         //
-        List<Material> expected = storeImpl.select(jobName, jobTimestamp, FileType.HTML,
-                new MetadataPattern(["category":"page source","profile": "ProductionEnv"]))
+        List<Material> expected = storeImpl.select(jobName, jobTimestamp,
+                new MetadataPattern(["category":"page source","profile": "ProductionEnv"]),
+                FileType.HTML)
 
-        List<Material> actual = storeImpl.select(jobName, jobTimestamp, FileType.HTML,
-                new MetadataPattern(["category":"page source","profile": "DevelopmentEnv"]))
+        List<Material> actual = storeImpl.select(jobName, jobTimestamp,
+                new MetadataPattern(["category":"page source","profile": "DevelopmentEnv"]),
+                FileType.HTML)
 
         List<DiffArtifact> diffArtifacts =
                 storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)

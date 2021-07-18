@@ -1,5 +1,7 @@
 package com.kazurayam.materialstore.diff
 
+import com.kazurayam.materialstore.diff.differ.AShotImageDiffer
+import com.kazurayam.materialstore.diff.differ.JavaDiffUtilsTextDiffer
 import com.kazurayam.materialstore.store.FileType
 import com.kazurayam.materialstore.store.Material
 import org.slf4j.Logger
@@ -31,10 +33,12 @@ class DifferDriverImpl implements DifferDriver {
                 FileType fileType = da.getActual().getIndexEntry().getFileType()
                 switch (fileType) {
                     case (FileType.HTML):
-                        results.add(new JavaDiffUtilsTextDiffer(root_).makeDiff(da))
+                        Differ textDiffer = new JavaDiffUtilsTextDiffer(root_)
+                        results.add(textDiffer.makeDiff(da))
                         break
                     case (FileType.PNG):
-                        results.add(new AShotImageDiffer(root_).makeDiff(da))
+                        Differ imageDiffer = new AShotImageDiffer(root_)
+                        results.add(imageDiffer.makeDiff(da))
                         break
                     default:
                         logger.warn("FileType ${fileType.getExtension()} is not supported yet." +

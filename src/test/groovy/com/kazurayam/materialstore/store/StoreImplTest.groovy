@@ -91,7 +91,7 @@ class StoreImplTest {
     }
 
     @Test
-    void test_select() {
+    void test_select_with_FileType() {
         Path root = outputDir.resolve("Materials")
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_select")
@@ -102,7 +102,8 @@ class StoreImplTest {
         assertNotNull(material)
         //
         MetadataPattern pattern = new MetadataPattern(["profile": "*", "URL": "*"])
-        List<Material> materials = store.select(jobName, jobTimestamp, FileType.PNG, pattern)
+        // select specifying FileType
+        List<Material> materials = store.select(jobName, jobTimestamp, pattern, FileType.PNG)
         assertNotNull(materials)
         assertEquals(1, materials.size())
     }
@@ -176,14 +177,16 @@ class StoreImplTest {
         //
         Jobber jobberOfExpected = store.getJobber(jobName,
                 new JobTimestamp("20210713_093357"))
-        List<Material> expectedList = jobberOfExpected.selectMaterials(FileType.PNG,
-                new MetadataPattern(["profile": "ProductionEnv", "URL.file": "*"]))
+        List<Material> expectedList = jobberOfExpected.selectMaterials(
+                new MetadataPattern(["profile": "ProductionEnv", "URL.file": "*"]),
+                FileType.PNG)
         assertEquals(1, expectedList.size())
         //
         Jobber jobberOfActual = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
-        List<Material> actualList= jobberOfActual.selectMaterials(FileType.PNG,
-                new MetadataPattern(["profile": "DevelopmentEnv", "URL.file": "*"]))
+            List<Material> actualList= jobberOfActual.selectMaterials(
+                new MetadataPattern(["profile": "DevelopmentEnv", "URL.file": "*"]),
+                    FileType.PNG)
         assertEquals(1, actualList.size())
         //
         List<DiffArtifact> diffArtifacts = store.zipMaterials(

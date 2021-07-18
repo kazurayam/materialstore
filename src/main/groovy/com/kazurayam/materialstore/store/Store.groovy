@@ -14,7 +14,10 @@ interface Store {
     Path getRoot()
 
     List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
-                          FileType fileType, MetadataPattern metadataPattern)
+                          MetadataPattern metadataPattern)
+
+    List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
+                          MetadataPattern metadataPattern, FileType fileType)
 
     Material write(JobName jobName, JobTimestamp jobTimestamp,
                    FileType fileType, Metadata meta, BufferedImage input)

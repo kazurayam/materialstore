@@ -43,11 +43,11 @@ class BasicDiffReporterImplTest {
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         //
-        List<Material> expected = storeImpl.select(jobName, jobTimestamp, FileType.PNG,
-                new MetadataPattern(["profile": "ProductionEnv"]))
+        List<Material> expected = storeImpl.select(jobName, jobTimestamp,
+                new MetadataPattern(["profile": "ProductionEnv"]), FileType.PNG)
 
-        List<Material> actual = storeImpl.select(jobName, jobTimestamp, FileType.PNG,
-                new MetadataPattern(["profile": "DevelopmentEnv"]))
+        List<Material> actual = storeImpl.select(jobName, jobTimestamp,
+                new MetadataPattern(["profile": "DevelopmentEnv"]), FileType.PNG)
 
         List<DiffArtifact> input =
                 storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)

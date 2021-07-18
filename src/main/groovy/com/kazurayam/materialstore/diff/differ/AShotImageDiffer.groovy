@@ -1,5 +1,7 @@
-package com.kazurayam.materialstore.diff
+package com.kazurayam.materialstore.diff.differ
 
+import com.kazurayam.materialstore.diff.DiffArtifact
+import com.kazurayam.materialstore.diff.Differ
 import com.kazurayam.materialstore.store.FileType
 import com.kazurayam.materialstore.store.Jobber
 import com.kazurayam.materialstore.store.Material

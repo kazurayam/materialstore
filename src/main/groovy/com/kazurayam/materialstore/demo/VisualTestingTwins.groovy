@@ -75,11 +75,11 @@ class VisualTestingTwins {
 
         // pickup the screenshots that belongs to the 2 "profiles", make image-diff files of each.
         List<Material> screenshotsOfProfile1 = store.select(jobName, jobTimestamp,
-                FileType.PNG, new MetadataPattern([ "profile": profile1 ]))
+                new MetadataPattern([ "profile": profile1 ]))
         assert screenshotsOfProfile1 != null
 
         List<Material> screenshotsOfProfile2 = store.select(jobName, jobTimestamp,
-                FileType.PNG, new MetadataPattern([ "profile": profile2 ]))
+                new MetadataPattern([ "profile": profile2 ]))
         assert screenshotsOfProfile2 != null
 
         //

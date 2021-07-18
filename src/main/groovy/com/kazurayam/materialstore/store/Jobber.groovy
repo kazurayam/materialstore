@@ -80,18 +80,23 @@ class Jobber {
      * @param metadataPattern
      * @return
      */
-    List<Material> selectMaterials(FileType fileType, MetadataPattern metadataPattern) {
+    List<Material> selectMaterials(MetadataPattern metadataPattern, FileType fileType) {
         Objects.requireNonNull(fileType)
         Objects.requireNonNull(metadataPattern)
         List<Material> result = new ArrayList<Material>()
         index.eachWithIndex { IndexEntry entry, x ->
-            if (entry.getFileType() == fileType &&
-                    entry.getMetadata().match(metadataPattern)) {
-                Material material = new Material(jobName, jobTimestamp, entry)
-                result.add(material)
+            if (entry.getMetadata().match(metadataPattern)) {
+                if (fileType == FileType.NULL || fileType == entry.getFileType()) {
+                    Material material = new Material(jobName, jobTimestamp, entry)
+                    result.add(material)
+                }
             }
         }
         return result
+    }
+    
+    List<Material> selectMaterials(MetadataPattern metadataPattern) {
+        return selectMaterials(metadataPattern, FileType.NULL)
     }
 
     /**
