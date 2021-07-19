@@ -47,4 +47,18 @@ class TextDifferToHTMLTest {
         assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())
     }
 
+    @Test
+    void test_divideStringIntoSegments() {
+        String given = "    if (! obj instanceof Material) {"
+        List<String> expected = [
+                "    if",
+                " (!",
+                " obj",
+                " instanceof",
+                " Material)",
+                " {"
+        ]
+        assertEquals(expected, TextDifferToHTML.divideStringIntoSegments(given))
+    }
+
 }
