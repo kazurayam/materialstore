@@ -2,17 +2,11 @@ package com.kazurayam.materialstore.diff.differ
 
 import com.github.difflib.text.DiffRow
 import com.github.difflib.text.DiffRowGenerator
-import com.kazurayam.materialstore.diff.DiffArtifact
 import com.kazurayam.materialstore.diff.Differ
-import com.kazurayam.materialstore.store.FileType
-import com.kazurayam.materialstore.store.Jobber
 import com.kazurayam.materialstore.store.Material
-import com.kazurayam.materialstore.store.Metadata
 import groovy.xml.MarkupBuilder
 
 import java.nio.charset.Charset
-import java.nio.charset.StandardCharsets
-import java.nio.file.Files
 import java.nio.file.Path
 import java.util.function.Function
 import java.util.regex.Matcher
@@ -24,9 +18,10 @@ import java.util.stream.Collectors
  * https://github.com/java-diff-utils/java-diff-utils
  * to make diff of 2 texts
  */
-class TextDifferToHTML extends AbstractTextDiffer implements Differ {
+// A problem: how to deal with a long line without white spaces
+//  <script  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
 
-    private static final Pattern SPANNING_PATTERN = Pattern.compile("\\s*\\S+")
+class TextDifferToHTML extends AbstractTextDiffer implements Differ {
 
     TextDifferToHTML(Path root) {
         super(root)
@@ -87,14 +82,14 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
             body() {
                 div(id: "container") {
                     div(id: "inputs") {
-                        h1("original")
+                        h1("Original")
                         dl() {
                             dt("URL")
                             dd(original.getRelativeURL())
-                            dt("metadatta")
+                            dt("metadata")
                             dd(original.getIndexEntry().getMetadata().toString())
                         }
-                        h1("revised")
+                        h1("Revised")
                         dl() {
                             dt("URL")
                             dd(revised.getRelativeURL())
@@ -102,26 +97,27 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                             dd(revised.getIndexEntry().getMetadata().toString())
                         }
                     }
-                    h2(id: "decision", ((equalRows.size() < rows.size()) ? 'DIFFERENT' : 'EQUALS'))
+                    h2(id: "decision", ((equalRows.size() < rows.size()) ? 'are DIFFERENT' : 'are EQUAL'))
+                    h3("rows")
                     ul(id: "stats") {
                         li() {
-                            span("total rows")
+                            span("total : ")
                             span(rows.size())
                         }
                         li() {
-                            span("inserted rows")
+                            span("inserted : ")
                             span(insertedRows.size())
                         }
                         li() {
-                            span("deleted rows")
+                            span("deleted : ")
                             span(deletedRows.size())
                         }
                         li() {
-                            span("changed rows")
+                            span("changed : ")
                             span(changedRows.size())
                         }
                         li() {
-                            span("equal rows")
+                            span("equal : ")
                             span(equalRows.size())
                         }
                     }
@@ -136,7 +132,7 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                         tbody() {
                             rows.eachWithIndex { DiffRow row, index ->
                                 tr() {
-                                    td(index + 1)
+                                    th(index + 1)
                                     td() {
                                         span(class:"blob-code-inner") {
                                             List<String> segments = divideStringIntoSegments(row.getOldLine())
@@ -182,15 +178,19 @@ div#container {
 table {
     border-collapse: collapse;
     border-spacing: 0;
+    border: 1px solid #ccc;
 }
 td, th {
     font-size: 12px;
+    border-right: 1px solid #ccc;
+}
+th {
+    border-bottom: 1px solid #ccc;
 }
 .blob-code-inner {
-    white-space: pre;
 }
 .pl {
-    display: inline;
+    white-space: pre;
 }
 """
     }
@@ -202,6 +202,8 @@ td, th {
      * @param line
      * @return
      */
+    private static final Pattern SPANNING_PATTERN = Pattern.compile("\\s*\\S+")
+
     static List<String> divideStringIntoSegments(String line, clazz="pl") {
         Matcher m = SPANNING_PATTERN.matcher(line)
         List<String> segments = m.findAll()
