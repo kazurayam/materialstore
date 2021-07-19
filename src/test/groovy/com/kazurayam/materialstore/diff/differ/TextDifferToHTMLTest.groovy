@@ -2,22 +2,19 @@ package com.kazurayam.materialstore.diff.differ
 
 import com.kazurayam.materialstore.TestFixtureUtil
 import com.kazurayam.materialstore.diff.DiffArtifact
-import com.kazurayam.materialstore.diff.DifferDriverImplTest
 import com.kazurayam.materialstore.store.*
 import org.junit.jupiter.api.Test
 
 import java.nio.file.Path
 import java.nio.file.Paths
 
-import static org.junit.jupiter.api.Assertions.assertEquals
-import static org.junit.jupiter.api.Assertions.assertNotEquals
-import static org.junit.jupiter.api.Assertions.assertNotNull
+import static org.junit.jupiter.api.Assertions.*
 
-class TextDifferToMarkdownTest {
+class TextDifferToHTMLTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(TextDifferToMarkdownTest.class.getName())
+                    .resolve(TextDifferToHTMLTest.class.getName())
 
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
@@ -44,9 +41,10 @@ class TextDifferToMarkdownTest {
         assertNotNull(diffArtifacts)
         assertEquals(1, diffArtifacts.size())
         //
-        DiffArtifact stuffed = new TextDifferToMarkdown(root).makeDiff(diffArtifacts.get(0))
+        DiffArtifact stuffed = new TextDifferToHTML(root).makeDiff(diffArtifacts.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())
     }
+
 }

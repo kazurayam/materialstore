@@ -16,11 +16,11 @@ class DifferDriverImpl implements DifferDriver {
 
     private Path root_
 
-    private Map<FileType, Differ> associations_
+    private Map<FileType, Differ> differs_
 
     private DifferDriverImpl(Builder builder) {
         this.root_ = builder.root;
-        this.associations_ = builder.associations
+        this.differs_ = builder.differs
     }
 
     @Override
@@ -35,8 +35,8 @@ class DifferDriverImpl implements DifferDriver {
                 logger.warn("actual Material was NULL_OBJECT. expected=${da.getExpected()}")
             } else {
                 FileType fileType = da.getActual().getIndexEntry().getFileType()
-                if (associations_.containsKey(fileType)) {
-                    Differ differ = associations_.get(fileType)
+                if (differs_.containsKey(fileType)) {
+                    Differ differ = differs_.get(fileType)
                     differ.setRoot(root_)
                     DiffArtifact stuffedDiffArtifact = differ.makeDiff(da)
                     results.add(stuffedDiffArtifact)
@@ -44,21 +44,6 @@ class DifferDriverImpl implements DifferDriver {
                     logger.warn("FileType ${fileType.getExtension()} is not supported yet." +
                             " in ${da.getActual().toString()}")
                 }
-                /*
-                switch (fileType) {
-                    case (FileType.HTML):
-                        Differ textDiffer = new JavaDiffUtilsTextDiffer(root_)
-                        results.add(textDiffer.makeDiff(da))
-                        break
-                    case (FileType.PNG):
-                        Differ imageDiffer = new AShotImageDiffer(root_)
-                        results.add(imageDiffer.makeDiff(da))
-                        break
-                    default:
-                        logger.warn("FileType ${fileType.getExtension()} is not supported yet." +
-                                " in ${da.getActual().toString()}")
-                }
-                 */
             }
         }
         return results
@@ -66,34 +51,34 @@ class DifferDriverImpl implements DifferDriver {
 
     @Override
     boolean hasDiffer(FileType fileType) {
-        return associations_.containsKey(fileType)
+        return differs_.containsKey(fileType)
     }
 
     static class Builder {
         private Path root
-        private Map<FileType, Differ> associations
+        private Map<FileType, Differ> differs
         Builder() {}
         Builder root(Path root) {
             this.root = root
-            associations = new HashMap<FileType, Differ>()
+            differs = new HashMap<FileType, Differ>()
             //
             TextDifferToMarkdown javaDiffUtilsTextDiffer = new TextDifferToMarkdown()
-            associations.put(FileType.CSV, javaDiffUtilsTextDiffer)
-            associations.put(FileType.HTML, javaDiffUtilsTextDiffer)
-            associations.put(FileType.JSON, javaDiffUtilsTextDiffer)
-            associations.put(FileType.TXT, javaDiffUtilsTextDiffer)
-            associations.put(FileType.XML, javaDiffUtilsTextDiffer)
+            differs.put(FileType.CSV, javaDiffUtilsTextDiffer)
+            differs.put(FileType.HTML, javaDiffUtilsTextDiffer)
+            differs.put(FileType.JSON, javaDiffUtilsTextDiffer)
+            differs.put(FileType.TXT, javaDiffUtilsTextDiffer)
+            differs.put(FileType.XML, javaDiffUtilsTextDiffer)
             //
             ImageDifferToPNG aShotImageDiffer = new ImageDifferToPNG()
-            associations.put(FileType.PNG, aShotImageDiffer)
-            associations.put(FileType.JPG, aShotImageDiffer)
-            associations.put(FileType.JPEG, aShotImageDiffer)
-            associations.put(FileType.GIF, aShotImageDiffer)
+            differs.put(FileType.PNG, aShotImageDiffer)
+            differs.put(FileType.JPG, aShotImageDiffer)
+            differs.put(FileType.JPEG, aShotImageDiffer)
+            differs.put(FileType.GIF, aShotImageDiffer)
             //
             return this
         }
         Builder differFor(FileType fileType, Differ differ) {
-            associations.put(fileType, differ)
+            differs.put(fileType, differ)
             return this
         }
         DifferDriverImpl build() {
