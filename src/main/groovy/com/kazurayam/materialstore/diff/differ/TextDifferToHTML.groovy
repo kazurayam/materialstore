@@ -200,9 +200,10 @@ th {
     border-bottom: 1px solid #ccc;
 }
 .blob-code-inner {
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 .pl {
-    white-space: pre;
 }
 """
     }
