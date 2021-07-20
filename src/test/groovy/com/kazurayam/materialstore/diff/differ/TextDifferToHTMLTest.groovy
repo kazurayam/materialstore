@@ -68,7 +68,7 @@ class TextDifferToHTMLTest {
     }
 
     @Test
-    void test_convertTagsToSpans() {
+    void test_markupSegments() {
         String OT = TextDifferToHTML.OLD_TAG
         String NT = TextDifferToHTML.NEW_TAG
         List<String> segments = [
@@ -77,9 +77,9 @@ class TextDifferToHTMLTest {
         ]
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
-        TextDifferToHTML.convertTagsToSpans(mb, segments)
+        // no do it
+        TextDifferToHTML.markupSegments(mb, segments)
         String markup = sw.toString()
-        println "test_convertTagsToSpans: " + markup
         assertTrue(markup.contains("<span class=\'deletion\'>"))
         assertTrue(markup.contains("<span class=\'insertion\'>"))
         assertTrue(markup.contains("<span class=\'unchanged\'>"))

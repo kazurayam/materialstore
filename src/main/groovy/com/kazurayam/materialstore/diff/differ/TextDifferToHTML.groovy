@@ -13,6 +13,9 @@ import java.util.regex.Pattern
 import java.util.stream.Collectors
 
 /**
+ * compiles a HTML report of diff of 2 text files
+ * presents the diff information in a HTML like the GitHub History split view.
+ *
  * uses java-diff-utils on GitHub
  * https://github.com/java-diff-utils/java-diff-utils
  * to make diff of 2 texts
