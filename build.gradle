@@ -56,9 +56,10 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    finalizedBy jacocoTestReport
+    //finalizedBy jacocoTestReport
 }
 
+/*
 jacocoTestReport {
     dependsOn test
     reports {
@@ -67,6 +68,7 @@ jacocoTestReport {
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 }
+ */
 
 task publishGroovydoc(type: Copy) {
     from 'build/docs/groovydoc'

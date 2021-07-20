@@ -145,6 +145,7 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                                         span(class:"blob-code-inner") {
                                             List<String> segments = divideStringIntoSegments(row.getOldLine())
                                             segments.each { segment ->
+                                                mb.metaClass.setAttribute(mb, "nospace", true)
                                                 mb.span(class: "pl", segment)
                                             }
                                         }
@@ -153,6 +154,7 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                                         span(class:"blob-code-inner") {
                                             List<String> segments = divideStringIntoSegments(row.getNewLine())
                                             segments.each { segment ->
+                                                mb.metaClass.setAttribute(mb, "nospace", true)
                                                 mb.span(class: "pl", segment)
                                             }
                                         }
