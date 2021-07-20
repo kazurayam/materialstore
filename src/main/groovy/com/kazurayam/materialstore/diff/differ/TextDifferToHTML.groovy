@@ -9,7 +9,6 @@ import groovy.xml.MarkupBuilder
 import java.nio.charset.Charset
 import java.nio.file.Path
 import java.util.function.Function
-import java.util.regex.Matcher
 import java.util.regex.Pattern
 import java.util.stream.Collectors
 
@@ -23,8 +22,8 @@ import java.util.stream.Collectors
 
 class TextDifferToHTML extends AbstractTextDiffer implements Differ {
 
-    private static final String OLD_TAG = "|-.-|"
-    private static final String NEW_TAG = "|+.+|"
+    public static final String OLD_TAG = "!_~_!"
+    public static final String NEW_TAG = "!#~#!"
 
     TextDifferToHTML(Path root) {
         super(root)
@@ -49,6 +48,11 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                         .lineNormalizer({str ->
                                 str.replaceAll("&lt;", "<")
                                         .replaceAll("&gt;",">")
+                                        .replaceAll("&quot;", "\"")
+                                        .replaceAll("&apos;", "\'")
+                                        .replaceAll("&amp;", "&")
+
+
                         })
                         .build()
 
@@ -140,23 +144,17 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                         tbody() {
                             rows.eachWithIndex { DiffRow row, index ->
                                 tr() {
-                                    th(index + 1)
-                                    td() {
+                                    th(class: getClassOfDiffRow(row), index + 1)
+                                    td(class: getClassOfDiffRow(row)) {
                                         span(class:"blob-code-inner") {
-                                            List<String> segments = divideStringIntoSegments(row.getOldLine())
-                                            segments.each { segment ->
-                                                mb.metaClass.setAttribute(mb, "nospace", true)
-                                                mb.span(class: "pl", segment)
-                                            }
+                                            List<String> segments = splitStringWithOldNewTags(row.getOldLine())
+                                            markupSegments(mb, segments)
                                         }
                                     }
-                                    td() {
+                                    td(class: getClassOfDiffRow(row)) {
                                         span(class:"blob-code-inner") {
-                                            List<String> segments = divideStringIntoSegments(row.getNewLine())
-                                            segments.each { segment ->
-                                                mb.metaClass.setAttribute(mb, "nospace", true)
-                                                mb.span(class: "pl", segment)
-                                            }
+                                            List<String> segments = splitStringWithOldNewTags(row.getNewLine())
+                                            markupSegments(mb, segments)
                                         }
                                     }
                                 }
@@ -196,7 +194,6 @@ td, th {
     font-size: 12px;
     border-right: 1px solid #ccc;
     display: table-cell;
-    
 }
 th {
     border-bottom: 1px solid #ccc;
@@ -205,24 +202,100 @@ th {
     word-wrap: break-word;
     white-space: pre-wrap;
 }
-.pl {
+.code-change {
+    background-color: #dbedff;
+}
+.code-delete {
+    background-color: #ffeef0;
+}
+.code-equal {
+    background-color: #ffffff;
+}
+.code-insert {
+    background-color: #e6ffec;
+}
+.deletion {
+    background-color: #ffdce0;
+}
+.insertion {
+    background-color: #ccffd8;
 }
 """
     }
 
+
     /**
-     * Given:   "    if (! obj instanceof Material) {"
-     * returns: "<span class="pl">    if</span><span class="pl"> (!</span><span class="pl"> obj</span><span class="pl"> instanceof</span><span class="pl"> Material)</span><span class="pl"> {</span>"
-     *
+     * "Java Split String and Keep Delimitiers"
+     * https://www.baeldung.com/java-split-string-keep-delimiters
      * @param line
+     * @param clazz
      * @return
      */
-    private static final Pattern SPANNING_PATTERN = Pattern.compile("\\s*\\S+")
+    private static final Pattern SPLITTER =
+            Pattern.compile("((?=${OLD_TAG})|(?<=${OLD_TAG})|(?=${NEW_TAG})|(?<=${NEW_TAG}))")
 
-    static List<String> divideStringIntoSegments(String line, clazz="pl") {
-        Matcher m = SPANNING_PATTERN.matcher(line)
-        List<String> segments = m.findAll()
+    static List<String> splitStringWithOldNewTags(String line, clazz="pl") {
+        List<String> segments = SPLITTER.split(line) as List
         return segments
+    }
+
+
+    static final String CLASS_TD_CHANGE = "code-change"
+    static final String CLASS_TD_DELETE = "code-delete"
+    static final String CLASS_TD_EQUAL  = "code-equal"
+    static final String CLASS_TD_INSERT = "code-insert"
+
+    static String getClassOfDiffRow(DiffRow row) {
+        switch (row.getTag()) {
+            case DiffRow.Tag.CHANGE:
+                return CLASS_TD_CHANGE
+                break
+            case DiffRow.Tag.DELETE:
+                return CLASS_TD_DELETE
+                break
+            case DiffRow.Tag.EQUAL:
+                return CLASS_TD_EQUAL
+                break
+            case DiffRow.Tag.INSERT:
+                return CLASS_TD_INSERT
+                break
+            default:
+                throw new IllegalArgumentException("unknown row.getTag()=${row.getTag()}")
+        }
+    }
+
+    static void markupSegments(MarkupBuilder mb, List<String> segments) {
+        nospace(mb)
+        mb.span(class: "blob-code-inner") {
+            boolean inOldTag = false
+            boolean inNewTag = false
+            segments.each { String segment ->
+                switch (segment) {
+                    case OLD_TAG:
+                        inOldTag = !inOldTag
+                        break
+                    case NEW_TAG:
+                        inNewTag = !inNewTag
+                        break
+                    default:
+                        if (inOldTag) {
+                            nospace(mb)
+                            mb.span(class: "deletion", segment)
+                        } else if (inNewTag) {
+                            nospace(mb)
+                            mb.span(class: "insertion", segment)
+                        } else {
+                            nospace(mb)
+                            mb.span(class: "unchanged", segment)
+                        }
+                        break
+                }
+            }
+        }
+    }
+
+    static void nospace(MarkupBuilder mb) {
+        mb.metaClass.setAttribute(mb, "nospace", true)
     }
 
 }

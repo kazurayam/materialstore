@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.misc
 
+import com.kazurayam.materialstore.diff.differ.TextDifferToHTML
 import org.junit.jupiter.api.Test
 
 import static org.junit.jupiter.api.Assertions.*
@@ -9,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*
  * "Java Split String and Keep Delimitiers"
  * https://www.baeldung.com/java-split-string-keep-delimiters
  */
-class SplitAStringAndKeepDelimiterTest {
+class SplitingStringWhileKeepingDelimitersTest {
 
     String text = "Hello@World@This@Is@A@Java@Program";
 
@@ -93,5 +94,29 @@ class SplitAStringAndKeepDelimiterTest {
                 "Program"
         ]
         assertEquals(expected, actual)
+    }
+
+    @Test
+    void test_smoke() {
+        String OT = TextDifferToHTML.OLD_TAG
+        String NT = TextDifferToHTML.NEW_TAG
+        String given = "  if ${OT}foo${OT} is ${NT}bar${NT} {"
+        List<String> actual = given.split("((?=${OT})|(?<=${OT})|(?=${NT})|(?<=${NT}))") as List
+        List<String> expected = [
+                "  if ",
+                OT,
+                "foo",
+                OT,
+                " is ",
+                NT,
+                "bar",
+                NT,
+                " {"
+        ]
+        assertEquals(expected.size(), actual.size())
+        expected.eachWithIndex { e, index ->
+            String a = actual.get(index)
+            assertEquals(e, a, "${index}: ${e} != ${a}")
+        }
     }
 }

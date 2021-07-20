@@ -94,7 +94,7 @@ class MarkupBuilderSetNospaceTest {
                 " Material)",
                 " {"
         ]
-        assertEquals(expected, TextDifferToHTML.divideStringIntoSegments(given))
+        assertEquals(expected, TextDifferToHTML.splitStringWithOldNewTags(given))
     }
 
 
