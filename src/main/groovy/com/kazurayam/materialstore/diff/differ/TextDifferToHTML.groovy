@@ -23,6 +23,9 @@ import java.util.stream.Collectors
 
 class TextDifferToHTML extends AbstractTextDiffer implements Differ {
 
+    private static final String OLD_TAG = "|-.-|"
+    private static final String NEW_TAG = "|+.+|"
+
     TextDifferToHTML(Path root) {
         super(root)
     }
@@ -41,8 +44,8 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                 DiffRowGenerator.create()
                         .showInlineDiffs(true)
                         .inlineDiffByWord(true)
-                        .oldTag({ f -> "|-|" } as Function)
-                        .newTag({ f -> "|+|" } as Function)
+                        .oldTag({ f -> OLD_TAG } as Function)
+                        .newTag({ f -> NEW_TAG } as Function)
                         .lineNormalizer({str ->
                                 str.replaceAll("&lt;", "<")
                                         .replaceAll("&gt;",">")
@@ -122,9 +125,14 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                         }
                     }
                     table() {
+                        colgroup() {
+                            col(width:"44")
+                            col()
+                            col()
+                        }
                         thead() {
                             tr() {
-                                th("line#")
+                                th("")
                                 th("original")
                                 th("revised")
                             }
@@ -176,13 +184,17 @@ div#container {
     margin-right: auto;
 }
 table {
+    table-layout: fixed;
     border-collapse: collapse;
     border-spacing: 0;
     border: 1px solid #ccc;
+    width: 100%;
 }
 td, th {
     font-size: 12px;
     border-right: 1px solid #ccc;
+    display: table-cell;
+    
 }
 th {
     border-bottom: 1px solid #ccc;
