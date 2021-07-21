@@ -39,6 +39,8 @@ interface Store {
             List<Material> actual,
             Set<String> metadataKeys)
 
+    List<DiffArtifact> makeDiff(List<Material> expected, List<Material> actual, Set<String> metadataKeys)
+
     DiffReporter newReporter(JobName jobName)
 
 }

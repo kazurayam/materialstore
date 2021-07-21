@@ -71,33 +71,21 @@ class VisualTestingTwins {
         driver.quit()
 
         // pickup the screenshots that belongs to the 2 "profiles", make image-diff files of each.
-        List<Material> screenshotsOfProfile1 = store.select(jobName, jobTimestamp,
+        List<Material> expected = store.select(jobName, jobTimestamp,
                 new MetadataPattern([ "profile": profile1 ]))
-        assert screenshotsOfProfile1 != null
 
-        List<Material> screenshotsOfProfile2 = store.select(jobName, jobTimestamp,
+        List<Material> actual = store.select(jobName, jobTimestamp,
                 new MetadataPattern([ "profile": profile2 ]))
-        assert screenshotsOfProfile2 != null
 
-        //
-        List<DiffArtifact> artifactsToDiff =
-                store.zipMaterials(
-                        screenshotsOfProfile1,
-                        screenshotsOfProfile2,
-                        ["URL.file"] as Set)
-        assert artifactsToDiff != null
+        List<DiffArtifact> stuffedDiffArtifacts =
+                store.makeDiff(expected, actual, ["URL.file"] as Set)
 
-        // makes diff images, save them into "objects" dir with updated "index".
-        // returns the list of DiffArtifact which have the diff property stuffed.
-        DifferDriver differDriver = new DifferDriverImpl.Builder(root_).build()
-        List<DiffArtifact> stuffedDiffArtifacts= differDriver.makeDiff(artifactsToDiff)
         assert stuffedDiffArtifacts != null
         assert stuffedDiffArtifacts.size() > 0
 
         // compile HTML report
         DiffReporter reporter = store.newReporter(jobName)
         reporter.reportDiffs(stuffedDiffArtifacts, "index.html")
-
     }
 
     private static Tuple doAction(WebDriver driver,

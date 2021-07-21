@@ -43,6 +43,24 @@ class StoreImpl implements Store {
     }
 
     @Override
+    List<DiffArtifact> makeDiff(List<Material> expected,
+                                List<Material> actual,
+                                Set<String> metadataKeys) {
+        Objects.requireNonNull(expected)
+        Objects.requireNonNull(actual)
+        Objects.requireNonNull(metadataKeys)
+
+        List<DiffArtifact> diffArtifacts =
+                this.zipMaterials(expected, actual, metadataKeys)
+        assert diffArtifacts != null
+
+        DifferDriver differDriver = new DifferDriverImpl.Builder(root_).build()
+        List<DiffArtifact> stuffedDiffArtifacts = differDriver.makeDiff(diffArtifacts)
+
+        return stuffedDiffArtifacts
+    }
+
+    @Override
     DiffReporter newReporter(JobName jobName) {
         return new DiffReporterToHTML(root_, jobName)
     }
