@@ -74,7 +74,7 @@ class ImageDifferToPNG implements Differ {
         Material diffMaterial = jobber.write(diffData, FileType.PNG, diffMetadata)
 
         //
-        DiffArtifact result = new DiffArtifact(expected, actual)
+        DiffArtifact result = new DiffArtifact(input)
         result.setDiff(diffMaterial)
         return result
     }

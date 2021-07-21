@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.diff
 
 
 import com.kazurayam.materialstore.diff.differ.ImageDifferToPNG
+import com.kazurayam.materialstore.diff.differ.TextDifferToHTML
 import com.kazurayam.materialstore.diff.differ.TextDifferToMarkdown
 import com.kazurayam.materialstore.store.FileType
 import com.kazurayam.materialstore.store.Material
@@ -57,25 +58,23 @@ class DifferDriverImpl implements DifferDriver {
     static class Builder {
         private Path root
         private Map<FileType, Differ> differs
-        Builder() {}
-        Builder root(Path root) {
+        Builder(Path root) {
             this.root = root
             differs = new HashMap<FileType, Differ>()
             //
-            TextDifferToMarkdown javaDiffUtilsTextDiffer = new TextDifferToMarkdown()
-            differs.put(FileType.CSV, javaDiffUtilsTextDiffer)
-            differs.put(FileType.HTML, javaDiffUtilsTextDiffer)
-            differs.put(FileType.JSON, javaDiffUtilsTextDiffer)
-            differs.put(FileType.TXT, javaDiffUtilsTextDiffer)
-            differs.put(FileType.XML, javaDiffUtilsTextDiffer)
+            Differ textDiffer = new TextDifferToHTML()
+            differs.put(FileType.CSV, textDiffer)
+            differs.put(FileType.HTML, textDiffer)
+            differs.put(FileType.JSON, textDiffer)
+            differs.put(FileType.TXT, textDiffer)
+            differs.put(FileType.XML, textDiffer)
             //
-            ImageDifferToPNG aShotImageDiffer = new ImageDifferToPNG()
-            differs.put(FileType.PNG, aShotImageDiffer)
-            differs.put(FileType.JPG, aShotImageDiffer)
-            differs.put(FileType.JPEG, aShotImageDiffer)
-            differs.put(FileType.GIF, aShotImageDiffer)
+            Differ imageDiffer = new ImageDifferToPNG()
+            differs.put(FileType.PNG, imageDiffer)
+            differs.put(FileType.JPG, imageDiffer)
+            differs.put(FileType.JPEG, imageDiffer)
+            differs.put(FileType.GIF, imageDiffer)
             //
-            return this
         }
         Builder differFor(FileType fileType, Differ differ) {
             differs.put(fileType, differ)

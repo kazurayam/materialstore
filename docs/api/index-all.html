@@ -188,8 +188,8 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd><div class="block"></div></dd>
 <dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DiffArtifact.html" title="Class in com.kazurayam.materialstore.diff">DiffArtifact</a></span> - Class in <a href="./com/kazurayam/materialstore/diff/package-summary.html">com.kazurayam.materialstore.diff</a>
 </dt><dd><div class="block">Data Transfer Object</div></dd>
-<dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DiffArtifact.html#DiffArtifact(com.kazurayam.materialstore.store.Material, com.kazurayam.materialstore.store.Material)" title="Constructor in DiffArtifact">DiffArtifact(Material, Material)</a></span> - Constructor in <a href="com/kazurayam/materialstore/diff/DiffArtifact.html">DiffArtifact</a>
-</dt><dd> <div class="block"></div></dd>
+<dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DiffArtifact.html#DiffArtifact(com.kazurayam.materialstore.diff.DiffArtifact)" title="Constructor in DiffArtifact">DiffArtifact(DiffArtifact)</a></span> - Constructor in <a href="com/kazurayam/materialstore/diff/DiffArtifact.html">DiffArtifact</a>
+</dt><dd> <div class="block">copy constructor</div></dd>
 <dt><span class="strong"><a href="com/kazurayam/materialstore/diff/Differ.html" title="Interface in com.kazurayam.materialstore.diff">Differ</a></span> - Interface in <a href="./com/kazurayam/materialstore/diff/package-summary.html">com.kazurayam.materialstore.diff</a>
 </dt><dd><div class="block"></div></dd>
 <dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DifferDriver.html" title="Interface in com.kazurayam.materialstore.diff">DifferDriver</a></span> - Interface in <a href="./com/kazurayam/materialstore/diff/package-summary.html">com.kazurayam.materialstore.diff</a>
@@ -198,15 +198,15 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd><div class="block"></div></dd>
 <dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DifferDriverImpl.Builder.html" title="Class in com.kazurayam.materialstore.diff.DifferDriverImpl">DifferDriverImpl.Builder</a></span> - Class in <a href="./com/kazurayam/materialstore/diff/package-summary.html">com.kazurayam.materialstore.diff</a>
 </dt><dd><div class="block"></div></dd>
-<dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DifferDriverImpl.Builder.html#DifferDriverImpl.Builder()" title="Constructor in DifferDriverImpl.Builder">DifferDriverImpl.Builder()</a></span> - Constructor in <a href="com/kazurayam/materialstore/diff/DifferDriverImpl.Builder.html">DifferDriverImpl.Builder</a>
+<dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DifferDriverImpl.Builder.html#DifferDriverImpl.Builder(java.nio.file.Path)" title="Constructor in DifferDriverImpl.Builder">DifferDriverImpl.Builder(Path)</a></span> - Constructor in <a href="com/kazurayam/materialstore/diff/DifferDriverImpl.Builder.html">DifferDriverImpl.Builder</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DifferDriverImpl.Builder.html#differFor(com.kazurayam.materialstore.store.FileType, com.kazurayam.materialstore.diff.Differ)" title="Method in DifferDriverImpl.Builder">differFor(FileType, Differ)</a></span> - Method in <a href="com/kazurayam/materialstore/diff/DifferDriverImpl.Builder.html">DifferDriverImpl.Builder</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DiffReporter.html" title="Interface in com.kazurayam.materialstore.diff">DiffReporter</a></span> - Interface in <a href="./com/kazurayam/materialstore/diff/package-summary.html">com.kazurayam.materialstore.diff</a>
 </dt><dd><div class="block"></div></dd>
-<dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DiffReporterBasic.html" title="Class in com.kazurayam.materialstore.diff">DiffReporterBasic</a></span> - Class in <a href="./com/kazurayam/materialstore/diff/package-summary.html">com.kazurayam.materialstore.diff</a>
+<dt><span class="strong"><a href="com/kazurayam/materialstore/diff/reporter/DiffReporterToHTML.html" title="Class in com.kazurayam.materialstore.diff.reporter">DiffReporterToHTML</a></span> - Class in <a href="./com/kazurayam/materialstore/diff/reporter/package-summary.html">com.kazurayam.materialstore.diff.reporter</a>
 </dt><dd><div class="block"></div></dd>
-<dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DiffReporterBasic.html#DiffReporterBasic(java.nio.file.Path)" title="Constructor in DiffReporterBasic">DiffReporterBasic(Path)</a></span> - Constructor in <a href="com/kazurayam/materialstore/diff/DiffReporterBasic.html">DiffReporterBasic</a>
+<dt><span class="strong"><a href="com/kazurayam/materialstore/diff/reporter/DiffReporterToHTML.html#DiffReporterToHTML(java.nio.file.Path)" title="Constructor in DiffReporterToHTML">DiffReporterToHTML(Path)</a></span> - Constructor in <a href="com/kazurayam/materialstore/diff/reporter/DiffReporterToHTML.html">DiffReporterToHTML</a>
 </dt><dd> <div class="block"></div></dd>
 </dl>
 
@@ -281,6 +281,10 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="com/kazurayam/materialstore/diff/differ/TextDifferToHTML.html#getClassOfDiffRow(com.github.difflib.text.DiffRow)" title="Method in TextDifferToHTML">getClassOfDiffRow(DiffRow)</a></span> - Method in <a href="com/kazurayam/materialstore/diff/differ/TextDifferToHTML.html">TextDifferToHTML</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="com/kazurayam/materialstore/store/MObject.html#getData()" title="Method in MObject">getData()</a></span> - Method in <a href="com/kazurayam/materialstore/store/MObject.html">MObject</a>
+</dt><dd> <div class="block"></div></dd>
+<dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DiffArtifact.html#getDescription()" title="Method in DiffArtifact">getDescription()</a></span> - Method in <a href="com/kazurayam/materialstore/diff/DiffArtifact.html">DiffArtifact</a>
+</dt><dd> <div class="block"></div></dd>
+<dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DiffArtifact.html#getDescriptor()" title="Method in DiffArtifact">getDescriptor()</a></span> - Method in <a href="com/kazurayam/materialstore/diff/DiffArtifact.html">DiffArtifact</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DiffArtifact.html#getDiff()" title="Method in DiffArtifact">getDiff()</a></span> - Method in <a href="com/kazurayam/materialstore/diff/DiffArtifact.html">DiffArtifact</a>
 </dt><dd> <div class="block"></div></dd>
@@ -557,13 +561,11 @@ if (location.href.indexOf('is-external=true') == -1) {
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DiffReporter.html#reportDiffs(List<DiffArtifact>, java.nio.file.Path)" title="Method in DiffReporter">reportDiffs(List&lt;DiffArtifact&gt;, Path)</a></span> - Method in <a href="com/kazurayam/materialstore/diff/DiffReporter.html">DiffReporter</a>
 </dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DiffReporterBasic.html#reportDiffs(List<DiffArtifact>, java.nio.file.Path)" title="Method in DiffReporterBasic">reportDiffs(List&lt;DiffArtifact&gt;, Path)</a></span> - Method in <a href="com/kazurayam/materialstore/diff/DiffReporterBasic.html">DiffReporterBasic</a>
+<dt><span class="strong"><a href="com/kazurayam/materialstore/diff/reporter/DiffReporterToHTML.html#reportDiffs(List<DiffArtifact>, java.nio.file.Path)" title="Method in DiffReporterToHTML">reportDiffs(List&lt;DiffArtifact&gt;, Path)</a></span> - Method in <a href="com/kazurayam/materialstore/diff/reporter/DiffReporterToHTML.html">DiffReporterToHTML</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="com/kazurayam/materialstore/selenium/DevicePixelRatioResolver.html#resolveDPR(org.openqa.selenium.WebDriver)" title="Method in DevicePixelRatioResolver">resolveDPR(WebDriver)</a></span> - Method in <a href="com/kazurayam/materialstore/selenium/DevicePixelRatioResolver.html">DevicePixelRatioResolver</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="com/kazurayam/materialstore/store/MObject.html#resolvePath(java.nio.file.Path)" title="Method in MObject">resolvePath(Path)</a></span> - Method in <a href="com/kazurayam/materialstore/store/MObject.html">MObject</a>
-</dt><dd> <div class="block"></div></dd>
-<dt><span class="strong"><a href="com/kazurayam/materialstore/diff/DifferDriverImpl.Builder.html#root(java.nio.file.Path)" title="Method in DifferDriverImpl.Builder">root(Path)</a></span> - Method in <a href="com/kazurayam/materialstore/diff/DifferDriverImpl.Builder.html">DifferDriverImpl.Builder</a>
 </dt><dd> <div class="block"></div></dd>
 </dl>
 
@@ -599,6 +601,8 @@ if (location.href.indexOf('is-external=true') == -1) {
 <dt><span class="strong"><a href="com/kazurayam/materialstore/diff/Differ.html#setRoot(java.nio.file.Path)" title="Method in Differ">setRoot(Path)</a></span> - Method in <a href="com/kazurayam/materialstore/diff/Differ.html">Differ</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="com/kazurayam/materialstore/diff/differ/ImageDifferToPNG.html#setRoot(java.nio.file.Path)" title="Method in ImageDifferToPNG">setRoot(Path)</a></span> - Method in <a href="com/kazurayam/materialstore/diff/differ/ImageDifferToPNG.html">ImageDifferToPNG</a>
+</dt><dd> <div class="block"></div></dd>
+<dt><span class="strong"><a href="com/kazurayam/materialstore/diff/differ/TextDifferToHTML.html#setRoot(java.nio.file.Path)" title="Method in TextDifferToHTML">setRoot(Path)</a></span> - Method in <a href="com/kazurayam/materialstore/diff/differ/TextDifferToHTML.html">TextDifferToHTML</a>
 </dt><dd> <div class="block"></div></dd>
 <dt><span class="strong"><a href="com/kazurayam/materialstore/demo/VisualTestingTwins.html#setRoot(java.nio.file.Path)" title="Method in VisualTestingTwins">setRoot(Path)</a></span> - Method in <a href="com/kazurayam/materialstore/demo/VisualTestingTwins.html">VisualTestingTwins</a>
 </dt><dd> <div class="block"></div></dd>

@@ -30,6 +30,7 @@ abstract class AbstractTextDiffer implements Differ {
         this.root_ = root
     }
 
+    @Override
     void setRoot(Path root) {
         ensureRoot(root)
         this.root_ = root
@@ -76,7 +77,8 @@ abstract class AbstractTextDiffer implements Differ {
         Jobber jobber = new Jobber(root_, actual.getJobName(), actual.getJobTimestamp())
         Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata)
         //
-        DiffArtifact result = new DiffArtifact(expected, actual)
+        //
+        DiffArtifact result = new DiffArtifact(input)
         result.setDiff(diffMaterial)
         return result
     }

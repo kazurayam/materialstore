@@ -149,8 +149,14 @@ extends java.lang.Object
                         
                         <tr class="altColor">
                             <td class="colFirst">
-                                <code><a href="#DiffArtifact(com.kazurayam.materialstore.store.Material, com.kazurayam.materialstore.store.Material)">DiffArtifact</a>
-                                (<a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a> expected, <a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a> actual)</code><br></td>
+                                <code><a href="#DiffArtifact(com.kazurayam.materialstore.store.Material, com.kazurayam.materialstore.store.Material, com.kazurayam.materialstore.store.MetadataPattern)">DiffArtifact</a>
+                                (<a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a> expected, <a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a> actual, <a href='../../../../com/kazurayam/materialstore/store/MetadataPattern.html'>MetadataPattern</a> descriptor)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst">
+                                <code><a href="#DiffArtifact(com.kazurayam.materialstore.diff.DiffArtifact)">DiffArtifact</a>
+                                (<a href='../../../../com/kazurayam/materialstore/diff/DiffArtifact.html'>DiffArtifact</a> source)</code><br>copy constructor</td>
                         </tr>
                         
                     </table>
@@ -190,6 +196,18 @@ extends java.lang.Object
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a></code></td>
                             <td class="colLast"><code><strong><a href="#getActual()">getActual</a></strong>()</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>java.lang.String</code></td>
+                            <td class="colLast"><code><strong><a href="#getDescription()">getDescription</a></strong>()</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/MetadataPattern.html'>MetadataPattern</a></code></td>
+                            <td class="colLast"><code><strong><a href="#getDescriptor()">getDescriptor</a></strong>()</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -263,11 +281,20 @@ extends java.lang.Object
                 </a>
                     <h3>Constructor Detail</h3>
                     
-                        <a name="DiffArtifact(com.kazurayam.materialstore.store.Material, com.kazurayam.materialstore.store.Material)"><!-- --></a>
+                        <a name="DiffArtifact(com.kazurayam.materialstore.store.Material, com.kazurayam.materialstore.store.Material, com.kazurayam.materialstore.store.MetadataPattern)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><strong>DiffArtifact</strong>(<a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a> expected, <a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a> actual)</h4>
+                                <h4><strong>DiffArtifact</strong>(<a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a> expected, <a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a> actual, <a href='../../../../com/kazurayam/materialstore/store/MetadataPattern.html'>MetadataPattern</a> descriptor)</h4>
                                 <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="DiffArtifact(com.kazurayam.materialstore.diff.DiffArtifact)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><strong>DiffArtifact</strong>(<a href='../../../../com/kazurayam/materialstore/diff/DiffArtifact.html'>DiffArtifact</a> source)</h4>
+                                <p> copy constructor
+     <DL><DT><B>Parameters:</B></DT><DD>source</DD></DL></p>
                             </li>
                         </ul>
                     
@@ -306,6 +333,22 @@ boolean <strong>equals</strong>(java.lang.Object obj)</h4>
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4><a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a> <strong>getActual</strong>()</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getDescription()"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>java.lang.String <strong>getDescription</strong>()</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getDescriptor()"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4><a href='../../../../com/kazurayam/materialstore/store/MetadataPattern.html'>MetadataPattern</a> <strong>getDescriptor</strong>()</h4>
                                 <p></p>
                             </li>
                         </ul>

@@ -193,5 +193,7 @@ class StoreImplTest {
                 expectedList, actualList, ["URL.file"] as Set)
         assertNotNull(diffArtifacts)
         assertEquals(1, diffArtifacts.size())
+        assertEquals("""{"URL.file":"/"}""",
+                diffArtifacts.get(0).getDescription())
     }
 }

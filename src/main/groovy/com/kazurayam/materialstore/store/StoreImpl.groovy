@@ -205,9 +205,11 @@ class StoreImpl implements Store {
                 FileType expectedFileType = expected.getIndexEntry().getFileType()
                 Metadata expectedMetadata = expected.getIndexEntry().getMetadata()
                 if (expectedFileType == actualFileType && expectedMetadata.match(pattern)) {
-                    result.add(new DiffArtifact(expected, actual))
+                    DiffArtifact da = new DiffArtifact(expected, actual, pattern)
+                    result.add(da)
                 } else {
-                    result.add(new DiffArtifact(Material.NULL_OBJECT, actual))
+                    DiffArtifact da = new DiffArtifact(Material.NULL_OBJECT, actual, pattern)
+                    result.add(da)
                 }
             }
         }
@@ -220,7 +222,8 @@ class StoreImpl implements Store {
                 if (expectedMetadata.match(pattern)) {
                     ;  // already added
                 } else {
-                    result.add(new DiffArtifact(expected, Material.NULL_OBJECT))
+                    DiffArtifact da = new DiffArtifact(expected, Material.NULL_OBJECT, pattern)
+                    result.add(da)
                 }
             }
         }

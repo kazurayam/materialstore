@@ -2,6 +2,8 @@ package com.kazurayam.materialstore.store
 
 class MetadataPattern extends Metadata {
 
+    static final MetadataPattern NULL_OBJECT = create([] as Set, Metadata.NULL_OBJECT)
+
     static MetadataPattern create(Set<String> keys, Metadata source) {
         Objects.requireNonNull(keys)
         Objects.requireNonNull(source)

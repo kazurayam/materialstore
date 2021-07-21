@@ -54,7 +54,7 @@ class DifferDriverImplTest {
         List<DiffArtifact> input =
                 storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)
         //
-        DifferDriver differDriver = new DifferDriverImpl.Builder().root(root).build()
+        DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
         List<DiffArtifact> stuffed = differDriver.makeDiff(input)
         assertNotNull(stuffed)
         assertEquals(1, stuffed.size())
@@ -64,8 +64,7 @@ class DifferDriverImplTest {
     void test_Builder_differFor() {
         Path root = outputDir.resolve("Materials")
         Store store = new StoreImpl(root)
-        DifferDriver differDriver = new DifferDriverImpl.Builder()
-                .root(root)
+        DifferDriver differDriver = new DifferDriverImpl.Builder(root)
                 .differFor(FileType.JPEG, new ImageDifferToPNG())
                 .build()
         assertTrue(differDriver.hasDiffer(FileType.JPEG))
@@ -88,7 +87,7 @@ class DifferDriverImplTest {
         List<DiffArtifact> input =
                 storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)
         //
-        DifferDriver differDriver = new DifferDriverImpl.Builder().root(root).build()
+        DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
         List<DiffArtifact> stuffed = differDriver.makeDiff(input)
         assertNotNull(stuffed)
         assertEquals(1, stuffed.size())

@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.diff
 
 import com.kazurayam.materialstore.store.Material
+import com.kazurayam.materialstore.store.MetadataPattern
 
 /**
  * Data Transfer Object
@@ -11,12 +12,29 @@ class DiffArtifact implements Comparable {
     private final Material actual
     private Material diff
 
-    DiffArtifact(Material expected, Material actual) {
+    private MetadataPattern descriptor
+
+    DiffArtifact(Material expected, Material actual, MetadataPattern descriptor) {
         Objects.requireNonNull(expected)
         Objects.requireNonNull(actual)
+        Objects.requireNonNull(descriptor)
         this.expected = expected
         this.actual = actual
         this.diff = Material.NULL_OBJECT
+        this.descriptor = descriptor
+    }
+
+    /**
+     * copy constructor
+     *
+     * @param source
+     */
+    DiffArtifact(DiffArtifact source) {
+        Objects.requireNonNull(source)
+        this.expected = source.getExpected()
+        this.actual = source.getActual()
+        this.diff = source.getDiff()
+        this.descriptor = source.getDescriptor()
     }
 
     void setDiff(Material diff) {
@@ -34,6 +52,14 @@ class DiffArtifact implements Comparable {
 
     Material getDiff() {
         return this.diff
+    }
+
+    MetadataPattern getDescriptor() {
+        return this.descriptor
+    }
+
+    String getDescription() {
+        return this.descriptor.toString()
     }
 
     @Override

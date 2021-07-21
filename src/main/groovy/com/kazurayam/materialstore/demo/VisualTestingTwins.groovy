@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.demo
 
+import com.kazurayam.materialstore.diff.DiffReporter
 import com.kazurayam.materialstore.diff.DifferDriverImpl
 import com.kazurayam.materialstore.diff.DiffArtifact
 import com.kazurayam.materialstore.diff.DifferDriver
@@ -97,12 +98,11 @@ class VisualTestingTwins {
         assert artifactsWithDiff != null
         assert artifactsWithDiff.size() > 0
 
-        /*
         // compile HTML report
-        Reporter reporter = store.newReporter(jobName, jobTimestamp)
+        DiffReporter diffReporter = store.newReporter(jobName, jobTimestamp)
         Path reportFile = store.getRoot().resolve("index.html")
         reporter.report(artifactsWithDiff, reportFile)
-         */
+
     }
 
     private static Tuple doAction(WebDriver driver,
