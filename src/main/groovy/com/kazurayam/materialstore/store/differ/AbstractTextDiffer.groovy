@@ -60,14 +60,15 @@ abstract class AbstractTextDiffer implements Differ {
         }
 
         //
-        String content = makeContent(root_, expected, actual, charset)
+        TextDiffContent textDiffContent = makeContent(root_, expected, actual, charset)
 
         //
-        byte[] diffData = toByteArray(content)
+        byte[] diffData = toByteArray(textDiffContent.getContent())
         Metadata diffMetadata = new Metadata([
                 "category": "diff",
                 "expected": expected.getIndexEntry().getID().toString(),
-                "actual": actual.getIndexEntry().getID().toString()
+                "actual": actual.getIndexEntry().getID().toString(),
+                "ratio": textDiffContent.getRatio()
         ])
         Jobber jobber = new Jobber(root_, actual.getJobName(), actual.getJobTimestamp())
         Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata)
@@ -78,7 +79,7 @@ abstract class AbstractTextDiffer implements Differ {
         return result
     }
 
-    abstract String makeContent(Path root, Material original, Material revised, Charset charset)
+    abstract TextDiffContent makeContent(Path root, Material original, Material revised, Charset charset)
 
     static List<String> readAllLines(String longText) {
         BufferedReader br = new BufferedReader(new StringReader(longText))

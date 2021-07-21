@@ -1,8 +1,11 @@
-package com.kazurayam.materialstore.demo
+package com.kazurayam.materialstore.store
 
+import com.kazurayam.materialstore.TestFixtureUtil
 import com.kazurayam.materialstore.selenium.AShotWrapper
-import com.kazurayam.materialstore.store.*
 import io.github.bonigarcia.wdm.WebDriverManager
+import org.apache.commons.io.FileUtils
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 import org.openqa.selenium.Dimension
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
@@ -15,33 +18,31 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.concurrent.TimeUnit
 
-class VisualTestingTwins {
+import static org.junit.jupiter.api.Assertions.*
 
-    private Path root_ = Paths.get("./build/tmp/demoOutput/${VisualTestingTwins.class.getSimpleName()}/Materials")
+class StoreTest {
 
-    void setRoot(Path root) {
-        this.root_ = root
-    }
+    private static Path outputDir =
+            Paths.get(".").resolve("build/tmp/testOutput")
+                    .resolve(StoreTest.class.getName())
 
-    void init() {
-        if (Files.exists(root_)) {
-            // delete the directory to clear out using Java8 API
-            Files.walk(root_)
-                    .sorted(Comparator.reverseOrder())
-                    .map {it.toFile() }
-                    .forEach {it.delete() }
+    private static Path resultsDir =
+            Paths.get(".").resolve("src/test/resources/fixture/sample_results")
+
+    @BeforeAll
+    static void beforeAll() {
+        if (Files.exists(outputDir)) {
+            FileUtils.deleteDirectory(outputDir.toFile())
         }
-        Files.createDirectories(root_)
+        Files.createDirectories(outputDir)
     }
 
-
-    /**
-     *
-     */
-    void execute() {
-        init()
-        Store store = Stores.newInstance(root_)
-        JobName jobName = new JobName("VisualTestingTwins")
+    @Test
+    void test_twins_mode() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_twins_mode")
+        TestFixtureUtil.setupFixture(store, jobName)
         JobTimestamp jobTimestamp = JobTimestamp.now()
 
         // open the Chrome browser
@@ -76,6 +77,9 @@ class VisualTestingTwins {
         // compile HTML report
         DiffReporter reporter = store.newReporter(jobName)
         reporter.reportDiffs(stuffedDiffArtifacts, "index.html")
+
+        Path reportFile = root.resolve("index.html")
+        assertTrue(Files.exists(reportFile))
     }
 
     /**
@@ -88,12 +92,12 @@ class VisualTestingTwins {
      * @param url
      * @return
      */
-    private static Tuple doWebAction(WebDriver driver,
-                                     Store store,
-                                     JobName jobName,
-                                     JobTimestamp jobTimestamp,
-                                     String profile,
-                                     URL url) {
+    private Tuple doWebAction(WebDriver driver,
+                              Store store,
+                              JobName jobName,
+                              JobTimestamp jobTimestamp,
+                              String profile,
+                              URL url) {
         // visit the page
         driver.navigate().to(url.toString())
 
@@ -144,18 +148,5 @@ class VisualTestingTwins {
         driver.manage().timeouts().implicitlyWait(120, TimeUnit.MILLISECONDS);
         driver.manage().window().setSize(new Dimension(800, 800));
         return driver
-    }
-
-    /**
-     *
-     * @param args
-     */
-    static void main(String[] args) {
-        try {
-            VisualTestingTwins instance = new VisualTestingTwins()
-            instance.execute()
-        } catch (Exception e) {
-            e.printStackTrace()
-        }
     }
 }

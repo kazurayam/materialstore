@@ -64,7 +64,7 @@ class ImageDifferToPNG implements Differ {
         ImageDiff imageDiff = imgDiff.makeDiff(expectedImage,actualImage);
         Metadata diffMetadata = new Metadata([
                 "category": "diff",
-                "ratio": formatDiffRatioAsString(calculateDiffRatioPercent(imageDiff)),
+                "ratio": DifferUtil.formatDiffRatioAsString(calculateDiffRatioPercent(imageDiff)),
                 "expected": expected.getIndexEntry().getID().toString(),
                 "actual": actual.getIndexEntry().getID().toString()
         ])
@@ -121,10 +121,5 @@ class ImageDifferToPNG implements Differ {
         return bdUP.doubleValue()
     }
 
-    /**
-     * @return e.g. "0.23" or "90.00"
-     */
-    static String formatDiffRatioAsString(Double diffRatio, String fmt = '%1$.2f') {
-        return String.format(fmt, diffRatio)
-    }
+
 }

@@ -40,7 +40,7 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
     }
 
     @Override
-    String makeContent(Path root, Material original, Material revised, Charset charset) {
+    TextDiffContent makeContent(Path root, Material original, Material revised, Charset charset) {
         String originalText = readMaterial(root, original, charset)
         String revisedText = readMaterial(root, revised, charset)
 
@@ -122,7 +122,14 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                             dd(revised.getIndexEntry().getMetadata().toString())
                         }
                     }
-                    h2(id: "decision", ((equalRows.size() < rows.size()) ? 'are DIFFERENT' : 'are EQUAL'))
+                    //
+                    Double diffRatio = (insertedRows.size() + deletedRows.size()
+                            + changedRows.size()) * 100.0D / rows.size()
+                    String ratio = DifferUtil.formatDiffRatioAsString(diffRatio)
+                    h2(id: "decision", ((equalRows.size() < rows.size()) ?
+                            "are DIFFERENT (${ratio}%)" :
+                            'are EQUAL'))
+                    //
                     h3("rows")
                     ul(id: "stats") {
                         li() {
@@ -182,7 +189,14 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                 }
             }
         }
-        return sw.toString()
+        TextDiffContent textDiffContent =
+                new TextDiffContent.Builder(sw.toString())
+                        .inserted(insertedRows.size())
+                        .deleted(deletedRows.size())
+                        .changed(changedRows.size())
+                        .equal(equalRows.size())
+                        .build()
+        return textDiffContent
     }
 
     private static String getStyle() {

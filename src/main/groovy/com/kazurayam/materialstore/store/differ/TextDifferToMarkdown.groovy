@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.store.differ
 
-
 import com.kazurayam.materialstore.store.Differ
 import com.kazurayam.materialstore.store.Material
 import com.github.difflib.text.DiffRow
@@ -27,7 +26,7 @@ class TextDifferToMarkdown extends AbstractTextDiffer implements Differ {
     }
 
     @Override
-    String makeContent(Path root, Material original, Material revised, Charset charset) {
+    TextDiffContent makeContent(Path root, Material original, Material revised, Charset charset) {
         String originalText = readMaterial(root, original, charset)
         String revisedText = readMaterial(root, revised, charset)
 
@@ -86,7 +85,13 @@ class TextDifferToMarkdown extends AbstractTextDiffer implements Differ {
         rows.eachWithIndex { DiffRow row, index ->
             sb.append("| " + (index+1) + " | " + row.getOldLine() + " | " + row.getNewLine() + " |\n");
         }
-        return sb.toString()
+
+        return new TextDiffContent.Builder(sb.toString())
+                .inserted(insertedRows.size())
+                .deleted(deletedRows.size())
+                .changed(changedRows.size())
+                .equal(equalRows.size())
+                .build()
     }
 
 }
