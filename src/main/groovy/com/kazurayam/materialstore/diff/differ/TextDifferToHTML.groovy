@@ -28,8 +28,15 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
     public static final String OLD_TAG = "!_~_!"
     public static final String NEW_TAG = "!#~#!"
 
+    TextDifferToHTML() {}
+
     TextDifferToHTML(Path root) {
         super(root)
+    }
+
+    @Override
+    void setRoot(Path root) {
+        super.setRoot(root)
     }
 
     @Override
@@ -95,14 +102,22 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                         h1("Original")
                         dl() {
                             dt("URL")
-                            dd(original.getRelativeURL())
+                            dd() {
+                                a(href: "../../../" + original.getRelativeURL(),
+                                        target: "Original",
+                                        original.getRelativeURL())
+                            }
                             dt("metadata")
                             dd(original.getIndexEntry().getMetadata().toString())
                         }
                         h1("Revised")
                         dl() {
                             dt("URL")
-                            dd(revised.getRelativeURL())
+                            dd() {
+                                a(href: "../../../" + revised.getRelativeURL(),
+                                        target: "Revised",
+                                        revised.getRelativeURL())
+                            }
                             dt("metadata")
                             dd(revised.getIndexEntry().getMetadata().toString())
                         }
