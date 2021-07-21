@@ -1,7 +1,6 @@
 com.kazurayam.materialstore
 com.kazurayam.materialstore.demo
-com.kazurayam.materialstore.diff
-com.kazurayam.materialstore.diff.differ
-com.kazurayam.materialstore.diff.reporter
 com.kazurayam.materialstore.selenium
 com.kazurayam.materialstore.store
+com.kazurayam.materialstore.store.differ
+com.kazurayam.materialstore.store.reporter

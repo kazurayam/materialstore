@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.store
 
-import com.kazurayam.materialstore.diff.DiffArtifact
+
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test

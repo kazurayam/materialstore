@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.misc
 
-import com.kazurayam.materialstore.diff.differ.TextDifferToHTML
+import com.kazurayam.materialstore.store.differ.TextDifferToHTML
 import org.junit.jupiter.api.Test
 
 import static org.junit.jupiter.api.Assertions.*

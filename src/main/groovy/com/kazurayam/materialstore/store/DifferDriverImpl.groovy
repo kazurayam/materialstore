@@ -1,11 +1,8 @@
-package com.kazurayam.materialstore.diff
+package com.kazurayam.materialstore.store
 
 
-import com.kazurayam.materialstore.diff.differ.ImageDifferToPNG
-import com.kazurayam.materialstore.diff.differ.TextDifferToHTML
-import com.kazurayam.materialstore.diff.differ.TextDifferToMarkdown
-import com.kazurayam.materialstore.store.FileType
-import com.kazurayam.materialstore.store.Material
+import com.kazurayam.materialstore.store.differ.ImageDifferToPNG
+import com.kazurayam.materialstore.store.differ.TextDifferToHTML
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

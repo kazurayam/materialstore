@@ -1,8 +1,8 @@
-package com.kazurayam.materialstore.diff.differ
+package com.kazurayam.materialstore.store.differ
 
 import com.github.difflib.text.DiffRow
 import com.github.difflib.text.DiffRowGenerator
-import com.kazurayam.materialstore.diff.Differ
+import com.kazurayam.materialstore.store.Differ
 import com.kazurayam.materialstore.store.Material
 import groovy.xml.MarkupBuilder
 

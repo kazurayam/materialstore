@@ -1,7 +1,7 @@
-package com.kazurayam.materialstore.diff.differ
+package com.kazurayam.materialstore.store.differ
 
 import com.kazurayam.materialstore.TestFixtureUtil
-import com.kazurayam.materialstore.diff.DiffArtifact
+import com.kazurayam.materialstore.store.differ.TextDifferToHTML
 import com.kazurayam.materialstore.store.*
 import groovy.xml.MarkupBuilder
 import org.junit.jupiter.api.Test

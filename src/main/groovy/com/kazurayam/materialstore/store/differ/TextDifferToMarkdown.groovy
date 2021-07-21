@@ -1,17 +1,12 @@
-package com.kazurayam.materialstore.diff.differ
+package com.kazurayam.materialstore.store.differ
 
-import com.kazurayam.materialstore.diff.DiffArtifact
-import com.kazurayam.materialstore.diff.Differ
-import com.kazurayam.materialstore.store.FileType
-import com.kazurayam.materialstore.store.Jobber
+
+import com.kazurayam.materialstore.store.Differ
 import com.kazurayam.materialstore.store.Material
-import com.kazurayam.materialstore.store.Metadata
 import com.github.difflib.text.DiffRow
 import com.github.difflib.text.DiffRowGenerator
 
 import java.nio.charset.Charset
-import java.nio.charset.StandardCharsets
-import java.nio.file.Files
 import java.nio.file.Path
 import java.util.function.Function
 import java.util.stream.Collectors

@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.store
 
-import com.kazurayam.materialstore.diff.DiffArtifact
 
 import java.awt.image.BufferedImage
 import java.nio.charset.Charset

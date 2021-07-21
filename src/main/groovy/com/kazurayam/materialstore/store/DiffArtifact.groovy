@@ -1,8 +1,4 @@
-package com.kazurayam.materialstore.diff
-
-import com.kazurayam.materialstore.store.Material
-import com.kazurayam.materialstore.store.MetadataPattern
-
+package com.kazurayam.materialstore.store
 /**
  * Data Transfer Object
  */

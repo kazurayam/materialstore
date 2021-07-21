@@ -1,7 +1,7 @@
-package com.kazurayam.materialstore.diff.reporter
+package com.kazurayam.materialstore.store.reporter
 
-import com.kazurayam.materialstore.diff.DiffArtifact
-import com.kazurayam.materialstore.diff.DiffReporter
+import com.kazurayam.materialstore.store.DiffArtifact
+import com.kazurayam.materialstore.store.DiffReporter
 import com.kazurayam.materialstore.store.Material
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger

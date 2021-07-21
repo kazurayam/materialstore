@@ -1,9 +1,5 @@
 package com.kazurayam.materialstore.demo
 
-import com.kazurayam.materialstore.diff.DiffReporter
-import com.kazurayam.materialstore.diff.DifferDriverImpl
-import com.kazurayam.materialstore.diff.DiffArtifact
-import com.kazurayam.materialstore.diff.DifferDriver
 
 import com.kazurayam.materialstore.selenium.AShotWrapper
 import com.kazurayam.materialstore.store.*
