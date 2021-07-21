@@ -131,9 +131,9 @@ class DifferDriverImplTest {
             assertNotNull(stuffed)
             assertEquals(2, stuffed.size())
             //
-            DiffReporter diffReporter = new DiffReporterToHTML(root)
+            DiffReporter diffReporter = new DiffReporterToHTML(root, jobName)
             Path reportFile = root.resolve("index.html")
-            diffReporter.reportDiffs(stuffed, reportFile)
+            diffReporter.reportDiffs(stuffed, reportFile.getFileName().toString())
             //
             assertTrue(Files.exists(reportFile))
             assertTrue(reportFile.toFile().length() > 0)

@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.store
 
-
+import com.kazurayam.materialstore.store.reporter.DiffReporterToHTML
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -42,6 +42,10 @@ class StoreImpl implements Store {
         return root_
     }
 
+    @Override
+    DiffReporter newReporter(JobName jobName) {
+        return new DiffReporterToHTML(root_, jobName)
+    }
 
     @Override
     Material write(JobName jobName, JobTimestamp jobTimestamp,

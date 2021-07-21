@@ -89,15 +89,14 @@ class VisualTestingTwins {
 
         // makes diff images, save them into "objects" dir with updated "index".
         // returns the list of DiffArtifact which have the diff property stuffed.
-        DifferDriver differDriver = new DifferDriverImpl.Builder().root(root_).build()
-        List<DiffArtifact> artifactsWithDiff= differDriver.makeDiff(artifactsToDiff)
-        assert artifactsWithDiff != null
-        assert artifactsWithDiff.size() > 0
+        DifferDriver differDriver = new DifferDriverImpl.Builder(root_).build()
+        List<DiffArtifact> stuffedDiffArtifacts= differDriver.makeDiff(artifactsToDiff)
+        assert stuffedDiffArtifacts != null
+        assert stuffedDiffArtifacts.size() > 0
 
         // compile HTML report
-        DiffReporter diffReporter = store.newReporter(jobName, jobTimestamp)
-        Path reportFile = store.getRoot().resolve("index.html")
-        reporter.report(artifactsWithDiff, reportFile)
+        DiffReporter reporter = store.newReporter(jobName)
+        reporter.reportDiffs(stuffedDiffArtifacts, "index.html")
 
     }
 
@@ -130,7 +129,7 @@ class VisualTestingTwins {
 
         // get and store the HTML page source of the page
         String html = driver.getPageSource()
-        metadata["category"] = "page source"
+        metadata.put("category", "page source")
         Material htmlMaterial = store.write(jobName, jobTimestamp, FileType.HTML, metadata,
                 html, StandardCharsets.UTF_8)
         assert htmlMaterial != null

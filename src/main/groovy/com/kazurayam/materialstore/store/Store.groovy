@@ -38,4 +38,7 @@ interface Store {
             List<Material> expected,
             List<Material> actual,
             Set<String> metadataKeys)
+
+    DiffReporter newReporter(JobName jobName)
+
 }

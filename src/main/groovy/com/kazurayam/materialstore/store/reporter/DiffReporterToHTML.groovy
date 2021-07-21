@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.store.reporter
 
 import com.kazurayam.materialstore.store.DiffArtifact
 import com.kazurayam.materialstore.store.DiffReporter
+import com.kazurayam.materialstore.store.JobName
 import com.kazurayam.materialstore.store.Material
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
@@ -18,17 +19,25 @@ class DiffReporterToHTML implements DiffReporter {
 
     private final Path root_
 
-    DiffReporterToHTML(Path root) {
+    private final JobName jobName_
+
+    DiffReporterToHTML(Path root, JobName jobName) {
         Objects.requireNonNull(root)
+        Objects.requireNonNull(jobName)
         if (! Files.exists(root)) {
             throw new IllegalArgumentException("${root} is not present")
         }
         this.root_ = root
+        this.jobName_ = jobName
     }
 
     @Override
-    void reportDiffs(List<DiffArtifact> diffArtifacts, Path reportFile) {
+    void reportDiffs(List<DiffArtifact> diffArtifacts, String reportFileName) {
         Objects.requireNonNull(diffArtifacts)
+        Objects.requireNonNull(reportFileName)
+        //
+        Path reportFile = root_.resolve(reportFileName)
+        //
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
         mb.html(lang: "en") {
@@ -39,13 +48,14 @@ class DiffReporterToHTML implements DiffReporter {
             }
             body() {
                 div(id: "container") {
+                    h1(jobName_.toString())
                     diffArtifacts.eachWithIndex { DiffArtifact da, int index ->
+                        hr()
                         mb.div(class: "diff-artifact") {
-                            h1("${index} ${da.getDescription()}")
+                            h2("${da.getDescription()} ${da.getActual().getIndexEntry().getFileType().getExtension()}")
                             makeMaterialSubsection(mb, "expected", da.getExpected())
                             makeMaterialSubsection(mb, "actual", da.getActual())
                             makeMaterialSubsection(mb, "diff", da.getDiff())
-                            hr()
                         }
                     }
                 }
@@ -102,6 +112,9 @@ div#container {
 }
 dl.detail {
     margin-left: 80px;
+}
+#container h1 {
+    margin-bottom: 40px;
 }
 """
     }
