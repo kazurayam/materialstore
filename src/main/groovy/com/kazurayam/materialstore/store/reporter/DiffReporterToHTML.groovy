@@ -68,7 +68,9 @@ class DiffReporterToHTML implements DiffReporter {
                                             "data-bs-target": "#collapse${index+1}",
                                             "area-expanded": "false",
                                             "aria-controls": "collapse${index+1}",
-                                        "${da.getDescription()} ${da.getActual().getIndexEntry().getFileType().getExtension()}"
+                                        "${da.getDescription()}" +
+                                                " ${da.getActual().getIndexEntry().getFileType().getExtension()}" +
+                                                " Δ${da.getDiff().getIndexEntry().getMetadata().get("ratio")}%"
                                     )
                                 }
                                 div(id: "collapse${index+1}",
@@ -76,9 +78,12 @@ class DiffReporterToHTML implements DiffReporter {
                                         "aria-labelledby": "heading${index+1}",
                                         "data-bs-parent": "#diff-contents"
                                 ) {
-                                    makeMaterialSubsection(mb, "expected", da.getExpected())
-                                    makeMaterialSubsection(mb, "actual", da.getActual())
-                                    makeMaterialSubsection(mb, "diff", da.getDiff())
+                                    mb.div(class: "accordion-body") {
+                                        makeModalSubsection(mb, da)
+                                        makeMaterialSubsection(mb, "expected", da.getExpected())
+                                        makeMaterialSubsection(mb, "actual", da.getActual())
+                                        makeMaterialSubsection(mb, "diff", da.getDiff())
+                                    }
                                 }
                             }
                         }
@@ -93,19 +98,88 @@ class DiffReporterToHTML implements DiffReporter {
         reportFile.toFile().text = "<!doctype html>\n" + sw.toString()
     }
 
-    private static void makeMaterialSubsection(MarkupBuilder mb, String name, Material material) {
-        mb.div(class: "accordion-body") {
-            h3(name)
-            if (material.isImage()) {
-                p() {
-                    img(alt:name, src: material.getRelativeURL())
+    private static void makeModalSubsection(MarkupBuilder mb, DiffArtifact da) {
+        Material actual = da.getActual()
+        mb.div(class: "show-diff") {
+            if (actual.isImage()) {
+                mkp.comment("Button trigger modal")
+                button(type: "button", class: "btn btn-primary",
+                        "data-bs-toggle": "modal", "data-bs-target": "#imageModal",
+                        "Show 3 images")
+                mkp.comment("Modal to show images")
+                div(class: "modal fade", id:"imageModal", tabindex: "-1",
+                        "aria-labelledby": "imageModalLabel", "aria-hidden": "true") {
+                    div(class: "modal-dialog modal-fullscreen"){
+                        div(class: "modal-content") {
+                            div(class: "modal-header") {
+                                h5(class: "modal-title",
+                                        id: "imageModalLabel",
+                                        da.getDescriptor()) {
+                                    button(type: "button", class: "btn-close",
+                                            "data-bs-dismiss": "modal", "aria-label": "Close",
+                                            "")
+                                }
+                            }
+                            div(class: "modal-body") {
+                                mkp.comment("body")
+                                div(id: "carouselExampleControls", class: "carousel slide", "data-bs-ride": "carousel") {
+                                    div(class: "carousel-inner", style: "background-color: #efefef;") {
+                                        div(class: "carousel-item") {
+                                            h3(class: "centered","Expected")
+                                            img(class: "centered", alt: "expected",
+                                                    src: da.getExpected().getRelativeURL())
+                                        }
+                                        div(class: "carousel-item active") {
+                                            h3(class: "centered","Diff")
+                                            img(class: "centered", alt: "diff",
+                                                    src: da.getDiff().getRelativeURL())
+                                        }
+                                        div(class: "carousel-item") {
+                                            h3(class: "centered","Actual")
+                                            img(class: "centered", alt: "actual",
+                                                    src: da.getActual().getRelativeURL())
+                                        }
+                                    }
+                                    button(class: "carousel-control-prev", type: "button",
+                                            "data-bs-target": "#carouselExampleControls",
+                                            "data-bs-slide": "prev") {
+                                        span(class: "carousel-control-prev-icon",
+                                                "aria-hidden": "true","")
+                                        span(class: "visually-hidden", "Previous")
+                                    }
+                                    button(class: "carousel-control-next", type: "button",
+                                            "data-bs-target": "#carouselExampleControls",
+                                            "data-bs-slide": "next") {
+                                        span(class: "carousel-control-next-icon",
+                                                "aria-hidden": "true","")
+                                        span(class: "visually-hidden", "Next")
+                                    }
+                                }
+                            }
+                            div(class: "modal-footer") {
+                                button(type: "button", class: "btn btn-secondary",
+                                        "data-bs-dismiss": "modal", "Close")
+                            }
+                        }
+                    }
                 }
-            } else if (material.isText()) {
-                ;
+            } else if (actual.isText()) {
+                mkp.comment("Button trigger modal")
+                button(type: "button", class: "btn btn-primary",
+                        "data-bs-toggle": "modal", "data-bs-target": "#textModal",
+                        "Show texts diff")
+                mkp.comment("Modal to show texts diff")
+
             } else {
                 logger.warn("material.isImage() returned false and material.isText() returned false. What is this? ${material}")
             }
-            dl(class:"detail") {
+        }
+    }
+
+    private static void makeMaterialSubsection(MarkupBuilder mb, String name, Material material) {
+        mb.div(class: "show-detail") {
+            h3(name)
+            dl(class: "detail") {
                 dt("URL")
                 dd() {
                     a(href: material.getRelativeURL(),
@@ -125,6 +199,12 @@ class DiffReporterToHTML implements DiffReporter {
 
     private static String getStyle() {
         return """
+.centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
 """
     }
 }
