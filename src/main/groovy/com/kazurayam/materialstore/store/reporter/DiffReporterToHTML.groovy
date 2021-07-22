@@ -43,29 +43,58 @@ class DiffReporterToHTML implements DiffReporter {
         mb.html(lang: "en") {
             head() {
                 meta(charset: "utf-8")
-                title("DiffReporterToHTML output")
+                meta(name: "viewport", content: "width=device-width, initial-scale=1")
+                mkp.comment("Bootstrap")
+                link(href: "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css",
+                        rel: "stylesheet",
+                        integrity: "sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1",
+                        crossorigin: "anonymous")
                 style(getStyle())
+                title(jobName_.toString())
             }
             body() {
-                div(id: "container") {
+                div(class: "container") {
                     h1(jobName_.toString())
-                    diffArtifacts.eachWithIndex { DiffArtifact da, int index ->
-                        hr()
-                        mb.div(class: "diff-artifact") {
-                            h2("${da.getDescription()} ${da.getActual().getIndexEntry().getFileType().getExtension()}")
-                            makeMaterialSubsection(mb, "expected", da.getExpected())
-                            makeMaterialSubsection(mb, "actual", da.getActual())
-                            makeMaterialSubsection(mb, "diff", da.getDiff())
+                    div(class: "accordion",
+                            id: "diff-contents") {
+                        diffArtifacts.eachWithIndex { DiffArtifact da, int index ->
+                            div(id: "accordion${index+1}",
+                                    class: "accordion-item") {
+                                h2(id: "heading${index+1}",
+                                        class: "accordion-header") {
+                                    button(class: "accordion-button",
+                                            type: "button",
+                                            "data-bs-toggle": "collapse",
+                                            "data-bs-target": "#collapse${index+1}",
+                                            "area-expanded": "false",
+                                            "aria-controls": "collapse${index+1}",
+                                        "${da.getDescription()} ${da.getActual().getIndexEntry().getFileType().getExtension()}"
+                                    )
+                                }
+                                div(id: "collapse${index+1}",
+                                        class: "according-collapse collapse",
+                                        "aria-labelledby": "heading${index+1}",
+                                        "data-bs-parent": "#diff-contents"
+                                ) {
+                                    makeMaterialSubsection(mb, "expected", da.getExpected())
+                                    makeMaterialSubsection(mb, "actual", da.getActual())
+                                    makeMaterialSubsection(mb, "diff", da.getDiff())
+                                }
+                            }
                         }
                     }
                 }
+                mkp.comment("Bootstrap")
+                script(src: "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js",
+                        integrity: "sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW",
+                        crossorigin: "anonymous", "")
             }
         }
-        reportFile.toFile().text = sw.toString()
+        reportFile.toFile().text = "<!doctype html>\n" + sw.toString()
     }
 
     private static void makeMaterialSubsection(MarkupBuilder mb, String name, Material material) {
-        mb.div(class:"material") {
+        mb.div(class: "accordion-body") {
             h3(name)
             if (material.isImage()) {
                 p() {
@@ -96,26 +125,6 @@ class DiffReporterToHTML implements DiffReporter {
 
     private static String getStyle() {
         return """
-* {
-    box-sizing: border-box;
-}
-body {
-    font-family: ui-monospace,SFMono-Regular,SZ Mono,
-        Menlo,Consolas,Liberation Mono,monospace;
-    font-size: 12px;
-    line-height: 20px;
-}
-div#container {
-    max-width: 1280px;
-    margin-left: auto;
-    margin-right: auto;
-}
-dl.detail {
-    margin-left: 80px;
-}
-#container h1 {
-    margin-bottom: 40px;
-}
 """
     }
 }
