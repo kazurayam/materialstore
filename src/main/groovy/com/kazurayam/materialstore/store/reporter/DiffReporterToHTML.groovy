@@ -126,17 +126,17 @@ class DiffReporterToHTML implements DiffReporter {
                                     div(class: "carousel-inner", style: "background-color: #efefef;") {
                                         div(class: "carousel-item") {
                                             h3(class: "centered","Expected")
-                                            img(class: "centered", alt: "expected",
+                                            img(class: "d-block w-75 centered", alt: "expected",
                                                     src: da.getExpected().getRelativeURL())
                                         }
                                         div(class: "carousel-item active") {
                                             h3(class: "centered","Diff")
-                                            img(class: "centered", alt: "diff",
+                                            img(class: "d-block w-75 centered", alt: "diff",
                                                     src: da.getDiff().getRelativeURL())
                                         }
                                         div(class: "carousel-item") {
                                             h3(class: "centered","Actual")
-                                            img(class: "centered", alt: "actual",
+                                            img(class: "d-block w-75 centered", alt: "actual",
                                                     src: da.getActual().getRelativeURL())
                                         }
                                     }
@@ -204,6 +204,9 @@ class DiffReporterToHTML implements DiffReporter {
     margin-left: auto;
     margin-right: auto;
     text-align: center;
+}
+.carousel-control-prev, .carousel-control-next {
+    width: 12.5%
 }
 """
     }
