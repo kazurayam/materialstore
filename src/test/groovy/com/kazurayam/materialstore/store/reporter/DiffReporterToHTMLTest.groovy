@@ -1,9 +1,7 @@
 package com.kazurayam.materialstore.store.reporter
 
-import com.kazurayam.materialstore.TestFixtureUtil
-import com.kazurayam.materialstore.store.differ.TextDifferToHTML
+
 import com.kazurayam.materialstore.store.*
-import groovy.xml.MarkupBuilder
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -12,7 +10,8 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-import static org.junit.jupiter.api.Assertions.*
+import static org.junit.jupiter.api.Assertions.assertEquals
+import static org.junit.jupiter.api.Assertions.assertTrue
 
 class DiffReporterToHTMLTest {
 
@@ -62,5 +61,12 @@ class DiffReporterToHTMLTest {
 
         Path reportFile = root.resolve("index.html")
         assertTrue(Files.exists(reportFile))
+    }
+
+    @Test
+    void test_getWarningClass() {
+        assertEquals("", DiffReporterToHTML.getWarningClass("0.00", 0.0d))
+        assertEquals("warning", DiffReporterToHTML.getWarningClass("1.23", 0.0d))
+        assertEquals("", DiffReporterToHTML.getWarningClass("1.23", 25.0d))
     }
 }

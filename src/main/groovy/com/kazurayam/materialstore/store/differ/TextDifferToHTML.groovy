@@ -99,7 +99,7 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
             body() {
                 div(id: "container") {
                     div(id: "inputs") {
-                        h1("Original")
+                        h2("Original")
                         dl() {
                             dt("URL")
                             dd() {
@@ -110,7 +110,7 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                             dt("metadata")
                             dd(original.getIndexEntry().getMetadata().toString())
                         }
-                        h1("Revised")
+                        h2("Revised")
                         dl() {
                             dt("URL")
                             dd() {
@@ -122,38 +122,51 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                             dd(revised.getIndexEntry().getMetadata().toString())
                         }
                     }
-                    //
-                    Double diffRatio = (insertedRows.size() + deletedRows.size()
-                            + changedRows.size()) * 100.0D / rows.size()
-                    String ratio = DifferUtil.formatDiffRatioAsString(diffRatio)
-                    h2(id: "decision", ((equalRows.size() < rows.size()) ?
-                            "are DIFFERENT (${ratio}%)" :
-                            'are EQUAL'))
-                    //
-                    h3("rows")
-                    ul(id: "stats") {
-                        li() {
-                            span("total : ")
-                            span(rows.size())
+                    div(id: "decision") {
+                        //
+                        Double diffRatio =
+                                (insertedRows.size() +
+                                        deletedRows.size() +
+                                        changedRows.size()
+                                ) * 100.0D / rows.size()
+                        String ratio = DifferUtil.formatDiffRatioAsString(diffRatio)
+                        h3() {
+                            if (equalRows.size() < rows.size()) {
+                                span("are DIFFERENT")
+                                span(style:"margin-left: 20px;", "Δ${ratio}%")
+                            } else {
+                                span("are EQUAL")
+                            }
                         }
-                        li() {
-                            span("inserted : ")
-                            span(insertedRows.size())
-                        }
-                        li() {
-                            span("deleted : ")
-                            span(deletedRows.size())
-                        }
-                        li() {
-                            span("changed : ")
-                            span(changedRows.size())
-                        }
-                        li() {
-                            span("equal : ")
-                            span(equalRows.size())
+                        dl() {
+                            dt("rows")
+                            dd() {
+                                ul(id: "rows-stats") {
+                                    li() {
+                                        span("total :")
+                                        span(rows.size())
+                                    }
+                                    li() {
+                                        span(class: "code-insert","inserted :")
+                                        span(class: "code-insert", insertedRows.size())
+                                    }
+                                    li() {
+                                        span(class: "code-delete","deleted :")
+                                        span(class: "code-delete", deletedRows.size())
+                                    }
+                                    li() {
+                                        span(class: "code-change","changed :")
+                                        span(class: "code-change", changedRows.size())
+                                    }
+                                    li() {
+                                        span("equal :")
+                                        span(equalRows.size())
+                                    }
+                                }
+                            }
                         }
                     }
-                    table() {
+                    table(id: "split-diff") {
                         colgroup() {
                             col(width:"44")
                             col()

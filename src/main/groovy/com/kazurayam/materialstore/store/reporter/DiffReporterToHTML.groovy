@@ -21,6 +21,8 @@ class DiffReporterToHTML implements DiffReporter {
 
     private final JobName jobName_
 
+    private Double criteria_ = 0.0d
+
     DiffReporterToHTML(Path root, JobName jobName) {
         Objects.requireNonNull(root)
         Objects.requireNonNull(jobName)
@@ -29,6 +31,11 @@ class DiffReporterToHTML implements DiffReporter {
         }
         this.root_ = root
         this.jobName_ = jobName
+    }
+
+    @Override
+    void setCriteria(Double criteria) {
+        this.criteria = criteria
     }
 
     @Override
@@ -67,11 +74,14 @@ class DiffReporterToHTML implements DiffReporter {
                                             "data-bs-toggle": "collapse",
                                             "data-bs-target": "#collapse${index+1}",
                                             "area-expanded": "false",
-                                            "aria-controls": "collapse${index+1}",
-                                        "${da.getDescription()}" +
-                                                " ${da.getActual().getIndexEntry().getFileType().getExtension()}" +
-                                                " Δ${da.getDiff().getIndexEntry().getMetadata().get("ratio")}%"
-                                    )
+                                            "aria-controls": "collapse${index+1}") {
+
+                                        String ratioValue = da.getDiff().getIndexEntry().getMetadata().get("ratio")
+                                        String warningClass = getWarningClass(ratioValue, criteria_)
+                                        span(class: "description ${warningClass}", da.getDescription())
+                                        span(class: "fileType ${warningClass}", da.getActual().getIndexEntry().getFileType().getExtension())
+                                        span(class: "ratio ${warningClass}", "${ratioValue}%")
+                                    }
                                 }
                                 div(id: "collapse${index+1}",
                                         class: "according-collapse collapse",
@@ -106,7 +116,7 @@ class DiffReporterToHTML implements DiffReporter {
                 mkp.comment("Button trigger modal")
                 button(type: "button", class: "btn btn-primary",
                         "data-bs-toggle": "modal", "data-bs-target": "#imageModal",
-                        "Show 3 images")
+                        "Show diff in Modal")
                 mkp.comment("Modal to show 3 images: Expected/Diff/Actual")
                 div(class: "modal fade", id:"imageModal", tabindex: "-1",
                         "aria-labelledby": "imageModalLabel", "aria-hidden": "true") {
@@ -131,21 +141,21 @@ class DiffReporterToHTML implements DiffReporter {
                                     div(class: "carousel-inner") {
                                         div(class: "carousel-item") {
                                             h3(class: "centered","Expected")
-                                            img(class: "d-block w-75 centered",
+                                            img(class: "img-fluid d-block w-75 centered",
                                                     alt: "expected",
                                                     src: da.getExpected()
                                                             .getRelativeURL())
                                         }
                                         div(class: "carousel-item active") {
                                             h3(class: "centered","Diff")
-                                            img(class: "d-block w-75 centered",
+                                            img(class: "img-fluid d-block w-75 centered",
                                                     alt: "diff",
                                                     src: da.getDiff()
                                                             .getRelativeURL())
                                         }
                                         div(class: "carousel-item") {
                                             h3(class: "centered","Actual")
-                                            img(class: "d-block w-75 centered",
+                                            img(class: "img-fluid d-block w-75 centered",
                                                     alt: "actual",
                                                     src: da.getActual()
                                                             .getRelativeURL())
@@ -182,7 +192,7 @@ class DiffReporterToHTML implements DiffReporter {
                 mkp.comment("Button trigger modal")
                 button(type: "button", class: "btn btn-primary",
                         "data-bs-toggle": "modal", "data-bs-target": "#textModal",
-                        "Show texts diff")
+                        "Show diff in Modal")
                 mkp.comment("Modal to show texts diff")
                 div(class: "modal fade", id: "textModal", tabindex: "-1",
                         "aria-labelledby": "textModalLabel", "aria-hidden": "true") {
@@ -221,7 +231,7 @@ class DiffReporterToHTML implements DiffReporter {
 
     private static void makeMaterialSubsection(MarkupBuilder mb, String name, Material material) {
         mb.div(class: "show-detail") {
-            h3(name)
+            h2(name)
             dl(class: "detail") {
                 dt("URL")
                 dd() {
@@ -237,6 +247,19 @@ class DiffReporterToHTML implements DiffReporter {
                 dt("metadata")
                 dd(s)
             }
+        }
+    }
+
+    static String getWarningClass(String ratio, Double criteria) {
+        try {
+            Double v = Double.valueOf(ratio)
+            if (v > criteria) {
+                return "warning"
+            } else {
+                return ""
+            }
+        } catch (Exception e) {
+            return ""
         }
     }
 
@@ -259,6 +282,26 @@ class DiffReporterToHTML implements DiffReporter {
     border: none;
     height: 100%;
     width: 100%
+}
+
+body {
+    font-family: ui-monospace, SFMono-Regular,SZ Mono, Menlo, Consolas,Liberation Mono, monospace;
+    font-size: 12px;
+    line-height: 20px;
+}
+.show-detail {
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+dl dd {
+    margin-left: 40px;
+}
+.fileType, .ratio {
+    margin-left: 20px;
+    text-align: left;
+}
+.warning {
+    background-color: #ffd700;
 }
 """
     }
