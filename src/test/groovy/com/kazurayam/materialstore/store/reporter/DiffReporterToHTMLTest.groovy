@@ -57,16 +57,17 @@ class DiffReporterToHTMLTest {
 
         // compile HTML report
         DiffReporter reporter = store.newReporter(jobName)
-        reporter.reportDiffs(stuffedDiffArtifacts, "index.html")
+        int warnCount = reporter.reportDiffs(stuffedDiffArtifacts, "index.html")
+        assertTrue(warnCount > 0)
 
         Path reportFile = root.resolve("index.html")
         assertTrue(Files.exists(reportFile))
     }
 
     @Test
-    void test_getWarningClass() {
-        assertEquals("", DiffReporterToHTML.getWarningClass("0.00", 0.0d))
-        assertEquals("warning", DiffReporterToHTML.getWarningClass("1.23", 0.0d))
-        assertEquals("", DiffReporterToHTML.getWarningClass("1.23", 25.0d))
+    void test_decideToBeWarned() {
+        assertEquals(false, DiffReporterToHTML.decideToBeWarned(0.00d, 0.0d))
+        assertEquals(true, DiffReporterToHTML.decideToBeWarned(1.23d, 0.0d))
+        assertEquals(false, DiffReporterToHTML.decideToBeWarned(1.23d, 25.0d))
     }
 }

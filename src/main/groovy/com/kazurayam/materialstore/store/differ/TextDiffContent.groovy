@@ -34,10 +34,11 @@ class TextDiffContent {
     int getTotal() {
         return inserted + deleted + changed + equal
     }
-    String getRatio() {
+
+    Double getDiffRatio() {
         Double diffVolume = Double.valueOf(inserted + deleted + changed)
         Double diffRatio = (diffVolume * 100) / getTotal()
-        return DifferUtil.formatDiffRatioAsString(diffRatio)
+        return DifferUtil.roundUpTo2DecimalPlaces(diffRatio)
     }
 
     static class Builder {

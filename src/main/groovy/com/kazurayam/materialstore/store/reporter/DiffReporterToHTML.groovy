@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.store.DiffArtifact
 import com.kazurayam.materialstore.store.DiffReporter
 import com.kazurayam.materialstore.store.JobName
 import com.kazurayam.materialstore.store.Material
+import com.kazurayam.materialstore.store.differ.DifferUtil
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -35,15 +36,20 @@ class DiffReporterToHTML implements DiffReporter {
 
     @Override
     void setCriteria(Double criteria) {
+        if (criteria < 0.0 || 100.0 < criteria) {
+            throw new IllegalArgumentException("criteria(${criteria}) must be in the range of [0,100)")
+        }
         this.criteria = criteria
     }
 
     @Override
-    void reportDiffs(List<DiffArtifact> diffArtifacts, String reportFileName) {
+    int reportDiffs(List<DiffArtifact> diffArtifacts, String reportFileName) {
         Objects.requireNonNull(diffArtifacts)
         Objects.requireNonNull(reportFileName)
         //
         Path reportFile = root_.resolve(reportFileName)
+        //
+        int warnCount = 0
         //
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
@@ -76,11 +82,19 @@ class DiffReporterToHTML implements DiffReporter {
                                             "area-expanded": "false",
                                             "aria-controls": "collapse${index+1}") {
 
-                                        String ratioValue = da.getDiff().getIndexEntry().getMetadata().get("ratio")
-                                        String warningClass = getWarningClass(ratioValue, criteria_)
-                                        span(class: "description ${warningClass}", da.getDescription())
-                                        span(class: "fileType ${warningClass}", da.getActual().getIndexEntry().getFileType().getExtension())
-                                        span(class: "ratio ${warningClass}", "${ratioValue}%")
+                                        Double diffRatio = da.getDiffRatio()
+                                        Boolean toBeWarned = decideToBeWarned(diffRatio, criteria_)
+                                        if (toBeWarned) {
+                                            warnCount += 1
+                                        }
+
+                                        String warningClass = getWarningClass(toBeWarned)
+                                        span(class: "description ${warningClass}",
+                                                da.getDescription())
+                                        span(class: "fileType ${warningClass}",
+                                                da.getActual().getIndexEntry().getFileType().getExtension())
+                                        span(class: "ratio ${warningClass}",
+                                                "${DifferUtil.formatDiffRatioAsString(diffRatio)}%")
                                     }
                                 }
                                 div(id: "collapse${index+1}",
@@ -106,6 +120,8 @@ class DiffReporterToHTML implements DiffReporter {
             }
         }
         reportFile.toFile().text = "<!doctype html>\n" + sw.toString()
+
+        return warnCount
     }
 
     private static void makeModalSubsection(MarkupBuilder mb, DiffArtifact da) {
@@ -123,9 +139,8 @@ class DiffReporterToHTML implements DiffReporter {
                     div(class: "modal-dialog modal-fullscreen"){
                         div(class: "modal-content") {
                             div(class: "modal-header") {
-                                h5(class: "modal-title",
-                                        id: "imageModalLabel",
-                                        da.getDescriptor()) {
+                                h5(class: "modal-title", id: "imageModalLabel") {
+                                    span("${da.getDescriptor()} ${da.getFileTypeExtension()} ${da.getDiffRatioAsString()}%")
                                     button(type: "button",
                                             class: "btn-close",
                                             "data-bs-dismiss": "modal",
@@ -200,8 +215,8 @@ class DiffReporterToHTML implements DiffReporter {
                         div(class: "modal-content") {
                             div(class: "modal-header") {
                                 h5(class: "modal-title",
-                                        id: "textModalLabel",
-                                        da.getDescriptor()) {
+                                        id: "textModalLabel") {
+                                    span("${da.getDescriptor()} ${da.getFileTypeExtension()} ${da.getDiffRatioAsString()}%")
                                     button(type: "button",
                                             class: "btn-close",
                                             "data-bs-dismiss": "modal",
@@ -250,15 +265,14 @@ class DiffReporterToHTML implements DiffReporter {
         }
     }
 
-    static String getWarningClass(String ratio, Double criteria) {
-        try {
-            Double v = Double.valueOf(ratio)
-            if (v > criteria) {
-                return "warning"
-            } else {
-                return ""
-            }
-        } catch (Exception e) {
+    static Boolean decideToBeWarned(Double diffRatio, Double criteria) {
+        return diffRatio > criteria
+    }
+
+    static String getWarningClass(boolean toBeWarned) {
+        if (toBeWarned) {
+            return "warning"
+        } else {
             return ""
         }
     }
@@ -296,12 +310,15 @@ body {
 dl dd {
     margin-left: 40px;
 }
-.fileType, .ratio {
-    margin-left: 20px;
+.description, .fileType, .ratio {
+    padding-top: 4px;
+    padding-right: 20px;
+    padding-bottom: 4px;
+    padding-left: 4px;
     text-align: left;
 }
 .warning {
-    background-color: #ffd700;
+    background-color: #e0ae00;
 }
 """
     }

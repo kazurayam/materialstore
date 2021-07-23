@@ -22,7 +22,7 @@ class DifferDriverImpl implements DifferDriver {
     }
 
     @Override
-    List<DiffArtifact> makeDiff(List<DiffArtifact> diffArtifacts) {
+    List<DiffArtifact> makeDiffArtifacts(List<DiffArtifact> diffArtifacts) {
         Objects.requireNonNull(diffArtifacts)
         Objects.requireNonNull(root_)
         List<DiffArtifact> results = new ArrayList<DiffArtifact>()
@@ -36,7 +36,7 @@ class DifferDriverImpl implements DifferDriver {
                 if (differs_.containsKey(fileType)) {
                     Differ differ = differs_.get(fileType)
                     differ.setRoot(root_)
-                    DiffArtifact stuffedDiffArtifact = differ.makeDiff(da)
+                    DiffArtifact stuffedDiffArtifact = differ.makeDiffArtifact(da)
                     results.add(stuffedDiffArtifact)
                 } else {
                     logger.warn("FileType ${fileType.getExtension()} is not supported yet." +

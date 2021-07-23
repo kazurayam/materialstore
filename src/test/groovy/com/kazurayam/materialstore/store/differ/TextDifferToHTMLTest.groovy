@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.store.differ
 
 import com.kazurayam.materialstore.TestFixtureUtil
-import com.kazurayam.materialstore.store.differ.TextDifferToHTML
 import com.kazurayam.materialstore.store.*
 import groovy.xml.MarkupBuilder
 import org.junit.jupiter.api.Test
@@ -42,9 +41,10 @@ class TextDifferToHTMLTest {
         assertNotNull(diffArtifacts)
         assertEquals(1, diffArtifacts.size())
         //
-        DiffArtifact stuffed = new TextDifferToHTML(root).makeDiff(diffArtifacts.get(0))
+        DiffArtifact stuffed = new TextDifferToHTML(root).makeDiffArtifact(diffArtifacts.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
+        assertTrue(stuffed.getDiffRatio() > 0)
         assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())
     }
 

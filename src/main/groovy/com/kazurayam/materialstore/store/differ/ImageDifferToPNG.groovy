@@ -37,7 +37,7 @@ class ImageDifferToPNG implements Differ {
         }
     }
 
-    DiffArtifact makeDiff(DiffArtifact input) {
+    DiffArtifact makeDiffArtifact(DiffArtifact input) {
         Objects.requireNonNull(root_)
         Objects.requireNonNull(input)
         Objects.requireNonNull(input.getExpected())
@@ -62,9 +62,10 @@ class ImageDifferToPNG implements Differ {
         // make a diff image using AShot
         ImageDiffer imgDiff = new ImageDiffer()
         ImageDiff imageDiff = imgDiff.makeDiff(expectedImage,actualImage);
+        Double diffRatio = calculateDiffRatioPercent(imageDiff)
         Metadata diffMetadata = new Metadata([
                 "category": "diff",
-                "ratio": DifferUtil.formatDiffRatioAsString(calculateDiffRatioPercent(imageDiff)),
+                "ratio": DifferUtil.formatDiffRatioAsString(diffRatio),
                 "expected": expected.getIndexEntry().getID().toString(),
                 "actual": actual.getIndexEntry().getID().toString()
         ])
@@ -76,6 +77,7 @@ class ImageDifferToPNG implements Differ {
         //
         DiffArtifact result = new DiffArtifact(input)
         result.setDiff(diffMaterial)
+        result.setDiffRatio(diffRatio)
         return result
     }
 
@@ -116,9 +118,7 @@ class ImageDifferToPNG implements Differ {
         int diffSize = diff.getDiffSize()
         int area = diff.getMarkedImage().getWidth() * diff.getMarkedImage().getHeight()
         Double diffRatio = diffSize / area * 100
-        BigDecimal bd = new BigDecimal(diffRatio)
-        BigDecimal bdUP = bd.setScale(2, BigDecimal.ROUND_UP);  // 0.001 -> 0.01
-        return bdUP.doubleValue()
+        return DifferUtil.roundUpTo2DecimalPlaces(diffRatio)
     }
 
 

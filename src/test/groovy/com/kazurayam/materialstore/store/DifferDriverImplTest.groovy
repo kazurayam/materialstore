@@ -50,7 +50,7 @@ class DifferDriverImplTest {
                 storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
-        List<DiffArtifact> stuffed = differDriver.makeDiff(input)
+        List<DiffArtifact> stuffed = differDriver.makeDiffArtifacts(input)
         assertNotNull(stuffed)
         assertEquals(1, stuffed.size())
     }
@@ -83,7 +83,7 @@ class DifferDriverImplTest {
                 storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
-        List<DiffArtifact> stuffed = differDriver.makeDiff(input)
+        List<DiffArtifact> stuffed = differDriver.makeDiffArtifacts(input)
         assertNotNull(stuffed)
         assertEquals(1, stuffed.size())
     }
@@ -127,7 +127,7 @@ class DifferDriverImplTest {
             DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
 
             // now make the diffs
-            List<DiffArtifact> stuffed = differDriver.makeDiff(input)
+            List<DiffArtifact> stuffed = differDriver.makeDiffArtifacts(input)
             assertNotNull(stuffed)
             assertEquals(2, stuffed.size())
             //

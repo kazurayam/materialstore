@@ -26,6 +26,6 @@ class TextDiffContentTest {
         assertEquals(equal, tdc.getEqual())
         //
         assertEquals(inserted + deleted + changed + equal, tdc.getTotal())
-        assertEquals("34.75", tdc.getRatio())
+        assertEquals(34.76d, tdc.getDiffRatio())
     }
 }

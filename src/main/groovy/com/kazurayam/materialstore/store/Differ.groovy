@@ -8,7 +8,7 @@ interface Differ {
 
     void setRoot(Path root)
 
-    DiffArtifact makeDiff(DiffArtifact diffArtifact)
+    DiffArtifact makeDiffArtifact(DiffArtifact diffArtifact)
 
 
 }

@@ -124,16 +124,17 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                     }
                     div(id: "decision") {
                         //
-                        Double diffRatio =
+                        Double diffRatio = DifferUtil.roundUpTo2DecimalPlaces(
                                 (insertedRows.size() +
                                         deletedRows.size() +
                                         changedRows.size()
                                 ) * 100.0D / rows.size()
+                        )
                         String ratio = DifferUtil.formatDiffRatioAsString(diffRatio)
                         h3() {
                             if (equalRows.size() < rows.size()) {
                                 span("are DIFFERENT")
-                                span(style:"margin-left: 20px;", "Δ${ratio}%")
+                                span(style:"margin-left: 20px;", "${ratio}%")
                             } else {
                                 span("are EQUAL")
                             }

@@ -44,7 +44,7 @@ abstract class AbstractTextDiffer implements Differ {
     }
 
     @Override
-    DiffArtifact makeDiff(DiffArtifact input) {
+    DiffArtifact makeDiffArtifact(DiffArtifact input) {
         Objects.requireNonNull(root_)
         Objects.requireNonNull(input)
         Objects.requireNonNull(input.getExpected())
@@ -61,6 +61,7 @@ abstract class AbstractTextDiffer implements Differ {
 
         //
         TextDiffContent textDiffContent = makeContent(root_, expected, actual, charset)
+        Double diffRatio = textDiffContent.getDiffRatio()
 
         //
         byte[] diffData = toByteArray(textDiffContent.getContent())
@@ -68,7 +69,7 @@ abstract class AbstractTextDiffer implements Differ {
                 "category": "diff",
                 "expected": expected.getIndexEntry().getID().toString(),
                 "actual": actual.getIndexEntry().getID().toString(),
-                "ratio": textDiffContent.getRatio()
+                "ratio": DifferUtil.formatDiffRatioAsString(diffRatio)
         ])
         Jobber jobber = new Jobber(root_, actual.getJobName(), actual.getJobTimestamp())
         Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata)
@@ -76,6 +77,7 @@ abstract class AbstractTextDiffer implements Differ {
         //
         DiffArtifact result = new DiffArtifact(input)
         result.setDiff(diffMaterial)
+        result.setDiffRatio(diffRatio)
         return result
     }
 

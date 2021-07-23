@@ -44,9 +44,10 @@ class ImageDifferToPNGTest {
         assertNotNull(diffArtifacts)
         assertEquals(1, diffArtifacts.size())
         //
-        DiffArtifact stuffed = new ImageDifferToPNG(root).makeDiff(diffArtifacts[0])
+        DiffArtifact stuffed = new ImageDifferToPNG(root).makeDiffArtifact(diffArtifacts[0])
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
+        assertTrue(stuffed.getDiffRatio() > 0)
         assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())
     }
 }

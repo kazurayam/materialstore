@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.store.differ
 
 import com.kazurayam.materialstore.TestFixtureUtil
-import com.kazurayam.materialstore.store.differ.TextDifferToMarkdown
 import com.kazurayam.materialstore.store.*
 import org.junit.jupiter.api.Test
 
@@ -43,7 +42,7 @@ class TextDifferToMarkdownTest {
         assertNotNull(diffArtifacts)
         assertEquals(1, diffArtifacts.size())
         //
-        DiffArtifact stuffed = new TextDifferToMarkdown(root).makeDiff(diffArtifacts.get(0))
+        DiffArtifact stuffed = new TextDifferToMarkdown(root).makeDiffArtifact(diffArtifacts.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())

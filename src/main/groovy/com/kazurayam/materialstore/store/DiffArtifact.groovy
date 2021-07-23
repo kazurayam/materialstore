@@ -1,4 +1,7 @@
 package com.kazurayam.materialstore.store
+
+import com.kazurayam.materialstore.store.differ.DifferUtil
+
 /**
  * Data Transfer Object
  */
@@ -7,8 +10,8 @@ class DiffArtifact implements Comparable {
     private final Material expected
     private final Material actual
     private Material diff
-
     private MetadataPattern descriptor
+    private Double diffRatio
 
     DiffArtifact(Material expected, Material actual, MetadataPattern descriptor) {
         Objects.requireNonNull(expected)
@@ -18,6 +21,7 @@ class DiffArtifact implements Comparable {
         this.actual = actual
         this.diff = Material.NULL_OBJECT
         this.descriptor = descriptor
+        this.diffRatio = 0.0d
     }
 
     /**
@@ -38,8 +42,17 @@ class DiffArtifact implements Comparable {
         this.diff = diff
     }
 
+    void setDiffRatio(Double diffRatio) {
+        Objects.requireNonNull(diffRatio)
+        this.diffRatio = diffRatio
+    }
+
     Material getExpected() {
         return this.expected
+    }
+
+    String getFileTypeExtension() {
+        return this.getActual().getIndexEntry().getFileType().getExtension()
     }
 
     Material getActual() {
@@ -48,6 +61,14 @@ class DiffArtifact implements Comparable {
 
     Material getDiff() {
         return this.diff
+    }
+
+    Double getDiffRatio() {
+        return this.diffRatio
+    }
+
+    String getDiffRatioAsString() {
+        return DifferUtil.formatDiffRatioAsString(this.getDiffRatio())
     }
 
     MetadataPattern getDescriptor() {
