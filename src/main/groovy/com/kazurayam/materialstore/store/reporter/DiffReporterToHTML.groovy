@@ -102,11 +102,12 @@ class DiffReporterToHTML implements DiffReporter {
         Material actual = da.getActual()
         mb.div(class: "show-diff") {
             if (actual.isImage()) {
+                // Show 3 images in a Modal
                 mkp.comment("Button trigger modal")
                 button(type: "button", class: "btn btn-primary",
                         "data-bs-toggle": "modal", "data-bs-target": "#imageModal",
                         "Show 3 images")
-                mkp.comment("Modal to show images")
+                mkp.comment("Modal to show 3 images: Expected/Diff/Actual")
                 div(class: "modal fade", id:"imageModal", tabindex: "-1",
                         "aria-labelledby": "imageModalLabel", "aria-hidden": "true") {
                     div(class: "modal-dialog modal-fullscreen"){
@@ -115,44 +116,58 @@ class DiffReporterToHTML implements DiffReporter {
                                 h5(class: "modal-title",
                                         id: "imageModalLabel",
                                         da.getDescriptor()) {
-                                    button(type: "button", class: "btn-close",
-                                            "data-bs-dismiss": "modal", "aria-label": "Close",
+                                    button(type: "button",
+                                            class: "btn-close",
+                                            "data-bs-dismiss": "modal",
+                                            "aria-label": "Close",
                                             "")
                                 }
                             }
                             div(class: "modal-body") {
                                 mkp.comment("body")
-                                div(id: "carouselExampleControls", class: "carousel slide", "data-bs-ride": "carousel") {
-                                    div(class: "carousel-inner", style: "background-color: #efefef;") {
+                                div(id: "carouselExampleControls",
+                                        class: "carousel slide",
+                                        "data-bs-ride": "carousel") {
+                                    div(class: "carousel-inner") {
                                         div(class: "carousel-item") {
                                             h3(class: "centered","Expected")
-                                            img(class: "d-block w-75 centered", alt: "expected",
-                                                    src: da.getExpected().getRelativeURL())
+                                            img(class: "d-block w-75 centered",
+                                                    alt: "expected",
+                                                    src: da.getExpected()
+                                                            .getRelativeURL())
                                         }
                                         div(class: "carousel-item active") {
                                             h3(class: "centered","Diff")
-                                            img(class: "d-block w-75 centered", alt: "diff",
-                                                    src: da.getDiff().getRelativeURL())
+                                            img(class: "d-block w-75 centered",
+                                                    alt: "diff",
+                                                    src: da.getDiff()
+                                                            .getRelativeURL())
                                         }
                                         div(class: "carousel-item") {
                                             h3(class: "centered","Actual")
-                                            img(class: "d-block w-75 centered", alt: "actual",
-                                                    src: da.getActual().getRelativeURL())
+                                            img(class: "d-block w-75 centered",
+                                                    alt: "actual",
+                                                    src: da.getActual()
+                                                            .getRelativeURL())
                                         }
                                     }
-                                    button(class: "carousel-control-prev", type: "button",
+                                    button(class: "carousel-control-prev",
+                                            type: "button",
                                             "data-bs-target": "#carouselExampleControls",
                                             "data-bs-slide": "prev") {
                                         span(class: "carousel-control-prev-icon",
                                                 "aria-hidden": "true","")
-                                        span(class: "visually-hidden", "Previous")
+                                        span(class: "visually-hidden",
+                                                "Previous")
                                     }
-                                    button(class: "carousel-control-next", type: "button",
+                                    button(class: "carousel-control-next",
+                                            type: "button",
                                             "data-bs-target": "#carouselExampleControls",
                                             "data-bs-slide": "next") {
                                         span(class: "carousel-control-next-icon",
                                                 "aria-hidden": "true","")
-                                        span(class: "visually-hidden", "Next")
+                                        span(class: "visually-hidden",
+                                                "Next")
                                     }
                                 }
                             }
@@ -169,7 +184,35 @@ class DiffReporterToHTML implements DiffReporter {
                         "data-bs-toggle": "modal", "data-bs-target": "#textModal",
                         "Show texts diff")
                 mkp.comment("Modal to show texts diff")
-
+                div(class: "modal fade", id: "textModal", tabindex: "-1",
+                        "aria-labelledby": "textModalLabel", "aria-hidden": "true") {
+                    div(class: "modal-dialog modal-fullscreen") {
+                        div(class: "modal-content") {
+                            div(class: "modal-header") {
+                                h5(class: "modal-title",
+                                        id: "textModalLabel",
+                                        da.getDescriptor()) {
+                                    button(type: "button",
+                                            class: "btn-close",
+                                            "data-bs-dismiss": "modal",
+                                            "aria-label": "Close",
+                                            "")
+                                }
+                            }
+                            div(class: "modal-body") {
+                                mkp.comment("body")
+                                iframe(src: da.getDiff().getRelativeURL(),
+                                        title: "TextDiff", "")
+                            }
+                            div(class: "modal-footer") {
+                                button(type: "button",
+                                        class: "btn btn-secondary",
+                                        "data-bs-dismiss": "modal",
+                                        "Close")
+                            }
+                        }
+                    }
+                }
             } else {
                 logger.warn("material.isImage() returned false and material.isText() returned false. What is this? ${material}")
             }
@@ -205,8 +248,17 @@ class DiffReporterToHTML implements DiffReporter {
     margin-right: auto;
     text-align: center;
 }
+.carousel-inner {
+    background-color: #efefef;
+}
 .carousel-control-prev, .carousel-control-next {
     width: 12.5%
+}
+.modal-body iframe {
+    position: absolute;
+    border: none;
+    height: 100%;
+    width: 100%
 }
 """
     }
