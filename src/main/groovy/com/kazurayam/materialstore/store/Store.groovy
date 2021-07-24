@@ -4,6 +4,8 @@ package com.kazurayam.materialstore.store
 import java.awt.image.BufferedImage
 import java.nio.charset.Charset
 import java.nio.file.Path
+import java.time.temporal.Temporal
+import java.time.temporal.TemporalUnit
 
 /**
  * defines the public interface of the Store object

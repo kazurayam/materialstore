@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.store
 
+import com.kazurayam.materialstore.MaterialstoreException
 import groovy.json.JsonOutput
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -38,7 +39,24 @@ class Index implements Comparable {
         return jobDir.resolve("index")
     }
 
+    boolean containsKey(FileType fileType, Metadata metadata) {
+        List<IndexEntry> filtered =
+                lines_.stream()
+                        .filter { IndexEntry ie ->
+                            ie.getFileType() == fileType &&
+                            ie.getMetadata() == metadata
+                        }
+                        .collect(Collectors.toList())
+        return filtered.size() > 0
+    }
+
     IndexEntry put(ID id, FileType fileType, Metadata metadata) {
+        if (this.containsKey(fileType, metadata)) {
+            throw new MaterialstoreException("the combination of " +
+                    "fileType:${fileType.getExtension()} and " +
+                    "metadata:${metadata.toString()} is already " +
+                    "there in the index")
+        }
         IndexEntry indexEntry = new IndexEntry(id, fileType, metadata)
         lines_.add(indexEntry)
         return indexEntry

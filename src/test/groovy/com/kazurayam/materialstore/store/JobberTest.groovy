@@ -59,7 +59,7 @@ class JobberTest {
     void test_write() {
         Path root = outputDir.resolve("Materials")
         StoreImpl repos = new StoreImpl(root)
-        JobName jobName = new JobName("test_commit")
+        JobName jobName = new JobName("test_write")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber jobber = repos.getJobber(jobName, jobTimestamp)
         Metadata metadata = new Metadata(["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.katalon.com/"])
@@ -73,10 +73,10 @@ class JobberTest {
     }
 
     @Test
-    void test_write_duplicating() {
+    void test_write_duplicating_metadata() {
         Path root = outputDir.resolve("Materials")
         StoreImpl repos = new StoreImpl(root)
-        JobName jobName = new JobName("test_commit_duplicating")
+        JobName jobName = new JobName("test_write_duplicating_metadata")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber jobber = repos.getJobber(jobName, jobTimestamp)
         Metadata metadata = new Metadata(["profile":"SomeEnv", "URL":"http://example.com"])
@@ -85,7 +85,25 @@ class JobberTest {
         MaterialstoreException thrown = assertThrows(MaterialstoreException.class, { ->
             jobber.write(data, FileType.TXT, metadata)
         })
-        assertTrue(thrown.getMessage().contains("MObject is already in the Store"))
+        assertTrue(thrown.getMessage().contains("is already there in the index"))
+    }
+
+    @Test
+    void test_write_2_files_of_the_same_bytes_with_different_metadata() {
+        Path root = outputDir.resolve("Materials")
+        StoreImpl repos = new StoreImpl(root)
+        JobName jobName = new JobName("test_write_2_files_of_the_same_bytes_with_different_metadata")
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        Jobber jobber = repos.getJobber(jobName, jobTimestamp)
+        byte[] data = "foo".getBytes()
+        //
+        Metadata metadata1 = new Metadata(["profile":"ProductionEnv", "URL":"http://example.com"])
+        Material material1 = jobber.write(data, FileType.TXT, metadata1)
+        assert material1 != null
+        //
+        Metadata metadata2 = new Metadata(["profile":"DevelopmentEnv", "URL":"http://example.com"])
+        Material material2 = jobber.write(data, FileType.TXT, metadata2)
+        assert material2 != null
     }
 
     @Test

@@ -24,7 +24,7 @@ class URLTest {
     }
 
     @Test
-    void test_getFile_fragment() {
+    void test_getFile_with_fragment() {
         URL url = new URL("http://java.sun.com/index.html?param1=value1#chapter1")
         // the fragment "#chapter1" is not technically part of the URL
         assertEquals("/index.html?param1=value1", url.getFile());

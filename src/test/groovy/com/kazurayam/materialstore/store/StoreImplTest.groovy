@@ -33,6 +33,7 @@ class StoreImplTest {
         Files.createDirectories(outputDir)
     }
 
+
     @Test
     void test_getRoot() {
         Path root = outputDir.resolve("Materials")
@@ -78,7 +79,7 @@ class StoreImplTest {
     }
 
     @Test
-    void test_write_path() {
+    void test_write_Path() {
         Path root = outputDir.resolve("Materials")
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_path")
