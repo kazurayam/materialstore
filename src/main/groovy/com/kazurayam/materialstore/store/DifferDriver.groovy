@@ -5,7 +5,7 @@ import com.kazurayam.materialstore.store.FileType
 
 interface DifferDriver {
 
-    DiffArtifacts makeDiffArtifacts(DiffArtifacts diffArtifacts)
+    DiffArtifacts differentiate(DiffArtifacts diffArtifacts)
 
     boolean hasDiffer(FileType fileType)
 }

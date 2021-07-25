@@ -56,7 +56,7 @@ class StoreImpl implements Store {
 
         DifferDriver differDriver = new DifferDriverImpl.Builder(root_).build()
         DiffArtifacts stuffedDiffArtifacts =
-                differDriver.makeDiffArtifacts(diffArtifacts)
+                differDriver.differentiate(diffArtifacts)
 
         return stuffedDiffArtifacts
     }
