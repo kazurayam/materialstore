@@ -22,11 +22,11 @@ class DifferDriverImpl implements DifferDriver {
     }
 
     @Override
-    List<DiffArtifact> makeDiffArtifacts(List<DiffArtifact> diffArtifacts) {
-        Objects.requireNonNull(diffArtifacts)
+    DiffArtifacts makeDiffArtifacts(DiffArtifacts input) {
+        Objects.requireNonNull(input)
         Objects.requireNonNull(root_)
-        List<DiffArtifact> results = new ArrayList<DiffArtifact>()
-        diffArtifacts.each { DiffArtifact da ->
+        DiffArtifacts stuffed = new DiffArtifacts()
+        input.each { DiffArtifact da ->
             if (da.getExpected() == Material.NULL_OBJECT) {
                 logger.warn("expected Material was NULL_OBJECT. actual=${da.getActual()}")
             } else if (da.getActual() == Material.NULL_OBJECT) {
@@ -37,14 +37,14 @@ class DifferDriverImpl implements DifferDriver {
                     Differ differ = differs_.get(fileType)
                     differ.setRoot(root_)
                     DiffArtifact stuffedDiffArtifact = differ.makeDiffArtifact(da)
-                    results.add(stuffedDiffArtifact)
+                    stuffed.add(stuffedDiffArtifact)
                 } else {
                     logger.warn("FileType ${fileType.getExtension()} is not supported yet." +
                             " in ${da.getActual().toString()}")
                 }
             }
         }
-        return results
+        return stuffed
     }
 
     @Override

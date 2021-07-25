@@ -1,7 +1,5 @@
 package com.kazurayam.materialstore.store
 
-import com.kazurayam.materialstore.store.DiffArtifact
-
 interface DiffReporter {
 
     /**
@@ -18,6 +16,6 @@ interface DiffReporter {
      * @param reportFileName
      * @return number of diffActifacts exceeding the given criteria
      */
-    int reportDiffs(List<DiffArtifact> diffArtifacts, String reportFileName)
+    int reportDiffs(DiffArtifacts diffArtifacts, String reportFileName)
 
 }

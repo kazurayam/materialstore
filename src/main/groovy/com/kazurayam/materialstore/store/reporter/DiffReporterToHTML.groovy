@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.store.reporter
 
 import com.kazurayam.materialstore.store.DiffArtifact
+import com.kazurayam.materialstore.store.DiffArtifacts
 import com.kazurayam.materialstore.store.DiffReporter
 import com.kazurayam.materialstore.store.JobName
 import com.kazurayam.materialstore.store.Material
@@ -43,7 +44,7 @@ class DiffReporterToHTML implements DiffReporter {
     }
 
     @Override
-    int reportDiffs(List<DiffArtifact> diffArtifacts, String reportFileName) {
+    int reportDiffs(DiffArtifacts diffArtifacts, String reportFileName) {
         Objects.requireNonNull(diffArtifacts)
         Objects.requireNonNull(reportFileName)
         //

@@ -8,6 +8,9 @@ import groovy.json.JsonOutput
  */
 class DiffArtifact implements Comparable {
 
+    static final DiffArtifact NULL_OBJECT =
+            new DiffArtifact(Material.NULL_OBJECT, Material.NULL_OBJECT, MetadataPattern.NULL_OBJECT)
+
     private final Material expected
     private final Material actual
     private Material diff

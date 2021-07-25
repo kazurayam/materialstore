@@ -36,12 +36,9 @@ interface Store {
                    FileType fileType, Metadata meta, String input,
                    Charset charset)
 
-    List<DiffArtifact> zipMaterials(
-            List<Material> expected,
-            List<Material> actual,
-            Set<String> metadataKeys)
+    DiffArtifacts zipMaterials(List<Material> expected, List<Material> actual, Set<String> metadataKeys)
 
-    List<DiffArtifact> makeDiff(List<Material> expected, List<Material> actual, Set<String> metadataKeys)
+    DiffArtifacts makeDiff(List<Material> expected, List<Material> actual, Set<String> metadataKeys)
 
     DiffReporter newReporter(JobName jobName)
 

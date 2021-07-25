@@ -72,7 +72,7 @@ class StoreTest {
                 new MetadataPattern([ "profile": profile2 ]))
 
         // make diff
-        List<DiffArtifact> stuffedDiffArtifacts =
+        DiffArtifacts stuffedDiffArtifacts =
                 store.makeDiff(expected, actual, ["URL.file"] as Set)
 
         // compile HTML report
