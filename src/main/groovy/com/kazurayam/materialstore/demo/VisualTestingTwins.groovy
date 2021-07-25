@@ -72,7 +72,7 @@ class VisualTestingTwins {
 
         // make diff
         List<DiffArtifact> stuffedDiffArtifacts =
-                store.makeDiff(expected, actual, ["URL.file"] as Set)
+                store.makeDiff(expected, actual, ["URL.file", "xpath"] as Set)
 
         // compile HTML report
         DiffReporter reporter = store.newReporter(jobName)
