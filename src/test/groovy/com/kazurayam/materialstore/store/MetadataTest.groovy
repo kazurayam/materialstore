@@ -17,14 +17,6 @@ class MetadataTest {
     }
 
     @Test
-    void test_clear() {
-        Metadata metadata = new Metadata(["profile":"ProductionEnv"])
-        assertEquals(1, metadata.size())
-        metadata.clear()
-        assertEquals(0, metadata.size())
-    }
-
-    @Test
     void test_compareTo_equals() {
         Metadata metadata1 = new Metadata(["profile":"X"])
         Metadata metadata2 = new Metadata(["profile":"X"])
@@ -89,8 +81,6 @@ class MetadataTest {
     void test_isEmpty() {
         Metadata metadata = new Metadata([:])
         assertTrue(metadata.isEmpty())
-        metadata.put("foo", "bar")
-        assertFalse(metadata.isEmpty())
     }
 
     @Test
@@ -139,36 +129,17 @@ class MetadataTest {
     }
 
     @Test
-    void test_put() {
-        Metadata metadata = new Metadata([:])
-        metadata.put("key", "value")
-        assertEquals("value", metadata.get("key"))
-    }
-
-    @Test
-    void test_putAll() {
-        Metadata metadata = new Metadata([:])
-        metadata.putAll(["key": "value"])
-        assertEquals("value", metadata.get("key"))
-    }
-
-    @Test
-    void test_remove() {
-        Metadata metadata = new Metadata(["key": "value"])
-        metadata.remove("key")
-        assertEquals(0, metadata.size())
-    }
-
-    @Test
     void test_size() {
         Metadata metadata = new Metadata(["key": "value"])
         assertEquals(1, metadata.size())
     }
 
+    /**
+     * In the string representation, the keys should be sorted
+     */
     @Test
     void test_toString() {
-        Metadata metadata = new Metadata(["b": "B"])
-        metadata.put("a", "A")
+        Metadata metadata = new Metadata(["b": "B", "a": "A"])
         String s = metadata.toString()
         assertEquals(
                 '''{"a":"A","b":"B"}''',

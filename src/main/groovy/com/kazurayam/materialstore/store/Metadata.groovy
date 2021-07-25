@@ -2,19 +2,18 @@ package com.kazurayam.materialstore.store
 
 import groovy.json.JsonOutput
 
+/**
+ * Metadata is an immutable object.
+ */
 class Metadata implements Comparable {
 
     static final Metadata NULL_OBJECT = new Metadata([:])
 
     private final Map<String, String> metadata_ = new TreeMap<String, String>()  // keys are sorted
 
-    Metadata(Map<String, String> metadata) {
-        Objects.requireNonNull(metadata)
-        metadata_.putAll(metadata)
-    }
-
-    void clear() {
-        metadata_.clear()
+    Metadata(Map<String, String> source) {
+        Objects.requireNonNull(source)
+        metadata_.putAll(source)
     }
 
     @Override
@@ -113,20 +112,6 @@ class Metadata implements Comparable {
             }
         }
         return result
-    }
-
-    String put(String key, String value) {
-        Objects.requireNonNull(key)
-        Objects.requireNonNull(value)
-        return metadata_.put(key, value)
-    }
-
-    void putAll(Map<String, String> m) {
-        metadata_.putAll(m)
-    }
-
-    String remove(String key) {
-        return metadata_.remove(key)
     }
 
     int size()  {
