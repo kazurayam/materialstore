@@ -129,22 +129,25 @@ class DiffReporterToHTML implements DiffReporter {
         Material actual = da.getActual()
         mb.div(class: "show-diff") {
             if (actual.isImage()) {
+                String imageModalId = "imageModal${seq}"
+                String imageModalTitleId = "imageModalLabel${seq}"
+                String carouselId = "carouselControl${seq}"
                 // Show 3 images in a Modal
                 mkp.comment("Button trigger modal")
                 button(type: "button", class: "btn btn-primary",
                         "data-bs-toggle": "modal",
-                        "data-bs-target": "#imageModal${seq}",
+                        "data-bs-target": "#${imageModalId}",
                         "Show diff in Modal")
                 mkp.comment("Modal to show 3 images: Expected/Diff/Actual")
                 div(class: "modal fade",
-                        id:"imageModal${seq}",
+                        id:"${imageModalId}",
                         tabindex: "-1",
                         "aria-labelledby": "imageModalLabel", "aria-hidden": "true") {
                     div(class: "modal-dialog modal-fullscreen"){
                         div(class: "modal-content") {
                             div(class: "modal-header") {
                                 h5(class: "modal-title",
-                                        id: "imageModalLabel${seq}") {
+                                        id: "${imageModalTitleId}") {
                                     span("${da.getDescriptor()} ${da.getFileTypeExtension()} ${da.getDiffRatioAsString()}%")
                                     button(type: "button",
                                             class: "btn-close",
@@ -155,7 +158,7 @@ class DiffReporterToHTML implements DiffReporter {
                             }
                             div(class: "modal-body") {
                                 mkp.comment("body")
-                                div(id: "carouselExampleControls${seq}",
+                                div(id: "${carouselId}",
                                         class: "carousel slide",
                                         "data-bs-ride": "carousel") {
                                     div(class: "carousel-inner") {
@@ -183,7 +186,7 @@ class DiffReporterToHTML implements DiffReporter {
                                     }
                                     button(class: "carousel-control-prev",
                                             type: "button",
-                                            "data-bs-target": "#carouselExampleControls${seq}",
+                                            "data-bs-target": "#${carouselId}",
                                             "data-bs-slide": "prev") {
                                         span(class: "carousel-control-prev-icon",
                                                 "aria-hidden": "true","")
@@ -192,7 +195,7 @@ class DiffReporterToHTML implements DiffReporter {
                                     }
                                     button(class: "carousel-control-next",
                                             type: "button",
-                                            "data-bs-target": "#carouselExampleControls${seq}",
+                                            "data-bs-target": "#${carouselId}",
                                             "data-bs-slide": "next") {
                                         span(class: "carousel-control-next-icon",
                                                 "aria-hidden": "true","")
@@ -209,21 +212,23 @@ class DiffReporterToHTML implements DiffReporter {
                     }
                 }
             } else if (actual.isText()) {
+                String textModalId = "textModal${seq}"
+                String textModalTitleId = "textModalLabel${seq}"
                 mkp.comment("Button trigger modal")
                 button(type: "button", class: "btn btn-primary",
                         "data-bs-toggle": "modal",
-                        "data-bs-target": "#textModal${seq}",
+                        "data-bs-target": "#${textModalId}",
                         "Show diff in Modal")
                 mkp.comment("Modal to show texts diff")
                 div(class: "modal fade",
-                        id: "textModal${seq}",
+                        id: "${textModalId}",
                         tabindex: "-1",
                         "aria-labelledby": "textModalLabel", "aria-hidden": "true") {
                     div(class: "modal-dialog modal-fullscreen") {
                         div(class: "modal-content") {
                             div(class: "modal-header") {
                                 h5(class: "modal-title",
-                                        id: "textModalLabel${seq}") {
+                                        id: "${textModalTitleId}") {
                                     span("${da.getDescriptor()} ${da.getFileTypeExtension()} ${da.getDiffRatioAsString()}%")
                                     button(type: "button",
                                             class: "btn-close",
