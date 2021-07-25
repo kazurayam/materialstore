@@ -22,7 +22,7 @@ class DifferDriverImpl implements DifferDriver {
     }
 
     @Override
-    DiffArtifacts makeDiffArtifacts(DiffArtifacts input) {
+    DiffArtifacts differentiate(DiffArtifacts input) {
         Objects.requireNonNull(input)
         Objects.requireNonNull(root_)
         DiffArtifacts stuffed = new DiffArtifacts()

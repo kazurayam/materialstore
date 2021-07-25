@@ -3,7 +3,6 @@ package com.kazurayam.materialstore.store
 
 import com.kazurayam.materialstore.TestFixtureUtil
 import com.kazurayam.materialstore.store.differ.ImageDifferToPNG
-import com.kazurayam.materialstore.store.reporter.DiffReporterToHTML
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -50,7 +49,7 @@ class DifferDriverImplTest {
                 storeImpl.zipMaterials(expected, actual, ["URL.file", "xpath"] as Set)
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
-        DiffArtifacts stuffed = differDriver.makeDiffArtifacts(input)
+        DiffArtifacts stuffed = differDriver.differentiate(input)
         assertNotNull(stuffed)
         assertEquals(2, stuffed.size())
     }
@@ -83,7 +82,7 @@ class DifferDriverImplTest {
                 storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
-        DiffArtifacts stuffed = differDriver.makeDiffArtifacts(input)
+        DiffArtifacts stuffed = differDriver.differentiate(input)
         assertNotNull(stuffed)
         assertEquals(1, stuffed.size())
     }
