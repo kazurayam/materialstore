@@ -61,7 +61,6 @@ class StoreImpl implements Store {
         return stuffedDiffArtifacts
     }
 
-    @Override
     DiffReporter newReporter(JobName jobName) {
         return new DiffReporterToHTML(root_, jobName)
     }

@@ -40,8 +40,6 @@ interface Store {
 
     DiffArtifacts makeDiff(List<Material> expected, List<Material> actual, Set<String> metadataKeys)
 
-    DiffReporter newReporter(JobName jobName)
-
     Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, String fileName)
 
 }
