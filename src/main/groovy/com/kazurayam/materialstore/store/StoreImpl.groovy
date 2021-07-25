@@ -67,6 +67,13 @@ class StoreImpl implements Store {
     }
 
     @Override
+    Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, String fileName) {
+        DiffReporter reporter = this.newReporter(jobName)
+        reporter.reportDiffs(diffArtifacts, fileName)
+        return root.resolve(fileName)
+    }
+
+    @Override
     Material write(JobName jobName, JobTimestamp jobTimestamp,
                    FileType fileType, Metadata meta, File input) {
         Objects.requireNonNull(input)

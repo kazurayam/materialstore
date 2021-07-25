@@ -42,4 +42,6 @@ interface Store {
 
     DiffReporter newReporter(JobName jobName)
 
+    Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, String fileName)
+
 }

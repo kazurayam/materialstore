@@ -71,12 +71,11 @@ class VisualTestingTwins {
                 new MetadataPattern([ "profile": profile2 ]))
 
         // make diff
-        List<DiffArtifact> stuffedDiffArtifacts =
+        DiffArtifacts stuffedDiffArtifacts =
                 store.makeDiff(expected, actual, ["URL.file", "xpath"] as Set)
 
         // compile HTML report
-        DiffReporter reporter = store.newReporter(jobName)
-        reporter.reportDiffs(stuffedDiffArtifacts, "index.html")
+        Path file = store.reportDiffs(jobName, stuffedDiffArtifacts, "index.html")
     }
 
     /**

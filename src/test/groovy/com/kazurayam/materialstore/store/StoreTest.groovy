@@ -74,16 +74,13 @@ class StoreTest {
         // make diff
         DiffArtifacts stuffedDiffArtifacts =
                 store.makeDiff(expected, actual, ["URL.file", "xpath"] as Set)
-
-        // compile HTML report
-        DiffReporter reporter = store.newReporter(jobName)
-        int warnings = reporter.reportDiffs(stuffedDiffArtifacts, "index.html")
+        int warnings = stuffedDiffArtifacts.countWarnings(0.0d)
         println "found ${warnings} differences"
 
-        Path reportFile = root.resolve("index.html")
+        // compile HTML report
+        Path reportFile = store.reportDiffs(jobName,
+                stuffedDiffArtifacts, "index.html")
         assertTrue(Files.exists(reportFile))
-
-
     }
 
     /**
