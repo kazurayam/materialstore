@@ -43,19 +43,20 @@ class StoreImpl implements Store {
     }
 
     @Override
-    List<DiffArtifact> makeDiff(List<Material> expected,
+    DiffArtifacts makeDiff(List<Material> expected,
                                 List<Material> actual,
                                 Set<String> metadataKeys) {
         Objects.requireNonNull(expected)
         Objects.requireNonNull(actual)
         Objects.requireNonNull(metadataKeys)
 
-        List<DiffArtifact> diffArtifacts =
+        DiffArtifacts diffArtifacts =
                 this.zipMaterials(expected, actual, metadataKeys)
         assert diffArtifacts != null
 
         DifferDriver differDriver = new DifferDriverImpl.Builder(root_).build()
-        List<DiffArtifact> stuffedDiffArtifacts = differDriver.makeDiffArtifacts(diffArtifacts)
+        DiffArtifacts stuffedDiffArtifacts =
+                differDriver.makeDiffArtifacts(diffArtifacts)
 
         return stuffedDiffArtifacts
     }
@@ -210,14 +211,21 @@ class StoreImpl implements Store {
         return result
     }
 
+    /**
+     *
+     * @param expectedList
+     * @param actualList
+     * @param metadataKeys
+     * @return
+     */
     @Override
-    List<DiffArtifact> zipMaterials(List<Material> expectedList,
+    DiffArtifacts zipMaterials(List<Material> expectedList,
                                     List<Material> actualList,
                                     Set<String> metadataKeys) {
         Objects.requireNonNull(expectedList)
         Objects.requireNonNull(actualList)
         Objects.requireNonNull(metadataKeys)
-        List<DiffArtifact> result = new ArrayList<DiffArtifact>()
+        DiffArtifacts diffArtifacts = new DiffArtifacts()
         //
         actualList.each { Material actual->
             FileType actualFileType = actual.getIndexEntry().getFileType()
@@ -228,29 +236,14 @@ class StoreImpl implements Store {
                 Metadata expectedMetadata = expected.getIndexEntry().getMetadata()
                 if (expectedFileType == actualFileType && expectedMetadata.match(pattern)) {
                     DiffArtifact da = new DiffArtifact(expected, actual, pattern)
-                    result.add(da)
+                    diffArtifacts.add(da)
                 } else {
-                    DiffArtifact da = new DiffArtifact(Material.NULL_OBJECT, actual, pattern)
-                    result.add(da)
+                    ;
                 }
             }
         }
         //
-        expectedList.each { Material expected ->
-            Metadata expectedMetadata = expected.getIndexEntry().getMetadata()
-            MetadataPattern pattern = MetadataPattern.create(metadataKeys, expectedMetadata)
-            actualList.each { Material actual ->
-                Metadata actualMetadata = actual.getIndexEntry().getMetadata()
-                if (expectedMetadata.match(pattern)) {
-                    ;  // already added
-                } else {
-                    DiffArtifact da = new DiffArtifact(expected, Material.NULL_OBJECT, pattern)
-                    result.add(da)
-                }
-            }
-        }
-        //
-        Collections.sort(result)
-        return result
+        diffArtifacts.sort()
+        return diffArtifacts
     }
 }
