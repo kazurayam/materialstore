@@ -1,4 +1,6 @@
-ed045c2ef86ba98ebd2be0a7f3dfe968f381e44c	html	{"category":"page source","profile":"DevelopmentEnv","URL":"http://demoaut-mimic.kazurayam.com/","URL.host":"demoaut-mimic.kazurayam.com","URL.file":"/"}
-7718496876033a8dbe088643df2b7105f83820d1	png	{"category":"screenshot","profile":"DevelopmentEnv","URL":"http://demoaut-mimic.kazurayam.com/","URL.host":"demoaut-mimic.kazurayam.com","URL.file":"/"}
-f72800f1f8a8cfcc2338f88d873133873e3a803f	html	{"category":"page source","profile":"ProductionEnv","URL":"https://katalon-demo-cura.herokuapp.com/","URL.host":"demoaut.katalon.com","URL.file":"/"}
-464212dbd99fbddc5f7442089523fab4b9247b9b	png	{"category":"screenshot","profile":"ProductionEnv","URL":"https://katalon-demo-cura.herokuapp.com/","URL.host":"demoaut.katalon.com","URL.file":"/"}
+c0af6d7473f2ef2764230f1f80fb3887ba6b9841	html	{"URL":"http://demoaut-mimic.kazurayam.com/","URL.file":"/","URL.host":"demoaut-mimic.kazurayam.com","category":"page source","profile":"DevelopmentEnv","xpath":"/html"}
+ba259dadd0142acdc598532c76aa82e1f5a852b0	png	{"URL":"http://demoaut-mimic.kazurayam.com/","URL.file":"/","URL.host":"demoaut-mimic.kazurayam.com","category":"screenshot","profile":"DevelopmentEnv","xpath":"//a[@id='btn-make-appointment']"}
+75693d3480688939fda48692a31da28440252fe0	png	{"URL":"http://demoaut-mimic.kazurayam.com/","URL.file":"/","URL.host":"demoaut-mimic.kazurayam.com","category":"screenshot","profile":"DevelopmentEnv","xpath":"/html"}
+f72800f1f8a8cfcc2338f88d873133873e3a803f	html	{"URL":"http://demoaut.katalon.com/","URL.file":"/","URL.host":"demoaut.katalon.com","category":"page source","profile":"ProductionEnv","xpath":"/html"}
+71c074d8dc52d9d589b2cbdb08a586717d457d18	png	{"URL":"http://demoaut.katalon.com/","URL.file":"/","URL.host":"demoaut.katalon.com","category":"screenshot","profile":"ProductionEnv","xpath":"//a[@id='btn-make-appointment']"}
+464212dbd99fbddc5f7442089523fab4b9247b9b	png	{"URL":"http://demoaut.katalon.com/","URL.file":"/","URL.host":"demoaut.katalon.com","category":"screenshot","profile":"ProductionEnv","xpath":"/html"}

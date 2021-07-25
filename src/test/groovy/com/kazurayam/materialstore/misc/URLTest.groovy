@@ -31,6 +31,13 @@ class URLTest {
     }
 
     @Test
+    void test_getFile_with_fragment2() {
+        URL url = new URL("https://katalon-demo-cura.herokuapp.com/#appointment")
+        // the fragment "#appointment# is not included in the url.getFile() value
+        assertEquals("/", url.getFile())
+    }
+
+    @Test
     void test_getPath() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8");
         assertEquals("/articles", url.getPath());

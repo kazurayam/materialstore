@@ -47,12 +47,12 @@ class DifferDriverImplTest {
                 new MetadataPattern(["profile": "DevelopmentEnv"]), FileType.PNG)
 
         List<DiffArtifact> input =
-                storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)
+                storeImpl.zipMaterials(expected, actual, ["URL.file", "xpath"] as Set)
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
         List<DiffArtifact> stuffed = differDriver.makeDiffArtifacts(input)
         assertNotNull(stuffed)
-        assertEquals(1, stuffed.size())
+        assertEquals(2, stuffed.size())
     }
 
     @Test
@@ -121,7 +121,7 @@ class DifferDriverImplTest {
                     new MetadataPattern(["profile": "DevelopmentEnv"]))
 
             List<DiffArtifact> input =
-                    store.zipMaterials(expected, actual, ["URL.file", "category"] as Set)
+                    store.zipMaterials(expected, actual, ["URL.file", "category", "xpath"] as Set)
 
             // we are going to build a DifferDriver
             DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()

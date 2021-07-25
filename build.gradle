@@ -59,17 +59,6 @@ test {
     //finalizedBy jacocoTestReport
 }
 
-/*
-jacocoTestReport {
-    dependsOn test
-    reports {
-        xml.required = false
-        csv.required = false
-        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
-    }
-}
- */
-
 task publishGroovydoc(type: Copy) {
     from 'build/docs/groovydoc'
     into 'docs/api'

@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.store
 
 import com.kazurayam.materialstore.store.differ.DifferUtil
+import groovy.json.JsonOutput
 
 /**
  * Data Transfer Object
@@ -99,6 +100,16 @@ class DiffArtifact implements Comparable {
             hash = 31 * hash + this.getDiff().hashCode()
         }
         return hash
+    }
+
+    @Override
+    String toString() {
+        Map m = ["expected": expected.toString(),
+                 "actual": actual.toString(),
+                 "diff": diff.toString(),
+                 "descriptor": descriptor.toString(),
+                 "diffRatio": diffRatio]
+        return JsonOutput.toJson(m)
     }
 
     @Override

@@ -188,12 +188,12 @@ class StoreImplTest {
             List<Material> actualList= jobberOfActual.selectMaterials(
                 new MetadataPattern(["profile": "DevelopmentEnv", "URL.file": "*"]),
                     FileType.PNG)
-        assertEquals(1, actualList.size())
+        assertEquals(2, actualList.size())
         //
         List<DiffArtifact> diffArtifacts = store.zipMaterials(
                 expectedList, actualList, ["URL.file"] as Set)
         assertNotNull(diffArtifacts)
-        assertEquals(1, diffArtifacts.size())
+        assertEquals(2, diffArtifacts.size())
         assertEquals("""{"URL.file":"/"}""",
                 diffArtifacts.get(0).getDescription())
     }

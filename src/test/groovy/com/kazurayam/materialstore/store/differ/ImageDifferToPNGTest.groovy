@@ -8,6 +8,7 @@ import com.kazurayam.materialstore.store.JobTimestamp
 import com.kazurayam.materialstore.store.Material
 import com.kazurayam.materialstore.store.MetadataPattern
 import com.kazurayam.materialstore.store.StoreImpl
+import groovy.json.JsonOutput
 import org.junit.jupiter.api.Test
 
 import java.nio.file.Path
@@ -40,14 +41,27 @@ class ImageDifferToPNGTest {
                 new MetadataPattern(["profile": "DevelopmentEnv"]), FileType.PNG)
 
         List<DiffArtifact> diffArtifacts =
-                storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)
+                storeImpl.zipMaterials(expected, actual, ["URL.file", "xpath"] as Set)
         assertNotNull(diffArtifacts)
-        assertEquals(1, diffArtifacts.size())
+        assertEquals(2, diffArtifacts.size(), printDiffArtifacts(diffArtifacts))
         //
         DiffArtifact stuffed = new ImageDifferToPNG(root).makeDiffArtifact(diffArtifacts[0])
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertTrue(stuffed.getDiffRatio() > 0)
         assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())
+    }
+
+    static String printDiffArtifacts(List<DiffArtifact> diffArtifacts) {
+        StringBuilder sb = new StringBuilder()
+        sb.append("[")
+        int count = 0
+        diffArtifacts.each {
+            if (count > 0) sb.append(",")
+            sb.append(it.toString())
+            count += 1
+        }
+        sb.append("]")
+        return JsonOutput.prettyPrint(sb.toString())
     }
 }

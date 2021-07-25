@@ -6,6 +6,7 @@ import io.github.bonigarcia.wdm.WebDriverManager
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.openqa.selenium.By
 import org.openqa.selenium.Dimension
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.chrome.ChromeDriver
@@ -76,10 +77,13 @@ class StoreTest {
 
         // compile HTML report
         DiffReporter reporter = store.newReporter(jobName)
-        reporter.reportDiffs(stuffedDiffArtifacts, "index.html")
+        int warnings = reporter.reportDiffs(stuffedDiffArtifacts, "index.html")
+        println "found ${warnings} differences"
 
         Path reportFile = root.resolve("index.html")
         assertTrue(Files.exists(reportFile))
+
+
     }
 
     /**
@@ -92,50 +96,64 @@ class StoreTest {
      * @param url
      * @return
      */
-    private Tuple doWebAction(WebDriver driver,
-                              Store store,
-                              JobName jobName,
-                              JobTimestamp jobTimestamp,
-                              String profile,
-                              URL url) {
+    private static Tuple doWebAction(WebDriver driver,
+                                     Store store,
+                                     JobName jobName,
+                                     JobTimestamp jobTimestamp,
+                                     String profile,
+                                     URL url) {
         // visit the page
         driver.navigate().to(url.toString())
 
-        /*
-         * Metadata([
-         *     "profile":"ProductionEnv",
-         *     "URL": "http://demoaut.katalon.com/",
-         *     "URL.host": "demoaut.katalon.com",
-         *     "URL.file": "/"
-         * ])
-         */
-        Metadata metadata = new Metadata([
-                "category": "screenshot",
-                "profile": profile,
-                "URL": url.toExternalForm(),
-                "URL.host": url.getHost(),
-                "URL.file": url.getFile()
-        ])
-
-        // take and store the PNG screenshot of the page
-        BufferedImage image = AShotWrapper.takeEntirePageImage(driver)
-        Material imageMaterial = store.write(jobName, jobTimestamp,
+        // take and store the PNG screenshot of the entire page
+        BufferedImage entirePageImage = AShotWrapper.takeEntirePageImage(driver)
+        Material material1 = store.write(jobName, jobTimestamp,
                 FileType.PNG,
-                metadata,
-                image)
-        assert imageMaterial != null
+                new Metadata([
+                        "category": "screenshot",
+                        "profile": profile,
+                        "URL": url.toExternalForm(),
+                        "URL.host": url.getHost(),
+                        "URL.file": url.getFile(),
+                        "xpath": "/html"
+                ]),
+                entirePageImage)
+        assert material1 != null
+
+        // take and store the PNG screenshot of the button element
+        String xpath = "//a[@id='btn-make-appointment']"
+        BufferedImage elementImage = AShotWrapper.takeWebElementImage(driver, By.xpath(xpath))
+        Material material2 = store.write(jobName, jobTimestamp,
+                FileType.PNG,
+                new Metadata([
+                        "category": "screenshot",
+                        "profile": profile,
+                        "URL": url.toExternalForm(),
+                        "URL.host": url.getHost(),
+                        "URL.file": url.getFile(),
+                        "xpath": xpath
+                ]),
+                elementImage)
+        assert material2 != null
+
 
         // get and store the HTML page source of the page
         String html = driver.getPageSource()
-        metadata.put("category", "page source")
-        Material htmlMaterial = store.write(jobName, jobTimestamp,
+        Material material3 = store.write(jobName, jobTimestamp,
                 FileType.HTML,
-                metadata,
+                new Metadata([
+                        "category": "page source",
+                        "profile": profile,
+                        "URL": url.toExternalForm(),
+                        "URL.host": url.getHost(),
+                        "URL.file": url.getFile(),
+                        "xpath": "/html"
+                ]),
                 html,
                 StandardCharsets.UTF_8)
-        assert htmlMaterial != null
+        assert material3 != null
 
-        return new Tuple(imageMaterial, htmlMaterial)
+        return new Tuple(material1, material2, material3)
     }
 
     static WebDriver createChromeDriver() {
