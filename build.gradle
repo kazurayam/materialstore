@@ -57,6 +57,14 @@ dependencies {
 test {
     useJUnitPlatform()
     //finalizedBy jacocoTestReport
+
+    //include "**/store/differ/TextDifferToHTMLTest.class"
+    //include "**/store/differ/TextDifferToMarkdownTest.class"
+    //include "**/store/differ/ImageDifferToPNGTest.class"
+    //include "**/store/reporter/DiffReporterToHTMLTest.class"
+    //include "**/store/DifferDriverImplTest.class"
+    //include "**/store/StoreImplTest.class"
+    //include "**/store/StoreTest.class"
 }
 
 task publishGroovydoc(type: Copy) {

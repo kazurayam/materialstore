@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.store.differ
 
 import com.kazurayam.materialstore.TestFixtureUtil
 import com.kazurayam.materialstore.store.DiffArtifact
+import com.kazurayam.materialstore.store.DiffArtifacts
 import com.kazurayam.materialstore.store.FileType
 import com.kazurayam.materialstore.store.JobName
 import com.kazurayam.materialstore.store.JobTimestamp
@@ -40,28 +41,15 @@ class ImageDifferToPNGTest {
         List<Material> actual = storeImpl.select(jobName, jobTimestamp,
                 new MetadataPattern(["profile": "DevelopmentEnv"]), FileType.PNG)
 
-        List<DiffArtifact> diffArtifacts =
+        DiffArtifacts diffArtifacts =
                 storeImpl.zipMaterials(expected, actual, ["URL.file", "xpath"] as Set)
         assertNotNull(diffArtifacts)
-        assertEquals(2, diffArtifacts.size(), printDiffArtifacts(diffArtifacts))
+        assertEquals(2, diffArtifacts.size(), JsonOutput.prettyPrint(diffArtifacts.toString()))
         //
-        DiffArtifact stuffed = new ImageDifferToPNG(root).makeDiffArtifact(diffArtifacts[0])
+        DiffArtifact stuffed = new ImageDifferToPNG(root).makeDiffArtifact(diffArtifacts.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertTrue(stuffed.getDiffRatio() > 0)
         assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())
-    }
-
-    static String printDiffArtifacts(List<DiffArtifact> diffArtifacts) {
-        StringBuilder sb = new StringBuilder()
-        sb.append("[")
-        int count = 0
-        diffArtifacts.each {
-            if (count > 0) sb.append(",")
-            sb.append(it.toString())
-            count += 1
-        }
-        sb.append("]")
-        return JsonOutput.prettyPrint(sb.toString())
     }
 }

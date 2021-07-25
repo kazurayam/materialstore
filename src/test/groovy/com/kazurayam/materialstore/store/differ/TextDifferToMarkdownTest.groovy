@@ -37,7 +37,7 @@ class TextDifferToMarkdownTest {
                 new MetadataPattern(["category":"page source","profile": "DevelopmentEnv"]),
                 FileType.HTML)
 
-        List<DiffArtifact> diffArtifacts =
+        DiffArtifacts diffArtifacts =
                 storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)
         assertNotNull(diffArtifacts)
         assertEquals(1, diffArtifacts.size())

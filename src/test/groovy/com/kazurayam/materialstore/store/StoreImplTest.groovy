@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.store
 
-
+import groovy.json.JsonOutput
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -177,11 +177,11 @@ class StoreImplTest {
         FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
         //
         Jobber jobberOfExpected = store.getJobber(jobName,
-                new JobTimestamp("20210713_093357"))
+                new JobTimestamp("20210715_145922"))
         List<Material> expectedList = jobberOfExpected.selectMaterials(
                 new MetadataPattern(["profile": "ProductionEnv", "URL.file": "*"]),
                 FileType.PNG)
-        assertEquals(1, expectedList.size())
+        assertEquals(2, expectedList.size())
         //
         Jobber jobberOfActual = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
@@ -190,11 +190,15 @@ class StoreImplTest {
                     FileType.PNG)
         assertEquals(2, actualList.size())
         //
-        List<DiffArtifact> diffArtifacts = store.zipMaterials(
-                expectedList, actualList, ["URL.file"] as Set)
+        DiffArtifacts diffArtifacts = store.zipMaterials(
+                expectedList, actualList, ["URL.file", "xpath"] as Set)
         assertNotNull(diffArtifacts)
-        assertEquals(2, diffArtifacts.size())
-        assertEquals("""{"URL.file":"/"}""",
+        assertEquals(2, diffArtifacts.size(),
+                JsonOutput.prettyPrint(diffArtifacts.toString()))
+        assertEquals("""{"URL.file":"/","xpath":"//a[@id='btn-make-appointment']"}""",
                 diffArtifacts.get(0).getDescription())
+        assertEquals("""{"URL.file":"/","xpath":"/html"}""",
+                diffArtifacts.get(1).getDescription())
+
     }
 }
