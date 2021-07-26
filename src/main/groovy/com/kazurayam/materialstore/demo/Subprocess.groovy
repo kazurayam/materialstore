@@ -1,6 +1,10 @@
 package com.kazurayam.materialstore.demo
 
+import java.util.concurrent.Callable
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.Future
+import java.util.concurrent.TimeUnit
 import java.util.function.Consumer
 
 /**
@@ -28,17 +32,17 @@ class Subprocess {
             builder.command(command)
             Process process = builder.start()
             CompletedProcess cp = new CompletedProcess(command)
-            StreamGobbler stdoutGobbler =
+
+            // https://www.baeldung.com/java-executor-wait-for-threads
+            ExecutorService threadPool = Executors.newFixedThreadPool(2)
+            List<Callable<String>> callables = Arrays.asList(
                     new StreamGobbler(
                             process.getInputStream(),
                             { String s ->
                                 //println "stdout: ${s}"
                                 cp.appendStdout(s)
                             }
-                    )
-            Executors.newSingleThreadExecutor().submit(stdoutGobbler)
-            /*
-            StreamGobbler stderrGobbler =
+                    ),
                     new StreamGobbler(
                             process.getErrorStream(),
                             { String e ->
@@ -46,25 +50,39 @@ class Subprocess {
                                 cp.appendStderr(e)
                             }
                     )
-            Executors.newSingleThreadExecutor().submit(stderrGobbler)
-            */
+            )
+            // start the threads to consume the stdout & stderror out of the subprocess
+            List<Future<String>> futures = threadPool.invokeAll(callables)
+
+            // execute the subprocess
             int returnCode = process.waitFor()
+
+            // wait for the threads to finish
+            awaitTerminationAfterShutdown(threadPool)
+
+            // now we are surely done
             cp.setReturnCode(returnCode)
-
-            // FIXME
-            // この１行を無くするとMyKeyChainAccessorTestのtest_findPassword_case1()がfailする。
-            // その理由がわからない。
-            // この１行があることによってようやくStreamGobblerのスレッドが完了するのか？
-            // まさか！？
-            // https://www.baeldung.com/java-executor-wait-for-threads
-            println "stdout:${cp.getStdout()}"
-
             return cp
+
         } catch (Exception e) {
             e.printStackTrace()
         }
     }
+    private static void awaitTerminationAfterShutdown(ExecutorService threadPool) {
+        threadPool.shutdown()
+        try {
+            if (!threadPool.awaitTermination(60, TimeUnit.SECONDS)) {
+                threadPool.shutdownNow()
+            }
+        } catch (InterruptedException ex) {
+            threadPool.shutdownNow()
+            Thread.currentThread().interrupt()
+        }
+    }
 
+    /**
+     *
+     */
     class CompletedProcess {
         private final List<String> args
         private int returnCode
@@ -96,7 +114,7 @@ class Subprocess {
         }
     }
 
-    private static class StreamGobbler implements Runnable {
+    private static class StreamGobbler implements Callable<String> {
         private InputStream inputStream
         private Consumer<String> consumer
         StreamGobbler(InputStream inputStream,
@@ -105,8 +123,9 @@ class Subprocess {
             this.consumer = consumer
         }
         @Override
-        void run() {
+        String call() {
             new BufferedReader(new InputStreamReader(inputStream)).lines().forEach(consumer)
+            return "done"
         }
     }
 
