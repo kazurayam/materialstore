@@ -56,6 +56,9 @@ dependencies {
     // https://mvnrepository.com/artifact/ru.yandex.qatools.ashot/ashot
     implementation group: 'ru.yandex.qatools.ashot', name: 'ashot', version: "${ashotVersion}"
 
+    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.10'
+
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitjupiterVersion}"
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'

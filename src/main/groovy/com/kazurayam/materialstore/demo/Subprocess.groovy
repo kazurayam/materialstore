@@ -8,6 +8,12 @@ import java.util.concurrent.TimeUnit
 import java.util.function.Consumer
 
 /**
+ * This Subprocess class execute a OS commands in a forked OS sub-process.
+ * It returns a combination of
+ * - the return code from the OS command executed. 0 if successfule.
+ * - the list of strings as stdout.
+ * - the list of strings as stderr.
+ *
  * based on the Baeldung article
  * https://www.baeldung.com/run-shell-command-in-java
  *
