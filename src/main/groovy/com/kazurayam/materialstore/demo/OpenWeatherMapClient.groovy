@@ -6,13 +6,16 @@ class OpenWeatherMapClient {
     }
 
     void execute() {
-        println "Hello, OpenWeatherMap!"
+        String apiKey = new MyKeyChainAccessor().findPassword(
+                "home.openweathermap.org/api_keys", "myFirstKey")
+        println "apiKey:${apiKey}"
+
     }
 
-    private static boolean isMac() {
-        return System.getProperty("os.name").toLowerCase().startsWith("mac")
-    }
-
+    /**
+     *
+     * @param args
+     */
     static void main(String[] args) {
         OpenWeatherMapClient client = new OpenWeatherMapClient()
         client.execute()

@@ -24,7 +24,6 @@ class Subprocess {
         Objects.requireNonNull(command)
         try {
             ProcessBuilder builder = new ProcessBuilder()
-            // TODO should enable setting the directory
             builder.directory(this.dir)
             builder.command(command)
             Process process = builder.start()
@@ -38,6 +37,7 @@ class Subprocess {
                             }
                     )
             Executors.newSingleThreadExecutor().submit(stdoutGobbler)
+            /*
             StreamGobbler stderrGobbler =
                     new StreamGobbler(
                             process.getErrorStream(),
@@ -47,8 +47,18 @@ class Subprocess {
                             }
                     )
             Executors.newSingleThreadExecutor().submit(stderrGobbler)
+            */
             int returnCode = process.waitFor()
             cp.setReturnCode(returnCode)
+
+            // FIXME
+            // この１行を無くするとMyKeyChainAccessorTestのtest_findPassword_case1()がfailする。
+            // その理由がわからない。
+            // この１行があることによってようやくStreamGobblerのスレッドが完了するのか？
+            // まさか！？
+            // https://www.baeldung.com/java-executor-wait-for-threads
+            println "stdout:${cp.getStdout()}"
+
             return cp
         } catch (Exception e) {
             e.printStackTrace()
@@ -58,11 +68,11 @@ class Subprocess {
     class CompletedProcess {
         private final List<String> args
         private int returnCode
-        private List<String> stdout
-        private List<String> stderr
+        private final List<String> stdout
+        private final List<String> stderr
         CompletedProcess(List<String> args) {
             this.args = args
-            this.returnCode = 0
+            this.returnCode = -999
             this.stdout = new ArrayList<String>()
             this.stderr = new ArrayList<String>()
         }
