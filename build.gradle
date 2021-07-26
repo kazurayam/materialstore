@@ -31,26 +31,34 @@ ext {
 
 dependencies {
     implementation "org.codehaus.groovy:groovy-all:${groovyVersion}"
-    implementation 'org.junit.jupiter:junit-jupiter:5.7.0'
-    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitjupiterVersion}"
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     implementation group: 'org.slf4j', name: 'slf4j-api', version: "${slf4jVersion}"
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     implementation group: 'org.slf4j', name: 'slf4j-api', version: "${slf4jVersion}"
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
     testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: "${slf4jVersion}"
+
     // https://mvnrepository.com/artifact/commons-io/commons-io
     implementation group: 'commons-io', name: 'commons-io', version: "${commonsioVersion}"
+
     // https://mvnrepository.com/artifact/commons-codec/commons-codec
     implementation group: 'commons-codec', name: 'commons-codec', version: "${commonscodecVersion}"
-    implementation "org.seleniumhq.selenium:selenium-java:${seleniumjavaVersion}"
-    // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
-    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: "${webdrivermanager}"
-    // https://mvnrepository.com/artifact/ru.yandex.qatools.ashot/ashot
-    implementation group: 'ru.yandex.qatools.ashot', name: 'ashot', version: "${ashotVersion}"
+
     // https://mvnrepository.com/artifact/io.github.java-diff-utils/java-diff-utils
     implementation group: 'io.github.java-diff-utils', name: 'java-diff-utils', version: '4.9'
+
+    implementation "org.seleniumhq.selenium:selenium-java:${seleniumjavaVersion}"
+
+    // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: "${webdrivermanager}"
+
+    // https://mvnrepository.com/artifact/ru.yandex.qatools.ashot/ashot
+    implementation group: 'ru.yandex.qatools.ashot', name: 'ashot', version: "${ashotVersion}"
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitjupiterVersion}"
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
 }
 

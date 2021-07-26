@@ -204,7 +204,7 @@ extends java.lang.Object
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/DiffArtifact.html' title='DiffArtifact'>DiffArtifact</a>&gt;</code></td>
+                            <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a></code></td>
                             <td class="colLast"><code><strong><a href="#makeDiff(List<Material>, List<Material>, Set<String>)">makeDiff</a></strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, java.util.Set&lt;java.lang.String&gt; metadataKeys)</code><br></td>
                         </tr>
                         
@@ -216,56 +216,62 @@ extends java.lang.Object
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>java.nio.file.Path</code></td>
+                            <td class="colLast"><code><strong><a href="#reportDiffs(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.DiffArtifacts, java.lang.String)">reportDiffs</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> diffArtifacts, java.lang.String fileName)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#select(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.JobTimestamp, com.kazurayam.materialstore.store.MetadataPattern, com.kazurayam.materialstore.store.FileType)">select</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a> jobTimestamp, <a href='../../../../com/kazurayam/materialstore/store/MetadataPattern.html'>MetadataPattern</a> metadataPattern, <a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType)</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#select(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.JobTimestamp, com.kazurayam.materialstore.store.MetadataPattern)">select</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a> jobTimestamp, <a href='../../../../com/kazurayam/materialstore/store/MetadataPattern.html'>MetadataPattern</a> metadataPattern)</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;byte[]</code></td>
                             <td class="colLast"><code><strong><a href="#toByteArray(java.io.InputStream)">toByteArray</a></strong>(java.io.InputStream inputStream)</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a></code></td>
                             <td class="colLast"><code><strong><a href="#write(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.JobTimestamp, com.kazurayam.materialstore.store.FileType, com.kazurayam.materialstore.store.Metadata, java.io.File)">write</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a> jobTimestamp, <a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materialstore/store/Metadata.html'>Metadata</a> meta, java.io.File input)</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a></code></td>
                             <td class="colLast"><code><strong><a href="#write(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.JobTimestamp, com.kazurayam.materialstore.store.FileType, com.kazurayam.materialstore.store.Metadata, java.nio.file.Path)">write</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a> jobTimestamp, <a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materialstore/store/Metadata.html'>Metadata</a> meta, java.nio.file.Path input)</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a></code></td>
                             <td class="colLast"><code><strong><a href="#write(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.JobTimestamp, com.kazurayam.materialstore.store.FileType, com.kazurayam.materialstore.store.Metadata, java.awt.image.BufferedImage)">write</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a> jobTimestamp, <a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materialstore/store/Metadata.html'>Metadata</a> meta, java.awt.image.BufferedImage input)</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a></code></td>
                             <td class="colLast"><code><strong><a href="#write(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.JobTimestamp, com.kazurayam.materialstore.store.FileType, com.kazurayam.materialstore.store.Metadata, java.lang.String, java.nio.charset.Charset)">write</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a> jobTimestamp, <a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materialstore/store/Metadata.html'>Metadata</a> meta, java.lang.String input, java.nio.charset.Charset charset = StandardCharsets.UTF_8)</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/Material.html'>Material</a></code></td>
                             <td class="colLast"><code><strong><a href="#write(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.JobTimestamp, com.kazurayam.materialstore.store.FileType, com.kazurayam.materialstore.store.Metadata, byte[])">write</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a> jobTimestamp, <a href='../../../../com/kazurayam/materialstore/store/FileType.html'>FileType</a> fileType, <a href='../../../../com/kazurayam/materialstore/store/Metadata.html'>Metadata</a> meta, byte[] input)</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/DiffArtifact.html' title='DiffArtifact'>DiffArtifact</a>&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#zipMaterials(List<Material>, List<Material>, Set<String>)">zipMaterials</a></strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expectedList, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actualList, java.util.Set&lt;java.lang.String&gt; metadataKeys)</code><br></td>
+                            <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a></code></td>
+                            <td class="colLast"><code><strong><a href="#zipMaterials(List<Material>, List<Material>, Set<String>)">zipMaterials</a></strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expectedList, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actualList, java.util.Set&lt;java.lang.String&gt; metadataKeys)</code><br>@param expectedList</td>
                         </tr>
                         
                     </table>
@@ -384,7 +390,7 @@ java.nio.file.Path <strong>getRoot</strong>()</h4>
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/DiffArtifact.html' title='DiffArtifact'>DiffArtifact</a>&gt; <strong>makeDiff</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, java.util.Set&lt;java.lang.String&gt; metadataKeys)</h4>
+<a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> <strong>makeDiff</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, java.util.Set&lt;java.lang.String&gt; metadataKeys)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -392,8 +398,16 @@ java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/DiffArt
                         <a name="newReporter(com.kazurayam.materialstore.store.JobName)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
+                                <h4><a href='../../../../com/kazurayam/materialstore/store/DiffReporter.html'>DiffReporter</a> <strong>newReporter</strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="reportDiffs(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.DiffArtifacts, java.lang.String)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
                                 <h4>@java.lang.Override
-<a href='../../../../com/kazurayam/materialstore/store/DiffReporter.html'>DiffReporter</a> <strong>newReporter</strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName)</h4>
+java.nio.file.Path <strong>reportDiffs</strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> diffArtifacts, java.lang.String fileName)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -473,8 +487,8 @@ java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Materia
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/DiffArtifact.html' title='DiffArtifact'>DiffArtifact</a>&gt; <strong>zipMaterials</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expectedList, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actualList, java.util.Set&lt;java.lang.String&gt; metadataKeys)</h4>
-                                <p></p>
+<a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> <strong>zipMaterials</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expectedList, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actualList, java.util.Set&lt;java.lang.String&gt; metadataKeys)</h4>
+                                <p> <DL><DT><B>Parameters:</B></DT><DD>expectedList</DD><DD>actualList</DD><DD>metadataKeys</DD></DL><DL><DT><B>Returns:</B></DT><DD></DD></DL></p>
                             </li>
                         </ul>
                     

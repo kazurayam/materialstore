@@ -111,6 +111,9 @@ extends java.lang.Object
 
 
 
+    <p> Metadata is an immutable object.
+ </p>
+
           </li>
     </ul>
 </div>
@@ -168,7 +171,7 @@ extends java.lang.Object
                         <tr class="altColor">
                             <td class="colFirst">
                                 <code><a href="#Metadata(Map<String, String>)">Metadata</a>
-                                (java.util.Map&lt;java.lang.String, java.lang.String&gt; metadata)</code><br></td>
+                                (java.util.Map&lt;java.lang.String, java.lang.String&gt; source)</code><br></td>
                         </tr>
                         
                     </table>
@@ -194,88 +197,64 @@ extends java.lang.Object
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>void</code></td>
-                            <td class="colLast"><code><strong><a href="#clear()">clear</a></strong>()</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>int</code></td>
                             <td class="colLast"><code><strong><a href="#compareTo(java.lang.Object)">compareTo</a></strong>(java.lang.Object obj)</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>boolean</code></td>
                             <td class="colLast"><code><strong><a href="#containsKey(java.lang.Object)">containsKey</a></strong>(java.lang.Object key)</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>boolean</code></td>
                             <td class="colLast"><code><strong><a href="#containsValue(java.lang.Object)">containsValue</a></strong>(java.lang.Object value)</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.util.Set&lt;Map.Entry&lt;java.lang.String, java.lang.String&gt;&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#entrySet()">entrySet</a></strong>()</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>boolean</code></td>
                             <td class="colLast"><code><strong><a href="#equals(java.lang.Object)">equals</a></strong>(java.lang.Object obj)</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.lang.String</code></td>
                             <td class="colLast"><code><strong><a href="#get(java.lang.String)">get</a></strong>(java.lang.String key)</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>int</code></td>
                             <td class="colLast"><code><strong><a href="#hashCode()">hashCode</a></strong>()</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>boolean</code></td>
                             <td class="colLast"><code><strong><a href="#isEmpty()">isEmpty</a></strong>()</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.util.Set&lt;java.lang.String&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#keySet()">keySet</a></strong>()</code><br>will return sorted set of keys, as the metadata_ is an instance of TreeSet
  @return</td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>boolean</code></td>
                             <td class="colLast"><code><strong><a href="#match(com.kazurayam.materialstore.store.MetadataPattern)">match</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/MetadataPattern.html'>MetadataPattern</a> metadataPattern)</code><br>
  @return<DL><DT><B>Parameters:</B></DT><DD>metadataPattern</DD></DL></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>java.lang.String</code></td>
-                            <td class="colLast"><code><strong><a href="#put(java.lang.String, java.lang.String)">put</a></strong>(java.lang.String key, java.lang.String value)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>void</code></td>
-                            <td class="colLast"><code><strong><a href="#putAll(Map<String, String>)">putAll</a></strong>(java.util.Map&lt;java.lang.String, java.lang.String&gt; m)</code><br></td>
-                        </tr>
-                        
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>java.lang.String</code></td>
-                            <td class="colLast"><code><strong><a href="#remove(java.lang.String)">remove</a></strong>(java.lang.String key)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -364,7 +343,7 @@ extends java.lang.Object
                         <a name="Metadata(Map<String, String>)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><strong>Metadata</strong>(java.util.Map&lt;java.lang.String, java.lang.String&gt; metadata)</h4>
+                                <h4><strong>Metadata</strong>(java.util.Map&lt;java.lang.String, java.lang.String&gt; source)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -381,14 +360,6 @@ extends java.lang.Object
                     <!--   -->
                 </a>
                     <h3>Method Detail</h3>
-                    
-                        <a name="clear()"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4>void <strong>clear</strong>()</h4>
-                                <p></p>
-                            </li>
-                        </ul>
                     
                         <a name="compareTo(java.lang.Object)"><!-- --></a>
                         <ul class="blockListLast">
@@ -470,30 +441,6 @@ int <strong>hashCode</strong>()</h4>
                             <li class="blockList">
                                 <h4>boolean <strong>match</strong>(<a href='../../../../com/kazurayam/materialstore/store/MetadataPattern.html'>MetadataPattern</a> metadataPattern)</h4>
                                 <p> <DL><DT><B>Parameters:</B></DT><DD>metadataPattern</DD></DL><DL><DT><B>Returns:</B></DT><DD></DD></DL></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="put(java.lang.String, java.lang.String)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4>java.lang.String <strong>put</strong>(java.lang.String key, java.lang.String value)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="putAll(Map<String, String>)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4>void <strong>putAll</strong>(java.util.Map&lt;java.lang.String, java.lang.String&gt; m)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="remove(java.lang.String)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4>java.lang.String <strong>remove</strong>(java.lang.String key)</h4>
-                                <p></p>
                             </li>
                         </ul>
                     
