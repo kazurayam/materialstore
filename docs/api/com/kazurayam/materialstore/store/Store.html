@@ -147,14 +147,14 @@ if (location.href.indexOf('is-external=true') == -1) {
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/DiffArtifact.html' title='DiffArtifact'>DiffArtifact</a>&gt;</code></td>
+                            <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a></code></td>
                             <td class="colLast"><code><strong><a href="#makeDiff(List<Material>, List<Material>, Set<String>)">makeDiff</a></strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, java.util.Set&lt;java.lang.String&gt; metadataKeys)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/DiffReporter.html'>DiffReporter</a></code></td>
-                            <td class="colLast"><code><strong><a href="#newReporter(com.kazurayam.materialstore.store.JobName)">newReporter</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName)</code><br></td>
+                            <td class="colLast"><code>java.nio.file.Path</code></td>
+                            <td class="colLast"><code><strong><a href="#reportDiffs(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.DiffArtifacts, java.lang.String)">reportDiffs</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> diffArtifacts, java.lang.String fileName)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -201,7 +201,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/DiffArtifact.html' title='DiffArtifact'>DiffArtifact</a>&gt;</code></td>
+                            <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a></code></td>
                             <td class="colLast"><code><strong><a href="#zipMaterials(List<Material>, List<Material>, Set<String>)">zipMaterials</a></strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, java.util.Set&lt;java.lang.String&gt; metadataKeys)</code><br></td>
                         </tr>
                         
@@ -248,15 +248,15 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="makeDiff(List<Material>, List<Material>, Set<String>)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/DiffArtifact.html' title='DiffArtifact'>DiffArtifact</a>&gt; <strong>makeDiff</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, java.util.Set&lt;java.lang.String&gt; metadataKeys)</h4>
+                                <h4><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> <strong>makeDiff</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, java.util.Set&lt;java.lang.String&gt; metadataKeys)</h4>
                                 <p></p>
                             </li>
                         </ul>
                     
-                        <a name="newReporter(com.kazurayam.materialstore.store.JobName)"><!-- --></a>
+                        <a name="reportDiffs(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.DiffArtifacts, java.lang.String)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../../../com/kazurayam/materialstore/store/DiffReporter.html'>DiffReporter</a> <strong>newReporter</strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName)</h4>
+                                <h4>java.nio.file.Path <strong>reportDiffs</strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> diffArtifacts, java.lang.String fileName)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -320,7 +320,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="zipMaterials(List<Material>, List<Material>, Set<String>)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/DiffArtifact.html' title='DiffArtifact'>DiffArtifact</a>&gt; <strong>zipMaterials</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, java.util.Set&lt;java.lang.String&gt; metadataKeys)</h4>
+                                <h4><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> <strong>zipMaterials</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, java.util.Set&lt;java.lang.String&gt; metadataKeys)</h4>
                                 <p></p>
                             </li>
                         </ul>
