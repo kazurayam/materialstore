@@ -9,8 +9,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-import static org.junit.jupiter.api.Assertions.assertEquals
-import static org.junit.jupiter.api.Assertions.assertNotNull
+import static org.junit.jupiter.api.Assertions.*
 
 class MaterialTest {
 
@@ -69,4 +68,20 @@ class MaterialTest {
         assertEquals(expectedURL, relativeURL)
     }
 
+    @Test
+    void test_toFile() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_toFile")
+        // copy the fixture files to the output dir
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
+        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"))
+        assertNotNull(material)
+        //
+        File f = material.toFile(root)
+        assertTrue(f.exists())
+    }
 }

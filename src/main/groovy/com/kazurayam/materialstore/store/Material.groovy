@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.store
 
 import groovy.json.JsonOutput
 
+import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -52,8 +53,16 @@ class Material implements Comparable {
                 .normalize()
     }
 
-    File toFile() {
-        return this.getRelativePath().toFile()
+    File toFile(Path root) {
+        Objects.requireNonNull(root)
+        if (! Files.exists(root)) {
+            throw new IOException("${root.toString()} is not found")
+        }
+        Path p = root.resolve(getRelativePath())
+        if (! Files.exists(p)) {
+            throw new IOException("${p.toString()} is not found")
+        }
+        return p.toFile()
     }
 
     /**
