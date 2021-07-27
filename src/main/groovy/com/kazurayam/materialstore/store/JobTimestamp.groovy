@@ -3,6 +3,9 @@ package com.kazurayam.materialstore.store
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+import java.time.temporal.ChronoUnit
+import java.time.temporal.TemporalAccessor
+import java.time.temporal.TemporalUnit
 
 class JobTimestamp implements Comparable {
 
@@ -28,7 +31,7 @@ class JobTimestamp implements Comparable {
         return new JobTimestamp(formatter.format(now))
     }
 
-    String jobTimestamp_
+    private String jobTimestamp_
 
     JobTimestamp(String jobTimestamp) {
         if (! isValid(jobTimestamp)) {
@@ -38,6 +41,36 @@ class JobTimestamp implements Comparable {
         this.jobTimestamp_ = jobTimestamp
     }
 
+    JobTimestamp minus(long amountToSubtract, TemporalUnit unit) {
+        LocalDateTime base = LocalDateTime.parse(this.jobTimestamp_, formatter)
+        LocalDateTime calcLDT = base.minus(amountToSubtract, unit)
+        String calcSTR = formatter.format(calcLDT)
+        return new JobTimestamp(calcSTR)
+    }
+
+    JobTimestamp minusDays(long days) {
+        return minus(days, ChronoUnit.DAYS)
+    }
+
+    JobTimestamp minusHours(long hours) {
+        return minus(hours, ChronoUnit.HOURS)
+    }
+
+    JobTimestamp minusMinutes(long minutes) {
+        return minus(minutes, ChronoUnit.MINUTES)
+    }
+
+    JobTimestamp minusMonths(long months) {
+        return minus(months, ChronoUnit.MONTHS)
+    }
+
+    JobTimestamp minusSeconds(long seconds) {
+        return minus(seconds, ChronoUnit.SECONDS)
+    }
+
+    JobTimestamp minusWeeks(long weeks) {
+        return minus(weeks, ChronoUnit.WEEKS)
+    }
 
     @Override
     boolean equals(Object obj) {
