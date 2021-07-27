@@ -17,6 +17,9 @@ interface Store {
     List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
                           MetadataPattern metadataPattern, FileType fileType)
 
+    File selectFile(JobName jobName, JobTimestamp jobTimestamp,
+                    MetadataPattern metadataPattern, FileType fileType)
+
     Material write(JobName jobName, JobTimestamp jobTimestamp,
                    FileType fileType, Metadata meta, BufferedImage input)
 

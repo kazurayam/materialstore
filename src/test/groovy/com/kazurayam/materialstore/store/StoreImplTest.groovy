@@ -110,6 +110,24 @@ class StoreImplTest {
     }
 
     @Test
+    void test_selectFile() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_selectFile")
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        Metadata metadata = new Metadata(["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.kazurayam.com/"])
+        Path input = imagesDir.resolve("20210710_142631.development.png")
+        Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
+        assertNotNull(material)
+        //
+        MetadataPattern pattern = new MetadataPattern(["profile": "*", "URL": "*"])
+        // select specifying FileType
+        File f = store.selectFile(jobName, jobTimestamp, pattern, FileType.PNG)
+        assertNotNull(f)
+        assertTrue(f.exists())
+    }
+
+    @Test
     void test_write_File() {
         Path root = outputDir.resolve("Materials")
         Store store = new StoreImpl(root)

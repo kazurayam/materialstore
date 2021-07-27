@@ -162,6 +162,20 @@ class StoreImpl implements Store {
         return jobber.selectMaterials(metadataPattern)
     }
 
+    @Override
+    File selectFile(JobName jobName, JobTimestamp jobTimestamp,
+                    MetadataPattern metadataPattern, FileType fileType) {
+        Jobber jobber = this.getJobber(jobName, jobTimestamp)
+        List<Material> materials = jobber.selectMaterials(metadataPattern, fileType)
+        if (materials.size() > 0) {
+            Material material = materials.get(0)
+            File f = material.toFile(root_)
+            return f
+        } else {
+            return null
+        }
+    }
+
 
     /**
      * return an instance of Job.
