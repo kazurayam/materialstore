@@ -9,6 +9,7 @@ import com.kazurayam.materialstore.store.MetadataPattern
 import com.kazurayam.materialstore.store.Store
 import com.kazurayam.materialstore.store.Stores
 import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 import org.apache.http.NameValuePair
 import org.apache.http.client.methods.CloseableHttpResponse
 import org.apache.http.client.methods.HttpGet
@@ -54,11 +55,17 @@ class OpenWeatherMapClient {
 
             // retrieve the JSON file from the Material directory
             List<Material> materials = store.select(jobName, jobTimestamp,
-                    metadata as MetadataPattern, FileType.JSON)
+                    MetadataPattern.create(metadata), FileType.JSON)
+            assert materials.size() == 1
+            File jsonFile = materials.get(0).toFile(store.getRoot())
 
             // extract a small portion of weather forecast data
+            def jsonObj = new JsonSlurper().parse(jsonFile)
 
             // println the data to the console
+            String listItemStr = JsonOutput.toJson(jsonObj["list"][0])
+            println JsonOutput.prettyPrint(listItemStr)
+
         } catch (Exception e) {
             e.printStackTrace()
         }
@@ -73,7 +80,7 @@ class OpenWeatherMapClient {
         List<NameValuePair> baseParameters = new ArrayList<NameValuePair>()
         baseParameters.add(new BasicNameValuePair("appid", API_KEY))
 
-        List<NameValuePair> nvpList = new ArrayList<String, String>()
+        List<NameValuePair> nvpList = new ArrayList<NameValuePair>()
         param.keySet().each { key ->
             String value = param.get(key)
             nvpList.add(new BasicNameValuePair(key, value))
