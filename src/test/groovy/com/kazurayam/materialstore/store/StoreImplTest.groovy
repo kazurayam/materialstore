@@ -1,5 +1,7 @@
 package com.kazurayam.materialstore.store
 
+import com.kazurayam.materialstore.MaterialstoreException
+import com.kazurayam.materialstore.TestFixtureUtil
 import groovy.json.JsonOutput
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
@@ -165,6 +167,61 @@ class StoreImplTest {
         Material material = store.write(jobName, jobTimestamp, FileType.TXT, metadata, input)
         assertNotNull(material)
         assertTrue(ID.isValid(material.getIndexEntry().getID().toString()))
+    }
+
+    @Test
+    void test_findAllJobTimestamps() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_findAllJobTimestamps")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        List<JobTimestamp> jobTimestamps = store.findAllJobTimestamps(jobName)
+        assertNotNull(jobTimestamps)
+        assertEquals(2, jobTimestamps.size())
+        assertEquals(new JobTimestamp("20210715_145922"), jobTimestamps.get(0))
+        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(1))
+    }
+
+    @Test
+    void test_findAllJobTimestampsPriorTo() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_findAllJobTimestampsPriorTo")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
+        List<JobTimestamp> jobTimestamps = store.findAllJobTimestampsPriorTo(jobName, jobTimestamp)
+        assertNotNull(jobTimestamps)
+        assertEquals(1, jobTimestamps.size())
+        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(0))
+    }
+
+    @Test
+    void test_findLatestJobTimestamp() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_findLatestJobTimestamp")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        JobTimestamp jobTimestamp = store.findLatestJobTimestamp(jobName)
+        assertNotNull(jobTimestamp)
+        assertNotEquals(JobTimestamp.NULL_OBJECT, jobTimestamp)
+        assertEquals(new JobTimestamp("20210715_145922"), jobTimestamp)
+    }
+
+    @Test
+    void test_findJobTimestampPriorTo() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_findLatestJobTimestamp")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        JobTimestamp latest = store.findLatestJobTimestamp(jobName)
+        JobTimestamp second = store.findJobTimestampPriorTo(jobName, latest)
+        assertNotNull(second)
+        assertNotEquals(JobTimestamp.NULL_OBJECT, second)
+        assertEquals(new JobTimestamp("20210713_093357"), second)
     }
 
     @Test

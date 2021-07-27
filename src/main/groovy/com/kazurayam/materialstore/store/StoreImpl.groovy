@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.store
 
+import com.kazurayam.materialstore.MaterialstoreException
 import com.kazurayam.materialstore.store.reporter.DiffReporterToHTML
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -211,6 +212,74 @@ class StoreImpl implements Store {
             }
         }
         return result
+    }
+
+    /**
+     *
+     * @param jobName
+     * @return List of JobTimestamp objects in the jobName directory.
+     * The returned list is sorted in reverse order (the latest timestamp should come first)
+     * @throws MaterialstoreException
+     */
+    @Override
+    List<JobTimestamp> findAllJobTimestamps(JobName jobName)
+            throws MaterialstoreException {
+        Objects.requireNonNull(jobName)
+        Path jobNameDir = root_.resolve(jobName.toString())
+        if (Files.exists(jobNameDir)) {
+            List<JobTimestamp> jobTimestamps =
+                    Files.list(jobNameDir)
+                            .filter { p -> Files.isDirectory(p) }
+                            .map {p -> p.getFileName().toString() }
+                            .filter { n -> JobTimestamp.isValid(n) }
+                            .map {n -> new JobTimestamp(n) }
+                            .collect(Collectors.toList())
+            // sort the list in reverse order (the latest timestamp should come first)
+            Collections.reverse(jobTimestamps)
+            return jobTimestamps
+        } else {
+            throw new MaterialstoreException(
+                    "JobName \"${jobName.toString()}\" is not found in ${root_}")
+        }
+    }
+
+    @Override
+    List<JobTimestamp> findAllJobTimestampsPriorTo(JobName jobName, JobTimestamp jobTimestamp)
+            throws MaterialstoreException {
+        Objects.requireNonNull(jobName)
+        Objects.requireNonNull(jobTimestamp)
+        List<JobTimestamp> all = findAllJobTimestamps(jobName)
+        List<JobTimestamp> filtered =
+                all.stream()
+                        .filter { JobTimestamp jt ->
+                            jt.compareTo(jobTimestamp) < 0
+                        }
+                        .collect(Collectors.toList())
+        Collections.reverse(filtered)
+        return filtered
+    }
+
+    @Override
+    JobTimestamp findLatestJobTimestamp(JobName jobName) throws MaterialstoreException {
+        Objects.requireNonNull(jobName)
+        List<JobTimestamp> all = findAllJobTimestamps(jobName)
+        if (all.size() > 0) {
+            return all.get(0)
+        } else {
+            return JobTimestamp.NULL_OBJECT
+        }
+    }
+
+    @Override
+    JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp) {
+        Objects.requireNonNull(jobName)
+        Objects.requireNonNull(jobTimestamp)
+        List<JobTimestamp> all = findAllJobTimestampsPriorTo(jobName, jobTimestamp)
+        if (all.size() > 0) {
+            return all.get(0)
+        } else {
+            return JobTimestamp.NULL_OBJECT
+        }
     }
 
     /**

@@ -45,4 +45,12 @@ interface Store {
 
     Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, String fileName)
 
+    List<JobTimestamp> findAllJobTimestamps(JobName jobName)
+
+    List<JobTimestamp> findAllJobTimestampsPriorTo(JobName jobName, JobTimestamp jobTimestamp)
+
+    JobTimestamp findLatestJobTimestamp(JobName jobName)
+
+    JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp)
+
 }
