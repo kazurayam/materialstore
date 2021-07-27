@@ -24,15 +24,15 @@ class VisualTestingTwins {
         this.root_ = root
     }
 
-    void init() {
-        if (Files.exists(root_)) {
+    private static void initDir(Path dir) {
+        if (Files.exists(dir)) {
             // delete the directory to clear out using Java8 API
-            Files.walk(root_)
+            Files.walk(dir)
                     .sorted(Comparator.reverseOrder())
                     .map {it.toFile() }
                     .forEach {it.delete() }
         }
-        Files.createDirectories(root_)
+        Files.createDirectories(dir)
     }
 
 
@@ -40,7 +40,7 @@ class VisualTestingTwins {
      *
      */
     void execute() {
-        init()
+        initDir(root_)
         Store store = Stores.newInstance(root_)
         JobName jobName = new JobName("VisualTestingTwins")
         JobTimestamp jobTimestamp = JobTimestamp.now()
