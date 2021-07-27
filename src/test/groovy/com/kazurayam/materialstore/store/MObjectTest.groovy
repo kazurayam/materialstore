@@ -2,11 +2,13 @@ package com.kazurayam.materialstore.store
 
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.nio.charset.StandardCharsets
 
 import static org.junit.jupiter.api.Assertions.*
 
@@ -28,6 +30,36 @@ class MObjectTest {
             FileUtils.deleteDirectory(outputDir.toFile())
         }
         Files.createDirectories(outputDir)
+    }
+
+    @Disabled
+    @Test
+    void test_hash() {
+        String source = "Hello, world!"
+        byte[] b = source.getBytes(StandardCharsets.UTF_8)
+        String sha1 = MObject.hash(b)
+        assertNotNull(sha1)
+        assertEquals(40, sha1.length())
+    }
+
+    @Test
+    void test_hashJDK() {
+        String source = "Hello, world!"
+        byte[] b = source.getBytes(StandardCharsets.UTF_8)
+        String sha1 = MObject.hashJDK(b)
+        assertNotNull(sha1)
+        println sha1
+        assertEquals(40, sha1.length())
+    }
+
+    @Disabled
+    @Test
+    void test_compare_hash_algo() {
+        String source = "Hello, world!"
+        byte[] b = source.getBytes(StandardCharsets.UTF_8)
+        String sha1 = MObject.hash(b)
+        String sha1JDK = MObject.hashJDK(b)
+        assertEquals(sha1, sha1JDK)
     }
 
     @Test

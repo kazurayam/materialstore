@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.store
 
-import org.apache.commons.codec.digest.DigestUtils
-
+//import org.apache.commons.codec.digest.DigestUtils
+import java.security.MessageDigest
 import java.nio.file.Files
 import java.nio.file.Path
 
@@ -13,8 +13,21 @@ class MObject {
 
     private static final int BUFFER_SIZE = 8000
 
+    /*
     static String hash(byte[] data) {
         return DigestUtils.sha1Hex(data)
+    }
+     */
+
+    static String hashJDK(byte[] data) {
+        MessageDigest md = MessageDigest.getInstance("SHA1");
+        md.update(data)
+        byte[] digest = md.digest()
+        StringBuffer sb = new StringBuffer()
+        for (byte b : digest) {
+            sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+        }
+        return sb.toString()
     }
 
     MObject(byte[] data, FileType fileType) {
@@ -24,7 +37,7 @@ class MObject {
     }
 
     ID getID() {
-        return new ID(hash(data_))
+        return new ID(hashJDK(data_))
     }
 
     FileType getFileType() {
@@ -83,7 +96,7 @@ class MObject {
     }
 
     @Override
-    boolean equals(java.lang.Object obj) {
+    boolean equals(Object obj) {
         if (! obj instanceof MObject) {
             return false
         }
