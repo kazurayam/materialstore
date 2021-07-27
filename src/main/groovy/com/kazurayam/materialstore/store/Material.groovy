@@ -52,6 +52,10 @@ class Material implements Comparable {
                 .normalize()
     }
 
+    File toFile() {
+        return this.getRelativePath().toFile()
+    }
+
     /**
      * @return the returned value of getRelative() is stringified, and
      * replace all of `\` character to `/` to make it a valid relative URL string.
