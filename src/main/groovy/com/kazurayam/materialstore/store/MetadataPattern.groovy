@@ -4,6 +4,8 @@ class MetadataPattern extends Metadata {
 
     static final MetadataPattern NULL_OBJECT = create([] as Set, Metadata.NULL_OBJECT)
 
+    static final MetadataPattern ANY = create([] as Set, Metadata.NULL_OBJECT)
+
     static MetadataPattern create(Metadata source) {
         return create(source.keySet(), source)
     }

@@ -42,36 +42,7 @@ class OpenWeatherMapClient {
     }
 
 
-
-    void process(Map<String, String> param) {
-        try {
-            // download JSON from the OpenWeatherMap through API
-            String rawJson = getOpenWeatherData(param)
-
-            // store the JSON file into the Material directory
-            Metadata metadata = new Metadata(param)
-            store.write(jobName, jobTimestamp, FileType.JSON, metadata,
-                    new JsonOutput().prettyPrint(rawJson))
-
-            // retrieve the JSON file from the Material directory
-            List<Material> materials = store.select(jobName, jobTimestamp,
-                    MetadataPattern.create(metadata), FileType.JSON)
-            assert materials.size() == 1
-            File jsonFile = materials.get(0).toFile(store.getRoot())
-
-            // extract a small portion of weather forecast data
-            def jsonObj = new JsonSlurper().parse(jsonFile)
-
-            // println the data to the console
-            String listItemStr = JsonOutput.toJson(jsonObj["list"][0])
-            println JsonOutput.prettyPrint(listItemStr)
-
-        } catch (Exception e) {
-            e.printStackTrace()
-        }
-    }
-
-    private String getOpenWeatherData(Map<String, String> param) {
+    String getOpenWeatherData(Map<String, String> param) {
         // find API_KEY to access OpenWeatherMap.
         String API_KEY = API_KEY()
 
@@ -120,6 +91,36 @@ class OpenWeatherMapClient {
         //println "API_KEY: ${API_KEY}"
         assert API_KEY != null
         return API_KEY
+    }
+
+
+
+    void process(Map<String, String> param) {
+        try {
+            // download JSON from the OpenWeatherMap through API
+            String rawJson = getOpenWeatherData(param)
+
+            // store the JSON file into the Material directory
+            Metadata metadata = new Metadata(param)
+            store.write(jobName, jobTimestamp, FileType.JSON, metadata,
+                    new JsonOutput().prettyPrint(rawJson))
+
+            // retrieve the JSON file from the Material directory
+            List<Material> materials = store.select(jobName, jobTimestamp,
+                    MetadataPattern.create(metadata), FileType.JSON)
+            assert materials.size() == 1
+            File jsonFile = materials.get(0).toFile(store.getRoot())
+
+            // extract a small portion of weather forecast data
+            def jsonObj = new JsonSlurper().parse(jsonFile)
+
+            // println the data to the console
+            String listItemStr = JsonOutput.toJson(jsonObj["list"][0])
+            println JsonOutput.prettyPrint(listItemStr)
+
+        } catch (Exception e) {
+            e.printStackTrace()
+        }
     }
 
     /**

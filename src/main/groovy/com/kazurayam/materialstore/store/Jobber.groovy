@@ -81,8 +81,8 @@ class Jobber {
      * @return
      */
     List<Material> selectMaterials(MetadataPattern metadataPattern, FileType fileType) {
-        Objects.requireNonNull(fileType)
         Objects.requireNonNull(metadataPattern)
+        Objects.requireNonNull(fileType)
         List<Material> result = new ArrayList<Material>()
         index.eachWithIndex { IndexEntry entry, x ->
             if (entry.getMetadata().match(metadataPattern)) {

@@ -46,7 +46,7 @@ class StoreImpl implements Store {
     @Override
     DiffArtifacts makeDiff(List<Material> expected,
                                 List<Material> actual,
-                                Set<String> metadataKeys) {
+                                Set<String> metadataKeys = [] as Set) {
         Objects.requireNonNull(expected)
         Objects.requireNonNull(actual)
         Objects.requireNonNull(metadataKeys)
@@ -158,7 +158,7 @@ class StoreImpl implements Store {
 
     @Override
     List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
-                          MetadataPattern metadataPattern) {
+                          MetadataPattern metadataPattern = MetadataPattern.ANY) {
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
         return jobber.selectMaterials(metadataPattern)
     }

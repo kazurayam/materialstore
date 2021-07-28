@@ -11,6 +11,8 @@ interface Store {
 
     Path getRoot()
 
+    List<Material> select(JobName jobName, JobTimestamp jobTimestamp)
+
     List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
                           MetadataPattern metadataPattern)
 
@@ -40,6 +42,8 @@ interface Store {
                    Charset charset)
 
     DiffArtifacts zipMaterials(List<Material> expected, List<Material> actual, Set<String> metadataKeys)
+
+    DiffArtifacts makeDiff(List<Material> expected, List<Material> actual)
 
     DiffArtifacts makeDiff(List<Material> expected, List<Material> actual, Set<String> metadataKeys)
 

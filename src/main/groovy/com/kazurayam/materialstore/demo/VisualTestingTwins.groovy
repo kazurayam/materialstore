@@ -74,6 +74,9 @@ class VisualTestingTwins {
         DiffArtifacts stuffedDiffArtifacts =
                 store.makeDiff(expected, actual, ["URL.file", "xpath"] as Set)
 
+        int countWarnings = stuffedDiffArtifacts.countWarnings(0.0d)
+        println "countWarnings: ${countWarnings}"
+
         // compile HTML report
         Path file = store.reportDiffs(jobName, stuffedDiffArtifacts, "index.html")
     }

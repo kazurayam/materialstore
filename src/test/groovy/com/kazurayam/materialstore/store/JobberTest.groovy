@@ -139,7 +139,7 @@ class JobberTest {
      * selecting a single Material object by ID
      */
     @Test
-    void test_selectMaterial() {
+    void test_selectMaterial_smoke() {
         Path root = outputDir.resolve("Materials")
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_selectMaterial")
@@ -187,5 +187,22 @@ class JobberTest {
         assertNotNull(materials)
         assertTrue(materials.size() > 0)
     }
+
+    @Test
+    void test_selectMaterials_ANY() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_selectMaterials_ALL")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
+        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        MetadataPattern pattern = MetadataPattern.ANY
+        // select without FileType
+        List<Material> materials = jobber.selectMaterials(pattern)
+        assertNotNull(materials)
+        assertTrue(materials.size() > 0)
+    }
+
 
 }

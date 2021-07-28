@@ -99,6 +99,13 @@ class MetadataTest {
     }
 
     @Test
+    void test_match_against_ANY() {
+        Metadata target = new Metadata(["key":"value"])
+        MetadataPattern pattern = MetadataPattern.ANY
+        assertTrue(target.match(pattern))
+    }
+
+    @Test
     void test_match_asterisk_pattern_matches_everything() {
         Metadata target = new Metadata(["key":"value"])
         MetadataPattern pattern = new MetadataPattern(["key":"*"])
