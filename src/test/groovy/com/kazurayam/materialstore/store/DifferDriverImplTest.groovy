@@ -46,7 +46,12 @@ class DifferDriverImplTest {
                 new MetadataPattern(["profile": "DevelopmentEnv"]), FileType.PNG)
 
         DiffArtifacts input =
-                storeImpl.zipMaterials(expected, actual, ["URL.file", "xpath"] as Set)
+                storeImpl.zipMaterials(expected, actual,
+                        new MetadataIgnoredKeys.Builder()
+                                .ignoreKey("profile")
+                                .ignoreKey("URL")
+                                .ignoreKey("URL.host")
+                                .build())
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
         DiffArtifacts stuffed = differDriver.differentiate(input)
@@ -79,7 +84,12 @@ class DifferDriverImplTest {
                 new MetadataPattern(["profile": "DevelopmentEnv"]), FileType.HTML)
 
         DiffArtifacts input =
-                storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)
+                storeImpl.zipMaterials(expected, actual,
+                        new MetadataIgnoredKeys.Builder()
+                                .ignoreKey("profile")
+                                .ignoreKey("URL")
+                                .ignoreKey("URL.host")
+                                .build())
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
         DiffArtifacts stuffed = differDriver.differentiate(input)

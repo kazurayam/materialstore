@@ -7,16 +7,17 @@ import static org.junit.jupiter.api.Assertions.*
 class MetadataPatternTest {
 
     @Test
-    void test_create_with_keySet() {
+    void test_create_with_MetadataIgnoredKeys() {
         Metadata metadata = new Metadata(["profile":"ProjectionEnv","category":"screenshot"])
-        MetadataPattern pattern = MetadataPattern.create(["profile"] as Set, metadata)
+        MetadataIgnoredKeys ignoredKeys = new MetadataIgnoredKeys.Builder().ignoreKey("profile").build()
+        MetadataPattern pattern = MetadataPattern.create(ignoredKeys, metadata)
         assertNotNull(pattern)
-        assertTrue(pattern.containsKey("profile"))
-        assertFalse(pattern.containsKey("category"))
+        assertFalse(pattern.containsKey("profile"))
+        assertTrue(pattern.containsKey("category"))
     }
 
     @Test
-    void test_create_without_keySet() {
+    void test_create_without_ignoredKeys() {
         Metadata metadata = new Metadata(["profile":"ProjectionEnv","category":"screenshot"])
         MetadataPattern pattern = MetadataPattern.create(metadata)
         assertNotNull(pattern)

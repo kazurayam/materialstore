@@ -30,15 +30,20 @@ class TextDifferToMarkdownTest {
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         //
         List<Material> expected = storeImpl.select(jobName, jobTimestamp,
-                new MetadataPattern(["category":"page source","profile": "ProductionEnv"]),
+                new MetadataPattern(["category":"page source", "profile": "ProductionEnv"]),
                 FileType.HTML)
 
         List<Material> actual = storeImpl.select(jobName, jobTimestamp,
-                new MetadataPattern(["category":"page source","profile": "DevelopmentEnv"]),
+                new MetadataPattern(["category":"page source", "profile": "DevelopmentEnv"]),
                 FileType.HTML)
 
         DiffArtifacts diffArtifacts =
-                storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)
+                storeImpl.zipMaterials(expected, actual,
+                        new MetadataIgnoredKeys.Builder()
+                                .ignoreKey("profile")
+                                .ignoreKey("URL")
+                                .ignoreKey("URL.host")
+                                .build())
         assertNotNull(diffArtifacts)
         assertEquals(1, diffArtifacts.size())
         //

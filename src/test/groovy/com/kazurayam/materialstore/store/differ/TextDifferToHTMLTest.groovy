@@ -37,7 +37,12 @@ class TextDifferToHTMLTest {
                 FileType.HTML)
 
         DiffArtifacts diffArtifacts =
-                storeImpl.zipMaterials(expected, actual, ["URL.file"] as Set)
+                storeImpl.zipMaterials(expected, actual,
+                        new MetadataIgnoredKeys.Builder()
+                                .ignoreKey("profile")
+                                .ignoreKey("URL")
+                                .ignoreKey("URL.host")
+                                .build())
         assertNotNull(diffArtifacts)
         assertEquals(1, diffArtifacts.size())
         //
