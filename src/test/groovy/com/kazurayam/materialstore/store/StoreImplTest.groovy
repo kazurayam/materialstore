@@ -265,8 +265,14 @@ class StoreImplTest {
                     FileType.PNG)
         assertEquals(2, actualList.size())
         //
-        DiffArtifacts diffArtifacts = store.zipMaterials(
-                expectedList, actualList, ["URL.file", "xpath"] as Set)
+        DiffArtifacts diffArtifacts =
+                store.zipMaterials(expectedList, actualList,
+                        new MetadataIgnoredKeys.Builder()
+                                .ignoreKey("profile")
+                                .ignoreKey("URL")
+                                .ignoreKey("URL.host")
+                                .ignoreKey("category")
+                                .build())
         assertNotNull(diffArtifacts)
         assertEquals(2, diffArtifacts.size(),
                 JsonOutput.prettyPrint(diffArtifacts.toString()))

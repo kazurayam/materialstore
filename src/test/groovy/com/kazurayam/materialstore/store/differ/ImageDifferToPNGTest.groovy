@@ -7,6 +7,7 @@ import com.kazurayam.materialstore.store.FileType
 import com.kazurayam.materialstore.store.JobName
 import com.kazurayam.materialstore.store.JobTimestamp
 import com.kazurayam.materialstore.store.Material
+import com.kazurayam.materialstore.store.MetadataIgnoredKeys
 import com.kazurayam.materialstore.store.MetadataPattern
 import com.kazurayam.materialstore.store.StoreImpl
 import groovy.json.JsonOutput
@@ -42,7 +43,12 @@ class ImageDifferToPNGTest {
                 new MetadataPattern(["profile": "DevelopmentEnv"]), FileType.PNG)
 
         DiffArtifacts diffArtifacts =
-                storeImpl.zipMaterials(expected, actual, ["URL.file", "xpath"] as Set)
+                storeImpl.zipMaterials(expected, actual,
+                        new MetadataIgnoredKeys.Builder()
+                                .ignoreKey("profile")
+                                .ignoreKey("URL")
+                                .ignoreKey("URL.host")
+                                .build())
         assertNotNull(diffArtifacts)
         assertEquals(2, diffArtifacts.size(), JsonOutput.prettyPrint(diffArtifacts.toString()))
         //

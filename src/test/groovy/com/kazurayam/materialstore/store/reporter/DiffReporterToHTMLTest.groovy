@@ -53,7 +53,12 @@ class DiffReporterToHTMLTest {
 
         // make diff
         DiffArtifacts stuffedDiffArtifacts =
-                store.makeDiff(expected, actual, ["URL.file", "xpath"] as Set)
+                store.makeDiff(expected, actual,
+                        new MetadataIgnoredKeys.Builder()
+                                .ignoreKey("profile")
+                                .ignoreKey("URL")
+                                .ignoreKey("URL.host")
+                                .build())
 
         // compile HTML report
         DiffReporter reporter = store.newReporter(jobName)

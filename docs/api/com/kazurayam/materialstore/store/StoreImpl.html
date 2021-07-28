@@ -229,7 +229,7 @@ extends java.lang.Object
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a></code></td>
-                            <td class="colLast"><code><strong><a href="#makeDiff(List<Material>, List<Material>, Set<String>)">makeDiff</a></strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, java.util.Set&lt;java.lang.String&gt; metadataKeys = as Set)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#makeDiff(List<Material>, List<Material>, com.kazurayam.materialstore.store.MetadataIgnoredKeys)">makeDiff</a></strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, <a href='../../../../com/kazurayam/materialstore/store/MetadataIgnoredKeys.html'>MetadataIgnoredKeys</a> ignoredKeys = MetadataIgnoredKeys.NULL_OBJECT)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -301,7 +301,7 @@ extends java.lang.Object
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a></code></td>
-                            <td class="colLast"><code><strong><a href="#zipMaterials(List<Material>, List<Material>, Set<String>)">zipMaterials</a></strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expectedList, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actualList, java.util.Set&lt;java.lang.String&gt; metadataKeys)</code><br>@param expectedList</td>
+                            <td class="colLast"><code><strong><a href="#zipMaterials(List<Material>, List<Material>, com.kazurayam.materialstore.store.MetadataIgnoredKeys)">zipMaterials</a></strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expectedList, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actualList, <a href='../../../../com/kazurayam/materialstore/store/MetadataIgnoredKeys.html'>MetadataIgnoredKeys</a> ignoredKeys)</code><br>@param expectedList</td>
                         </tr>
                         
                     </table>
@@ -454,11 +454,11 @@ java.nio.file.Path <strong>getRoot</strong>()</h4>
                             </li>
                         </ul>
                     
-                        <a name="makeDiff(List<Material>, List<Material>, Set<String>)"><!-- --></a>
+                        <a name="makeDiff(List<Material>, List<Material>, com.kazurayam.materialstore.store.MetadataIgnoredKeys)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-<a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> <strong>makeDiff</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, java.util.Set&lt;java.lang.String&gt; metadataKeys = as Set)</h4>
+<a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> <strong>makeDiff</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, <a href='../../../../com/kazurayam/materialstore/store/MetadataIgnoredKeys.html'>MetadataIgnoredKeys</a> ignoredKeys = MetadataIgnoredKeys.NULL_OBJECT)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -560,11 +560,11 @@ java.io.File <strong>selectFile</strong>(<a href='../../../../com/kazurayam/mate
                             </li>
                         </ul>
                     
-                        <a name="zipMaterials(List<Material>, List<Material>, Set<String>)"><!-- --></a>
+                        <a name="zipMaterials(List<Material>, List<Material>, com.kazurayam.materialstore.store.MetadataIgnoredKeys)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-<a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> <strong>zipMaterials</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expectedList, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actualList, java.util.Set&lt;java.lang.String&gt; metadataKeys)</h4>
+<a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> <strong>zipMaterials</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expectedList, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actualList, <a href='../../../../com/kazurayam/materialstore/store/MetadataIgnoredKeys.html'>MetadataIgnoredKeys</a> ignoredKeys)</h4>
                                 <p> <DL><DT><B>Parameters:</B></DT><DD>expectedList</DD><DD>actualList</DD><DD>metadataKeys</DD></DL><DL><DT><B>Returns:</B></DT><DD></DD></DL></p>
                             </li>
                         </ul>
