@@ -70,8 +70,10 @@ class DiffArtifactsTest {
 
     @Test
     void test_countWarnings() {
-        DiffArtifact tmp = new DiffArtifact(Material.NULL_OBJECT,
-                Material.NULL_OBJECT, MetadataPattern.NULL_OBJECT)
+        DiffArtifact tmp =
+                new DiffArtifact.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT)
+                        .descriptor(MetadataPattern.NULL_OBJECT)
+                        .build()
         tmp.setDiffRatio(45.0d)
         diffArtifacts.add(tmp)
         assertEquals(1, diffArtifacts.countWarnings(0.00d))

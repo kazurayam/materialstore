@@ -324,7 +324,10 @@ class StoreImpl implements Store {
                 FileType expectedFileType = expected.getIndexEntry().getFileType()
                 Metadata expectedMetadata = expected.getIndexEntry().getMetadata()
                 if (expectedFileType == actualFileType && expectedMetadata.match(pattern)) {
-                    DiffArtifact da = new DiffArtifact(expected, actual, pattern)
+                    DiffArtifact da =
+                            new DiffArtifact.Builder(expected, actual)
+                                    .descriptor(pattern)
+                                    .build()
                     diffArtifacts.add(da)
                 } else {
                     ;

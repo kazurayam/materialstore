@@ -9,22 +9,22 @@ import groovy.json.JsonOutput
 class DiffArtifact implements Comparable {
 
     static final DiffArtifact NULL_OBJECT =
-            new DiffArtifact(Material.NULL_OBJECT, Material.NULL_OBJECT, MetadataPattern.NULL_OBJECT)
+            new Builder(Material.NULL_OBJECT, Material.NULL_OBJECT)
+                    .descriptor(MetadataPattern.NULL_OBJECT)
+                    .build()
 
     private final Material expected
     private final Material actual
+    private final MetadataPattern descriptor
+    //
     private Material diff
-    private MetadataPattern descriptor
     private Double diffRatio
 
-    DiffArtifact(Material expected, Material actual, MetadataPattern descriptor) {
-        Objects.requireNonNull(expected)
-        Objects.requireNonNull(actual)
-        Objects.requireNonNull(descriptor)
-        this.expected = expected
-        this.actual = actual
+    private DiffArtifact(Builder builder) {
+        this.expected = builder.expected
+        this.actual = builder.actual
+        this.descriptor = builder.descriptor
         this.diff = Material.NULL_OBJECT
-        this.descriptor = descriptor
         this.diffRatio = 0.0d
     }
 
@@ -131,6 +131,35 @@ class DiffArtifact implements Comparable {
             }
         } else {
             return comparisonOfExpected
+        }
+    }
+
+    /**
+     *
+     */
+    static class Builder {
+        private Material expected
+        private Material actual
+        private MetadataPattern descriptor
+        //
+        private Material diff
+        private Double diffRatio
+        Builder(Material expected, Material actual) {
+            Objects.requireNonNull(expected)
+            Objects.requireNonNull(actual)
+            this.expected = expected
+            this.actual = actual
+            this.descriptor = MetadataPattern.NULL_OBJECT
+            this.diff = Material.NULL_OBJECT
+            this.diffRatio = 0.0d
+        }
+        Builder descriptor(MetadataPattern descriptor) {
+            Objects.requireNonNull(descriptor)
+            this.descriptor = descriptor
+            return this
+        }
+        DiffArtifact build() {
+            return new DiffArtifact(this)
         }
     }
 }
