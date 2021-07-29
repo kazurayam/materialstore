@@ -17,6 +17,8 @@ import java.nio.file.Paths
 
 import groovy.json.JsonOutput
 
+import java.time.temporal.ChronoUnit
+
 class WebAPITestingChronos {
 
     private Path root_ = Paths.get("./build/tmp/demoOutput/${WebAPITestingChronos.class.getSimpleName()}/Materials")
@@ -39,15 +41,18 @@ class WebAPITestingChronos {
 
         // retrieve a previous weather data of the target city
         JobTimestamp baseTimestamp = currentTimestamp.minusSeconds(1)
-        JobTimestamp previousTimestamp = store.findJobTimestampPriorTo(jobName, baseTimestamp)
+        JobTimestamp previousTimestamp =
+                store.findJobTimestampPriorTo(jobName, baseTimestamp)
         if (previousTimestamp == JobTimestamp.NULL_OBJECT) {
             throw new MaterialstoreException(
                     "JobTimestamp prior to ${baseTimestamp} is not found. We will quit.")
         }
-        List<Material> previousData = store.select(jobName, previousTimestamp)
+        List<Material> previousData =
+                store.select(jobName, previousTimestamp, MetadataPattern.ANY)
 
         // retrieve the current weather data of the target city
-        List<Material> currentData  = store.select(jobName, currentTimestamp)
+        List<Material> currentData  =
+                store.select(jobName, currentTimestamp, MetadataPattern.ANY)
 
         // make diff
         DiffArtifacts stuffedDiffArtifacts =
@@ -59,6 +64,11 @@ class WebAPITestingChronos {
         // compile HTML report
         Path file = store.reportDiffs(jobName, stuffedDiffArtifacts, "index.html")
         println "output: ${file.toString()}"
+
+        // delete files in the Materials directory older than 3 days to save disk space
+        int deletedFiles = store.deleteMaterialsOlderThanExclusive(jobName,
+                currentTimestamp, 3L, ChronoUnit.DAYS)
+        println "deleted ${deletedFiles} files"
     }
 
     private static void doOpenWeatherAction(Store store,

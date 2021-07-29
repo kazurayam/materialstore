@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.store
 
-import com.kazurayam.materialstore.MaterialstoreException
+
 import com.kazurayam.materialstore.TestFixtureUtil
 import groovy.json.JsonOutput
 import org.apache.commons.io.FileUtils
@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.time.temporal.ChronoUnit
 
 import static org.junit.jupiter.api.Assertions.*
 
@@ -282,4 +283,28 @@ class StoreImplTest {
                 diffArtifacts.get(1).getDescription())
 
     }
+
+    @Test
+    void test_deleteMaterialsOlderThanExclusive() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_deleteMaterialsOlderThanExclusive")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+
+        JobTimestamp latestTimestamp = new JobTimestamp("20210715_145922")
+        int deletedFiles = store.deleteMaterialsOlderThanExclusive(jobName,
+                latestTimestamp, 0L, ChronoUnit.DAYS)
+        assertEquals(6, deletedFiles)
+        /* deleted 6 files include
+         * - 20210713_093357/objects/12a1a5e ...
+         * - 20210713_093357/objects/6141b60 ...
+         * - 20210713_093357/objects/ab56d30 ...
+         * - 20210713_093357/objects/
+         * - 20210713_093357/index
+         * - 20210713_093357/
+         */
+    }
+
+
 }

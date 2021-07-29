@@ -72,7 +72,12 @@ class VisualTestingTwins {
 
         // make diff
         DiffArtifacts stuffedDiffArtifacts =
-                store.makeDiff(expected, actual, ["URL.file", "xpath"] as Set)
+                store.makeDiff(expected, actual,
+                         new MetadataIgnoredKeys.Builder()
+                                 .ignoreKey("profile")
+                                 .ignoreKey("URL")
+                                 .ignoreKey("URL.host")
+                                 .build())
 
         int countWarnings = stuffedDiffArtifacts.countWarnings(0.0d)
         println "countWarnings: ${countWarnings}"

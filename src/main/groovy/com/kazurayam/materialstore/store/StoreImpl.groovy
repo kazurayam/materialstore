@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.time.temporal.TemporalUnit
 import java.util.stream.Collectors
 
 class StoreImpl implements Store {
@@ -158,7 +159,7 @@ class StoreImpl implements Store {
 
     @Override
     List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
-                          MetadataPattern metadataPattern = MetadataPattern.ANY) {
+                          MetadataPattern metadataPattern) {
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
         return jobber.selectMaterials(metadataPattern)
     }
@@ -386,5 +387,36 @@ class StoreImpl implements Store {
         //
         diffArtifacts.sort()
         return diffArtifacts
+    }
+
+    @Override
+    int deleteMaterialsOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp,
+                                          long amountToSubtract, TemporalUnit unit) {
+        Objects.requireNonNull(jobName)
+        Objects.requireNonNull(jobTimestamp)
+        if (amountToSubtract < 0) {
+            throw new IllegalArgumentException("amoutToSubtract(${amountToSubtract}) must not be a negative value < 0")
+        }
+        Objects.requireNonNull(unit)
+        // calculate the base timestamp
+        JobTimestamp thanThisJobTimestamp = jobTimestamp.minus(amountToSubtract, unit)
+        // identify the JobTimestamp directories to be deleted
+        List<JobTimestamp> toBeDeleted = this.findAllJobTimestampsPriorTo(jobName, thanThisJobTimestamp)
+        // now delete files/directories
+        int countDeleted = 0
+        toBeDeleted.each { JobTimestamp jt ->
+            Path dir = root_.resolve(jobName.toString()).resolve(jt.toString())
+            // delete this directory recursively
+            if (Files.exists(dir)) {
+                // delete the directory to clear out using Java8 API
+                Files.walk(dir)
+                        .sorted(Comparator.reverseOrder())
+                        .map {it.toFile() }
+                        .forEach {it.delete();
+                            countDeleted += 1   // count the number of deleted files and directories
+                        }
+            }
+        }
+        return countDeleted
     }
 }

@@ -188,4 +188,19 @@ class JobberTest {
         assertTrue(materials.size() > 0)
     }
 
+    @Test
+    void test_selectMaterial_with_MetadataPatternANY() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_selectMaterials_without_FileType")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
+        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        // select with MetadataPattern.ANY, which means all Materials in the job directory
+        List<Material> materials = jobber.selectMaterials(MetadataPattern.ANY)
+        assertNotNull(materials)
+        assertEquals(6, materials.size())
+    }
+
 }
