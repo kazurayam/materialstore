@@ -3,6 +3,7 @@ package com.kazurayam.materialstore.store
 import java.awt.image.BufferedImage
 import java.nio.charset.Charset
 import java.nio.file.Path
+import java.time.temporal.TemporalUnit
 
 /**
  * defines the public interface of the Store object
@@ -10,8 +11,6 @@ import java.nio.file.Path
 interface Store {
 
     Path getRoot()
-
-    List<Material> select(JobName jobName, JobTimestamp jobTimestamp)
 
     List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
                           MetadataPattern metadataPattern)
@@ -57,4 +56,6 @@ interface Store {
 
     JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp)
 
+    int deleteMaterialsOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp,
+                                          long amountToSubtract, TemporalUnit unit)
 }
