@@ -40,13 +40,13 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
     }
 
     @Override
-    TextDiffContent makeContent(Path root, Material original, Material revised, Charset charset) {
-        String originalText = readMaterial(root, original, charset)
-        String revisedText = readMaterial(root, revised, charset)
+    TextDiffContent makeContent(Path root, Material left, Material right, Charset charset) {
+        String leftText = readMaterial(root, left, charset)
+        String rightText = readMaterial(root, right, charset)
 
         //build simple lists of the lines of the two text files
-        List<String> originalLines = readAllLines(originalText);
-        List<String> revisedLines = readAllLines(revisedText);
+        List<String> leftLines = readAllLines(leftText);
+        List<String> rightLines = readAllLines(rightText);
 
         // Compute the difference between two texts and print it in humann-readable markup style
         DiffRowGenerator generator =
@@ -66,7 +66,7 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                         })
                         .build()
 
-        List<DiffRow> rows = generator.generateDiffRows(originalLines, revisedLines)
+        List<DiffRow> rows = generator.generateDiffRows(leftLines, rightLines)
 
         List<DiffRow> insertedRows =
                 rows.stream().filter({ DiffRow dr ->
@@ -99,27 +99,27 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
             body() {
                 div(id: "container") {
                     div(id: "inputs") {
-                        h2("Original")
+                        h2("Left")
                         dl() {
                             dt("URL")
                             dd() {
-                                a(href: "../../../" + original.getRelativeURL(),
-                                        target: "Original",
-                                        original.getRelativeURL())
+                                a(href: "../../../" + left.getRelativeURL(),
+                                        target: "Left",
+                                        left.getRelativeURL())
                             }
                             dt("metadata")
-                            dd(original.getIndexEntry().getMetadata().toString())
+                            dd(left.getIndexEntry().getMetadata().toString())
                         }
-                        h2("Revised")
+                        h2("Right")
                         dl() {
                             dt("URL")
                             dd() {
-                                a(href: "../../../" + revised.getRelativeURL(),
-                                        target: "Revised",
-                                        revised.getRelativeURL())
+                                a(href: "../../../" + right.getRelativeURL(),
+                                        target: "Right",
+                                        right.getRelativeURL())
                             }
                             dt("metadata")
-                            dd(revised.getIndexEntry().getMetadata().toString())
+                            dd(right.getIndexEntry().getMetadata().toString())
                         }
                     }
                     div(id: "decision") {
@@ -176,8 +176,8 @@ class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                         thead() {
                             tr() {
                                 th("")
-                                th("original")
-                                th("revised")
+                                th("Left")
+                                th("Right")
                             }
                         }
                         tbody() {
