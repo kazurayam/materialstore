@@ -36,14 +36,14 @@ class ImageDifferToPNGTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         //
-        List<Material> expected = storeImpl.select(jobName, jobTimestamp,
+        List<Material> left = storeImpl.select(jobName, jobTimestamp,
                 new MetadataPattern(["profile": "ProductionEnv"]), FileType.PNG)
 
-        List<Material> actual = storeImpl.select(jobName, jobTimestamp,
+        List<Material> right = storeImpl.select(jobName, jobTimestamp,
                 new MetadataPattern(["profile": "DevelopmentEnv"]), FileType.PNG)
 
         DiffArtifacts diffArtifacts =
-                storeImpl.zipMaterials(expected, actual,
+                storeImpl.zipMaterials(left, right,
                         new MetadataIgnoredKeys.Builder()
                                 .ignoreKey("profile")
                                 .ignoreKey("URL")

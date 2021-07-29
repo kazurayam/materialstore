@@ -44,16 +44,16 @@ class DiffReporterToHTMLTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         // pickup the materials that belongs to the 2 "profiles"
         String profile1 = "ProductionEnv"
-        List<Material> expected = store.select(jobName, jobTimestamp,
+        List<Material> left = store.select(jobName, jobTimestamp,
                 new MetadataPattern([ "profile": profile1 ]))
 
         String profile2 = "DevelopmentEnv"
-        List<Material> actual = store.select(jobName, jobTimestamp,
+        List<Material> right = store.select(jobName, jobTimestamp,
                 new MetadataPattern([ "profile": profile2 ]))
 
         // make diff
         DiffArtifacts stuffedDiffArtifacts =
-                store.makeDiff(expected, actual,
+                store.makeDiff(left, right,
                         new MetadataIgnoredKeys.Builder()
                                 .ignoreKey("profile")
                                 .ignoreKey("URL")

@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*
  * "Java Split String and Keep Delimitiers"
  * https://www.baeldung.com/java-split-string-keep-delimiters
  */
-class SplitingStringWhileKeepingDelimitersTest {
+class SplittingStringWhileKeepingDelimitersTest {
 
     String text = "Hello@World@This@Is@A@Java@Program";
 

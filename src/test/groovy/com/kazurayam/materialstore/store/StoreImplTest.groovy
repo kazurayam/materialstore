@@ -252,22 +252,22 @@ class StoreImplTest {
         Path jobNameDir = root.resolve(jobName.toString())
         FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
         //
-        Jobber jobberOfExpected = store.getJobber(jobName,
+        Jobber jobberOfLeft = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
-        List<Material> expectedList = jobberOfExpected.selectMaterials(
+        List<Material> leftList = jobberOfLeft.selectMaterials(
                 new MetadataPattern(["profile": "ProductionEnv", "URL.file": "*"]),
                 FileType.PNG)
-        assertEquals(2, expectedList.size())
+        assertEquals(2, leftList.size())
         //
-        Jobber jobberOfActual = store.getJobber(jobName,
+        Jobber jobberOfRight = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
-            List<Material> actualList= jobberOfActual.selectMaterials(
+            List<Material> rightList= jobberOfRight.selectMaterials(
                 new MetadataPattern(["profile": "DevelopmentEnv", "URL.file": "*"]),
                     FileType.PNG)
-        assertEquals(2, actualList.size())
+        assertEquals(2, rightList.size())
         //
         DiffArtifacts diffArtifacts =
-                store.zipMaterials(expectedList, actualList,
+                store.zipMaterials(leftList, rightList,
                         new MetadataIgnoredKeys.Builder()
                                 .ignoreKey("profile")
                                 .ignoreKey("URL")

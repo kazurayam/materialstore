@@ -39,14 +39,14 @@ class DifferDriverImplTest {
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         //
-        List<Material> expected = storeImpl.select(jobName, jobTimestamp,
+        List<Material> left = storeImpl.select(jobName, jobTimestamp,
                 new MetadataPattern(["profile": "ProductionEnv"]), FileType.PNG)
 
-        List<Material> actual = storeImpl.select(jobName, jobTimestamp,
+        List<Material> right = storeImpl.select(jobName, jobTimestamp,
                 new MetadataPattern(["profile": "DevelopmentEnv"]), FileType.PNG)
 
         DiffArtifacts input =
-                storeImpl.zipMaterials(expected, actual,
+                storeImpl.zipMaterials(left, right,
                         new MetadataIgnoredKeys.Builder()
                                 .ignoreKey("profile")
                                 .ignoreKey("URL")
@@ -77,14 +77,14 @@ class DifferDriverImplTest {
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         //
-        List<Material> expected = storeImpl.select(jobName, jobTimestamp,
+        List<Material> left = storeImpl.select(jobName, jobTimestamp,
                 new MetadataPattern(["profile": "ProductionEnv"]), FileType.HTML)
 
-        List<Material> actual = storeImpl.select(jobName, jobTimestamp,
+        List<Material> right = storeImpl.select(jobName, jobTimestamp,
                 new MetadataPattern(["profile": "DevelopmentEnv"]), FileType.HTML)
 
         DiffArtifacts input =
-                storeImpl.zipMaterials(expected, actual,
+                storeImpl.zipMaterials(left, right,
                         new MetadataIgnoredKeys.Builder()
                                 .ignoreKey("profile")
                                 .ignoreKey("URL")

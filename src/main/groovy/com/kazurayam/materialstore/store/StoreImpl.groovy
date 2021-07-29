@@ -45,15 +45,15 @@ class StoreImpl implements Store {
     }
 
     @Override
-    DiffArtifacts makeDiff(List<Material> expected,
-                                List<Material> actual,
+    DiffArtifacts makeDiff(List<Material> left,
+                                List<Material> right,
                                 MetadataIgnoredKeys ignoredKeys = MetadataIgnoredKeys.NULL_OBJECT) {
-        Objects.requireNonNull(expected)
-        Objects.requireNonNull(actual)
+        Objects.requireNonNull(left)
+        Objects.requireNonNull(right)
         Objects.requireNonNull(ignoredKeys)
 
         DiffArtifacts diffArtifacts =
-                this.zipMaterials(expected, actual, ignoredKeys)
+                this.zipMaterials(left, right, ignoredKeys)
         assert diffArtifacts != null
 
         DifferDriver differDriver = new DifferDriverImpl.Builder(root_).build()
@@ -303,84 +303,84 @@ class StoreImpl implements Store {
 
     /**
      *
-     * @param expectedList
-     * @param actualList
+     * @param leftList
+     * @param rightList
      * @param metadataKeys
      * @return
      */
     @Override
-    DiffArtifacts zipMaterials(List<Material> expectedList,
-                                    List<Material> actualList,
+    DiffArtifacts zipMaterials(List<Material> leftList,
+                                    List<Material> rightList,
                                     MetadataIgnoredKeys ignoredKeys) {
-        Objects.requireNonNull(expectedList)
-        Objects.requireNonNull(actualList)
+        Objects.requireNonNull(leftList)
+        Objects.requireNonNull(rightList)
         Objects.requireNonNull(ignoredKeys)
         DiffArtifacts diffArtifacts = new DiffArtifacts()
         //
-        actualList.each { Material actual->
-            FileType actualFileType = actual.getIndexEntry().getFileType()
-            Metadata actualMetadata = actual.getIndexEntry().getMetadata()
-            MetadataPattern actualPattern = MetadataPattern.create(ignoredKeys, actualMetadata)
+        rightList.each { Material right->
+            FileType rightFileType = right.getIndexEntry().getFileType()
+            Metadata rightMetadata = right.getIndexEntry().getMetadata()
+            MetadataPattern rightPattern = MetadataPattern.create(ignoredKeys, rightMetadata)
             //
             StringBuilder sb = new StringBuilder()
-            sb.append("\nactual pattern: ${actualPattern}\n")
-            int foundExpectedCount = 0
-            expectedList.each { Material expected ->
-                FileType expectedFileType = expected.getIndexEntry().getFileType()
-                Metadata expectedMetadata = expected.getIndexEntry().getMetadata()
-                if (expectedFileType == actualFileType &&
-                        expectedMetadata.match(actualPattern)) {
+            sb.append("\nright pattern: ${rightPattern}\n")
+            int foundLeftCount = 0
+            leftList.each { Material left ->
+                FileType leftFileType = left.getIndexEntry().getFileType()
+                Metadata leftMetadata = left.getIndexEntry().getMetadata()
+                if (leftFileType == rightFileType &&
+                        leftMetadata.match(rightPattern)) {
                     DiffArtifact da =
-                            new DiffArtifact.Builder(expected, actual)
-                                    .descriptor(actualPattern)
+                            new DiffArtifact.Builder(left, right)
+                                    .descriptor(rightPattern)
                                     .build()
                     diffArtifacts.add(da)
-                    sb.append("expected metadata: Y ${expectedMetadata}\n")
-                    foundExpectedCount += 1
+                    sb.append("left metadata: Y ${leftMetadata}\n")
+                    foundLeftCount += 1
                 } else {
-                    sb.append("expected metadata: N ${expectedMetadata}\n")
+                    sb.append("left metadata: N ${leftMetadata}\n")
                 }
             }
-            if (foundExpectedCount == 0) {
+            if (foundLeftCount == 0) {
                 DiffArtifact da =
-                        new DiffArtifact.Builder(Material.NULL_OBJECT, actual)
-                                .descriptor(actualPattern)
+                        new DiffArtifact.Builder(Material.NULL_OBJECT, right)
+                                .descriptor(rightPattern)
                                 .build()
                 diffArtifacts.add(da)
             }
-            if (foundExpectedCount == 0 || foundExpectedCount >= 2) {
+            if (foundLeftCount == 0 || foundLeftCount >= 2) {
                 logger.warn(sb.toString())
             }
         }
         //
-        expectedList.each {Material expected ->
-            FileType expectedFileType = expected.getIndexEntry().getFileType()
-            Metadata expectedMetadata = expected.getIndexEntry().getMetadata()
-            MetadataPattern expectedPattern = MetadataPattern.create(ignoredKeys, expectedMetadata)
+        leftList.each {Material left ->
+            FileType leftFileType = left.getIndexEntry().getFileType()
+            Metadata leftMetadata = left.getIndexEntry().getMetadata()
+            MetadataPattern leftPattern = MetadataPattern.create(ignoredKeys, leftMetadata)
             //
             StringBuilder sb = new StringBuilder()
-            sb.append("\nexpected pattern: ${expectedPattern}\n")
-            int foundActualCount = 0
-            actualList.each { Material actual ->
-                FileType actualFileType = actual.getIndexEntry().getFileType()
-                Metadata actualMetadata = actual.getIndexEntry().getMetadata()
-                if (actualFileType == expectedFileType &&
-                        actualMetadata.match(expectedPattern)) {
+            sb.append("\nleft pattern: ${leftPattern}\n")
+            int foundRightCount = 0
+            rightList.each { Material right ->
+                FileType rightFileType = right.getIndexEntry().getFileType()
+                Metadata rightMetadata = right.getIndexEntry().getMetadata()
+                if (rightFileType == leftFileType &&
+                        rightMetadata.match(leftPattern)) {
                     ; // this must have been found matched already; no need to create a DiffArtifact
-                    sb.append("actual metadata: Y ${actualMetadata}\n")
-                    foundActualCount += 1
+                    sb.append("right metadata: Y ${rightMetadata}\n")
+                    foundRightCount += 1
                 } else {
-                    sb.append("actual metadata: N ${actualMetadata}\n")
+                    sb.append("right metadata: N ${rightMetadata}\n")
                 }
             }
-            if (foundActualCount == 0) {
+            if (foundRightCount == 0) {
                 DiffArtifact da =
-                        new DiffArtifact.Builder(expected, Material.NULL_OBJECT)
-                                .descriptor(expectedPattern)
+                        new DiffArtifact.Builder(left, Material.NULL_OBJECT)
+                                .descriptor(leftPattern)
                                 .build()
                 diffArtifacts.add(da)
             }
-            if (foundActualCount == 0 || foundActualCount >= 2) {
+            if (foundRightCount == 0 || foundRightCount >= 2) {
                 logger.warn(sb.toString())
             }
         }

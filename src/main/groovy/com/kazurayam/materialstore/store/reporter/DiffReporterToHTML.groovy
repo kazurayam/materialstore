@@ -93,7 +93,7 @@ class DiffReporterToHTML implements DiffReporter {
                                         span(class: "description ${warningClass}",
                                                 da.getDescription())
                                         span(class: "fileType ${warningClass}",
-                                                da.getActual().getIndexEntry().getFileType().getExtension())
+                                                da.getRight().getIndexEntry().getFileType().getExtension())
                                         span(class: "ratio ${warningClass}",
                                                 "${DifferUtil.formatDiffRatioAsString(diffRatio)}%")
                                     }
@@ -105,8 +105,8 @@ class DiffReporterToHTML implements DiffReporter {
                                 ) {
                                     mb.div(class: "accordion-body") {
                                         makeModalSubsection(mb, da, index+1)
-                                        makeMaterialSubsection(mb, "expected", da.getExpected())
-                                        makeMaterialSubsection(mb, "actual", da.getActual())
+                                        makeMaterialSubsection(mb, "left", da.getLeft())
+                                        makeMaterialSubsection(mb, "right", da.getRight())
                                         makeMaterialSubsection(mb, "diff", da.getDiff())
                                     }
                                 }
@@ -126,9 +126,9 @@ class DiffReporterToHTML implements DiffReporter {
     }
 
     private static void makeModalSubsection(MarkupBuilder mb, DiffArtifact da, Integer seq) {
-        Material actual = da.getActual()
+        Material right = da.getRight()
         mb.div(class: "show-diff") {
-            if (actual.isImage()) {
+            if (right.isImage()) {
                 String imageModalId = "imageModal${seq}"
                 String imageModalTitleId = "imageModalLabel${seq}"
                 String carouselId = "carouselControl${seq}"
@@ -138,7 +138,7 @@ class DiffReporterToHTML implements DiffReporter {
                         "data-bs-toggle": "modal",
                         "data-bs-target": "#${imageModalId}",
                         "Show diff in Modal")
-                mkp.comment("Modal to show 3 images: Expected/Diff/Actual")
+                mkp.comment("Modal to show 3 images: Left/Diff/Right")
                 div(class: "modal fade",
                         id:"${imageModalId}",
                         tabindex: "-1",
@@ -163,10 +163,10 @@ class DiffReporterToHTML implements DiffReporter {
                                         "data-bs-ride": "carousel") {
                                     div(class: "carousel-inner") {
                                         div(class: "carousel-item") {
-                                            h3(class: "centered","Expected")
+                                            h3(class: "centered","Left")
                                             img(class: "img-fluid d-block w-75 centered",
-                                                    alt: "expected",
-                                                    src: da.getExpected()
+                                                    alt: "left",
+                                                    src: da.getLeft()
                                                             .getRelativeURL())
                                         }
                                         div(class: "carousel-item active") {
@@ -177,10 +177,10 @@ class DiffReporterToHTML implements DiffReporter {
                                                             .getRelativeURL())
                                         }
                                         div(class: "carousel-item") {
-                                            h3(class: "centered","Actual")
+                                            h3(class: "centered","right")
                                             img(class: "img-fluid d-block w-75 centered",
-                                                    alt: "actual",
-                                                    src: da.getActual()
+                                                    alt: "right",
+                                                    src: da.getRight()
                                                             .getRelativeURL())
                                         }
                                     }
@@ -211,7 +211,7 @@ class DiffReporterToHTML implements DiffReporter {
                         }
                     }
                 }
-            } else if (actual.isText()) {
+            } else if (right.isText()) {
                 String textModalId = "textModal${seq}"
                 String textModalTitleId = "textModalLabel${seq}"
                 mkp.comment("Button trigger modal")

@@ -13,16 +13,16 @@ class DiffArtifact implements Comparable {
                     .descriptor(MetadataPattern.NULL_OBJECT)
                     .build()
 
-    private final Material expected
-    private final Material actual
+    private final Material left
+    private final Material right
     private final MetadataPattern descriptor
     //
     private Material diff
     private Double diffRatio
 
     private DiffArtifact(Builder builder) {
-        this.expected = builder.expected
-        this.actual = builder.actual
+        this.left = builder.left
+        this.right = builder.right
         this.descriptor = builder.descriptor
         this.diff = Material.NULL_OBJECT
         this.diffRatio = 0.0d
@@ -35,8 +35,8 @@ class DiffArtifact implements Comparable {
      */
     DiffArtifact(DiffArtifact source) {
         Objects.requireNonNull(source)
-        this.expected = source.getExpected()
-        this.actual = source.getActual()
+        this.left = source.getLeft()
+        this.right = source.getRight()
         this.diff = source.getDiff()
         this.descriptor = source.getDescriptor()
     }
@@ -51,16 +51,16 @@ class DiffArtifact implements Comparable {
         this.diffRatio = diffRatio
     }
 
-    Material getExpected() {
-        return this.expected
+    Material getLeft() {
+        return this.left
     }
 
     String getFileTypeExtension() {
-        return this.getActual().getIndexEntry().getFileType().getExtension()
+        return this.getRight().getIndexEntry().getFileType().getExtension()
     }
 
-    Material getActual() {
-        return this.actual
+    Material getRight() {
+        return this.right
     }
 
     Material getDiff() {
@@ -89,16 +89,16 @@ class DiffArtifact implements Comparable {
             return false
         }
         DiffArtifact other = (DiffArtifact)obj
-        return this.getActual() == other.getActual() &&
-                this.getExpected() == other.getExpected() &&
+        return this.getRight() == other.getRight() &&
+                this.getLeft() == other.getLeft() &&
                 this.getDiff() == other.getDiff()
     }
 
     @Override
     int hashCode() {
         int hash = 7
-        hash = 31 * hash + this.getExpected().hashCode()
-        hash = 31 * hash + this.getActual().hashCode()
+        hash = 31 * hash + this.getLeft().hashCode()
+        hash = 31 * hash + this.getright().hashCode()
         if (this.getDiff() != null) {
             hash = 31 * hash + this.getDiff().hashCode()
         }
@@ -107,8 +107,8 @@ class DiffArtifact implements Comparable {
 
     @Override
     String toString() {
-        Map m = ["expected": expected.toString(),
-                 "actual": actual.toString(),
+        Map m = ["left": left.toString(),
+                 "right": right.toString(),
                  "diff": diff.toString(),
                  "descriptor": descriptor.toString(),
                  "diffRatio": diffRatio]
@@ -121,16 +121,16 @@ class DiffArtifact implements Comparable {
             throw new IllegalArgumentException("obj is not instance of DiffResult")
         }
         DiffArtifact other = (DiffArtifact)obj
-        int comparisonOfExpected = this.getExpected() <=> other.getExpected()
-        if (comparisonOfExpected == 0) {
-            int comparisonOfActual = this.getActual() <=> other.getActual()
-            if (comparisonOfActual == 0) {
+        int comparisonOfLeft = this.getLeft() <=> other.getLeft()
+        if (comparisonOfLeft == 0) {
+            int comparisonOfRight = this.getRight() <=> other.getRight()
+            if (comparisonOfRight == 0) {
                 return this.getDiff() <=> other.getDiff()
             } else {
-                return comparisonOfActual
+                return comparisonOfRight
             }
         } else {
-            return comparisonOfExpected
+            return comparisonOfLeft
         }
     }
 
@@ -138,17 +138,17 @@ class DiffArtifact implements Comparable {
      *
      */
     static class Builder {
-        private Material expected
-        private Material actual
+        private Material left
+        private Material right
         private MetadataPattern descriptor
         //
         private Material diff
         private Double diffRatio
-        Builder(Material expected, Material actual) {
-            Objects.requireNonNull(expected)
-            Objects.requireNonNull(actual)
-            this.expected = expected
-            this.actual = actual
+        Builder(Material left, Material right) {
+            Objects.requireNonNull(left)
+            Objects.requireNonNull(right)
+            this.left = left
+            this.right = right
             this.descriptor = MetadataPattern.NULL_OBJECT
             this.diff = Material.NULL_OBJECT
             this.diffRatio = 0.0d

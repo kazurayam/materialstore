@@ -40,38 +40,38 @@ class ImageDifferToPNG implements Differ {
     DiffArtifact makeDiffArtifact(DiffArtifact input) {
         Objects.requireNonNull(root_)
         Objects.requireNonNull(input)
-        Objects.requireNonNull(input.getExpected())
-        Objects.requireNonNull(input.getActual())
+        Objects.requireNonNull(input.getLeft())
+        Objects.requireNonNull(input.getRight())
         //
-        Material expected = input.getExpected()
-        if (! expected.isImage()) {
-            throw new IllegalArgumentException("the expected material is not an image: ${expected}")
+        Material left = input.getLeft()
+        if (! left.isImage()) {
+            throw new IllegalArgumentException("the left material is not an image: ${left}")
         }
-        File expectedFile = root_.resolve(expected.getRelativePath()).toFile()
-        BufferedImage expectedImage = readImage(expectedFile)
-        assert expectedImage != null
+        File leftFile = root_.resolve(left.getRelativePath()).toFile()
+        BufferedImage leftImage = readImage(leftFile)
+        assert leftImage != null
         //
-        Material actual = input.getActual()
-        if (! actual.isImage()) {
-            throw new IllegalArgumentException("the actual material is not an image: ${actual}")
+        Material right = input.getRight()
+        if (! right.isImage()) {
+            throw new IllegalArgumentException("the right material is not an image: ${right}")
         }
-        File actualFile = root_.resolve(actual.getRelativePath()).toFile()
-        BufferedImage actualImage = readImage(actualFile)
-        assert actualImage != null
+        File rightFile = root_.resolve(right.getRelativePath()).toFile()
+        BufferedImage rightImage = readImage(rightFile)
+        assert rightImage != null
 
         // make a diff image using AShot
         ImageDiffer imgDiff = new ImageDiffer()
-        ImageDiff imageDiff = imgDiff.makeDiff(expectedImage,actualImage);
+        ImageDiff imageDiff = imgDiff.makeDiff(leftImage,rightImage);
         Double diffRatio = calculateDiffRatioPercent(imageDiff)
         Metadata diffMetadata = new Metadata([
                 "category": "diff",
                 "ratio": DifferUtil.formatDiffRatioAsString(diffRatio),
-                "expected": expected.getIndexEntry().getID().toString(),
-                "actual": actual.getIndexEntry().getID().toString()
+                "left": left.getIndexEntry().getID().toString(),
+                "right": right.getIndexEntry().getID().toString()
         ])
         byte[] diffData = toByteArray(imageDiff.getDiffImage(), FileType.PNG)
         // write the image diff into disk
-        Jobber jobber = new Jobber(root_, actual.getJobName(), actual.getJobTimestamp())
+        Jobber jobber = new Jobber(root_, right.getJobName(), right.getJobTimestamp())
         Material diffMaterial = jobber.write(diffData, FileType.PNG, diffMetadata)
 
         //

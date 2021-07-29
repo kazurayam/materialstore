@@ -59,13 +59,13 @@ class MaterialTest {
         Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"))
         assertNotNull(material)
         //
-        Path expectedPath = Paths.get("test_getRelativePath/20210713_093357/objects/12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490.png")
+        Path leftPath = Paths.get("test_getRelativePath/20210713_093357/objects/12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490.png")
         Path relativePath = material.getRelativePath()
-        assertEquals(expectedPath, relativePath)
+        assertEquals(leftPath, relativePath)
         //
-        String expectedURL = "test_getRelativePath/20210713_093357/objects/12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490.png"
+        String leftURL = "test_getRelativePath/20210713_093357/objects/12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490.png"
         String relativeURL = material.getRelativeURL()
-        assertEquals(expectedURL, relativeURL)
+        assertEquals(leftURL, relativeURL)
     }
 
     @Test

@@ -47,31 +47,31 @@ abstract class AbstractTextDiffer implements Differ {
     DiffArtifact makeDiffArtifact(DiffArtifact input) {
         Objects.requireNonNull(root_)
         Objects.requireNonNull(input)
-        Objects.requireNonNull(input.getExpected())
-        Objects.requireNonNull(input.getActual())
+        Objects.requireNonNull(input.getLeft())
+        Objects.requireNonNull(input.getRight())
         //
-        Material expected = input.getExpected()
-        if (! expected.isText()) {
-            throw new IllegalArgumentException("${expected} is not a text")
+        Material left = input.getLeft()
+        if (! left.isText()) {
+            throw new IllegalArgumentException("${left} is not a text")
         }
-        Material actual = input.getActual()
-        if (! actual.isText()) {
-            throw new IllegalArgumentException("${actual} is not a text")
+        Material right = input.getRight()
+        if (! right.isText()) {
+            throw new IllegalArgumentException("${right} is not a text")
         }
 
         //
-        TextDiffContent textDiffContent = makeContent(root_, expected, actual, charset)
+        TextDiffContent textDiffContent = makeContent(root_, left, right, charset)
         Double diffRatio = textDiffContent.getDiffRatio()
 
         //
         byte[] diffData = toByteArray(textDiffContent.getContent())
         Metadata diffMetadata = new Metadata([
                 "category": "diff",
-                "expected": expected.getIndexEntry().getID().toString(),
-                "actual": actual.getIndexEntry().getID().toString(),
+                "left": left.getIndexEntry().getID().toString(),
+                "right": right.getIndexEntry().getID().toString(),
                 "ratio": DifferUtil.formatDiffRatioAsString(diffRatio)
         ])
-        Jobber jobber = new Jobber(root_, actual.getJobName(), actual.getJobTimestamp())
+        Jobber jobber = new Jobber(root_, right.getJobName(), right.getJobTimestamp())
         Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata)
         //
         //

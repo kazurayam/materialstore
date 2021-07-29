@@ -65,15 +65,15 @@ class StoreTest {
         driver.quit()
 
         // pickup the materials that belongs to the 2 "profiles"
-        List<Material> expected = store.select(jobName, jobTimestamp,
+        List<Material> left = store.select(jobName, jobTimestamp,
                 new MetadataPattern([ "profile": profile1 ]))
 
-        List<Material> actual = store.select(jobName, jobTimestamp,
+        List<Material> right = store.select(jobName, jobTimestamp,
                 new MetadataPattern([ "profile": profile2 ]))
 
         // make diff
         DiffArtifacts stuffedDiffArtifacts =
-                store.makeDiff(expected, actual,
+                store.makeDiff(left, right,
                         new MetadataIgnoredKeys.Builder()
                                 .ignoreKey("profile")
                                 .ignoreKey("URL")

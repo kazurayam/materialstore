@@ -29,16 +29,16 @@ class TextDifferToMarkdownTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         //
-        List<Material> expected = storeImpl.select(jobName, jobTimestamp,
+        List<Material> left = storeImpl.select(jobName, jobTimestamp,
                 new MetadataPattern(["category":"page source", "profile": "ProductionEnv"]),
                 FileType.HTML)
 
-        List<Material> actual = storeImpl.select(jobName, jobTimestamp,
+        List<Material> right = storeImpl.select(jobName, jobTimestamp,
                 new MetadataPattern(["category":"page source", "profile": "DevelopmentEnv"]),
                 FileType.HTML)
 
         DiffArtifacts diffArtifacts =
-                storeImpl.zipMaterials(expected, actual,
+                storeImpl.zipMaterials(left, right,
                         new MetadataIgnoredKeys.Builder()
                                 .ignoreKey("profile")
                                 .ignoreKey("URL")

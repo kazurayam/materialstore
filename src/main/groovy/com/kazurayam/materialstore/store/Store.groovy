@@ -40,11 +40,11 @@ interface Store {
                    FileType fileType, Metadata meta, String input,
                    Charset charset)
 
-    DiffArtifacts zipMaterials(List<Material> expected, List<Material> actual, MetadataIgnoredKeys ignoredKeys)
+    DiffArtifacts zipMaterials(List<Material> left, List<Material> right, MetadataIgnoredKeys ignoredKeys)
 
-    DiffArtifacts makeDiff(List<Material> expected, List<Material> actual)
+    DiffArtifacts makeDiff(List<Material> left, List<Material> right)
 
-    DiffArtifacts makeDiff(List<Material> expected, List<Material> actual, MetadataIgnoredKeys ignoredKeys)
+    DiffArtifacts makeDiff(List<Material> left, List<Material> right, MetadataIgnoredKeys ignoredKeys)
 
     Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, String fileName)
 
