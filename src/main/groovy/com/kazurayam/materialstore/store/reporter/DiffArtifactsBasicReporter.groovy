@@ -44,7 +44,7 @@ class DiffArtifactsBasicReporter implements DiffReporter {
     }
 
     @Override
-    int reportDiffs(DiffArtifacts diffArtifacts, String reportFileName) {
+    int reportDiffs(DiffArtifacts diffArtifacts, String reportFileName = "index.html") {
         Objects.requireNonNull(diffArtifacts)
         Objects.requireNonNull(reportFileName)
         //
@@ -101,8 +101,7 @@ class DiffArtifactsBasicReporter implements DiffReporter {
                                 div(id: "collapse${index+1}",
                                         class: "according-collapse collapse",
                                         "aria-labelledby": "heading${index+1}",
-                                        "data-bs-parent": "#diff-contents"
-                                ) {
+                                        "data-bs-parent": "#diff-contents") {
                                     mb.div(class: "accordion-body") {
                                         makeModalSubsection(mb, da, index+1)
                                         makeMaterialSubsection(mb, "left", da.getLeft())

@@ -34,7 +34,7 @@ class DiffArtifactsBasicReporterTest {
     void test_reportDiffs() {
         Path root = outputDir.resolve("Materials")
         Store store = new StoreImpl(root)
-        JobName jobName = new JobName("test_smoke")
+        JobName jobName = new JobName("test_reportDiffs")
         // make sure the Job directory to be empty
         FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
         // stuff the Job directory with a fixture

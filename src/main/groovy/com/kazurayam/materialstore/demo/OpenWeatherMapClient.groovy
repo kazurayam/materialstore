@@ -8,6 +8,7 @@ import com.kazurayam.materialstore.store.Metadata
 import com.kazurayam.materialstore.store.MetadataPattern
 import com.kazurayam.materialstore.store.Store
 import com.kazurayam.materialstore.store.Stores
+import com.kazurayam.materialstore.store.reporter.MaterialsBasicReporter
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import org.apache.http.NameValuePair
@@ -108,13 +109,16 @@ class OpenWeatherMapClient {
             // retrieve the JSON file from the Material directory
             List<Material> materials = store.select(jobName, jobTimestamp,
                     MetadataPattern.create(metadata), FileType.JSON)
-            assert materials.size() == 1
+
+            // make a html report
+            MaterialsBasicReporter reporter = new MaterialsBasicReporter(
+                    store.getRoot(), jobName)
+            int materialsCount = reporter.reportList(materials, "list.html")
+            assert materialsCount == 1
+
+            // alternatively, print a small portion of the Material file into the console
             File jsonFile = materials.get(0).toFile(store.getRoot())
-
-            // extract a small portion of weather forecast data
             def jsonObj = new JsonSlurper().parse(jsonFile)
-
-            // println the data to the console
             String listItemStr = JsonOutput.toJson(jsonObj["list"][0])
             println JsonOutput.prettyPrint(listItemStr)
 
