@@ -48,6 +48,8 @@ interface Store {
 
     Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, String fileName)
 
+    Path reportMaterials(JobName jobName, List<Material> materials, String fileName)
+
     List<JobTimestamp> findAllJobTimestamps(JobName jobName)
 
     List<JobTimestamp> findAllJobTimestampsPriorTo(JobName jobName, JobTimestamp jobTimestamp)
