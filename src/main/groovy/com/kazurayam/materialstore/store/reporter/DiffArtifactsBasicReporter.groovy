@@ -15,9 +15,9 @@ import java.nio.file.Path
 
 import groovy.json.JsonOutput
 
-class DiffReporterToHTML implements DiffReporter {
+class DiffArtifactsBasicReporter implements DiffReporter {
 
-    private static final Logger logger = LoggerFactory.getLogger(DiffReporterToHTML.class)
+    private static final Logger logger = LoggerFactory.getLogger(DiffArtifactsBasicReporter.class)
 
     private final Path root_
 
@@ -25,7 +25,7 @@ class DiffReporterToHTML implements DiffReporter {
 
     private Double criteria_ = 0.0d
 
-    DiffReporterToHTML(Path root, JobName jobName) {
+    DiffArtifactsBasicReporter(Path root, JobName jobName) {
         Objects.requireNonNull(root)
         Objects.requireNonNull(jobName)
         if (! Files.exists(root)) {

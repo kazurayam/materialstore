@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.store
 
 import com.kazurayam.materialstore.MaterialstoreException
-import com.kazurayam.materialstore.store.reporter.DiffReporterToHTML
+import com.kazurayam.materialstore.store.reporter.DiffArtifactsBasicReporter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -64,7 +64,7 @@ class StoreImpl implements Store {
     }
 
     DiffReporter newReporter(JobName jobName) {
-        return new DiffReporterToHTML(root_, jobName)
+        return new DiffArtifactsBasicReporter(root_, jobName)
     }
 
     @Override

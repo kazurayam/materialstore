@@ -13,11 +13,11 @@ import java.nio.file.Paths
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertTrue
 
-class DiffReporterToHTMLTest {
+class DiffArtifactsBasicReporterTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(DiffReporterToHTMLTest.class.getName())
+                    .resolve(DiffArtifactsBasicReporterTest.class.getName())
 
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
@@ -71,8 +71,8 @@ class DiffReporterToHTMLTest {
 
     @Test
     void test_decideToBeWarned() {
-        assertEquals(false, DiffReporterToHTML.decideToBeWarned(0.00d, 0.0d))
-        assertEquals(true, DiffReporterToHTML.decideToBeWarned(1.23d, 0.0d))
-        assertEquals(false, DiffReporterToHTML.decideToBeWarned(1.23d, 25.0d))
+        assertEquals(false, DiffArtifactsBasicReporter.decideToBeWarned(0.00d, 0.0d))
+        assertEquals(true, DiffArtifactsBasicReporter.decideToBeWarned(1.23d, 0.0d))
+        assertEquals(false, DiffArtifactsBasicReporter.decideToBeWarned(1.23d, 25.0d))
     }
 }
