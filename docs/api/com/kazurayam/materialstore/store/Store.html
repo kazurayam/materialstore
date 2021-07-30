@@ -141,56 +141,56 @@ if (location.href.indexOf('is-external=true') == -1) {
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>int</code></td>
+                            <td class="colLast"><code><strong><a href="#deleteMaterialsOlderThanExclusive(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.JobTimestamp, long, java.time.temporal.TemporalUnit)">deleteMaterialsOlderThanExclusive</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a> jobTimestamp, long amountToSubtract, java.time.temporal.TemporalUnit unit)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html' title='JobTimestamp'>JobTimestamp</a>&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#findAllJobTimestamps(com.kazurayam.materialstore.store.JobName)">findAllJobTimestamps</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName)</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html' title='JobTimestamp'>JobTimestamp</a>&gt;</code></td>
                             <td class="colLast"><code><strong><a href="#findAllJobTimestampsPriorTo(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.JobTimestamp)">findAllJobTimestampsPriorTo</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a> jobTimestamp)</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a></code></td>
                             <td class="colLast"><code><strong><a href="#findJobTimestampPriorTo(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.JobTimestamp)">findJobTimestampPriorTo</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a> jobTimestamp)</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a></code></td>
                             <td class="colLast"><code><strong><a href="#findLatestJobTimestamp(com.kazurayam.materialstore.store.JobName)">findLatestJobTimestamp</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName)</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.nio.file.Path</code></td>
                             <td class="colLast"><code><strong><a href="#getRoot()">getRoot</a></strong>()</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a></code></td>
-                            <td class="colLast"><code><strong><a href="#makeDiff(List<Material>, List<Material>)">makeDiff</a></strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual)</code><br></td>
-                        </tr>
-                        
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a></code></td>
-                            <td class="colLast"><code><strong><a href="#makeDiff(List<Material>, List<Material>, com.kazurayam.materialstore.store.MetadataIgnoredKeys)">makeDiff</a></strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, <a href='../../../../com/kazurayam/materialstore/store/MetadataIgnoredKeys.html'>MetadataIgnoredKeys</a> ignoredKeys)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#makeDiff(List<Material>, List<Material>)">makeDiff</a></strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; left, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; right)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a></code></td>
+                            <td class="colLast"><code><strong><a href="#makeDiff(List<Material>, List<Material>, com.kazurayam.materialstore.store.MetadataIgnoredKeys)">makeDiff</a></strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; left, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; right, <a href='../../../../com/kazurayam/materialstore/store/MetadataIgnoredKeys.html'>MetadataIgnoredKeys</a> ignoredKeys)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.nio.file.Path</code></td>
                             <td class="colLast"><code><strong><a href="#reportDiffs(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.DiffArtifacts, java.lang.String)">reportDiffs</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> diffArtifacts, java.lang.String fileName)</code><br></td>
-                        </tr>
-                        
-                        <tr class="altColor">
-                            <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt;</code></td>
-                            <td class="colLast"><code><strong><a href="#select(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.JobTimestamp)">select</a></strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a> jobTimestamp)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
@@ -250,7 +250,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a></code></td>
-                            <td class="colLast"><code><strong><a href="#zipMaterials(List<Material>, List<Material>, com.kazurayam.materialstore.store.MetadataIgnoredKeys)">zipMaterials</a></strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, <a href='../../../../com/kazurayam/materialstore/store/MetadataIgnoredKeys.html'>MetadataIgnoredKeys</a> ignoredKeys)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#zipMaterials(List<Material>, List<Material>, com.kazurayam.materialstore.store.MetadataIgnoredKeys)">zipMaterials</a></strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; left, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; right, <a href='../../../../com/kazurayam/materialstore/store/MetadataIgnoredKeys.html'>MetadataIgnoredKeys</a> ignoredKeys)</code><br></td>
                         </tr>
                         
                     </table>
@@ -284,6 +284,14 @@ if (location.href.indexOf('is-external=true') == -1) {
                     <!--   -->
                 </a>
                     <h3>Method Detail</h3>
+                    
+                        <a name="deleteMaterialsOlderThanExclusive(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.JobTimestamp, long, java.time.temporal.TemporalUnit)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>int <strong>deleteMaterialsOlderThanExclusive</strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a> jobTimestamp, long amountToSubtract, java.time.temporal.TemporalUnit unit)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
                     
                         <a name="findAllJobTimestamps(com.kazurayam.materialstore.store.JobName)"><!-- --></a>
                         <ul class="blockListLast">
@@ -328,7 +336,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="makeDiff(List<Material>, List<Material>)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> <strong>makeDiff</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual)</h4>
+                                <h4><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> <strong>makeDiff</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; left, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; right)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -336,7 +344,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="makeDiff(List<Material>, List<Material>, com.kazurayam.materialstore.store.MetadataIgnoredKeys)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> <strong>makeDiff</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, <a href='../../../../com/kazurayam/materialstore/store/MetadataIgnoredKeys.html'>MetadataIgnoredKeys</a> ignoredKeys)</h4>
+                                <h4><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> <strong>makeDiff</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; left, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; right, <a href='../../../../com/kazurayam/materialstore/store/MetadataIgnoredKeys.html'>MetadataIgnoredKeys</a> ignoredKeys)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -345,14 +353,6 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>java.nio.file.Path <strong>reportDiffs</strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> diffArtifacts, java.lang.String fileName)</h4>
-                                <p></p>
-                            </li>
-                        </ul>
-                    
-                        <a name="select(com.kazurayam.materialstore.store.JobName, com.kazurayam.materialstore.store.JobTimestamp)"><!-- --></a>
-                        <ul class="blockListLast">
-                            <li class="blockList">
-                                <h4>java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; <strong>select</strong>(<a href='../../../../com/kazurayam/materialstore/store/JobName.html'>JobName</a> jobName, <a href='../../../../com/kazurayam/materialstore/store/JobTimestamp.html'>JobTimestamp</a> jobTimestamp)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -432,7 +432,7 @@ if (location.href.indexOf('is-external=true') == -1) {
                         <a name="zipMaterials(List<Material>, List<Material>, com.kazurayam.materialstore.store.MetadataIgnoredKeys)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> <strong>zipMaterials</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; expected, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; actual, <a href='../../../../com/kazurayam/materialstore/store/MetadataIgnoredKeys.html'>MetadataIgnoredKeys</a> ignoredKeys)</h4>
+                                <h4><a href='../../../../com/kazurayam/materialstore/store/DiffArtifacts.html'>DiffArtifacts</a> <strong>zipMaterials</strong>(java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; left, java.util.List&lt;<a href='../../../../com/kazurayam/materialstore/store/Material.html' title='Material'>Material</a>&gt; right, <a href='../../../../com/kazurayam/materialstore/store/MetadataIgnoredKeys.html'>MetadataIgnoredKeys</a> ignoredKeys)</h4>
                                 <p></p>
                             </li>
                         </ul>
