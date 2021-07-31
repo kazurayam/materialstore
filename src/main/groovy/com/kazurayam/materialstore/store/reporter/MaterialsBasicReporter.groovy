@@ -29,13 +29,11 @@ class MaterialsBasicReporter {
         this.jobName_ = jobName
     }
 
-    int reportList(List<Material> materials, String reportFileName = "list.html") {
+    Path reportMaterials(List<Material> materials, String reportFileName = "list.html") {
         Objects.requireNonNull(materials)
         Objects.requireNonNull(reportFileName)
         //
         Path reportFile = root_.resolve(reportFileName)
-        //
-        int materialsCount = 0
         //
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
@@ -57,7 +55,6 @@ class MaterialsBasicReporter {
                     div(class: "accordion",
                             id:"materials-content") {
                         materials.eachWithIndex { Material material, int index ->
-                            materialsCount += 1
                             div(id: "accordion${index+1}",
                                     class: "accordion-item") {
                                 h2(id: "heading${index+1}",
@@ -93,7 +90,7 @@ class MaterialsBasicReporter {
             }
         }
         reportFile.toFile().text = "<!doctype html>\n" + sw.toString()
-        return materialsCount
+        return reportFile
     }
 
     private static void makeAccordionBody(Path root, MarkupBuilder mb, Material material) {

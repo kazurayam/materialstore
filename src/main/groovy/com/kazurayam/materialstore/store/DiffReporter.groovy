@@ -1,5 +1,7 @@
 package com.kazurayam.materialstore.store
 
+import java.nio.file.Path
+
 interface DiffReporter {
 
     /**
@@ -16,6 +18,6 @@ interface DiffReporter {
      * @param reportFileName
      * @return number of diffActifacts exceeding the given criteria
      */
-    int reportDiffs(DiffArtifacts diffArtifacts, String reportFileName)
+    Path reportDiffs(DiffArtifacts diffArtifacts, String reportFileName)
 
 }

@@ -62,11 +62,9 @@ class DiffArtifactsBasicReporterTest {
 
         // compile HTML report
         DiffReporter reporter = store.newReporter(jobName)
-        int warnCount = reporter.reportDiffs(stuffedDiffArtifacts, "index.html")
-        assertTrue(warnCount > 0)
+        Path report = reporter.reportDiffs(stuffedDiffArtifacts, "index.html")
+        assertTrue(Files.exists(report))
 
-        Path reportFile = root.resolve("index.html")
-        assertTrue(Files.exists(reportFile))
     }
 
     @Test

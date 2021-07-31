@@ -51,9 +51,8 @@ class MaterialsBasicReporterTest {
                 new MetadataPattern(["profile": "ProductionEnv"]))
         assertTrue(list.size() > 0, "list is empty")
         String fileName = "list.html"
-        int materialsCount = reporter.reportList(list, fileName)
+        Path report = reporter.reportMaterials(list, fileName)
         //
-        assertTrue(Files.exists(root.resolve(fileName)))
-        assertEquals(3, materialsCount)
+        assertTrue(Files.exists(report))
     }
 }

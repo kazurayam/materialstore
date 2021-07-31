@@ -83,7 +83,8 @@ class VisualTestingTwins {
         println "countWarnings: ${countWarnings}"
 
         // compile HTML report
-        Path file = store.reportDiffs(jobName, stuffedDiffArtifacts, "index.html")
+        Path file = store.reportDiffs(jobName, stuffedDiffArtifacts, 0.0d, "index.html")
+        println("The report can be found at ${file.toString()}")
     }
 
     /**

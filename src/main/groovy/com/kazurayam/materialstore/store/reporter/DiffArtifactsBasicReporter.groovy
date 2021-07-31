@@ -40,17 +40,15 @@ class DiffArtifactsBasicReporter implements DiffReporter {
         if (criteria < 0.0 || 100.0 < criteria) {
             throw new IllegalArgumentException("criteria(${criteria}) must be in the range of [0,100)")
         }
-        this.criteria = criteria
+        this.criteria_ = criteria
     }
 
     @Override
-    int reportDiffs(DiffArtifacts diffArtifacts, String reportFileName = "index.html") {
+    Path reportDiffs(DiffArtifacts diffArtifacts, String reportFileName = "index.html") {
         Objects.requireNonNull(diffArtifacts)
         Objects.requireNonNull(reportFileName)
         //
         Path reportFile = root_.resolve(reportFileName)
-        //
-        int warnCount = 0
         //
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
@@ -85,9 +83,6 @@ class DiffArtifactsBasicReporter implements DiffReporter {
 
                                         Double diffRatio = da.getDiffRatio()
                                         Boolean toBeWarned = decideToBeWarned(diffRatio, criteria_)
-                                        if (toBeWarned) {
-                                            warnCount += 1
-                                        }
 
                                         String warningClass = getWarningClass(toBeWarned)
                                         span(class: "ratio ${warningClass}",
@@ -121,7 +116,7 @@ class DiffArtifactsBasicReporter implements DiffReporter {
         }
         reportFile.toFile().text = "<!doctype html>\n" + sw.toString()
 
-        return warnCount
+        return reportFile
     }
 
     private static void makeModalSubsection(MarkupBuilder mb, DiffArtifact da, Integer seq) {
@@ -176,7 +171,7 @@ class DiffArtifactsBasicReporter implements DiffReporter {
                                                             .getRelativeURL())
                                         }
                                         div(class: "carousel-item") {
-                                            h3(class: "centered","right")
+                                            h3(class: "centered","Right")
                                             img(class: "img-fluid d-block w-75 centered",
                                                     alt: "right",
                                                     src: da.getRight()

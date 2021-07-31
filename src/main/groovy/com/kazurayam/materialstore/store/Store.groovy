@@ -46,7 +46,9 @@ interface Store {
 
     DiffArtifacts makeDiff(List<Material> left, List<Material> right, MetadataIgnoredKeys ignoredKeys)
 
-    Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, String fileName)
+    Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, Double criteria, String fileName)
+
+    Path reportMaterials(JobName jobName, List<Material> materials, String fileName)
 
     List<JobTimestamp> findAllJobTimestamps(JobName jobName)
 

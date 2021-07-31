@@ -83,8 +83,8 @@ class StoreTest {
         println "found ${warnings} differences"
 
         // compile HTML report
-        Path reportFile = store.reportDiffs(jobName,
-                stuffedDiffArtifacts, "index.html")
+        Path reportFile = store.reportDiffs(jobName, stuffedDiffArtifacts,
+                0.0d,"index.html")
         assertTrue(Files.exists(reportFile))
     }
 

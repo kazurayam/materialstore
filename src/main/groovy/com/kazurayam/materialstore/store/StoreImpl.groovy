@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.store
 
 import com.kazurayam.materialstore.MaterialstoreException
 import com.kazurayam.materialstore.store.reporter.DiffArtifactsBasicReporter
+import com.kazurayam.materialstore.store.reporter.MaterialsBasicReporter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -68,11 +69,24 @@ class StoreImpl implements Store {
     }
 
     @Override
-    Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, String fileName) {
+    Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, Double criteria, String fileName) {
         DiffReporter reporter = this.newReporter(jobName)
+        reporter.setCriteria(criteria)
         reporter.reportDiffs(diffArtifacts, fileName)
         return root.resolve(fileName)
     }
+
+    @Override
+    Path reportMaterials(JobName jobName, List<Material> materials,
+                         String fileName = "list.html") {
+        Objects.requireNonNull(jobName)
+        Objects.requireNonNull(materials)
+        Objects.requireNonNull(fileName)
+        MaterialsBasicReporter reporter =
+                new MaterialsBasicReporter(this.root, jobName)
+        return reporter.reportMaterials(materials, fileName)
+    }
+
 
     @Override
     Material write(JobName jobName, JobTimestamp jobTimestamp,

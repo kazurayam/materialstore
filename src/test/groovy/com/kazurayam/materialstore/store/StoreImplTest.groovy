@@ -45,6 +45,7 @@ class StoreImplTest {
         assertEquals("Materials", store.getRoot().getFileName().toString())
     }
 
+
     @Test
     void test_getJobResult() {
         Path root = outputDir.resolve("Materials")
@@ -304,6 +305,20 @@ class StoreImplTest {
          * - 20210713_093357/index
          * - 20210713_093357/
          */
+    }
+
+    @Test
+    void test_reportMaterials() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_reportMaterials")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
+        List<Material> materials = store.select(jobName, jobTimestamp, MetadataPattern.ANY)
+        Path report = store.reportMaterials(jobName, materials, "list.html")
+        assertNotNull(report)
+        assertTrue(Files.exists(report))
     }
 
 
