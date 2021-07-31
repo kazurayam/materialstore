@@ -90,12 +90,12 @@ class DiffArtifactsBasicReporter implements DiffReporter {
                                         }
 
                                         String warningClass = getWarningClass(toBeWarned)
-                                        span(class: "description ${warningClass}",
-                                                da.getDescription())
-                                        span(class: "fileType ${warningClass}",
-                                                da.getRight().getIndexEntry().getFileType().getExtension())
                                         span(class: "ratio ${warningClass}",
                                                 "${DifferUtil.formatDiffRatioAsString(diffRatio)}%")
+                                        span(class: "fileType",
+                                                da.getRight().getIndexEntry().getFileType().getExtension())
+                                        span(class: "description",
+                                                da.getDescription())
                                     }
                                 }
                                 div(id: "collapse${index+1}",
@@ -324,19 +324,19 @@ dl dd {
 }
 .description, .fileType, .ratio {
     padding-top: 4px;
-    padding-right: 20px;
+    padding-right: 4px;
     padding-bottom: 4px;
     padding-left: 4px;
     text-align: left;
 }
-.description {
-    flex-basis: 80%;
+.ratio {
+    flex-basis: 6%;
+    text-align: right;
 }
 .filetype {
-    flex-basis: 10%;
+    flex-basis: 6%;
 }
-.ratio {
-    flex-basis: 10%;
+.description {
 }
 .warning {
     background-color: #e0ae00;
