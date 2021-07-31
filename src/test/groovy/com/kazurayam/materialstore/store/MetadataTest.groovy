@@ -142,7 +142,17 @@ class MetadataTest {
         Metadata metadata = new Metadata(["b": "B", "a": "A"])
         String s = metadata.toString()
         assertEquals(
-                '''{"a":"A","b":"B"}''',
+                '''{"a":"A", "b":"B"}''',
+                metadata.toString())
+    }
+
+    @Test
+    void test_toString_should_have_redundant_whitespaces() {
+        Metadata metadata = new Metadata(["a":"A","b":"B","c":"C"])
+        String s = metadata.toString()
+        assertEquals(
+                '''{"a":"A", "b":"B", "c":"C"}''',
+                // white spaces here ^ and    ^
                 metadata.toString())
     }
 

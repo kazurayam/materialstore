@@ -277,9 +277,9 @@ class StoreImplTest {
         assertNotNull(diffArtifacts)
         assertEquals(2, diffArtifacts.size(),
                 JsonOutput.prettyPrint(diffArtifacts.toString()))
-        assertEquals("""{"URL.file":"/","xpath":"//a[@id='btn-make-appointment']"}""",
+        assertEquals("""{"URL.file":"/", "xpath":"//a[@id='btn-make-appointment']"}""",
                 diffArtifacts.get(0).getDescription())
-        assertEquals("""{"URL.file":"/","xpath":"/html"}""",
+        assertEquals("""{"URL.file":"/", "xpath":"/html"}""",
                 diffArtifacts.get(1).getDescription())
 
     }

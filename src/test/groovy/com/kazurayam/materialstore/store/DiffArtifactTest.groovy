@@ -18,7 +18,7 @@ class DiffArtifactTest {
                         Material.NULL_OBJECT,
                         Material.NULL_OBJECT).descriptor(mp).build()
         assertEquals(
-                '''{"URL.file":"/","URL.host":"demoaut-mimic.kazurayam.com"}''',
+                '''{"URL.file":"/", "URL.host":"demoaut-mimic.kazurayam.com"}''',
                 diffArtifact.getDescription())
     }
 

@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.store
 
 import groovy.json.JsonOutput
+import com.kazurayam.materialstore.JsonUtil
 
 /**
  * Metadata is an immutable object.
@@ -120,7 +121,31 @@ class Metadata implements Comparable {
 
     @Override
     String toString() {
-        return new JsonOutput().toJson(metadata_)
+        //return new JsonOutput().toJson(metadata_)
+        StringBuilder sb = new StringBuilder()
+        int entryCount = 0
+        sb.append("{")
+        assert metadata_ != null, "metadata_ is null before iterating over keys"
+        //println "keys: ${metadata_.keySet()}"
+        List<String> keys = new ArrayList<String>(metadata_.keySet())
+        Map<String,String> copy = new HashMap<String,String>(metadata_)
+        Collections.sort(keys)
+        keys.each { key ->
+            if (entryCount > 0) {
+                sb.append(", ")    // comma followed by a white space
+            }
+            sb.append('"')
+            assert copy != null, "metadata_ is null for key=${key}"
+            sb.append(JsonUtil.escapeAsJsonString(key))
+            sb.append('"')
+            sb.append(':')
+            sb.append('"')
+            sb.append(JsonUtil.escapeAsJsonString(copy.get(key)))
+            sb.append('"')
+            entryCount += 1
+        }
+        sb.append("}")
+        return sb.toString()
     }
 
     Collection<String> values() {
