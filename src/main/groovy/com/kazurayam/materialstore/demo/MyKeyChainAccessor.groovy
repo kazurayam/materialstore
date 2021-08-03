@@ -1,5 +1,8 @@
 package com.kazurayam.materialstore.demo
 
+import com.kazurayam.subprocessj.CompletedProcess
+import com.kazurayam.subprocessj.Subprocess
+
 class MyKeyChainAccessor {
 
     MyKeyChainAccessor() {}
@@ -12,12 +15,12 @@ class MyKeyChainAccessor {
                 "/usr/bin/security", "find-internet-password",
                 "-s", server, "-a", account, "-w"]
         //println "command:${command}"
-        Subprocess.CompletedProcess cp = new Subprocess().process(command)
-        assert cp.getReturnCode() == 0
-        //println "stdout:${cp.getStdout()}"
-        //println "stderr:${cp.getStderr()}"
-        if (cp.getStdout().size() > 0) {
-            return cp.getStdout().get(0)
+        CompletedProcess cp = new Subprocess().run(command)
+        assert cp.returncode() == 0
+        //println "stdout:${cp.stdout()}"
+        //println "stderr:${cp.stderr()}"
+        if (cp.stdout().size() > 0) {
+            return cp.stdout().get(0)
         } else {
             return null
         }

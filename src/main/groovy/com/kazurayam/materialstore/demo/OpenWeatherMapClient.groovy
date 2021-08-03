@@ -113,8 +113,8 @@ class OpenWeatherMapClient {
             // make a html report
             MaterialsBasicReporter reporter = new MaterialsBasicReporter(
                     store.getRoot(), jobName)
-            int materialsCount = reporter.reportMaterials(materials, "list.html")
-            assert materialsCount == 1
+            Path report = reporter.reportMaterials(materials, "list.html")
+            assert Files.exists(report)
 
             // alternatively, print a small portion of the Material file into the console
             File jsonFile = materials.get(0).toFile(store.getRoot())
