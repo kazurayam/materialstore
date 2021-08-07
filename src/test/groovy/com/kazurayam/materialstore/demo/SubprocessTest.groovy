@@ -5,7 +5,7 @@ import java.util.stream.Collectors
 import static org.junit.jupiter.api.Assertions.*
 
 import com.kazurayam.subprocessj.Subprocess
-import com.kazurayam.subprocessj.CompletedProcess
+import com.kazurayam.subprocessj.Subprocess.CompletedProcess
 
 class SubprocessTest {
 

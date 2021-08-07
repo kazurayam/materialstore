@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.demo
 
-import com.kazurayam.subprocessj.CompletedProcess
+import com.kazurayam.subprocessj.Subprocess.CompletedProcess
 import com.kazurayam.subprocessj.Subprocess
 
 class MyKeyChainAccessor {

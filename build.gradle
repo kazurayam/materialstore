@@ -2,6 +2,7 @@ plugins {
     id 'groovy'
     id 'idea'
     id 'jacoco'
+    id 'maven-publish'
 }
 
 group 'com.kazurayam'
@@ -63,7 +64,8 @@ dependencies {
     // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.10'
 
-    implementation group: 'com.kazurayam', name: 'subprocessj', version: '0.1.0-SNAPSHOT'
+    // https://mvnrepository.com/artifact/com.kazurayam/subprocessj
+    implementation group: 'com.kazurayam', name: 'subprocessj', version: '0.1.0'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitjupiterVersion}"
