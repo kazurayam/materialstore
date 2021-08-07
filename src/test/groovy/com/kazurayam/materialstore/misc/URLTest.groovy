@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.misc
 
 import org.junit.jupiter.api.Test
+
 import static org.junit.jupiter.api.Assertions.assertEquals
 
 class URLTest {

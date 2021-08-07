@@ -1,9 +1,9 @@
 package com.kazurayam.materialstore.misc
 
-import com.kazurayam.materialstore.store.differ.TextDifferToHTML
+import com.kazurayam.materialstore.differ.TextDifferToHTML
 import org.junit.jupiter.api.Test
 
-import static org.junit.jupiter.api.Assertions.*
+import static org.junit.jupiter.api.Assertions.assertEquals
 
 /**
  * learning a Baeldung artidle

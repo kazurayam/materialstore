@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.misc
 
-import com.kazurayam.materialstore.store.differ.TextDifferToHTML
+import com.kazurayam.materialstore.differ.TextDifferToHTML
 import groovy.xml.MarkupBuilder
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -8,7 +8,8 @@ import org.junit.jupiter.api.Test
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-import static org.junit.jupiter.api.Assertions.*
+import static org.junit.jupiter.api.Assertions.assertEquals
+import static org.junit.jupiter.api.Assertions.assertNotEquals
 
 /**
  * This test class does 2 things.
