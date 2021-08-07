@@ -37,6 +37,11 @@ class MetadataTest {
         assertEquals(1, metadata1 <=> metadata2)
     }
 
+    @Test
+    void test_compareTo_dictionary_order() {
+
+    }
+
 
     @Test
     void test_containsKey() {

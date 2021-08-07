@@ -8,7 +8,7 @@ import groovy.json.JsonOutput
  */
 class DiffArtifact implements Comparable {
 
-    static final DiffArtifact NULL_OBJECT =
+    public static final DiffArtifact NULL_OBJECT =
             new Builder(Material.NULL_OBJECT, Material.NULL_OBJECT)
                     .descriptor(MetadataPattern.NULL_OBJECT)
                     .build()

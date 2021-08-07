@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.store
 
 class JobName implements Comparable {
 
-    static final JobName NULL_OBJECT = new JobName("_")
+    public static final JobName NULL_OBJECT = new JobName("_")
 
     String jobName_
 

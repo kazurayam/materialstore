@@ -60,4 +60,7 @@ interface Store {
 
     int deleteMaterialsOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp,
                                           long amountToSubtract, TemporalUnit unit)
+
+    Path getPathOf(Material material)
+
 }

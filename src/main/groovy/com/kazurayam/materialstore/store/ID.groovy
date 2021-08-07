@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.store
 
 class ID implements Comparable {
 
-    static final ID NULL_OBJECT = new ID("0" * 40)
+    public static final ID NULL_OBJECT = new ID("0" * 40)
 
     private String sha1_
 

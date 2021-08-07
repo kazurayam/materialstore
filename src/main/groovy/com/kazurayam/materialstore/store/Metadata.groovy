@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.JsonUtil
  */
 class Metadata implements Comparable {
 
-    static final Metadata NULL_OBJECT = new Metadata([:])
+    public static final Metadata NULL_OBJECT = new Metadata([:])
 
     private final Map<String, String> metadata_ = new TreeMap<String, String>()  // keys are sorted
 

@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.store
 
 class MetadataIgnoredKeys {
 
-    static final MetadataIgnoredKeys NULL_OBJECT = new Builder().build()
+    public static final MetadataIgnoredKeys NULL_OBJECT = new Builder().build()
 
     private Set<String> keySet
 

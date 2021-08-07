@@ -433,4 +433,11 @@ class StoreImpl implements Store {
         }
         return countDeleted
     }
+
+    @Override
+    Path getPathOf(Material material) {
+        Objects.requireNonNull(material)
+        Path relativePath = material.getRelativePath()
+        return this.getRoot().resolve(relativePath)
+    }
 }

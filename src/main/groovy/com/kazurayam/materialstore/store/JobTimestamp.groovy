@@ -9,7 +9,7 @@ import java.time.temporal.TemporalUnit
 
 class JobTimestamp implements Comparable {
 
-    static final JobTimestamp NULL_OBJECT = new JobTimestamp("_")
+    public static final JobTimestamp NULL_OBJECT = new JobTimestamp("_")
 
     static private DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("yyyyMMdd_kkmmss")

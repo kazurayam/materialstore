@@ -2,9 +2,9 @@ package com.kazurayam.materialstore.store
 
 class MetadataPattern extends Metadata {
 
-    static final MetadataPattern NULL_OBJECT = new MetadataPattern([:])
+    public static final MetadataPattern NULL_OBJECT = new MetadataPattern([:])
 
-    static final MetadataPattern ANY = new MetadataPattern(["*": "*"])
+    public static final MetadataPattern ANY = new MetadataPattern(["*": "*"])
 
     static MetadataPattern create(Metadata source) {
         return create(MetadataIgnoredKeys.NULL_OBJECT, source)

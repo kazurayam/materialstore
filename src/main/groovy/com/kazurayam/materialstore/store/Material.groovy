@@ -8,7 +8,7 @@ import java.nio.file.Paths
 
 class Material implements Comparable {
 
-    static final Material NULL_OBJECT =
+    public static final Material NULL_OBJECT =
             new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, IndexEntry.NULL_OBJECT)
 
     private final JobName jobName_

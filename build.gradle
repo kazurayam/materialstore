@@ -3,14 +3,16 @@ plugins {
     id 'idea'
     id 'jacoco'
     id 'maven-publish'
+    id 'signing'
 }
 
 group 'com.kazurayam'
-version '0.1.0'
+version '0.1.0-SNAPSHOT'
+
+ext.isReleaseVersion = ! version.endsWith("SNAPSHOT")
 
 repositories {
     mavenCentral()
-    mavenLocal()
 }
 
 sourceCompatibility = '1.8'
@@ -73,17 +75,14 @@ dependencies {
 
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 test {
     useJUnitPlatform()
     //finalizedBy jacocoTestReport
-
-    //include "**/store/differ/TextDifferToHTMLTest.class"
-    //include "**/store/differ/TextDifferToMarkdownTest.class"
-    //include "**/store/differ/ImageDifferToPNGTest.class"
-    //include "**/store/reporter/DiffReporterToHTMLTest.class"
-    //include "**/store/DifferDriverImplTest.class"
-    //include "**/store/StoreImplTest.class"
-    //include "**/store/StoreTest.class"
 }
 
 task publishGroovydoc(type: Copy) {
@@ -91,3 +90,59 @@ task publishGroovydoc(type: Copy) {
     into 'docs/api'
 }
 groovydoc.finalizedBy publishGroovydoc
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                groupId = project.group
+                name = project.rootProject.name
+                description = 'A Java/Groovy API to store objects (Page Screenshots, HTML, JSON, XML) collected during End-to-end testings empowered by diffing and reporting tools'
+                url = 'https://kazurayam.github.io/materialstore/'
+                from components.java
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'https://www.apache.org.licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'kazurayam'
+                        name = 'URAYAMA,kazuaki'
+                        email = 'kazuaki.urayama@gmail.com'
+                    }
+                }
+                scm {
+                    connection = "scm:git:https://github.com/kazurayam/${project.rootProject.name}.git"
+                    developerConnection = "scm:git:git@github.com:kazurayam/${project.rootProject.name}.git"
+                    url = "https://github.com/kazurayam/${project.rootProject.name}"
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            url = isReleaseVersion ? releaseRepo: snapshotRepo
+            credentials {
+                username = project.hasProperty('ossrhUsername') ? ossrhUsername : "Unknown user"
+                password = project.hasProperty('ossrhPassword') ? ossrhPassword : "Unknown password"
+            }
+        }
+    }
+}
+
+
+signing {
+    sign publishing.publications.mavenJava
+}
+// I do not want to sign the SNAPSHOT
+tasks.withType(Sign) {
+    onlyIf { isReleaseVersion }
+}

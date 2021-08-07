@@ -321,5 +321,18 @@ class StoreImplTest {
         assertTrue(Files.exists(report))
     }
 
+    @Test
+    void test_getPathOf() {
+        Path root = outputDir.resolve("Materials")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_getAbsolutePathOf")
+        TestFixtureUtil.setupFixture(store, jobName)
+        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
+        List<Material> materials = store.select(jobName, jobTimestamp, MetadataPattern.ANY)
+        Path abs = store.getPathOf(materials.get(0));
+        assertNotNull(abs)
+        println abs.toString()
+
+    }
 
 }
