@@ -1,5 +1,4 @@
 package com.kazurayam.materialstore
 
-interface Metadata {
-
+class IndexEntryTest {
 }

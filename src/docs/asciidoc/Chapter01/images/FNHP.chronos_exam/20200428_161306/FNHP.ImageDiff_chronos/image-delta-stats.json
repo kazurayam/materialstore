@@ -1,0 +1,113 @@
+{
+    "storageScannerOptions": {
+        "shiftCriteriaPercentageBy": 0.0,
+        "filterDataLessThan": 0.0,
+        "maximumNumberOfImageDeltas": 10,
+        "onlySince": "19990101_000000",
+        "onlySinceInclusive": true,
+        "probability": 0.95,
+        "projectDirectory": "",
+        "previousImageDeltaStats": "C:\\Users\\qcq0264\\quicksp\\VT_FNHP\\Storage\\FNHP.chronos_exam\\20200428_160543\\FNHP.ImageDiff_chronos\\image-delta-stats.json"
+    },
+    "imageDeltaStatsEntries": [
+        {
+            "TSuiteName": "FNHP.chronos_capture",
+            "materialStatsList": [
+                {
+                    "path": "FNHP.visitSites/03_\u767e\u5341\u56db\u9280\u884c_hjba.png",
+                    "degree": 4,
+                    "sum": 15.629999999999999,
+                    "mean": 3.9074999999999998,
+                    "variance": 2.2854275053461897,
+                    "standardDeviation": 1.5117630453699382,
+                    "tDistribution": 2.353363434801874,
+                    "confidenceInterval": {
+                        "lowerBound": 2.1286360634708306,
+                        "uppderBound": 5.686363936529169,
+                        "confidenceLevel": 0.95
+                    },
+                    "criteriaPercentage": 5.69,
+                    "data": [
+                        0.03,
+                        15.11,
+                        0.48,
+                        0.01
+                    ],
+                    "imageDeltaList": [
+                        {
+                            "a": "20200428_161305",
+                            "b": "20200428_160542",
+                            "d": 0.03,
+                            "cached": false
+                        },
+                        {
+                            "a": "20200428_160542",
+                            "b": "20200313_090601",
+                            "d": 15.11,
+                            "cached": true
+                        },
+                        {
+                            "a": "20200313_090601",
+                            "b": "20200312_164152",
+                            "d": 0.48,
+                            "cached": true
+                        },
+                        {
+                            "a": "20200312_164152",
+                            "b": "20200312_164046",
+                            "d": 0.01,
+                            "cached": true
+                        }
+                    ]
+                },
+                {
+                    "path": "FNHP.visitSites/19_\u5ca1\u5d0e\u4fe1\u7528\u91d1\u5eab_oska.png",
+                    "degree": 4,
+                    "sum": 1.18,
+                    "mean": 0.295,
+                    "variance": 0.533192571145821,
+                    "standardDeviation": 0.7302003636987734,
+                    "tDistribution": 2.353363434801874,
+                    "confidenceInterval": {
+                        "lowerBound": -0.5642134180038614,
+                        "uppderBound": 1.1542134180038615,
+                        "confidenceLevel": 0.95
+                    },
+                    "criteriaPercentage": 1.16,
+                    "data": [
+                        0.01,
+                        0.62,
+                        0.54,
+                        0.01
+                    ],
+                    "imageDeltaList": [
+                        {
+                            "a": "20200428_161305",
+                            "b": "20200428_160542",
+                            "d": 0.01,
+                            "cached": false
+                        },
+                        {
+                            "a": "20200428_160542",
+                            "b": "20200313_090601",
+                            "d": 0.62,
+                            "cached": true
+                        },
+                        {
+                            "a": "20200313_090601",
+                            "b": "20200312_164152",
+                            "d": 0.54,
+                            "cached": true
+                        },
+                        {
+                            "a": "20200312_164152",
+                            "b": "20200312_164046",
+                            "d": 0.01,
+                            "cached": true
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,31 @@
+{
+    "MaterialMetadataBundle": [
+        {
+            "MaterialMetadata": {
+                "MaterialPath": "FNHP.chronos_capture/20200428_160542/FNHP.visitSites/03_\u767e\u5341\u56db\u9280\u884c_hjba.png",
+                "TCaseName": "Test Cases/FNHP/visitSites",
+                "MaterialDescription": {
+                    "category": "",
+                    "description": ""
+                },
+                "InvokedMethodName": "resolveMaterialPath",
+                "FileName": "03_\u767e\u5341\u56db\u9280\u884c_hjba.png",
+                "ExecutionProfileName": "FNHP\u672c\u756a\u74b0\u5883 - \u9078\u629e\u3057\u305f\u884c\u3060\u3051"
+            }
+        },
+        {
+            "MaterialMetadata": {
+                "MaterialPath": "FNHP.chronos_capture/20200428_160542/FNHP.visitSites/19_\u5ca1\u5d0e\u4fe1\u7528\u91d1\u5eab_oska.png",
+                "TCaseName": "Test Cases/FNHP/visitSites",
+                "MaterialDescription": {
+                    "category": "",
+                    "description": ""
+                },
+                "InvokedMethodName": "resolveMaterialPath",
+                "SubPath": "",
+                "FileName": "19_\u5ca1\u5d0e\u4fe1\u7528\u91d1\u5eab_oska.png",
+                "ExecutionProfileName": "FNHP\u672c\u756a\u74b0\u5883 - \u9078\u629e\u3057\u305f\u884c\u3060\u3051"
+            }
+        }
+    ]
+}
