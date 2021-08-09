@@ -12,5 +12,6 @@ interface Metadata extends MapLike, Comparable {
     String KEY_URL_HOST = "URL.host"
     String KEY_URL_PATH = "URL.path"
     String KEY_URL_QUERY = "URL.query"
+    String KEY_URL_FRAGMENT = "URL.fragment"
 
 }

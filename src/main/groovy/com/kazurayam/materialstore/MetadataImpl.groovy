@@ -196,10 +196,17 @@ class MetadataImpl implements Metadata {
             Objects.requireNonNull(url)
             metadata.put(Metadata.KEY_URL_PROTOCOL, url.getProtocol())
             metadata.put(Metadata.KEY_URL_HOST, url.getHost())
-            metadata.put(Metadata.KEY_URL_PATH, url.getPath())
-            String query = url.getQuery()
-            if (query != null) {
-                metadata.put(Metadata.KEY_URL_QUERY, query)
+            if (url.getPath() != null) {
+                metadata.put(Metadata.KEY_URL_PATH, url.getPath())
+            }
+            if (url.getQuery() != null) {
+                metadata.put(Metadata.KEY_URL_QUERY, url.getQuery())
+            }
+            int posHash = url.toString().indexOf("#")
+            if (posHash >= 0) {
+                metadata.put(Metadata.KEY_URL_FRAGMENT, url.toString().substring(posHash + 1))
+            } else {
+                ; // no fragment found in the URL
             }
         }
         Builder put(String key, String value) {
