@@ -8,12 +8,12 @@ class JobName implements Comparable {
 
     JobName(String jobName) {
         if (!isValid(jobName)) {
-            throw new IllegalArgumentException("${jobName} is not a valid JobName")
+            throw new IllegalArgumentException("\"${jobName}\" is not a valid JobName")
         }
         this.jobName_ = jobName
     }
 
-    static boolean isValid(String s) {
+    static boolean isValid(String s) throws IllegalArgumentException {
         if (s == "_") {
             return true
         }

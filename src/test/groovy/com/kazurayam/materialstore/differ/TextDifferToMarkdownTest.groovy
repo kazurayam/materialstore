@@ -27,11 +27,11 @@ class TextDifferToMarkdownTest {
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         //
         List<Material> left = storeImpl.select(jobName, jobTimestamp,
-                new MetadataPattern(["category":"page source", "profile": "ProductionEnv"]),
+                new MetadataPattern.Builder(["category":"page source", "profile": "ProductionEnv"]).build(),
                 FileType.HTML)
 
         List<Material> right = storeImpl.select(jobName, jobTimestamp,
-                new MetadataPattern(["category":"page source", "profile": "DevelopmentEnv"]),
+                new MetadataPattern.Builder(["category":"page source", "profile": "DevelopmentEnv"]).build(),
                 FileType.HTML)
 
         DiffArtifacts diffArtifacts =

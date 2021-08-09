@@ -43,7 +43,8 @@ class MaterialsBasicReporterTest {
                 new MaterialsBasicReporter(root, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         List<Material> list = store.select(jobName, jobTimestamp,
-                new MetadataPattern(["profile": "ProductionEnv"]))
+                new MetadataPattern.Builder(["profile": "ProductionEnv"]).build()
+        )
         assertTrue(list.size() > 0, "list is empty")
         String fileName = "list.html"
         Path report = reporter.reportMaterials(list, fileName)

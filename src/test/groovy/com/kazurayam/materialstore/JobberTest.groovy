@@ -60,7 +60,9 @@ class JobberTest {
         JobName jobName = new JobName("test_write")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber jobber = repos.getJobber(jobName, jobTimestamp)
-        Metadata metadata = new Metadata(["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.katalon.com/"])
+        Metadata metadata = new MetadataImpl.Builder(
+                ["profile": "DevelopmentEnv",
+                 "URL": "http://demoaut-mimic.katalon.com/"]).build()
         BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, FileType.PNG.getExtension(), baos);
@@ -77,7 +79,8 @@ class JobberTest {
         JobName jobName = new JobName("test_write_duplicating_metadata")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber jobber = repos.getJobber(jobName, jobTimestamp)
-        Metadata metadata = new Metadata(["profile":"SomeEnv", "URL":"http://example.com"])
+        Metadata metadata = new MetadataImpl.Builder(
+                ["profile":"SomeEnv", "URL":"http://example.com"]).build()
         byte[] data = "foo".getBytes()
         jobber.write(data, FileType.TXT, metadata)
         MaterialstoreException thrown = assertThrows(MaterialstoreException.class, { ->
@@ -95,11 +98,13 @@ class JobberTest {
         Jobber jobber = repos.getJobber(jobName, jobTimestamp)
         byte[] data = "foo".getBytes()
         //
-        Metadata metadata1 = new Metadata(["profile":"ProductionEnv", "URL":"http://example.com"])
+        Metadata metadata1 = new MetadataImpl.Builder(
+                ["profile":"ProductionEnv", "URL":"http://example.com"]).build()
         Material material1 = jobber.write(data, FileType.TXT, metadata1)
         assert material1 != null
         //
-        Metadata metadata2 = new Metadata(["profile":"DevelopmentEnv", "URL":"http://example.com"])
+        Metadata metadata2 = new MetadataImpl.Builder(
+                ["profile":"DevelopmentEnv", "URL":"http://example.com"]).build()
         Material material2 = jobber.write(data, FileType.TXT, metadata2)
         assert material2 != null
     }
@@ -129,6 +134,7 @@ class JobberTest {
         Jobber jobber = new Jobber(root, jobName, jobTimestamp)
         Material material = jobber.selectMaterial(
                 new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"))
+        assert material != null
         byte[] data = jobber.read(material)
         assertNotNull(data)
     }
@@ -157,14 +163,17 @@ class JobberTest {
         JobName jobName = new JobName("test_selectMaterials_with_FileType")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber jobber = repos.getJobber(jobName, jobTimestamp)
-        Metadata metadata = new Metadata(["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.katalon.com/"])
+        Metadata metadata = new MetadataImpl.Builder(
+                ["profile": "DevelopmentEnv",
+                 "URL": "http://demoaut-mimic.katalon.com/"]).build()
         BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, FileType.PNG.getExtension(), baos);
         byte[] data = baos.toByteArray()
         Material material = jobber.write(data, FileType.PNG, metadata)
         //
-        MetadataPattern pattern = new MetadataPattern([ "profile": "*", "URL": "*"])
+        MetadataPattern pattern = new MetadataPattern.Builder(
+                [ "profile": "*", "URL": "*"]).build()
         List<Material> materials = jobber.selectMaterials(pattern, FileType.PNG)
         assertNotNull(materials)
         assertEquals(1, materials.size())
@@ -179,7 +188,8 @@ class JobberTest {
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         Jobber jobber = new Jobber(root, jobName, jobTimestamp)
-        MetadataPattern pattern = new MetadataPattern(["profile": "DevelopmentEnv", "URL": "*"])
+        MetadataPattern pattern = new MetadataPattern.Builder(
+                ["profile": "DevelopmentEnv", "URL": "*"]).build()
         // select without FileType
         List<Material> materials = jobber.selectMaterials(pattern)
         assertNotNull(materials)

@@ -8,88 +8,62 @@ import org.apache.http.NameValuePair
 /**
  * Metadata is an immutable object.
  */
-class Metadata implements Comparable {
+class MetadataImpl implements Metadata {
 
-    public static final Metadata NULL_OBJECT = new Builder().build()
 
     private final Map<String, String> metadata
 
-    private Metadata(Builder builder) {
+
+    private MetadataImpl(Builder builder) {
         this.metadata = builder.metadata
     }
 
-    @Override
-    int compareTo(Object obj) {
-        if (! obj instanceof Metadata) {
-            throw new IllegalArgumentException("obj is not instance of Metadata")
-        }
-        Metadata other = (Metadata)(obj)
-        return this.toString() <=> other.toString()
-    }
+    // ------------ implements MapLike -------------------
 
-    boolean containsKey(Object key) {
+    @Override
+    boolean containsKey(String key) {
         return metadata.containsKey((String)key)
     }
 
-    boolean containsValue(Object value) {
-        return metadata.containsValue((String)value)
-    }
-
-    Set<Map.Entry<String, String>> entrySet() {
-        return metadata.entrySet()
-    }
-
     @Override
-    boolean equals(Object obj) {
-        if (! obj instanceof Metadata) {
-            return false
-        }
-        Metadata other = (Metadata)obj
-        if (other.size() != other.metadata.size()) {
-            return false
-        }
-        //
-        Set otherKeySet = other.keySet()
-        if (this.keySet() != otherKeySet) {
-            return false
-        }
-        //
-        boolean result = true
-        this.keySet().each { key ->
-            if (this.get(key) != other.get(key)) {
-                result = false
-                return
-            }
-        }
-        return result
-    }
-
     String get(String key) {
         return metadata.get(key)
     }
 
     @Override
-    int hashCode() {
-        int hash = 7
-        this.keySet().each { key ->
-            hash = 31 * hash + key.hashCode()
-            hash = 31 * hash + this.get(key).hashCode()
-        }
-        return hash
-    }
-
     boolean isEmpty() {
         return metadata.isEmpty()
     }
 
-    /**
-     * will return sorted set of keys, as the metadata_ is an instance of TreeSet
-     * @return
-     */
+    @Override
     Set<String> keySet() {
         return metadata.keySet()
     }
 
+    @Override
+    int size()  {
+        metadata.size()
+    }
+
+    @Override
+    URL toURL() {
+        if (metadata.containsKey(Metadata.KEY_URL_HOST)) {
+            StringBuilder sb = new StringBuilder()
+            sb.append(metadata.get(Metadata.KEY_URL_PROTOCOL))
+            sb.append("://")
+            sb.append(metadata.get(Metadata.KEY_URL_HOST))
+            sb.append(metadata.get(Metadata.KEY_URL_PATH))
+            if (metadata.containsKey(Metadata.KEY_URL_QUERY)) {
+                sb.append("?")
+                sb.append(metadata.get(Metadata.KEY_URL_QUERY))
+            }
+            return new URL(sb.toString())
+        } else {
+            return null
+        }
+    }
+
+    // -------------- Metadata -------------------
     /**
      *
      * @param metadataPattern
@@ -116,8 +90,42 @@ class Metadata implements Comparable {
         return result
     }
 
-    int size()  {
-        metadata.size()
+    // ------- overriding java.lang.Object -------
+
+    @Override
+    boolean equals(Object obj) {
+        if (! obj instanceof MetadataImpl) {
+            return false
+        }
+        MetadataImpl other = (MetadataImpl)obj
+        if (other.size() != other.metadata.size()) {
+            return false
+        }
+        //
+        Set otherKeySet = other.keySet()
+        if (this.keySet() != otherKeySet) {
+            return false
+        }
+        //
+        boolean result = true
+        this.keySet().each { key ->
+            if (this.get(key) != other.get(key)) {
+                result = false
+                return
+            }
+        }
+        return result
+    }
+
+
+    @Override
+    int hashCode() {
+        int hash = 7
+        this.keySet().each { key ->
+            hash = 31 * hash + key.hashCode()
+            hash = 31 * hash + this.get(key).hashCode()
+        }
+        return hash
     }
 
     @Override
@@ -126,10 +134,11 @@ class Metadata implements Comparable {
         StringBuilder sb = new StringBuilder()
         int entryCount = 0
         sb.append("{")
-        assert metadata_ != null, "metadata_ is null before iterating over keys"
+        assert metadata != null, "metadata_ is null before iterating over keys"
         //println "keys: ${metadata_.keySet()}"
         List<String> keys = new ArrayList<String>(metadata.keySet())
         Map<String,String> copy = new HashMap<String,String>(metadata)
+        // sort by the key
         Collections.sort(keys)
         keys.each { key ->
             if (entryCount > 0) {
@@ -149,8 +158,14 @@ class Metadata implements Comparable {
         return sb.toString()
     }
 
-    Collection<String> values() {
-        return metadata.values()
+    // ------------ comparable ----------------
+    @Override
+    int compareTo(Object obj) {
+        if (! obj instanceof MetadataImpl) {
+            throw new IllegalArgumentException("obj is not instance of Metadata")
+        }
+        MetadataImpl other = (MetadataImpl)(obj)
+        return this.toString() <=> other.toString()
     }
 
 
@@ -179,11 +194,12 @@ class Metadata implements Comparable {
         Builder(URL url) {
             this()
             Objects.requireNonNull(url)
-            metadata.put("URL.host", url.getHost())
-            metadata.put("URL.path", url.getPath())
+            metadata.put(Metadata.KEY_URL_PROTOCOL, url.getProtocol())
+            metadata.put(Metadata.KEY_URL_HOST, url.getHost())
+            metadata.put(Metadata.KEY_URL_PATH, url.getPath())
             String query = url.getQuery()
             if (query != null) {
-                metadata.put("URL.query", query)
+                metadata.put(Metadata.KEY_URL_QUERY, query)
             }
         }
         Builder put(String key, String value) {
@@ -192,7 +208,7 @@ class Metadata implements Comparable {
             return this
         }
         Metadata build() {
-            return new Metadata(this)
+            return new MetadataImpl(this)
         }
     }
 

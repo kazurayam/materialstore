@@ -87,7 +87,9 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_path")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new Metadata(["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.kazurayam.com/"])
+        Metadata metadata = new MetadataImpl.Builder(
+                ["profile": "DevelopmentEnv",
+                 "URL": "http://demoaut-mimic.kazurayam.com/"]).build()
         Path input = imagesDir.resolve("20210710_142631.development.png")
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
@@ -100,12 +102,14 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_select")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new Metadata(["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.kazurayam.com/"])
+        Metadata metadata = new MetadataImpl.Builder(
+                ["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.kazurayam.com/"]).build()
         Path input = imagesDir.resolve("20210710_142631.development.png")
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
         //
-        MetadataPattern pattern = new MetadataPattern(["profile": "*", "URL": "*"])
+        MetadataPattern pattern = new MetadataPattern.Builder(
+                ["profile": "*", "URL": "*"]).build()
         // select specifying FileType
         List<Material> materials = store.select(jobName, jobTimestamp, pattern, FileType.PNG)
         assertNotNull(materials)
@@ -118,12 +122,14 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_selectFile")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new Metadata(["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.kazurayam.com/"])
+        Metadata metadata = new MetadataImpl.Builder(
+                ["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.kazurayam.com/"]).build()
         Path input = imagesDir.resolve("20210710_142631.development.png")
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
         //
-        MetadataPattern pattern = new MetadataPattern(["profile": "*", "URL": "*"])
+        MetadataPattern pattern = new MetadataPattern.Builder(
+                ["profile": "*", "URL": "*"]).build()
         // select specifying FileType
         File f = store.selectFile(jobName, jobTimestamp, pattern, FileType.PNG)
         assertNotNull(f)
@@ -136,7 +142,8 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_file")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new Metadata(["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.kazurayam.com/"])
+        Metadata metadata = new MetadataImpl.Builder(
+                ["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.kazurayam.com/"]).build()
         File input = imagesDir.resolve("20210710_142631.development.png").toFile()
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
@@ -149,7 +156,8 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_BufferedImage")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new Metadata(["profile": "ProductionEnv", "URL": "http://demoaut.katalon.com/"])
+        Metadata metadata = new MetadataImpl.Builder(
+                ["profile": "ProductionEnv", "URL": "http://demoaut.katalon.com/"]).build()
         Path input = imagesDir.resolve("20210710_142628.production.png")
         BufferedImage image = ImageIO.read(input.toFile())
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, image)
@@ -163,7 +171,8 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_String")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new Metadata(["profile": "ProductionEnv", "URL": "http://demoaut.katalon.com/"])
+        Metadata metadata = new MetadataImpl.Builder(
+                ["profile": "ProductionEnv", "URL": "http://demoaut.katalon.com/"]).build()
         String input = "犬も歩けば棒に当たる"
         Material material = store.write(jobName, jobTimestamp, FileType.TXT, metadata, input)
         assertNotNull(material)
@@ -255,14 +264,14 @@ class StoreImplTest {
         Jobber jobberOfLeft = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
         List<Material> leftList = jobberOfLeft.selectMaterials(
-                new MetadataPattern(["profile": "ProductionEnv", "URL.file": "*"]),
+                new MetadataPattern.Builder(["profile": "ProductionEnv", "URL.file": "*"]).build(),
                 FileType.PNG)
         assertEquals(2, leftList.size())
         //
         Jobber jobberOfRight = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
             List<Material> rightList= jobberOfRight.selectMaterials(
-                new MetadataPattern(["profile": "DevelopmentEnv", "URL.file": "*"]),
+                new MetadataPattern.Builder(["profile": "DevelopmentEnv", "URL.file": "*"]).build(),
                     FileType.PNG)
         assertEquals(2, rightList.size())
         //

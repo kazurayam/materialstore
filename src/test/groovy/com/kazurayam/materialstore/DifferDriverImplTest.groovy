@@ -39,10 +39,12 @@ class DifferDriverImplTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         //
         List<Material> left = storeImpl.select(jobName, jobTimestamp,
-                new MetadataPattern(["profile": "ProductionEnv"]), FileType.PNG)
+                new MetadataPattern.Builder(["profile": "ProductionEnv"]).build(),
+                FileType.PNG)
 
         List<Material> right = storeImpl.select(jobName, jobTimestamp,
-                new MetadataPattern(["profile": "DevelopmentEnv"]), FileType.PNG)
+                new MetadataPattern.Builder(["profile": "DevelopmentEnv"]).build(),
+                FileType.PNG)
 
         DiffArtifacts input =
                 storeImpl.zipMaterials(left, right,
@@ -77,10 +79,12 @@ class DifferDriverImplTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         //
         List<Material> left = storeImpl.select(jobName, jobTimestamp,
-                new MetadataPattern(["profile": "ProductionEnv"]), FileType.HTML)
+                new MetadataPattern.Builder(["profile": "ProductionEnv"]).build(),
+                FileType.HTML)
 
         List<Material> right = storeImpl.select(jobName, jobTimestamp,
-                new MetadataPattern(["profile": "DevelopmentEnv"]), FileType.HTML)
+                new MetadataPattern.Builder(["profile": "DevelopmentEnv"]).build(),
+                FileType.HTML)
 
         DiffArtifacts input =
                 storeImpl.zipMaterials(left, right,

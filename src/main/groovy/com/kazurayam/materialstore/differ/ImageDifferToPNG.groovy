@@ -58,12 +58,12 @@ class ImageDifferToPNG implements Differ {
         ImageDiffer imgDiff = new ImageDiffer()
         ImageDiff imageDiff = imgDiff.makeDiff(leftImage,rightImage);
         Double diffRatio = calculateDiffRatioPercent(imageDiff)
-        Metadata diffMetadata = new Metadata([
+        Metadata diffMetadata = new MetadataImpl.Builder([
                 "category": "diff",
                 "ratio": DifferUtil.formatDiffRatioAsString(diffRatio),
                 "left": left.getIndexEntry().getID().toString(),
                 "right": right.getIndexEntry().getID().toString()
-        ])
+        ]).build()
         byte[] diffData = toByteArray(imageDiff.getDiffImage(), FileType.PNG)
         // write the image diff into disk
         Jobber jobber = new Jobber(root_, right.getJobName(), right.getJobTimestamp())

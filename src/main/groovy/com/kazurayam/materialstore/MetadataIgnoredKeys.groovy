@@ -28,6 +28,10 @@ class MetadataIgnoredKeys {
             this()
             this.keySet.addAll(metadata.keySet())
         }
+        Builder(MetadataPattern metadataPattern) {
+            this()
+            this.keySet.addAll(metadataPattern.keySet())
+        }
         Builder() {
             this.keySet = new HashSet<String>()
         }

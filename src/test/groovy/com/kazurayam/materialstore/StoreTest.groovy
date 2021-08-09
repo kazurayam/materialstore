@@ -65,10 +65,10 @@ class StoreTest {
 
         // pickup the materials that belongs to the 2 "profiles"
         List<Material> left = store.select(jobName, jobTimestamp,
-                new MetadataPattern([ "profile": profile1 ]))
+                new MetadataPattern.Builder([ "profile": profile1 ]).build())
 
         List<Material> right = store.select(jobName, jobTimestamp,
-                new MetadataPattern(["profile": profile2 ]))
+                new MetadataPattern.Builder(["profile": profile2 ]).build())
 
         // make diff
         DiffArtifacts stuffedDiffArtifacts =
@@ -110,14 +110,11 @@ class StoreTest {
         BufferedImage entirePageImage = AShotWrapper.takeEntirePageImage(driver)
         Material material1 = store.write(jobName, jobTimestamp,
                 FileType.PNG,
-                new Metadata([
-                        "category": "screenshot",
-                        "profile": profile,
-                        "URL": url.toExternalForm(),
-                        "URL.host": url.getHost(),
-                        "URL.file": url.getFile(),
-                        "xpath": "/html"
-                ]),
+                new MetadataImpl.Builder(url)
+                        .put("category", "screenshot")
+                        .put("profile", profile)
+                        .put("xpath", "/html")
+                        .build(),
                 entirePageImage)
         assert material1 != null
 
@@ -126,14 +123,11 @@ class StoreTest {
         BufferedImage elementImage = AShotWrapper.takeWebElementImage(driver, By.xpath(xpath))
         Material material2 = store.write(jobName, jobTimestamp,
                 FileType.PNG,
-                new Metadata([
-                        "category": "screenshot",
-                        "profile": profile,
-                        "URL": url.toExternalForm(),
-                        "URL.host": url.getHost(),
-                        "URL.file": url.getFile(),
-                        "xpath": xpath
-                ]),
+                new MetadataImpl.Builder(url)
+                        .put("category", "screenshot")
+                        .put("profile", profile)
+                        .put("xpath", xpath)
+                        .build(),
                 elementImage)
         assert material2 != null
 
@@ -142,14 +136,11 @@ class StoreTest {
         String html = driver.getPageSource()
         Material material3 = store.write(jobName, jobTimestamp,
                 FileType.HTML,
-                new Metadata([
-                        "category": "page source",
-                        "profile": profile,
-                        "URL": url.toExternalForm(),
-                        "URL.host": url.getHost(),
-                        "URL.file": url.getFile(),
-                        "xpath": "/html"
-                ]),
+                new MetadataImpl.Builder(url)
+                        .put("category", "page source")
+                        .put("profile", profile)
+                        .put("xpath", "/html")
+                        .build(),
                 html,
                 StandardCharsets.UTF_8)
         assert material3 != null

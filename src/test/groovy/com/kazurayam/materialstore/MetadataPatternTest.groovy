@@ -13,9 +13,10 @@ class MetadataPatternTest {
 
     @Test
     void test_create_with_MetadataIgnoredKeys() {
-        Metadata metadata = new Metadata(["profile":"ProjectionEnv", "category":"screenshot"])
+        Metadata metadata = new MetadataImpl.Builder(
+                ["profile":"ProjectionEnv", "category":"screenshot"]).build()
         MetadataIgnoredKeys ignoredKeys = new MetadataIgnoredKeys.Builder().ignoreKey("profile").build()
-        MetadataPattern pattern = MetadataPattern.create(ignoredKeys, metadata)
+        MetadataPattern pattern = new MetadataPattern.Builder(metadata, ignoredKeys).build()
         assertNotNull(pattern)
         assertFalse(pattern.containsKey("profile"))
         assertTrue(pattern.containsKey("category"))
@@ -23,8 +24,9 @@ class MetadataPatternTest {
 
     @Test
     void test_create_without_ignoredKeys() {
-        Metadata metadata = new Metadata(["profile":"ProjectionEnv","category":"screenshot"])
-        MetadataPattern pattern = MetadataPattern.create(metadata)
+        Metadata metadata = new MetadataImpl.Builder(
+                ["profile":"ProjectionEnv", "category":"screenshot"]).build()
+        MetadataPattern pattern = new MetadataPattern.Builder(metadata).build()
         assertNotNull(pattern)
         assertTrue(pattern.containsKey("profile"))
         assertTrue(pattern.containsKey("category"))
@@ -32,7 +34,7 @@ class MetadataPatternTest {
 
     @Test
     void test_constructing_ANY() {
-        MetadataPattern mp = new MetadataPattern(["*":"*"])
+        MetadataPattern mp = new MetadataPattern.Builder(["*":"*"]).build()
         assertNotNull(mp)
         assertEquals(1, mp.size())
         assertEquals("*", mp.get("*"))
@@ -40,7 +42,7 @@ class MetadataPatternTest {
 
     @Test
     void test_constructing_NULLOBJECT() {
-        MetadataPattern mp = new MetadataPattern([:])
+        MetadataPattern mp = new MetadataPattern.Builder([:]).build()
         assertNotNull(mp)
         assertEquals(0, mp.size())
     }

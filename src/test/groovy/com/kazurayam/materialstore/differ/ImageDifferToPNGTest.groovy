@@ -28,10 +28,12 @@ class ImageDifferToPNGTest {
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         //
         List<Material> left = storeImpl.select(jobName, jobTimestamp,
-                new MetadataPattern(["profile": "ProductionEnv"]), FileType.PNG)
+                new MetadataPattern.Builder(["profile": "ProductionEnv"]).build(),
+                FileType.PNG)
 
         List<Material> right = storeImpl.select(jobName, jobTimestamp,
-                new MetadataPattern(["profile": "DevelopmentEnv"]), FileType.PNG)
+                new MetadataPattern.Builder(["profile": "DevelopmentEnv"]).build(),
+                FileType.PNG)
 
         DiffArtifacts diffArtifacts =
                 storeImpl.zipMaterials(left, right,

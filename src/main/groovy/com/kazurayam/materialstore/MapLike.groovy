@@ -1,4 +1,15 @@
 package com.kazurayam.materialstore
 
-class MapLike {
+interface MapLike {
+
+    boolean containsKey(String key)
+
+    String get(String key)
+
+    boolean isEmpty()
+
+    Set<String> keySet()
+
+    int size()
+
 }

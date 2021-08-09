@@ -8,10 +8,10 @@ class DiffArtifactTest {
 
     @Test
     void test_getDescription() {
-        MetadataPattern mp = new MetadataPattern([
+        MetadataPattern mp = new MetadataPattern.Builder([
                 "URL.host": "demoaut-mimic.kazurayam.com",
                 "URL.file": "/"
-        ])
+        ]).build()
         DiffArtifact diffArtifact =
                 new DiffArtifact.Builder(
                         Material.NULL_OBJECT,

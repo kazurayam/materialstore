@@ -59,12 +59,12 @@ abstract class AbstractTextDiffer implements Differ {
 
         //
         byte[] diffData = toByteArray(textDiffContent.getContent())
-        Metadata diffMetadata = new Metadata([
+        Metadata diffMetadata = new MetadataImpl.Builder([
                 "category": "diff",
                 "left": left.getIndexEntry().getID().toString(),
                 "right": right.getIndexEntry().getID().toString(),
                 "ratio": DifferUtil.formatDiffRatioAsString(diffRatio)
-        ])
+        ]).build()
         Jobber jobber = new Jobber(root_, right.getJobName(), right.getJobTimestamp())
         Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata)
         //

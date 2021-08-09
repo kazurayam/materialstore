@@ -44,11 +44,12 @@ class DiffArtifactsBasicReporterTest {
         // pickup the materials that belongs to the 2 "profiles"
         String profile1 = "ProductionEnv"
         List<Material> left = store.select(jobName, jobTimestamp,
-                new MetadataPattern(["profile": profile1 ]))
+                new MetadataPattern.Builder(["profile": profile1 ]).build()
+        )
 
         String profile2 = "DevelopmentEnv"
         List<Material> right = store.select(jobName, jobTimestamp,
-                new MetadataPattern([ "profile": profile2 ]))
+                new MetadataPattern.Builder([ "profile": profile2 ]).build())
 
         // make diff
         DiffArtifacts stuffedDiffArtifacts =
