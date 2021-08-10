@@ -113,10 +113,12 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar:///Users/kazuakiurayama/.m2/repository/com/kazurayam/subprocessj/0.1.0-SNAPSHOT/subprocessj-0.1.0-SNAPSHOT.jar!/"/>
+          <root url="jar:///Users/kazuakiurayama/.gradle/caches/modules-2/files-2.1/com.kazurayam/subprocessj/0.1.0/fd767af3be39e3cc4efe9bd475f00239a4b84963/subprocessj-0.1.0.jar!/"/>
         </CLASSES>
         <JAVADOC/>
-        <SOURCES/>
+        <SOURCES>
+          <root url="jar:///Users/kazuakiurayama/.gradle/caches/modules-2/files-2.1/com.kazurayam/subprocessj/0.1.0/a798ae82f5ebfe1ae1e3b0d4ed41737bd728fb94/subprocessj-0.1.0-sources.jar!/"/>
+        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
@@ -455,6 +457,17 @@
         <JAVADOC/>
         <SOURCES>
           <root url="jar:///Users/kazuakiurayama/.gradle/caches/modules-2/files-2.1/org.slf4j/slf4j-simple/1.7.31/b4164070df35273e54a653833e9f20a4492d4bee/slf4j-simple-1.7.31-sources.jar!/"/>
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar:///Users/kazuakiurayama/.m2/repository/com/kazurayam/ashotwrapper/0.1.0-SNAPSHOT/ashotwrapper-0.1.0-SNAPSHOT.jar!/"/>
+        </CLASSES>
+        <JAVADOC/>
+        <SOURCES>
+          <root url="jar:///Users/kazuakiurayama/.m2/repository/com/kazurayam/ashotwrapper/0.1.0-SNAPSHOT/ashotwrapper-0.1.0-SNAPSHOT-sources.jar!/"/>
         </SOURCES>
       </library>
     </orderEntry>

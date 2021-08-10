@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore
 
-import com.kazurayam.materialstore.selenium.AShotWrapper
+import com.kazurayam.ashotwrapper.AShotWrapper
+
 import io.github.bonigarcia.wdm.WebDriverManager
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
@@ -120,7 +121,7 @@ class StoreTest {
 
         // take and store the PNG screenshot of the button element
         String xpath = "//a[@id='btn-make-appointment']"
-        BufferedImage elementImage = AShotWrapper.takeWebElementImage(driver, By.xpath(xpath))
+        BufferedImage elementImage = AShotWrapper.takeElementImage(driver, By.xpath(xpath))
         Material material2 = store.write(jobName, jobTimestamp,
                 FileType.PNG,
                 new MetadataImpl.Builder(url)

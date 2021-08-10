@@ -1,5 +1,9 @@
-# Material store + differ + reporter
+# materialstore
 
-A Groovy library that makes it easy to
+*materialstore* is a small Groovy libary
+
+
+## Dependencies
+
 
 
