@@ -26,7 +26,7 @@ class StoreImpl implements Store {
 
     private static final int BUFFER_SIZE = 8000
 
-    private static final String ROOT_DIRECTORY_NAME = "Materials"
+    public static final String ROOT_DIRECTORY_NAME = "store"
 
     StoreImpl() {
         this(Paths.get(ROOT_DIRECTORY_NAME))
