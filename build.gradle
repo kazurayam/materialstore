@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'com.kazurayam'
-version '0.1.0-SNAPSHOT'
+version '0.1.0'
 
 ext.isReleaseVersion = ! version.endsWith("SNAPSHOT")
 
@@ -95,7 +95,7 @@ publishing {
             pom {
                 groupId = project.group
                 name = project.rootProject.name
-                description = 'A Java/Groovy API to store objects (Page Screenshots, HTML, JSON, XML) collected during End-to-end testings empowered by diffing and reporting tools'
+                description = 'A Java/Groovy API to store objects (Screenshots, HTML, JSON, XML) collected during End-to-end testings empowered by diffing and reporting tools'
                 url = 'https://kazurayam.github.io/materialstore/'
                 from components.java
                 licenses {
@@ -136,11 +136,10 @@ signing {
     sign publishing.publications.materialstore
 }
 // I do not want to sign the SNAPSHOT
-/*
 tasks.withType(Sign) {
     onlyIf { isReleaseVersion }
 }
-*/
+
 
 task copyGroovydocToDocsDir(type: Copy) {
     from 'build/docs/groovydoc'
