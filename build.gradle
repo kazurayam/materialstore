@@ -78,7 +78,7 @@ test {
 }
 
 task groovydocJar(type: Jar) {
-    archiveClassifier = 'groovydoc'
+    archiveClassifier = 'javadoc'
     from groovydoc
 }
 
