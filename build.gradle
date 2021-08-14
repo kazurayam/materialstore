@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'com.kazurayam'
-version '0.1.0'
+version '0.1.1'
 
 ext.isReleaseVersion = ! version.endsWith("SNAPSHOT")
 
@@ -32,6 +32,7 @@ ext {
     commonsioVersion = '2.8.0'
     webdrivermanager = '4.4.3'
     ashotVersion = '1.5.4'
+    javadiffutilsVersion = '4.9'
 }
 
 dependencies {
@@ -48,7 +49,7 @@ dependencies {
     implementation group: 'commons-io', name: 'commons-io', version: "${commonsioVersion}"
 
     // https://mvnrepository.com/artifact/io.github.java-diff-utils/java-diff-utils
-    implementation group: 'io.github.java-diff-utils', name: 'java-diff-utils', version: '4.9'
+    implementation group: 'io.github.java-diff-utils', name: 'java-diff-utils', version: "${javadiffutilsVersion}"
 
     implementation "org.seleniumhq.selenium:selenium-java:${seleniumjavaVersion}"
 

@@ -43,12 +43,13 @@ class MetadataPattern implements MapLike {
     @Override
     String toString() {
         StringBuilder sb = new StringBuilder()
-        Set<String> keySet = metadataPattern.keySet()
+        List<String> keyList = new ArrayList(metadataPattern.keySet())
+        Collections.sort(keyList)
         int count = 0
         sb.append("{")
-        keySet.forEach({key ->
+        keyList.forEach({key ->
             if (count > 0) {
-                sb.append(", ")
+                sb.append(", ")   // one whitespace after , is significant
             }
             sb.append("\"")
             sb.append(key)

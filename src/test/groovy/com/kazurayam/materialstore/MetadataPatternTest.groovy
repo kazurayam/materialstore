@@ -60,4 +60,18 @@ class MetadataPatternTest {
         String actual = MetadataPattern.NULL_OBJECT.toString()
         assertEquals(expected, actual)
     }
+
+    @Test
+    void test_toString_keys_should_be_sorted() {
+        Metadata metadata = new MetadataImpl.Builder()
+                .put("a","a")
+                .put("C","c")
+                .put("B","b")
+                .build()
+        MetadataIgnoredKeys ignoredKeys = MetadataIgnoredKeys.NULL_OBJECT
+        MetadataPattern pattern = new MetadataPattern.Builder(metadata, ignoredKeys).build()
+        String expected = '''{"B":"b", "C":"c", "a":"a"}'''
+        String actual = pattern.toString()
+        assertEquals(expected, actual)
+    }
 }
