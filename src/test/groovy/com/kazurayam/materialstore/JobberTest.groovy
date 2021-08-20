@@ -12,6 +12,8 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
+import java.util.regex.Pattern
+
 import static org.junit.jupiter.api.Assertions.*
 
 class JobberTest {
@@ -173,7 +175,9 @@ class JobberTest {
         Material material = jobber.write(data, FileType.PNG, metadata)
         //
         MetadataPattern pattern = new MetadataPattern.Builder(
-                [ "profile": "*", "URL": "*"]).build()
+                [ "profile": Pattern.compile(".*"),
+                  "URL": Pattern.compile(".*")])
+                .build()
         List<Material> materials = jobber.selectMaterials(pattern, FileType.PNG)
         assertNotNull(materials)
         assertEquals(1, materials.size())
@@ -189,7 +193,7 @@ class JobberTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         Jobber jobber = new Jobber(root, jobName, jobTimestamp)
         MetadataPattern pattern = new MetadataPattern.Builder(
-                ["profile": "DevelopmentEnv", "URL": "*"]).build()
+                ["profile": "DevelopmentEnv", "URL": Pattern.compile(".*")]).build()
         // select without FileType
         List<Material> materials = jobber.selectMaterials(pattern)
         assertNotNull(materials)

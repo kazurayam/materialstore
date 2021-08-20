@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test
 import static org.junit.jupiter.api.Assertions.*
 import org.apache.http.NameValuePair
 import java.util.stream.Collectors
+import java.util.regex.Pattern
 
 class MetadataTest {
 
@@ -85,7 +86,8 @@ class MetadataTest {
     @Test
     void test_match_RegularExpression() {
         Metadata target = new MetadataImpl.Builder(["profile":"ProductionEnv"]).build()
-        MetadataPattern pattern = new MetadataPattern.Builder(["profile":".*Env"]).build()
+        MetadataPattern pattern = new MetadataPattern.Builder(
+                ["profile": Pattern.compile(".*Env")]).build()
         assertTrue(target.match(pattern))
     }
 
@@ -97,7 +99,7 @@ class MetadataTest {
                 .build()
         //
         MetadataPattern pattern1 = new MetadataPattern.Builder(
-                ["profile": ".*Env", "URL.path": "/"]).build()
+                ["profile": Pattern.compile(".*Env"), "URL.path": "/"]).build()
         assertTrue(base.match(pattern1))
         //
         MetadataPattern pattern2 = new MetadataPattern.Builder(

@@ -76,19 +76,24 @@ class MetadataImpl implements Metadata {
     boolean match(MetadataPattern metadataPattern) throws MaterialstoreException {
         boolean result = true
         metadataPattern.keySet().each { key ->
-            if (this.keySet().contains(key)) {
-                Pattern pattern
-                try {
-                    pattern = Pattern.compile(metadataPattern.get(key))
-                } catch (PatternSyntaxException e) {
-                    throw new MaterialstoreException(e)
-                }
-                Matcher matcher = pattern.matcher(this.get(key))
-                if (matcher.find()) {
-                    ;
+            if (key == "*" || this.keySet().contains(key)) {
+                if (metadataPattern.get(key) instanceof Pattern) {
+                    Pattern pattern = (Pattern)metadataPattern.get(key)
+                    Matcher matcher = pattern.matcher(this.get(key))
+                    if (matcher.find()) {
+                        ;
+                    } else {
+                        result = false
+                        return
+                    }
                 } else {
-                    result = false
-                    return
+                    String ptnString = (String)metadataPattern.get(key)
+                    if (this.get(key) == ptnString) {
+                        ;
+                    } else {
+                        result = false
+                        return
+                    }
                 }
             } else {
                 result = false

@@ -1,12 +1,14 @@
 package com.kazurayam.materialstore
 
+import java.util.regex.Pattern
+
 class MetadataPattern implements MapLike {
 
     public static final MetadataPattern NULL_OBJECT = new Builder([:]).build()
 
-    public static final MetadataPattern ANY = new Builder(["*": "*"]).build()
+    public static final MetadataPattern ANY = new Builder(["*": Pattern.compile(".*")]).build()
 
-    private final Map<String, String> metadataPattern
+    private final Map<String, Object> metadataPattern
 
     private MetadataPattern(Builder builder) {
         this.metadataPattern = builder.metadataPattern
@@ -20,7 +22,7 @@ class MetadataPattern implements MapLike {
     }
 
     @Override
-    String get(String key) {
+    Object get(String key) {
         return metadataPattern.get(key)
     }
 
@@ -54,6 +56,9 @@ class MetadataPattern implements MapLike {
             sb.append("\"")
             sb.append(key)
             sb.append("\":\"")
+            if (metadataPattern.get(key) instanceof Pattern) {
+                sb.append("regex:")
+            }
             sb.append(metadataPattern.get(key))
             sb.append("\"")
             count += 1
@@ -63,15 +68,21 @@ class MetadataPattern implements MapLike {
     }
 
     static class Builder {
-        private Map<String, String> metadataPattern
+        private Map<String, Object> metadataPattern
         Builder() {
-            this.metadataPattern = new HashMap<String, String>()
+            this.metadataPattern = new HashMap<String, Object>()
         }
-        Builder(Map<String, String> map) {
+        Builder(Map<String, Object> map) {
             this()
             Objects.requireNonNull(map)
             map.keySet().each { key ->
-                metadataPattern.put(key, map.get(key))
+                Object value = map.get(key)
+                if (value instanceof String || value instanceof Pattern) {
+                    metadataPattern.put(key, map.get(key))
+                } else {
+                    throw new MaterialstoreException(
+                            "value(${value}) must be an instance of java.lang.String or java.util.regex.Pattern")
+                }
             }
         }
         Builder(MapLike source) {
@@ -82,8 +93,14 @@ class MetadataPattern implements MapLike {
             Objects.requireNonNull(ignoredKeys)
             Objects.requireNonNull(source)
             source.keySet().each {key ->
-                if (! ignoredKeys.contains(key)) {
-                    metadataPattern.put(key, source.get(key))
+                Object value = source.get(key)
+                if (value instanceof String || value instanceof Pattern) {
+                    if (!ignoredKeys.contains(key)) {
+                        metadataPattern.put(key, value)
+                    }
+                } else {
+                    throw new MaterialstoreException(
+                            "value(${value}) must be an instance of java.lang.String or java.util.regex.Pattern")
                 }
             }
         }

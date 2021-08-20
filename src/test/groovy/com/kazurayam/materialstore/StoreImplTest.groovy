@@ -12,6 +12,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.temporal.ChronoUnit
+import java.util.regex.Pattern
 
 import static org.junit.jupiter.api.Assertions.*
 
@@ -103,13 +104,17 @@ class StoreImplTest {
         JobName jobName = new JobName("test_select")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new MetadataImpl.Builder(
-                ["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.kazurayam.com/"]).build()
+                ["profile": "DevelopmentEnv",
+                 "URL": "http://demoaut-mimic.kazurayam.com/"])
+                .build()
         Path input = imagesDir.resolve("20210710_142631.development.png")
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
         //
         MetadataPattern pattern = new MetadataPattern.Builder(
-                ["profile": "*", "URL": "*"]).build()
+                ["profile": Pattern.compile(".*"),
+                 "URL": Pattern.compile(".*")])
+                .build()
         // select specifying FileType
         List<Material> materials = store.select(jobName, jobTimestamp, pattern, FileType.PNG)
         assertNotNull(materials)
@@ -123,17 +128,45 @@ class StoreImplTest {
         JobName jobName = new JobName("test_selectFile")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = new MetadataImpl.Builder(
-                ["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.kazurayam.com/"]).build()
+                ["profile": "DevelopmentEnv",
+                 "URL": "http://demoaut-mimic.kazurayam.com/"])
+                .build()
         Path input = imagesDir.resolve("20210710_142631.development.png")
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
         //
         MetadataPattern pattern = new MetadataPattern.Builder(
-                ["profile": "*", "URL": "*"]).build()
+                ["profile": Pattern.compile(".*"),
+                 "URL": Pattern.compile(".*")
+                ])
+                .build()
         // select specifying FileType
         File f = store.selectFile(jobName, jobTimestamp, pattern, FileType.PNG)
         assertNotNull(f)
         assertTrue(f.exists())
+    }
+
+    @Test
+    void test_select_2_files_in_4() {
+        Path root = outputDir.resolve("store")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_select_2_files_in_4")
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        Path input = imagesDir.resolve("20210710_142631.development.png")
+        //
+        List<Metadata> metadataList = new ArrayList<Metadata>()
+        metadataList.add(new MetadataImpl.Builder(["city":"Thanh pho Ho Chi Minh", "country":"VN"]).build())
+        metadataList.add(new MetadataImpl.Builder(["city":"Tokyo", "country":"JP"]).build())
+        metadataList.add(new MetadataImpl.Builder(["city":"Prague", "country":"CZ"]).build())
+        metadataList.add(new MetadataImpl.Builder(["city":"Toronto", "country":"CA"]).build())
+        metadataList.forEach { metadata ->
+            Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
+            assertNotNull(material)
+        }
+        // select 2 members amongst 4 by matching "city" with a Regular Expression `To.*`
+        List<Material> selected = store.select(jobName, jobTimestamp,
+                new MetadataPattern.Builder(["city": Pattern.compile("To.*")]).build());
+        assertEquals(2, selected.size())
     }
 
     @Test
@@ -264,14 +297,20 @@ class StoreImplTest {
         Jobber jobberOfLeft = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
         List<Material> leftList = jobberOfLeft.selectMaterials(
-                new MetadataPattern.Builder(["profile": "ProductionEnv", "URL.file": "*"]).build(),
+                new MetadataPattern.Builder([
+                        "profile": "ProductionEnv",
+                        "URL.file": Pattern.compile(".*")])
+                        .build(),
                 FileType.PNG)
         assertEquals(2, leftList.size())
         //
         Jobber jobberOfRight = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
             List<Material> rightList= jobberOfRight.selectMaterials(
-                new MetadataPattern.Builder(["profile": "DevelopmentEnv", "URL.file": "*"]).build(),
+                new MetadataPattern.Builder([
+                        "profile": "DevelopmentEnv",
+                        "URL.file": Pattern.compile(".*")])
+                        .build(),
                     FileType.PNG)
         assertEquals(2, rightList.size())
         //

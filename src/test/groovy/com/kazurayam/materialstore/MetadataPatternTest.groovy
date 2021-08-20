@@ -49,7 +49,7 @@ class MetadataPatternTest {
 
     @Test
     void test_ANY_toString() {
-        String expected = "{\"*\":\"*\"}"
+        String expected = "{\"*\":\"regex:.*\"}"
         String actual = MetadataPattern.ANY.toString()
         assertEquals(expected, actual)
     }

@@ -4,7 +4,7 @@ interface MapLike {
 
     boolean containsKey(String key)
 
-    String get(String key)
+    Object get(String key)
 
     boolean isEmpty()
 
