@@ -11,45 +11,47 @@ class MetadataTest {
 
     @Test
     void test_constructor() {
-        Metadata metadata = new MetadataImpl.Builder(["profile":"ProductionEnv"]).build()
+        Metadata metadata = Metadata.builderWithMap([
+                "profile":"ProductionEnv"])
+                .build()
         assertEquals("ProductionEnv", metadata.get("profile"))
     }
 
     @Test
     void test_compareTo_equals() {
-        Metadata metadata1 = new MetadataImpl.Builder(["profile":"X"]).build()
-        Metadata metadata2 = new MetadataImpl.Builder(["profile":"X"]).build()
+        Metadata metadata1 = Metadata.builderWithMap(["profile":"X"]).build()
+        Metadata metadata2 = Metadata.builderWithMap(["profile":"X"]).build()
         assertEquals(0, metadata1 <=> metadata2)
     }
 
     @Test
     void test_compareTo_minus() {
-        Metadata metadata1 = new MetadataImpl.Builder(["profile":"X"]).build()
-        Metadata metadata2 = new MetadataImpl.Builder(["profile":"Y"]).build()
+        Metadata metadata1 = Metadata.builderWithMap(["profile":"X"]).build()
+        Metadata metadata2 = Metadata.builderWithMap(["profile":"Y"]).build()
         assertEquals(-1, metadata1 <=> metadata2)
     }
 
     @Test
     void test_compareTo_plus() {
-        Metadata metadata1 = new MetadataImpl.Builder(["profile":"X"]).build()
-        Metadata metadata2 = new MetadataImpl.Builder(["profile":"A"]).build()
+        Metadata metadata1 = Metadata.builderWithMap(["profile":"X"]).build()
+        Metadata metadata2 = Metadata.builderWithMap(["profile":"A"]).build()
         assertEquals(1, metadata1 <=> metadata2)
     }
 
 
     @Test
     void test_containsKey() {
-        Metadata metadata = new MetadataImpl.Builder(["profile":"ProductionEnv"]).build()
+        Metadata metadata = Metadata.builderWithMap(["profile":"ProductionEnv"]).build()
         assertTrue(metadata.containsKey("profile"))
         assertFalse(metadata.containsKey("foo"))
     }
 
     @Test
     void test_equals() {
-        Metadata m1 = new MetadataImpl.Builder(["profile":"ProductionEnv"]).build()
-        Metadata m2 = new MetadataImpl.Builder(["profile":"ProductionEnv"]).build()
-        Metadata m3 = new MetadataImpl.Builder(["profile":"DevelopmentEnv"]).build()
-        Metadata m4 = new MetadataImpl.Builder(["foo":"bar"]).build()
+        Metadata m1 = Metadata.builderWithMap(["profile":"ProductionEnv"]).build()
+        Metadata m2 = Metadata.builderWithMap(["profile":"ProductionEnv"]).build()
+        Metadata m3 = Metadata.builderWithMap(["profile":"DevelopmentEnv"]).build()
+        Metadata m4 = Metadata.builderWithMap(["foo":"bar"]).build()
         assertEquals(m1, m2)
         assertNotEquals(m1, m3)
         assertNotEquals(m1, m4)
@@ -57,20 +59,20 @@ class MetadataTest {
 
     @Test
     void test_get() {
-        Metadata metadata = new MetadataImpl.Builder(["profile":"ProductionEnv"]).build()
+        Metadata metadata = Metadata.builderWithMap(["profile":"ProductionEnv"]).build()
         assertEquals("ProductionEnv", metadata.get("profile"))
         assertNull(metadata.get("foo"))
     }
 
     @Test
     void test_isEmpty() {
-        Metadata metadata = new MetadataImpl.Builder([:]).build()
+        Metadata metadata = Metadata.builderWithMap([:]).build()
         assertTrue(metadata.isEmpty())
     }
 
     @Test
     void test_keySet() {
-        Metadata metadata = new MetadataImpl.Builder(["profile":"ProductionEnv"]).build()
+        Metadata metadata = Metadata.builderWithMap(["profile":"ProductionEnv"]).build()
         Set<String> keySet = metadata.keySet()
         assertEquals(1, keySet.size())
         assertTrue(keySet.contains("profile"))
@@ -78,14 +80,14 @@ class MetadataTest {
 
     @Test
     void test_match_simplest() {
-        Metadata target = new MetadataImpl.Builder(["key":"value"]).build()
+        Metadata target = Metadata.builderWithMap(["key":"value"]).build()
         MetadataPattern pattern = new MetadataPattern.Builder(["key":"value"]).build()
         assertTrue(target.match(pattern))
     }
 
     @Test
     void test_match_RegularExpression() {
-        Metadata target = new MetadataImpl.Builder(["profile":"ProductionEnv"]).build()
+        Metadata target = Metadata.builderWithMap(["profile":"ProductionEnv"]).build()
         MetadataPattern pattern = new MetadataPattern.Builder(
                 ["profile": Pattern.compile(".*Env")]).build()
         assertTrue(target.match(pattern))
@@ -94,7 +96,7 @@ class MetadataTest {
     @Test
     void test_match_demonstrative() {
         URL url = new URL("http://demoaut.katalon.com/")
-        Metadata base = new MetadataImpl.Builder(url)
+        Metadata base = Metadata.builderWithUrl(url)
                 .put("profile", "ProductionEnv")
                 .build()
         //
@@ -113,7 +115,7 @@ class MetadataTest {
 
     @Test
     void test_size() {
-        Metadata metadata = new MetadataImpl.Builder(["key": "value"]).build()
+        Metadata metadata = Metadata.builderWithMap(["key": "value"]).build()
         assertEquals(1, metadata.size())
     }
 
@@ -122,7 +124,7 @@ class MetadataTest {
      */
     @Test
     void test_toString() {
-        Metadata metadata = new MetadataImpl.Builder(["b": "B", "a": "A"]).build()
+        Metadata metadata = Metadata.builderWithMap(["b": "B", "a": "A"]).build()
         String s = metadata.toString()
         assertEquals(
                 '''{"a":"A", "b":"B"}''',
@@ -131,7 +133,7 @@ class MetadataTest {
 
     @Test
     void test_toString_should_have_redundant_whitespaces() {
-        Metadata metadata = new MetadataImpl.Builder(["a":"A", "b":"B", "c":"C"]).build()
+        Metadata metadata = Metadata.builderWithMap(["a":"A", "b":"B", "c":"C"]).build()
         String s = metadata.toString()
         assertEquals(
                 '''{"a":"A", "b":"B", "c":"C"}''',
@@ -142,7 +144,7 @@ class MetadataTest {
     @Test
     void test_parseURLQuery() {
         String query = "q=katalon&dfe=piiipfe&cxw=fcfw"
-        List<NameValuePair> pairs = MetadataImpl.parseURLQuery(query)
+        List<NameValuePair> pairs = Metadata.parseURLQuery(query)
         assertTrue(pairs.stream()
                 .filter({nvp -> nvp.getName() == "q"})
                 .collect(Collectors.toList())
@@ -159,7 +161,7 @@ class MetadataTest {
     @Test
     void test_Builder_with_URL_as_arg() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
-        Metadata metadata = new MetadataImpl.Builder(url).build()
+        Metadata metadata = Metadata.builderWithUrl(url).build()
         assertNotNull(metadata)
         assertEquals("https", metadata.get("URL.protocol"))
         assertEquals("baeldung.com", metadata.get("URL.host"))
@@ -179,7 +181,7 @@ class MetadataTest {
     @Test
     void test_toURL() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
-        Metadata metadata = new MetadataImpl.Builder(url).build()
+        Metadata metadata = Metadata.builderWithUrl(url).build()
         assertNotNull(metadata)
         URL recreated = metadata.toURL()
         URL urlWithoutFragment = new URL("https://baeldung.com/articles?topic=java&version=8")

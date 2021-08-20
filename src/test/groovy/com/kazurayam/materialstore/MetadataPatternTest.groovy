@@ -13,8 +13,10 @@ class MetadataPatternTest {
 
     @Test
     void test_create_with_MetadataIgnoredKeys() {
-        Metadata metadata = new MetadataImpl.Builder(
-                ["profile":"ProjectionEnv", "category":"screenshot"]).build()
+        Metadata metadata = Metadata.builderWithMap([
+                "profile":"ProjectionEnv",
+                "category":"screenshot"])
+                .build()
         MetadataIgnoredKeys ignoredKeys = new MetadataIgnoredKeys.Builder().ignoreKey("profile").build()
         MetadataPattern pattern = new MetadataPattern.Builder(metadata, ignoredKeys).build()
         assertNotNull(pattern)
@@ -24,8 +26,10 @@ class MetadataPatternTest {
 
     @Test
     void test_create_without_ignoredKeys() {
-        Metadata metadata = new MetadataImpl.Builder(
-                ["profile":"ProjectionEnv", "category":"screenshot"]).build()
+        Metadata metadata = Metadata.builderWithMap([
+                "profile":"ProjectionEnv",
+                "category":"screenshot"])
+                .build()
         MetadataPattern pattern = new MetadataPattern.Builder(metadata).build()
         assertNotNull(pattern)
         assertTrue(pattern.containsKey("profile"))
@@ -63,7 +67,7 @@ class MetadataPatternTest {
 
     @Test
     void test_toString_keys_should_be_sorted() {
-        Metadata metadata = new MetadataImpl.Builder()
+        Metadata metadata = Metadata.builder()
                 .put("a","a")
                 .put("C","c")
                 .put("B","b")

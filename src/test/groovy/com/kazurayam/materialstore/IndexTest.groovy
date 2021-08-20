@@ -33,8 +33,10 @@ class IndexTest {
     void test_formatLine_smoke() {
         ID id = new ID("6141b40cfe9e7340a483a3097c4f6ff5d20e04ea")
         FileType fileType = FileType.PNG
-        Metadata metadata = new MetadataImpl.Builder(
-                ["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.kazurayam.com/"]).build()
+        Metadata metadata = Metadata.builderWithMap([
+                "profile": "DevelopmentEnv",
+                "URL": "http://demoaut-mimic.kazurayam.com/"])
+                .build()
         IndexEntry indexEntry = new IndexEntry(id, fileType, metadata)
         String line = Index.formatLine(indexEntry)
         assertEquals(sampleLine, line)

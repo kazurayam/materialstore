@@ -62,9 +62,10 @@ class JobberTest {
         JobName jobName = new JobName("test_write")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber jobber = repos.getJobber(jobName, jobTimestamp)
-        Metadata metadata = new MetadataImpl.Builder(
-                ["profile": "DevelopmentEnv",
-                 "URL": "http://demoaut-mimic.katalon.com/"]).build()
+        Metadata metadata = Metadata.builderWithMap([
+                "profile": "DevelopmentEnv",
+                 "URL": "http://demoaut-mimic.katalon.com/"])
+                .build()
         BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, FileType.PNG.getExtension(), baos);
@@ -81,8 +82,10 @@ class JobberTest {
         JobName jobName = new JobName("test_write_duplicating_metadata")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber jobber = repos.getJobber(jobName, jobTimestamp)
-        Metadata metadata = new MetadataImpl.Builder(
-                ["profile":"SomeEnv", "URL":"http://example.com"]).build()
+        Metadata metadata = Metadata.builderWithMap([
+                "profile":"SomeEnv",
+                "URL":"http://example.com"])
+                .build()
         byte[] data = "foo".getBytes()
         jobber.write(data, FileType.TXT, metadata)
         MaterialstoreException thrown = assertThrows(MaterialstoreException.class, { ->
@@ -100,13 +103,17 @@ class JobberTest {
         Jobber jobber = repos.getJobber(jobName, jobTimestamp)
         byte[] data = "foo".getBytes()
         //
-        Metadata metadata1 = new MetadataImpl.Builder(
-                ["profile":"ProductionEnv", "URL":"http://example.com"]).build()
+        Metadata metadata1 = Metadata.builderWithMap([
+                "profile":"ProductionEnv",
+                "URL":"http://example.com"])
+                .build()
         Material material1 = jobber.write(data, FileType.TXT, metadata1)
         assert material1 != null
         //
-        Metadata metadata2 = new MetadataImpl.Builder(
-                ["profile":"DevelopmentEnv", "URL":"http://example.com"]).build()
+        Metadata metadata2 = Metadata.builderWithMap([
+                "profile":"DevelopmentEnv",
+                "URL":"http://example.com"])
+                .build()
         Material material2 = jobber.write(data, FileType.TXT, metadata2)
         assert material2 != null
     }
@@ -165,9 +172,10 @@ class JobberTest {
         JobName jobName = new JobName("test_selectMaterials_with_FileType")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber jobber = repos.getJobber(jobName, jobTimestamp)
-        Metadata metadata = new MetadataImpl.Builder(
-                ["profile": "DevelopmentEnv",
-                 "URL": "http://demoaut-mimic.katalon.com/"]).build()
+        Metadata metadata = Metadata.builderWithMap([
+                "profile": "DevelopmentEnv",
+                "URL": "http://demoaut-mimic.katalon.com/"])
+                .build()
         BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, FileType.PNG.getExtension(), baos);

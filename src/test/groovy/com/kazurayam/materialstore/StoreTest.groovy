@@ -111,7 +111,7 @@ class StoreTest {
         BufferedImage entirePageImage = AShotWrapper.takeEntirePageImage(driver)
         Material material1 = store.write(jobName, jobTimestamp,
                 FileType.PNG,
-                new MetadataImpl.Builder(url)
+                Metadata.builderWithUrl(url)
                         .put("category", "screenshot")
                         .put("profile", profile)
                         .put("xpath", "/html")
@@ -124,7 +124,7 @@ class StoreTest {
         BufferedImage elementImage = AShotWrapper.takeElementImage(driver, By.xpath(xpath))
         Material material2 = store.write(jobName, jobTimestamp,
                 FileType.PNG,
-                new MetadataImpl.Builder(url)
+                Metadata.builderWithUrl(url)
                         .put("category", "screenshot")
                         .put("profile", profile)
                         .put("xpath", xpath)
@@ -137,7 +137,7 @@ class StoreTest {
         String html = driver.getPageSource()
         Material material3 = store.write(jobName, jobTimestamp,
                 FileType.HTML,
-                new MetadataImpl.Builder(url)
+                Metadata.builderWithUrl(url)
                         .put("category", "page source")
                         .put("profile", profile)
                         .put("xpath", "/html")

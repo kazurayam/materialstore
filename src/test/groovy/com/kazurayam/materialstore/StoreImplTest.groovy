@@ -88,9 +88,10 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_path")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new MetadataImpl.Builder(
-                ["profile": "DevelopmentEnv",
-                 "URL": "http://demoaut-mimic.kazurayam.com/"]).build()
+        Metadata metadata = Metadata.builderWithMap([
+                "profile": "DevelopmentEnv",
+                "URL": "http://demoaut-mimic.kazurayam.com/"])
+                .build()
         Path input = imagesDir.resolve("20210710_142631.development.png")
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
@@ -103,9 +104,9 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_select")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new MetadataImpl.Builder(
-                ["profile": "DevelopmentEnv",
-                 "URL": "http://demoaut-mimic.kazurayam.com/"])
+        Metadata metadata = Metadata.builderWithMap([
+                "profile": "DevelopmentEnv",
+                "URL": "http://demoaut-mimic.kazurayam.com/"])
                 .build()
         Path input = imagesDir.resolve("20210710_142631.development.png")
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
@@ -127,9 +128,9 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_selectFile")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new MetadataImpl.Builder(
-                ["profile": "DevelopmentEnv",
-                 "URL": "http://demoaut-mimic.kazurayam.com/"])
+        Metadata metadata = Metadata.builderWithMap([
+                "profile": "DevelopmentEnv",
+                "URL": "http://demoaut-mimic.kazurayam.com/"])
                 .build()
         Path input = imagesDir.resolve("20210710_142631.development.png")
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
@@ -155,10 +156,10 @@ class StoreImplTest {
         Path input = imagesDir.resolve("20210710_142631.development.png")
         //
         List<Metadata> metadataList = new ArrayList<Metadata>()
-        metadataList.add(new MetadataImpl.Builder(["city":"Thanh pho Ho Chi Minh", "country":"VN"]).build())
-        metadataList.add(new MetadataImpl.Builder(["city":"Tokyo", "country":"JP"]).build())
-        metadataList.add(new MetadataImpl.Builder(["city":"Prague", "country":"CZ"]).build())
-        metadataList.add(new MetadataImpl.Builder(["city":"Toronto", "country":"CA"]).build())
+        metadataList.add(Metadata.builderWithMap(["city":"Thanh pho Ho Chi Minh", "country":"VN"]).build())
+        metadataList.add(Metadata.builderWithMap(["city":"Tokyo", "country":"JP"]).build())
+        metadataList.add(Metadata.builderWithMap(["city":"Prague", "country":"CZ"]).build())
+        metadataList.add(Metadata.builderWithMap(["city":"Toronto", "country":"CA"]).build())
         metadataList.forEach { metadata ->
             Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
             assertNotNull(material)
@@ -175,8 +176,10 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_file")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new MetadataImpl.Builder(
-                ["profile": "DevelopmentEnv", "URL": "http://demoaut-mimic.kazurayam.com/"]).build()
+        Metadata metadata = Metadata.builderWithMap([
+                "profile": "DevelopmentEnv",
+                "URL": "http://demoaut-mimic.kazurayam.com/"])
+                .build()
         File input = imagesDir.resolve("20210710_142631.development.png").toFile()
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
@@ -189,8 +192,10 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_BufferedImage")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new MetadataImpl.Builder(
-                ["profile": "ProductionEnv", "URL": "http://demoaut.katalon.com/"]).build()
+        Metadata metadata = Metadata.builderWithMap([
+                "profile": "ProductionEnv",
+                "URL": "http://demoaut.katalon.com/"])
+                .build()
         Path input = imagesDir.resolve("20210710_142628.production.png")
         BufferedImage image = ImageIO.read(input.toFile())
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, image)
@@ -204,8 +209,10 @@ class StoreImplTest {
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_String")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = new MetadataImpl.Builder(
-                ["profile": "ProductionEnv", "URL": "http://demoaut.katalon.com/"]).build()
+        Metadata metadata = Metadata.builderWithMap([
+                "profile": "ProductionEnv",
+                "URL": "http://demoaut.katalon.com/"])
+                .build()
         String input = "犬も歩けば棒に当たる"
         Material material = store.write(jobName, jobTimestamp, FileType.TXT, metadata, input)
         assertNotNull(material)

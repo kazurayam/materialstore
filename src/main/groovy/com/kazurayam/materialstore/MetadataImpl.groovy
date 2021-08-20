@@ -7,19 +7,25 @@ import org.apache.http.NameValuePair
 
 import java.util.regex.Matcher
 import java.util.regex.Pattern
-import java.util.regex.PatternSyntaxException
 
 /**
- * Metadata is an immutable object.
+ *
  */
-class MetadataImpl implements Metadata {
-
+class MetadataImpl extends Metadata {
 
     private final Map<String, String> metadata
 
+    private MetadataImpl(Map<String, String> metadata) {
+        this.metadata = metadata
+    }
 
-    private MetadataImpl(Builder builder) {
-        this.metadata = builder.metadata
+    /**
+     * the static factory method
+     * @param metadata
+     * @return
+     */
+    static MetadataImpl from(Map<String, String> metadata) {
+        return new MetadataImpl(metadata)
     }
 
     // ------------ implements MapLike -------------------
@@ -49,30 +55,14 @@ class MetadataImpl implements Metadata {
         metadata.size()
     }
 
-    @Override
-    URL toURL() {
-        if (metadata.containsKey(Metadata.KEY_URL_HOST)) {
-            StringBuilder sb = new StringBuilder()
-            sb.append(metadata.get(Metadata.KEY_URL_PROTOCOL))
-            sb.append("://")
-            sb.append(metadata.get(Metadata.KEY_URL_HOST))
-            sb.append(metadata.get(Metadata.KEY_URL_PATH))
-            if (metadata.containsKey(Metadata.KEY_URL_QUERY)) {
-                sb.append("?")
-                sb.append(metadata.get(Metadata.KEY_URL_QUERY))
-            }
-            return new URL(sb.toString())
-        } else {
-            return null
-        }
-    }
 
-    // -------------- Metadata -------------------
+    // -------------- overrides methods of Metadata -------------------
     /**
      *
      * @param metadataPattern
      * @return
      */
+    @Override
     boolean match(MetadataPattern metadataPattern) throws MaterialstoreException {
         boolean result = true
         metadataPattern.keySet().each { key ->
@@ -103,8 +93,26 @@ class MetadataImpl implements Metadata {
         return result
     }
 
-    // ------- overriding java.lang.Object -------
+    @Override
+    URL toURL() {
+        if (metadata.containsKey(Metadata.KEY_URL_HOST)) {
+            StringBuilder sb = new StringBuilder()
+            sb.append(metadata.get(Metadata.KEY_URL_PROTOCOL))
+            sb.append("://")
+            sb.append(metadata.get(Metadata.KEY_URL_HOST))
+            sb.append(metadata.get(Metadata.KEY_URL_PATH))
+            if (metadata.containsKey(Metadata.KEY_URL_QUERY)) {
+                sb.append("?")
+                sb.append(metadata.get(Metadata.KEY_URL_QUERY))
+            }
+            return new URL(sb.toString())
+        } else {
+            return null
+        }
+    }
 
+
+    // ------- overriding java.lang.Object -------
     @Override
     boolean equals(Object obj) {
         if (! obj instanceof MetadataImpl) {
@@ -182,54 +190,6 @@ class MetadataImpl implements Metadata {
     }
 
 
-    /**
-     *
-     * @param queryString "q=katalon&dfe=piiipfe&cxw=fcfw"
-     * @return List<org.apache.http.NameValuePair>
-     */
-    static List<NameValuePair> parseURLQuery(String queryString, Charset charset = StandardCharsets.UTF_8) {
-        Objects.requireNonNull(queryString)
-        return URLEncodedUtils.parse(queryString, charset)
-    }
 
-    /**
-     *
-     */
-    static class Builder {
-        Map<String, String> metadata
-        Builder() {
-            metadata = new HashMap<String, String>()
-        }
-        Builder(Map map) {
-            Objects.requireNonNull(map)
-            metadata = new HashMap(map)
-        }
-        Builder(URL url) {
-            this()
-            Objects.requireNonNull(url)
-            metadata.put(Metadata.KEY_URL_PROTOCOL, url.getProtocol())
-            metadata.put(Metadata.KEY_URL_HOST, url.getHost())
-            if (url.getPath() != null) {
-                metadata.put(Metadata.KEY_URL_PATH, url.getPath())
-            }
-            if (url.getQuery() != null) {
-                metadata.put(Metadata.KEY_URL_QUERY, url.getQuery())
-            }
-            int posHash = url.toString().indexOf("#")
-            if (posHash >= 0) {
-                metadata.put(Metadata.KEY_URL_FRAGMENT, url.toString().substring(posHash + 1))
-            } else {
-                ; // no fragment found in the URL
-            }
-        }
-        Builder put(String key, String value) {
-            Objects.requireNonNull(key)
-            metadata.put(key, value)
-            return this
-        }
-        Metadata build() {
-            return new MetadataImpl(this)
-        }
-    }
 
 }
