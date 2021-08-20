@@ -83,9 +83,9 @@ class MetadataTest {
     }
 
     @Test
-    void test_match_asterisk_pattern_matches_everything() {
-        Metadata target = new MetadataImpl.Builder(["key":"value"]).build()
-        MetadataPattern pattern = new MetadataPattern.Builder(["key":"*"]).build()
+    void test_match_RegularExpression() {
+        Metadata target = new MetadataImpl.Builder(["profile":"ProductionEnv"]).build()
+        MetadataPattern pattern = new MetadataPattern.Builder(["profile":".*Env"]).build()
         assertTrue(target.match(pattern))
     }
 
@@ -97,7 +97,7 @@ class MetadataTest {
                 .build()
         //
         MetadataPattern pattern1 = new MetadataPattern.Builder(
-                ["profile": "*", "URL.path": "/"]).build()
+                ["profile": ".*Env", "URL.path": "/"]).build()
         assertTrue(base.match(pattern1))
         //
         MetadataPattern pattern2 = new MetadataPattern.Builder(

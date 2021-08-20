@@ -5,6 +5,10 @@ import java.nio.charset.StandardCharsets
 import org.apache.http.client.utils.URLEncodedUtils
 import org.apache.http.NameValuePair
 
+import java.util.regex.Matcher
+import java.util.regex.Pattern
+import java.util.regex.PatternSyntaxException
+
 /**
  * Metadata is an immutable object.
  */
@@ -69,14 +73,18 @@ class MetadataImpl implements Metadata {
      * @param metadataPattern
      * @return
      */
-    boolean match(MetadataPattern metadataPattern) {
+    boolean match(MetadataPattern metadataPattern) throws MaterialstoreException {
         boolean result = true
         metadataPattern.keySet().each { key ->
             if (this.keySet().contains(key)) {
-                String pattern = metadataPattern.get(key)
-                if (pattern == "*") {
-                    ;
-                } else if (pattern == this.get(key)) {
+                Pattern pattern
+                try {
+                    pattern = Pattern.compile(metadataPattern.get(key))
+                } catch (PatternSyntaxException e) {
+                    throw new MaterialstoreException(e)
+                }
+                Matcher matcher = pattern.matcher(this.get(key))
+                if (matcher.find()) {
                     ;
                 } else {
                     result = false
