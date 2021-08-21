@@ -17,7 +17,7 @@ class MetadataPatternTest {
                 "profile":"ProjectionEnv",
                 "category":"screenshot"])
                 .build()
-        MetadataIgnoredKeys ignoredKeys = new MetadataIgnoredKeys.Builder().ignoreKey("profile").build()
+        MetadataIgnoredKeys ignoredKeys = MetadataIgnoredKeys.of("profile")
         MetadataPattern pattern = MetadataPattern.builderWithMetadata(metadata, ignoredKeys).build()
         assertNotNull(pattern)
         assertFalse(pattern.containsKey("profile"))

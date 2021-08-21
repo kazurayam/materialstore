@@ -1,29 +1,28 @@
 package com.kazurayam.materialstore
 
-class MetadataIgnoredKeys {
+abstract class MetadataIgnoredKeys {
 
     public static final MetadataIgnoredKeys NULL_OBJECT = new Builder().build()
 
-    private Set<String> keySet
+    abstract int size()
 
-    private MetadataIgnoredKeys(Builder builder) {
-        this.keySet = builder.keySet
+    abstract boolean contains(String key)
+
+    abstract Iterator<String> iterator()
+
+    // -------------------- factory methods ------------
+    static MetadataIgnoredKeys of(String... keys) {
+        Builder builder = new Builder()
+        keys.each {
+            builder.ignoreKey(it)
+        }
+        return builder.build()
     }
 
-    int size() {
-        return keySet.size()
-    }
 
-    boolean contains(String key) {
-        return keySet.contains(key)
-    }
-
-    Iterator<String> iterator() {
-        keySet.iterator()
-    }
-
-    static class Builder {
+    private static class Builder {
         Set<String> keySet
+        /*
         Builder(Metadata metadata) {
             this()
             this.keySet.addAll(metadata.keySet())
@@ -32,6 +31,7 @@ class MetadataIgnoredKeys {
             this()
             this.keySet.addAll(metadataPattern.keySet())
         }
+         */
         Builder() {
             this.keySet = new HashSet<String>()
         }
@@ -40,7 +40,7 @@ class MetadataIgnoredKeys {
             return this
         }
         MetadataIgnoredKeys build() {
-            return new MetadataIgnoredKeys(this)
+            return new MetadataIgnoredKeysImpl(keySet)
         }
     }
 }

@@ -324,12 +324,7 @@ class StoreImplTest {
         //
         DiffArtifacts diffArtifacts =
                 store.zipMaterials(leftList, rightList,
-                        new MetadataIgnoredKeys.Builder()
-                                .ignoreKey("profile")
-                                .ignoreKey("URL")
-                                .ignoreKey("URL.host")
-                                .ignoreKey("category")
-                                .build())
+                        MetadataIgnoredKeys.of("profile", "URL", "URL.host", "category"))
         assertNotNull(diffArtifacts)
         assertEquals(2, diffArtifacts.size(),
                 JsonOutput.prettyPrint(diffArtifacts.toString()))

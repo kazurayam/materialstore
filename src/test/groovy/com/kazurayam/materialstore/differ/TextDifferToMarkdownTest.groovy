@@ -42,11 +42,7 @@ class TextDifferToMarkdownTest {
 
         DiffArtifacts diffArtifacts =
                 storeImpl.zipMaterials(left, right,
-                        new MetadataIgnoredKeys.Builder()
-                                .ignoreKey("profile")
-                                .ignoreKey("URL")
-                                .ignoreKey("URL.host")
-                                .build())
+                        MetadataIgnoredKeys.of("profile", "URL", "URL.host"))
         assertNotNull(diffArtifacts)
         assertEquals(1, diffArtifacts.size())
         //
