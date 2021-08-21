@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore
 
-class Filename {
+final class Filename {
 
     static final String PROHIBITED_CHARACTERS = "/\\?*:|\"<>&"
 

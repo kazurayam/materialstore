@@ -2,7 +2,7 @@ package com.kazurayam.materialstore
 
 import java.util.regex.Pattern
 
-class MetadataPatternImpl extends MetadataPattern implements MapLike {
+final class MetadataPatternImpl extends MetadataPattern implements MapLike {
 
     private final Map<String, Object> metadataPattern
 

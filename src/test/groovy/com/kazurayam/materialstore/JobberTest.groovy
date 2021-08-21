@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore
 
-
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -186,9 +185,9 @@ class JobberTest {
                 "profile": Pattern.compile(".*"),
                 "URL": Pattern.compile(".*")])
                 .build()
-        List<Material> materials = jobber.selectMaterials(pattern, FileType.PNG)
-        assertNotNull(materials)
-        assertEquals(1, materials.size())
+        MaterialList materialList = jobber.selectMaterials(pattern, FileType.PNG)
+        assertNotNull(materialList)
+        assertEquals(1, materialList.size())
     }
 
     @Test
@@ -205,9 +204,9 @@ class JobberTest {
                 "URL": Pattern.compile(".*")])
                 .build()
         // select without FileType
-        List<Material> materials = jobber.selectMaterials(pattern)
-        assertNotNull(materials)
-        assertTrue(materials.size() > 0)
+        MaterialList materialList = jobber.selectMaterials(pattern)
+        assertNotNull(materialList)
+        assertTrue(materialList.size() > 0)
     }
 
     @Test
@@ -220,9 +219,9 @@ class JobberTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         Jobber jobber = new Jobber(root, jobName, jobTimestamp)
         // select with MetadataPattern.ANY, which means all Materials in the job directory
-        List<Material> materials = jobber.selectMaterials(MetadataPattern.ANY)
-        assertNotNull(materials)
-        assertEquals(6, materials.size())
+        MaterialList materialList = jobber.selectMaterials(MetadataPattern.ANY)
+        assertNotNull(materialList)
+        assertEquals(6, materialList.size())
     }
 
 }

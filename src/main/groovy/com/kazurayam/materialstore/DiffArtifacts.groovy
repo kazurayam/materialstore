@@ -2,7 +2,7 @@ package com.kazurayam.materialstore
 
 import java.util.stream.Collectors
 
-class DiffArtifacts {
+final class DiffArtifacts {
 
     private final List<DiffArtifact> diffArtifacts
 

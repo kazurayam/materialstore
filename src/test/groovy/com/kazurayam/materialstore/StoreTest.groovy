@@ -65,10 +65,10 @@ class StoreTest {
         driver.quit()
 
         // pickup the materials that belongs to the 2 "profiles"
-        List<Material> left = store.select(jobName, jobTimestamp,
+        MaterialList left = store.select(jobName, jobTimestamp,
                 MetadataPattern.builderWithMap(["profile": profile1 ]).build())
 
-        List<Material> right = store.select(jobName, jobTimestamp,
+        MaterialList right = store.select(jobName, jobTimestamp,
                 MetadataPattern.builderWithMap(["profile": profile2 ]).build())
 
         // make diff

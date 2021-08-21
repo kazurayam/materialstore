@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage
 import java.nio.file.Files
 import java.nio.file.Path
 
-class ImageDifferToPNG implements Differ {
+final class ImageDifferToPNG implements Differ {
 
     private Path root_
 

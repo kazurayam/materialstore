@@ -1,17 +1,12 @@
 package com.kazurayam.materialstore
 
-import java.nio.charset.Charset
-import java.nio.charset.StandardCharsets
-import org.apache.http.client.utils.URLEncodedUtils
-import org.apache.http.NameValuePair
-
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 /**
  *
  */
-class MetadataImpl extends Metadata {
+final class MetadataImpl extends Metadata {
 
     private final Map<String, String> metadata
 

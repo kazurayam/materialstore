@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.differ
 
-class TextDiffContent {
+final class TextDiffContent {
 
     private final String content
 

@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore
 
-class ID implements Comparable {
+final class ID implements Comparable {
 
     public static final ID NULL_OBJECT = new ID("0" * 40)
 

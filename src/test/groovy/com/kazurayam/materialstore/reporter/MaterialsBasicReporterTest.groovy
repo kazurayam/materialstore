@@ -42,7 +42,7 @@ class MaterialsBasicReporterTest {
         MaterialsBasicReporter reporter =
                 new MaterialsBasicReporter(root, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
-        List<Material> list = store.select(jobName, jobTimestamp,
+        MaterialList list = store.select(jobName, jobTimestamp,
                 MetadataPattern.builderWithMap(["profile": "ProductionEnv"]).build()
         )
         assertTrue(list.size() > 0, "list is empty")

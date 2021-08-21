@@ -1,10 +1,9 @@
 package com.kazurayam.materialstore
 
-
 import java.nio.file.Files
 import java.nio.file.Path
 
-class Jobber {
+final class Jobber {
 
     static final String OBJECTS_DIR_NAME = "objects"
 
@@ -78,10 +77,10 @@ class Jobber {
      * @param metadataPattern
      * @return
      */
-    List<Material> selectMaterials(MetadataPattern metadataPattern, FileType fileType) {
+    MaterialList selectMaterials(MetadataPattern metadataPattern, FileType fileType) {
         Objects.requireNonNull(metadataPattern)
         Objects.requireNonNull(fileType)
-        List<Material> result = new ArrayList<Material>()
+        MaterialList result = new MaterialList(metadataPattern, fileType)
         index.eachWithIndex { IndexEntry entry, x ->
             if (metadataPattern == MetadataPattern.ANY ||
                     entry.getMetadata().match(metadataPattern)) {
@@ -94,7 +93,7 @@ class Jobber {
         return result
     }
     
-    List<Material> selectMaterials(MetadataPattern metadataPattern) {
+    MaterialList selectMaterials(MetadataPattern metadataPattern) {
         return selectMaterials(metadataPattern, FileType.NULL)
     }
 

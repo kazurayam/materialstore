@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
 import java.nio.file.Files
 import java.nio.file.Path
 
-class DiffArtifactsBasicReporter implements DiffReporter {
+final class DiffArtifactsBasicReporter implements DiffReporter {
 
     private static final Logger logger = LoggerFactory.getLogger(DiffArtifactsBasicReporter.class)
 

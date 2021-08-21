@@ -16,7 +16,7 @@ import java.nio.file.Paths
 import java.time.temporal.TemporalUnit
 import java.util.stream.Collectors
 
-class StoreImpl implements Store {
+final class StoreImpl implements Store {
 
     private static final Logger logger = LoggerFactory.getLogger(StoreImpl.class)
 
@@ -46,8 +46,8 @@ class StoreImpl implements Store {
     }
 
     @Override
-    DiffArtifacts makeDiff(List<Material> left,
-                                List<Material> right,
+    DiffArtifacts makeDiff(MaterialList left,
+                                MaterialList right,
                                 MetadataIgnoredKeys ignoredKeys = MetadataIgnoredKeys.NULL_OBJECT) {
         Objects.requireNonNull(left)
         Objects.requireNonNull(right)
@@ -77,14 +77,14 @@ class StoreImpl implements Store {
     }
 
     @Override
-    Path reportMaterials(JobName jobName, List<Material> materials,
+    Path reportMaterials(JobName jobName, MaterialList materialList,
                          String fileName = "list.html") {
         Objects.requireNonNull(jobName)
-        Objects.requireNonNull(materials)
+        Objects.requireNonNull(materialList)
         Objects.requireNonNull(fileName)
         MaterialsBasicReporter reporter =
                 new MaterialsBasicReporter(this.root, jobName)
-        return reporter.reportMaterials(materials, fileName)
+        return reporter.reportMaterials(materialList, fileName)
     }
 
 
@@ -165,14 +165,14 @@ class StoreImpl implements Store {
 
 
     @Override
-    List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
                           MetadataPattern metadataPattern, FileType fileType) {
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
         return jobber.selectMaterials(metadataPattern, fileType)
     }
 
     @Override
-    List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
                           MetadataPattern metadataPattern) {
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
         return jobber.selectMaterials(metadataPattern)
@@ -182,7 +182,7 @@ class StoreImpl implements Store {
     File selectFile(JobName jobName, JobTimestamp jobTimestamp,
                     MetadataPattern metadataPattern, FileType fileType) {
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
-        List<Material> materials = jobber.selectMaterials(metadataPattern, fileType)
+        MaterialList materials = jobber.selectMaterials(metadataPattern, fileType)
         if (materials.size() > 0) {
             Material material = materials.get(0)
             File f = material.toFile(root_)
@@ -323,8 +323,8 @@ class StoreImpl implements Store {
      * @return
      */
     @Override
-    DiffArtifacts zipMaterials(List<Material> leftList,
-                                    List<Material> rightList,
+    DiffArtifacts zipMaterials(MaterialList leftList,
+                                    MaterialList rightList,
                                     MetadataIgnoredKeys ignoredKeys) {
         Objects.requireNonNull(leftList)
         Objects.requireNonNull(rightList)

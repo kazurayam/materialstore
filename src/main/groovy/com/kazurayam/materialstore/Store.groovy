@@ -12,10 +12,10 @@ interface Store {
 
     Path getRoot()
 
-    List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
                           MetadataPattern metadataPattern)
 
-    List<Material> select(JobName jobName, JobTimestamp jobTimestamp,
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
                           MetadataPattern metadataPattern, FileType fileType)
 
     File selectFile(JobName jobName, JobTimestamp jobTimestamp,
@@ -40,15 +40,15 @@ interface Store {
                    FileType fileType, Metadata meta, String input,
                    Charset charset)
 
-    DiffArtifacts zipMaterials(List<Material> left, List<Material> right, MetadataIgnoredKeys ignoredKeys)
+    DiffArtifacts zipMaterials(MaterialList left, MaterialList right, MetadataIgnoredKeys ignoredKeys)
 
-    DiffArtifacts makeDiff(List<Material> left, List<Material> right)
+    DiffArtifacts makeDiff(MaterialList left, MaterialList right)
 
-    DiffArtifacts makeDiff(List<Material> left, List<Material> right, MetadataIgnoredKeys ignoredKeys)
+    DiffArtifacts makeDiff(MaterialList left, MaterialList right, MetadataIgnoredKeys ignoredKeys)
 
     Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, Double criteria, String fileName)
 
-    Path reportMaterials(JobName jobName, List<Material> materials, String fileName)
+    Path reportMaterials(JobName jobName, MaterialList materials, String fileName)
 
     List<JobTimestamp> findAllJobTimestamps(JobName jobName)
 

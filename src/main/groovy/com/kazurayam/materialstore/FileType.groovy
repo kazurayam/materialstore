@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore
 
-enum FileType {
+final enum FileType {
 
     TXT  ('txt',    ['text/plain']),
     CSV  ('csv',    [

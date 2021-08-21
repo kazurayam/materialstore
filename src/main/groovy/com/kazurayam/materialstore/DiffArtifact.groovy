@@ -6,7 +6,7 @@ import groovy.json.JsonOutput
 /**
  * Data Transfer Object
  */
-class DiffArtifact implements Comparable {
+final class DiffArtifact implements Comparable {
 
     public static final DiffArtifact NULL_OBJECT =
             new Builder(Material.NULL_OBJECT, Material.NULL_OBJECT)

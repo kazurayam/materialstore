@@ -6,7 +6,7 @@ import groovy.json.JsonSlurper
 import java.nio.file.Path
 import java.nio.file.Paths
 
-class IndexEntry implements Comparable {
+final class IndexEntry implements Comparable {
 
     public static final IndexEntry NULL_OBJECT = new IndexEntry(ID.NULL_OBJECT, FileType.NULL, Metadata.NULL_OBJECT)
 

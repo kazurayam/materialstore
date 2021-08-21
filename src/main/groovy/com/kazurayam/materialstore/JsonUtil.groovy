@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore
 
-class JsonUtil {
+final class JsonUtil {
 
     private JsonUtil() {}
 

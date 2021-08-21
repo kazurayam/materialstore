@@ -23,7 +23,7 @@ import java.util.stream.Collectors
 // A problem: how to deal with a long line without white spaces
 //  <script  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
 
-class TextDifferToHTML extends AbstractTextDiffer implements Differ {
+final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
 
     public static final String OLD_TAG = "!_~_!"
     public static final String NEW_TAG = "!#~#!"

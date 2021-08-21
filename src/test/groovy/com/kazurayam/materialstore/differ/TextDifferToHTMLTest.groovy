@@ -27,13 +27,13 @@ class TextDifferToHTMLTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         //
-        List<Material> expected = storeImpl.select(jobName, jobTimestamp,
+        MaterialList expected = storeImpl.select(jobName, jobTimestamp,
                 MetadataPattern.builderWithMap([
                         "category":"page source", "profile": "ProductionEnv"])
                         .build(),
                 FileType.HTML)
 
-        List<Material> actual = storeImpl.select(jobName, jobTimestamp,
+        MaterialList actual = storeImpl.select(jobName, jobTimestamp,
                 MetadataPattern.builderWithMap([
                         "category":"page source","profile": "DevelopmentEnv"])
                         .build(),

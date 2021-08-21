@@ -117,7 +117,7 @@ class StoreImplTest {
                 "URL": Pattern.compile(".*")])
                 .build()
         // select specifying FileType
-        List<Material> materials = store.select(jobName, jobTimestamp, pattern, FileType.PNG)
+        MaterialList materials = store.select(jobName, jobTimestamp, pattern, FileType.PNG)
         assertNotNull(materials)
         assertEquals(1, materials.size())
     }
@@ -164,7 +164,7 @@ class StoreImplTest {
             assertNotNull(material)
         }
         // select 2 members amongst 4 by matching "city" with a Regular Expression `To.*`
-        List<Material> selected = store.select(jobName, jobTimestamp,
+        MaterialList selected = store.select(jobName, jobTimestamp,
                 MetadataPattern.builderWithMap([
                         "city": Pattern.compile("To.*")])
                         .build());
@@ -304,7 +304,7 @@ class StoreImplTest {
         //
         Jobber jobberOfLeft = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
-        List<Material> leftList = jobberOfLeft.selectMaterials(
+        MaterialList leftList = jobberOfLeft.selectMaterials(
                 MetadataPattern.builderWithMap([
                         "profile": "ProductionEnv",
                         "URL.file": Pattern.compile(".*")])
@@ -314,7 +314,7 @@ class StoreImplTest {
         //
         Jobber jobberOfRight = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
-            List<Material> rightList= jobberOfRight.selectMaterials(
+            MaterialList rightList= jobberOfRight.selectMaterials(
                 MetadataPattern.builderWithMap([
                         "profile": "DevelopmentEnv",
                         "URL.file": Pattern.compile(".*")])
@@ -365,8 +365,8 @@ class StoreImplTest {
         TestFixtureUtil.setupFixture(store, jobName)
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
-        List<Material> materials = store.select(jobName, jobTimestamp, MetadataPattern.ANY)
-        Path report = store.reportMaterials(jobName, materials, "list.html")
+        MaterialList materialList = store.select(jobName, jobTimestamp, MetadataPattern.ANY)
+        Path report = store.reportMaterials(jobName, materialList, "list.html")
         assertNotNull(report)
         assertTrue(Files.exists(report))
     }
@@ -378,11 +378,10 @@ class StoreImplTest {
         JobName jobName = new JobName("test_getAbsolutePathOf")
         TestFixtureUtil.setupFixture(store, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
-        List<Material> materials = store.select(jobName, jobTimestamp, MetadataPattern.ANY)
-        Path abs = store.getPathOf(materials.get(0));
+        MaterialList materialList = store.select(jobName, jobTimestamp, MetadataPattern.ANY)
+        Path abs = store.getPathOf(materialList.get(0));
         assertNotNull(abs)
         println abs.toString()
-
     }
 
 }

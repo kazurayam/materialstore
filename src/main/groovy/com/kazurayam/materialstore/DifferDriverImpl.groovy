@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory
 
 import java.nio.file.Path
 
-class DifferDriverImpl implements DifferDriver {
+final class DifferDriverImpl implements DifferDriver {
 
     private static final Logger logger = LoggerFactory.getLogger(DifferDriverImpl.class)
 

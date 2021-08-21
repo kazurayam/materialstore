@@ -15,7 +15,7 @@ import java.util.stream.Collectors
  * https://github.com/java-diff-utils/java-diff-utils
  * to make diff of 2 texts
  */
-class TextDifferToMarkdown extends AbstractTextDiffer implements Differ {
+final class TextDifferToMarkdown extends AbstractTextDiffer implements Differ {
 
     TextDifferToMarkdown() {
         super()

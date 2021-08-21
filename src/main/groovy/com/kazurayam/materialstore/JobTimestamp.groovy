@@ -6,7 +6,7 @@ import java.time.format.DateTimeParseException
 import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalUnit
 
-class JobTimestamp implements Comparable {
+final class JobTimestamp implements Comparable {
 
     public static final JobTimestamp NULL_OBJECT = new JobTimestamp("_")
 

@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.reporter
 
 import com.kazurayam.materialstore.JobName
 import com.kazurayam.materialstore.Material
+import com.kazurayam.materialstore.MaterialList
 import groovy.json.JsonOutput
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
@@ -11,7 +12,7 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 
-class MaterialsBasicReporter {
+final class MaterialsBasicReporter {
 
     private static final Logger logger = LoggerFactory.getLogger(MaterialsBasicReporter.class)
 
@@ -29,8 +30,8 @@ class MaterialsBasicReporter {
         this.jobName_ = jobName
     }
 
-    Path reportMaterials(List<Material> materials, String reportFileName = "list.html") {
-        Objects.requireNonNull(materials)
+    Path reportMaterials(MaterialList materialList, String reportFileName = "list.html") {
+        Objects.requireNonNull(materialList)
         Objects.requireNonNull(reportFileName)
         //
         Path reportFile = root_.resolve(reportFileName)
@@ -54,7 +55,7 @@ class MaterialsBasicReporter {
                     h1(jobName_.toString())
                     div(class: "accordion",
                             id:"materials-content") {
-                        materials.eachWithIndex { Material material, int index ->
+                        materialList.eachWithIndex { Material material, int index ->
                             div(id: "accordion${index+1}",
                                     class: "accordion-item") {
                                 h2(id: "heading${index+1}",

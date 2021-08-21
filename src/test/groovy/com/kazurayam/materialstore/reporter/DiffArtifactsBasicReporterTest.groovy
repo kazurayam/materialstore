@@ -43,12 +43,12 @@ class DiffArtifactsBasicReporterTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         // pickup the materials that belongs to the 2 "profiles"
         String profile1 = "ProductionEnv"
-        List<Material> left = store.select(jobName, jobTimestamp,
+        MaterialList left = store.select(jobName, jobTimestamp,
                 MetadataPattern.builderWithMap(["profile": profile1 ]).build()
         )
 
         String profile2 = "DevelopmentEnv"
-        List<Material> right = store.select(jobName, jobTimestamp,
+        MaterialList right = store.select(jobName, jobTimestamp,
                 MetadataPattern.builderWithMap(["profile": profile2 ]).build())
 
         // make diff

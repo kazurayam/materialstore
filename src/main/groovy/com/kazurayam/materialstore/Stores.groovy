@@ -5,7 +5,7 @@ import java.nio.file.Path
 /**
  * Factory class for the Store interface
  */
-class Stores {
+final class Stores {
 
     private Stores() { throw new UnsupportedOperationException("should not instantiate this") }
 

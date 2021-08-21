@@ -4,7 +4,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.security.MessageDigest
 
-class MObject {
+final class MObject {
 
     private final byte[] data_
 

@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore
 
-class MetadataIgnoredKeysImpl extends MetadataIgnoredKeys {
+final class MetadataIgnoredKeysImpl extends MetadataIgnoredKeys {
 
     private Set<String> keySet
 

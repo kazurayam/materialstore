@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.differ
 
-class DifferUtil {
+final class DifferUtil {
 
     private DifferUtil() {}
 
