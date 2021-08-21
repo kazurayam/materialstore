@@ -14,7 +14,7 @@ class MetadataIgnoredKeysTest {
 
     @Test
     void test_building_witArg() {
-        MetadataPattern pattern = new MetadataPattern.Builder(["profile":"ProductionEnv"]).build()
+        MetadataPattern pattern = MetadataPattern.builderWithMap(["profile":"ProductionEnv"]).build()
         MetadataIgnoredKeys ignoredKeys = new MetadataIgnoredKeys.Builder(pattern).build()
         assertNotNull(ignoredKeys)
         assertEquals(1, ignoredKeys.size())

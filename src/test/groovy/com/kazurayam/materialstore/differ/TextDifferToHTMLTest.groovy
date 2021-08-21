@@ -28,13 +28,15 @@ class TextDifferToHTMLTest {
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         //
         List<Material> expected = storeImpl.select(jobName, jobTimestamp,
-                new MetadataPattern.Builder(
-                        ["category":"page source", "profile": "ProductionEnv"]).build(),
+                MetadataPattern.builderWithMap([
+                        "category":"page source", "profile": "ProductionEnv"])
+                        .build(),
                 FileType.HTML)
 
         List<Material> actual = storeImpl.select(jobName, jobTimestamp,
-                new MetadataPattern.Builder(
-                        ["category":"page source","profile": "DevelopmentEnv"]).build(),
+                MetadataPattern.builderWithMap([
+                        "category":"page source","profile": "DevelopmentEnv"])
+                        .build(),
                 FileType.HTML)
 
         DiffArtifacts diffArtifacts =

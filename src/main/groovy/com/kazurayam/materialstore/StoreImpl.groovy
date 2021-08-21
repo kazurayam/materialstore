@@ -335,7 +335,7 @@ class StoreImpl implements Store {
             FileType rightFileType = right.getIndexEntry().getFileType()
             Metadata rightMetadata = right.getIndexEntry().getMetadata()
             MetadataPattern rightPattern =
-                    new MetadataPattern.Builder(rightMetadata, ignoredKeys).build()
+                    MetadataPattern.builderWithMetadata(rightMetadata, ignoredKeys).build()
             //
             StringBuilder sb = new StringBuilder()
             sb.append("\nright pattern: ${rightPattern}\n")
@@ -372,7 +372,7 @@ class StoreImpl implements Store {
             FileType leftFileType = left.getIndexEntry().getFileType()
             Metadata leftMetadata = left.getIndexEntry().getMetadata()
             MetadataPattern leftPattern =
-                    new MetadataPattern.Builder(leftMetadata, ignoredKeys).build()
+                    MetadataPattern.builderWithMetadata(leftMetadata, ignoredKeys).build()
             //
             StringBuilder sb = new StringBuilder()
             sb.append("\nleft pattern: ${leftPattern}\n")

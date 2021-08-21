@@ -2,72 +2,29 @@ package com.kazurayam.materialstore
 
 import java.util.regex.Pattern
 
-class MetadataPattern implements MapLike {
+abstract class MetadataPattern implements MapLike {
 
     public static final MetadataPattern NULL_OBJECT = new Builder([:]).build()
 
     public static final MetadataPattern ANY = new Builder(["*": Pattern.compile(".*")]).build()
 
-    private final Map<String, Object> metadataPattern
-
-    private MetadataPattern(Builder builder) {
-        this.metadataPattern = builder.metadataPattern
+    static Builder builder() {
+        return new Builder()
     }
 
-    //------------- implements MapLike ----------------
-
-    @Override
-    boolean containsKey(String key) {
-        return metadataPattern.containsKey(key)
+    static Builder builderWithMap(Map<String, Object> source) {
+        return new Builder(source)
     }
 
-    @Override
-    Object get(String key) {
-        return metadataPattern.get(key)
+    static Builder builderWithMetadata(Metadata metadata) {
+        return new Builder(metadata)
     }
 
-    @Override
-    boolean isEmpty() {
-        return metadataPattern.isEmpty()
+    static Builder builderWithMetadata(Metadata metadata, MetadataIgnoredKeys ignoredKeys) {
+        return new Builder(metadata, ignoredKeys)
     }
 
-    @Override
-    Set<String> keySet() {
-        return metadataPattern.keySet()
-    }
-
-    @Override
-    int size() {
-        return metadataPattern.size()
-    }
-
-    //------------- implements java.lang.Object -------
-    @Override
-    String toString() {
-        StringBuilder sb = new StringBuilder()
-        List<String> keyList = new ArrayList(metadataPattern.keySet())
-        Collections.sort(keyList)
-        int count = 0
-        sb.append("{")
-        keyList.forEach({key ->
-            if (count > 0) {
-                sb.append(", ")   // one whitespace after , is significant
-            }
-            sb.append("\"")
-            sb.append(key)
-            sb.append("\":\"")
-            if (metadataPattern.get(key) instanceof Pattern) {
-                sb.append("regex:")
-            }
-            sb.append(metadataPattern.get(key))
-            sb.append("\"")
-            count += 1
-        })
-        sb.append("}")
-        return sb.toString()
-    }
-
-    static class Builder {
+    private static class Builder {
         private Map<String, Object> metadataPattern
         Builder() {
             this.metadataPattern = new HashMap<String, Object>()
@@ -85,10 +42,10 @@ class MetadataPattern implements MapLike {
                 }
             }
         }
-        Builder(MapLike source) {
+        Builder(Metadata source) {
             this(source, MetadataIgnoredKeys.NULL_OBJECT)
         }
-        Builder(MapLike source, MetadataIgnoredKeys ignoredKeys) {
+        Builder(Metadata source, MetadataIgnoredKeys ignoredKeys) {
             this()
             Objects.requireNonNull(ignoredKeys)
             Objects.requireNonNull(source)
@@ -105,7 +62,7 @@ class MetadataPattern implements MapLike {
             }
         }
         MetadataPattern build() {
-            return new MetadataPattern(this)
+            return new MetadataPatternImpl(metadataPattern)
         }
     }
 }

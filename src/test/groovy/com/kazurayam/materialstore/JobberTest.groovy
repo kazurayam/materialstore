@@ -182,9 +182,9 @@ class JobberTest {
         byte[] data = baos.toByteArray()
         Material material = jobber.write(data, FileType.PNG, metadata)
         //
-        MetadataPattern pattern = new MetadataPattern.Builder(
-                [ "profile": Pattern.compile(".*"),
-                  "URL": Pattern.compile(".*")])
+        MetadataPattern pattern = MetadataPattern.builderWithMap([
+                "profile": Pattern.compile(".*"),
+                "URL": Pattern.compile(".*")])
                 .build()
         List<Material> materials = jobber.selectMaterials(pattern, FileType.PNG)
         assertNotNull(materials)
@@ -200,8 +200,10 @@ class JobberTest {
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         Jobber jobber = new Jobber(root, jobName, jobTimestamp)
-        MetadataPattern pattern = new MetadataPattern.Builder(
-                ["profile": "DevelopmentEnv", "URL": Pattern.compile(".*")]).build()
+        MetadataPattern pattern = MetadataPattern.builderWithMap([
+                "profile": "DevelopmentEnv",
+                "URL": Pattern.compile(".*")])
+                .build()
         // select without FileType
         List<Material> materials = jobber.selectMaterials(pattern)
         assertNotNull(materials)

@@ -112,9 +112,9 @@ class StoreImplTest {
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
         //
-        MetadataPattern pattern = new MetadataPattern.Builder(
-                ["profile": Pattern.compile(".*"),
-                 "URL": Pattern.compile(".*")])
+        MetadataPattern pattern = MetadataPattern.builderWithMap([
+                "profile": Pattern.compile(".*"),
+                "URL": Pattern.compile(".*")])
                 .build()
         // select specifying FileType
         List<Material> materials = store.select(jobName, jobTimestamp, pattern, FileType.PNG)
@@ -136,10 +136,9 @@ class StoreImplTest {
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
         //
-        MetadataPattern pattern = new MetadataPattern.Builder(
-                ["profile": Pattern.compile(".*"),
-                 "URL": Pattern.compile(".*")
-                ])
+        MetadataPattern pattern = MetadataPattern.builderWithMap([
+                "profile": Pattern.compile(".*"),
+                "URL": Pattern.compile(".*")])
                 .build()
         // select specifying FileType
         File f = store.selectFile(jobName, jobTimestamp, pattern, FileType.PNG)
@@ -166,7 +165,9 @@ class StoreImplTest {
         }
         // select 2 members amongst 4 by matching "city" with a Regular Expression `To.*`
         List<Material> selected = store.select(jobName, jobTimestamp,
-                new MetadataPattern.Builder(["city": Pattern.compile("To.*")]).build());
+                MetadataPattern.builderWithMap([
+                        "city": Pattern.compile("To.*")])
+                        .build());
         assertEquals(2, selected.size())
     }
 
@@ -304,7 +305,7 @@ class StoreImplTest {
         Jobber jobberOfLeft = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
         List<Material> leftList = jobberOfLeft.selectMaterials(
-                new MetadataPattern.Builder([
+                MetadataPattern.builderWithMap([
                         "profile": "ProductionEnv",
                         "URL.file": Pattern.compile(".*")])
                         .build(),
@@ -314,7 +315,7 @@ class StoreImplTest {
         Jobber jobberOfRight = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
             List<Material> rightList= jobberOfRight.selectMaterials(
-                new MetadataPattern.Builder([
+                MetadataPattern.builderWithMap([
                         "profile": "DevelopmentEnv",
                         "URL.file": Pattern.compile(".*")])
                         .build(),

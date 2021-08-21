@@ -81,15 +81,16 @@ class MetadataTest {
     @Test
     void test_match_simplest() {
         Metadata target = Metadata.builderWithMap(["key":"value"]).build()
-        MetadataPattern pattern = new MetadataPattern.Builder(["key":"value"]).build()
+        MetadataPattern pattern = MetadataPattern.builderWithMap(["key":"value"]).build()
         assertTrue(target.match(pattern))
     }
 
     @Test
     void test_match_RegularExpression() {
         Metadata target = Metadata.builderWithMap(["profile":"ProductionEnv"]).build()
-        MetadataPattern pattern = new MetadataPattern.Builder(
-                ["profile": Pattern.compile(".*Env")]).build()
+        MetadataPattern pattern = MetadataPattern.builderWithMap([
+                "profile": Pattern.compile(".*Env")])
+                .build()
         assertTrue(target.match(pattern))
     }
 
@@ -100,16 +101,20 @@ class MetadataTest {
                 .put("profile", "ProductionEnv")
                 .build()
         //
-        MetadataPattern pattern1 = new MetadataPattern.Builder(
-                ["profile": Pattern.compile(".*Env"), "URL.path": "/"]).build()
+        MetadataPattern pattern1 = MetadataPattern.builderWithMap([
+                "profile": Pattern.compile(".*Env"),
+                "URL.path": "/"])
+                .build()
         assertTrue(base.match(pattern1))
         //
-        MetadataPattern pattern2 = new MetadataPattern.Builder(
-                ["URL.path": "/"]).build()
+        MetadataPattern pattern2 = MetadataPattern.builderWithMap([
+                "URL.path": "/"])
+                .build()
         assertTrue(base.match(pattern2))
         //
-        MetadataPattern pattern3 = new MetadataPattern.Builder(
-                ["profile": "DevelopmentEnv"]).build()
+        MetadataPattern pattern3 = MetadataPattern.builderWithMap([
+                "profile": "DevelopmentEnv"])
+                .build()
         assertFalse(base.match(pattern3))
     }
 

@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore
 
 import org.junit.jupiter.api.Test
-
+import java.util.regex.Pattern
 import static org.junit.jupiter.api.Assertions.*
 
 class MetadataPatternTest {
@@ -18,7 +18,7 @@ class MetadataPatternTest {
                 "category":"screenshot"])
                 .build()
         MetadataIgnoredKeys ignoredKeys = new MetadataIgnoredKeys.Builder().ignoreKey("profile").build()
-        MetadataPattern pattern = new MetadataPattern.Builder(metadata, ignoredKeys).build()
+        MetadataPattern pattern = MetadataPattern.builderWithMetadata(metadata, ignoredKeys).build()
         assertNotNull(pattern)
         assertFalse(pattern.containsKey("profile"))
         assertTrue(pattern.containsKey("category"))
@@ -30,23 +30,23 @@ class MetadataPatternTest {
                 "profile":"ProjectionEnv",
                 "category":"screenshot"])
                 .build()
-        MetadataPattern pattern = new MetadataPattern.Builder(metadata).build()
+        MetadataPattern pattern = MetadataPattern.builderWithMetadata(metadata).build()
         assertNotNull(pattern)
         assertTrue(pattern.containsKey("profile"))
         assertTrue(pattern.containsKey("category"))
     }
 
     @Test
-    void test_constructing_ANY() {
-        MetadataPattern mp = new MetadataPattern.Builder(["*":"*"]).build()
+    void test_ANY() {
+        MetadataPattern mp = MetadataPattern.ANY
         assertNotNull(mp)
         assertEquals(1, mp.size())
-        assertEquals("*", mp.get("*"))
+        assertEquals(Pattern.compile(".*").toString(), mp.get("*").toString())
     }
 
     @Test
-    void test_constructing_NULLOBJECT() {
-        MetadataPattern mp = new MetadataPattern.Builder([:]).build()
+    void test_NULLOBJECT() {
+        MetadataPattern mp = MetadataPattern.NULL_OBJECT
         assertNotNull(mp)
         assertEquals(0, mp.size())
     }
@@ -73,7 +73,7 @@ class MetadataPatternTest {
                 .put("B","b")
                 .build()
         MetadataIgnoredKeys ignoredKeys = MetadataIgnoredKeys.NULL_OBJECT
-        MetadataPattern pattern = new MetadataPattern.Builder(metadata, ignoredKeys).build()
+        MetadataPattern pattern = MetadataPattern.builderWithMetadata(metadata, ignoredKeys).build()
         String expected = '''{"B":"b", "C":"c", "a":"a"}'''
         String actual = pattern.toString()
         assertEquals(expected, actual)

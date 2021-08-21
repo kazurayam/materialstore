@@ -66,10 +66,10 @@ class StoreTest {
 
         // pickup the materials that belongs to the 2 "profiles"
         List<Material> left = store.select(jobName, jobTimestamp,
-                new MetadataPattern.Builder([ "profile": profile1 ]).build())
+                MetadataPattern.builderWithMap(["profile": profile1 ]).build())
 
         List<Material> right = store.select(jobName, jobTimestamp,
-                new MetadataPattern.Builder(["profile": profile2 ]).build())
+                MetadataPattern.builderWithMap(["profile": profile2 ]).build())
 
         // make diff
         DiffArtifacts stuffedDiffArtifacts =
