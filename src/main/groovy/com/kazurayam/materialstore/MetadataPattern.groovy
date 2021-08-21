@@ -24,7 +24,7 @@ abstract class MetadataPattern implements MapLike {
         return new Builder(metadata, ignoredKeys)
     }
 
-    private static class Builder {
+    static class Builder {
         private Map<String, Object> metadataPattern
         Builder() {
             this.metadataPattern = new HashMap<String, Object>()
@@ -60,6 +60,10 @@ abstract class MetadataPattern implements MapLike {
                             "value(${value}) must be an instance of java.lang.String or java.util.regex.Pattern")
                 }
             }
+        }
+        Builder put(String key, Object value) {
+            metadataPattern.put(key, value)
+            return this
         }
         MetadataPattern build() {
             return new MetadataPatternImpl(metadataPattern)

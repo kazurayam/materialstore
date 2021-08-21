@@ -20,18 +20,8 @@ abstract class MetadataIgnoredKeys {
     }
 
 
-    private static class Builder {
+    static class Builder {
         Set<String> keySet
-        /*
-        Builder(Metadata metadata) {
-            this()
-            this.keySet.addAll(metadata.keySet())
-        }
-        Builder(MetadataPattern metadataPattern) {
-            this()
-            this.keySet.addAll(metadataPattern.keySet())
-        }
-         */
         Builder() {
             this.keySet = new HashSet<String>()
         }

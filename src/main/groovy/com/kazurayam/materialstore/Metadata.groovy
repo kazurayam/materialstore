@@ -56,7 +56,7 @@ abstract class Metadata implements MapLike, Comparable {
     /**
      *
      */
-    private static class Builder {
+    static class Builder {
         Map<String, String> metadata
         Builder() {
             metadata = new HashMap<String, String>()
