@@ -4,13 +4,16 @@ import groovy.json.JsonOutput
 
 final class MaterialList {
 
+    private JobTimestamp jobTimestamp
+
     private MetadataPattern metadataPattern
 
     private FileType fileType
 
     private List<Material> materialList
 
-    MaterialList(MetadataPattern metadataPattern, FileType fileType) {
+    MaterialList(JobTimestamp jobTimestamp, MetadataPattern metadataPattern, FileType fileType) {
+        this.jobTimestamp = jobTimestamp
         this.metadataPattern = metadataPattern
         this.fileType = fileType
         this.materialList = new ArrayList<Material>()
@@ -39,6 +42,10 @@ final class MaterialList {
     }
 
     // --------------- unique method ------------
+    JobTimestamp getJobTimestamp() {
+        return this.jobTimestamp
+    }
+
     MetadataPattern getMetadataPattern() {
         return this.metadataPattern
     }

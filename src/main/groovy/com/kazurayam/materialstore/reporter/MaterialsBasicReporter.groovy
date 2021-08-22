@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.reporter
 
+import com.kazurayam.materialstore.FileType
 import com.kazurayam.materialstore.JobName
 import com.kazurayam.materialstore.Material
 import com.kazurayam.materialstore.MaterialList
@@ -30,6 +31,13 @@ final class MaterialsBasicReporter {
         this.jobName_ = jobName
     }
 
+    /**
+     * using Bootstrap 5
+     *
+     * @param materialList
+     * @param reportFileName
+     * @return
+     */
     Path reportMaterials(MaterialList materialList, String reportFileName = "list.html") {
         Objects.requireNonNull(materialList)
         Objects.requireNonNull(reportFileName)
@@ -43,29 +51,55 @@ final class MaterialsBasicReporter {
                 meta(charset: "utf-8")
                 meta(name: "viewport", content: "width=device-width, initial-scale=1")
                 mkp.comment("Bootstrap")
-                link(href: "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css",
+                link(href: "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css",
                         rel: "stylesheet",
-                        integrity: "sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1",
+                        integrity: "sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We",
                         crossorigin: "anonymous")
-                style(getStyle())
+                style(ReporterHelper.getStyle())
                 title(jobName_.toString())
             }
             body() {
                 div(class: "container") {
-                    h1(jobName_.toString())
-                    div(class: "accordion",
-                            id:"materials-content") {
+                    h1(class: "title", jobName_.toString()) {
+                        button(class: "btn btn-secondary",
+                                type: "button",
+                                "data-bs-toggle":   "collapse",
+                                "data-bs-target":   "#collapsingHeader",
+                                "aria-expanded": "false",
+                                "aria-controls": "collapsingHeader",
+                                "About")
+                    }
+                    div(id: "collapsingHeader", class: "collapse header") {
+                        dl() {
+                            dt("Root path :")
+                            dd(root_.normalize().toString())
+                            dt("JobName :")
+                            dd(jobName_.toString())
+                            dt("MaterialList")
+                            dd() {
+                                dl() {
+                                    dt("JobTimestamp :")
+                                    dd(materialList.getJobTimestamp().toString())
+                                    dt("MetadataPattern :")
+                                    dd(materialList.getMetadataPattern().toString())
+                                    dt("FileType :")
+                                    FileType fileType = materialList.getFileType()
+                                    dd((fileType != FileType.NULL) ? fileType.getExtension() : "not specified")
+                                }
+                            }
+                        }
+                    }
+                    div(class: "accordion", id: "accordionExample") {
                         materialList.eachWithIndex { Material material, int index ->
-                            div(id: "accordion${index+1}",
-                                    class: "accordion-item") {
-                                h2(id: "heading${index+1}",
-                                        class: "accordion-header") {
+                            div(class: "accordion-item") {
+                                h2(class: "accordion-header",
+                                        id: "heading${index+1}") {
                                     button(class: "accordion-button",
                                             type: "button",
                                             "data-bs-toggle": "collapse",
-                                            "data-bs-target": "#collapse${index+1}",
+                                            "data-bs-target": "#collapse${index + 1}",
                                             "area-expanded": "false",
-                                            "aria-controls": "collapse${index+1}") {
+                                            "aria-controls": "collapse${index + 1}") {
                                         span(class: "fileType",
                                                 material.getIndexEntry().getFileType().getExtension())
                                         span(class: "metadata",
@@ -75,7 +109,7 @@ final class MaterialsBasicReporter {
                                 div(id: "collapse${index+1}",
                                         class: "accordion-collapse collapse",
                                         "aria-labelledby": "heading${index+1}",
-                                        "data-bs-parent": "#materials-content") {
+                                        "data-bs-parent": "#accordionExample") {
                                     mb.div(class: "accordion-body") {
                                         makeAccordionBody(root_, mb, material)
                                     }
@@ -85,8 +119,8 @@ final class MaterialsBasicReporter {
                     }
                 }
                 mkp.comment("Bootstrap")
-                script(src: "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js",
-                        integrity: "sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW",
+                script(src: "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js",
+                        integrity: "sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj",
                         crossorigin: "anonymous", "")
             }
         }
@@ -103,11 +137,11 @@ final class MaterialsBasicReporter {
                             target: "material",
                             material.getRelativeURL())
                 }
-                dt("fileType")
+                dt("FileType")
                 dd(material.getIndexEntry().getFileType().getExtension())
                 //
                 String s = JsonOutput.prettyPrint(material.getIndexEntry().getMetadata().toString())
-                dt("metadata")
+                dt("Metadata")
                 dd(s)
             }
             if (material.isImage()) {
@@ -147,63 +181,4 @@ final class MaterialsBasicReporter {
         }
     }
 
-    private static String getStyle() {
-        return """
-iframe {
-    position: absolute;
-    border: none;
-    height: 100%;
-    width: 100%
-}
-body {
-    font-family: ui-monospace, SFMono-Regular,SZ Mono, Menlo, Consolas,Liberation Mono, monospace;
-    font-size: 12px;
-    line-height: 20px;
-}
-.show-detail {
-    margin-top: 10px;
-    margin-bottom: 40px;
-}
-dl dd {
-    margin-left: 40px;
-}
-.metadata, .fileType {
-    padding-top: 4px;
-    padding-right: 20px;
-    padding-bottom: 4px;
-    padding-left: 4px;
-    text-align: left;
-}
-
-.metadata {
-    flex-basis: 80%;
-}
-.filetype {
-    flex-basis: 10%;
-}
-table {
-    table-layout: fixed;
-    border-collapse: collapse;
-    border-spacing: 0;
-    border: 1px solid #ccc;
-    width: 100%;
-}
-td, th {
-    font-size: 12px;
-    border-right: 1px solid #ccc;
-    display: table-cell;
-}
-th {
-    border-bottom: 1px solid #ccc;
-}
-.blob-code-inner {
-    word-wrap: break-word;
-    white-space: pre-wrap;
-}
-.code-equal {
-    background-color: #ffffff;
-}
-
-"""
-    }
 }

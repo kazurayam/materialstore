@@ -30,7 +30,7 @@ class MaterialsBasicReporterTest {
 
     @Test
     void test_report() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_report")
         // make sure the Job directory to be empty
