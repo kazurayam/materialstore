@@ -18,3 +18,7 @@ gradle-app.setting
 # IntelliJ IDEA
 *.ipr
 *.iws
+
+# npm
+node_modules/
+package-lock.json
