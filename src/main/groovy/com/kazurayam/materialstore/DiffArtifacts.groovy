@@ -13,7 +13,7 @@ final class DiffArtifacts {
      */
     private MaterialList leftMaterialList = MaterialList.NULL_OBJECT
     private MaterialList rightMaterialList = MaterialList.NULL_OBJECT
-    private MetadataIgnoredKeys metadataIgnoredKeys = MetadataIgnoredKeys.NULL_OBJECT
+    private IgnoringMetadataKeys metadataIgnoredKeys = IgnoringMetadataKeys.NULL_OBJECT
 
     DiffArtifacts() {
         diffArtifacts = new ArrayList<DiffArtifact>()
@@ -57,7 +57,7 @@ final class DiffArtifacts {
         this.rightMaterialList = materialList
     }
 
-    void setMetadataIgnoredKeys(MetadataIgnoredKeys metadataIgnoredKeys) {
+    void setMetadataIgnoredKeys(IgnoringMetadataKeys metadataIgnoredKeys) {
         this.metadataIgnoredKeys = metadataIgnoredKeys
     }
 
@@ -69,7 +69,7 @@ final class DiffArtifacts {
         return this.rightMaterialList
     }
 
-    MetadataIgnoredKeys getMetadataIgnoredKeys() {
+    IgnoringMetadataKeys getMetadataIgnoredKeys() {
         return this.metadataIgnoredKeys
     }
 

@@ -74,7 +74,7 @@ class StoreTest {
         // make diff
         DiffArtifacts stuffedDiffArtifacts =
                 store.makeDiff(left, right,
-                        MetadataIgnoredKeys.of("profile", "URL", "URL.host"))
+                        IgnoringMetadataKeys.of("profile", "URL", "URL.host"))
         int warnings = stuffedDiffArtifacts.countWarnings(0.0d)
         println "found ${warnings} differences"
 

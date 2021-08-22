@@ -54,7 +54,7 @@ class DiffArtifactsBasicReporterTest {
         // make diff
         DiffArtifacts stuffedDiffArtifacts =
                 store.makeDiff(left, right,
-                        MetadataIgnoredKeys.of("profile", "URL", "URL.host"))
+                        IgnoringMetadataKeys.of("profile", "URL", "URL.host"))
 
         // compile HTML report
         DiffReporter reporter = store.newReporter(jobName)

@@ -17,7 +17,7 @@ class MetadataPatternTest {
                 "profile":"ProjectionEnv",
                 "category":"screenshot"])
                 .build()
-        MetadataIgnoredKeys ignoredKeys = MetadataIgnoredKeys.of("profile")
+        IgnoringMetadataKeys ignoredKeys = IgnoringMetadataKeys.of("profile")
         MetadataPattern pattern = MetadataPattern.builderWithMetadata(metadata, ignoredKeys).build()
         assertNotNull(pattern)
         assertFalse(pattern.containsKey("profile"))
@@ -72,7 +72,7 @@ class MetadataPatternTest {
                 .put("C","c")
                 .put("B","b")
                 .build()
-        MetadataIgnoredKeys ignoredKeys = MetadataIgnoredKeys.NULL_OBJECT
+        IgnoringMetadataKeys ignoredKeys = IgnoringMetadataKeys.NULL_OBJECT
         MetadataPattern pattern = MetadataPattern.builderWithMetadata(metadata, ignoredKeys).build()
         String expected = '''{"B":"b", "C":"c", "a":"a"}'''
         String actual = pattern.toString()

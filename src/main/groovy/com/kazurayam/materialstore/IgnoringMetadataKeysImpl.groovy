@@ -1,12 +1,10 @@
 package com.kazurayam.materialstore
 
-import groovy.json.JsonOutput
-
-final class MetadataIgnoredKeysImpl extends MetadataIgnoredKeys {
+final class IgnoringMetadataKeysImpl extends IgnoringMetadataKeys {
 
     private Set<String> keySet
 
-    MetadataIgnoredKeysImpl(Set<String> source) {
+    IgnoringMetadataKeysImpl(Set<String> source) {
         this.keySet = source
     }
 

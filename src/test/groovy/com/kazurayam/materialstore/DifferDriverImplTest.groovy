@@ -48,7 +48,7 @@ class DifferDriverImplTest {
 
         DiffArtifacts input =
                 storeImpl.zipMaterials(left, right,
-                        MetadataIgnoredKeys.of("profile", "URL", "URL.host"))
+                        IgnoringMetadataKeys.of("profile", "URL", "URL.host"))
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
         DiffArtifacts stuffed = differDriver.differentiate(input)
@@ -84,7 +84,7 @@ class DifferDriverImplTest {
 
         DiffArtifacts input =
                 storeImpl.zipMaterials(left, right,
-                        MetadataIgnoredKeys.of("profile", "URL", "URL.host"))
+                        IgnoringMetadataKeys.of("profile", "URL", "URL.host"))
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
         DiffArtifacts stuffed = differDriver.differentiate(input)

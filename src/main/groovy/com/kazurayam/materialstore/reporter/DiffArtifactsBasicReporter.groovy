@@ -114,7 +114,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                             }
                             //
                             dt("MetadataIgnoredKey")
-                            if (diffArtifacts.getMetadataIgnoredKeys() != MetadataIgnoredKeys.NULL_OBJECT) {
+                            if (diffArtifacts.getMetadataIgnoredKeys() != IgnoringMetadataKeys.NULL_OBJECT) {
                                 dd(diffArtifacts.getMetadataIgnoredKeys().toString())
                             } else {
                                 dd("not set")

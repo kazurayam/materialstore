@@ -47,8 +47,8 @@ final class StoreImpl implements Store {
 
     @Override
     DiffArtifacts makeDiff(MaterialList left,
-                                MaterialList right,
-                                MetadataIgnoredKeys ignoredKeys = MetadataIgnoredKeys.NULL_OBJECT) {
+                           MaterialList right,
+                           IgnoringMetadataKeys ignoredKeys = IgnoringMetadataKeys.NULL_OBJECT) {
         Objects.requireNonNull(left)
         Objects.requireNonNull(right)
         Objects.requireNonNull(ignoredKeys)
@@ -324,8 +324,8 @@ final class StoreImpl implements Store {
      */
     @Override
     DiffArtifacts zipMaterials(MaterialList leftList,
-                                    MaterialList rightList,
-                                    MetadataIgnoredKeys ignoredKeys) {
+                               MaterialList rightList,
+                               IgnoringMetadataKeys ignoredKeys) {
         Objects.requireNonNull(leftList)
         Objects.requireNonNull(rightList)
         Objects.requireNonNull(ignoredKeys)

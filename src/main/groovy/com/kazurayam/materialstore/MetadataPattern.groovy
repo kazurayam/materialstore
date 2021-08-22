@@ -20,7 +20,7 @@ abstract class MetadataPattern implements MapLike {
         return new Builder(metadata)
     }
 
-    static Builder builderWithMetadata(Metadata metadata, MetadataIgnoredKeys ignoredKeys) {
+    static Builder builderWithMetadata(Metadata metadata, IgnoringMetadataKeys ignoredKeys) {
         return new Builder(metadata, ignoredKeys)
     }
 
@@ -43,9 +43,9 @@ abstract class MetadataPattern implements MapLike {
             }
         }
         Builder(Metadata source) {
-            this(source, MetadataIgnoredKeys.NULL_OBJECT)
+            this(source, IgnoringMetadataKeys.NULL_OBJECT)
         }
-        Builder(Metadata source, MetadataIgnoredKeys ignoredKeys) {
+        Builder(Metadata source, IgnoringMetadataKeys ignoredKeys) {
             this()
             Objects.requireNonNull(ignoredKeys)
             Objects.requireNonNull(source)

@@ -4,11 +4,11 @@ import org.junit.jupiter.api.Test
 
 import static org.junit.jupiter.api.Assertions.*
 
-class MetadataIgnoredKeysTest {
+class IgnoringMetadataKeysTest {
 
     @Test
     void test_of() {
-        MetadataIgnoredKeys ignoredKeys = MetadataIgnoredKeys.of("profile", "URL.hostname")
+        IgnoringMetadataKeys ignoredKeys = IgnoringMetadataKeys.of("profile", "URL.hostname")
         assertNotNull(ignoredKeys)
         assertTrue(ignoredKeys.contains("profile"))
         assertEquals(2, ignoredKeys.size())
@@ -36,7 +36,7 @@ class MetadataIgnoredKeysTest {
 
     @Test
     void test_toString() {
-        MetadataIgnoredKeys ignoredKeys = MetadataIgnoredKeys.of("profile", "URL.hostname")
+        IgnoringMetadataKeys ignoredKeys = IgnoringMetadataKeys.of("profile", "URL.hostname")
         String str = ignoredKeys.toString()
         assertNotNull(str)
         assertEquals("""{"URL.hostname", "profile"}""", str)
