@@ -330,6 +330,9 @@ final class StoreImpl implements Store {
         Objects.requireNonNull(rightList)
         Objects.requireNonNull(ignoredKeys)
         DiffArtifacts diffArtifacts = new DiffArtifacts()
+        diffArtifacts.setLeftMaterialList(leftList)
+        diffArtifacts.setRightMaterialList(rightList)
+        diffArtifacts.setMetadataIgnoredKeys(ignoredKeys)
         //
         rightList.each { Material right->
             FileType rightFileType = right.getIndexEntry().getFileType()

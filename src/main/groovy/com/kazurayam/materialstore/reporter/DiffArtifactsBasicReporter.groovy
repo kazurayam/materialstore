@@ -14,9 +14,9 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
 
     private static final Logger logger = LoggerFactory.getLogger(DiffArtifactsBasicReporter.class)
 
-    private final Path root_
+    private Path root_
 
-    private final JobName jobName_
+    private JobName jobName_
 
     private Double criteria_ = 0.0d
 
@@ -52,16 +52,75 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                 meta(charset: "utf-8")
                 meta(name: "viewport", content: "width=device-width, initial-scale=1")
                 mkp.comment("Bootstrap")
-                link(href: "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css",
+                link(href: "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css",
                         rel: "stylesheet",
-                        integrity: "sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1",
+                        integrity: "sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We",
                         crossorigin: "anonymous")
-                style(getStyle())
+                style(ReporterHelper.getStyle())
                 title(jobName_.toString())
             }
             body() {
                 div(class: "container") {
-                    h1(jobName_.toString())
+                    h1(class: "title", jobName_.toString()) {
+                        button(class: "btn btn-secondary",
+                                type: "button",
+                                "data-bs-toggle":   "collapse",
+                                "data-bs-target":   "#collapsingHeader",
+                                "aria-expanded": "false",
+                                "aria-controls": "collapsingHeader",
+                                "About")
+                    }
+                    div(id: "collapsingHeader", class: "collapse header") {
+                        dl() {
+                            dt("Root path :")
+                            dd(root_.normalize().toString())
+                            dt("JobName :")
+                            dd(jobName_.toString())
+                            //
+                            dt("Left MaterialList specification")
+                            MaterialList left = diffArtifacts.getLeftMaterialList()
+                            if (left != MaterialList.NULL_OBJECT) {
+                                dd() {
+                                    dl() {
+                                        dt("JobTimestamp :")
+                                        dd(left.getJobTimestamp().toString())
+                                        dt("MetadataPattern :")
+                                        dd(left.getMetadataPattern().toString())
+                                        dt("FileType :")
+                                        FileType fileType = left.getFileType()
+                                        dd((fileType != FileType.NULL) ? fileType.getExtension() : "not specified")
+                                    }
+                                }
+                            } else {
+                                dd("not set")
+                            }
+                            //
+                            dt("Right MaterialList specification")
+                            MaterialList right = diffArtifacts.getLeftMaterialList()
+                            if (right != MaterialList.NULL_OBJECT) {
+                                dd() {
+                                    dl() {
+                                        dt("JobTimestamp :")
+                                        dd(right.getJobTimestamp().toString())
+                                        dt("MetadataPattern :")
+                                        dd(right.getMetadataPattern().toString())
+                                        dt("FileType :")
+                                        FileType fileType = right.getFileType()
+                                        dd((fileType != FileType.NULL) ? fileType.getExtension() : "not specified")
+                                    }
+                                }
+                            } else {
+                                dd("not set")
+                            }
+                            //
+                            dt("MetadataIgnoredKey")
+                            if (diffArtifacts.getMetadataIgnoredKeys() != MetadataIgnoredKeys.NULL_OBJECT) {
+                                dd(diffArtifacts.getMetadataIgnoredKeys().toString())
+                            } else {
+                                dd("not set")
+                            }
+                        }
+                    }
                     div(class: "accordion",
                             id: "diff-contents") {
                         diffArtifacts.eachWithIndex { DiffArtifact da, int index ->
@@ -104,8 +163,8 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                     }
                 }
                 mkp.comment("Bootstrap")
-                script(src: "https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js",
-                        integrity: "sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW",
+                script(src: "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js",
+                        integrity: "sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj",
                         crossorigin: "anonymous", "")
             }
         }

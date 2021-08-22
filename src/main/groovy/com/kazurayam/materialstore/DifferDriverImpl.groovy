@@ -26,6 +26,9 @@ final class DifferDriverImpl implements DifferDriver {
         Objects.requireNonNull(input)
         Objects.requireNonNull(root_)
         DiffArtifacts stuffed = new DiffArtifacts()
+        stuffed.setLeftMaterialList(input.getLeftMaterialList())
+        stuffed.setRightMaterialList(input.getRightMaterialList())
+        stuffed.setMetadataIgnoredKeys(input.getMetadataIgnoredKeys())
         input.each { DiffArtifact da ->
             if (da.getLeft() == Material.NULL_OBJECT) {
                 logger.warn("left Material was NULL_OBJECT. riight=${da.getRight()}")

@@ -21,7 +21,7 @@ class MaterialListTest {
 
     @Test
     void test_smoke() {
-        MaterialList materialList = new MaterialList(metadataPattern, fileType)
+        MaterialList materialList = new MaterialList(JobTimestamp.now(), metadataPattern, fileType)
         materialList.add(material)
         assertEquals(1, materialList.size())
         assertTrue(materialList.contains(material))
@@ -29,7 +29,7 @@ class MaterialListTest {
 
     @Test
     void test_getMetadataPattern() {
-        MaterialList materialList = new MaterialList(metadataPattern, fileType)
+        MaterialList materialList = new MaterialList(JobTimestamp.now(), metadataPattern, fileType)
         materialList.add(material)
         assertNotNull(materialList.getMetadataPattern())
         //println materialList.getMetadataPattern().toString()
@@ -37,7 +37,7 @@ class MaterialListTest {
 
     @Test
     void test_getFileType() {
-        MaterialList materialList = new MaterialList(metadataPattern, fileType)
+        MaterialList materialList = new MaterialList(JobTimestamp.now(), metadataPattern, fileType)
         materialList.add(material)
         assertNotNull(materialList.getFileType())
         //println materialList.getFileType().extension
@@ -45,7 +45,7 @@ class MaterialListTest {
 
     @Test
     void test_toString() {
-        MaterialList materialList = new MaterialList(metadataPattern, fileType)
+        MaterialList materialList = new MaterialList(JobTimestamp.now(), metadataPattern, fileType)
         materialList.add(material)
         String str = materialList.toString()
         assertNotNull(str)

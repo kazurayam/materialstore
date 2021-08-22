@@ -17,9 +17,9 @@ final class MaterialsBasicReporter {
 
     private static final Logger logger = LoggerFactory.getLogger(MaterialsBasicReporter.class)
 
-    private final Path root_
+    private Path root_
 
-    private final JobName jobName_
+    private JobName jobName_
 
     MaterialsBasicReporter(Path root, JobName jobName) {
         Objects.requireNonNull(root)
@@ -75,7 +75,7 @@ final class MaterialsBasicReporter {
                             dd(root_.normalize().toString())
                             dt("JobName :")
                             dd(jobName_.toString())
-                            dt("MaterialList")
+                            dt("MaterialList specification")
                             dd() {
                                 dl() {
                                     dt("JobTimestamp :")

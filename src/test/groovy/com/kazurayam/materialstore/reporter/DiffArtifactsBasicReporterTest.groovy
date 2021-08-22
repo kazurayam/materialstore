@@ -60,7 +60,6 @@ class DiffArtifactsBasicReporterTest {
         DiffReporter reporter = store.newReporter(jobName)
         Path report = reporter.reportDiffs(stuffedDiffArtifacts, "index.html")
         assertTrue(Files.exists(report))
-
     }
 
     @Test

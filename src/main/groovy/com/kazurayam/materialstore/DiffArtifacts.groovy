@@ -6,6 +6,15 @@ final class DiffArtifacts {
 
     private final List<DiffArtifact> diffArtifacts
 
+    /**
+     * leftMaterialList, rightMaterialList, metadataIgnoredKeys
+     * --- these are memorized here just for reporting purpose
+     * how this DiffArtifacts object was created.
+     */
+    private MaterialList leftMaterialList = MaterialList.NULL_OBJECT
+    private MaterialList rightMaterialList = MaterialList.NULL_OBJECT
+    private MetadataIgnoredKeys metadataIgnoredKeys = MetadataIgnoredKeys.NULL_OBJECT
+
     DiffArtifacts() {
         diffArtifacts = new ArrayList<DiffArtifact>()
     }
@@ -39,6 +48,32 @@ final class DiffArtifacts {
         Collections.sort(diffArtifacts)
     }
 
+    //---------------------------------------------------------------
+    void setLeftMaterialList(MaterialList materialList) {
+        this.leftMaterialList = materialList
+    }
+
+    void setRightMaterialList(MaterialList materialList) {
+        this.rightMaterialList = materialList
+    }
+
+    void setMetadataIgnoredKeys(MetadataIgnoredKeys metadataIgnoredKeys) {
+        this.metadataIgnoredKeys = metadataIgnoredKeys
+    }
+
+    MaterialList getLeftMaterialList() {
+        return this.leftMaterialList
+    }
+
+    MaterialList getRightMaterialList() {
+        return this.rightMaterialList
+    }
+
+    MetadataIgnoredKeys getMetadataIgnoredKeys() {
+        return this.metadataIgnoredKeys
+    }
+
+    //---------------------------------------------------------------
     @Override
     String toString() {
         StringBuilder sb = new StringBuilder()

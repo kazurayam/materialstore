@@ -10,8 +10,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-import static org.junit.jupiter.api.Assertions.assertEquals
-import static org.junit.jupiter.api.Assertions.assertTrue
+import static org.junit.jupiter.api.Assertions.*
 
 class DiffArtifactsTest {
 
@@ -51,6 +50,27 @@ class DiffArtifactsTest {
         diffArtifacts.each { DiffArtifact it ->
             assert it == DiffArtifact.NULL_OBJECT
         }
+    }
+
+    @Test
+    void test_setter_getter_LeftMaterialList() {
+        diffArtifacts.setLeftMaterialList(MaterialList.NULL_OBJECT)
+        MaterialList left = diffArtifacts.getLeftMaterialList()
+        assertNotNull(left)
+    }
+
+    @Test
+    void test_setter_getter_RightMaterialList() {
+        diffArtifacts.setRightMaterialList(MaterialList.NULL_OBJECT)
+        MaterialList right = diffArtifacts.getRightMaterialList()
+        assertNotNull(right)
+    }
+
+    @Test
+    void test_setter_getter_MetadataIgnoredKeys() {
+        diffArtifacts.setMetadataIgnoredKeys(MetadataIgnoredKeys.NULL_OBJECT)
+        MetadataIgnoredKeys metadataIgnoredKeys = diffArtifacts.getMetadataIgnoredKeys()
+        assertNotNull(metadataIgnoredKeys)
     }
 
     /*

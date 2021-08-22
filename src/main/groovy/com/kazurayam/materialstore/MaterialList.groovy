@@ -4,6 +4,8 @@ import groovy.json.JsonOutput
 
 final class MaterialList {
 
+    public static final NULL_OBJECT = new MaterialList(JobTimestamp.NULL_OBJECT, MetadataPattern.NULL_OBJECT, FileType.NULL)
+
     private JobTimestamp jobTimestamp
 
     private MetadataPattern metadataPattern

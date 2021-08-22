@@ -71,6 +71,51 @@ class ReporterHelper {
 .container table .code-equal {
     background-color: #ffffff;
 }
+
+
+/*
+ */
+.container .accordion .modal .carousel .centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+.container .accordion .modal .carousel-inner {
+    background-color: #efefef;
+}
+.container .accordion .modal .carousel-control-prev, .carousel-control-next {
+    width: 12.5%
+}
+.container .accordion .modal-body iframe {
+    position: absolute;
+    border: none;
+    height: 100%;
+    width: 100%
+}
+
+.container .accordion .show-detail {
+    margin-top: 10px;
+    margin-bottom: 40px;
+}
+
+.container .accordion button .description, .fileType, .ratio {
+    padding-top: 4px;
+    padding-right: 4px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    text-align: left;
+}
+.container .accordion button .ratio {
+    flex-basis: 6%;
+    text-align: right;
+}
+.container .accordion button .filetype {
+    flex-basis: 6%;
+}
+.container .accordion button .warning {
+    background-color: #e0ae00;
+}
 """
     }
 }

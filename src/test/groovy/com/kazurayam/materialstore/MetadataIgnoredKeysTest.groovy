@@ -33,4 +33,12 @@ class MetadataIgnoredKeysTest {
         }
     }
      */
+
+    @Test
+    void test_toString() {
+        MetadataIgnoredKeys ignoredKeys = MetadataIgnoredKeys.of("profile", "URL.hostname")
+        String str = ignoredKeys.toString()
+        assertNotNull(str)
+        assertEquals("""{"URL.hostname", "profile"}""", str)
+    }
 }
