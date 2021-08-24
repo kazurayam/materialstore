@@ -63,7 +63,7 @@ final class MetadataPatternImpl extends MetadataPattern implements MapLike {
         StringBuilder sb = new StringBuilder()
         sb.append("\"")
         if (metadataPattern.get(key) instanceof Pattern) {
-            sb.append("regex:")
+            sb.append("re:")
         }
         sb.append(metadataPattern.get(key))
         sb.append("\"")
@@ -86,7 +86,7 @@ final class MetadataPatternImpl extends MetadataPattern implements MapLike {
             sb.append(key)
             sb.append("\":\"")
             if (metadataPattern.get(key) instanceof Pattern) {
-                sb.append("regex:")
+                sb.append("re:")
             }
             sb.append(metadataPattern.get(key))
             sb.append("\"")
