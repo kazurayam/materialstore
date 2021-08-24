@@ -33,7 +33,7 @@ final class MetadataImpl extends Metadata {
     }
 
     @Override
-    String get(String key) {
+    Object get(String key) {
         return metadata.get(key)
     }
 
@@ -92,15 +92,15 @@ final class MetadataImpl extends Metadata {
 
     @Override
     URL toURL() {
-        if (metadata.containsKey(Metadata.KEY_URL_HOST)) {
+        if (metadata.containsKey(KEY_URL_HOST)) {
             StringBuilder sb = new StringBuilder()
-            sb.append(metadata.get(Metadata.KEY_URL_PROTOCOL))
+            sb.append(metadata.get(KEY_URL_PROTOCOL))
             sb.append("://")
-            sb.append(metadata.get(Metadata.KEY_URL_HOST))
-            sb.append(metadata.get(Metadata.KEY_URL_PATH))
-            if (metadata.containsKey(Metadata.KEY_URL_QUERY)) {
+            sb.append(metadata.get(KEY_URL_HOST))
+            sb.append(metadata.get(KEY_URL_PATH))
+            if (metadata.containsKey(KEY_URL_QUERY)) {
                 sb.append("?")
-                sb.append(metadata.get(Metadata.KEY_URL_QUERY))
+                sb.append(metadata.get(KEY_URL_QUERY))
             }
             return new URL(sb.toString())
         } else {
@@ -121,15 +121,32 @@ final class MetadataImpl extends Metadata {
                 mb.span(", ")
             }
             mb.span("\"${JsonUtil.escapeAsJsonString(key)}\":")
-            if (metadataPattern.containsKey(key)) {
+            if (isMatching(metadataPattern, key, this)) {
                 mb.span(class: "matched-value",
-                        "\"${JsonUtil.escapeAsJsonString(metadata.get(key))}\"")
+                        "\"${JsonUtil.escapeAsJsonString(this.getValueAsString(key))}\"")
             } else {
-                mb.span("\"${JsonUtil.escapeAsJsonString(metadata.get(key))}\"")
+                mb.span("\"${JsonUtil.escapeAsJsonString((String)this.get(key))}\"")
             }
             count += 1
         }
         mb.span("}")
+    }
+
+    static boolean isMatching(MetadataPattern metadataPattern, String key, Metadata metadata) {
+        if (metadataPattern.containsKey(key)) {
+            if (metadataPattern.get(key) instanceof String &&
+                    metadataPattern.get(key) == metadata.get(key)) {
+                return true
+            } else if (metadataPattern.get(key) instanceof Pattern) {
+                Matcher m = ((Pattern)metadataPattern.get(key)).matcher(metadata.getValueAsString(key))
+                if (m.matches()) {
+                    return true
+                } else
+                    return false
+            } else
+                return false
+        } else
+            return false
     }
 
     @Override
@@ -154,18 +171,23 @@ final class MetadataImpl extends Metadata {
             } else {
                 mb.span("\"${JsonUtil.escapeAsJsonString(key)}\":")
             }
-            if (leftMetadataPattern.containsKey(key)) {
+            if (isMatching(leftMetadataPattern, key, this)) {
                 mb.span(class: "matched-value",
-                        "\"${JsonUtil.escapeAsJsonString(metadata.get(key))}\"")
-            } else if (rightMetadataPattern.containsKey(key)) {
+                        "\"${JsonUtil.escapeAsJsonString(this.getValueAsString(key))}\"")
+            } else if (isMatching(rightMetadataPattern, key, this)) {
                 mb.span(class: "matched-value",
-                        "\"${JsonUtil.escapeAsJsonString(metadata.get(key))}\"")
+                        "\"${JsonUtil.escapeAsJsonString(this.getValueAsString(key))}\"")
             } else {
-                mb.span("\"${JsonUtil.escapeAsJsonString(metadata.get(key))}\"")
+                mb.span("\"${JsonUtil.escapeAsJsonString(this.getValueAsString(key))}\"")
             }
             count += 1
         }
         mb.span("}")
+    }
+
+    @Override
+    String getValueAsString(String key) {
+        return (String)this.get(key)
     }
 
     // ------- overriding java.lang.Object -------
@@ -246,8 +268,5 @@ final class MetadataImpl extends Metadata {
         MetadataImpl other = (MetadataImpl)(obj)
         return this.toString() <=> other.toString()
     }
-
-
-
 
 }

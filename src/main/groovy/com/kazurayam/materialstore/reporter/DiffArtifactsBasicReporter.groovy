@@ -159,11 +159,10 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                                     mb.div(class: "accordion-body") {
                                         makeModalSubsection(mb, da, index+1)
                                         //
-                                        List<Object> context = [
+                                        Context context = new Context(
                                                 diffArtifacts.getLeftMaterialList().getMetadataPattern(),
                                                 diffArtifacts.getRightMaterialList().getMetadataPattern(),
-                                                diffArtifacts.getIgnoringMetadataKeys()
-                                        ]
+                                                diffArtifacts.getIgnoringMetadataKeys() )
                                         makeMaterialSubsection(mb, "left", da.getLeft(), context)
                                         makeMaterialSubsection(mb, "right", da.getRight(), context)
                                         makeMaterialSubsection(mb, "diff", da.getDiff(), context)
@@ -324,7 +323,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
      * @param context ["leftMetadataPattern": xxx, "rightMetadataPattern": xxx, "ignoringMetadataKeys": xxx]
      */
     private static void makeMaterialSubsection(MarkupBuilder mb, String name, Material material,
-                                               List<Object> context) {
+                                               Context context) {
         mb.div(class: "show-detail") {
             h2(name)
             dl(class: "detail") {
@@ -343,9 +342,9 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                 dd() {
                     material.getIndexEntry().getMetadata().toSpanSequence(
                             mb,
-                            (MetadataPattern)context.get(0),
-                            (MetadataPattern)context.get(1),
-                            (IgnoringMetadataKeys)context.get(2)
+                            (MetadataPattern)context.getLeftMetadataPattern(),
+                            (MetadataPattern)context.getRightMetadataPattern(),
+                            (IgnoringMetadataKeys)context.getIgnoringMetadataKeys()
                     )
                 }
             }
@@ -364,58 +363,26 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
         }
     }
 
-    private static String getStyle() {
-        return """
-.centered {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
-}
-.carousel-inner {
-    background-color: #efefef;
-}
-.carousel-control-prev, .carousel-control-next {
-    width: 12.5%
-}
-.modal-body iframe {
-    position: absolute;
-    border: none;
-    height: 100%;
-    width: 100%
-}
-
-body {
-    font-family: ui-monospace, SFMono-Regular,SZ Mono, Menlo, Consolas,Liberation Mono, monospace;
-    font-size: 12px;
-    line-height: 20px;
-}
-.show-detail {
-    margin-top: 10px;
-    margin-bottom: 40px;
-}
-dl dd {
-    margin-left: 40px;
-}
-.description, .fileType, .ratio {
-    padding-top: 4px;
-    padding-right: 4px;
-    padding-bottom: 4px;
-    padding-left: 4px;
-    text-align: left;
-}
-.ratio {
-    flex-basis: 6%;
-    text-align: right;
-}
-.filetype {
-    flex-basis: 6%;
-}
-.description {
-}
-.warning {
-    background-color: #e0ae00;
-}
-"""
+    /**
+     *
+     */
+    class Context {
+        private MetadataPattern left
+        private MetadataPattern right
+        private IgnoringMetadataKeys keys
+        Context(MetadataPattern left, MetadataPattern right, IgnoringMetadataKeys keys) {
+            this.left = left
+            this.right = right
+            this.keys = keys
+        }
+        MetadataPattern getLeftMetadataPattern() {
+            return this.left
+        }
+        MetadataPattern getRightMetadataPattern() {
+            return this.right
+        }
+        IgnoringMetadataKeys getIgnoringMetadataKeys() {
+            return this.keys
+        }
     }
 }

@@ -19,6 +19,8 @@ abstract class MetadataPattern implements MapLike {
      */
     abstract void toSpanSequence(MarkupBuilder mb)
 
+    abstract String getValueAsString(String key)
+
     static Builder builder() {
         return new Builder()
     }

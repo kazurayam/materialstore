@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.util.regex.Pattern
 
 import static org.junit.jupiter.api.Assertions.assertTrue
 
@@ -43,7 +44,7 @@ class MaterialsBasicReporterTest {
                 new MaterialsBasicReporter(root, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         MaterialList list = store.select(jobName, jobTimestamp,
-                MetadataPattern.builderWithMap(["profile": "ProductionEnv"]).build()
+                MetadataPattern.builderWithMap(["profile": Pattern.compile(".*Env")]).build()
         )
         assertTrue(list.size() > 0, "list is empty")
         String fileName = "list.html"

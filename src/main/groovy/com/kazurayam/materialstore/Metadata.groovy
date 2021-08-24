@@ -37,6 +37,8 @@ abstract class Metadata implements MapLike, Comparable {
                                  MetadataPattern rightMetadataPattern,
                                  IgnoringMetadataKeys ignoringMetadataKeys)
 
+    abstract String getValueAsString(String key)
+
     // ---------------- factory method ---------------------
     static Builder builder() {
         return new Builder()
