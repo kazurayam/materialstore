@@ -48,13 +48,13 @@ final class StoreImpl implements Store {
     @Override
     DiffArtifacts makeDiff(MaterialList left,
                            MaterialList right,
-                           IgnoringMetadataKeys ignoredKeys = IgnoringMetadataKeys.NULL_OBJECT) {
+                           IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT) {
         Objects.requireNonNull(left)
         Objects.requireNonNull(right)
-        Objects.requireNonNull(ignoredKeys)
+        Objects.requireNonNull(ignoringMetadataKeys)
 
         DiffArtifacts diffArtifacts =
-                this.zipMaterials(left, right, ignoredKeys)
+                this.zipMaterials(left, right, ignoringMetadataKeys)
         assert diffArtifacts != null
 
         DifferDriver differDriver = new DifferDriverImpl.Builder(root_).build()
@@ -325,20 +325,20 @@ final class StoreImpl implements Store {
     @Override
     DiffArtifacts zipMaterials(MaterialList leftList,
                                MaterialList rightList,
-                               IgnoringMetadataKeys ignoredKeys) {
+                               IgnoringMetadataKeys ignoringMetadataKeys) {
         Objects.requireNonNull(leftList)
         Objects.requireNonNull(rightList)
-        Objects.requireNonNull(ignoredKeys)
+        Objects.requireNonNull(ignoringMetadataKeys)
         DiffArtifacts diffArtifacts = new DiffArtifacts()
         diffArtifacts.setLeftMaterialList(leftList)
         diffArtifacts.setRightMaterialList(rightList)
-        diffArtifacts.setMetadataIgnoredKeys(ignoredKeys)
+        diffArtifacts.setIgnoringMetadataKeys(ignoringMetadataKeys)
         //
         rightList.each { Material right->
             FileType rightFileType = right.getIndexEntry().getFileType()
             Metadata rightMetadata = right.getIndexEntry().getMetadata()
             MetadataPattern rightPattern =
-                    MetadataPattern.builderWithMetadata(rightMetadata, ignoredKeys).build()
+                    MetadataPattern.builderWithMetadata(rightMetadata, ignoringMetadataKeys).build()
             //
             StringBuilder sb = new StringBuilder()
             sb.append("\nright pattern: ${rightPattern}\n")
@@ -375,7 +375,7 @@ final class StoreImpl implements Store {
             FileType leftFileType = left.getIndexEntry().getFileType()
             Metadata leftMetadata = left.getIndexEntry().getMetadata()
             MetadataPattern leftPattern =
-                    MetadataPattern.builderWithMetadata(leftMetadata, ignoredKeys).build()
+                    MetadataPattern.builderWithMetadata(leftMetadata, ignoringMetadataKeys).build()
             //
             StringBuilder sb = new StringBuilder()
             sb.append("\nleft pattern: ${leftPattern}\n")

@@ -7,13 +7,13 @@ final class DiffArtifacts {
     private final List<DiffArtifact> diffArtifacts
 
     /**
-     * leftMaterialList, rightMaterialList, metadataIgnoredKeys
+     * leftMaterialList, rightMaterialList, ignoringMetadataKeys
      * --- these are memorized here just for reporting purpose
      * how this DiffArtifacts object was created.
      */
     private MaterialList leftMaterialList = MaterialList.NULL_OBJECT
     private MaterialList rightMaterialList = MaterialList.NULL_OBJECT
-    private IgnoringMetadataKeys metadataIgnoredKeys = IgnoringMetadataKeys.NULL_OBJECT
+    private IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT
 
     DiffArtifacts() {
         diffArtifacts = new ArrayList<DiffArtifact>()
@@ -57,8 +57,8 @@ final class DiffArtifacts {
         this.rightMaterialList = materialList
     }
 
-    void setMetadataIgnoredKeys(IgnoringMetadataKeys metadataIgnoredKeys) {
-        this.metadataIgnoredKeys = metadataIgnoredKeys
+    void setIgnoringMetadataKeys(IgnoringMetadataKeys ignoringMetadataKeys) {
+        this.ignoringMetadataKeys = ignoringMetadataKeys
     }
 
     MaterialList getLeftMaterialList() {
@@ -69,8 +69,8 @@ final class DiffArtifacts {
         return this.rightMaterialList
     }
 
-    IgnoringMetadataKeys getMetadataIgnoredKeys() {
-        return this.metadataIgnoredKeys
+    IgnoringMetadataKeys getIgnoringMetadataKeys() {
+        return this.ignoringMetadataKeys
     }
 
     //---------------------------------------------------------------

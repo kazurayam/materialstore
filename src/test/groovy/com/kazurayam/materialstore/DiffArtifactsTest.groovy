@@ -67,10 +67,10 @@ class DiffArtifactsTest {
     }
 
     @Test
-    void test_setter_getter_MetadataIgnoredKeys() {
-        diffArtifacts.setMetadataIgnoredKeys(IgnoringMetadataKeys.NULL_OBJECT)
-        IgnoringMetadataKeys metadataIgnoredKeys = diffArtifacts.getMetadataIgnoredKeys()
-        assertNotNull(metadataIgnoredKeys)
+    void test_setter_getter_IgnoringMetadataKeys() {
+        diffArtifacts.setIgnoringMetadataKeys(IgnoringMetadataKeys.NULL_OBJECT)
+        IgnoringMetadataKeys ignoringMetadataKeys = diffArtifacts.getIgnoringMetadataKeys()
+        assertNotNull(ignoringMetadataKeys)
     }
 
     /*

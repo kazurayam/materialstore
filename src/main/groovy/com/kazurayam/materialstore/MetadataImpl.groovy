@@ -1,5 +1,7 @@
 package com.kazurayam.materialstore
 
+import groovy.xml.MarkupBuilder
+
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -106,8 +108,97 @@ final class MetadataImpl extends Metadata {
         }
     }
 
+    @Override
+    void toSpanSequence(MarkupBuilder mb, MetadataPattern metadataPattern) {
+        Objects.requireNonNull(mb)
+        Objects.requireNonNull(metadataPattern)
+        int count = 0
+        List<String> keys = new ArrayList<String>(metadata.keySet())
+        Collections.sort(keys)
+        mb.span("{")
+        keys.forEach {key ->
+            if (count > 0) {
+                mb.span(", ")
+            }
+            mb.span("\"${JsonUtil.escapeAsJsonString(key)}\":")
+            if (metadataPattern.containsKey(key)) {
+                mb.span(class: "matched-value",
+                        "\"${JsonUtil.escapeAsJsonString(metadata.get(key))}\"")
+            } else {
+                mb.span("\"${JsonUtil.escapeAsJsonString(metadata.get(key))}\"")
+            }
+            count += 1
+        }
+        mb.span("}")
+    }
+
+    @Override
+    void toSpanSequence(MarkupBuilder mb,
+                        MetadataPattern leftMetadataPattern,
+                        MetadataPattern rightMetadataPattern,
+                        IgnoringMetadataKeys ignoringMetadataKeys) {
+        Objects.requireNonNull(mb)
+        Objects.requireNonNull(leftMetadataPattern)
+        Objects.requireNonNull(rightMetadataPattern)
+        Objects.requireNonNull(ignoringMetadataKeys)
+        int count = 0
+        List<String> keys = new ArrayList<String>(metadata.keySet())
+        Collections.sort(keys)
+        mb.span("{")
+        keys.forEach {key ->
+            if (count > 0) {
+                mb.span(", ")
+            }
+            if (ignoringMetadataKeys.contains(key)) {
+                mb.span(class: "ignoring-key", "\"${JsonUtil.escapeAsJsonString(key)}\":")
+            } else {
+                mb.span("\"${JsonUtil.escapeAsJsonString(key)}\":")
+            }
+            if (leftMetadataPattern.containsKey(key)) {
+                mb.span(class: "matched-value",
+                        "\"${JsonUtil.escapeAsJsonString(metadata.get(key))}\"")
+            } else if (rightMetadataPattern.containsKey(key)) {
+                mb.span(class: "matched-value",
+                        "\"${JsonUtil.escapeAsJsonString(metadata.get(key))}\"")
+            } else {
+                mb.span("\"${JsonUtil.escapeAsJsonString(metadata.get(key))}\"")
+            }
+            count += 1
+        }
+        mb.span("}")
+    }
 
     // ------- overriding java.lang.Object -------
+    @Override
+    String toString() {
+        //return new JsonOutput().toJson(metadata)
+        StringBuilder sb = new StringBuilder()
+        int entryCount = 0
+        sb.append("{")
+        assert metadata != null, "metadata_ is null before iterating over keys"
+        //println "keys: ${metadata_.keySet()}"
+        List<String> keys = new ArrayList<String>(metadata.keySet())
+        Map<String,String> copy = new HashMap<String,String>(metadata)
+        // sort by the key
+        Collections.sort(keys)
+        keys.each { key ->
+            if (entryCount > 0) {
+                sb.append(", ")    // comma followed by a white space
+            }
+            sb.append('"')
+            assert copy != null, "metadata_ is null for key=${key}"
+            sb.append(JsonUtil.escapeAsJsonString(key))
+            sb.append('"')
+            sb.append(':')
+            sb.append('"')
+            sb.append(JsonUtil.escapeAsJsonString(copy.get(key)))
+            sb.append('"')
+            entryCount += 1
+        }
+        sb.append("}")
+        return sb.toString()
+    }
+
     @Override
     boolean equals(Object obj) {
         if (! obj instanceof MetadataImpl) {
@@ -144,35 +235,7 @@ final class MetadataImpl extends Metadata {
         return hash
     }
 
-    @Override
-    String toString() {
-        //return new JsonOutput().toJson(metadata)
-        StringBuilder sb = new StringBuilder()
-        int entryCount = 0
-        sb.append("{")
-        assert metadata != null, "metadata_ is null before iterating over keys"
-        //println "keys: ${metadata_.keySet()}"
-        List<String> keys = new ArrayList<String>(metadata.keySet())
-        Map<String,String> copy = new HashMap<String,String>(metadata)
-        // sort by the key
-        Collections.sort(keys)
-        keys.each { key ->
-            if (entryCount > 0) {
-                sb.append(", ")    // comma followed by a white space
-            }
-            sb.append('"')
-            assert copy != null, "metadata_ is null for key=${key}"
-            sb.append(JsonUtil.escapeAsJsonString(key))
-            sb.append('"')
-            sb.append(':')
-            sb.append('"')
-            sb.append(JsonUtil.escapeAsJsonString(copy.get(key)))
-            sb.append('"')
-            entryCount += 1
-        }
-        sb.append("}")
-        return sb.toString()
-    }
+
 
     // ------------ comparable ----------------
     @Override

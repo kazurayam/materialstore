@@ -1,5 +1,7 @@
 package com.kazurayam.materialstore
 
+import groovy.xml.MarkupBuilder
+
 import java.util.regex.Pattern
 
 abstract class MetadataPattern implements MapLike {
@@ -7,6 +9,15 @@ abstract class MetadataPattern implements MapLike {
     public static final MetadataPattern NULL_OBJECT = new Builder([:]).build()
 
     public static final MetadataPattern ANY = new Builder(["*": Pattern.compile(".*")]).build()
+
+    /**
+     * emit a HTML fragment (like the following) into the argument MarkupBuilder
+     *
+     * <span>{"profile":</span><span class="matched-value">"ProductionEnv"</span><span>}</span>
+     *
+     * @param mb
+     */
+    abstract void toSpanSequence(MarkupBuilder mb)
 
     static Builder builder() {
         return new Builder()
@@ -20,8 +31,9 @@ abstract class MetadataPattern implements MapLike {
         return new Builder(metadata)
     }
 
-    static Builder builderWithMetadata(Metadata metadata, IgnoringMetadataKeys ignoredKeys) {
-        return new Builder(metadata, ignoredKeys)
+    static Builder builderWithMetadata(Metadata metadata,
+                                       IgnoringMetadataKeys ignoringMetadataKeys) {
+        return new Builder(metadata, ignoringMetadataKeys)
     }
 
     static class Builder {
@@ -45,14 +57,14 @@ abstract class MetadataPattern implements MapLike {
         Builder(Metadata source) {
             this(source, IgnoringMetadataKeys.NULL_OBJECT)
         }
-        Builder(Metadata source, IgnoringMetadataKeys ignoredKeys) {
+        Builder(Metadata source, IgnoringMetadataKeys ignoringMetadataKeys) {
             this()
-            Objects.requireNonNull(ignoredKeys)
+            Objects.requireNonNull(ignoringMetadataKeys)
             Objects.requireNonNull(source)
             source.keySet().each {key ->
                 Object value = source.get(key)
                 if (value instanceof String || value instanceof Pattern) {
-                    if (!ignoredKeys.contains(key)) {
+                    if (!ignoringMetadataKeys.contains(key)) {
                         metadataPattern.put(key, value)
                     }
                 } else {

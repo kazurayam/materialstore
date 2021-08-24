@@ -1,5 +1,7 @@
 package com.kazurayam.materialstore
 
+import groovy.xml.MarkupBuilder
+
 abstract class IgnoringMetadataKeys {
 
     public static final IgnoringMetadataKeys NULL_OBJECT = new Builder().build()
@@ -9,6 +11,8 @@ abstract class IgnoringMetadataKeys {
     abstract boolean contains(String key)
 
     abstract Iterator<String> iterator()
+
+    abstract void toSpanSequence(MarkupBuilder mb)
 
     // -------------------- factory methods ------------
     static IgnoringMetadataKeys of(String... keys) {

@@ -8,6 +8,14 @@
   margin-left: 40px;
 }
 
+.container .matched-value {
+  background-color: #98FB98;          /* or #FCC, #D9E5FF */
+}
+
+.container .ignoring-key {
+  background-color: #CCC;
+}
+
 /* .title */
 .container .title button {
   float: right;
@@ -31,10 +39,7 @@
   flex-basis: 80%;
 }
 .container .accordion button .metadata, .fileType {
-  padding-top: 4px;
-  padding-right: 20px;
-  padding-bottom: 4px;
-  padding-left: 4px;
+  padding: 4px 20px 4px 4px;
   text-align: left;
 }
 .container .accordion .show-detail {
@@ -92,10 +97,7 @@
 }
 
 .container .accordion button .description, .fileType, .ratio {
-  padding-top: 4px;
-  padding-right: 4px;
-  padding-bottom: 4px;
-  padding-left: 4px;
+  padding: 4px;
   text-align: left;
 }
 .container .accordion button .ratio {

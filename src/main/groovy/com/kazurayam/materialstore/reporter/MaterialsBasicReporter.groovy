@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.FileType
 import com.kazurayam.materialstore.JobName
 import com.kazurayam.materialstore.Material
 import com.kazurayam.materialstore.MaterialList
+import com.kazurayam.materialstore.MetadataPattern
 import groovy.json.JsonOutput
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
@@ -81,7 +82,9 @@ final class MaterialsBasicReporter {
                                     dt("JobTimestamp :")
                                     dd(materialList.getJobTimestamp().toString())
                                     dt("MetadataPattern :")
-                                    dd(materialList.getMetadataPattern().toString())
+                                    dd() {
+                                        materialList.getMetadataPattern().toSpanSequence(mb)
+                                    }
                                     dt("FileType :")
                                     FileType fileType = materialList.getFileType()
                                     dd((fileType != FileType.NULL) ? fileType.getExtension() : "not specified")
@@ -111,7 +114,8 @@ final class MaterialsBasicReporter {
                                         "aria-labelledby": "heading${index+1}",
                                         "data-bs-parent": "#accordionExample") {
                                     mb.div(class: "accordion-body") {
-                                        makeAccordionBody(root_, mb, material)
+                                        makeAccordionBody(root_, mb, material,
+                                                materialList.getMetadataPattern())
                                     }
                                 }
                             }
@@ -128,7 +132,8 @@ final class MaterialsBasicReporter {
         return reportFile
     }
 
-    private static void makeAccordionBody(Path root, MarkupBuilder mb, Material material) {
+    private static void makeAccordionBody(Path root, MarkupBuilder mb, Material material,
+                                          MetadataPattern metadataPattern) {
         mb.div(class: "show-detail") {
             dl(class: "detail") {
                 dt("URL")
@@ -140,9 +145,10 @@ final class MaterialsBasicReporter {
                 dt("FileType")
                 dd(material.getIndexEntry().getFileType().getExtension())
                 //
-                String s = JsonOutput.prettyPrint(material.getIndexEntry().getMetadata().toString())
                 dt("Metadata")
-                dd(s)
+                dd() {
+                    material.getIndexEntry().getMetadata().toSpanSequence(mb, metadataPattern)
+                }
             }
             if (material.isImage()) {
                 img(class: "img-fluid d-block w-75 centered",

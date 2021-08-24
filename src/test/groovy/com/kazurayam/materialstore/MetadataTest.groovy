@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore
 
+import groovy.xml.MarkupBuilder
 import org.junit.jupiter.api.Test
 
 import static org.junit.jupiter.api.Assertions.*
@@ -193,4 +194,41 @@ class MetadataTest {
         assertEquals(urlWithoutFragment, recreated)
     }
 
+    @Test
+    void test_toSpanSequence_single_MetadataPattern() {
+        URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
+        Metadata metadata = Metadata.builderWithUrl(url)
+                .put("profile", "ProductionEnv")
+                .build()
+        MetadataPattern metadataPattern = MetadataPattern.builder()
+                .put("profile", "ProductionEnv").build()
+        StringWriter sw = new StringWriter()
+        MarkupBuilder mb = new MarkupBuilder(sw)
+        metadata.toSpanSequence(mb, metadataPattern)
+        String str = sw.toString()
+        assertNotNull(str)
+        //println str
+        assertTrue(str.contains("matched-value"))
+    }
+
+    @Test
+    void test_toSpanSequence_dual_MetadataPatterns() {
+        URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
+        Metadata metadata = Metadata.builderWithUrl(url)
+                .put("profile", "ProductionEnv")
+                .build()
+        MetadataPattern leftMetadataPattern = MetadataPattern.builder()
+                .put("profile", "ProductionEnv").build()
+        MetadataPattern rightMetadataPattern = MetadataPattern.builder()
+                .put("URL.host", "baeldung.com").build()
+        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.of("URL.protocol")
+        StringWriter sw = new StringWriter()
+        MarkupBuilder mb = new MarkupBuilder(sw)
+        metadata.toSpanSequence(mb, leftMetadataPattern, rightMetadataPattern, ignoringMetadataKeys)
+        String str = sw.toString()
+        assertNotNull(str)
+        println str
+        assertTrue(str.contains("matched-value"))
+        assertTrue(str.contains("ignoring-key"))
+    }
 }

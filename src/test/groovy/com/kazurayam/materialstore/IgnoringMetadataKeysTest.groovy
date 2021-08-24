@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore
 
+import groovy.xml.MarkupBuilder
 import org.junit.jupiter.api.Test
 
 import static org.junit.jupiter.api.Assertions.*
@@ -8,37 +9,29 @@ class IgnoringMetadataKeysTest {
 
     @Test
     void test_of() {
-        IgnoringMetadataKeys ignoredKeys = IgnoringMetadataKeys.of("profile", "URL.hostname")
-        assertNotNull(ignoredKeys)
-        assertTrue(ignoredKeys.contains("profile"))
-        assertEquals(2, ignoredKeys.size())
+        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.of("profile", "URL.hostname")
+        assertNotNull(ignoringMetadataKeys)
+        assertTrue(ignoringMetadataKeys.contains("profile"))
+        assertEquals(2, ignoringMetadataKeys.size())
     }
-
-    /*
-    @Test
-    void test_building_noArg() {
-        MetadataIgnoredKeys ignoredKeys = new MetadataIgnoredKeys.Builder().build()
-        assertNotNull(ignoredKeys)
-    }
-
-    @Test
-    void test_building_witArg() {
-        MetadataPattern pattern = MetadataPattern.builderWithMap(["profile":"ProductionEnv"]).build()
-        MetadataIgnoredKeys ignoredKeys = new MetadataIgnoredKeys.Builder(pattern).build()
-        assertNotNull(ignoredKeys)
-        assertEquals(1, ignoredKeys.size())
-        assertTrue(ignoredKeys.contains("profile"))
-        ignoredKeys.each {key ->
-            assertTrue(key.length() > 0)
-        }
-    }
-     */
 
     @Test
     void test_toString() {
-        IgnoringMetadataKeys ignoredKeys = IgnoringMetadataKeys.of("profile", "URL.hostname")
-        String str = ignoredKeys.toString()
+        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.of("profile", "URL.hostname")
+        String str = ignoringMetadataKeys.toString()
         assertNotNull(str)
         assertEquals("""{"URL.hostname", "profile"}""", str)
+    }
+
+    @Test
+    void test_toSpanSequence() {
+        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.of("profile", "URL.hostname")
+        StringWriter sw = new StringWriter()
+        MarkupBuilder mb = new MarkupBuilder(sw)
+        ignoringMetadataKeys.toSpanSequence(mb)
+        String str = sw.toString()
+        assertNotNull(str)
+        //println str
+        assertTrue(str.contains("ignoring-key"))
     }
 }

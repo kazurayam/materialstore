@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore
 
+import groovy.xml.MarkupBuilder
 import org.apache.http.NameValuePair
 import org.apache.http.client.utils.URLEncodedUtils
 
@@ -28,6 +29,13 @@ abstract class Metadata implements MapLike, Comparable {
      * @return
      */
     abstract URL toURL()
+
+    abstract void toSpanSequence(MarkupBuilder mb, MetadataPattern metadataPattern)
+
+    abstract void toSpanSequence(MarkupBuilder mb,
+                                 MetadataPattern leftMetadataPattern,
+                                 MetadataPattern rightMetadataPattern,
+                                 IgnoringMetadataKeys ignoringMetadataKeys)
 
     // ---------------- factory method ---------------------
     static Builder builder() {

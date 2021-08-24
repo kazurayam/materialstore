@@ -2,7 +2,6 @@ package com.kazurayam.materialstore.reporter
 
 import com.kazurayam.materialstore.*
 import com.kazurayam.materialstore.differ.DifferUtil
-import groovy.json.JsonOutput
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -85,7 +84,9 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                                         dt("JobTimestamp :")
                                         dd(left.getJobTimestamp().toString())
                                         dt("MetadataPattern :")
-                                        dd(left.getMetadataPattern().toString())
+                                        dd() {
+                                            left.getMetadataPattern().toSpanSequence(mb)
+                                        }
                                         dt("FileType :")
                                         FileType fileType = left.getFileType()
                                         dd((fileType != FileType.NULL) ? fileType.getExtension() : "not specified")
@@ -96,14 +97,16 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                             }
                             //
                             dt("Right MaterialList specification")
-                            MaterialList right = diffArtifacts.getLeftMaterialList()
+                            MaterialList right = diffArtifacts.getRightMaterialList()
                             if (right != MaterialList.NULL_OBJECT) {
                                 dd() {
                                     dl() {
                                         dt("JobTimestamp :")
                                         dd(right.getJobTimestamp().toString())
                                         dt("MetadataPattern :")
-                                        dd(right.getMetadataPattern().toString())
+                                        dd() {
+                                            right.getMetadataPattern().toSpanSequence(mb)
+                                        }
                                         dt("FileType :")
                                         FileType fileType = right.getFileType()
                                         dd((fileType != FileType.NULL) ? fileType.getExtension() : "not specified")
@@ -113,9 +116,11 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                                 dd("not set")
                             }
                             //
-                            dt("MetadataIgnoredKey")
-                            if (diffArtifacts.getMetadataIgnoredKeys() != IgnoringMetadataKeys.NULL_OBJECT) {
-                                dd(diffArtifacts.getMetadataIgnoredKeys().toString())
+                            dt("IgnoringMetadataKeys")
+                            if (diffArtifacts.getIgnoringMetadataKeys() != IgnoringMetadataKeys.NULL_OBJECT) {
+                                dd() {
+                                    diffArtifacts.getIgnoringMetadataKeys().toSpanSequence(mb)
+                                }
                             } else {
                                 dd("not set")
                             }
@@ -153,9 +158,15 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                                         "data-bs-parent": "#diff-contents") {
                                     mb.div(class: "accordion-body") {
                                         makeModalSubsection(mb, da, index+1)
-                                        makeMaterialSubsection(mb, "left", da.getLeft())
-                                        makeMaterialSubsection(mb, "right", da.getRight())
-                                        makeMaterialSubsection(mb, "diff", da.getDiff())
+                                        //
+                                        List<Object> context = [
+                                                diffArtifacts.getLeftMaterialList().getMetadataPattern(),
+                                                diffArtifacts.getRightMaterialList().getMetadataPattern(),
+                                                diffArtifacts.getIgnoringMetadataKeys()
+                                        ]
+                                        makeMaterialSubsection(mb, "left", da.getLeft(), context)
+                                        makeMaterialSubsection(mb, "right", da.getRight(), context)
+                                        makeMaterialSubsection(mb, "diff", da.getDiff(), context)
                                     }
                                 }
                             }
@@ -305,7 +316,15 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
         }
     }
 
-    private static void makeMaterialSubsection(MarkupBuilder mb, String name, Material material) {
+    /**
+     *
+     * @param mb
+     * @param name
+     * @param material
+     * @param context ["leftMetadataPattern": xxx, "rightMetadataPattern": xxx, "ignoringMetadataKeys": xxx]
+     */
+    private static void makeMaterialSubsection(MarkupBuilder mb, String name, Material material,
+                                               List<Object> context) {
         mb.div(class: "show-detail") {
             h2(name)
             dl(class: "detail") {
@@ -319,9 +338,16 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                 dt("fileType")
                 dd(material.getIndexEntry().getFileType().getExtension())
                 //
-                String s = JsonOutput.prettyPrint(material.getIndexEntry().getMetadata().toString())
                 dt("metadata")
-                dd(s)
+                //dd(material.getIndexEntry().getMetadata().toString())
+                dd() {
+                    material.getIndexEntry().getMetadata().toSpanSequence(
+                            mb,
+                            (MetadataPattern)context.get(0),
+                            (MetadataPattern)context.get(1),
+                            (IgnoringMetadataKeys)context.get(2)
+                    )
+                }
             }
         }
     }

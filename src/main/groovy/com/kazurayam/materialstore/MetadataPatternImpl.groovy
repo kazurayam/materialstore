@@ -1,5 +1,7 @@
 package com.kazurayam.materialstore
 
+import groovy.xml.MarkupBuilder
+
 import java.util.regex.Pattern
 
 final class MetadataPatternImpl extends MetadataPattern implements MapLike {
@@ -35,6 +37,37 @@ final class MetadataPatternImpl extends MetadataPattern implements MapLike {
     @Override
     int size() {
         return metadataPattern.size()
+    }
+
+    //------------- implements MetadataPattern --------
+    @Override
+    void toSpanSequence(MarkupBuilder mb) {
+        List<String> keyList = new ArrayList(metadataPattern.keySet())
+        Collections.sort(keyList)
+        int count = 0
+        mb.span("{")
+        keyList.forEach( { String key ->
+            if (count > 0) {
+                mb.span(", ")
+            }
+            mb.span("\"${key}\":")
+            mb.span("class": "matched-value",
+                    formatMetadataPatternValue(metadataPattern, key))
+            count += 1
+        })
+        mb.span("}")
+    }
+
+    private static String formatMetadataPatternValue(
+            Map<String, Object> metadataPattern, String key) {
+        StringBuilder sb = new StringBuilder()
+        sb.append("\"")
+        if (metadataPattern.get(key) instanceof Pattern) {
+            sb.append("regex:")
+        }
+        sb.append(metadataPattern.get(key))
+        sb.append("\"")
+        return sb.toString()
     }
 
     //------------- implements java.lang.Object -------

@@ -223,7 +223,13 @@ extends java.lang.Object
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>static&nbsp;<a href='../../../com/kazurayam/materialstore/MetadataPattern.Builder.html'>MetadataPattern.Builder</a></code></td>
-                            <td class="colLast"><code><strong><a href="#builderWithMetadata(com.kazurayam.materialstore.Metadata, com.kazurayam.materialstore.IgnoringMetadataKeys)">builderWithMetadata</a></strong>(<a href='../../../com/kazurayam/materialstore/Metadata.html'>Metadata</a> metadata, <a href='../../../com/kazurayam/materialstore/IgnoringMetadataKeys.html'>IgnoringMetadataKeys</a> ignoredKeys)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#builderWithMetadata(com.kazurayam.materialstore.Metadata, com.kazurayam.materialstore.IgnoringMetadataKeys)">builderWithMetadata</a></strong>(<a href='../../../com/kazurayam/materialstore/Metadata.html'>Metadata</a> metadata, <a href='../../../com/kazurayam/materialstore/IgnoringMetadataKeys.html'>IgnoringMetadataKeys</a> ignoringMetadataKeys)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>void</code></td>
+                            <td class="colLast"><code><strong><a href="#toSpanSequence(groovy.xml.MarkupBuilder)">toSpanSequence</a></strong>(groovy.xml.MarkupBuilder mb)</code><br>emit a HTML fragment (like the following) into the argument MarkupBuilder</td>
                         </tr>
                         
                     </table>
@@ -329,8 +335,19 @@ extends java.lang.Object
                         <a name="builderWithMetadata(com.kazurayam.materialstore.Metadata, com.kazurayam.materialstore.IgnoringMetadataKeys)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>static&nbsp;<a href='../../../com/kazurayam/materialstore/MetadataPattern.Builder.html'>MetadataPattern.Builder</a> <strong>builderWithMetadata</strong>(<a href='../../../com/kazurayam/materialstore/Metadata.html'>Metadata</a> metadata, <a href='../../../com/kazurayam/materialstore/IgnoringMetadataKeys.html'>IgnoringMetadataKeys</a> ignoredKeys)</h4>
+                                <h4>static&nbsp;<a href='../../../com/kazurayam/materialstore/MetadataPattern.Builder.html'>MetadataPattern.Builder</a> <strong>builderWithMetadata</strong>(<a href='../../../com/kazurayam/materialstore/Metadata.html'>Metadata</a> metadata, <a href='../../../com/kazurayam/materialstore/IgnoringMetadataKeys.html'>IgnoringMetadataKeys</a> ignoringMetadataKeys)</h4>
                                 <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="toSpanSequence(groovy.xml.MarkupBuilder)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>void <strong>toSpanSequence</strong>(groovy.xml.MarkupBuilder mb)</h4>
+                                <p> emit a HTML fragment (like the following) into the argument MarkupBuilder
+
+ <span>{"profile":</span><span class="matched-value">"ProductionEnv"</span><span>}</span>
+     <DL><DT><B>Parameters:</B></DT><DD>mb</DD></DL></p>
                             </li>
                         </ul>
                     
