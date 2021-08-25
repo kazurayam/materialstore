@@ -99,7 +99,7 @@ if (location.href.indexOf('is-external=true') == -1) {
 
             <dl>
                 <dt>All Implemented Interfaces and Traits:</dt>
-                <dd><a href='../../../com/kazurayam/materialstore/MapLike.html'>MapLike</a>, java.lang.Comparable</dd>
+                <dd>java.lang.Comparable</dd>
             </dl>
             <!-- todo: direct known subclasses -->
             <hr>
@@ -246,9 +246,32 @@ extends java.lang.Object
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>int</code></td>
+                            <td class="colLast"><code><strong><a href="#compareTo(java.lang.Object)">compareTo</a></strong>(java.lang.Object obj)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>boolean</code></td>
-                            <td class="colLast"><code><strong><a href="#match(com.kazurayam.materialstore.MetadataPattern)">match</a></strong>(<a href='../../../com/kazurayam/materialstore/MetadataPattern.html'>MetadataPattern</a> metadataPattern)</code><br>
- @return<DL><DT><B>Parameters:</B></DT><DD>metadataPattern</DD></DL></td>
+                            <td class="colLast"><code><strong><a href="#containsKey(java.lang.String)">containsKey</a></strong>(java.lang.String key)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>java.lang.String</code></td>
+                            <td class="colLast"><code><strong><a href="#get(java.lang.String)">get</a></strong>(java.lang.String key)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>boolean</code></td>
+                            <td class="colLast"><code><strong><a href="#isEmpty()">isEmpty</a></strong>()</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>java.util.Set&lt;java.lang.String&gt;</code></td>
+                            <td class="colLast"><code><strong><a href="#keySet()">keySet</a></strong>()</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -259,20 +282,27 @@ extends java.lang.Object
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>void</code></td>
-                            <td class="colLast"><code><strong><a href="#toSpanSequence(groovy.xml.MarkupBuilder, com.kazurayam.materialstore.MetadataPattern)">toSpanSequence</a></strong>(groovy.xml.MarkupBuilder mb, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html'>MetadataPattern</a> metadataPattern)</code><br></td>
+                            <td class="colLast"><code>int</code></td>
+                            <td class="colLast"><code><strong><a href="#size()">size</a></strong>()</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>void</code></td>
-                            <td class="colLast"><code><strong><a href="#toSpanSequence(groovy.xml.MarkupBuilder, com.kazurayam.materialstore.MetadataPattern, com.kazurayam.materialstore.MetadataPattern, com.kazurayam.materialstore.IgnoringMetadataKeys)">toSpanSequence</a></strong>(groovy.xml.MarkupBuilder mb, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html'>MetadataPattern</a> leftMetadataPattern, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html'>MetadataPattern</a> rightMetadataPattern, <a href='../../../com/kazurayam/materialstore/IgnoringMetadataKeys.html'>IgnoringMetadataKeys</a> ignoringMetadataKeys)</code><br></td>
+                            <td class="colLast"><code><strong><a href="#toSpanSequence(groovy.xml.MarkupBuilder, com.kazurayam.materialstore.MetadataPattern)">toSpanSequence</a></strong>(groovy.xml.MarkupBuilder mb, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html'>MetadataPattern</a> metadataPattern)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>void</code></td>
+                            <td class="colLast"><code><strong><a href="#toSpanSequence(groovy.xml.MarkupBuilder, com.kazurayam.materialstore.MetadataPattern, com.kazurayam.materialstore.MetadataPattern, com.kazurayam.materialstore.IgnoringMetadataKeys)">toSpanSequence</a></strong>(groovy.xml.MarkupBuilder mb, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html'>MetadataPattern</a> leftMetadataPattern, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html'>MetadataPattern</a> rightMetadataPattern, <a href='../../../com/kazurayam/materialstore/IgnoringMetadataKeys.html'>IgnoringMetadataKeys</a> ignoringMetadataKeys)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.net.URL</code></td>
-                            <td class="colLast"><code><strong><a href="#toURL()">toURL</a></strong>()</code><br>@return</td>
+                            <td class="colLast"><code><strong><a href="#toURL()">toURL</a></strong>()</code><br>
+ @return<DL><DT><B>Parameters:</B></DT><DD>metadataPattern</DD></DL></td>
                         </tr>
                         
                     </table>
@@ -407,11 +437,43 @@ extends java.lang.Object
                             </li>
                         </ul>
                     
-                        <a name="match(com.kazurayam.materialstore.MetadataPattern)"><!-- --></a>
+                        <a name="compareTo(java.lang.Object)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>boolean <strong>match</strong>(<a href='../../../com/kazurayam/materialstore/MetadataPattern.html'>MetadataPattern</a> metadataPattern)</h4>
-                                <p> <DL><DT><B>Parameters:</B></DT><DD>metadataPattern</DD></DL><DL><DT><B>Returns:</B></DT><DD></DD></DL></p>
+                                <h4>int <strong>compareTo</strong>(java.lang.Object obj)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="containsKey(java.lang.String)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>boolean <strong>containsKey</strong>(java.lang.String key)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="get(java.lang.String)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>java.lang.String <strong>get</strong>(java.lang.String key)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="isEmpty()"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>boolean <strong>isEmpty</strong>()</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="keySet()"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>java.util.Set&lt;java.lang.String&gt; <strong>keySet</strong>()</h4>
+                                <p></p>
                             </li>
                         </ul>
                     
@@ -421,6 +483,14 @@ extends java.lang.Object
                                 <h4>static&nbsp;java.util.List&lt;org.apache.http.NameValuePair&gt; <strong>parseURLQuery</strong>(java.lang.String queryString, java.nio.charset.Charset charset = StandardCharsets.UTF_8)</h4>
                                 <p>
      <DL><DT><B>Parameters:</B></DT><DD><code>queryString</code> -  "q=katalon&dfe=piiipfe&cxw=fcfw"</DD></DL><DL><DT><B>Returns:</B></DT><DD>List<org.apache.http.NameValuePair></DD></DL></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="size()"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>int <strong>size</strong>()</h4>
+                                <p></p>
                             </li>
                         </ul>
                     
@@ -444,7 +514,7 @@ extends java.lang.Object
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>java.net.URL <strong>toURL</strong>()</h4>
-                                <p> <DL><DT><B>Returns:</B></DT><DD></DD></DL></p>
+                                <p> <DL><DT><B>Parameters:</B></DT><DD>metadataPattern</DD></DL><DL><DT><B>Returns:</B></DT><DD></DD></DL></p>
                             </li>
                         </ul>
                     

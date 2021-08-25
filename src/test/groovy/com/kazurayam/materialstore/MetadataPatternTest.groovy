@@ -138,4 +138,23 @@ class MetadataPatternTest {
         //println markup
         assertTrue(markup.contains("matched-value"))
     }
+
+    @Test
+    void test_toSpanSequence_regex() {
+        MetadataPattern pattern = MetadataPattern.builder()
+                .put("*", Pattern.compile(".*"))
+                .build()
+        Metadata metadata = Metadata.builder()
+                .put("profile", "DevEnv")
+                .put("URL.host", "demoaut-mimic.kazurayam.com").build()
+        StringWriter sw = new StringWriter()
+        MarkupBuilder mb = new MarkupBuilder(sw)
+        mb.div() {
+            pattern.toSpanSequence(mb)
+        }
+        String markup = sw.toString()
+        assertNotNull(markup)
+        //println markup
+        assertTrue(markup.contains("matched-value"))
+    }
 }

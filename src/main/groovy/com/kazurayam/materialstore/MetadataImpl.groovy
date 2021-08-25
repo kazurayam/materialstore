@@ -35,6 +35,8 @@ final class MetadataImpl extends Metadata {
         return metadata.keySet()
     }
 
+
+
     @Override
     int size()  {
         metadata.size()
@@ -74,7 +76,11 @@ final class MetadataImpl extends Metadata {
                 mb.span(", ")
             }
             mb.span("\"${JsonUtil.escapeAsJsonString(key)}\":")
-            if (metadataPattern.containsKey(key) &&
+            if (metadataPattern.containsKey("*") &&
+                    metadataPattern.get("*").matches(this.get(key))) {
+                mb.span(class: "matched-value",
+                        "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
+            } else if (metadataPattern.containsKey(key) &&
                     this.containsKey(key) &&
                     metadataPattern.get(key).matches(this.get(key))) {
                 mb.span(class: "matched-value",
@@ -100,7 +106,7 @@ final class MetadataImpl extends Metadata {
         List<String> keys = new ArrayList<String>(metadata.keySet())
         Collections.sort(keys)
         mb.span("{")
-        keys.forEach {key ->
+        keys.forEach { key ->
             if (count > 0) {
                 mb.span(", ")
             }
@@ -109,8 +115,16 @@ final class MetadataImpl extends Metadata {
             } else {
                 mb.span("\"${JsonUtil.escapeAsJsonString(key)}\":")
             }
-            if (leftMetadataPattern.containsKey(key) &&
+            if (leftMetadataPattern.containsKey("*") &&
+                    leftMetadataPattern.get("*").matches(this.get(key))) {
+                mb.span(class: "matched-value",
+                        "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
+            } else if (leftMetadataPattern.containsKey(key) &&
                     leftMetadataPattern.get(key).matches(this.get(key))) {
+                mb.span(class: "matched-value",
+                        "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
+            } else if (rightMetadataPattern.containsKey("*") &&
+                    rightMetadataPattern.get("*").matches(this.get(key))) {
                 mb.span(class: "matched-value",
                         "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
             } else if (rightMetadataPattern.containsKey(key) &&

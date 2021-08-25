@@ -17,19 +17,15 @@ abstract class MetadataPattern {
 
     abstract boolean containsKey(String key)
 
-    abstract boolean containsKey(Pattern key)
-
     abstract MetadataPatternValue get(String key)
-
-    abstract MetadataPatternValue get(Pattern key)
-
-    abstract String getAsString(Pattern key)
 
     abstract String getAsString(String key)
 
     abstract boolean isEmpty()
 
     abstract Set<String> keySet()
+
+    abstract Set<Entry> entrySet()
 
     abstract int size()
 
@@ -113,6 +109,58 @@ abstract class MetadataPattern {
         }
         MetadataPattern build() {
             return new MetadataPatternImpl(metadataPattern)
+        }
+    }
+
+    /**
+     * a pair of Key-Value in the MetadataPattern object.
+     * This class implements boolean matches(Metadata) method, which works
+     * as a helper for MetadataPatternImpl#matches(Metadata) method.
+     */
+    static class Entry implements Comparable {
+        private String key
+        private MetadataPatternValue metadataPatternValue
+        Entry(String key, MetadataPatternValue metadataPatternValue) {
+            this.key = key
+            this.metadataPatternValue = metadataPatternValue
+        }
+        String getKey() {
+            return this.key
+        }
+        MetadataPatternValue getMetadataPatternValue() {
+            return this.metadataPatternValue
+        }
+        /**
+         *
+         * @param metadata
+         * @return
+         */
+        boolean matches(Metadata metadata) {
+            if (this.key == "*") {
+                boolean found = false
+                metadata.keySet().each {metadataKey ->
+                    if (this.metadataPatternValue.matches(metadata.get(metadataKey))) {
+                        found = true
+                    }
+                }
+                return found
+            } else if (metadata.containsKey(key)) {
+                return this.metadataPatternValue.matches(metadata.get(key))
+            } else {
+                return false
+            }
+        }
+        @Override
+        int compareTo(Object obj) {
+            if (!obj instanceof Entry) {
+                throw new IllegalArgumentException("obj is not Entry")
+            }
+            Entry other = (Entry)obj
+            def keyComp = this.key <=> other.key
+            if (keyComp != 0) {
+                return this.metadataPatternValue <=> other.metadataPatternValue
+            } else
+                return keyComp
         }
     }
 }

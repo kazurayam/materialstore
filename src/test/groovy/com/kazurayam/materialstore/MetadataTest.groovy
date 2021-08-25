@@ -162,13 +162,14 @@ class MetadataTest {
                 .put("profile", "ProductionEnv")
                 .build()
         MetadataPattern metadataPattern = MetadataPattern.builder()
-                .put("profile", "ProductionEnv").build()
+                .put("*", Pattern.compile(".*Env"))
+                .build()
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
         metadata.toSpanSequence(mb, metadataPattern)
         String str = sw.toString()
         assertNotNull(str)
-        //println str
+        println str
         assertTrue(str.contains("matched-value"))
     }
 

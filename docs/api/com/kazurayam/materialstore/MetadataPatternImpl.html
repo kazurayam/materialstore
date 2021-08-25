@@ -97,18 +97,6 @@ if (location.href.indexOf('is-external=true') == -1) {
     <ul class="blockList">
         <li class="blockList">
 
-            <dl>
-                <dt>All Implemented Interfaces and Traits:</dt>
-                <dd><a href='../../../com/kazurayam/materialstore/MapLike.html'>MapLike</a></dd>
-            </dl>
-            <!-- todo: direct known subclasses -->
-            <hr>
-            <br>
-<pre>final&nbsp;class MetadataPatternImpl
-extends <a href='../../../com/kazurayam/materialstore/MetadataPattern.html'>MetadataPattern</a>
-
-</pre>
-
 
 
           </li>
@@ -166,8 +154,8 @@ extends <a href='../../../com/kazurayam/materialstore/MetadataPattern.html'>Meta
                         
                         <tr class="altColor">
                             <td class="colFirst">
-                                <code><a href="#MetadataPatternImpl(Map<String, Object>)">MetadataPatternImpl</a>
-                                (java.util.Map&lt;java.lang.String, java.lang.Object&gt; source)</code><br></td>
+                                <code><a href="#MetadataPatternImpl(Map<String, MetadataPatternValue>)">MetadataPatternImpl</a>
+                                (java.util.Map&lt;java.lang.String, <a href='../../../com/kazurayam/materialstore/MetadataPatternValue.html' title='MetadataPatternValue'>MetadataPatternValue</a>&gt; source)</code><br></td>
                         </tr>
                         
                     </table>
@@ -199,8 +187,20 @@ extends <a href='../../../com/kazurayam/materialstore/MetadataPattern.html'>Meta
                         
                         <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code>java.lang.Object</code></td>
+                            <td class="colLast"><code>java.util.Set&lt;Entry&gt;</code></td>
+                            <td class="colLast"><code><strong><a href="#entrySet()">entrySet</a></strong>()</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code><a href='../../../com/kazurayam/materialstore/MetadataPatternValue.html'>MetadataPatternValue</a></code></td>
                             <td class="colLast"><code><strong><a href="#get(java.lang.String)">get</a></strong>(java.lang.String key)</code><br></td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>java.lang.String</code></td>
+                            <td class="colLast"><code><strong><a href="#getAsString(java.lang.String)">getAsString</a></strong>(java.lang.String key)</code><br></td>
                         </tr>
                         
                         <tr class="altColor">
@@ -217,17 +217,25 @@ extends <a href='../../../com/kazurayam/materialstore/MetadataPattern.html'>Meta
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>boolean</code></td>
+                            <td class="colLast"><code><strong><a href="#matches(com.kazurayam.materialstore.Metadata)">matches</a></strong>(<a href='../../../com/kazurayam/materialstore/Metadata.html'>Metadata</a> metadata)</code><br>Returns true if this MetadataPattern has one or more entries that matches with
+ one or more entries in the given Metadata.
+ </td>
+                        </tr>
+                        
+                        <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>int</code></td>
                             <td class="colLast"><code><strong><a href="#size()">size</a></strong>()</code><br></td>
                         </tr>
                         
-                        <tr class="rowColor">
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>void</code></td>
                             <td class="colLast"><code><strong><a href="#toSpanSequence(groovy.xml.MarkupBuilder)">toSpanSequence</a></strong>(groovy.xml.MarkupBuilder mb)</code><br></td>
                         </tr>
                         
-                        <tr class="altColor">
+                        <tr class="rowColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>java.lang.String</code></td>
                             <td class="colLast"><code><strong><a href="#toString()">toString</a></strong>()</code><br></td>
@@ -249,7 +257,7 @@ extends <a href='../../../com/kazurayam/materialstore/MetadataPattern.html'>Meta
                         
                         <tr class="altColor">
                             <td class="colFirst"><code>class <a href='../../../com/kazurayam/materialstore/MetadataPattern.html'>MetadataPattern</a></code></td>
-                            <td class="colLast"><code><a href='../../../com/kazurayam/materialstore/MetadataPattern.html#builder()'>builder</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#builderWithMap(Map<String, Object>)'>builderWithMap</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#builderWithMetadata(com.kazurayam.materialstore.Metadata)'>builderWithMetadata</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#builderWithMetadata(com.kazurayam.materialstore.Metadata, com.kazurayam.materialstore.IgnoringMetadataKeys)'>builderWithMetadata</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#toSpanSequence(groovy.xml.MarkupBuilder)'>toSpanSequence</a></code></td>
+                            <td class="colLast"><code><a href='../../../com/kazurayam/materialstore/MetadataPattern.html#builder()'>builder</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#builderWithMap(Map<String, String>)'>builderWithMap</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#builderWithMetadata(com.kazurayam.materialstore.Metadata)'>builderWithMetadata</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#builderWithMetadata(com.kazurayam.materialstore.Metadata, com.kazurayam.materialstore.IgnoringMetadataKeys)'>builderWithMetadata</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#containsKey(java.lang.String)'>containsKey</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#entrySet()'>entrySet</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#get(java.lang.String)'>get</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#getAsString(java.lang.String)'>getAsString</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#isEmpty()'>isEmpty</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#keySet()'>keySet</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#matches(com.kazurayam.materialstore.Metadata)'>matches</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#size()'>size</a>, <a href='../../../com/kazurayam/materialstore/MetadataPattern.html#toSpanSequence(groovy.xml.MarkupBuilder)'>toSpanSequence</a></code></td>
                         </tr>
                         <tr class="altColor">
                             <td class="colFirst"><code>class java.lang.Object</code></td>
@@ -284,10 +292,10 @@ extends <a href='../../../com/kazurayam/materialstore/MetadataPattern.html'>Meta
                 </a>
                     <h3>Constructor Detail</h3>
                     
-                        <a name="MetadataPatternImpl(Map<String, Object>)"><!-- --></a>
+                        <a name="MetadataPatternImpl(Map<String, MetadataPatternValue>)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4><strong>MetadataPatternImpl</strong>(java.util.Map&lt;java.lang.String, java.lang.Object&gt; source)</h4>
+                                <h4><strong>MetadataPatternImpl</strong>(java.util.Map&lt;java.lang.String, <a href='../../../com/kazurayam/materialstore/MetadataPatternValue.html' title='MetadataPatternValue'>MetadataPatternValue</a>&gt; source)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -314,11 +322,29 @@ boolean <strong>containsKey</strong>(java.lang.String key)</h4>
                             </li>
                         </ul>
                     
+                        <a name="entrySet()"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>@java.lang.Override
+java.util.Set&lt;Entry&gt; <strong>entrySet</strong>()</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
                         <a name="get(java.lang.String)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-java.lang.Object <strong>get</strong>(java.lang.String key)</h4>
+<a href='../../../com/kazurayam/materialstore/MetadataPatternValue.html'>MetadataPatternValue</a> <strong>get</strong>(java.lang.String key)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="getAsString(java.lang.String)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>@java.lang.Override
+java.lang.String <strong>getAsString</strong>(java.lang.String key)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -338,6 +364,18 @@ boolean <strong>isEmpty</strong>()</h4>
                                 <h4>@java.lang.Override
 java.util.Set&lt;java.lang.String&gt; <strong>keySet</strong>()</h4>
                                 <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="matches(com.kazurayam.materialstore.Metadata)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>@java.lang.Override
+boolean <strong>matches</strong>(<a href='../../../com/kazurayam/materialstore/Metadata.html'>Metadata</a> metadata)</h4>
+                                <p> Returns true if this MetadataPattern has one or more entries that matches with
+ one or more entries in the given Metadata.
+ Returns false if this MetadataPattern has no entry that matches with
+ any of entries in the given Metadata. <DL><DT><B>Parameters:</B></DT><DD>metadata</DD></DL><DL><DT><B>Returns:</B></DT><DD></DD></DL></p>
                             </li>
                         </ul>
                     

@@ -85,8 +85,10 @@ class MetadataPatternValue implements Comparable {
             return this.valueString <=> other.valueString
         } else if (this.isPattern() && other.isPattern()) {
             return this.valuePattern.toString() <=> other.valuePattern.toString()
-        } else {
-            throw new IllegalStateException("MetadataPatternValue type not match: String and Pattern")
+        } else if (this.isString() && other.isPattern()) {
+            return -1
+        } else {  // this.isPattern() && other.isString()
+            return 1
         }
     }
 

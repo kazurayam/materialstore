@@ -2,8 +2,6 @@ package com.kazurayam.materialstore
 
 import groovy.xml.MarkupBuilder
 
-import java.util.regex.Pattern
-
 final class MetadataPatternImpl extends MetadataPattern {
 
     private final Map<String, MetadataPatternValue> metadataPattern
@@ -20,11 +18,6 @@ final class MetadataPatternImpl extends MetadataPattern {
     }
 
     @Override
-    boolean containsKey(Pattern key) {
-        return metadataPattern.containsKey(key)
-    }
-
-    @Override
     MetadataPatternValue get(String key) {
         return metadataPattern.get(key)
     }
@@ -32,16 +25,6 @@ final class MetadataPatternImpl extends MetadataPattern {
     @Override
     String getAsString(String key) {
         return this.get(key).toString()
-    }
-
-    @Override
-    MetadataPatternValue get(Pattern key) {
-        return metadataPattern.get(key)
-    }
-
-    @Override
-    String getAsString(Pattern key) {
-        return this.get(key)
     }
 
     @Override
@@ -59,11 +42,12 @@ final class MetadataPatternImpl extends MetadataPattern {
         return metadataPattern.size()
     }
 
-    Set<MetadataPatternEntry> entrySet() {
-        Set<MetadataPatternEntry> entrySet = new HashSet<MetadataPatternEntry>()
+    @Override
+    Set<Entry> entrySet() {
+        Set<Entry> entrySet = new HashSet<Entry>()
         this.keySet().forEach {key ->
             MetadataPatternValue mpv = this.get(key)
-            MetadataPatternEntry entry = new MetadataPatternEntry(key, mpv)
+            Entry entry = new Entry(key, mpv)
             entrySet.add(entry)
         }
         return entrySet
@@ -81,7 +65,7 @@ final class MetadataPatternImpl extends MetadataPattern {
      */
     @Override
     boolean matches(Metadata metadata) {
-        Set<MetadataPatternEntry> entrySet = this.entrySet()
+        Set<Entry> entrySet = this.entrySet()
         boolean result = true
         entrySet.each {entry ->
             if (! entry.matches(metadata)) {
@@ -134,41 +118,4 @@ final class MetadataPatternImpl extends MetadataPattern {
         return sb.toString()
     }
 
-    /**
-     *
-     */
-    class MetadataPatternEntry {
-        private String key
-        private MetadataPatternValue metadataPatternValue
-        MetadataPatternEntry(String key, MetadataPatternValue metadataPatternValue) {
-            this.key = key
-            this.metadataPatternValue = metadataPatternValue
-        }
-        String getKey() {
-            return this.key
-        }
-        MetadataPatternValue getMetadataPatternValue() {
-            return this.metadataPatternValue
-        }
-        /**
-         *
-         * @param metadata
-         * @return
-         */
-        boolean matches(Metadata metadata) {
-            if (this.key == "*") {
-                boolean found = false
-                metadata.keySet().each {metadataKey ->
-                    if (this.metadataPatternValue.matches(metadata.get(metadataKey))) {
-                        found = true
-                    }
-                }
-                return found
-            } else if (metadata.containsKey(key)) {
-                return this.metadataPatternValue.matches(metadata.get(key))
-            } else {
-                return false
-            }
-        }
-    }
 }
