@@ -2,9 +2,6 @@ package com.kazurayam.materialstore
 
 import groovy.xml.MarkupBuilder
 
-import java.util.regex.Matcher
-import java.util.regex.Pattern
-
 /**
  *
  */
@@ -12,28 +9,19 @@ final class MetadataImpl extends Metadata {
 
     private final Map<String, String> metadata
 
-    private MetadataImpl(Map<String, String> metadata) {
+    protected MetadataImpl(Map<String, String> metadata) {
         this.metadata = metadata
     }
 
-    /**
-     * the static factory method
-     * @param metadata
-     * @return
-     */
-    static MetadataImpl from(Map<String, String> metadata) {
-        return new MetadataImpl(metadata)
-    }
 
-    // ------------ implements MapLike -------------------
-
+    // ------------ implements Metadata -------------------
     @Override
     boolean containsKey(String key) {
         return metadata.containsKey((String)key)
     }
 
     @Override
-    Object get(String key) {
+    String get(String key) {
         return metadata.get(key)
     }
 
@@ -54,41 +42,6 @@ final class MetadataImpl extends Metadata {
 
 
     // -------------- overrides methods of Metadata -------------------
-    /**
-     *
-     * @param metadataPattern
-     * @return
-     */
-    @Override
-    boolean match(MetadataPattern metadataPattern) throws MaterialstoreException {
-        boolean result = true
-        metadataPattern.keySet().each { key ->
-            if (key == "*" || this.keySet().contains(key)) {
-                if (metadataPattern.get(key) instanceof Pattern) {
-                    Pattern pattern = (Pattern)metadataPattern.get(key)
-                    Matcher matcher = pattern.matcher(this.get(key))
-                    if (matcher.find()) {
-                        ;
-                    } else {
-                        result = false
-                        return
-                    }
-                } else {
-                    String ptnString = (String)metadataPattern.get(key)
-                    if (this.get(key) == ptnString) {
-                        ;
-                    } else {
-                        result = false
-                        return
-                    }
-                }
-            } else {
-                result = false
-                return
-            }
-        }
-        return result
-    }
 
     @Override
     URL toURL() {
@@ -121,32 +74,17 @@ final class MetadataImpl extends Metadata {
                 mb.span(", ")
             }
             mb.span("\"${JsonUtil.escapeAsJsonString(key)}\":")
-            if (isMatching(metadataPattern, key, this)) {
+            if (metadataPattern.containsKey(key) &&
+                    this.containsKey(key) &&
+                    metadataPattern.get(key).matches(this.get(key))) {
                 mb.span(class: "matched-value",
-                        "\"${JsonUtil.escapeAsJsonString(this.getValueAsString(key))}\"")
+                        "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
             } else {
-                mb.span("\"${JsonUtil.escapeAsJsonString((String)this.get(key))}\"")
+                mb.span("\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
             }
             count += 1
         }
         mb.span("}")
-    }
-
-    static boolean isMatching(MetadataPattern metadataPattern, String key, Metadata metadata) {
-        if (metadataPattern.containsKey(key)) {
-            if (metadataPattern.get(key) instanceof String &&
-                    metadataPattern.get(key) == metadata.get(key)) {
-                return true
-            } else if (metadataPattern.get(key) instanceof Pattern) {
-                Matcher m = ((Pattern)metadataPattern.get(key)).matcher(metadata.getValueAsString(key))
-                if (m.matches()) {
-                    return true
-                } else
-                    return false
-            } else
-                return false
-        } else
-            return false
     }
 
     @Override
@@ -171,23 +109,20 @@ final class MetadataImpl extends Metadata {
             } else {
                 mb.span("\"${JsonUtil.escapeAsJsonString(key)}\":")
             }
-            if (isMatching(leftMetadataPattern, key, this)) {
+            if (leftMetadataPattern.containsKey(key) &&
+                    leftMetadataPattern.get(key).matches(this.get(key))) {
                 mb.span(class: "matched-value",
-                        "\"${JsonUtil.escapeAsJsonString(this.getValueAsString(key))}\"")
-            } else if (isMatching(rightMetadataPattern, key, this)) {
+                        "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
+            } else if (rightMetadataPattern.containsKey(key) &&
+                    rightMetadataPattern.get(key).matches(this.get(key))) {
                 mb.span(class: "matched-value",
-                        "\"${JsonUtil.escapeAsJsonString(this.getValueAsString(key))}\"")
+                        "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
             } else {
-                mb.span("\"${JsonUtil.escapeAsJsonString(this.getValueAsString(key))}\"")
+                mb.span("\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
             }
             count += 1
         }
         mb.span("}")
-    }
-
-    @Override
-    String getValueAsString(String key) {
-        return (String)this.get(key)
     }
 
     // ------- overriding java.lang.Object -------

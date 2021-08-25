@@ -4,11 +4,11 @@ import groovy.xml.MarkupBuilder
 
 import java.util.regex.Pattern
 
-final class MetadataPatternImpl extends MetadataPattern implements MapLike {
+final class MetadataPatternImpl extends MetadataPattern {
 
-    private final Map<String, Object> metadataPattern
+    private final Map<String, MetadataPatternValue> metadataPattern
 
-    MetadataPatternImpl(Map<String, Object> source) {
+    MetadataPatternImpl(Map<String, MetadataPatternValue> source) {
         this.metadataPattern = source
     }
 
@@ -20,8 +20,28 @@ final class MetadataPatternImpl extends MetadataPattern implements MapLike {
     }
 
     @Override
-    Object get(String key) {
+    boolean containsKey(Pattern key) {
+        return metadataPattern.containsKey(key)
+    }
+
+    @Override
+    MetadataPatternValue get(String key) {
         return metadataPattern.get(key)
+    }
+
+    @Override
+    String getAsString(String key) {
+        return this.get(key).toString()
+    }
+
+    @Override
+    MetadataPatternValue get(Pattern key) {
+        return metadataPattern.get(key)
+    }
+
+    @Override
+    String getAsString(Pattern key) {
+        return this.get(key)
     }
 
     @Override
@@ -39,7 +59,40 @@ final class MetadataPatternImpl extends MetadataPattern implements MapLike {
         return metadataPattern.size()
     }
 
+    Set<MetadataPatternEntry> entrySet() {
+        Set<MetadataPatternEntry> entrySet = new HashSet<MetadataPatternEntry>()
+        this.keySet().forEach {key ->
+            MetadataPatternValue mpv = this.get(key)
+            MetadataPatternEntry entry = new MetadataPatternEntry(key, mpv)
+            entrySet.add(entry)
+        }
+        return entrySet
+    }
+
     //------------- implements MetadataPattern --------
+    /**
+     * Returns true if this MetadataPattern has one or more entries that matches with
+     * one or more entries in the given Metadata.
+     * Returns false if this MetadataPattern has no entry that matches with
+     * any of entries in the given Metadata.
+     *
+     * @param metadata
+     * @return
+     */
+    @Override
+    boolean matches(Metadata metadata) {
+        Set<MetadataPatternEntry> entrySet = this.entrySet()
+        boolean result = true
+        entrySet.each {entry ->
+            if (! entry.matches(metadata)) {
+                result = false
+                return
+            }
+        }
+        return result
+    }
+
+
     @Override
     void toSpanSequence(MarkupBuilder mb) {
         List<String> keyList = new ArrayList(metadataPattern.keySet())
@@ -50,30 +103,11 @@ final class MetadataPatternImpl extends MetadataPattern implements MapLike {
             if (count > 0) {
                 mb.span(", ")
             }
-            mb.span("\"${key}\":")
-            mb.span("class": "matched-value", "\"" + this.getValueAsString(key) + "\"")
+            mb.span("\"${key.toString()}\":")
+            mb.span("class": "matched-value", "\"" + this.getAsString(key) + "\"")
             count += 1
         })
         mb.span("}")
-    }
-
-    /**
-     * return "value" if the value is a String
-     * return "re:value" if the value is a Pattern
-     *
-     * @param key
-     * @return
-     */
-    @Override
-    String getValueAsString(String key) {
-        def value = this.get(key)
-        if (value instanceof String)
-            return (String)value
-        else if (value instanceof Pattern) {
-            return 're:' + ((Pattern)value).toString()
-        } else {
-            throw new IllegalStateException("value is instance of ${value.class.getName()}, which is unexpected")
-        }
     }
 
     //------------- implements java.lang.Object -------
@@ -89,9 +123,10 @@ final class MetadataPatternImpl extends MetadataPattern implements MapLike {
                 sb.append(", ")   // one whitespace after , is significant
             }
             sb.append("\"")
-            sb.append(key)
+            sb.append(key.toString())
             sb.append("\":\"")
-            sb.append(this.getValueAsString(key))
+            MetadataPatternValue value = this.get(key)
+            sb.append(value.toString())
             sb.append("\"")
             count += 1
         })
@@ -99,5 +134,41 @@ final class MetadataPatternImpl extends MetadataPattern implements MapLike {
         return sb.toString()
     }
 
-    // -------------------------------------------
+    /**
+     *
+     */
+    class MetadataPatternEntry {
+        private String key
+        private MetadataPatternValue metadataPatternValue
+        MetadataPatternEntry(String key, MetadataPatternValue metadataPatternValue) {
+            this.key = key
+            this.metadataPatternValue = metadataPatternValue
+        }
+        String getKey() {
+            return this.key
+        }
+        MetadataPatternValue getMetadataPatternValue() {
+            return this.metadataPatternValue
+        }
+        /**
+         *
+         * @param metadata
+         * @return
+         */
+        boolean matches(Metadata metadata) {
+            if (this.key == "*") {
+                boolean found = false
+                metadata.keySet().each {metadataKey ->
+                    if (this.metadataPatternValue.matches(metadata.get(metadataKey))) {
+                        found = true
+                    }
+                }
+                return found
+            } else if (metadata.containsKey(key)) {
+                return this.metadataPatternValue.matches(metadata.get(key))
+            } else {
+                return false
+            }
+        }
+    }
 }

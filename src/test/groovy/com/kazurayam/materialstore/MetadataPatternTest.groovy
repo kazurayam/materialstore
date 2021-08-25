@@ -3,6 +3,7 @@ package com.kazurayam.materialstore
 import groovy.xml.MarkupBuilder
 import org.junit.jupiter.api.Test
 import java.util.regex.Pattern
+
 import static org.junit.jupiter.api.Assertions.*
 
 class MetadataPatternTest {
@@ -42,7 +43,8 @@ class MetadataPatternTest {
         MetadataPattern mp = MetadataPattern.ANY
         assertNotNull(mp)
         assertEquals(1, mp.size())
-        assertEquals(Pattern.compile(".*").toString(), mp.get("*").toString())
+        assertTrue(mp.containsKey("*"))
+        assertEquals("re:.*", mp.getAsString("*"))
     }
 
     @Test
@@ -78,6 +80,46 @@ class MetadataPatternTest {
         String expected = '''{"B":"b", "C":"c", "a":"a"}'''
         String actual = pattern.toString()
         assertEquals(expected, actual)
+    }
+
+    @Test
+    void test_matches_truthy() {
+        MetadataPattern metadataPattern = MetadataPattern.builderWithMap(["profile": "ProductionEnv"]).build()
+        Metadata metadata = Metadata.builderWithMap(["profile": "ProductionEnv"]).build()
+        assertTrue(metadataPattern.matches(metadata))
+    }
+
+    @Test
+    void test_matches_falsy() {
+        MetadataPattern metadataPattern = MetadataPattern.builderWithMap(["profile": "ProductionEnv"]).build()
+        Metadata metadata = Metadata.builderWithMap(["foo": "bar"]).build()
+        assertFalse(metadataPattern.matches(metadata))
+    }
+
+    @Test
+    void test_matches_multiple_AND_conditions() {
+        MetadataPattern metadataPattern = MetadataPattern.builder()
+                .put("profile", "ProductionEnv")
+                .put("URL.file", Pattern.compile(".*")).build()
+        //
+        Metadata metadata1 = Metadata.builderWithMap(["profile": "ProductionEnv", "URL.file": "/"]).build()
+        assertTrue(metadataPattern.matches(metadata1))
+        //
+        Metadata metadata2 = Metadata.builderWithMap(["profile": "DevelopEnv", "URL.file": "/"]).build()
+        assertFalse(metadataPattern.matches(metadata2))
+        //
+        Metadata metadata3 = Metadata.builderWithMap(["profile": "ProductionEnv"]).build()
+        assertFalse(metadataPattern.matches(metadata3))
+        //
+        Metadata metadata4 = Metadata.builderWithMap(["URL.file": "/"]).build()
+        assertFalse(metadataPattern.matches(metadata4))
+    }
+
+    @Test
+    void test_matches_ANY() {
+        MetadataPattern metadataPattern = MetadataPattern.ANY
+        Metadata metadata = Metadata.builderWithMap(["profile": "ProductionEnv"]).build()
+        assertTrue(metadataPattern.matches(metadata))
     }
 
     @Test

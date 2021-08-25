@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore
 
-
 import com.kazurayam.materialstore.reporter.DiffArtifactsBasicReporter
 import com.kazurayam.materialstore.reporter.MaterialsBasicReporter
 import org.slf4j.Logger
@@ -325,7 +324,8 @@ final class StoreImpl implements Store {
     @Override
     DiffArtifacts zipMaterials(MaterialList leftList,
                                MaterialList rightList,
-                               IgnoringMetadataKeys ignoringMetadataKeys) {
+                               IgnoringMetadataKeys ignoringMetadataKeys,
+                               boolean verbose = false) {
         Objects.requireNonNull(leftList)
         Objects.requireNonNull(rightList)
         Objects.requireNonNull(ignoringMetadataKeys)
@@ -347,7 +347,7 @@ final class StoreImpl implements Store {
                 FileType leftFileType = left.getIndexEntry().getFileType()
                 Metadata leftMetadata = left.getIndexEntry().getMetadata()
                 if (leftFileType == rightFileType &&
-                        leftMetadata.match(rightPattern)) {
+                        rightPattern.matches(leftMetadata)) {
                     DiffArtifact da =
                             new DiffArtifact.Builder(left, right)
                                     .descriptor(rightPattern)
@@ -367,7 +367,9 @@ final class StoreImpl implements Store {
                 diffArtifacts.add(da)
             }
             if (foundLeftCount == 0 || foundLeftCount >= 2) {
-                logger.warn(sb.toString())
+                if (verbose) {
+                    logger.warn(sb.toString())
+                }
             }
         }
         //
@@ -384,7 +386,7 @@ final class StoreImpl implements Store {
                 FileType rightFileType = right.getIndexEntry().getFileType()
                 Metadata rightMetadata = right.getIndexEntry().getMetadata()
                 if (rightFileType == leftFileType &&
-                        rightMetadata.match(leftPattern)) {
+                        leftPattern.matches(rightMetadata)) {
                     ; // this must have been found matched already; no need to create a DiffArtifact
                     sb.append("right metadata: Y ${rightMetadata}\n")
                     foundRightCount += 1
@@ -400,7 +402,9 @@ final class StoreImpl implements Store {
                 diffArtifacts.add(da)
             }
             if (foundRightCount == 0 || foundRightCount >= 2) {
-                logger.warn(sb.toString())
+                if (verbose) {
+                    logger.warn(sb.toString())
+                }
             }
         }
         //

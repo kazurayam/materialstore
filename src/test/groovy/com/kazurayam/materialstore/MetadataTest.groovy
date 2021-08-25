@@ -79,45 +79,6 @@ class MetadataTest {
         assertTrue(keySet.contains("profile"))
     }
 
-    @Test
-    void test_match_simplest() {
-        Metadata target = Metadata.builderWithMap(["key":"value"]).build()
-        MetadataPattern pattern = MetadataPattern.builderWithMap(["key":"value"]).build()
-        assertTrue(target.match(pattern))
-    }
-
-    @Test
-    void test_match_RegularExpression() {
-        Metadata target = Metadata.builderWithMap(["profile":"ProductionEnv"]).build()
-        MetadataPattern pattern = MetadataPattern.builderWithMap([
-                "profile": Pattern.compile(".*Env")])
-                .build()
-        assertTrue(target.match(pattern))
-    }
-
-    @Test
-    void test_match_demonstrative() {
-        URL url = new URL("http://demoaut.katalon.com/")
-        Metadata base = Metadata.builderWithUrl(url)
-                .put("profile", "ProductionEnv")
-                .build()
-        //
-        MetadataPattern pattern1 = MetadataPattern.builderWithMap([
-                "profile": Pattern.compile(".*Env"),
-                "URL.path": "/"])
-                .build()
-        assertTrue(base.match(pattern1))
-        //
-        MetadataPattern pattern2 = MetadataPattern.builderWithMap([
-                "URL.path": "/"])
-                .build()
-        assertTrue(base.match(pattern2))
-        //
-        MetadataPattern pattern3 = MetadataPattern.builderWithMap([
-                "profile": "DevelopmentEnv"])
-                .build()
-        assertFalse(base.match(pattern3))
-    }
 
     @Test
     void test_size() {

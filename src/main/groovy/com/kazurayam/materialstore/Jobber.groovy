@@ -83,7 +83,7 @@ final class Jobber {
         MaterialList result = new MaterialList(jobTimestamp, metadataPattern, fileType)
         index.eachWithIndex { IndexEntry entry, x ->
             if (metadataPattern == MetadataPattern.ANY ||
-                    entry.getMetadata().match(metadataPattern)) {
+                    metadataPattern.matches(entry.getMetadata())) {
                 if (fileType == FileType.NULL || fileType == entry.getFileType()) {
                     Material material = new Material(jobName, jobTimestamp, entry)
                     result.add(material)

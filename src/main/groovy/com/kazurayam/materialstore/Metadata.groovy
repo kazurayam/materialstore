@@ -7,7 +7,7 @@ import org.apache.http.client.utils.URLEncodedUtils
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 
-abstract class Metadata implements MapLike, Comparable {
+abstract class Metadata implements Comparable {
 
     public static final Metadata NULL_OBJECT = new Builder().build()
 
@@ -17,12 +17,18 @@ abstract class Metadata implements MapLike, Comparable {
     public static final String KEY_URL_QUERY = "URL.query"
     public static final String KEY_URL_FRAGMENT = "URL.fragment"
 
+    abstract boolean containsKey(String key)
+    abstract String get(String key)
+    abstract boolean isEmpty()
+    abstract Set<String> keySet()
+    abstract int size()
+
     /**
      *
      * @param metadataPattern
      * @return
      */
-    abstract boolean match(MetadataPattern metadataPattern)
+    //abstract boolean match(MetadataPattern metadataPattern)
 
     /**
      *
@@ -37,7 +43,8 @@ abstract class Metadata implements MapLike, Comparable {
                                  MetadataPattern rightMetadataPattern,
                                  IgnoringMetadataKeys ignoringMetadataKeys)
 
-    abstract String getValueAsString(String key)
+    //------------------Comparable-------------------------------------
+    abstract int compareTo(Object obj)
 
     // ---------------- factory method ---------------------
     static Builder builder() {
@@ -78,17 +85,17 @@ abstract class Metadata implements MapLike, Comparable {
         Builder(URL url) {
             this()
             Objects.requireNonNull(url)
-            metadata.put(Metadata.KEY_URL_PROTOCOL, url.getProtocol())
-            metadata.put(Metadata.KEY_URL_HOST, url.getHost())
+            metadata.put(KEY_URL_PROTOCOL, url.getProtocol())
+            metadata.put(KEY_URL_HOST, url.getHost())
             if (url.getPath() != null) {
-                metadata.put(Metadata.KEY_URL_PATH, url.getPath())
+                metadata.put(KEY_URL_PATH, url.getPath())
             }
             if (url.getQuery() != null) {
-                metadata.put(Metadata.KEY_URL_QUERY, url.getQuery())
+                metadata.put(KEY_URL_QUERY, url.getQuery())
             }
             int posHash = url.toString().indexOf("#")
             if (posHash >= 0) {
-                metadata.put(Metadata.KEY_URL_FRAGMENT, url.toString().substring(posHash + 1))
+                metadata.put(KEY_URL_FRAGMENT, url.toString().substring(posHash + 1))
             } else {
                 ; // no fragment found in the URL
             }
@@ -99,7 +106,7 @@ abstract class Metadata implements MapLike, Comparable {
             return this
         }
         Metadata build() {
-            return MetadataImpl.from(metadata)
+            return new MetadataImpl(metadata)
         }
     }
 

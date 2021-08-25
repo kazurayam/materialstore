@@ -293,7 +293,7 @@ class StoreImplTest {
 
     @Test
     void test_zipMaterials() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_zipMaterials")
         // make sure the Job directory to be empty
@@ -305,19 +305,22 @@ class StoreImplTest {
         Jobber jobberOfLeft = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
         MaterialList leftList = jobberOfLeft.selectMaterials(
-                MetadataPattern.builderWithMap([
-                        "profile": "ProductionEnv",
-                        "URL.file": Pattern.compile(".*")])
+                MetadataPattern.builder()
+                        .put("profile", "ProductionEnv")
+                        .put("URL.file", Pattern.compile(".*"))
                         .build(),
                 FileType.PNG)
+
+        //println JsonOutput.prettyPrint(leftList.toString())
+
         assertEquals(2, leftList.size())
         //
         Jobber jobberOfRight = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
             MaterialList rightList= jobberOfRight.selectMaterials(
-                MetadataPattern.builderWithMap([
-                        "profile": "DevelopmentEnv",
-                        "URL.file": Pattern.compile(".*")])
+                MetadataPattern.builder()
+                        .put("profile", "DevelopmentEnv")
+                        .put("URL.file", Pattern.compile(".*"))
                         .build(),
                     FileType.PNG)
         assertEquals(2, rightList.size())

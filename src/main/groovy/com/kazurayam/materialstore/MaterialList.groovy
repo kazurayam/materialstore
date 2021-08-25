@@ -70,11 +70,19 @@ final class MaterialList {
             count += 1
         }
         sb.append("]")
-        Map m = [
-                "metadataPattern": this.metadataPattern.toString(),
-                "fileType": this.fileType.extension,
-                "materialList": sb.toString()
-        ]
-        return JsonOutput.toJson(m)
+        //
+        StringBuilder sb2 = new StringBuilder()
+        sb2.append("{")
+        sb2.append('''"metadataPattern":''')
+        sb2.append(this.metadataPattern.toString())
+        sb2.append(",")
+        sb2.append('''"fileType":''')
+        sb2.append('''"''')
+        sb2.append(this.fileType.getExtension())
+        sb2.append('''",''')
+        sb2.append('''"metadataList":''')
+        sb2.append(sb.toString())
+        sb2.append("}")
+        return sb2.toString()
     }
 }

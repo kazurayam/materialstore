@@ -31,7 +31,7 @@ class DifferDriverImplTest {
 
     @Test
     void test_ImageDiffer() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         StoreImpl storeImpl = new StoreImpl(root)
         assert Files.exists(root)
         JobName jobName = new JobName("test_ImageDiffer")
@@ -49,6 +49,7 @@ class DifferDriverImplTest {
         DiffArtifacts input =
                 storeImpl.zipMaterials(left, right,
                         IgnoringMetadataKeys.of("profile", "URL", "URL.host"))
+        assertEquals(2, input.size())
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
         DiffArtifacts stuffed = differDriver.differentiate(input)

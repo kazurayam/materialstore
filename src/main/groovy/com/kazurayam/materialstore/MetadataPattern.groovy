@@ -4,11 +4,36 @@ import groovy.xml.MarkupBuilder
 
 import java.util.regex.Pattern
 
-abstract class MetadataPattern implements MapLike {
+abstract class MetadataPattern {
 
-    public static final MetadataPattern NULL_OBJECT = new Builder([:]).build()
+    public static final MetadataPattern NULL_OBJECT =
+            new Builder().build()
 
-    public static final MetadataPattern ANY = new Builder(["*": Pattern.compile(".*")]).build()
+    public static final MetadataPattern ANY =
+            new Builder().put(
+                    "*",
+                    Pattern.compile(".*")
+            ).build()
+
+    abstract boolean containsKey(String key)
+
+    abstract boolean containsKey(Pattern key)
+
+    abstract MetadataPatternValue get(String key)
+
+    abstract MetadataPatternValue get(Pattern key)
+
+    abstract String getAsString(Pattern key)
+
+    abstract String getAsString(String key)
+
+    abstract boolean isEmpty()
+
+    abstract Set<String> keySet()
+
+    abstract int size()
+
+    abstract boolean matches(Metadata metadata)
 
     /**
      * emit a HTML fragment (like the following) into the argument MarkupBuilder
@@ -19,13 +44,14 @@ abstract class MetadataPattern implements MapLike {
      */
     abstract void toSpanSequence(MarkupBuilder mb)
 
-    abstract String getValueAsString(String key)
+
+    //-------------------------factory methods --------------------------------
 
     static Builder builder() {
         return new Builder()
     }
 
-    static Builder builderWithMap(Map<String, Object> source) {
+    static Builder builderWithMap(Map<String, String> source) {
         return new Builder(source)
     }
 
@@ -39,21 +65,22 @@ abstract class MetadataPattern implements MapLike {
     }
 
     static class Builder {
-        private Map<String, Object> metadataPattern
+
+        private Map<String, MetadataPatternValue> metadataPattern
+
         Builder() {
-            this.metadataPattern = new HashMap<String, Object>()
+            this.metadataPattern = new HashMap<String, MetadataPatternValue>()
         }
-        Builder(Map<String, Object> map) {
+
+        Builder(Map<String, String> map) {
             this()
             Objects.requireNonNull(map)
             map.keySet().each { key ->
-                Object value = map.get(key)
-                if (value instanceof String || value instanceof Pattern) {
-                    metadataPattern.put(key, map.get(key))
-                } else {
-                    throw new MaterialstoreException(
-                            "value(${value}) must be an instance of java.lang.String or java.util.regex.Pattern")
-                }
+                String value = map.get(key)
+                metadataPattern.put(
+                        key,
+                        MetadataPatternValue.of(map.get(key))
+                )
             }
         }
         Builder(Metadata source) {
@@ -64,19 +91,24 @@ abstract class MetadataPattern implements MapLike {
             Objects.requireNonNull(ignoringMetadataKeys)
             Objects.requireNonNull(source)
             source.keySet().each {key ->
-                Object value = source.get(key)
-                if (value instanceof String || value instanceof Pattern) {
-                    if (!ignoringMetadataKeys.contains(key)) {
-                        metadataPattern.put(key, value)
-                    }
-                } else {
-                    throw new MaterialstoreException(
-                            "value(${value}) must be an instance of java.lang.String or java.util.regex.Pattern")
+                MetadataPatternValue mpv = MetadataPatternValue.of((String)source.get(key))
+                if (!ignoringMetadataKeys.contains(key)) {
+                    metadataPattern.put(key, mpv)
                 }
             }
         }
-        Builder put(String key, Object value) {
-            metadataPattern.put(key, value)
+        Builder put(String key, String value) {
+            metadataPattern.put(
+                    key,
+                    MetadataPatternValue.of(value)
+            )
+            return this
+        }
+        Builder put(String key, Pattern value) {
+            metadataPattern.put(
+                    key,
+                    MetadataPatternValue.of(value)
+            )
             return this
         }
         MetadataPattern build() {

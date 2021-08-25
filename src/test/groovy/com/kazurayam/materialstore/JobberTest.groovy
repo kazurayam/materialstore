@@ -42,7 +42,7 @@ class JobberTest {
 
     @Test
     void test_constructor() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_constructor")
         TestFixtureUtil.setupFixture(store, jobName)
@@ -56,7 +56,7 @@ class JobberTest {
 
     @Test
     void test_write() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         StoreImpl repos = new StoreImpl(root)
         JobName jobName = new JobName("test_write")
         JobTimestamp jobTimestamp = JobTimestamp.now()
@@ -76,7 +76,7 @@ class JobberTest {
 
     @Test
     void test_write_duplicating_metadata() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         StoreImpl repos = new StoreImpl(root)
         JobName jobName = new JobName("test_write_duplicating_metadata")
         JobTimestamp jobTimestamp = JobTimestamp.now()
@@ -95,7 +95,7 @@ class JobberTest {
 
     @Test
     void test_write_2_files_of_the_same_bytes_with_different_metadata() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         StoreImpl repos = new StoreImpl(root)
         JobName jobName = new JobName("test_write_2_files_of_the_same_bytes_with_different_metadata")
         JobTimestamp jobTimestamp = JobTimestamp.now()
@@ -119,7 +119,7 @@ class JobberTest {
 
     @Test
     void test_read_by_ID() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_read_by_ID")
         TestFixtureUtil.setupFixture(store, jobName)
@@ -133,7 +133,7 @@ class JobberTest {
 
     @Test
     void test_read_by_Material() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_read_by_Material")
         TestFixtureUtil.setupFixture(store, jobName)
@@ -151,8 +151,8 @@ class JobberTest {
      * selecting a single Material object by ID
      */
     @Test
-    void test_selectMaterial_smoke() {
-        Path root = outputDir.resolve("Materials")
+    void test_selectMaterial_byID() {
+        Path root = outputDir.resolve("store")
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_selectMaterial")
         TestFixtureUtil.setupFixture(store, jobName)
@@ -166,14 +166,14 @@ class JobberTest {
 
     @Test
     void test_selectMaterials_with_FileType() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         StoreImpl repos = new StoreImpl(root)
         JobName jobName = new JobName("test_selectMaterials_with_FileType")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber jobber = repos.getJobber(jobName, jobTimestamp)
-        Metadata metadata = Metadata.builderWithMap([
-                "profile": "DevelopmentEnv",
-                "URL": "http://demoaut-mimic.katalon.com/"])
+        Metadata metadata = Metadata
+                .builderWithUrl(new URL("http://demoaut-mimic.katalon.com/"))
+                .put("profile", "DevelopmentEnv")
                 .build()
         BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -181,9 +181,8 @@ class JobberTest {
         byte[] data = baos.toByteArray()
         Material material = jobber.write(data, FileType.PNG, metadata)
         //
-        MetadataPattern pattern = MetadataPattern.builderWithMap([
-                "profile": Pattern.compile(".*"),
-                "URL": Pattern.compile(".*")])
+        MetadataPattern pattern = MetadataPattern.builder()
+                .put("profile", Pattern.compile(".*"))
                 .build()
         MaterialList materialList = jobber.selectMaterials(pattern, FileType.PNG)
         assertNotNull(materialList)
@@ -192,16 +191,16 @@ class JobberTest {
 
     @Test
     void test_selectMaterials_without_FileType() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_selectMaterials_without_FileType")
         TestFixtureUtil.setupFixture(store, jobName)
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         Jobber jobber = new Jobber(root, jobName, jobTimestamp)
-        MetadataPattern pattern = MetadataPattern.builderWithMap([
-                "profile": "DevelopmentEnv",
-                "URL": Pattern.compile(".*")])
+        MetadataPattern pattern = MetadataPattern.builder()
+                .put("profile", "DevelopmentEnv")
+                .put("URL", Pattern.compile(".*"))
                 .build()
         // select without FileType
         MaterialList materialList = jobber.selectMaterials(pattern)
@@ -211,7 +210,7 @@ class JobberTest {
 
     @Test
     void test_selectMaterial_with_MetadataPatternANY() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_selectMaterials_without_FileType")
         TestFixtureUtil.setupFixture(store, jobName)
