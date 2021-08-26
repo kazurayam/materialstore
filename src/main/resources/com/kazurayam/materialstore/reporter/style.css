@@ -1,130 +1,76 @@
-/* .container */
 .container {
   font-family: ui-monospace, SFMono-Regular, SZ Mono, Menlo, Consolas, Liberation Mono, monospace;
   font-size: 12px;
   line-height: 20px;
 }
-
 .container dl dd {
   margin-left: 40px;
 }
-
-.container .matched-value {
-  background-color: #98FB98;
-  /* or #FCC, #D9E5FF */
-}
-
-.container .ignoring-key {
-  background-color: #CCC;
-}
-
-/* .title */
 .container .title button {
   float: right;
   margin-top: 6px;
 }
-
-/* .header */
 .container .header {
   padding: 16px 20px;
 }
-
-/* .accordion */
-.container .accordion button span {
-  font-size: 18px;
-  line-height: 26px;
+.container .ignoring-key {
+  background-color: #CCC;
 }
-
-.container .accordion button .filetype {
-  flex-basis: 10%;
+.container .matched-value {
+  background-color: #98FB98;
 }
-
-.container .accordion button .metadata {
-  flex-basis: 80%;
-}
-
-.container .accordion button .metadata, .fileType {
+.container .accordion .accordion-header button .ratio {
   padding: 4px 20px 4px 4px;
   text-align: left;
+  font-size: 16px;
+  line-height: 24px;
+  flex-basis: 10%;
 }
-
-.container .accordion .show-detail {
-  margin-top: 10px;
-  margin-bottom: 40px;
+.container .accordion .accordion-header button .fileType {
+  padding: 4px 20px 4px 4px;
+  text-align: left;
+  font-size: 16px;
+  line-height: 24px;
+  flex-basis: 10%;
 }
-
-.container .accordion .accordion-body table {
-  table-layout: fixed;
-  border-collapse: collapse;
-  border-spacing: 0;
-  border: 1px solid #ccc;
-  width: 100%;
+.container .accordion .accordion-header button .metadata {
+  padding: 4px 20px 4px 4px;
+  text-align: left;
+  font-size: 16px;
+  line-height: 24px;
+  flex-basis: 90%;
 }
-
-.container .accordion .accordion-body td, th {
-  font-size: 12px;
-  border-right: 1px solid #ccc;
-  display: table-cell;
+.container .accordion .accordion-header button .description {
+  padding: 4px 20px 4px 4px;
+  text-align: left;
+  font-size: 16px;
+  line-height: 24px;
+  flex-basis: 80%;
 }
-
-.container .accordion .accordion-body th {
-  border-bottom: 1px solid #ccc;
+.container .accordion .accordion-header button .warning {
+  background-color: #e0ae00;
 }
-
-.container table .blob-code-inner {
-  word-wrap: break-word;
-  white-space: pre-wrap;
-}
-
-.container table .code-equal {
-  background-color: #ffffff;
-}
-
-/*
- */
-.container .accordion .modal .carousel .centered {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
-.container .accordion .modal .carousel-inner {
-  background-color: #efefef;
-}
-
-.container .accordion .modal .carousel-control-prev, .carousel-control-next {
-  width: 12.5%;
-}
-
-.container .accordion .modal-body iframe {
+.container .accordion .accordion-body .show-diff .modal .modal-body iframe {
   position: absolute;
   border: none;
   height: 100%;
   width: 100%;
 }
-
-.container .accordion .show-detail {
+.container .accordion .accordion-body .show-diff .modal .modal-body .carousel .carousel-inner {
+  background-color: #efefef;
+}
+.container .accordion .accordion-body .show-diff .modal .modal-body .carousel .carousel-inner .centered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.container .accordion .accordion-body .show-diff .modal .modal-body .carousel .carousel-control-prev, .container .accordion .accordion-body .show-diff .modal .modal-body .carousel .carousel-control-next {
+  width: 12.5%;
+}
+.container .accordion .accordion-body .show-detail {
   margin-top: 10px;
   margin-bottom: 40px;
-}
-
-.container .accordion button .description, .fileType, .ratio {
-  padding: 4px;
-  text-align: left;
-}
-
-.container .accordion button .ratio {
-  flex-basis: 6%;
-  text-align: right;
-}
-
-.container .accordion button .filetype {
-  flex-basis: 6%;
-}
-
-.container .accordion button .warning {
-  background-color: #e0ae00;
 }
 
 /*# sourceMappingURL=style.css.map */
