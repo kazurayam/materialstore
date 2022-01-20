@@ -11,6 +11,36 @@ import java.util.regex.Pattern
 class MetadataTest {
 
     @Test
+    void test_Builder_with_URL_as_arg() {
+        URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
+        Metadata metadata = Metadata.builderWithUrl(url).build()
+        assertNotNull(metadata)
+        assertEquals("https", metadata.get("URL.protocol"))
+        assertEquals("baeldung.com", metadata.get("URL.host"))
+        assertEquals("/articles", metadata.get("URL.path"))
+        assertEquals("topic=java&version=8", metadata.get("URL.query"))
+        assertEquals("content", metadata.get("URL.fragment"))
+        String ms = metadata.toString()
+        //println ms
+        assertTrue(ms.contains("URL.protocol") && ms.contains("https"))
+        assertTrue(ms.contains("URL.host") && ms.contains("baeldung.com"))
+        assertTrue(ms.contains("URL.path") && ms.contains("/articles"))
+        assertTrue(ms.contains("URL.query") && ms.contains("topic=java&version=8"))
+        assertTrue(ms.contains("URL.fragment") && ms.contains("content"))
+    }
+
+    @Test
+    void test_Builder_putAll() {
+        URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
+        Map<String, String> additionalMetadata = ["summer":"warm", "winter":"cold"]
+        Metadata metadata = Metadata.builderWithUrl(url).putAll(additionalMetadata).build()
+        assertNotNull(metadata)
+        assertEquals("warm", metadata.get("summer"))
+        assertEquals("cold", metadata.get("winter"))
+    }
+
+
+    @Test
     void test_constructor() {
         Metadata metadata = Metadata.builderWithMap([
                 "profile":"ProductionEnv"])
@@ -125,25 +155,6 @@ class MetadataTest {
         )
     }
 
-    @Test
-    void test_Builder_with_URL_as_arg() {
-        URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
-        Metadata metadata = Metadata.builderWithUrl(url).build()
-        assertNotNull(metadata)
-        assertEquals("https", metadata.get("URL.protocol"))
-        assertEquals("baeldung.com", metadata.get("URL.host"))
-        assertEquals("/articles", metadata.get("URL.path"))
-        assertEquals("topic=java&version=8", metadata.get("URL.query"))
-        assertEquals("content", metadata.get("URL.fragment"))
-        String ms = metadata.toString()
-        //println ms
-        assertTrue(ms.contains("URL.protocol") && ms.contains("https"))
-        assertTrue(ms.contains("URL.host") && ms.contains("baeldung.com"))
-        assertTrue(ms.contains("URL.path") && ms.contains("/articles"))
-        assertTrue(ms.contains("URL.query") && ms.contains("topic=java&version=8"))
-        assertTrue(ms.contains("URL.fragment") && ms.contains("content"))
-
-    }
 
     @Test
     void test_toURL() {

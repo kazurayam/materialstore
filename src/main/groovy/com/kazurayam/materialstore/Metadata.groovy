@@ -105,6 +105,11 @@ abstract class Metadata implements Comparable {
             metadata.put(key, value)
             return this
         }
+        Builder putAll(Map<String, String> m) {
+            Objects.requireNonNull(m)
+            metadata.putAll(m)
+            return this
+        }
         Metadata build() {
             return new MetadataImpl(metadata)
         }
