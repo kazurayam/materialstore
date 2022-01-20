@@ -2,6 +2,7 @@ package com.kazurayam.materialstore
 
 import java.awt.image.BufferedImage
 import java.nio.charset.Charset
+import java.nio.file.Files
 import java.nio.file.Path
 import java.time.temporal.TemporalUnit
 
@@ -65,4 +66,5 @@ interface Store {
 
     Path getPathOf(Material material)
 
+    static final Store NULL_OBJECT = new StoreImpl(Files.createTempDirectory("TempDirectory"))
 }
