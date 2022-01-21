@@ -67,7 +67,7 @@ final class ImageDifferToPNG implements Differ {
         byte[] diffData = toByteArray(imageDiff.getDiffImage(), FileType.PNG)
         // write the image diff into disk
         Jobber jobber = new Jobber(root_, right.getJobName(), right.getJobTimestamp())
-        Material diffMaterial = jobber.write(diffData, FileType.PNG, diffMetadata)
+        Material diffMaterial = jobber.write(diffData, FileType.PNG, diffMetadata, Jobber.DuplicationHandling.CONTINUE)
 
         //
         DiffArtifact result = new DiffArtifact(input)
