@@ -16,6 +16,7 @@ class MetadataTest {
         Metadata metadata = Metadata.builderWithUrl(url).build()
         assertNotNull(metadata)
         assertEquals("https", metadata.get("URL.protocol"))
+        assertEquals("80", metadata.get("URL.port"))
         assertEquals("baeldung.com", metadata.get("URL.host"))
         assertEquals("/articles", metadata.get("URL.path"))
         assertEquals("topic=java&version=8", metadata.get("URL.query"))
@@ -27,6 +28,15 @@ class MetadataTest {
         assertTrue(ms.contains("URL.path") && ms.contains("/articles"))
         assertTrue(ms.contains("URL.query") && ms.contains("topic=java&version=8"))
         assertTrue(ms.contains("URL.fragment") && ms.contains("content"))
+    }
+
+    @Test
+    void test_Builder_with_URL_with_port() {
+        URL url = new URL("http://127.0.0.1:3000/")
+        Metadata metadata = Metadata.builderWithUrl(url).build()
+        assertNotNull(metadata)
+        assertEquals("http", metadata.get("URL.protocol"))
+        assertEquals("3000", metadata.get("URL.port"))
     }
 
     @Test

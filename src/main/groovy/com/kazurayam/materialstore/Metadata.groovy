@@ -12,6 +12,7 @@ abstract class Metadata implements Comparable {
     public static final Metadata NULL_OBJECT = new Builder().build()
 
     public static final String KEY_URL_PROTOCOL = "URL.protocol"
+    public static final String KEY_URL_PORT = "URL.port"
     public static final String KEY_URL_HOST = "URL.host"
     public static final String KEY_URL_PATH = "URL.path"
     public static final String KEY_URL_QUERY = "URL.query"
@@ -86,6 +87,7 @@ abstract class Metadata implements Comparable {
             this()
             Objects.requireNonNull(url)
             metadata.put(KEY_URL_PROTOCOL, url.getProtocol())
+            metadata.put(KEY_URL_PORT, (url.getPort() < 0) ? '80' : Integer.valueOf(url.getPort()).toString())
             metadata.put(KEY_URL_HOST, url.getHost())
             if (url.getPath() != null) {
                 metadata.put(KEY_URL_PATH, url.getPath())
