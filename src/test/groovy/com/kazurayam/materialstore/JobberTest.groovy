@@ -19,13 +19,16 @@ class JobberTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(JobberTest.class.getName())
+                    .resolve(this.getClass().getName())
 
     private static Path imagesDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_images")
 
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
+
+    private Path root
+    private Store store
 
     @BeforeAll
     static void beforeAll() {
@@ -37,16 +40,15 @@ class JobberTest {
 
     @BeforeEach
     void beforeEach() {
+        root = outputDir.resolve("store")
+        store = new StoreImpl(root)
     }
 
 
     @Test
     void test_constructor() {
-        Path root = outputDir.resolve("store")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_constructor")
         TestFixtureUtil.setupFixture(store, jobName)
-        //
         Jobber jobber = store.getJobber(jobName,
                 new JobTimestamp("20210713_093357"))
         assertNotNull(jobber)
@@ -55,72 +57,7 @@ class JobberTest {
     }
 
     @Test
-    void test_write() {
-        Path root = outputDir.resolve("store")
-        StoreImpl repos = new StoreImpl(root)
-        JobName jobName = new JobName("test_write")
-        JobTimestamp jobTimestamp = JobTimestamp.now()
-        Jobber jobber = repos.getJobber(jobName, jobTimestamp)
-        Metadata metadata = Metadata.builderWithMap([
-                "profile": "DevelopmentEnv",
-                 "URL": "http://demoaut-mimic.katalon.com/"])
-                .build()
-        BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(image, FileType.PNG.getExtension(), baos);
-        byte[] data = baos.toByteArray()
-        Material material = jobber.write(data, FileType.PNG, metadata)
-        //
-        assertNotNull(material)
-    }
-
-    @Test
-    void test_write_duplicating_metadata() {
-        Path root = outputDir.resolve("store")
-        StoreImpl repos = new StoreImpl(root)
-        JobName jobName = new JobName("test_write_duplicating_metadata")
-        JobTimestamp jobTimestamp = JobTimestamp.now()
-        Jobber jobber = repos.getJobber(jobName, jobTimestamp)
-        Metadata metadata = Metadata.builderWithMap([
-                "profile":"SomeEnv",
-                "URL":"http://example.com"])
-                .build()
-        byte[] data = "foo".getBytes()
-        jobber.write(data, FileType.TXT, metadata)
-        MaterialstoreException thrown = assertThrows(MaterialstoreException.class, { ->
-            jobber.write(data, FileType.TXT, metadata)
-        })
-        assertTrue(thrown.getMessage().contains("is already there in the index"))
-    }
-
-    @Test
-    void test_write_2_files_of_the_same_bytes_with_different_metadata() {
-        Path root = outputDir.resolve("store")
-        StoreImpl repos = new StoreImpl(root)
-        JobName jobName = new JobName("test_write_2_files_of_the_same_bytes_with_different_metadata")
-        JobTimestamp jobTimestamp = JobTimestamp.now()
-        Jobber jobber = repos.getJobber(jobName, jobTimestamp)
-        byte[] data = "foo".getBytes()
-        //
-        Metadata metadata1 = Metadata.builderWithMap([
-                "profile":"ProductionEnv",
-                "URL":"http://example.com"])
-                .build()
-        Material material1 = jobber.write(data, FileType.TXT, metadata1)
-        assert material1 != null
-        //
-        Metadata metadata2 = Metadata.builderWithMap([
-                "profile":"DevelopmentEnv",
-                "URL":"http://example.com"])
-                .build()
-        Material material2 = jobber.write(data, FileType.TXT, metadata2)
-        assert material2 != null
-    }
-
-    @Test
     void test_read_by_ID() {
-        Path root = outputDir.resolve("store")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_read_by_ID")
         TestFixtureUtil.setupFixture(store, jobName)
         //
@@ -133,11 +70,8 @@ class JobberTest {
 
     @Test
     void test_read_by_Material() {
-        Path root = outputDir.resolve("store")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_read_by_Material")
         TestFixtureUtil.setupFixture(store, jobName)
-        //
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
         Jobber jobber = new Jobber(root, jobName, jobTimestamp)
         Material material = jobber.selectMaterial(
@@ -147,16 +81,13 @@ class JobberTest {
         assertNotNull(data)
     }
 
-    /**
-     * selecting a single Material object by ID
-     */
+/**
+ * selecting a single Material object by ID
+ */
     @Test
     void test_selectMaterial_byID() {
-        Path root = outputDir.resolve("store")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_selectMaterial")
         TestFixtureUtil.setupFixture(store, jobName)
-        //
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
         Jobber jobber = new Jobber(root, jobName, jobTimestamp)
         Material material = jobber.selectMaterial(
@@ -166,11 +97,9 @@ class JobberTest {
 
     @Test
     void test_selectMaterials_with_FileType() {
-        Path root = outputDir.resolve("store")
-        StoreImpl repos = new StoreImpl(root)
         JobName jobName = new JobName("test_selectMaterials_with_FileType")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Jobber jobber = repos.getJobber(jobName, jobTimestamp)
+        Jobber jobber = store.getJobber(jobName, jobTimestamp)
         Metadata metadata = Metadata
                 .builderWithUrl(new URL("http://demoaut-mimic.katalon.com/"))
                 .put("profile", "DevelopmentEnv")
@@ -191,8 +120,6 @@ class JobberTest {
 
     @Test
     void test_selectMaterials_without_FileType() {
-        Path root = outputDir.resolve("store")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_selectMaterials_without_FileType")
         TestFixtureUtil.setupFixture(store, jobName)
         //
@@ -210,8 +137,6 @@ class JobberTest {
 
     @Test
     void test_selectMaterial_with_MetadataPatternANY() {
-        Path root = outputDir.resolve("store")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_selectMaterials_without_FileType")
         TestFixtureUtil.setupFixture(store, jobName)
         //
@@ -222,5 +147,94 @@ class JobberTest {
         assertNotNull(materialList)
         assertEquals(6, materialList.size())
     }
+
+
+    @Test
+    void test_write() {
+        JobName jobName = new JobName("test_write")
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        Jobber jobber = store.getJobber(jobName, jobTimestamp)
+        Metadata metadata = Metadata.builderWithMap([
+                "profile": "DevelopmentEnv",
+                 "URL": "http://demoaut-mimic.katalon.com/"])
+                .build()
+        BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, FileType.PNG.getExtension(), baos);
+        byte[] data = baos.toByteArray()
+        Material material = jobber.write(data, FileType.PNG, metadata)
+        //
+        assertNotNull(material)
+    }
+
+    @Test
+    void test_write_2_files_of_the_same_bytes_with_different_metadata() {
+        JobName jobName = new JobName("test_write_2_files_of_the_same_bytes_with_different_metadata")
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        Jobber jobber = store.getJobber(jobName, jobTimestamp)
+        byte[] data = "foo".getBytes()
+        //
+        Metadata metadata1 = Metadata.builderWithMap([
+                "profile":"ProductionEnv",
+                "URL":"http://example.com"])
+                .build()
+        Material material1 = jobber.write(data, FileType.TXT, metadata1)
+        assert material1 != null
+        //
+        Metadata metadata2 = Metadata.builderWithMap([
+                "profile":"DevelopmentEnv",
+                "URL":"http://example.com"])
+                .build()
+        Material material2 = jobber.write(data, FileType.TXT, metadata2)
+        assert material2 != null
+    }
+
+    @Test
+    void test_write_duplicating_metadata_TERMINATE() {
+        JobName jobName = new JobName("test_write_duplicating_metadata_Terminate")
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        Jobber jobber = store.getJobber(jobName, jobTimestamp)
+        Metadata metadata = Metadata.builderWithMap([
+                "profile":"SomeEnv",
+                "URL":"http://example.com"])
+                .build()
+        byte[] data = "foo".getBytes()
+        // write one file
+        jobber.write(data, FileType.TXT, metadata)
+        // try to write one more file with the same metadata with Jobber.DuplicationHandling as default(Terminate)
+        MaterialstoreException thrown = assertThrows(MaterialstoreException.class, { ->
+            jobber.write(data, FileType.TXT, metadata)
+        })
+        // try to write one more file with the same metadata with Jobber.DuplicationHandling.Terminate
+        MaterialstoreException thrown2 = assertThrows(MaterialstoreException.class, { ->
+            jobber.write(data, FileType.TXT, metadata)
+        })
+        assertTrue(thrown.getMessage().contains("is already there in the index"))
+    }
+
+    @Test
+    void test_write_duplicating_metadata_CONTINUE() {
+        JobName jobName = new JobName("test_write_duplicating_metadata_SkipOne")
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        Jobber jobber = store.getJobber(jobName, jobTimestamp)
+        Metadata metadata = Metadata.builderWithMap([
+                "profile":"SomeEnv",
+                "URL":"http://example.com"])
+                .build()
+        byte[] data = "foo".getBytes()
+        // write one file
+        jobber.write(data, FileType.TXT, metadata)
+
+        // Now I will try to write one more file with the same metadata
+        // with Jobber.DuplicationHandling.SkipOne
+        jobber.write(data, FileType.TXT, metadata,
+                Jobber.DuplicationHandling.CONTINUE)
+        // should continue processing
+        // then there should be only one file in the objects directory
+        assertEquals(1, jobber.size())
+    }
+
+
+
 
 }

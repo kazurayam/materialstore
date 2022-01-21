@@ -1,11 +1,21 @@
 package com.kazurayam.materialstore
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
 import java.nio.file.Files
 import java.nio.file.Path
 
 final class Jobber {
 
+    private static final Logger logger_ = LoggerFactory.getLogger(Jobber.class)
+
     static final String OBJECTS_DIR_NAME = "objects"
+
+    static enum DuplicationHandling {
+        TERMINATE,
+        CONTINUE,
+    }
 
     private final JobName jobName
     private final JobTimestamp jobTimestamp
@@ -148,37 +158,54 @@ final class Jobber {
      * @param data
      * @param fileType
      * @param metadata
+     * @param duplicationHandling
      * @return Material
      */
-    Material write(byte[] data, FileType fileType, Metadata metadata)
-            throws MaterialstoreException {
+    Material write(byte[] data, FileType fileType, Metadata metadata) {
+        write(data, fileType, metadata, DuplicationHandling.TERMINATE)
+    }
+
+    Material write(byte[] data, FileType fileType, Metadata metadata,
+                   DuplicationHandling duplicationHandling) throws MaterialstoreException {
         Objects.requireNonNull(metadata)
         if (data.length == 0 ) throw new IllegalArgumentException("length of the data is 0")
         Objects.requireNonNull(fileType)
 
         if (index.containsKey(fileType, metadata)) {
-            throw new MaterialstoreException("The combination of " +
+            // the metadata has already been put in the index
+            String msg1 = "The combination of " +
                     "fileType=${fileType.getExtension()} and metadata=${metadata}" +
-                    "is already there in the index")
+                    " is already there in the index"
+            if (duplicationHandling == DuplicationHandling.TERMINATE) {
+                // will stop the process entirely
+                throw new MaterialstoreException(msg1 + ".")
+
+            } else if (duplicationHandling == DuplicationHandling.CONTINUE) {
+                logger_.info(msg1 + "; process skips one write and continue ...")
+                // look up an entry of the index
+                List<IndexEntry> indexEntries = index.indexEntriesOf(fileType, metadata)
+                assert indexEntries.size() > 0
+                // return the Material
+                return new Material(this.getJobName(), this.getJobTimestamp(), indexEntries.get(0))
+
+            } else {
+                throw new RuntimeException("Unsupported DuplicationHandling ${duplicationHandling}")
+            }
+        } else {
+            // new metadata should be stored in the directory
+            // write the byte[] data into file if the MObject is not yet there.
+            MObject mObject = new MObject(data, fileType)
+            if (!mObject.exists(this.getObjectsDir())) {
+                // save the "byte[] data" into disk
+                Path objectFile = this.getObjectsDir().resolve(mObject.getFileName())
+                mObject.serialize(objectFile)
+            }
+            // insert a line into the "index" content on memory
+            IndexEntry indexEntry = index.put(mObject.getID(), fileType, metadata)
+            // save the content of the "index" into a file on disk
+            index.serialize(Index.getIndexFile(jobResultDir))
+            return new Material(this.getJobName(), this.getJobTimestamp(), indexEntry)
         }
-
-        MObject mObject = new MObject(data, fileType)
-
-        // write the byte[] data into file if the MObject is not yet there.
-        if (! mObject.exists(this.getObjectsDir())) {
-            // save the "byte[] data" into disk
-            Path objectFile = this.getObjectsDir().resolve(mObject.getFileName())
-            mObject.serialize(objectFile)
-        }
-
-        // insert a line into the "index" content on memory
-        IndexEntry indexEntry = index.put(mObject.getID(), fileType, metadata)
-
-        // save the content of "index" into disk everytime when a commit is made
-        index.serialize(Index.getIndexFile(jobResultDir))
-
-        return new Material(this.getJobName(), this.getJobTimestamp(), indexEntry)
     }
-
 
 }

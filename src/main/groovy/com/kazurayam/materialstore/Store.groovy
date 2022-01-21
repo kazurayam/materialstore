@@ -11,7 +11,37 @@ import java.time.temporal.TemporalUnit
  */
 interface Store {
 
+    static final Store NULL_OBJECT = new StoreImpl(Files.createTempDirectory("TempDirectory"))
+
+
+    int deleteMaterialsOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp,
+                                          long amountToSubtract, TemporalUnit unit)
+
+    List<JobTimestamp> findAllJobTimestamps(JobName jobName)
+
+    List<JobTimestamp> findAllJobTimestampsPriorTo(JobName jobName, JobTimestamp jobTimestamp)
+
+    JobTimestamp findLatestJobTimestamp(JobName jobName)
+
+    JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp)
+
+    Jobber getJobber(JobName jobName, JobTimestamp jobTimestamp)
+
+    Path getPathOf(Material material)
+
     Path getRoot()
+
+
+    DiffArtifacts makeDiff(MaterialList left, MaterialList right)
+
+    DiffArtifacts makeDiff(MaterialList left, MaterialList right,
+                           IgnoringMetadataKeys ignoringMetadataKeys)
+
+
+    Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, Double criteria, String fileName)
+
+    Path reportMaterials(JobName jobName, MaterialList materials, String fileName)
+
 
     MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
                           MetadataPattern metadataPattern)
@@ -44,27 +74,6 @@ interface Store {
     DiffArtifacts zipMaterials(MaterialList left, MaterialList right,
                                IgnoringMetadataKeys ignoringMetadataKeys, boolean verbose)
 
-    DiffArtifacts makeDiff(MaterialList left, MaterialList right)
 
-    DiffArtifacts makeDiff(MaterialList left, MaterialList right,
-                           IgnoringMetadataKeys ignoringMetadataKeys)
 
-    Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, Double criteria, String fileName)
-
-    Path reportMaterials(JobName jobName, MaterialList materials, String fileName)
-
-    List<JobTimestamp> findAllJobTimestamps(JobName jobName)
-
-    List<JobTimestamp> findAllJobTimestampsPriorTo(JobName jobName, JobTimestamp jobTimestamp)
-
-    JobTimestamp findLatestJobTimestamp(JobName jobName)
-
-    JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp)
-
-    int deleteMaterialsOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp,
-                                          long amountToSubtract, TemporalUnit unit)
-
-    Path getPathOf(Material material)
-
-    static final Store NULL_OBJECT = new StoreImpl(Files.createTempDirectory("TempDirectory"))
 }

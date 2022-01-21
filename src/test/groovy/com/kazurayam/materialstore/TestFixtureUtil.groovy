@@ -11,11 +11,11 @@ class TestFixtureUtil {
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
 
-    static void setupFixture(StoreImpl storeImpl, JobName jobName) {
+    static void setupFixture(Store store, JobName jobName) {
         // make sure the Job directory to be empty
-        FileUtils.deleteDirectory(storeImpl.getRoot().resolve(jobName.toString()).toFile())
+        FileUtils.deleteDirectory(store.getRoot().resolve(jobName.toString()).toFile())
         // stuff the Job directory with a fixture
-        Path jobNameDir = storeImpl.getRoot().resolve(jobName.toString())
+        Path jobNameDir = store.getRoot().resolve(jobName.toString())
         FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
     }
 

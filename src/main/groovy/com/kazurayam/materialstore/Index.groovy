@@ -39,14 +39,19 @@ final class Index implements Comparable {
         return jobDir.resolve("index")
     }
 
-    boolean containsKey(FileType fileType, Metadata metadata) {
+    List<IndexEntry> indexEntriesOf(FileType fileType, Metadata metadata) {
         List<IndexEntry> filtered =
                 lines_.stream()
                         .filter { IndexEntry ie ->
                             ie.getFileType() == fileType &&
-                            ie.getMetadata() == metadata
+                                    ie.getMetadata() == metadata
                         }
                         .collect(Collectors.toList())
+        return filtered
+    }
+
+    boolean containsKey(FileType fileType, Metadata metadata) {
+        List<IndexEntry> filtered = this.indexEntriesOf(fileType, metadata)
         return filtered.size() > 0
     }
 
