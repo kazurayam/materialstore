@@ -2,21 +2,31 @@ package com.kazurayam.materialstore
 
 final enum FileType {
 
-    TXT  ('txt',    ['text/plain']),
-    CSV  ('csv',    [
-            'text/csv',
-            'text/plain']),
     BMP  ('bmp',    ['image/bmp']),
+    CSS ('css', ['text/css']),
+    CSV  ('csv',    ['text/csv', 'text/plain']),
+    DOC  ('doc',    ['application/msword']),
+    DOCX ('docx',   ['application/vnd.openxmlformats-officedocument.wordprocessingml.document']),
     GIF  ('gif',    ['image/gif']),
     HTML ('html',   ['text/html']),
-    MHTML('mht',    [''], "MIME HTML"),
-    MD   ('md',     [''], "Markdown text"),
+    JAR  ('jar',    ['application/java-archive']),
     JPG  ('jpg',    ['image/jpeg']),
     JPEG ('jpeg',   ['image/jpeg']),
-    PNG  ('png' ,   ['image/png']),
-    SVG  ('svg',    ['image/svg+xml']),
+    JS ('js', ['application/javascript']),
     JSON ('json',   ['application/json']),
+    MD   ('md',     [''], "Markdown text"),
+    MHTML('mht',    [''], "MIME HTML"),
     PDF  ('pdf',    ['application/pdf']),
+    PNG  ('png' ,   ['image/png']),
+    POM  ('pom',    ['application/xml']),
+    PPT  ('ppt',    ['application/vnd.ms-powerpoint']),
+    PPTX ('pptx',   ['application/vnd.openxmlformats-officedocument.presentationml.presentation']),
+    SVG  ('svg',    ['image/svg+xml']),
+    TAR  ('tar',    ['application/x-tar']),
+    TGZ  ('tgz',    [
+            'application/zlib',
+            'application/gzip']),
+    TXT  ('txt',    ['text/plain']),
     XLS  ('xls',    [
             'application/vnd.ms-excel',
             'application/msexcel',
@@ -34,19 +44,10 @@ final enum FileType {
             'application/vnd.ms-excel',
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']),
     XML  ('xml',    ['application/xml']),
-    POM  ('pom',    ['application/xml']),
-    JAR  ('jar',    ['application/java-archive']),
-    TAR  ('tar',    ['application/x-tar']),
     ZIP  ('zip',    [
             'application/zip',
             'application/x-zip-compressed']),
-    TGZ  ('tgz',    [
-            'application/zlib',
-            'application/gzip']),
-    DOC  ('doc',    ['application/msword']),
-    PPT  ('ppt',    ['application/vnd.ms-powerpoint']),
-    DOCX ('docx',   ['application/vnd.openxmlformats-officedocument.wordprocessingml.document']),
-    PPTX ('pptx',   ['application/vnd.openxmlformats-officedocument.presentationml.presentation']),
+    WOFF2 ('woff2', ['font/woff2']),
 
     UNSUPPORTED ('UNSUPPORTED',    [''], "Unsupported FileType"),
     NULL ('',       [''], "NULL Object") ;
@@ -98,6 +99,16 @@ final enum FileType {
             }
         }
         return FileType.UNSUPPORTED
+    }
+
+    static FileType ofMimeType(String mimeType) {
+        for (FileType v : values()) {
+            List<String> mimeTypes = v.getMimeTypes()
+            if (mimeTypes.contains(mimeType)) {
+                return v
+            }
+        }
+        return NULL
     }
 
     /**
