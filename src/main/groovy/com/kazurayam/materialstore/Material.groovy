@@ -86,8 +86,8 @@ final class Material implements Comparable {
 
     boolean isText() {
         FileType ft = this.getIndexEntry().getFileType()
-        return ft == FileType.CSV || ft == FileType.MD ||
-                ft == FileType.HTML || ft == FileType.JSON ||
+        return ft == FileType.CSS || ft == FileType.CSV || ft == FileType.MD ||
+                ft == FileType.HTML || ft == FileType.JS || ft == FileType.JSON ||
                 ft == FileType.XML || ft == FileType.TXT
     }
 

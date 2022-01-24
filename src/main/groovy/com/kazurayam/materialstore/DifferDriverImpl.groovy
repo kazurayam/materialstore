@@ -63,17 +63,19 @@ final class DifferDriverImpl implements DifferDriver {
             differs = new HashMap<FileType, Differ>()
             //
             Differ textDiffer = new TextDifferToHTML()
+            differs.put(FileType.CSS, textDiffer)
             differs.put(FileType.CSV, textDiffer)
             differs.put(FileType.HTML, textDiffer)
+            differs.put(FileType.JS, textDiffer)
             differs.put(FileType.JSON, textDiffer)
             differs.put(FileType.TXT, textDiffer)
             differs.put(FileType.XML, textDiffer)
             //
             Differ imageDiffer = new ImageDifferToPNG()
-            differs.put(FileType.PNG, imageDiffer)
             differs.put(FileType.JPG, imageDiffer)
             differs.put(FileType.JPEG, imageDiffer)
             differs.put(FileType.GIF, imageDiffer)
+            differs.put(FileType.PNG, imageDiffer)
             //
         }
         Builder differFor(FileType fileType, Differ differ) {

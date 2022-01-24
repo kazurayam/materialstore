@@ -3,7 +3,7 @@ package com.kazurayam.materialstore
 final enum FileType {
 
     BMP  ('bmp',    ['image/bmp']),
-    CSS ('css', ['text/css']),
+    CSS  ('css',    ['text/css']),
     CSV  ('csv',    ['text/csv', 'text/plain']),
     DOC  ('doc',    ['application/msword']),
     DOCX ('docx',   ['application/vnd.openxmlformats-officedocument.wordprocessingml.document']),
@@ -12,7 +12,7 @@ final enum FileType {
     JAR  ('jar',    ['application/java-archive']),
     JPG  ('jpg',    ['image/jpeg']),
     JPEG ('jpeg',   ['image/jpeg']),
-    JS ('js', ['application/javascript']),
+    JS   ('js',     ['application/javascript']),
     JSON ('json',   ['application/json']),
     MD   ('md',     [''], "Markdown text"),
     MHTML('mht',    [''], "MIME HTML"),
