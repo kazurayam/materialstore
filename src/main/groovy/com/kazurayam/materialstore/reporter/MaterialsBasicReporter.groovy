@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.reporter
 
+import com.kazurayam.materialstore.Diffability
 import com.kazurayam.materialstore.FileType
 import com.kazurayam.materialstore.JobName
 import com.kazurayam.materialstore.Material
@@ -149,11 +150,11 @@ final class MaterialsBasicReporter {
                     material.getIndexEntry().getMetadata().toSpanSequence(mb, metadataPattern)
                 }
             }
-            if (material.isImage()) {
+            if (material.getDiffability() == Diffability.AS_IMAGE) {
                 img(class: "img-fluid d-block w-75 centered",
                         alt: "image-material",
                         src: material.getRelativeURL())
-            } else if (material.isText()) {
+            } else if (material.getDiffability() == Diffability.AS_TEXT) {
                 List<String> lines =
                         Files.readAllLines(
                                 material.toPath(root),

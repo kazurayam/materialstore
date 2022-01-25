@@ -98,7 +98,7 @@ final class DiffArtifact implements Comparable {
     int hashCode() {
         int hash = 7
         hash = 31 * hash + this.getLeft().hashCode()
-        hash = 31 * hash + this.getright().hashCode()
+        hash = 31 * hash + this.getRight().hashCode()
         if (this.getDiff() != null) {
             hash = 31 * hash + this.getDiff().hashCode()
         }

@@ -186,7 +186,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
     private static void makeModalSubsection(MarkupBuilder mb, DiffArtifact da, Integer seq) {
         Material right = da.getRight()
         mb.div(class: "show-diff") {
-            if (right.isImage()) {
+            if (right.getDiffability() == Diffability.AS_IMAGE) {
                 String imageModalId = "imageModal${seq}"
                 String imageModalTitleId = "imageModalLabel${seq}"
                 String carouselId = "carouselControl${seq}"
@@ -269,7 +269,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                         }
                     }
                 }
-            } else if (right.isText()) {
+            } else if (right.getDiffability() == Diffability.AS_TEXT) {
                 String textModalId = "textModal${seq}"
                 String textModalTitleId = "textModalLabel${seq}"
                 mkp.comment("Button trigger modal")
@@ -310,7 +310,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                     }
                 }
             } else {
-                logger.warn("material.isImage() returned false and material.isText() returned false. What is this? ${material}")
+                logger.warn("right.getDiffability() returned ${right.getDiffability()}. What to do with this? ${right.toString()}")
             }
         }
     }

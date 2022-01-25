@@ -1,5 +1,7 @@
 package com.kazurayam.materialstore
 
+import java.util.stream.Collectors
+
 final enum FileType {
 
     BMP  ('bmp', Diffability.AS_IMAGE, ['image/bmp']),
@@ -119,6 +121,33 @@ final enum FileType {
             }
         }
         return NULL_OBJECT
+    }
+
+    static List<FileType> getFileTypesDiffableAsText() {
+        List<FileType> values = FileType.values() as List
+        return values.stream()
+                .filter({ ft ->
+                    ft.getDiffability() == Diffability.AS_TEXT
+                })
+                .collect(Collectors.toList())
+    }
+
+    static List<FileType> getFileTypesDiffableAsImage() {
+        List<FileType> values = FileType.values() as List
+        return values.stream()
+                .filter({ ft ->
+                    ft.getDiffability() == Diffability.AS_IMAGE
+                })
+                .collect(Collectors.toList())
+    }
+
+    static List<FileType> getFileTypesUnableToDiff() {
+        List<FileType> values = FileType.values() as List
+        return values.stream()
+                .filter({ ft ->
+                    ft.getDiffability() == Diffability.UNABLE
+                })
+                .collect(Collectors.toList())
     }
 
     /**

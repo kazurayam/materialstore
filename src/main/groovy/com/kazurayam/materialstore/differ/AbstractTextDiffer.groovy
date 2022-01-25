@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.differ
 
 import com.kazurayam.materialstore.*
+import org.apache.commons.lang3.builder.Diff
 
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
@@ -45,11 +46,11 @@ abstract class AbstractTextDiffer implements Differ {
         Objects.requireNonNull(input.getRight())
         //
         Material left = input.getLeft()
-        if (! left.isText()) {
+        if (! left.getDiffability() == Diffability.AS_TEXT) {
             throw new IllegalArgumentException("${left} is not a text")
         }
         Material right = input.getRight()
-        if (! right.isText()) {
+        if (! right.getDiffability() == Diffability.AS_TEXT) {
             throw new IllegalArgumentException("${right} is not a text")
         }
 

@@ -78,14 +78,8 @@ final class Material implements Comparable {
         return s.replace("\\", "/")
     }
 
-    boolean isImage() {
-        FileType ft = this.getIndexEntry().getFileType()
-        return ft.getDiffability() == Diffability.AS_IMAGE;
-    }
-
-    boolean isText() {
-        FileType ft = this.getIndexEntry().getFileType()
-        return ft.getDiffability() == Diffability.AS_TEXT;
+    Diffability getDiffability() {
+        return this.getIndexEntry().getFileType().getDiffability()
     }
 
     @Override

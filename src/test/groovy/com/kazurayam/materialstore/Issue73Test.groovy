@@ -53,9 +53,14 @@ class Issue73Test {
 
     @Test
     void test_smoke() {
+        Double criteria = 0.0d
         DiffArtifacts stuffedDiffArtifacts =
                 store.makeDiff(left, right, IgnoringMetadataKeys.of("profile", "URL.host"))
-        int warnings = stuffedDiffArtifacts.countWarnings(0.0d)
-        assert stuffedDiffArtifacts.size() == 8
+        int warnings = stuffedDiffArtifacts.countWarnings(criteria)
+        //assert stuffedDiffArtifacts.size() == 8
+
+        // compile the report
+        Path reportFile =
+                store.reportDiffs(jobName, stuffedDiffArtifacts, criteria, jobName.toString() + "-index.html")
     }
 }

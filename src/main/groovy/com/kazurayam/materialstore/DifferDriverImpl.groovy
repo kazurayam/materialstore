@@ -3,6 +3,7 @@ package com.kazurayam.materialstore
 
 import com.kazurayam.materialstore.differ.ImageDifferToPNG
 import com.kazurayam.materialstore.differ.TextDifferToHTML
+import com.kazurayam.materialstore.differ.VoidDiffer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -63,20 +64,19 @@ final class DifferDriverImpl implements DifferDriver {
             differs = new HashMap<FileType, Differ>()
             //
             Differ textDiffer = new TextDifferToHTML()
-            differs.put(FileType.CSS, textDiffer)
-            differs.put(FileType.CSV, textDiffer)
-            differs.put(FileType.HTML, textDiffer)
-            differs.put(FileType.JS, textDiffer)
-            differs.put(FileType.JSON, textDiffer)
-            differs.put(FileType.TXT, textDiffer)
-            differs.put(FileType.XML, textDiffer)
+            FileType.getFileTypesDiffableAsText().each {ft ->
+                differs.put(ft, textDiffer)
+            }
             //
             Differ imageDiffer = new ImageDifferToPNG()
-            differs.put(FileType.JPG, imageDiffer)
-            differs.put(FileType.JPEG, imageDiffer)
-            differs.put(FileType.GIF, imageDiffer)
-            differs.put(FileType.PNG, imageDiffer)
+            FileType.getFileTypesDiffableAsImage().each {ft ->
+                differs.get(ft, imageDiffer)
+            }
             //
+            Differ voidDiffer = new VoidDiffer()
+            FileType.getFileTypesUnableToDiff().each { ft ->
+                differs.get(ft, voidDiffer)
+            }
         }
         Builder differFor(FileType fileType, Differ differ) {
             differs.put(fileType, differ)
