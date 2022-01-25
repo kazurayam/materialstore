@@ -8,7 +8,11 @@ final class DifferUtil {
      * @return e.g. "0.23" or "90.00"
      */
     static String formatDiffRatioAsString(Double diffRatio, String fmt = '%1$.2f') {
-        return String.format(fmt, diffRatio)
+        if (diffRatio >= 0.0d) {
+            return String.format(fmt, diffRatio) + "%"
+        } else {
+            return "no diff"
+        }
     }
 
     /**

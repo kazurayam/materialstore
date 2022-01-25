@@ -33,13 +33,13 @@ class VoidDiffer implements Differ {
         Material right = input.getRight()
         //
         StringBuilder sb = new StringBuilder()
-        sb.append("Unable to take diff.\n")
+        sb.append("Unable to take diff of binary files.\n\n")
         sb.append("left:  ")
         sb.append(left.toString())
-        sb.append("\n")
+        sb.append("\n\n")
         sb.append("right: ")
         sb.append(right.toString())
-        sb.append("\n")
+        sb.append("\n\n")
         String message =  sb.toString()
         byte[] diffData = message.getBytes(StandardCharsets.UTF_8)
         //
