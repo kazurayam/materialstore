@@ -31,22 +31,20 @@ final class DifferDriverImpl implements DifferDriver {
         stuffed.setRightMaterialList(input.getRightMaterialList())
         stuffed.setIgnoringMetadataKeys(input.getIgnoringMetadataKeys())
         input.each { DiffArtifact da ->
+            FileType fileType
             if (da.getLeft() == Material.NULL_OBJECT) {
-                logger.warn("left Material was NULL_OBJECT. riight=${da.getRight()}")
+                logger.warn("left Material was NULL_OBJECT. right=${da.getRight()}")
+                fileType = da.getRight().getIndexEntry().getFileType()
             } else if (da.getRight() == Material.NULL_OBJECT) {
                 logger.warn("right Material was NULL_OBJECT. left=${da.getLeft()}")
+                fileType = da.getLeft().getIndexEntry().getFileType()
             } else {
-                FileType fileType = da.getRight().getIndexEntry().getFileType()
-                if (differs_.containsKey(fileType)) {
-                    Differ differ = differs_.get(fileType)
-                    differ.setRoot(root_)
-                    DiffArtifact stuffedDiffArtifact = differ.makeDiffArtifact(da)
-                    stuffed.add(stuffedDiffArtifact)
-                } else {
-                    logger.warn("FileType ${fileType.getExtension()} is not supported yet." +
-                            " in ${da.getRight().toString()}")
-                }
+                fileType = da.getRight().getIndexEntry().getFileType()
             }
+            Differ differ = differs_.get(fileType)
+            differ.setRoot(root_)
+            DiffArtifact stuffedDiffArtifact = differ.makeDiffArtifact(da)
+            stuffed.add(stuffedDiffArtifact)
         }
         return stuffed
     }

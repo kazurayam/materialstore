@@ -56,7 +56,11 @@ final class DiffArtifact implements Comparable {
     }
 
     String getFileTypeExtension() {
-        return this.getRight().getIndexEntry().getFileType().getExtension()
+        if (this.getLeft() == Material.NULL_OBJECT) {
+            return this.getRight().getIndexEntry().getFileType().getExtension()
+        } else {
+            return this.getLeft().getIndexEntry().getFileType().getExtension()
+        }
     }
 
     Material getRight() {

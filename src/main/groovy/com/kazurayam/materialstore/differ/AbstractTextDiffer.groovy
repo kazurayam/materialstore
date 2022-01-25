@@ -92,9 +92,13 @@ abstract class AbstractTextDiffer implements Differ {
         Objects.requireNonNull(root)
         Objects.requireNonNull(material)
         Objects.requireNonNull(charset)
-        Jobber jobber = new Jobber(root, material.getJobName(), material.getJobTimestamp())
-        byte[] data = jobber.read(material.getIndexEntry())
-        return new String(data, charset)
+        if (material != Material.NULL_OBJECT) {
+            Jobber jobber = new Jobber(root, material.getJobName(), material.getJobTimestamp())
+            byte[] data = jobber.read(material.getIndexEntry())
+            return new String(data, charset)
+        } else {
+            return ""
+        }
     }
 
     private static byte[] toByteArray(String s) {

@@ -147,7 +147,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                                         span(class: "ratio ${warningClass}",
                                                 "${DifferUtil.formatDiffRatioAsString(diffRatio)}")
                                         span(class: "fileType",
-                                                da.getRight().getIndexEntry().getFileType().getExtension())
+                                                da.getFileTypeExtension())
                                         span(class: "description",
                                                 da.getDescription())
                                     }
