@@ -57,10 +57,10 @@ class Issue73Test {
         DiffArtifacts stuffedDiffArtifacts =
                 store.makeDiff(left, right, IgnoringMetadataKeys.of("profile", "URL.host"))
         int warnings = stuffedDiffArtifacts.countWarnings(criteria)
-        //assert stuffedDiffArtifacts.size() == 8
-
         // compile the report
         Path reportFile =
                 store.reportDiffs(jobName, stuffedDiffArtifacts, criteria, jobName.toString() + "-index.html")
+
+        assert stuffedDiffArtifacts.size() == 8
     }
 }

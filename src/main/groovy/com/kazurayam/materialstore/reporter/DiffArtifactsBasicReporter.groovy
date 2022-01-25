@@ -310,7 +310,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                     }
                 }
             } else {
-                logger.warn("right.getDiffability() returned ${right.getDiffability()}. What to do with this? ${right.toString()}")
+                //logger.warn("right.getDiffability() returned ${right.getDiffability()}. What to do with this? ${right.toString()}")
             }
         }
     }

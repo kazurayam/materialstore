@@ -151,7 +151,7 @@ final class DiffArtifact implements Comparable {
             this.right = right
             this.descriptor = MetadataPattern.NULL_OBJECT
             this.diff = Material.NULL_OBJECT
-            this.diffRatio = 0.0d
+            this.diffRatio = -1.0d
         }
         Builder descriptor(MetadataPattern descriptor) {
             Objects.requireNonNull(descriptor)
