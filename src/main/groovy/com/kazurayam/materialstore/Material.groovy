@@ -80,15 +80,12 @@ final class Material implements Comparable {
 
     boolean isImage() {
         FileType ft = this.getIndexEntry().getFileType()
-        return ft == FileType.PNG || ft == FileType.JPEG ||
-                ft == FileType.JPG || ft == FileType.GIF
+        return ft.getDiffability() == Diffability.AS_IMAGE;
     }
 
     boolean isText() {
         FileType ft = this.getIndexEntry().getFileType()
-        return ft == FileType.CSS || ft == FileType.CSV || ft == FileType.MD ||
-                ft == FileType.HTML || ft == FileType.JS || ft == FileType.JSON ||
-                ft == FileType.XML || ft == FileType.TXT
+        return ft.getDiffability() == Diffability.AS_TEXT;
     }
 
     @Override

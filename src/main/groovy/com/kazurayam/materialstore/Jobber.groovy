@@ -94,7 +94,7 @@ final class Jobber {
         index.eachWithIndex { IndexEntry entry, x ->
             if (metadataPattern == MetadataPattern.ANY ||
                     metadataPattern.matches(entry.getMetadata())) {
-                if (fileType == FileType.NULL || fileType == entry.getFileType()) {
+                if (fileType == FileType.NULL_OBJECT || fileType == entry.getFileType()) {
                     Material material = new Material(jobName, jobTimestamp, entry)
                     result.add(material)
                 }
@@ -104,7 +104,7 @@ final class Jobber {
     }
     
     MaterialList selectMaterials(MetadataPattern metadataPattern) {
-        return selectMaterials(metadataPattern, FileType.NULL)
+        return selectMaterials(metadataPattern, FileType.NULL_OBJECT)
     }
 
     /**

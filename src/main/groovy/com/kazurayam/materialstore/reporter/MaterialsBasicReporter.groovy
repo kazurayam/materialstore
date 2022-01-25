@@ -5,7 +5,6 @@ import com.kazurayam.materialstore.JobName
 import com.kazurayam.materialstore.Material
 import com.kazurayam.materialstore.MaterialList
 import com.kazurayam.materialstore.MetadataPattern
-import groovy.json.JsonOutput
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -87,7 +86,7 @@ final class MaterialsBasicReporter {
                                     }
                                     dt("FileType :")
                                     FileType fileType = materialList.getFileType()
-                                    dd((fileType != FileType.NULL) ? fileType.getExtension() : "not specified")
+                                    dd((fileType != FileType.NULL_OBJECT) ? fileType.getExtension() : "not specified")
                                 }
                             }
                         }

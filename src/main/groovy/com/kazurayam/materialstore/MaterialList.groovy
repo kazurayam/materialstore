@@ -1,10 +1,8 @@
 package com.kazurayam.materialstore
 
-import groovy.json.JsonOutput
-
 final class MaterialList {
 
-    public static final NULL_OBJECT = new MaterialList(JobTimestamp.NULL_OBJECT, MetadataPattern.NULL_OBJECT, FileType.NULL)
+    public static final NULL_OBJECT = new MaterialList(JobTimestamp.NULL_OBJECT, MetadataPattern.NULL_OBJECT, FileType.NULL_OBJECT)
 
     private JobTimestamp jobTimestamp
 

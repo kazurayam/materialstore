@@ -8,7 +8,7 @@ import java.nio.file.Paths
 
 final class IndexEntry implements Comparable {
 
-    public static final IndexEntry NULL_OBJECT = new IndexEntry(ID.NULL_OBJECT, FileType.NULL, Metadata.NULL_OBJECT)
+    public static final IndexEntry NULL_OBJECT = new IndexEntry(ID.NULL_OBJECT, FileType.NULL_OBJECT, Metadata.NULL_OBJECT)
 
     private ID id_
     private FileType fileType_

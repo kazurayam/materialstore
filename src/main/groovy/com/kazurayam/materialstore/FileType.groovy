@@ -2,32 +2,32 @@ package com.kazurayam.materialstore
 
 final enum FileType {
 
-    BMP  ('bmp',    ['image/bmp']),
-    CSS  ('css',    ['text/css']),
-    CSV  ('csv',    ['text/csv', 'text/plain']),
-    DOC  ('doc',    ['application/msword']),
-    DOCX ('docx',   ['application/vnd.openxmlformats-officedocument.wordprocessingml.document']),
-    GIF  ('gif',    ['image/gif']),
-    HTML ('html',   ['text/html']),
-    JAR  ('jar',    ['application/java-archive']),
-    JPG  ('jpg',    ['image/jpeg']),
-    JPEG ('jpeg',   ['image/jpeg']),
-    JS   ('js',     ['application/javascript']),
-    JSON ('json',   ['application/json']),
-    MD   ('md',     [''], "Markdown text"),
-    MHTML('mht',    [''], "MIME HTML"),
-    PDF  ('pdf',    ['application/pdf']),
-    PNG  ('png' ,   ['image/png']),
-    POM  ('pom',    ['application/xml']),
-    PPT  ('ppt',    ['application/vnd.ms-powerpoint']),
-    PPTX ('pptx',   ['application/vnd.openxmlformats-officedocument.presentationml.presentation']),
-    SVG  ('svg',    ['image/svg+xml']),
-    TAR  ('tar',    ['application/x-tar']),
-    TGZ  ('tgz',    [
+    BMP  ('bmp', Diffability.AS_IMAGE, ['image/bmp']),
+    CSS  ('css', Diffability.AS_TEXT,  ['text/css']),
+    CSV  ('csv', Diffability.AS_TEXT,  ['text/csv', 'text/plain']),
+    DOC  ('doc', Diffability.UNABLE,   ['application/msword']),
+    DOCX ('docx',Diffability.UNABLE,   ['application/vnd.openxmlformats-officedocument.wordprocessingml.document']),
+    GIF  ('gif', Diffability.AS_IMAGE, ['image/gif']),
+    HTML ('html',Diffability.AS_TEXT,  ['text/html']),
+    JAR  ('jar', Diffability.UNABLE,   ['application/java-archive']),
+    JPG  ('jpg', Diffability.AS_IMAGE, ['image/jpeg']),
+    JPEG ('jpeg',Diffability.AS_IMAGE, ['image/jpeg']),
+    JS   ('js',  Diffability.AS_TEXT,  ['application/javascript']),
+    JSON ('json',Diffability.AS_TEXT,  ['application/json']),
+    MD   ('md',  Diffability.AS_TEXT,  [''], "Markdown text"),
+    MHTML('mht', Diffability.AS_TEXT,  [''], "MIME HTML"),
+    PDF  ('pdf', Diffability.UNABLE,   ['application/pdf']),
+    PNG  ('png', Diffability.AS_IMAGE, ['image/png']),
+    POM  ('pom', Diffability.AS_TEXT,  ['application/xml'], "Maven Project Object Model XML"),
+    PPT  ('ppt', Diffability.UNABLE,   ['application/vnd.ms-powerpoint']),
+    PPTX ('pptx',Diffability.UNABLE,   ['application/vnd.openxmlformats-officedocument.presentationml.presentation']),
+    SVG  ('svg', Diffability.AS_TEXT,  ['image/svg+xml']),
+    TAR  ('tar', Diffability.UNABLE,   ['application/x-tar']),
+    TGZ  ('tgz', Diffability.UNABLE,   [
             'application/zlib',
             'application/gzip']),
-    TXT  ('txt',    ['text/plain']),
-    XLS  ('xls',    [
+    TXT  ('txt', Diffability.AS_TEXT,  ['text/plain']),
+    XLS  ('xls', Diffability.UNABLE,   [
             'application/vnd.ms-excel',
             'application/msexcel',
             'application/x-msexcel',
@@ -39,25 +39,28 @@ final enum FileType {
             'application/vnd-ms-office',
             'application/vnd-xls',
             'application/octet-stream']),
-    XLSM ('xlsm',   ['application/vnd.ms-excel']),
-    XLSX ('xlsx',   [
+    XLSM ('xlsm', Diffability.UNABLE,   ['application/vnd.ms-excel']),
+    XLSX ('xlsx', Diffability.UNABLE,   [
             'application/vnd.ms-excel',
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']),
-    XML  ('xml',    ['application/xml']),
-    ZIP  ('zip',    [
+    XML  ('xml',  Diffability.AS_TEXT,  ['application/xml']),
+    ZIP  ('zip',  Diffability.UNABLE,   [
             'application/zip',
             'application/x-zip-compressed']),
-    WOFF2 ('woff2', ['font/woff2']),
+    WOFF2 ('woff2', Diffability.UNABLE, ['font/woff2']),
 
-    UNSUPPORTED ('UNSUPPORTED',    [''], "Unsupported FileType"),
-    NULL ('',       [''], "NULL Object") ;
+    UNSUPPORTED ('UNSUPPORTED', Diffability.UNABLE, [''], "Unsupported FileType"),
+    NULL_OBJECT('',  Diffability.UNABLE, [''], "NULL Object") ;
 
     private final String extension_
     private final List<String> mimeTypes_
+    private final Diffability diffability_
     private final String description_
 
-    FileType(String extension, List<String> mimeTypes, String description = "") {
+    FileType(String extension, Diffability diffability, List<String> mimeTypes,
+             String description = "") {
         this.extension_ = extension
+        this.diffability_ = diffability
         this.mimeTypes_  = mimeTypes
         this.description_ = description
     }
@@ -68,6 +71,10 @@ final enum FileType {
 
     List<String> getMimeTypes() {
         return this.mimeTypes_
+    }
+
+    Diffability getDiffability() {
+        return this.diffability_
     }
 
     @Override
@@ -87,6 +94,9 @@ final enum FileType {
             count += 1
             sb.append('"' + mimetype + '"')
         }
+        sb.append(',"diffability":"')
+        sb.append(this.getDiffability())
+        sb.append('"')
         sb.append(']')
         sb.append('}}')
         return sb.toString()
@@ -108,7 +118,7 @@ final enum FileType {
                 return v
             }
         }
-        return NULL
+        return NULL_OBJECT
     }
 
     /**

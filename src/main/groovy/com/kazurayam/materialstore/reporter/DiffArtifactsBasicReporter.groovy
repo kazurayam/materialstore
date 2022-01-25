@@ -89,7 +89,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                                         }
                                         dt("FileType :")
                                         FileType fileType = left.getFileType()
-                                        dd((fileType != FileType.NULL) ? fileType.getExtension() : "not specified")
+                                        dd((fileType != FileType.NULL_OBJECT) ? fileType.getExtension() : "not specified")
                                     }
                                 }
                             } else {
@@ -109,7 +109,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                                         }
                                         dt("FileType :")
                                         FileType fileType = right.getFileType()
-                                        dd((fileType != FileType.NULL) ? fileType.getExtension() : "not specified")
+                                        dd((fileType != FileType.NULL_OBJECT) ? fileType.getExtension() : "not specified")
                                     }
                                 }
                             } else {
