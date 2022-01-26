@@ -96,10 +96,10 @@ final enum FileType {
             count += 1
             sb.append('"' + mimetype + '"')
         }
+        sb.append(']')
         sb.append(',"diffability":"')
         sb.append(this.getDiffability())
         sb.append('"')
-        sb.append(']')
         sb.append('}}')
         return sb.toString()
     }

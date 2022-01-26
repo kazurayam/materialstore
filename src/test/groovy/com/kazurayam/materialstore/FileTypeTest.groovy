@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore
 
 import org.junit.jupiter.api.Test
-
+import groovy.json.JsonOutput
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertTrue
 
@@ -42,5 +42,9 @@ class FileTypeTest {
         assertEquals(Diffability.UNABLE, ft.getDiffability())
     }
 
-
+    @Test
+    void test_toString() {
+        String s = FileType.PNG.toString()
+        println JsonOutput.prettyPrint(s)
+    }
 }

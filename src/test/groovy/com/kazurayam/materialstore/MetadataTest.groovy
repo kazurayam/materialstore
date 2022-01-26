@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore
 
 import groovy.xml.MarkupBuilder
+import groovy.json.JsonOutput
 import org.junit.jupiter.api.Test
 
 import static org.junit.jupiter.api.Assertions.*
@@ -133,6 +134,7 @@ class MetadataTest {
     void test_toString() {
         Metadata metadata = Metadata.builderWithMap(["b": "B", "a": "A"]).build()
         String s = metadata.toString()
+        println JsonOutput.prettyPrint(s)
         assertEquals(
                 '''{"a":"A", "b":"B"}''',
                 metadata.toString())
@@ -142,7 +144,7 @@ class MetadataTest {
     void test_toString_should_have_redundant_whitespaces() {
         Metadata metadata = Metadata.builderWithMap(["a":"A", "b":"B", "c":"C"]).build()
         String s = metadata.toString()
-        println s
+        println JsonOutput.prettyPrint(s)
         assertEquals(
                 '''{"a":"A", "b":"B", "c":"C"}''',
                 // white spaces here ^ and    ^

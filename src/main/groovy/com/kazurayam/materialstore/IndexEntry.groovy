@@ -92,10 +92,15 @@ final class IndexEntry implements Comparable {
 
     @Override
     String toString() {
-        Map m = ["id": this.getID().toString(),
-                 "fileType": this.getFileType().toString(),
-                 "metadata": this.getMetadata().toString()]
-        return new JsonOutput().toJson(m)
+        StringBuilder sb = new StringBuilder()
+        sb.append("{")
+        sb.append("\"id\": \"" + this.getID().toString() + "\"")
+        sb.append(",")
+        sb.append("\"fileType\": " + this.getFileType().toString())
+        sb.append(",")
+        sb.append("\"metadata\": " + this.getMetadata().toString())
+        sb.append("}")
+        return sb.toString()
     }
 
     @Override

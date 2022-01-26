@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore
 
-
+import groovy.json.JsonOutput
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -73,14 +73,11 @@ class DiffArtifactsTest {
         assertNotNull(ignoringMetadataKeys)
     }
 
-    /*
-    [{"left":"{\"jobName\":\"_\",\"jobTimestamp\":\"_\",\"ID\":\"0000000000000000000000000000000000000000\",\"fileType\":\"\",\"metadata\":\"{}\"}","right":"{\"jobName\":\"_\",\"jobTimestamp\":\"_\",\"ID\":\"0000000000000000000000000000000000000000\",\"fileType\":\"\",\"metadata\":\"{}\"}","diff":"{\"jobName\":\"_\",\"jobTimestamp\":\"_\",\"ID\":\"0000000000000000000000000000000000000000\",\"fileType\":\"\",\"metadata\":\"{}\"}","descriptor":"{}","diffRatio":0.0}]
-     */
     @Test
     void test_toString() {
         diffArtifacts.add(DiffArtifact.NULL_OBJECT)
         String s = diffArtifacts.toString()
-        println s
+        println JsonOutput.prettyPrint(s)
         assertTrue(s.contains("left"), s)
         assertTrue(s.contains("right"), s)
         assertTrue(s.contains("diff"), s)

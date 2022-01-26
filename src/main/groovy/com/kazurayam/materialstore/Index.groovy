@@ -159,8 +159,22 @@ final class Index implements Comparable {
 
     @Override
     String toString() {
-        Map m = ["indexFile": indexFile_, "indexEntries": lines_]
-        return new JsonOutput().toJson(m)
+        StringBuilder sb = new StringBuilder()
+        sb.append("{")
+        sb.append("\"indexFile\": \"" + indexFile_.toString() + "\"")
+        sb.append(",")
+        sb.append("\"indexEntries\": [")
+        int count = 0
+        lines_.each { entry ->
+            if (count > 0) {
+                sb.append(",")
+            }
+            sb.append(entry.toString())
+            count += 1
+        }
+        sb.append("]")
+        sb.append("}")
+        return sb.toString()
     }
 
     @Override

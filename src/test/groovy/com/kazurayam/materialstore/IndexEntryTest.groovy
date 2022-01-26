@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore
 
 import org.junit.jupiter.api.Test
+import groovy.json.JsonOutput
 
 import static org.junit.jupiter.api.Assertions.*
 
@@ -13,5 +14,14 @@ class IndexEntryTest {
     void test_parseLine() {
         IndexEntry indexEntry = IndexEntry.parseLine(sampleLine)
         assertNotNull(indexEntry)
+    }
+
+    @Test
+    void test_toString() {
+        IndexEntry indexEntry = IndexEntry.parseLine(sampleLine)
+        String s = indexEntry.toString()
+        println JsonOutput.prettyPrint(s)
+        assert ! s.contains('''"{\\"FileType''')
+        assert ! s.contains('''"{\\"URL''')
     }
 }

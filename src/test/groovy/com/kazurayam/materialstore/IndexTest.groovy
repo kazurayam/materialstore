@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore
 
 import org.junit.jupiter.api.Test
-
+import groovy.json.JsonOutput
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -63,5 +63,13 @@ class IndexTest {
         index.serialize(target)
         assertTrue(Files.exists(target))
         assertTrue(target.toFile().length() > 0)
+    }
+
+    @Test
+    void test_toString() {
+        Path source = Index.getIndexFile(resultsDir.resolve("20210713_093357"))
+        Index index = Index.deserialize(source)
+        String s = index.toString()
+        println JsonOutput.prettyPrint(s)
     }
 }

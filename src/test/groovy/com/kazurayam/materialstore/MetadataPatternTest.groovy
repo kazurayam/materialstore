@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore
 
 import groovy.xml.MarkupBuilder
+import groovy.json.JsonOutput
 import org.junit.jupiter.api.Test
 import java.util.regex.Pattern
 
@@ -173,6 +174,7 @@ class MetadataPatternTest {
         MetadataPattern pattern = MetadataPattern.builderWithMetadata(metadata, ignoringMetadataKeys).build()
         String expected = '''{"B":"b", "C":"c", "a":"a"}'''
         String actual = pattern.toString()
+        println JsonOutput.prettyPrint(actual)
         assertEquals(expected, actual)
     }
 
