@@ -16,7 +16,11 @@ class UrlPathTranslator {
      * Compare the leftPath and the rightPath are similar.
      * If the 2 strings contain a Semantic Version, then the version is
      * smartly disregarded.
-     * E.g, "/some/path-1.2.0/x" and "/some/path-1.2.3/x" will be
+     *
+     * E.g,
+     * (1) "/some/path/x" and "/some/path/x" will be regarded similar, returning true
+     * (2) "/some/path/x" and "/some/path/Y" will be regarded NOT similar, returning false
+     * (3) "/some/path-1.2.0/x" and "/some/path-1.2.3-alpha/x" will be
      * regarded similar, returning true
      *
      * @param leftPath
