@@ -1,8 +1,13 @@
 package com.kazurayam.materialstore
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
 import java.util.regex.Pattern
 
 class MetadataPatternValue implements Comparable {
+
+    private static final Logger logger = LoggerFactory.getLogger(MetadataPatternValue.class)
 
     private String valueString = null
     private Pattern valuePattern = null
@@ -30,7 +35,16 @@ class MetadataPatternValue implements Comparable {
 
     boolean matches(String subject) {
         if (this.isString()) {
-            return subject == valueString
+            //logger.info("subject                      : \"${subject}\"")
+            //logger.info("valueString                  : \"${valueString}\"")
+            //logger.info("subject == valueString       : \"${subject == valueString}\"")
+            //logger.info("SemanticVersionAware.similar : \"${SemanticVersionAwareStringMatcher.similar(subject, valueString)}\"")
+            //logger.info("--------------------------------------------")
+
+            // #72
+            //return subject == valueString
+            return SemanticVersionAwareStringMatcher.similar(subject, valueString)
+
         } else if (this.isPattern()) {
             return valuePattern.matcher(subject).matches()
         } else {

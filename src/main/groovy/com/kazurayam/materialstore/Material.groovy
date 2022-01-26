@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore
 
+import com.google.gson.Gson
 import groovy.json.JsonOutput
 
 import java.nio.file.Files
@@ -104,13 +105,20 @@ final class Material implements Comparable {
 
     @Override
     String toString() {
-        Map m = ["jobName": this.getJobName().toString(),
-                 "jobTimestamp": this.getJobTimestamp().toString(),
-                 "ID": this.getIndexEntry().getID().toString(),
-                 "fileType": this.getIndexEntry().getFileType().getExtension(),
-                 "metadata": this.getIndexEntry().getMetadata().toString()
-        ]
-        return new JsonOutput().toJson(m)
+        StringBuilder sb = new StringBuilder()
+        sb.append("{")
+        sb.append("\"jobName\":\"" + this.getJobName() + "\"")
+        sb.append(",")
+        sb.append("\"jobTimestamp\":\"" + this.getJobTimestamp() + "\"")
+        sb.append(",")
+        sb.append("\"ID\":\"" + this.getIndexEntry().getID().toString() + "\"")
+        sb.append(",")
+        sb.append("\"fileType\":\"" + this.getIndexEntry().getFileType().getExtension() + "\"")
+        sb.append(",")
+        sb.append("\"metadata\":")
+        sb.append(this.getIndexEntry().getMetadata().toString())
+        sb.append("}")
+        return sb.toString()
     }
 
     @Override

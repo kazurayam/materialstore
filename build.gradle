@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'com.kazurayam'
-version '0.1.9-SNAPSHOT'
+version '0.2.0-SNAPSHOT'
 
 ext.isReleaseVersion = ! version.endsWith("SNAPSHOT")
 
@@ -33,6 +33,7 @@ ext {
     webdrivermanager = '4.4.3'
     ashotVersion = '1.5.4'
     javadiffutilsVersion = '4.9'
+    gsonVersion = '2.8.9'
 }
 
 dependencies {
@@ -52,6 +53,9 @@ dependencies {
     implementation group: 'io.github.java-diff-utils', name: 'java-diff-utils', version: "${javadiffutilsVersion}"
 
     implementation "org.seleniumhq.selenium:selenium-java:${seleniumjavaVersion}"
+
+    // https://mvnrepository.com/artifact/com.google.code.gson/gson
+    implementation group: 'com.google.code.gson', name: 'gson', version: "${gsonVersion}"
 
     // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
     implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: "${webdrivermanager}"

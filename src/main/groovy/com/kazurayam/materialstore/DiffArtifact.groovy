@@ -1,5 +1,7 @@
 package com.kazurayam.materialstore
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.kazurayam.materialstore.differ.DifferUtil
 import groovy.json.JsonOutput
 
@@ -111,12 +113,24 @@ final class DiffArtifact implements Comparable {
 
     @Override
     String toString() {
-        Map m = ["left": left.toString(),
-                 "right": right.toString(),
-                 "diff": diff.toString(),
-                 "descriptor": descriptor.toString(),
-                 "diffRatio": diffRatio]
-        return JsonOutput.toJson(m)
+        StringBuilder sb = new StringBuilder()
+        sb.append("{")
+        sb.append("\"left\":")
+        sb.append(left.toString())
+        sb.append(",")
+        sb.append("\"right\":")
+        sb.append(right.toString())
+        sb.append(",")
+        sb.append("\"diff\":")
+        sb.append(diff.toString())
+        sb.append(",")
+        sb.append("\"descriptor\":")
+        sb.append(descriptor.toString())
+        sb.append(",")
+        sb.append("\"diffRatio\":")
+        sb.append(diffRatio)
+        sb.append("}")
+        return sb.toString()
     }
 
     @Override

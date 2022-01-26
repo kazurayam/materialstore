@@ -88,6 +88,19 @@ class MetadataPatternTest {
     }
 
     @Test
+    void test_matches_2_paths_with_semantic_version() {
+        Metadata metadataLeft = Metadata.builderWithMap(
+                ["profile": "prod","URL.path": "/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"])
+                .build()
+        Metadata metadataRight = Metadata.builderWithMap(
+                ["profile": "dev", "URL.path": "/npm/bootstrap@5.1.3-alpha/dist/js/bootstrap.bundle.min.js"])
+                .build()
+        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.of("profile")
+        MetadataPattern metadataPattern = MetadataPattern.builderWithMetadata(metadataRight, ignoringMetadataKeys).build()
+        assert metadataPattern.matches(metadataLeft)
+    }
+
+    @Test
     void test_matches_truthy() {
         MetadataPattern metadataPattern = MetadataPattern.builderWithMap(["profile": "ProductionEnv"]).build()
         Metadata metadata = Metadata.builderWithMap(["profile": "ProductionEnv"]).build()
