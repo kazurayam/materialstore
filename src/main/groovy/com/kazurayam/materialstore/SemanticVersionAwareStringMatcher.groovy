@@ -1,16 +1,21 @@
 package com.kazurayam.materialstore
 
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class UrlPathTranslator {
+class SemanticVersionAwareStringMatcher {
+
+    private static final Logger logger = LoggerFactory.getLogger(SemanticVersionAwareStringMatcher.class)
 
     private static final String REGEX_HEADER = '(\\S+)'
     static final String REGEX_VERSION = '(\\d+\\.\\d+\\.\\d+(\\-[a-zA-Z][0-9a-zA-Z]*)?)'
     private static final String REGEX_TRAILER = '(\\S*)'
     static final Pattern VERSIONED_PATH_PARSER = Pattern.compile(REGEX_HEADER + REGEX_VERSION + REGEX_TRAILER)
 
-    private UrlPathTranslator() {}
+    private SemanticVersionAwareStringMatcher() {}
 
     /**
      * Compare the leftPath and the rightPath are similar.
@@ -23,17 +28,27 @@ class UrlPathTranslator {
      * (3) "/some/path-1.2.0/x" and "/some/path-1.2.3-alpha/x" will be
      * regarded similar, returning true
      *
-     * @param leftPath
-     * @param rightPath
+     * @param left
+     * @param right
      * @return if left and right are identical, return true; otherwise false
      */
-    static final Boolean similar(String leftPath, String rightPath) {
-        Objects.requireNonNull(leftPath)
-        Objects.requireNonNull(rightPath)
-        String regex = translatePathToRegex(rightPath)
+    static final Boolean similar(String left, String right) {
+        Objects.requireNonNull(left)
+        Objects.requireNonNull(right)
+        String regex = translatePathToRegex(right)
+
         Pattern p = Pattern.compile(regex)
-        Matcher m = p.matcher(leftPath)
-        return m.matches()
+        Matcher m = p.matcher(left)
+        Boolean result = m.matches()
+        /*
+        if (! result) {
+            logger.info("left   : ${left}")
+            logger.info("right  : ${right}")
+            logger.info("pattern: ${p.toString()}")
+            logger.info("result : ${result}")
+        }
+         */
+        return result
     }
 
     static final Pattern translatePathToRegex(String path) {
@@ -59,9 +74,13 @@ class UrlPathTranslator {
         return path
                 .replace('/', "\\/")
                 .replace('.', "\\.")
-                .replace('\'', "\\\\'")
+                .replace('\'', "\\'")
                 .replace('(', "\\(")
                 .replace(')', "\\)")
+                .replace('-', "\\-")
+                .replace('[', "\\[")
+                .replace(']', "\\]")
+
     }
 
 }

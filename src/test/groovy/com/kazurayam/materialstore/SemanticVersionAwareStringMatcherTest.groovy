@@ -5,23 +5,23 @@ import org.junit.jupiter.api.Test
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class UrlPathTranslatorTest {
+class SemanticVersionAwareStringMatcherTest {
 
     private final String left  = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
     private final String right = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3-rc1/dist/js/bootstrap.bundle.min.js"
 
     @Test
     void test_escapeAsRegex() {
-        assert UrlPathTranslator.escapeAsRegex(
+        assert SemanticVersionAwareStringMatcher.escapeAsRegex(
                 '/npm/bootstrap@') == '\\/npm\\/bootstrap@'
-        assert UrlPathTranslator.escapeAsRegex(
+        assert SemanticVersionAwareStringMatcher.escapeAsRegex(
                 '/dist/js/bootstrap.bundle.min.js') == '\\/dist\\/js\\/bootstrap\\.bundle\\.min\\.js'
     }
 
     @Test
     void test_REGEX_VERSION_valid() {
         List<String> validVersions = [ '5.1.3', '5.1.5-rc', '50.11.38' ]
-        Pattern p = Pattern.compile('^' + UrlPathTranslator.REGEX_VERSION + '$')
+        Pattern p = Pattern.compile('^' + SemanticVersionAwareStringMatcher.REGEX_VERSION + '$')
         validVersions.each { it ->
             Matcher m = p.matcher(it)
             assert m.matches() : "input = ${it}"
@@ -31,7 +31,7 @@ class UrlPathTranslatorTest {
     @Test
     void test_REGEX_VERSION_invalid() {
         List<String> invalidVersions = ['1.0', '1-2-3', '4_5_6', '1.0.0.2', '2.5X']
-        Pattern p = Pattern.compile('^' + UrlPathTranslator.REGEX_VERSION + '$')
+        Pattern p = Pattern.compile('^' + SemanticVersionAwareStringMatcher.REGEX_VERSION + '$')
         invalidVersions.each { it ->
             Matcher m = p.matcher(it)
             assert ! m.matches(): "input = ${it}"
@@ -41,7 +41,16 @@ class UrlPathTranslatorTest {
 
     @Test
     void test_similar() {
-        assert UrlPathTranslator.similar(left, right)
+        assert SemanticVersionAwareStringMatcher.similar(left, right)
+    }
+
+    /**
+     * The character '[' and ']' in the string were problematic
+     */
+    @Test
+    void test_similar_edge_case() {
+        String str = "//a[@id='btn-make-appointment']"
+        assert SemanticVersionAwareStringMatcher.similar(str, str)
     }
 
     private List pathFixtures = [
@@ -57,7 +66,7 @@ class UrlPathTranslatorTest {
     @Test
     void test_translatePathToRegex() {
         pathFixtures.each { path ->
-            Pattern p = UrlPathTranslator.translatePathToRegex(path)
+            Pattern p = SemanticVersionAwareStringMatcher.translatePathToRegex(path)
             Matcher m = p.matcher(path)
             assert m.matches()
         }
@@ -76,7 +85,7 @@ class UrlPathTranslatorTest {
     @Test
     void test_translatePathToRegex_and_apply(){
         URL rightUrl = new URL(right)
-        String regex = UrlPathTranslator.translatePathToRegex(rightUrl.getPath())
+        String regex = SemanticVersionAwareStringMatcher.translatePathToRegex(rightUrl.getPath())
         Pattern p = Pattern.compile(regex)
         URL leftUrl = new URL(left)
         Matcher m = p.matcher(leftUrl.getPath())
@@ -87,7 +96,7 @@ class UrlPathTranslatorTest {
     void test_VERSIONED_PATH_PARSER() {
         URL url = new URL(right)
         String path = url.getPath()
-        Matcher m = UrlPathTranslator.VERSIONED_PATH_PARSER.matcher(path)
+        Matcher m = SemanticVersionAwareStringMatcher.VERSIONED_PATH_PARSER.matcher(path)
         assert m.matches()
         assert m.groupCount() == 4
         assert m.group(1) == "/npm/bootstrap@"
