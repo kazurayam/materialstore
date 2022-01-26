@@ -40,6 +40,7 @@ class MaterialTest {
         assertEquals("""{"URL":"http://demoaut-mimic.kazurayam.com/", "profile":"DevelopmentEnv"}""",
                 material.getIndexEntry().getMetadata().toString())
         //
+        println material.toString()
         assertEquals(material, material)
         //
 

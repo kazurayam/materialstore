@@ -142,6 +142,7 @@ class MetadataTest {
     void test_toString_should_have_redundant_whitespaces() {
         Metadata metadata = Metadata.builderWithMap(["a":"A", "b":"B", "c":"C"]).build()
         String s = metadata.toString()
+        println s
         assertEquals(
                 '''{"a":"A", "b":"B", "c":"C"}''',
                 // white spaces here ^ and    ^
