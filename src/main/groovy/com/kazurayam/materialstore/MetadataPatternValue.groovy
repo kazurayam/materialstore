@@ -41,10 +41,11 @@ class MetadataPatternValue implements Comparable {
             //logger.info("SemanticVersionAware.similar : \"${SemanticVersionAwareStringMatcher.similar(subject, valueString)}\"")
             //logger.info("--------------------------------------------")
 
-            // #72
-            //return subject == valueString
-            return SemanticVersionAwareStringMatcher.similar(subject, valueString)
-
+            if (subject == valueString) {
+                return true
+            } else {
+                return SemanticVersionAwareStringMatcher.similar(subject, valueString)
+            }
         } else if (this.isPattern()) {
             return valuePattern.matcher(subject).matches()
         } else {
