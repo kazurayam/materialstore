@@ -69,7 +69,7 @@ class Values implements Comparable<Values> {
         int count = 0
         for (String s in this.values()) {
             if (count > 0) {
-                sb.append(",")
+                sb.append(", ")
             }
             sb.append(gson.toJson(s))
             count += 1
