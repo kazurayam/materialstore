@@ -23,18 +23,6 @@ final class DiffArtifacts {
         diffArtifacts.add(e)
     }
 
-    DiffArtifact get(int index) {
-        return diffArtifacts.get(index)
-    }
-
-    int size() {
-        return diffArtifacts.size()
-    }
-
-    Iterator<DiffArtifact> iterator() {
-        return diffArtifacts.iterator()
-    }
-
     int countWarnings(Double criteria) {
         diffArtifacts.stream()
                 .filter { DiffArtifact da ->
@@ -44,21 +32,12 @@ final class DiffArtifacts {
                 .size()
     }
 
-    void sort() {
-        Collections.sort(diffArtifacts)
+    DiffArtifact get(int index) {
+        return diffArtifacts.get(index)
     }
 
-    //---------------------------------------------------------------
-    void setLeftMaterialList(MaterialList materialList) {
-        this.leftMaterialList = materialList
-    }
-
-    void setRightMaterialList(MaterialList materialList) {
-        this.rightMaterialList = materialList
-    }
-
-    void setIgnoringMetadataKeys(IgnoringMetadataKeys ignoringMetadataKeys) {
-        this.ignoringMetadataKeys = ignoringMetadataKeys
+    IgnoringMetadataKeys getIgnoringMetadataKeys() {
+        return this.ignoringMetadataKeys
     }
 
     MaterialList getLeftMaterialList() {
@@ -69,8 +48,28 @@ final class DiffArtifacts {
         return this.rightMaterialList
     }
 
-    IgnoringMetadataKeys getIgnoringMetadataKeys() {
-        return this.ignoringMetadataKeys
+    Iterator<DiffArtifact> iterator() {
+        return diffArtifacts.iterator()
+    }
+
+    void setIgnoringMetadataKeys(IgnoringMetadataKeys ignoringMetadataKeys) {
+        this.ignoringMetadataKeys = ignoringMetadataKeys
+    }
+
+    void setLeftMaterialList(MaterialList materialList) {
+        this.leftMaterialList = materialList
+    }
+
+    void setRightMaterialList(MaterialList materialList) {
+        this.rightMaterialList = materialList
+    }
+
+    int size() {
+        return diffArtifacts.size()
+    }
+
+    void sort() {
+        Collections.sort(diffArtifacts)
     }
 
     //---------------------------------------------------------------

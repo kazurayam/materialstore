@@ -45,11 +45,31 @@ class DiffArtifactsTest {
     }
 
     @Test
+    void test_countWarnings() {
+        DiffArtifact tmp =
+                new DiffArtifact.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT)
+                        .descriptor(MetadataPattern.NULL_OBJECT)
+                        .build()
+        tmp.setDiffRatio(45.0d)
+        diffArtifacts.add(tmp)
+        assertEquals(1, diffArtifacts.countWarnings(0.00d))
+        assertEquals(0, diffArtifacts.countWarnings(45.00d))
+        assertEquals(0, diffArtifacts.countWarnings(45.01d))
+    }
+
+    @Test
     void test_iterator() {
         diffArtifacts.add(DiffArtifact.NULL_OBJECT)
         diffArtifacts.each { DiffArtifact it ->
             assert it == DiffArtifact.NULL_OBJECT
         }
+    }
+
+    @Test
+    void test_setter_getter_IgnoringMetadataKeys() {
+        diffArtifacts.setIgnoringMetadataKeys(IgnoringMetadataKeys.NULL_OBJECT)
+        IgnoringMetadataKeys ignoringMetadataKeys = diffArtifacts.getIgnoringMetadataKeys()
+        assertNotNull(ignoringMetadataKeys)
     }
 
     @Test
@@ -67,13 +87,6 @@ class DiffArtifactsTest {
     }
 
     @Test
-    void test_setter_getter_IgnoringMetadataKeys() {
-        diffArtifacts.setIgnoringMetadataKeys(IgnoringMetadataKeys.NULL_OBJECT)
-        IgnoringMetadataKeys ignoringMetadataKeys = diffArtifacts.getIgnoringMetadataKeys()
-        assertNotNull(ignoringMetadataKeys)
-    }
-
-    @Test
     void test_toString() {
         diffArtifacts.add(DiffArtifact.NULL_OBJECT)
         String s = diffArtifacts.toString()
@@ -85,17 +98,6 @@ class DiffArtifactsTest {
         assertTrue(s.contains("diffRatio"), s)
     }
 
-    @Test
-    void test_countWarnings() {
-        DiffArtifact tmp =
-                new DiffArtifact.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT)
-                        .descriptor(MetadataPattern.NULL_OBJECT)
-                        .build()
-        tmp.setDiffRatio(45.0d)
-        diffArtifacts.add(tmp)
-        assertEquals(1, diffArtifacts.countWarnings(0.00d))
-        assertEquals(0, diffArtifacts.countWarnings(45.00d))
-        assertEquals(0, diffArtifacts.countWarnings(45.01d))
-    }
+
 
 }
