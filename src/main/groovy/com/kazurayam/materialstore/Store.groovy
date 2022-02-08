@@ -37,6 +37,12 @@ interface Store {
     DiffArtifacts makeDiff(MaterialList left, MaterialList right,
                            IgnoringMetadataKeys ignoringMetadataKeys)
 
+    DiffArtifacts makeDiff(MaterialList left, MaterialList right,
+                           IdentifyMetadataValues identifyMetadataValues)
+
+    DiffArtifacts makeDiff(MaterialList left, MaterialList right,
+                           IgnoringMetadataKeys ignoringMetadataKeys,
+                           IdentifyMetadataValues identifyMetadataValues)
 
     Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, Double criteria, String fileName)
 

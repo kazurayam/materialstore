@@ -1,13 +1,5 @@
-package issues.issues
+package com.kazurayam.materialstore
 
-import com.kazurayam.materialstore.DiffArtifacts
-import com.kazurayam.materialstore.IgnoringMetadataKeys
-import com.kazurayam.materialstore.JobName
-import com.kazurayam.materialstore.JobTimestamp
-import com.kazurayam.materialstore.MaterialList
-import com.kazurayam.materialstore.MetadataPattern
-import com.kazurayam.materialstore.Store
-import com.kazurayam.materialstore.Stores
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -16,27 +8,24 @@ import org.junit.jupiter.api.Test
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
-import static org.junit.jupiter.api.Assertions.*
+import static org.jsoup.helper.Validate.fail
 
 /**
- * Reproducing the issue #73 at https://github.com/kazurayam/materialstore/issues/73
- * and fixing it.
+ * https://github.com/kazurayam/materialstore/issues/80
  */
-class Issue73Test {
+class StoreImpl_makeDiffTest {
 
     static final Path fixtureDir = Paths.get(".")
-            .resolve("src/test/resources/fixture/issue#73")
+            .resolve("src/test/resources/fixture/issue#80")
     static final Path outputDir = Paths.get(".")
             .resolve("build/tmp/testOutput")
-            .resolve(Issue73Test.class.getName())
+            .resolve(StoreImpl_makeDiffTest.class.getName())
 
     static Store store
     static final JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
-    static final JobTimestamp timestampP = new JobTimestamp("20220125_140449")
-    static final JobTimestamp timestampD = new JobTimestamp("20220125_140509")
+    static final JobTimestamp timestampP = new JobTimestamp("20220128_191320")
+    static final JobTimestamp timestampD = new JobTimestamp("20220128_191342")
 
     static final String leftUrl = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
     static final String rightUrl = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3-rc1/dist/js/bootstrap.bundle.min.js"
@@ -67,8 +56,11 @@ class Issue73Test {
         assert right.size() == 8
     }
 
+    /**
+     * Issue #80
+     */
     @Test
-    void test_smoke() {
+    void test_makeDiff() {
         Double criteria = 0.0d
         DiffArtifacts stuffedDiffArtifacts =
                 store.makeDiff(left, right, IgnoringMetadataKeys.of("profile", "URL.host"))
@@ -76,6 +68,8 @@ class Issue73Test {
         // compile the report
         Path reportFile =
                 store.reportDiffs(jobName, stuffedDiffArtifacts, criteria, jobName.toString() + "-index.html")
-        assert stuffedDiffArtifacts.size() == 8
+        assert stuffedDiffArtifacts.size() == 8   // should be 8, not 9
     }
+
+
 }

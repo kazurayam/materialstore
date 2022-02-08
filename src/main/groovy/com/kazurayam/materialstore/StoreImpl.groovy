@@ -205,9 +205,16 @@ final class StoreImpl implements Store {
     }
 
     @Override
+    DiffArtifacts makeDiff(MaterialList left, MaterialList right, IdentifyMetadataValues identifyMetadataValues) {
+        return makeDiff(left, right, IgnoringMetadataKeys.NULL_OBJECT, identifyMetadataValues)
+    }
+
+    @Override
     DiffArtifacts makeDiff(MaterialList left,
                            MaterialList right,
-                           IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT) {
+                           IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT,
+                           IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT)
+    {
         Objects.requireNonNull(left)
         Objects.requireNonNull(right)
         Objects.requireNonNull(ignoringMetadataKeys)
@@ -444,4 +451,6 @@ final class StoreImpl implements Store {
         diffArtifacts.sort()
         return diffArtifacts
     }
+
+
 }

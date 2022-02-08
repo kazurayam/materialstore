@@ -24,6 +24,9 @@ abstract class IgnoringMetadataKeys {
     }
 
 
+    /**
+     *
+     */
     static class Builder {
         Set<String> keySet
         Builder() {
