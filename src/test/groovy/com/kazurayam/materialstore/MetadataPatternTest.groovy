@@ -108,9 +108,6 @@ class MetadataPatternTest {
         assertTrue(metadataPattern.matches(metadata))
     }
 
-
-
-
     @Test
     void test_NULLOBJECT() {
         MetadataPattern mp = MetadataPattern.NULL_OBJECT

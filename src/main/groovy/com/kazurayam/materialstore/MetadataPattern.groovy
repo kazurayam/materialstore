@@ -15,32 +15,6 @@ abstract class MetadataPattern {
                     Pattern.compile(".*")
             ).build()
 
-    abstract boolean containsKey(String key)
-
-    abstract MetadataPatternValue get(String key)
-
-    abstract String getAsString(String key)
-
-    abstract boolean isEmpty()
-
-    abstract Set<String> keySet()
-
-    abstract Set<Entry> entrySet()
-
-    abstract int size()
-
-    abstract boolean matches(Metadata metadata)
-
-    /**
-     * emit a HTML fragment (like the following) into the argument MarkupBuilder
-     *
-     * <span>{"profile":</span><span class="matched-value">"ProductionEnv"</span><span>}</span>
-     *
-     * @param mb
-     */
-    abstract void toSpanSequence(MarkupBuilder mb)
-
-
     //-------------------------factory methods --------------------------------
 
     static Builder builder() {
@@ -60,6 +34,37 @@ abstract class MetadataPattern {
         return new Builder(metadata, ignoringMetadataKeys)
     }
 
+    //-----------------------------------------------------------------
+
+    abstract boolean containsKey(String key)
+
+    abstract Set<Entry> entrySet()
+
+    abstract MetadataPatternValue get(String key)
+
+    abstract String getAsString(String key)
+
+    abstract boolean isEmpty()
+
+    abstract Set<String> keySet()
+
+    abstract boolean matches(Metadata metadata)
+
+    abstract int size()
+
+    /**
+     * emit a HTML fragment (like the following) into the argument MarkupBuilder
+     *
+     * <span>{"profile":</span><span class="matched-value">"ProductionEnv"</span><span>}</span>
+     *
+     * @param mb
+     */
+    abstract void toSpanSequence(MarkupBuilder mb)
+
+
+    /**
+     *
+     */
     static class Builder {
 
         private Map<String, MetadataPatternValue> metadataPattern
