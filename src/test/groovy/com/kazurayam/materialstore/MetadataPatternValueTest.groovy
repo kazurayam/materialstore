@@ -56,4 +56,14 @@ class MetadataPatternValueTest {
         assertTrue(metadataPatternValue.matches("ProductionEnv"))
         assertFalse(metadataPatternValue.matches("foo"))
     }
+
+    /*
+     * #80 want to identify 2 URLs that have different value of URL.query;
+     * but if you apply a RegEx, you can regard then as a pair
+     */
+    @Test
+    void test_matches_PatternBackedInstance_URL_query() {
+        MetadataPatternValue metadataPatternValue = MetadataPatternValue.of(Pattern.compile("\\w{32}"))
+        assertTrue(metadataPatternValue.matches("856008caa5eb66df68595e734e59580d"))
+    }
 }

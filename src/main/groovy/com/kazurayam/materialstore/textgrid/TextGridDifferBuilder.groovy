@@ -24,7 +24,7 @@ abstract class TextGridDifferBuilder {
 
     private static final Logger logger = LoggerFactory.getLogger(TextGridDifferBuilder.class)
 
-    private static Path projectDir
+    private Path projectDir
 
     private Path reportFile
 
@@ -33,26 +33,32 @@ abstract class TextGridDifferBuilder {
     }
 
     TextGridDifferBuilder(Path projectDir) {
+        Objects.requireNonNull(projectDir)
         this.projectDir = projectDir
-        this.reportFile = null
+        reportFile = null
     }
 
     /*
      *
      */
     int diffTextGrids(List<List<String>> input1, List<List<String>> input2,
-                          String givenJobName) {
+                      String givenJobName) {
+        diffTextGrids(input1, input2, 0..0, givenJobName)
+    }
+
+    int diffTextGrids(List<List<String>> input1, List<List<String>> input2,
+                      Range<Integer> keyRange, String givenJobName) {
         Path root = projectDir.resolve("store")
         Store store = Stores.newInstance(root)
         JobName jobName = new JobName(givenJobName)
 
         JobTimestamp timestamp1 = JobTimestamp.now()
-        jsonifyAndStore(store, jobName, timestamp1, input1, "input1")
+        jsonifyAndStore(store, jobName, timestamp1, input1, keyRange, "input1")
 
         Thread.sleep(1000)
 
         JobTimestamp timestamp2 = JobTimestamp.now()
-        jsonifyAndStore(store, jobName, timestamp2, input2, "input2")
+        jsonifyAndStore(store, jobName, timestamp2, input2, keyRange, "input2")
 
         MaterialList left = store.select(jobName, timestamp1,
                 new MetadataPattern.Builder().build())
@@ -76,9 +82,10 @@ abstract class TextGridDifferBuilder {
      */
     private final void jsonifyAndStore(Store store,
                                        JobName jobName, JobTimestamp jobTimestamp,
-                                       List<List<String>> input, String inputId) {
-        jsonifyAndStoreRows(store, jobName, jobTimestamp, input, inputId)
-        jsonifyAndStoreKeys(store, jobName, jobTimestamp, input, inputId)
+                                       List<List<String>> input, Range<Integer> keyRange,
+                                       String inputId) {
+        jsonifyAndStoreRows(store, jobName, jobTimestamp, input, keyRange, inputId)
+        jsonifyAndStoreKeys(store, jobName, jobTimestamp, input, keyRange, inputId)
     }
 
     /*
@@ -86,14 +93,14 @@ abstract class TextGridDifferBuilder {
      */
     abstract void jsonifyAndStoreRows(
             Store store, JobName jobName, JobTimestamp jobTimestamp,
-            List<List<String>> input, String inputId)
+            List<List<String>> input, Range<Integer> keyRange, String inputId)
 
     /*
      *
      */
     abstract void jsonifyAndStoreKeys(
             Store store, JobName jobName, JobTimestamp jobTimestamp,
-            List<List<String>> input, String inputId)
+            List<List<String>> input, Range<Integer> keyRange, String inputId)
 
 
     /*

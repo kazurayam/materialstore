@@ -26,9 +26,10 @@ class DefaultTextGridDiffer extends TextGridDifferBuilder {
      */
     @Override
     void jsonifyAndStoreRows(Store store, JobName jobName, JobTimestamp jobTimestamp,
-                             List<List<String>> input, String inputId) {
+                             List<List<String>> input, Range<Integer> keyRange,
+                             String inputId) {
         List<String> lines = input.stream()
-                .map({ List<String> list -> new Row(list, 0..0) })
+                .map({ List<String> list -> new Row(list, keyRange) })
                 .map({ Row row -> row.values().toJson() })
                 .collect(Collectors.toList())
         //
@@ -43,9 +44,10 @@ class DefaultTextGridDiffer extends TextGridDifferBuilder {
 
     @Override
     void jsonifyAndStoreKeys(Store store, JobName jobName, JobTimestamp jobTimestamp,
-                             List<List<String>> input, String inputId) {
+                             List<List<String>> input, Range<Integer> keyRange,
+                             String inputId) {
         Set<String> keys = input.stream()
-                .map({ List<String> list -> new Row(list, 0..1) })
+                .map({ List<String> list -> new Row(list, keyRange) })
                 .map({ Row row -> row.key().toJson() })
                 .collect(Collectors.toSet() )
         List<String> lines = new ArrayList<>(keys)
