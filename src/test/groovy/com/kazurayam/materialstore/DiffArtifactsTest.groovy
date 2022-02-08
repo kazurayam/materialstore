@@ -66,6 +66,14 @@ class DiffArtifactsTest {
     }
 
     @Test
+    void test_setter_getter_IdentifyMetadataValues() {
+        IdentifyMetadataValues imv = IdentifyMetadataValues.by(["URL.query":"\\w{32}"])
+        diffArtifacts.setIdentifyMetadataValues(imv)
+        IdentifyMetadataValues result = diffArtifacts.getIdentifyMetadataValues()
+        assertEquals(imv, result)
+    }
+
+    @Test
     void test_setter_getter_IgnoringMetadataKeys() {
         diffArtifacts.setIgnoringMetadataKeys(IgnoringMetadataKeys.NULL_OBJECT)
         IgnoringMetadataKeys ignoringMetadataKeys = diffArtifacts.getIgnoringMetadataKeys()

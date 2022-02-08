@@ -4,6 +4,7 @@ package com.kazurayam.materialstore
 import groovy.json.JsonOutput
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import javax.imageio.ImageIO
@@ -28,6 +29,9 @@ class StoreImplTest {
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
 
+    Path root
+    Store store
+
     @BeforeAll
     static void beforeAll() {
         if (Files.exists(outputDir)) {
@@ -36,14 +40,17 @@ class StoreImplTest {
         Files.createDirectories(outputDir)
     }
 
+    @BeforeEach
+    void setup() {
+        root = outputDir.resolve("store")
+        store = new StoreImpl(root)
+    }
+
     @Test
     void test_deleteMaterialsOlderThanExclusive() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_deleteMaterialsOlderThanExclusive")
         TestFixtureUtil.setupFixture(store, jobName)
         //
-
         JobTimestamp latestTimestamp = new JobTimestamp("20210715_145922")
         int deletedFiles = store.deleteMaterialsOlderThanExclusive(jobName,
                 latestTimestamp, 0L, ChronoUnit.DAYS)
@@ -60,8 +67,6 @@ class StoreImplTest {
 
     @Test
     void test_findAllJobTimestamps() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_findAllJobTimestamps")
         TestFixtureUtil.setupFixture(store, jobName)
         //
@@ -74,8 +79,6 @@ class StoreImplTest {
 
     @Test
     void test_findAllJobTimestampsPriorTo() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_findAllJobTimestampsPriorTo")
         TestFixtureUtil.setupFixture(store, jobName)
         //
@@ -88,8 +91,6 @@ class StoreImplTest {
 
     @Test
     void test_findJobbersOf_JobName() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_getCachedJob")
         // make sure the Job directory to be empty
         FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
@@ -104,8 +105,6 @@ class StoreImplTest {
 
     @Test
     void test_findJobTimestampPriorTo() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_findLatestJobTimestamp")
         TestFixtureUtil.setupFixture(store, jobName)
         //
@@ -118,8 +117,6 @@ class StoreImplTest {
 
     @Test
     void test_findLatestJobTimestamp() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_findLatestJobTimestamp")
         TestFixtureUtil.setupFixture(store, jobName)
         //
@@ -134,8 +131,6 @@ class StoreImplTest {
      */
     @Test
     void test_getCachedJob() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_getCachedJob")
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
         // make sure the Job directory to be empty
@@ -156,8 +151,6 @@ class StoreImplTest {
 
     @Test
     void test_getJobResult() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_getJob")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber job = store.getJobber(jobName, jobTimestamp)
@@ -167,29 +160,23 @@ class StoreImplTest {
 
     @Test
     void test_getPathOf() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_getAbsolutePathOf")
         TestFixtureUtil.setupFixture(store, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         MaterialList materialList = store.select(jobName, jobTimestamp, MetadataPattern.ANY)
-        Path abs = store.getPathOf(materialList.get(0));
+        Path abs = store.getPathOf(materialList.get(0))
         assertNotNull(abs)
         println abs.toString()
     }
 
     @Test
     void test_getRoot() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         assertTrue(Files.exists(store.getRoot()), "${root} is not present")
-        assertEquals("Materials", store.getRoot().getFileName().toString())
+        assertEquals("store", store.getRoot().getFileName().toString())
     }
 
     @Test
     void test_reportMaterials() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_reportMaterials")
         TestFixtureUtil.setupFixture(store, jobName)
         //
@@ -202,8 +189,6 @@ class StoreImplTest {
 
     @Test
     void test_select_2_files_in_4() {
-        Path root = outputDir.resolve("store")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_select_2_files_in_4")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Path input = imagesDir.resolve("20210710_142631.development.png")
@@ -219,16 +204,14 @@ class StoreImplTest {
         }
         // select 2 members amongst 4 by matching "city" with a Regular Expression `To.*`
         MaterialList selected = store.select(jobName, jobTimestamp,
-                MetadataPattern.builderWithMap([
-                        "city": Pattern.compile("To.*")])
-                        .build());
+                MetadataPattern.builder()
+                        .put("city", Pattern.compile("To.*"))
+                        .build())
         assertEquals(2, selected.size())
     }
 
     @Test
     void test_select_with_FileType() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_select")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = Metadata.builderWithMap([
@@ -239,9 +222,9 @@ class StoreImplTest {
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
         //
-        MetadataPattern pattern = MetadataPattern.builderWithMap([
-                "profile": Pattern.compile(".*"),
-                "URL": Pattern.compile(".*")])
+        MetadataPattern pattern = MetadataPattern.builder()
+                .put("profile", Pattern.compile(".*"))
+                .put("URL", Pattern.compile(".*"))
                 .build()
         // select specifying FileType
         MaterialList materials = store.select(jobName, jobTimestamp, pattern, FileType.PNG)
@@ -251,8 +234,6 @@ class StoreImplTest {
 
     @Test
     void test_selectFile() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_selectFile")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = Metadata.builderWithMap([
@@ -263,9 +244,9 @@ class StoreImplTest {
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
         //
-        MetadataPattern pattern = MetadataPattern.builderWithMap([
-                "profile": Pattern.compile(".*"),
-                "URL": Pattern.compile(".*")])
+        MetadataPattern pattern = MetadataPattern.builder()
+                .put("profile", Pattern.compile(".*"))
+                .put("URL", Pattern.compile(".*"))
                 .build()
         // select specifying FileType
         File f = store.selectFile(jobName, jobTimestamp, pattern, FileType.PNG)
@@ -275,8 +256,6 @@ class StoreImplTest {
 
     @Test
     void test_write_BufferedImage() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_BufferedImage")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = Metadata.builderWithMap([
@@ -292,8 +271,6 @@ class StoreImplTest {
 
     @Test
     void test_write_File() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_file")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = Metadata.builderWithMap([
@@ -308,8 +285,6 @@ class StoreImplTest {
 
     @Test
     void test_write_Path() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_path")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = Metadata.builderWithMap([
@@ -324,8 +299,6 @@ class StoreImplTest {
 
     @Test
     void test_write_string() {
-        Path root = outputDir.resolve("Materials")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_write_String")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = Metadata.builderWithMap([
@@ -340,8 +313,6 @@ class StoreImplTest {
 
     @Test
     void test_zipMaterials() {
-        Path root = outputDir.resolve("store")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_zipMaterials")
         // make sure the Job directory to be empty
         FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
@@ -373,8 +344,12 @@ class StoreImplTest {
         assertEquals(2, rightList.size())
         //
         DiffArtifacts diffArtifacts =
-                store.zipMaterials(leftList, rightList,
-                        IgnoringMetadataKeys.of("profile", "URL", "URL.host", "category"))
+                store.zipMaterials(
+                        leftList, rightList,
+                        IgnoringMetadataKeys.of("profile", "URL", "URL.host", "category"),
+                        IdentifyMetadataValues.NULL_OBJECT,
+                        false
+                )
         assertNotNull(diffArtifacts)
         assertEquals(2, diffArtifacts.size(),
                 JsonOutput.prettyPrint(diffArtifacts.toString()))

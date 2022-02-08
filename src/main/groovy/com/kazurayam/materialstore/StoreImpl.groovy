@@ -62,7 +62,8 @@ final class StoreImpl implements Store {
                 Files.walk(dir)
                         .sorted(Comparator.reverseOrder())
                         .map {it.toFile() }
-                        .forEach {it.delete();
+                        .forEach {
+                            it.delete()
                             countDeleted += 1   // count the number of deleted files and directories
                         }
             }
@@ -108,7 +109,7 @@ final class StoreImpl implements Store {
         List<JobTimestamp> filtered =
                 all.stream()
                         .filter { JobTimestamp jt ->
-                            jt.compareTo(jobTimestamp) < 0
+                            (jt <=> jobTimestamp) < 0
                         }
                         .collect(Collectors.toList())
         Collections.reverse(filtered)
@@ -120,6 +121,7 @@ final class StoreImpl implements Store {
      * @param jobName
      * @return null if directory of the jobName does not exists
      */
+    // unused. should delete this?
     List<Jobber> findJobbersOf(JobName jobName) {
         Path jobNamePath = root_.resolve(jobName.toString())
         if (! Files.exists(jobNamePath)) {
@@ -218,9 +220,10 @@ final class StoreImpl implements Store {
         Objects.requireNonNull(left)
         Objects.requireNonNull(right)
         Objects.requireNonNull(ignoringMetadataKeys)
+        Objects.requireNonNull(identifyMetadataValues)
 
         DiffArtifacts diffArtifacts =
-                this.zipMaterials(left, right, ignoringMetadataKeys)
+                this.zipMaterials(left, right, ignoringMetadataKeys, identifyMetadataValues)
         assert diffArtifacts != null
 
         DifferDriver differDriver = new DifferDriverImpl.Builder(root_).build()
@@ -297,8 +300,8 @@ final class StoreImpl implements Store {
     Material write(JobName jobName, JobTimestamp jobTimestamp,
                    FileType fileType, Metadata meta, BufferedImage input) {
         Objects.requireNonNull(input)
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(input, fileType.extension, baos);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        ImageIO.write(input, fileType.extension, baos)
         byte[] data = baos.toByteArray()
         baos.close()
         return this.write(jobName, jobTimestamp, fileType, meta, data)
@@ -365,14 +368,18 @@ final class StoreImpl implements Store {
     DiffArtifacts zipMaterials(MaterialList leftList,
                                MaterialList rightList,
                                IgnoringMetadataKeys ignoringMetadataKeys,
+                               IdentifyMetadataValues identifyMetadataValues,
                                boolean verbose = false) {
         Objects.requireNonNull(leftList)
         Objects.requireNonNull(rightList)
         Objects.requireNonNull(ignoringMetadataKeys)
+        Objects.requireNonNull(identifyMetadataValues)
+        //
         DiffArtifacts diffArtifacts = new DiffArtifacts()
         diffArtifacts.setLeftMaterialList(leftList)
         diffArtifacts.setRightMaterialList(rightList)
         diffArtifacts.setIgnoringMetadataKeys(ignoringMetadataKeys)
+        diffArtifacts.setIdentifyMetadataValues(identifyMetadataValues)
         //
         rightList.each { Material right->
             FileType rightFileType = right.getIndexEntry().getFileType()
@@ -387,7 +394,9 @@ final class StoreImpl implements Store {
                 FileType leftFileType = left.getIndexEntry().getFileType()
                 Metadata leftMetadata = left.getIndexEntry().getMetadata()
                 if (leftFileType == rightFileType &&
-                        rightPattern.matches(leftMetadata)) {
+                        ( rightPattern.matches(leftMetadata) ||
+                                identifyMetadataValues.matches(leftMetadata) )
+                ) {
                     DiffArtifact da =
                             new DiffArtifact.Builder(left, right)
                                     .descriptor(rightPattern)
@@ -426,8 +435,10 @@ final class StoreImpl implements Store {
                 FileType rightFileType = right.getIndexEntry().getFileType()
                 Metadata rightMetadata = right.getIndexEntry().getMetadata()
                 if (rightFileType == leftFileType &&
-                        leftPattern.matches(rightMetadata)) {
-                    ; // this must have been found matched already; no need to create a DiffArtifact
+                        ( leftPattern.matches(rightMetadata) ||
+                                identifyMetadataValues.matches(rightMetadata) )
+                ) {
+                    // this must have been found matched already; no need to create a DiffArtifact
                     sb.append("right metadata: Y ${rightMetadata}\n")
                     foundRightCount += 1
                 } else {

@@ -58,12 +58,15 @@ class StoreImpl_makeDiffTest {
 
     /**
      * Issue #80
+     * test introducing the IdentifyMetadataValues class
      */
     @Test
     void test_makeDiff() {
         Double criteria = 0.0d
         DiffArtifacts stuffedDiffArtifacts =
-                store.makeDiff(left, right, IgnoringMetadataKeys.of("profile", "URL.host"))
+                store.makeDiff(left, right,
+                        IgnoringMetadataKeys.of("profile", "URL.host"),
+                        IdentifyMetadataValues.by(["URL.query":"\\w{32}"]))
         int warnings = stuffedDiffArtifacts.countWarnings(criteria)
         // compile the report
         Path reportFile =

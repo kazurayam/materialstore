@@ -17,18 +17,8 @@ class IdentifyMetadataValuesImpl extends IdentifyMetadataValues {
     }
 
     @Override
-    int size() {
-        return attributeNameRegexPairs.size()
-    }
-
-    @Override
     boolean containsKey(String key) {
         return attributeNameRegexPairs.containsKey(key)
-    }
-
-    @Override
-    Set<String> keySet() {
-        return attributeNameRegexPairs.keySet()
     }
 
     @Override
@@ -37,7 +27,26 @@ class IdentifyMetadataValuesImpl extends IdentifyMetadataValues {
     }
 
     @Override
-    boolean matches(String key, String value) {
+    Set<String> keySet() {
+        return attributeNameRegexPairs.keySet()
+    }
+
+    @Override
+    boolean matches(Metadata metadata) {
+        Objects.requireNonNull(metadata)
+        for (String key in keySet()) {
+            if (metadata.containsKey(key)) {
+                String value = metadata.get(key)
+                boolean attributeMatched = matchesWithAttributeOf(key, value)
+                if (attributeMatched) {
+                    return true
+                }
+            } // else next key
+        }
+        return false
+    }
+
+    boolean matchesWithAttributeOf(String key, String value) {
         Objects.requireNonNull(key)
         Objects.requireNonNull(value)
         Pattern pattern = get(key)
@@ -45,11 +54,17 @@ class IdentifyMetadataValuesImpl extends IdentifyMetadataValues {
             Matcher m = pattern.matcher(value)
             boolean b = m.matches()
             if (!b) {
-                logger.info("key=\"${key}\", value=\"${value}\" does not match with regex \"${pattern.toString()}\"")
+                logger.debug("key=\"${key}\", value=\"${value}\" does not match with regex \"${pattern.toString()}\"")
             }
             return b
         } else {
             return false
         }
     }
+
+    @Override
+    int size() {
+        return attributeNameRegexPairs.size()
+    }
+
 }

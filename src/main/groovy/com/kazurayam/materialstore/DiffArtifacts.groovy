@@ -14,6 +14,7 @@ final class DiffArtifacts {
     private MaterialList leftMaterialList = MaterialList.NULL_OBJECT
     private MaterialList rightMaterialList = MaterialList.NULL_OBJECT
     private IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT
+    private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
 
     DiffArtifacts() {
         diffArtifacts = new ArrayList<DiffArtifact>()
@@ -36,6 +37,10 @@ final class DiffArtifacts {
         return diffArtifacts.get(index)
     }
 
+    IdentifyMetadataValues getIdentifyMetadataValues() {
+        return this.identifyMetadataValues
+    }
+
     IgnoringMetadataKeys getIgnoringMetadataKeys() {
         return this.ignoringMetadataKeys
     }
@@ -50,6 +55,10 @@ final class DiffArtifacts {
 
     Iterator<DiffArtifact> iterator() {
         return diffArtifacts.iterator()
+    }
+
+    void setIdentifyMetadataValues(IdentifyMetadataValues identifyMetadataValues) {
+        this.identifyMetadataValues = identifyMetadataValues
     }
 
     void setIgnoringMetadataKeys(IgnoringMetadataKeys ignoringMetadataKeys) {

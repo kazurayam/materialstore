@@ -87,10 +87,12 @@ abstract class MetadataPattern {
         Builder(Metadata source) {
             this(source, IgnoringMetadataKeys.NULL_OBJECT)
         }
-        Builder(Metadata source, IgnoringMetadataKeys ignoringMetadataKeys) {
+        Builder(Metadata source,
+                IgnoringMetadataKeys ignoringMetadataKeys) {
             this()
             Objects.requireNonNull(ignoringMetadataKeys)
             Objects.requireNonNull(source)
+            //
             source.keySet().each {key ->
                 MetadataPatternValue mpv = MetadataPatternValue.of((String)source.get(key))
                 if (!ignoringMetadataKeys.contains(key)) {
