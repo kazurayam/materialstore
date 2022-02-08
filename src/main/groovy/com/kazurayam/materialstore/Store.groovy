@@ -78,7 +78,9 @@ interface Store {
                    Charset charset)
 
     DiffArtifacts zipMaterials(MaterialList left, MaterialList right,
+                               IgnoringMetadataKeys ignoringMetadataKeys)
+
+    DiffArtifacts zipMaterials(MaterialList left, MaterialList right,
                                IgnoringMetadataKeys ignoringMetadataKeys,
-                               IdentifyMetadataValues identifyMetadataValues,
-                               boolean verbose)
+                               IdentifyMetadataValues identifyMetadataValues)
 }

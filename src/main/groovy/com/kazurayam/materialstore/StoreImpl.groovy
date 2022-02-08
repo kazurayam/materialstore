@@ -368,6 +368,23 @@ final class StoreImpl implements Store {
     DiffArtifacts zipMaterials(MaterialList leftList,
                                MaterialList rightList,
                                IgnoringMetadataKeys ignoringMetadataKeys,
+                               boolean verbose = false) {
+        return zipMaterials(leftList, rightList, ignoringMetadataKeys,
+                IdentifyMetadataValues.NULL_OBJECT,
+                verbose)
+    }
+
+        /**
+     *
+     * @param leftList
+     * @param rightList
+     * @param metadataKeys
+     * @return
+     */
+    @Override
+    DiffArtifacts zipMaterials(MaterialList leftList,
+                               MaterialList rightList,
+                               IgnoringMetadataKeys ignoringMetadataKeys,
                                IdentifyMetadataValues identifyMetadataValues,
                                boolean verbose = false) {
         Objects.requireNonNull(leftList)

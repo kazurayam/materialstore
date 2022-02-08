@@ -1,7 +1,5 @@
 package com.kazurayam.materialstore
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import groovy.json.JsonOutput
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
