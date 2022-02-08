@@ -40,193 +40,34 @@ final class StoreImpl implements Store {
     }
 
     @Override
-    Path getRoot() {
-        return root_
-    }
-
-    @Override
-    DiffArtifacts makeDiff(MaterialList left,
-                           MaterialList right,
-                           IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT) {
-        Objects.requireNonNull(left)
-        Objects.requireNonNull(right)
-        Objects.requireNonNull(ignoringMetadataKeys)
-
-        DiffArtifacts diffArtifacts =
-                this.zipMaterials(left, right, ignoringMetadataKeys)
-        assert diffArtifacts != null
-
-        DifferDriver differDriver = new DifferDriverImpl.Builder(root_).build()
-        DiffArtifacts stuffedDiffArtifacts =
-                differDriver.differentiate(diffArtifacts)
-
-        return stuffedDiffArtifacts
-    }
-
-    DiffReporter newReporter(JobName jobName) {
-        return new DiffArtifactsBasicReporter(root_, jobName)
-    }
-
-    @Override
-    Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, Double criteria, String fileName) {
-        DiffReporter reporter = this.newReporter(jobName)
-        reporter.setCriteria(criteria)
-        reporter.reportDiffs(diffArtifacts, fileName)
-        return root.resolve(fileName)
-    }
-
-    @Override
-    Path reportMaterials(JobName jobName, MaterialList materialList,
-                         String fileName = "list.html") {
-        Objects.requireNonNull(jobName)
-        Objects.requireNonNull(materialList)
-        Objects.requireNonNull(fileName)
-        MaterialsBasicReporter reporter =
-                new MaterialsBasicReporter(this.root, jobName)
-        return reporter.reportMaterials(materialList, fileName)
-    }
-
-
-    @Override
-    Material write(JobName jobName, JobTimestamp jobTimestamp,
-                   FileType fileType, Metadata meta, File input) {
-        Objects.requireNonNull(input)
-        assert input.exists()
-        FileInputStream fis = new FileInputStream(input)
-        byte[] data = toByteArray(fis)
-        fis.close()
-        return this.write(jobName, jobTimestamp, fileType, meta, data)
-    }
-
-    @Override
-    Material write(JobName jobName, JobTimestamp jobTimestamp,
-                   FileType fileType, Metadata meta, Path input) {
-        Objects.requireNonNull(input)
-        assert Files.exists(input)
-        FileInputStream fis = new FileInputStream(input.toFile())
-        byte[] data = toByteArray(fis)
-        fis.close()
-        return this.write(jobName, jobTimestamp, fileType, meta, data)
-    }
-
-
-    static byte[] toByteArray(InputStream inputStream) {
-        Objects.requireNonNull(inputStream)
-        byte[] buff = new byte[BUFFER_SIZE]
-        int bytesRead
-        ByteArrayOutputStream baos = new ByteArrayOutputStream()
-        while ((bytesRead = inputStream.read(buff)) != -1) {
-            baos.write(buff, 0, bytesRead)
-        }
-        inputStream.close()
-        return baos.toByteArray()
-    }
-
-
-    @Override
-    Material write(JobName jobName, JobTimestamp jobTimestamp,
-                   FileType fileType, Metadata meta, BufferedImage input) {
-        Objects.requireNonNull(input)
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(input, fileType.extension, baos);
-        byte[] data = baos.toByteArray()
-        baos.close()
-        return this.write(jobName, jobTimestamp, fileType, meta, data)
-    }
-
-
-    @Override
-    Material write(JobName jobName, JobTimestamp jobTimestamp,
-                   FileType fileType, Metadata meta, String input,
-                   Charset charset = StandardCharsets.UTF_8) {
-        Objects.requireNonNull(input)
-        ByteArrayOutputStream baos = new ByteArrayOutputStream()
-        Writer wrt = new BufferedWriter(
-                new OutputStreamWriter(baos, charset.name()))
-        wrt.write(input)
-        wrt.flush()
-        byte[] data = baos.toByteArray()
-        wrt.close()
-        return this.write(jobName, jobTimestamp, fileType, meta, data)
-    }
-
-    @Override
-    Material write(JobName jobName, JobTimestamp jobTimestamp,
-                   FileType fileType, Metadata meta, byte[] input) {
-        Objects.requireNonNull(root_)
+    int deleteMaterialsOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp,
+                                          long amountToSubtract, TemporalUnit unit) {
         Objects.requireNonNull(jobName)
         Objects.requireNonNull(jobTimestamp)
-        Objects.requireNonNull(meta)
-        Objects.requireNonNull(fileType)
-        Jobber jobber = this.getJobber(jobName, jobTimestamp)
-        return jobber.write(input, fileType, meta)
-    }
-
-
-    @Override
-    MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
-                          MetadataPattern metadataPattern, FileType fileType) {
-        Jobber jobber = this.getJobber(jobName, jobTimestamp)
-        return jobber.selectMaterials(metadataPattern, fileType)
-    }
-
-    @Override
-    MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
-                          MetadataPattern metadataPattern) {
-        Jobber jobber = this.getJobber(jobName, jobTimestamp)
-        return jobber.selectMaterials(metadataPattern)
-    }
-
-    @Override
-    File selectFile(JobName jobName, JobTimestamp jobTimestamp,
-                    MetadataPattern metadataPattern, FileType fileType) {
-        Jobber jobber = this.getJobber(jobName, jobTimestamp)
-        MaterialList materials = jobber.selectMaterials(metadataPattern, fileType)
-        if (materials.size() > 0) {
-            Material material = materials.get(0)
-            File f = material.toFile(root_)
-            return f
-        } else {
-            return null
+        if (amountToSubtract < 0) {
+            throw new IllegalArgumentException("amoutToSubtract(${amountToSubtract}) must not be a negative value < 0")
         }
-    }
-
-
-    /**
-     * return an instance of Job.
-     * if cached, return the found.
-     * if not cached, return the new one.
-     *
-     * @param jobName
-     * @param jobTimestamp
-     * @return
-     */
-    @Override
-    Jobber getJobber(JobName jobName, JobTimestamp jobTimestamp) {
-        Jobber jobber = getCachedJobber(jobName, jobTimestamp)
-        if (jobber != null) {
-            return jobber
-        } else {
-            Jobber newJob = new Jobber(root_, jobName, jobTimestamp)
-            // put the new Job object in the cache
-            jobberCache_.add(newJob)
-            return newJob
-        }
-    }
-
-
-    Jobber getCachedJobber(JobName jobName, JobTimestamp jobTimestamp) {
-        Jobber result = null
-        for (int i = 0; i < jobberCache_.size(); i++) {
-            Jobber cached = jobberCache_[i]
-            assert cached != null
-            if (cached.getJobName() == jobName &&
-                        cached.getJobTimestamp() == jobTimestamp) {
-                result = cached
-                break
+        Objects.requireNonNull(unit)
+        // calculate the base timestamp
+        JobTimestamp thanThisJobTimestamp = jobTimestamp.minus(amountToSubtract, unit)
+        // identify the JobTimestamp directories to be deleted
+        List<JobTimestamp> toBeDeleted = this.findAllJobTimestampsPriorTo(jobName, thanThisJobTimestamp)
+        // now delete files/directories
+        int countDeleted = 0
+        toBeDeleted.each { JobTimestamp jt ->
+            Path dir = root_.resolve(jobName.toString()).resolve(jt.toString())
+            // delete this directory recursively
+            if (Files.exists(dir)) {
+                // delete the directory to clear out using Java8 API
+                Files.walk(dir)
+                        .sorted(Comparator.reverseOrder())
+                        .map {it.toFile() }
+                        .forEach {it.delete();
+                            countDeleted += 1   // count the number of deleted files and directories
+                        }
             }
         }
-        return result
+        return countDeleted
     }
 
     /**
@@ -274,29 +115,6 @@ final class StoreImpl implements Store {
         return filtered
     }
 
-    @Override
-    JobTimestamp findLatestJobTimestamp(JobName jobName) throws MaterialstoreException {
-        Objects.requireNonNull(jobName)
-        List<JobTimestamp> all = findAllJobTimestamps(jobName)
-        if (all.size() > 0) {
-            return all.get(0)
-        } else {
-            return JobTimestamp.NULL_OBJECT
-        }
-    }
-
-    @Override
-    JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp) {
-        Objects.requireNonNull(jobName)
-        Objects.requireNonNull(jobTimestamp)
-        List<JobTimestamp> all = findAllJobTimestampsPriorTo(jobName, jobTimestamp)
-        if (all.size() > 0) {
-            return all.get(0)
-        } else {
-            return JobTimestamp.NULL_OBJECT
-        }
-    }
-
     /**
      *
      * @param jobName
@@ -314,6 +132,220 @@ final class StoreImpl implements Store {
                 .collect(Collectors.toList())
         return result
     }
+
+    @Override
+    JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp) {
+        Objects.requireNonNull(jobName)
+        Objects.requireNonNull(jobTimestamp)
+        List<JobTimestamp> all = findAllJobTimestampsPriorTo(jobName, jobTimestamp)
+        if (all.size() > 0) {
+            return all.get(0)
+        } else {
+            return JobTimestamp.NULL_OBJECT
+        }
+    }
+
+    @Override
+    JobTimestamp findLatestJobTimestamp(JobName jobName) throws MaterialstoreException {
+        Objects.requireNonNull(jobName)
+        List<JobTimestamp> all = findAllJobTimestamps(jobName)
+        if (all.size() > 0) {
+            return all.get(0)
+        } else {
+            return JobTimestamp.NULL_OBJECT
+        }
+    }
+
+    Jobber getCachedJobber(JobName jobName, JobTimestamp jobTimestamp) {
+        Jobber result = null
+        for (int i = 0; i < jobberCache_.size(); i++) {
+            Jobber cached = jobberCache_[i]
+            assert cached != null
+            if (cached.getJobName() == jobName &&
+                    cached.getJobTimestamp() == jobTimestamp) {
+                result = cached
+                break
+            }
+        }
+        return result
+    }
+
+/**
+ * return an instance of Job.
+ * if cached, return the found.
+ * if not cached, return the new one.
+ *
+ * @param jobName
+ * @param jobTimestamp
+ * @return
+ */
+    @Override
+    Jobber getJobber(JobName jobName, JobTimestamp jobTimestamp) {
+        Jobber jobber = getCachedJobber(jobName, jobTimestamp)
+        if (jobber != null) {
+            return jobber
+        } else {
+            Jobber newJob = new Jobber(root_, jobName, jobTimestamp)
+            // put the new Job object in the cache
+            jobberCache_.add(newJob)
+            return newJob
+        }
+    }
+
+    @Override
+    Path getPathOf(Material material) {
+        Objects.requireNonNull(material)
+        Path relativePath = material.getRelativePath()
+        return this.getRoot().resolve(relativePath)
+    }
+
+    @Override
+    Path getRoot() {
+        return root_
+    }
+
+    @Override
+    DiffArtifacts makeDiff(MaterialList left,
+                           MaterialList right,
+                           IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT) {
+        Objects.requireNonNull(left)
+        Objects.requireNonNull(right)
+        Objects.requireNonNull(ignoringMetadataKeys)
+
+        DiffArtifacts diffArtifacts =
+                this.zipMaterials(left, right, ignoringMetadataKeys)
+        assert diffArtifacts != null
+
+        DifferDriver differDriver = new DifferDriverImpl.Builder(root_).build()
+        DiffArtifacts stuffedDiffArtifacts =
+                differDriver.differentiate(diffArtifacts)
+
+        return stuffedDiffArtifacts
+    }
+
+    DiffReporter newReporter(JobName jobName) {
+        return new DiffArtifactsBasicReporter(root_, jobName)
+    }
+
+    @Override
+    Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, Double criteria, String fileName) {
+        DiffReporter reporter = this.newReporter(jobName)
+        reporter.setCriteria(criteria)
+        reporter.reportDiffs(diffArtifacts, fileName)
+        return root.resolve(fileName)
+    }
+
+    @Override
+    Path reportMaterials(JobName jobName, MaterialList materialList,
+                         String fileName = "list.html") {
+        Objects.requireNonNull(jobName)
+        Objects.requireNonNull(materialList)
+        Objects.requireNonNull(fileName)
+        MaterialsBasicReporter reporter =
+                new MaterialsBasicReporter(this.root, jobName)
+        return reporter.reportMaterials(materialList, fileName)
+    }
+
+    @Override
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
+                        MetadataPattern metadataPattern, FileType fileType) {
+        Jobber jobber = this.getJobber(jobName, jobTimestamp)
+        return jobber.selectMaterials(metadataPattern, fileType)
+    }
+
+    @Override
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
+                        MetadataPattern metadataPattern) {
+        Jobber jobber = this.getJobber(jobName, jobTimestamp)
+        return jobber.selectMaterials(metadataPattern)
+    }
+
+    @Override
+    File selectFile(JobName jobName, JobTimestamp jobTimestamp,
+                    MetadataPattern metadataPattern, FileType fileType) {
+        Jobber jobber = this.getJobber(jobName, jobTimestamp)
+        MaterialList materials = jobber.selectMaterials(metadataPattern, fileType)
+        if (materials.size() > 0) {
+            Material material = materials.get(0)
+            File f = material.toFile(root_)
+            return f
+        } else {
+            return null
+        }
+    }
+
+    static byte[] toByteArray(InputStream inputStream) {
+        Objects.requireNonNull(inputStream)
+        byte[] buff = new byte[BUFFER_SIZE]
+        int bytesRead
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        while ((bytesRead = inputStream.read(buff)) != -1) {
+            baos.write(buff, 0, bytesRead)
+        }
+        inputStream.close()
+        return baos.toByteArray()
+    }
+
+    @Override
+    Material write(JobName jobName, JobTimestamp jobTimestamp,
+                   FileType fileType, Metadata meta, BufferedImage input) {
+        Objects.requireNonNull(input)
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(input, fileType.extension, baos);
+        byte[] data = baos.toByteArray()
+        baos.close()
+        return this.write(jobName, jobTimestamp, fileType, meta, data)
+    }
+
+    @Override
+    Material write(JobName jobName, JobTimestamp jobTimestamp,
+                   FileType fileType, Metadata meta, byte[] input) {
+        Objects.requireNonNull(root_)
+        Objects.requireNonNull(jobName)
+        Objects.requireNonNull(jobTimestamp)
+        Objects.requireNonNull(meta)
+        Objects.requireNonNull(fileType)
+        Jobber jobber = this.getJobber(jobName, jobTimestamp)
+        return jobber.write(input, fileType, meta)
+    }
+
+    @Override
+    Material write(JobName jobName, JobTimestamp jobTimestamp,
+                   FileType fileType, Metadata meta, File input) {
+        Objects.requireNonNull(input)
+        assert input.exists()
+        FileInputStream fis = new FileInputStream(input)
+        byte[] data = toByteArray(fis)
+        fis.close()
+        return this.write(jobName, jobTimestamp, fileType, meta, data)
+    }
+
+    @Override
+    Material write(JobName jobName, JobTimestamp jobTimestamp,
+                   FileType fileType, Metadata meta, Path input) {
+        Objects.requireNonNull(input)
+        assert Files.exists(input)
+        FileInputStream fis = new FileInputStream(input.toFile())
+        byte[] data = toByteArray(fis)
+        fis.close()
+        return this.write(jobName, jobTimestamp, fileType, meta, data)
+    }
+
+    @Override
+    Material write(JobName jobName, JobTimestamp jobTimestamp,
+                   FileType fileType, Metadata meta, String input,
+                   Charset charset = StandardCharsets.UTF_8) {
+        Objects.requireNonNull(input)
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        Writer wrt = new BufferedWriter(
+                new OutputStreamWriter(baos, charset.name()))
+        wrt.write(input)
+        wrt.flush()
+        byte[] data = baos.toByteArray()
+        wrt.close()
+        return this.write(jobName, jobTimestamp, fileType, meta, data)
+    }
+
 
     /**
      *
@@ -411,43 +443,5 @@ final class StoreImpl implements Store {
         //
         diffArtifacts.sort()
         return diffArtifacts
-    }
-
-    @Override
-    int deleteMaterialsOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp,
-                                          long amountToSubtract, TemporalUnit unit) {
-        Objects.requireNonNull(jobName)
-        Objects.requireNonNull(jobTimestamp)
-        if (amountToSubtract < 0) {
-            throw new IllegalArgumentException("amoutToSubtract(${amountToSubtract}) must not be a negative value < 0")
-        }
-        Objects.requireNonNull(unit)
-        // calculate the base timestamp
-        JobTimestamp thanThisJobTimestamp = jobTimestamp.minus(amountToSubtract, unit)
-        // identify the JobTimestamp directories to be deleted
-        List<JobTimestamp> toBeDeleted = this.findAllJobTimestampsPriorTo(jobName, thanThisJobTimestamp)
-        // now delete files/directories
-        int countDeleted = 0
-        toBeDeleted.each { JobTimestamp jt ->
-            Path dir = root_.resolve(jobName.toString()).resolve(jt.toString())
-            // delete this directory recursively
-            if (Files.exists(dir)) {
-                // delete the directory to clear out using Java8 API
-                Files.walk(dir)
-                        .sorted(Comparator.reverseOrder())
-                        .map {it.toFile() }
-                        .forEach {it.delete();
-                            countDeleted += 1   // count the number of deleted files and directories
-                        }
-            }
-        }
-        return countDeleted
-    }
-
-    @Override
-    Path getPathOf(Material material) {
-        Objects.requireNonNull(material)
-        Path relativePath = material.getRelativePath()
-        return this.getRoot().resolve(relativePath)
     }
 }
