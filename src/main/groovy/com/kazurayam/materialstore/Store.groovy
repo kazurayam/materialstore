@@ -31,18 +31,11 @@ interface Store {
 
     Path getRoot()
 
-
-    DiffArtifacts makeDiff(MaterialList left, MaterialList right)
-
-    DiffArtifacts makeDiff(MaterialList left, MaterialList right,
-                           IgnoringMetadataKeys ignoringMetadataKeys)
-
-    DiffArtifacts makeDiff(MaterialList left, MaterialList right,
-                           IdentifyMetadataValues identifyMetadataValues)
-
     DiffArtifacts makeDiff(MaterialList left, MaterialList right,
                            IgnoringMetadataKeys ignoringMetadataKeys,
                            IdentifyMetadataValues identifyMetadataValues)
+
+    DiffReporter newReporter(JobName jobName)
 
     Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, Double criteria, String fileName)
 

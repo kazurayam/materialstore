@@ -1,11 +1,11 @@
 package com.kazurayam.materialstore.textgrid
 
-
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
 import com.kazurayam.materialstore.DiffArtifacts
+import com.kazurayam.materialstore.IdentifyMetadataValues
 import com.kazurayam.materialstore.IgnoringMetadataKeys
 import com.kazurayam.materialstore.JobName
 import com.kazurayam.materialstore.JobTimestamp
@@ -67,7 +67,8 @@ abstract class TextGridDifferBuilder {
                 new MetadataPattern.Builder().build())
         double criteria = 0.0d
 
-        DiffArtifacts stuffedDiffArtifacts = store.makeDiff(left, right, IgnoringMetadataKeys.of("input"))
+        DiffArtifacts stuffedDiffArtifacts = store.makeDiff(left, right,
+                IgnoringMetadataKeys.of("input"), IdentifyMetadataValues.NULL_OBJECT)
         int warnings = stuffedDiffArtifacts.countWarnings(criteria)
 
         reportFile = store.reportDiffs(jobName, stuffedDiffArtifacts, criteria, jobName.toString() + "-index.html")

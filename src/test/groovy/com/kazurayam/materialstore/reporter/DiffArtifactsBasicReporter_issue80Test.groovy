@@ -1,0 +1,112 @@
+package com.kazurayam.materialstore.reporter
+
+import com.kazurayam.materialstore.DiffArtifacts
+import com.kazurayam.materialstore.DiffReporter
+import com.kazurayam.materialstore.IdentifyMetadataValues
+import com.kazurayam.materialstore.IgnoringMetadataKeys
+import com.kazurayam.materialstore.JobName
+import com.kazurayam.materialstore.JobTimestamp
+import com.kazurayam.materialstore.MaterialList
+import com.kazurayam.materialstore.MetadataPattern
+import com.kazurayam.materialstore.Store
+import com.kazurayam.materialstore.Stores
+import org.apache.commons.io.FileUtils
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
+
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
+
+import static org.junit.jupiter.api.Assertions.assertTrue
+
+class DiffArtifactsBasicReporter_issue80Test {
+
+    static final Path fixtureDir = Paths.get(".")
+            .resolve("src/test/resources/fixture/issue#80")
+    static final Path outputDir = Paths.get(".")
+            .resolve("build/tmp/testOutput")
+            .resolve(DiffArtifactsBasicReporter_issue80Test.class.getName())
+
+    static Store store
+    static final JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
+    static final JobTimestamp timestampP = new JobTimestamp("20220128_191320")
+    static final JobTimestamp timestampD = new JobTimestamp("20220128_191342")
+
+    static final String leftUrl = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+    static final String rightUrl = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3-rc1/dist/js/bootstrap.bundle.min.js"
+
+    MaterialList left
+    MaterialList right
+
+    @BeforeAll
+    static void beforeAll() {
+        if (Files.exists(outputDir)) {
+            outputDir.toFile().deleteDir()
+        }
+        Files.createDirectories(outputDir)
+        Path storePath = outputDir.resolve("store")
+        FileUtils.copyDirectory(fixtureDir.toFile(), storePath.toFile())
+        store = Stores.newInstance(storePath)
+    }
+
+    @BeforeEach
+    void beforeEach() {
+        left = store.select(jobName, timestampP,
+                MetadataPattern.builderWithMap(["profile": "MyAdmin_ProductionEnv"]).build()
+        )
+        assert left.size() == 8
+        right = store.select(jobName, timestampD,
+                MetadataPattern.builderWithMap(["profile": "MyAdmin_DevelopmentEnv"]).build()
+        )
+        assert right.size() == 8
+    }
+
+    /**
+     * Issue #80
+     *
+     */
+    @Test
+    void test_reportDiffs() {
+        // pick up the materials that belongs to the 2 "profiles"
+        String profile1 = "MyAdmin_ProductionEnv"
+        MaterialList left = store.select(jobName, timestampP,
+                MetadataPattern.builderWithMap(["profile": profile1]).build()
+        )
+
+        String profile2 = "MyAdmin_DevelopmentEnv"
+        MaterialList right = store.select(jobName, timestampD,
+                MetadataPattern.builderWithMap(["profile": profile2]).build()
+        )
+
+        // make diff of the 2 MaterialList objects
+        // make diff
+        DiffArtifacts stuffedDiffArtifacts =
+                store.makeDiff(left, right,
+                        IgnoringMetadataKeys.of("profile", "URL", "URL.host"),
+                        IdentifyMetadataValues.by(["URL.query": "\\w{32}"]))
+
+        // compile HTML report
+        DiffReporter reporter = store.newReporter(jobName)
+        Path report = reporter.reportDiffs(stuffedDiffArtifacts, "index.html")
+        assertTrue(Files.exists(report))
+
+        // test the report content
+        String reportText = report.toFile().text
+
+        // make sure the HTML contains a string "class='ignoring-key'"
+        assertTrue(reportText.contains("class=\'ignoring-key\'"),
+                "expected \'class=\"identified-value\"\' in the report but not found")
+
+        // make sure the HTML contains a string "class='matched-value'"
+        assertTrue(reportText.contains("class=\'matched-value\'"),
+                "expected \'class=\"matched-value\"\' in the report but not found")
+
+        // make sure the HTML contains a string "class='identified-value'"
+        assertTrue(reportText.contains("class=\'identified-value\'"),
+                "expected a string \'class=\"identified-value\"\' in the report but not found")
+    }
+
+
+}

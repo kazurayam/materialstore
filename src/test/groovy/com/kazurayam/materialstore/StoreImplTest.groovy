@@ -347,9 +347,7 @@ class StoreImplTest {
                 store.zipMaterials(
                         leftList, rightList,
                         IgnoringMetadataKeys.of("profile", "URL", "URL.host", "category"),
-                        IdentifyMetadataValues.NULL_OBJECT,
-                        false
-                )
+                        IdentifyMetadataValues.NULL_OBJECT)
         assertNotNull(diffArtifacts)
         assertEquals(2, diffArtifacts.size(),
                 JsonOutput.prettyPrint(diffArtifacts.toString()))

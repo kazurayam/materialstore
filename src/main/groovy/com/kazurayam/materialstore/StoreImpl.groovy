@@ -27,6 +27,8 @@ final class StoreImpl implements Store {
 
     public static final String ROOT_DIRECTORY_NAME = "store"
 
+    private boolean verbose = false
+
     StoreImpl() {
         this(Paths.get(ROOT_DIRECTORY_NAME))
     }
@@ -37,6 +39,15 @@ final class StoreImpl implements Store {
         Files.createDirectories(root)
         this.root_ = root
         this.jobberCache_ = new HashSet<Jobber>()
+    }
+
+    /**
+     * initially verbose is set to false. it can be changed.
+     *
+     * @param verbose
+     */
+    void setVerbose(boolean verbose) {
+        this.verbose = verbose
     }
 
     @Override
@@ -207,15 +218,10 @@ final class StoreImpl implements Store {
     }
 
     @Override
-    DiffArtifacts makeDiff(MaterialList left, MaterialList right, IdentifyMetadataValues identifyMetadataValues) {
-        return makeDiff(left, right, IgnoringMetadataKeys.NULL_OBJECT, identifyMetadataValues)
-    }
-
-    @Override
     DiffArtifacts makeDiff(MaterialList left,
                            MaterialList right,
-                           IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT,
-                           IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT)
+                           IgnoringMetadataKeys ignoringMetadataKeys,
+                           IdentifyMetadataValues identifyMetadataValues)
     {
         Objects.requireNonNull(left)
         Objects.requireNonNull(right)
@@ -233,6 +239,7 @@ final class StoreImpl implements Store {
         return stuffedDiffArtifacts
     }
 
+    @Override
     DiffReporter newReporter(JobName jobName) {
         return new DiffArtifactsBasicReporter(root_, jobName)
     }
@@ -367,14 +374,12 @@ final class StoreImpl implements Store {
     @Override
     DiffArtifacts zipMaterials(MaterialList leftList,
                                MaterialList rightList,
-                               IgnoringMetadataKeys ignoringMetadataKeys,
-                               boolean verbose = false) {
+                               IgnoringMetadataKeys ignoringMetadataKeys) {
         return zipMaterials(leftList, rightList, ignoringMetadataKeys,
-                IdentifyMetadataValues.NULL_OBJECT,
-                verbose)
+                IdentifyMetadataValues.NULL_OBJECT)
     }
 
-        /**
+    /**
      *
      * @param leftList
      * @param rightList
@@ -385,8 +390,7 @@ final class StoreImpl implements Store {
     DiffArtifacts zipMaterials(MaterialList leftList,
                                MaterialList rightList,
                                IgnoringMetadataKeys ignoringMetadataKeys,
-                               IdentifyMetadataValues identifyMetadataValues,
-                               boolean verbose = false) {
+                               IdentifyMetadataValues identifyMetadataValues) {
         Objects.requireNonNull(leftList)
         Objects.requireNonNull(rightList)
         Objects.requireNonNull(ignoringMetadataKeys)
@@ -470,7 +474,7 @@ final class StoreImpl implements Store {
                 diffArtifacts.add(da)
             }
             if (foundRightCount == 0 || foundRightCount >= 2) {
-                if (verbose) {
+                if (this.verbose) {
                     logger.warn(sb.toString())
                 }
             }

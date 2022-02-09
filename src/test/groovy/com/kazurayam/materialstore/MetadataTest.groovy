@@ -12,6 +12,16 @@ import java.util.regex.Pattern
 class MetadataTest {
 
     @Test
+    void test_Builder_putAll() {
+        URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
+        Map<String, String> additionalMetadata = ["summer":"warm", "winter":"cold"]
+        Metadata metadata = Metadata.builderWithUrl(url).putAll(additionalMetadata).build()
+        assertNotNull(metadata)
+        assertEquals("warm", metadata.get("summer"))
+        assertEquals("cold", metadata.get("winter"))
+    }
+
+    @Test
     void test_Builder_with_URL_as_arg() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
         Metadata metadata = Metadata.builderWithUrl(url).build()
@@ -41,25 +51,6 @@ class MetadataTest {
     }
 
     @Test
-    void test_Builder_putAll() {
-        URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
-        Map<String, String> additionalMetadata = ["summer":"warm", "winter":"cold"]
-        Metadata metadata = Metadata.builderWithUrl(url).putAll(additionalMetadata).build()
-        assertNotNull(metadata)
-        assertEquals("warm", metadata.get("summer"))
-        assertEquals("cold", metadata.get("winter"))
-    }
-
-
-    @Test
-    void test_constructor() {
-        Metadata metadata = Metadata.builderWithMap([
-                "profile":"ProductionEnv"])
-                .build()
-        assertEquals("ProductionEnv", metadata.get("profile"))
-    }
-
-    @Test
     void test_compareTo_equals() {
         Metadata metadata1 = Metadata.builderWithMap(["profile":"X"]).build()
         Metadata metadata2 = Metadata.builderWithMap(["profile":"X"]).build()
@@ -80,6 +71,13 @@ class MetadataTest {
         assertEquals(1, metadata1 <=> metadata2)
     }
 
+    @Test
+    void test_constructor() {
+        Metadata metadata = Metadata.builderWithMap([
+                "profile":"ProductionEnv"])
+                .build()
+        assertEquals("ProductionEnv", metadata.get("profile"))
+    }
 
     @Test
     void test_containsKey() {
@@ -120,11 +118,92 @@ class MetadataTest {
         assertTrue(keySet.contains("profile"))
     }
 
+    @Test
+    void test_parseURLQuery() {
+        String query = "q=katalon&dfe=piiipfe&cxw=fcfw"
+        List<NameValuePair> pairs = Metadata.parseURLQuery(query)
+        assertTrue(pairs.stream()
+                .filter({nvp -> nvp.getName() == "q"})
+                .collect(Collectors.toList())
+                .size() > 0
+        )
+        assertEquals(["katalon"],
+                pairs.stream()
+                        .filter({ nvp -> nvp.getName() == "q" })
+                        .map({nvp -> nvp.getValue()})
+                        .collect(Collectors.toList())
+        )
+    }
 
     @Test
     void test_size() {
         Metadata metadata = Metadata.builderWithMap(["key": "value"]).build()
         assertEquals(1, metadata.size())
+    }
+
+    @Test
+    void test_toSpanSequence_dual_MetadataPatterns_with_IdentifyMetadataValues() {
+        URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
+        Metadata metadata = Metadata.builderWithUrl(url)
+                .put("profile", "ProductionEnv")
+                .build()
+        MetadataPattern leftMetadataPattern = MetadataPattern.builder()
+                .put("profile", "ProductionEnv").build()
+        MetadataPattern rightMetadataPattern = MetadataPattern.builder()
+                .put("URL.host", "baeldung.com").build()
+        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT
+        IdentifyMetadataValues identifyMetadataValues =
+                IdentifyMetadataValues.by(["URL.query": "topic=java&version=8"])
+        StringWriter sw = new StringWriter()
+        MarkupBuilder mb = new MarkupBuilder(sw)
+        metadata.toSpanSequence(mb, leftMetadataPattern, rightMetadataPattern,
+                ignoringMetadataKeys, identifyMetadataValues)
+        String str = sw.toString()
+        assertNotNull(str)
+        println str
+        assertTrue(str.contains("matched-value"))
+        assertTrue(str.contains("identified-value"))
+    }
+
+    @Test
+    void test_toSpanSequence_dual_MetadataPatterns_with_IgnoringMetadataKeys() {
+        URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
+        Metadata metadata = Metadata.builderWithUrl(url)
+                .put("profile", "ProductionEnv")
+                .build()
+        MetadataPattern leftMetadataPattern = MetadataPattern.builder()
+                .put("profile", "ProductionEnv").build()
+        MetadataPattern rightMetadataPattern = MetadataPattern.builder()
+                .put("URL.host", "baeldung.com").build()
+        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.of("URL.protocol")
+        IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
+        StringWriter sw = new StringWriter()
+        MarkupBuilder mb = new MarkupBuilder(sw)
+        metadata.toSpanSequence(mb, leftMetadataPattern, rightMetadataPattern,
+                ignoringMetadataKeys, identifyMetadataValues)
+        String str = sw.toString()
+        assertNotNull(str)
+        println str
+        assertTrue(str.contains("matched-value"))
+        assertTrue(str.contains("ignoring-key"))
+    }
+
+    @Test
+    void test_toSpanSequence_single_MetadataPattern() {
+        URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
+        Metadata metadata = Metadata.builderWithUrl(url)
+                .put("profile", "ProductionEnv")
+                .build()
+        MetadataPattern metadataPattern = MetadataPattern.builder()
+                .put("*", Pattern.compile(".*Env"))
+                .build()
+        StringWriter sw = new StringWriter()
+        MarkupBuilder mb = new MarkupBuilder(sw)
+        metadata.toSpanSequence(mb, metadataPattern)
+        String str = sw.toString()
+        assertNotNull(str)
+        println str
+        assertTrue(str.contains("matched-value"))
     }
 
     /**
@@ -152,24 +231,6 @@ class MetadataTest {
     }
 
     @Test
-    void test_parseURLQuery() {
-        String query = "q=katalon&dfe=piiipfe&cxw=fcfw"
-        List<NameValuePair> pairs = Metadata.parseURLQuery(query)
-        assertTrue(pairs.stream()
-                .filter({nvp -> nvp.getName() == "q"})
-                .collect(Collectors.toList())
-                .size() > 0
-        )
-        assertEquals(["katalon"],
-                pairs.stream()
-                .filter({ nvp -> nvp.getName() == "q" })
-                        .map({nvp -> nvp.getValue()})
-                        .collect(Collectors.toList())
-        )
-    }
-
-
-    @Test
     void test_toURL() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
         Metadata metadata = Metadata.builderWithUrl(url).build()
@@ -179,42 +240,4 @@ class MetadataTest {
         assertEquals(urlWithoutFragment, recreated)
     }
 
-    @Test
-    void test_toSpanSequence_single_MetadataPattern() {
-        URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
-        Metadata metadata = Metadata.builderWithUrl(url)
-                .put("profile", "ProductionEnv")
-                .build()
-        MetadataPattern metadataPattern = MetadataPattern.builder()
-                .put("*", Pattern.compile(".*Env"))
-                .build()
-        StringWriter sw = new StringWriter()
-        MarkupBuilder mb = new MarkupBuilder(sw)
-        metadata.toSpanSequence(mb, metadataPattern)
-        String str = sw.toString()
-        assertNotNull(str)
-        println str
-        assertTrue(str.contains("matched-value"))
-    }
-
-    @Test
-    void test_toSpanSequence_dual_MetadataPatterns() {
-        URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
-        Metadata metadata = Metadata.builderWithUrl(url)
-                .put("profile", "ProductionEnv")
-                .build()
-        MetadataPattern leftMetadataPattern = MetadataPattern.builder()
-                .put("profile", "ProductionEnv").build()
-        MetadataPattern rightMetadataPattern = MetadataPattern.builder()
-                .put("URL.host", "baeldung.com").build()
-        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.of("URL.protocol")
-        StringWriter sw = new StringWriter()
-        MarkupBuilder mb = new MarkupBuilder(sw)
-        metadata.toSpanSequence(mb, leftMetadataPattern, rightMetadataPattern, ignoringMetadataKeys)
-        String str = sw.toString()
-        assertNotNull(str)
-        println str
-        assertTrue(str.contains("matched-value"))
-        assertTrue(str.contains("ignoring-key"))
-    }
 }

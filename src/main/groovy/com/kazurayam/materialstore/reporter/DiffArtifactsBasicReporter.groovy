@@ -162,7 +162,9 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                                         Context context = new Context(
                                                 diffArtifacts.getLeftMaterialList().getMetadataPattern(),
                                                 diffArtifacts.getRightMaterialList().getMetadataPattern(),
-                                                diffArtifacts.getIgnoringMetadataKeys() )
+                                                diffArtifacts.getIgnoringMetadataKeys(),
+                                                diffArtifacts.getIdentifyMetadataValues()
+                                        )
                                         makeMaterialSubsection(mb, "left", da.getLeft(), context)
                                         makeMaterialSubsection(mb, "right", da.getRight(), context)
                                         makeMaterialSubsection(mb, "diff", da.getDiff(), context)
@@ -344,7 +346,8 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                             mb,
                             (MetadataPattern)context.getLeftMetadataPattern(),
                             (MetadataPattern)context.getRightMetadataPattern(),
-                            (IgnoringMetadataKeys)context.getIgnoringMetadataKeys()
+                            (IgnoringMetadataKeys)context.getIgnoringMetadataKeys(),
+                            (IdentifyMetadataValues)context.getIdentifyMetadataValues()
                     )
                 }
             }
@@ -369,11 +372,15 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
     class Context {
         private MetadataPattern left
         private MetadataPattern right
-        private IgnoringMetadataKeys keys
-        Context(MetadataPattern left, MetadataPattern right, IgnoringMetadataKeys keys) {
+        private IgnoringMetadataKeys ignoringMetadataKeys
+        private IdentifyMetadataValues identifyMetadataValues
+        Context(MetadataPattern left, MetadataPattern right,
+                IgnoringMetadataKeys ignoringMetadataKeys,
+                IdentifyMetadataValues identifyMetadataValues) {
             this.left = left
             this.right = right
-            this.keys = keys
+            this.ignoringMetadataKeys = ignoringMetadataKeys
+            this.identifyMetadataValues = identifyMetadataValues
         }
         MetadataPattern getLeftMetadataPattern() {
             return this.left
@@ -381,8 +388,11 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
         MetadataPattern getRightMetadataPattern() {
             return this.right
         }
+        IdentifyMetadataValues getIdentifyMetadataValues() {
+            return this.identifyMetadataValues
+        }
         IgnoringMetadataKeys getIgnoringMetadataKeys() {
-            return this.keys
+            return this.ignoringMetadataKeys
         }
     }
 }

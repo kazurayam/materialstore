@@ -62,6 +62,9 @@ class DiffArtifactsBasicReporterTest {
         assertTrue(Files.exists(report))
     }
 
+
+
+
     @Test
     void test_decideToBeWarned() {
         assertEquals(false, DiffArtifactsBasicReporter.decideToBeWarned(0.00d, 0.0d))

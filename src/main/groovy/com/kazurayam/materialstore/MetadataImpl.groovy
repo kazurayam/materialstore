@@ -97,11 +97,13 @@ final class MetadataImpl extends Metadata {
     void toSpanSequence(MarkupBuilder mb,
                         MetadataPattern leftMetadataPattern,
                         MetadataPattern rightMetadataPattern,
-                        IgnoringMetadataKeys ignoringMetadataKeys) {
+                        IgnoringMetadataKeys ignoringMetadataKeys,
+                        IdentifyMetadataValues identifyMetadataValues) {
         Objects.requireNonNull(mb)
         Objects.requireNonNull(leftMetadataPattern)
         Objects.requireNonNull(rightMetadataPattern)
         Objects.requireNonNull(ignoringMetadataKeys)
+        Objects.requireNonNull(identifyMetadataValues)
         int count = 0
         List<String> keys = new ArrayList<String>(metadata.keySet())
         Collections.sort(keys)
@@ -110,33 +112,54 @@ final class MetadataImpl extends Metadata {
             if (count > 0) {
                 mb.span(", ")
             }
+            // make the <span> of the "key" part of an attribute of Metadata
             if (ignoringMetadataKeys.contains(key)) {
                 mb.span(class: "ignoring-key", "\"${JsonUtil.escapeAsJsonString(key)}\":")
             } else {
                 mb.span("\"${JsonUtil.escapeAsJsonString(key)}\":")
             }
-            if (leftMetadataPattern.containsKey("*") &&
-                    leftMetadataPattern.get("*").matches(this.get(key))) {
-                mb.span(class: "matched-value",
-                        "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
-            } else if (leftMetadataPattern.containsKey(key) &&
-                    leftMetadataPattern.get(key).matches(this.get(key))) {
-                mb.span(class: "matched-value",
-                        "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
-            } else if (rightMetadataPattern.containsKey("*") &&
-                    rightMetadataPattern.get("*").matches(this.get(key))) {
-                mb.span(class: "matched-value",
-                        "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
-            } else if (rightMetadataPattern.containsKey(key) &&
-                    rightMetadataPattern.get(key).matches(this.get(key))) {
-                mb.span(class: "matched-value",
+            // make the <span> of the "value" part of an attribute of Metadata
+            String cssClass = getCSSClassName(
+                    leftMetadataPattern, rightMetadataPattern,
+                    key,
+                    identifyMetadataValues)
+            if (cssClass != null) {
+                mb.span(class: cssClass,
                         "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
             } else {
                 mb.span("\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
             }
+            //
             count += 1
         }
         mb.span("}")
+    }
+
+
+    private String getCSSClassName(MetadataPattern left, MetadataPattern right,
+                                   String key,
+                                   IdentifyMetadataValues identifyMetadataValues) {
+        boolean canBePaired = (
+                left.containsKey("*")  &&
+                        left.get("*").matches(this.get(key)) ||
+                left.containsKey(key)      &&
+                        left.get(key).matches(this.get(key)) ||
+                right.containsKey("*") &&
+                        right.get("*").matches(this.get(key)) ||
+                right.containsKey(key)     &&
+                        right.get(key).matches(this.get(key))        )
+
+        boolean canBeIdentified = (
+                identifyMetadataValues.containsKey(key) &&
+                identifyMetadataValues.matches(this)        )
+
+        if (canBePaired) {
+            return "matched-value"
+        } else if (canBeIdentified) {
+            return "identified-value"
+        } else {
+            return null
+        }
     }
 
     // ------- overriding java.lang.Object -------
