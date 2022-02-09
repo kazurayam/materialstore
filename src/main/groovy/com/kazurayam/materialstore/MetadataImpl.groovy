@@ -75,7 +75,7 @@ final class MetadataImpl extends Metadata {
             if (count > 0) {
                 mb.span(", ")
             }
-            mb.span("\"${JsonUtil.escapeAsJsonString(key)}\":")
+            mb.span("\"${JsonUtil.escapeAsJsonString(key)}\"" + ":")
             if (metadataPattern.containsKey("*") &&
                     metadataPattern.get("*").matches(this.get(key))) {
                 mb.span(class: "matched-value",
@@ -112,12 +112,14 @@ final class MetadataImpl extends Metadata {
             if (count > 0) {
                 mb.span(", ")
             }
+
             // make the <span> of the "key" part of an attribute of Metadata
             if (ignoringMetadataKeys.contains(key)) {
-                mb.span(class: "ignoring-key", "\"${JsonUtil.escapeAsJsonString(key)}\":")
+                mb.span(class: "ignoring-key", "\"${JsonUtil.escapeAsJsonString(key)}\"" + ":")
             } else {
-                mb.span("\"${JsonUtil.escapeAsJsonString(key)}\":")
+                mb.span("\"${JsonUtil.escapeAsJsonString(key)}\"" + ":")
             }
+
             // make the <span> of the "value" part of an attribute of Metadata
             String cssClass = getCSSClassName(
                     leftMetadataPattern, rightMetadataPattern,

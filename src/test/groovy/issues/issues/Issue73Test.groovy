@@ -1,6 +1,7 @@
 package issues.issues
 
 import com.kazurayam.materialstore.DiffArtifacts
+import com.kazurayam.materialstore.IdentifyMetadataValues
 import com.kazurayam.materialstore.IgnoringMetadataKeys
 import com.kazurayam.materialstore.JobName
 import com.kazurayam.materialstore.JobTimestamp
@@ -71,7 +72,10 @@ class Issue73Test {
     void test_smoke() {
         Double criteria = 0.0d
         DiffArtifacts stuffedDiffArtifacts =
-                store.makeDiff(left, right, IgnoringMetadataKeys.of("profile", "URL.host"))
+                store.makeDiff(left, right,
+                        IgnoringMetadataKeys.of("profile", "URL.host"),
+                        IdentifyMetadataValues.NULL_OBJECT
+                )
         int warnings = stuffedDiffArtifacts.countWarnings(criteria)
         // compile the report
         Path reportFile =

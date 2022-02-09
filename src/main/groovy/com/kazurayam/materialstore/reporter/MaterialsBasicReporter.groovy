@@ -2,6 +2,8 @@ package com.kazurayam.materialstore.reporter
 
 import com.kazurayam.materialstore.Diffability
 import com.kazurayam.materialstore.FileType
+import com.kazurayam.materialstore.IdentifyMetadataValues
+import com.kazurayam.materialstore.IgnoringMetadataKeys
 import com.kazurayam.materialstore.JobName
 import com.kazurayam.materialstore.Material
 import com.kazurayam.materialstore.MaterialList
@@ -147,7 +149,9 @@ final class MaterialsBasicReporter {
                 //
                 dt("Metadata")
                 dd() {
-                    material.getIndexEntry().getMetadata().toSpanSequence(mb, metadataPattern)
+                    material.getIndexEntry()
+                            .getMetadata()
+                            .toSpanSequence(mb, metadataPattern)
                 }
             }
             if (material.getDiffability() == Diffability.AS_IMAGE) {
