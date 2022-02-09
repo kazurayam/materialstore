@@ -75,14 +75,12 @@ final class MetadataImpl extends Metadata {
             if (count > 0) {
                 mb.span(", ")
             }
+            // make the <span> of the "key" part of an attribute of Metadata
             mb.span("\"${JsonUtil.escapeAsJsonString(key)}\"" + ":")
-            if (metadataPattern.containsKey("*") &&
-                    metadataPattern.get("*").matches(this.get(key))) {
-                mb.span(class: "matched-value",
-                        "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
-            } else if (metadataPattern.containsKey(key) &&
-                    this.containsKey(key) &&
-                    metadataPattern.get(key).matches(this.get(key))) {
+
+            // make the <span> of the "value" part of an attribute of Metadata
+            String cssClassName = getCSSClassNameSolo(metadataPattern, key)
+            if (cssClassName != null) {
                 mb.span(class: "matched-value",
                         "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
             } else {
@@ -92,6 +90,23 @@ final class MetadataImpl extends Metadata {
         }
         mb.span("}")
     }
+
+    private String getCSSClassNameSolo(MetadataPattern metadataPattern, String key) {
+        boolean matchesByAster = metadataPattern.containsKey("*") &&
+                metadataPattern.get("*").matches(this.get(key))
+
+        boolean matchesIndividually = metadataPattern.containsKey(key) &&
+                this.containsKey(key) &&
+                metadataPattern.get(key).matches(this.get(key))
+
+        if (matchesByAster || matchesIndividually) {
+            return "matched-value"
+        } else {
+            return null
+        }
+
+    }
+
 
     @Override
     void toSpanSequence(MarkupBuilder mb,
