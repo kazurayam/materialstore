@@ -81,13 +81,23 @@ final class DiffArtifacts {
         Collections.sort(diffArtifacts)
     }
 
+    List<MetadataPattern> getMetadataPatterns() {
+        List<MetadataPattern> list = new ArrayList<>()
+        diffArtifacts.each { DiffArtifact da ->
+            MetadataPattern mp = da.getDescriptor()
+            MetadataPattern deepCopy = new MetadataPattern.Builder(mp).build()
+            list.add(deepCopy)
+        }
+        return list
+    }
+
     //---------------------------------------------------------------
     @Override
     String toString() {
         StringBuilder sb = new StringBuilder()
         int count = 0
         sb.append("[")
-        diffArtifacts.each {DiffArtifact da ->
+        diffArtifacts.each { DiffArtifact da ->
             if (count > 0) sb.append(",")
             sb.append(da.toString())
             count += 1

@@ -124,6 +124,11 @@ class MetadataPatternValue implements Comparable {
             Objects.requireNonNull(valuePattern)
             this.valuePattern = valuePattern
         }
+        Builder(MetadataPatternValue source) {
+            Objects.requireNonNull(source)
+            this.valueString = source.valueString
+            this.valuePattern = source.valuePattern
+        }
         MetadataPatternValue build() {
             return new MetadataPatternValue(this)
         }

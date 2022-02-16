@@ -139,6 +139,8 @@ final class DiffArtifact implements Comparable {
             throw new IllegalArgumentException("obj is not instance of DiffResult")
         }
         DiffArtifact other = (DiffArtifact)obj
+
+        /*
         int comparisonOfLeft = this.getLeft() <=> other.getLeft()
         if (comparisonOfLeft == 0) {
             int comparisonOfRight = this.getRight() <=> other.getRight()
@@ -150,6 +152,9 @@ final class DiffArtifact implements Comparable {
         } else {
             return comparisonOfLeft
         }
+         */
+
+        return this.getDescriptor().toString() <=> other.getDescriptor().toString()
     }
 
     /**

@@ -100,6 +100,14 @@ abstract class MetadataPattern {
                 }
             }
         }
+        Builder(MetadataPattern source) {
+            this()
+            Objects.requireNonNull(source)
+            source.keySet().each {key ->
+                MetadataPatternValue mpv = new MetadataPatternValue.Builder(source.get(key)).build()
+                metadataPattern.put(key, mpv)
+            }
+        }
         Builder put(String key, String value) {
             metadataPattern.put(
                     key,
