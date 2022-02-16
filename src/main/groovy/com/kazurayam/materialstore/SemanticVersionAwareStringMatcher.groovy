@@ -15,7 +15,14 @@ class SemanticVersionAwareStringMatcher {
     private static final String REGEX_TRAILER = '(\\S*)'
     static final Pattern VERSIONED_PATH_PARSER = Pattern.compile(REGEX_HEADER + REGEX_VERSION + REGEX_TRAILER)
 
-    private SemanticVersionAwareStringMatcher() {}
+    private final String right;
+    private final Pattern pattern;
+
+    public SemanticVersionAwareStringMatcher(String right) {
+        Objects.requireNonNull(right);
+        this.right = right;
+        this.pattern = translatePathToRegex(right)
+    }
 
     /**
      * Compare the leftPath and the rightPath are similar.
@@ -32,23 +39,10 @@ class SemanticVersionAwareStringMatcher {
      * @param right
      * @return if left and right are identical, return true; otherwise false
      */
-    static final Boolean similar(String left, String right) {
+    public Matcher matcher(String left) {
         Objects.requireNonNull(left)
-        Objects.requireNonNull(right)
-        String regex = translatePathToRegex(right)
-
-        Pattern p = Pattern.compile(regex)
-        Matcher m = p.matcher(left)
-        Boolean result = m.matches()
-        /*
-        if (! result) {
-            logger.info("left   : ${left}")
-            logger.info("right  : ${right}")
-            logger.info("pattern: ${p.toString()}")
-            logger.info("result : ${result}")
-        }
-         */
-        return result
+        Matcher m = pattern.matcher(left)
+        return m
     }
 
     static final Pattern translatePathToRegex(String path) {

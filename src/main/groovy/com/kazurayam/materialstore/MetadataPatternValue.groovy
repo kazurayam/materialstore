@@ -3,6 +3,7 @@ package com.kazurayam.materialstore
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 class MetadataPatternValue implements Comparable {
@@ -44,7 +45,9 @@ class MetadataPatternValue implements Comparable {
             if (subject == valueString) {
                 return true
             } else {
-                return SemanticVersionAwareStringMatcher.similar(subject, valueString)
+                SemanticVersionAwareStringMatcher sm = new SemanticVersionAwareStringMatcher(valueString)
+                Matcher m = sm.matcher(subject)
+                return m.matches()
             }
         } else if (this.isPattern()) {
             return valuePattern.matcher(subject).matches()

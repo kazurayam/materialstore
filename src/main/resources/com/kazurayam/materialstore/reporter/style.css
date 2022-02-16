@@ -16,6 +16,9 @@
 .container .identified-value {
   background-color: #FA98FA;
 }
+.container .semantic-version {
+  border: #FA98FA solid;
+}
 .container .ignoring-key {
   background-color: #CCC;
 }

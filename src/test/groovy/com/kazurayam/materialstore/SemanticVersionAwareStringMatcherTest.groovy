@@ -40,8 +40,9 @@ class SemanticVersionAwareStringMatcherTest {
 
 
     @Test
-    void test_similar() {
-        assert SemanticVersionAwareStringMatcher.similar(left, right)
+    void test_matcher() {
+        Matcher m = new SemanticVersionAwareStringMatcher(right).matcher(left)
+        assert m.matches()
     }
 
     /**
@@ -49,8 +50,10 @@ class SemanticVersionAwareStringMatcherTest {
      */
     @Test
     void test_similar_edge_case() {
-        String str = "//a[@id='btn-make-appointment']"
-        assert SemanticVersionAwareStringMatcher.similar(str, str)
+        String strLeft = "//a[@id='btn-make-appointment']"
+        String strRight = strLeft
+        Matcher m = new SemanticVersionAwareStringMatcher(strRight).matcher(strLeft)
+        assert m.matches()
     }
 
     private List pathFixtures = [
