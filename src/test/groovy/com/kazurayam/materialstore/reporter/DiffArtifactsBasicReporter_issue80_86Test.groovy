@@ -114,8 +114,8 @@ class DiffArtifactsBasicReporter_issue80_86Test {
         // a string "span><span class='semantic-version'>1." and
         // a string ".0</span><span"
 
-        String s1 = "span><span class='semantic-version'>1.";
-        String s2 = ".0</span><span";
+        String s1 = "<span class='semantic-version'>1.";
+        String s2 = ".0</span>";
         assertTrue(reportText.contains(s1) && reportText.contains(s2),
                 String.format("expected \"%s\" and \"%s\" in the report but not found", s1, s2));
     }
