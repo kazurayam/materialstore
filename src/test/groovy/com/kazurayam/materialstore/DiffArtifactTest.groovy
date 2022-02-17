@@ -32,6 +32,27 @@ class DiffArtifactTest {
 
 
     @Test
+    void test_getDescription_more() {
+        MetadataPattern mp = MetadataPattern.builderWithMap([
+                "URL.path": "/",
+                "profile": "Flaskr_ProductionEnv",
+                "step":"6"
+        ]).build()
+        DiffArtifactComparisonPriorities comparisonPriorities =
+                new DiffArtifactComparisonPriorities("step", "profile")
+        DiffArtifact diffArtifact =
+                new DiffArtifact.Builder(
+                        Material.NULL_OBJECT,
+                        Material.NULL_OBJECT)
+                        .setMetadataPattern(mp)
+                        .setDiffArtifactComparisonPriorities(comparisonPriorities)
+                        .build()
+        String description = diffArtifact.getDescription()
+        assertEquals('''{"step":"6", "profile":"Flaskr_ProductionEnv", "URL.path":"/"}''',
+                description)
+    }
+
+    @Test
     void test_getDescription() {
         MetadataPattern mp = MetadataPattern.builderWithMap([
                 "URL.host": "demoaut-mimic.kazurayam.com",
@@ -41,7 +62,7 @@ class DiffArtifactTest {
                 new DiffArtifact.Builder(
                         Material.NULL_OBJECT,
                         Material.NULL_OBJECT)
-                        .descriptor(mp)
+                        .setMetadataPattern(mp)
                         .build()
         assertEquals(
                 '''{"URL.file":"/", "URL.host":"demoaut-mimic.kazurayam.com"}''',
@@ -58,10 +79,11 @@ class DiffArtifactTest {
                 new DiffArtifact.Builder(
                         Material.NULL_OBJECT,
                         Material.NULL_OBJECT)
-                        .descriptor(mp)
+                        .setMetadataPattern(mp)
                         .build()
         println JsonOutput.prettyPrint(diffArtifact.toString())
     }
+
     @Test
     void test_toString_alt() {
         Path root = outputDir.resolve("store")

@@ -48,7 +48,7 @@ class DiffArtifactsTest {
     void test_countWarnings() {
         DiffArtifact tmp =
                 new DiffArtifact.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT)
-                        .descriptor(MetadataPattern.NULL_OBJECT)
+                        .setMetadataPattern(MetadataPattern.NULL_OBJECT)
                         .build()
         tmp.setDiffRatio(45.0d)
         diffArtifacts.add(tmp)
@@ -102,7 +102,7 @@ class DiffArtifactsTest {
         assertTrue(s.contains("left"), s)
         assertTrue(s.contains("right"), s)
         assertTrue(s.contains("diff"), s)
-        assertTrue(s.contains("descriptor"), s)
+        assertTrue(s.contains("metadataPattern"), s)
         assertTrue(s.contains("diffRatio"), s)
     }
 

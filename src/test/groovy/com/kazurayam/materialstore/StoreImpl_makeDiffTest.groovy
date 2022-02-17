@@ -9,8 +9,6 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-import static org.jsoup.helper.Validate.fail
-
 /**
  * https://github.com/kazurayam/materialstore/issues/80
  */
@@ -66,7 +64,8 @@ class StoreImpl_makeDiffTest {
         DiffArtifacts stuffedDiffArtifacts =
                 store.makeDiff(left, right,
                         IgnoringMetadataKeys.of("profile", "URL.host"),
-                        IdentifyMetadataValues.by(["URL.query":"\\w{32}"]))
+                        IdentifyMetadataValues.by(["URL.query":"\\w{32}"]),
+                        DiffArtifactComparisonPriorities.NULL_OBJECT)
         int warnings = stuffedDiffArtifacts.countWarnings(criteria)
         // compile the report
         Path reportFile =

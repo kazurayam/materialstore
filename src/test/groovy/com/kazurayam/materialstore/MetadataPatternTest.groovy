@@ -56,6 +56,19 @@ class MetadataPatternTest {
     }
 
     @Test
+    void test_getDescription() {
+        MetadataPattern mp = MetadataPattern.builderWithMap([
+                "URL.path": "/",
+                "profile": "Flaskr_ProductionEnv",
+                "step":"6"
+        ]).build()
+        DiffArtifactComparisonPriorities orderArtifacts = new DiffArtifactComparisonPriorities("step", "profile")
+        String description = mp.getDescription(orderArtifacts)
+        assertEquals('''{"step":"6", "profile":"Flaskr_ProductionEnv", "URL.path":"/"}''',
+                description)
+    }
+
+    @Test
     void test_matches_ANY() {
         MetadataPattern metadataPattern = MetadataPattern.ANY
         Metadata metadata = Metadata.builderWithMap(["profile": "ProductionEnv"]).build()
