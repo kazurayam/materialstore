@@ -221,20 +221,36 @@ final class StoreImpl implements Store {
     DiffArtifacts makeDiff(MaterialList left,
                            MaterialList right,
                            IgnoringMetadataKeys ignoringMetadataKeys,
-                           IdentifyMetadataValues identifyMetadataValues)
+                           IdentifyMetadataValues identifyMetadataValues) {
+        return this.makeDiff(left, right,
+                ignoringMetadataKeys,
+                identifyMetadataValues,
+                DiffArtifactComparisonPriorities.getNULL_OBJECT())
+    }
+
+    @Override
+    DiffArtifacts makeDiff(MaterialList left,
+                           MaterialList right,
+                           IgnoringMetadataKeys ignoringMetadataKeys,
+                           IdentifyMetadataValues identifyMetadataValues,
+                           DiffArtifactComparisonPriorities comparisonPriorities)
     {
         Objects.requireNonNull(left)
         Objects.requireNonNull(right)
         Objects.requireNonNull(ignoringMetadataKeys)
         Objects.requireNonNull(identifyMetadataValues)
+        Objects.requireNonNull(comparisonPriorities)
 
         DiffArtifacts diffArtifacts =
-                this.zipMaterials(left, right, ignoringMetadataKeys, identifyMetadataValues)
+                this.zipMaterials(left, right,
+                        ignoringMetadataKeys, identifyMetadataValues, comparisonPriorities)
         assert diffArtifacts != null
 
         DifferDriver differDriver = new DifferDriverImpl.Builder(root_).build()
         DiffArtifacts stuffedDiffArtifacts =
                 differDriver.differentiate(diffArtifacts)
+
+        stuffedDiffArtifacts.sort()
 
         return stuffedDiffArtifacts
     }
@@ -376,7 +392,19 @@ final class StoreImpl implements Store {
                                MaterialList rightList,
                                IgnoringMetadataKeys ignoringMetadataKeys) {
         return zipMaterials(leftList, rightList, ignoringMetadataKeys,
-                IdentifyMetadataValues.NULL_OBJECT)
+                IdentifyMetadataValues.NULL_OBJECT,
+                DiffArtifactComparisonPriorities.NULL_OBJECT)
+    }
+
+    @Override
+    DiffArtifacts zipMaterials(MaterialList leftList,
+                               MaterialList rightList,
+                               IgnoringMetadataKeys ignoringMetadataKeys,
+                               IdentifyMetadataValues identifyMetadataValues) {
+        return zipMaterials(leftList, rightList,
+                ignoringMetadataKeys,
+                identifyMetadataValues,
+                DiffArtifactComparisonPriorities.NULL_OBJECT)
     }
 
     /**
@@ -390,11 +418,14 @@ final class StoreImpl implements Store {
     DiffArtifacts zipMaterials(MaterialList leftList,
                                MaterialList rightList,
                                IgnoringMetadataKeys ignoringMetadataKeys,
-                               IdentifyMetadataValues identifyMetadataValues) {
+                               IdentifyMetadataValues identifyMetadataValues,
+                               DiffArtifactComparisonPriorities comparisonPriorities) {
         Objects.requireNonNull(leftList)
         Objects.requireNonNull(rightList)
         Objects.requireNonNull(ignoringMetadataKeys)
         Objects.requireNonNull(identifyMetadataValues)
+        Objects.requireNonNull(comparisonPriorities)
+
         //
         DiffArtifacts diffArtifacts = new DiffArtifacts()
         diffArtifacts.setLeftMaterialList(leftList)
@@ -420,7 +451,8 @@ final class StoreImpl implements Store {
                 ) {
                     DiffArtifact da =
                             new DiffArtifact.Builder(left, right)
-                                    .descriptor(rightPattern)
+                                    .setMetadataPattern(rightPattern)
+                                    .setDiffArtifactComparisonPriorities(comparisonPriorities)
                                     .build()
                     diffArtifacts.add(da)
                     sb.append("left metadata: Y ${leftMetadata}\n")
@@ -432,7 +464,8 @@ final class StoreImpl implements Store {
             if (foundLeftCount == 0) {
                 DiffArtifact da =
                         new DiffArtifact.Builder(Material.NULL_OBJECT, right)
-                                .descriptor(rightPattern)
+                                .setMetadataPattern(rightPattern)
+                                .setDiffArtifactComparisonPriorities(comparisonPriorities)
                                 .build()
                 diffArtifacts.add(da)
             }
@@ -469,7 +502,8 @@ final class StoreImpl implements Store {
             if (foundRightCount == 0) {
                 DiffArtifact da =
                         new DiffArtifact.Builder(left, Material.NULL_OBJECT)
-                                .descriptor(leftPattern)
+                                .setMetadataPattern(leftPattern)
+                                .setDiffArtifactComparisonPriorities(comparisonPriorities)
                                 .build()
                 diffArtifacts.add(da)
             }

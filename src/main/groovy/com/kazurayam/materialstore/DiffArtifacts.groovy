@@ -105,4 +105,5 @@ final class DiffArtifacts {
         sb.append("]")
         return sb.toString()
     }
+
 }

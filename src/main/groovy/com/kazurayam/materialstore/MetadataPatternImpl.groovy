@@ -97,9 +97,14 @@ final class MetadataPatternImpl extends MetadataPattern {
     //------------- implements java.lang.Object -------
     @Override
     String toString() {
+        this.getDescription(DiffArtifactComparisonPriorities.NULL_OBJECT)
+    }
+
+    @Override
+    String getDescription(DiffArtifactComparisonPriorities comparisonPriorities) {
+        List<String> keyList = orderedKeyList(metadataPattern.keySet(), comparisonPriorities)
+        //
         StringBuilder sb = new StringBuilder()
-        List<String> keyList = new ArrayList(metadataPattern.keySet())
-        Collections.sort(keyList)
         int count = 0
         sb.append("{")
         keyList.forEach({ String key ->
@@ -116,6 +121,29 @@ final class MetadataPatternImpl extends MetadataPattern {
         })
         sb.append("}")
         return sb.toString()
+    }
+
+    private List<String> orderedKeyList(Set<String> keySet, DiffArtifactComparisonPriorities comparisonPriorities) {
+        if (comparisonPriorities == DiffArtifactComparisonPriorities.NULL_OBJECT) {
+            List<String> keyList = new ArrayList<>(metadataPattern.keySet())
+            Collections.sort(keyList)
+            return keyList
+        } else {
+            Set<String> workSet = new HashSet<>(keySet)
+            List<String> orderedKeyList = new ArrayList<>()
+            comparisonPriorities.each {k ->
+                if (workSet.contains(k)) {
+                    orderedKeyList.add(k)
+                    workSet.remove(k)
+                }
+            }
+            List<String> workList = new ArrayList<>(workSet)
+            Collections.sort(workList)
+            workList.each {k ->
+                orderedKeyList.add(k)
+            }
+            return orderedKeyList
+        }
     }
 
 }

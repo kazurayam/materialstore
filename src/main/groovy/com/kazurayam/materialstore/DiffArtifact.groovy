@@ -1,9 +1,7 @@
 package com.kazurayam.materialstore
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+
 import com.kazurayam.materialstore.differ.DifferUtil
-import groovy.json.JsonOutput
 
 /**
  * Data Transfer Object
@@ -12,12 +10,13 @@ final class DiffArtifact implements Comparable {
 
     public static final DiffArtifact NULL_OBJECT =
             new Builder(Material.NULL_OBJECT, Material.NULL_OBJECT)
-                    .descriptor(MetadataPattern.NULL_OBJECT)
+                    .setMetadataPattern(MetadataPattern.NULL_OBJECT)
                     .build()
 
     private final Material left
     private final Material right
-    private final MetadataPattern descriptor
+    private final MetadataPattern metadataPattern
+    private final DiffArtifactComparisonPriorities comparisonPriorities
     //
     private Material diff
     private Double diffRatio
@@ -25,9 +24,10 @@ final class DiffArtifact implements Comparable {
     private DiffArtifact(Builder builder) {
         this.left = builder.left
         this.right = builder.right
-        this.descriptor = builder.descriptor
+        this.metadataPattern = builder.metadataPattern
         this.diff = Material.NULL_OBJECT
         this.diffRatio = 0.0d
+        this.comparisonPriorities = builder.comparisonPriorities
     }
 
     /**
@@ -40,7 +40,8 @@ final class DiffArtifact implements Comparable {
         this.left = source.getLeft()
         this.right = source.getRight()
         this.diff = source.getDiff()
-        this.descriptor = source.getDescriptor()
+        this.metadataPattern = source.getDescriptor()
+        this.comparisonPriorities = source.getDiffArtifactComparisonPriorities()
     }
 
     void setDiff(Material diff) {
@@ -55,6 +56,10 @@ final class DiffArtifact implements Comparable {
 
     Material getLeft() {
         return this.left
+    }
+
+    DiffArtifactComparisonPriorities getDiffArtifactComparisonPriorities() {
+        return this.comparisonPriorities
     }
 
     String getFileTypeExtension() {
@@ -82,11 +87,11 @@ final class DiffArtifact implements Comparable {
     }
 
     MetadataPattern getDescriptor() {
-        return this.descriptor
+        return this.metadataPattern
     }
 
     String getDescription() {
-        return this.descriptor.toString()
+        return this.metadataPattern.getDescription(comparisonPriorities)
     }
 
     @Override
@@ -124,8 +129,8 @@ final class DiffArtifact implements Comparable {
         sb.append("\"diff\":")
         sb.append(diff.toString())
         sb.append(",")
-        sb.append("\"descriptor\":")
-        sb.append(descriptor.toString())
+        sb.append("\"metadataPattern\":")
+        sb.append(metadataPattern.toString())
         sb.append(",")
         sb.append("\"diffRatio\":")
         sb.append(diffRatio)
@@ -140,21 +145,8 @@ final class DiffArtifact implements Comparable {
         }
         DiffArtifact other = (DiffArtifact)obj
 
-        /*
-        int comparisonOfLeft = this.getLeft() <=> other.getLeft()
-        if (comparisonOfLeft == 0) {
-            int comparisonOfRight = this.getRight() <=> other.getRight()
-            if (comparisonOfRight == 0) {
-                return this.getDiff() <=> other.getDiff()
-            } else {
-                return comparisonOfRight
-            }
-        } else {
-            return comparisonOfLeft
-        }
-         */
-
-        return this.getDescriptor().toString() <=> other.getDescriptor().toString()
+        // Note that the DiffArtifactComparisonPriorities is taken into account here
+        return this.getDescription() <=> other.getDescription()
     }
 
     /**
@@ -163,22 +155,28 @@ final class DiffArtifact implements Comparable {
     static class Builder {
         private Material left
         private Material right
-        private MetadataPattern descriptor
+        private MetadataPattern metadataPattern
         //
         private Material diff
         private Double diffRatio
+        private DiffArtifactComparisonPriorities comparisonPriorities
         Builder(Material left, Material right) {
             Objects.requireNonNull(left)
             Objects.requireNonNull(right)
             this.left = left
             this.right = right
-            this.descriptor = MetadataPattern.NULL_OBJECT
+            this.metadataPattern = MetadataPattern.NULL_OBJECT
             this.diff = Material.NULL_OBJECT
             this.diffRatio = -1.0d
+            this.comparisonPriorities = DiffArtifactComparisonPriorities.NULL_OBJECT
         }
-        Builder descriptor(MetadataPattern descriptor) {
-            Objects.requireNonNull(descriptor)
-            this.descriptor = descriptor
+        Builder setMetadataPattern(MetadataPattern metadataPattern) {
+            Objects.requireNonNull(metadataPattern)
+            this.metadataPattern = metadataPattern
+            return this
+        }
+        Builder setDiffArtifactComparisonPriorities(DiffArtifactComparisonPriorities comparisonPriorities) {
+            this.comparisonPriorities = comparisonPriorities
             return this
         }
         DiffArtifact build() {

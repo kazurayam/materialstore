@@ -35,6 +35,11 @@ interface Store {
                            IgnoringMetadataKeys ignoringMetadataKeys,
                            IdentifyMetadataValues identifyMetadataValues)
 
+    DiffArtifacts makeDiff(MaterialList left, MaterialList right,
+                           IgnoringMetadataKeys ignoringMetadataKeys,
+                           IdentifyMetadataValues identifyMetadataValues,
+                           DiffArtifactComparisonPriorities comparisonPriorities)
+
     DiffReporter newReporter(JobName jobName)
 
     Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, Double criteria, String fileName)
@@ -76,4 +81,9 @@ interface Store {
     DiffArtifacts zipMaterials(MaterialList left, MaterialList right,
                                IgnoringMetadataKeys ignoringMetadataKeys,
                                IdentifyMetadataValues identifyMetadataValues)
+
+    DiffArtifacts zipMaterials(MaterialList left, MaterialList right,
+                               IgnoringMetadataKeys ignoringMetadataKeys,
+                               IdentifyMetadataValues identifyMetadataValues,
+                               DiffArtifactComparisonPriorities comparisonPriorities)
 }

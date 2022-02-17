@@ -42,6 +42,8 @@ abstract class MetadataPattern {
 
     abstract MetadataPatternValue get(String key)
 
+    abstract String getDescription(DiffArtifactComparisonPriorities comparisonPriorities)
+
     abstract String getAsString(String key)
 
     abstract boolean isEmpty()
