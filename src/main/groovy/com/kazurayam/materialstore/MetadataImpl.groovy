@@ -2,6 +2,8 @@ package com.kazurayam.materialstore
 
 import groovy.xml.MarkupBuilder
 
+import java.util.regex.Matcher
+
 /**
  *
  */
@@ -144,7 +146,17 @@ final class MetadataImpl extends Metadata {
                 mb.span(class: cssClass,
                         "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
             } else {
-                mb.span("\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
+                Matcher m = SemanticVersionAwareStringMatcher.straightMatcher(this.get(key))
+                if (m.matches()) {
+                    // <span>"/npm/bootstrap-icons@</span><span class='semantic-version'>1.5.0</span><span>/font/bootstrap-icons.css"</span>
+                    mb.span("\"${JsonUtil.escapeAsJsonString(m.group(1))}")
+                    mb.span(class: "semantic-version",
+                            "${JsonUtil.escapeAsJsonString(m.group(2))}")
+                    mb.span("${JsonUtil.escapeAsJsonString(m.group(4))}\"")
+                } else {
+                    // <span>xxxxxxx</span>
+                    mb.span("\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
+                }
             }
             //
             count += 1

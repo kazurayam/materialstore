@@ -41,13 +41,25 @@ class SemanticVersionAwareStringMatcher {
      */
     public Matcher matcher(String left) {
         Objects.requireNonNull(left)
-        Matcher m = pattern.matcher(left)
-        return m
+        return pattern.matcher(left)
     }
 
-    static final Pattern translatePathToRegex(String path) {
-        Objects.requireNonNull(path)
-        Matcher m = VERSIONED_PATH_PARSER.matcher(path)
+    /**
+     * returns a java.util.regex.Matcher for the string.
+     * The matcher.matches() will return true if the string somewhere contains a sematic version
+     * in the format "0.1.2-a" alike.
+     *
+     * @param string
+     * @return
+     */
+    static Matcher straightMatcher(String string) {
+        Objects.requireNonNull(string)
+        return VERSIONED_PATH_PARSER.matcher(string)
+    }
+
+    static final Pattern translatePathToRegex(String string) {
+        Objects.requireNonNull(string)
+        Matcher m = VERSIONED_PATH_PARSER.matcher(string)
         if (m.matches()) {
             // the path contains a semantic version (e.g, '1.5.3-rc')
             String h = m.group(1)
@@ -59,7 +71,7 @@ class SemanticVersionAwareStringMatcher {
             return Pattern.compile(sb.toString())
         } else {
             // the path has no version
-            return Pattern.compile(escapeAsRegex(path))
+            return Pattern.compile(escapeAsRegex(string))
         }
     }
 
