@@ -118,8 +118,6 @@ class DiffArtifactsBasicReporter_issue80_86Test {
         String s2 = ".0</span><span";
         assertTrue(reportText.contains(s1) && reportText.contains(s2),
                 String.format("expected \"%s\" and \"%s\" in the report but not found", s1, s2));
-
-
     }
 
 
