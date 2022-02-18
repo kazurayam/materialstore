@@ -1,6 +1,7 @@
 package issues.issues
 
-import com.kazurayam.materialstore.diffartifact.DiffArtifacts
+
+import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
 import com.kazurayam.materialstore.filesystem.JobName
@@ -67,15 +68,15 @@ class Issue73Test {
     @Test
     void test_smoke() {
         Double criteria = 0.0d
-        DiffArtifacts stuffedDiffArtifacts =
+        DiffArtifactGroup diffArtifactGroup =
                 store.makeDiff(left, right,
                         IgnoringMetadataKeys.of("profile", "URL.host"),
                         IdentifyMetadataValues.NULL_OBJECT
                 )
-        int warnings = stuffedDiffArtifacts.countWarnings(criteria)
+        int warnings = diffArtifactGroup.countWarnings(criteria)
         // compile the report
         Path reportFile =
-                store.reportDiffs(jobName, stuffedDiffArtifacts, criteria, jobName.toString() + "-index.html")
-        assert stuffedDiffArtifacts.size() == 8
+                store.reportDiffs(jobName, diffArtifactGroup, criteria, jobName.toString() + "-index.html")
+        assert diffArtifactGroup.size() == 8
     }
 }

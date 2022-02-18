@@ -65,7 +65,7 @@ class DiffArtifactComparisonPrioritiesTest {
     void test_smoke() {
         DiffArtifactComparisonPriorities comparisonPriorities =
                 new DiffArtifactComparisonPriorities("step", "URL.path")
-        DiffArtifacts das =
+        DiffArtifactGroup das =
                 store.makeDiff(left, right,
                         IgnoringMetadataKeys.of("profile", "URL.host", "URL.port"),
                         IdentifyMetadataValues.NULL_OBJECT,

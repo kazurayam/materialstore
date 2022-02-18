@@ -17,16 +17,16 @@ import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.*
 
-class DiffArtifactsTest {
+class DiffArtifactGroupTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(DiffArtifactsTest.class.getName())
+                    .resolve(DiffArtifactGroupTest.class.getName())
 
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
 
-    private DiffArtifacts diffArtifacts
+    private DiffArtifactGroup diffArtifactGroup
     private DiffArtifact nullEntry
 
     @BeforeAll
@@ -39,14 +39,14 @@ class DiffArtifactsTest {
 
     @BeforeEach
     void before() {
-        diffArtifacts = new DiffArtifacts()
+        diffArtifactGroup = new DiffArtifactGroup()
     }
 
     @Test
     void test_add_size_get() {
-        diffArtifacts.add(DiffArtifact.NULL_OBJECT)
-        assertEquals(1, diffArtifacts.size())
-        assertEquals(DiffArtifact.NULL_OBJECT, diffArtifacts.get(0))
+        diffArtifactGroup.add(DiffArtifact.NULL_OBJECT)
+        assertEquals(1, diffArtifactGroup.size())
+        assertEquals(DiffArtifact.NULL_OBJECT, diffArtifactGroup.get(0))
     }
 
     @Test
@@ -56,16 +56,16 @@ class DiffArtifactsTest {
                         .setMetadataPattern(MetadataPattern.NULL_OBJECT)
                         .build()
         tmp.setDiffRatio(45.0d)
-        diffArtifacts.add(tmp)
-        assertEquals(1, diffArtifacts.countWarnings(0.00d))
-        assertEquals(0, diffArtifacts.countWarnings(45.00d))
-        assertEquals(0, diffArtifacts.countWarnings(45.01d))
+        diffArtifactGroup.add(tmp)
+        assertEquals(1, diffArtifactGroup.countWarnings(0.00d))
+        assertEquals(0, diffArtifactGroup.countWarnings(45.00d))
+        assertEquals(0, diffArtifactGroup.countWarnings(45.01d))
     }
 
     @Test
     void test_iterator() {
-        diffArtifacts.add(DiffArtifact.NULL_OBJECT)
-        diffArtifacts.each { DiffArtifact it ->
+        diffArtifactGroup.add(DiffArtifact.NULL_OBJECT)
+        diffArtifactGroup.each { DiffArtifact it ->
             assert it == DiffArtifact.NULL_OBJECT
         }
     }
@@ -73,36 +73,36 @@ class DiffArtifactsTest {
     @Test
     void test_setter_getter_IdentifyMetadataValues() {
         IdentifyMetadataValues imv = IdentifyMetadataValues.by(["URL.query":"\\w{32}"])
-        diffArtifacts.setIdentifyMetadataValues(imv)
-        IdentifyMetadataValues result = diffArtifacts.getIdentifyMetadataValues()
+        diffArtifactGroup.setIdentifyMetadataValues(imv)
+        IdentifyMetadataValues result = diffArtifactGroup.getIdentifyMetadataValues()
         assertEquals(imv, result)
     }
 
     @Test
     void test_setter_getter_IgnoringMetadataKeys() {
-        diffArtifacts.setIgnoringMetadataKeys(IgnoringMetadataKeys.NULL_OBJECT)
-        IgnoringMetadataKeys ignoringMetadataKeys = diffArtifacts.getIgnoringMetadataKeys()
+        diffArtifactGroup.setIgnoringMetadataKeys(IgnoringMetadataKeys.NULL_OBJECT)
+        IgnoringMetadataKeys ignoringMetadataKeys = diffArtifactGroup.getIgnoringMetadataKeys()
         assertNotNull(ignoringMetadataKeys)
     }
 
     @Test
     void test_setter_getter_LeftMaterialList() {
-        diffArtifacts.setLeftMaterialList(MaterialList.NULL_OBJECT)
-        MaterialList left = diffArtifacts.getLeftMaterialList()
+        diffArtifactGroup.setLeftMaterialList(MaterialList.NULL_OBJECT)
+        MaterialList left = diffArtifactGroup.getLeftMaterialList()
         assertNotNull(left)
     }
 
     @Test
     void test_setter_getter_RightMaterialList() {
-        diffArtifacts.setRightMaterialList(MaterialList.NULL_OBJECT)
-        MaterialList right = diffArtifacts.getRightMaterialList()
+        diffArtifactGroup.setRightMaterialList(MaterialList.NULL_OBJECT)
+        MaterialList right = diffArtifactGroup.getRightMaterialList()
         assertNotNull(right)
     }
 
     @Test
     void test_toString() {
-        diffArtifacts.add(DiffArtifact.NULL_OBJECT)
-        String s = diffArtifacts.toString()
+        diffArtifactGroup.add(DiffArtifact.NULL_OBJECT)
+        String s = diffArtifactGroup.toString()
         println JsonOutput.prettyPrint(s)
         assertTrue(s.contains("left"), s)
         assertTrue(s.contains("right"), s)

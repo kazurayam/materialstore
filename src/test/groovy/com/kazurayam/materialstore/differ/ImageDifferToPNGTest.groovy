@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.differ
 
 import com.kazurayam.materialstore.*
 import com.kazurayam.materialstore.diffartifact.DiffArtifact
-import com.kazurayam.materialstore.diffartifact.DiffArtifacts
+import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -45,13 +45,13 @@ class ImageDifferToPNGTest {
                 MetadataPattern.builderWithMap(["profile": "DevelopmentEnv"]).build(),
                 FileType.PNG)
 
-        DiffArtifacts diffArtifacts =
+        DiffArtifactGroup diffArtifactGroup =
                 storeImpl.zipMaterials(left, right,
                         IgnoringMetadataKeys.of("profile", "URL", "URL.host"))
-        assertNotNull(diffArtifacts)
-        assertEquals(2, diffArtifacts.size(), JsonOutput.prettyPrint(diffArtifacts.toString()))
+        assertNotNull(diffArtifactGroup)
+        assertEquals(2, diffArtifactGroup.size(), JsonOutput.prettyPrint(diffArtifactGroup.toString()))
         //
-        DiffArtifact stuffed = new ImageDifferToPNG(root).makeDiffArtifact(diffArtifacts.get(0))
+        DiffArtifact stuffed = new ImageDifferToPNG(root).makeDiffArtifact(diffArtifactGroup.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertTrue(stuffed.getDiffRatio() > 0)

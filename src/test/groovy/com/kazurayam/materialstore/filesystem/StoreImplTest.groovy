@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.TestFixtureUtil
-import com.kazurayam.materialstore.diffartifact.DiffArtifacts
+import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
 import com.kazurayam.materialstore.metadata.Metadata
@@ -348,17 +348,17 @@ class StoreImplTest {
                     FileType.PNG)
         assertEquals(2, rightList.size())
         //
-        DiffArtifacts diffArtifacts =
+        DiffArtifactGroup diffArtifactGroup =
                 store.zipMaterials(
                         leftList, rightList,
                         IgnoringMetadataKeys.of("profile", "URL", "URL.host", "category"),
                         IdentifyMetadataValues.NULL_OBJECT)
-        assertNotNull(diffArtifacts)
-        assertEquals(2, diffArtifacts.size(),
-                JsonOutput.prettyPrint(diffArtifacts.toString()))
+        assertNotNull(diffArtifactGroup)
+        assertEquals(2, diffArtifactGroup.size(),
+                JsonOutput.prettyPrint(diffArtifactGroup.toString()))
         assertEquals("""{"URL.file":"/", "xpath":"//a[@id='btn-make-appointment']"}""",
-                diffArtifacts.get(0).getDescription())
+                diffArtifactGroup.get(0).getDescription())
         assertEquals("""{"URL.file":"/", "xpath":"/html"}""",
-                diffArtifacts.get(1).getDescription())
+                diffArtifactGroup.get(1).getDescription())
     }
 }

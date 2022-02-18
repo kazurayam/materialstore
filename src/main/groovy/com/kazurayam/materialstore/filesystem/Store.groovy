@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.diffartifact.DiffArtifactComparisonPriorities
-import com.kazurayam.materialstore.diffartifact.DiffArtifacts
+import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
@@ -39,18 +39,18 @@ interface Store {
 
     Path getRoot()
 
-    DiffArtifacts makeDiff(MaterialList left, MaterialList right,
-                           IgnoringMetadataKeys ignoringMetadataKeys,
-                           IdentifyMetadataValues identifyMetadataValues)
+    DiffArtifactGroup makeDiff(MaterialList left, MaterialList right,
+                               IgnoringMetadataKeys ignoringMetadataKeys,
+                               IdentifyMetadataValues identifyMetadataValues)
 
-    DiffArtifacts makeDiff(MaterialList left, MaterialList right,
-                           IgnoringMetadataKeys ignoringMetadataKeys,
-                           IdentifyMetadataValues identifyMetadataValues,
-                           DiffArtifactComparisonPriorities comparisonPriorities)
+    DiffArtifactGroup makeDiff(MaterialList left, MaterialList right,
+                               IgnoringMetadataKeys ignoringMetadataKeys,
+                               IdentifyMetadataValues identifyMetadataValues,
+                               DiffArtifactComparisonPriorities comparisonPriorities)
 
     DiffReporter newReporter(JobName jobName)
 
-    Path reportDiffs(JobName jobName, DiffArtifacts diffArtifacts, Double criteria, String fileName)
+    Path reportDiffs(JobName jobName, DiffArtifactGroup diffArtifactGroup, Double criteria, String fileName)
 
     Path reportMaterials(JobName jobName, MaterialList materials, String fileName)
 
@@ -83,15 +83,15 @@ interface Store {
                    FileType fileType, Metadata meta, String input,
                    Charset charset)
 
-    DiffArtifacts zipMaterials(MaterialList left, MaterialList right,
-                               IgnoringMetadataKeys ignoringMetadataKeys)
+    DiffArtifactGroup zipMaterials(MaterialList left, MaterialList right,
+                                   IgnoringMetadataKeys ignoringMetadataKeys)
 
-    DiffArtifacts zipMaterials(MaterialList left, MaterialList right,
-                               IgnoringMetadataKeys ignoringMetadataKeys,
-                               IdentifyMetadataValues identifyMetadataValues)
+    DiffArtifactGroup zipMaterials(MaterialList left, MaterialList right,
+                                   IgnoringMetadataKeys ignoringMetadataKeys,
+                                   IdentifyMetadataValues identifyMetadataValues)
 
-    DiffArtifacts zipMaterials(MaterialList left, MaterialList right,
-                               IgnoringMetadataKeys ignoringMetadataKeys,
-                               IdentifyMetadataValues identifyMetadataValues,
-                               DiffArtifactComparisonPriorities comparisonPriorities)
+    DiffArtifactGroup zipMaterials(MaterialList left, MaterialList right,
+                                   IgnoringMetadataKeys ignoringMetadataKeys,
+                                   IdentifyMetadataValues identifyMetadataValues,
+                                   DiffArtifactComparisonPriorities comparisonPriorities)
 }

@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.differ
 
-import com.kazurayam.materialstore.diffartifact.DiffArtifacts
+import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 
 import java.nio.file.Path
 
@@ -16,10 +16,10 @@ interface DiffReporter {
 
     /**
      *
-     * @param diffArtifacts
+     * @param diffArtifactGroup
      * @param reportFileName
      * @return number of diffActifacts exceeding the given criteria
      */
-    Path reportDiffs(DiffArtifacts diffArtifacts, String reportFileName)
+    Path reportDiffs(DiffArtifactGroup diffArtifacGgroup, String reportFileName)
 
 }

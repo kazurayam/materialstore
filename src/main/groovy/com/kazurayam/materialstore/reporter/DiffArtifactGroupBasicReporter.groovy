@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.reporter
 
 
 import com.kazurayam.materialstore.diffartifact.DiffArtifact
-import com.kazurayam.materialstore.diffartifact.DiffArtifacts
+import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.differ.DifferUtil
 import com.kazurayam.materialstore.filesystem.FileType
@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory
 import java.nio.file.Files
 import java.nio.file.Path
 
-final class DiffArtifactsBasicReporter implements DiffReporter {
+final class DiffArtifactGroupBasicReporter implements DiffReporter {
 
-    private static final Logger logger = LoggerFactory.getLogger(DiffArtifactsBasicReporter.class)
+    private static final Logger logger = LoggerFactory.getLogger(DiffArtifactGroupBasicReporter.class)
 
     private Path root_
 
@@ -30,7 +30,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
 
     private Double criteria_ = 0.0d
 
-    DiffArtifactsBasicReporter(Path root, JobName jobName) {
+    DiffArtifactGroupBasicReporter(Path root, JobName jobName) {
         Objects.requireNonNull(root)
         Objects.requireNonNull(jobName)
         if (! Files.exists(root)) {
@@ -49,8 +49,8 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
     }
 
     @Override
-    Path reportDiffs(DiffArtifacts diffArtifacts, String reportFileName = "index.html") {
-        Objects.requireNonNull(diffArtifacts)
+    Path reportDiffs(DiffArtifactGroup diffArtifactGroup, String reportFileName = "index.html") {
+        Objects.requireNonNull(diffArtifactGroup)
         Objects.requireNonNull(reportFileName)
         //
         Path reportFile = root_.resolve(reportFileName)
@@ -88,7 +88,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                             dd(jobName_.toString())
                             //
                             dt("Left MaterialList specification")
-                            MaterialList left = diffArtifacts.getLeftMaterialList()
+                            MaterialList left = diffArtifactGroup.getLeftMaterialList()
                             if (left != MaterialList.NULL_OBJECT) {
                                 dd() {
                                     dl() {
@@ -108,7 +108,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                             }
                             //
                             dt("Right MaterialList specification")
-                            MaterialList right = diffArtifacts.getRightMaterialList()
+                            MaterialList right = diffArtifactGroup.getRightMaterialList()
                             if (right != MaterialList.NULL_OBJECT) {
                                 dd() {
                                     dl() {
@@ -128,9 +128,9 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                             }
                             //
                             dt("IgnoringMetadataKeys")
-                            if (diffArtifacts.getIgnoringMetadataKeys() != IgnoringMetadataKeys.NULL_OBJECT) {
+                            if (diffArtifactGroup.getIgnoringMetadataKeys() != IgnoringMetadataKeys.NULL_OBJECT) {
                                 dd() {
-                                    diffArtifacts.getIgnoringMetadataKeys().toSpanSequence(mb)
+                                    diffArtifactGroup.getIgnoringMetadataKeys().toSpanSequence(mb)
                                 }
                             } else {
                                 dd("not set")
@@ -139,7 +139,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                     }
                     div(class: "accordion",
                             id: "diff-contents") {
-                        diffArtifacts.eachWithIndex { DiffArtifact da, int index ->
+                        diffArtifactGroup.eachWithIndex { DiffArtifact da, int index ->
                             div(id: "accordion${index+1}",
                                     class: "accordion-item") {
                                 h2(id: "heading${index+1}",
@@ -171,10 +171,10 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                                         makeModalSubsection(mb, da, index+1)
                                         //
                                         Context context = new Context(
-                                                diffArtifacts.getLeftMaterialList().getMetadataPattern(),
-                                                diffArtifacts.getRightMaterialList().getMetadataPattern(),
-                                                diffArtifacts.getIgnoringMetadataKeys(),
-                                                diffArtifacts.getIdentifyMetadataValues()
+                                                diffArtifactGroup.getLeftMaterialList().getMetadataPattern(),
+                                                diffArtifactGroup.getRightMaterialList().getMetadataPattern(),
+                                                diffArtifactGroup.getIgnoringMetadataKeys(),
+                                                diffArtifactGroup.getIdentifyMetadataValues()
                                         )
                                         makeMaterialSubsection(mb, "left", da.getLeft(), context)
                                         makeMaterialSubsection(mb, "right", da.getRight(), context)

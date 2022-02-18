@@ -123,16 +123,16 @@ class DiffArtifactTest {
                 FileType.PNG)
         assert 2 == rightList.size()
         //
-        DiffArtifacts diffArtifacts =
+        DiffArtifactGroup diffArtifactGroup =
                 store.zipMaterials(leftList, rightList,
                         IgnoringMetadataKeys.of("profile", "URL", "URL.host", "category"))
-        assertNotNull(diffArtifacts)
+        assertNotNull(diffArtifactGroup)
 
-        println JsonOutput.prettyPrint(diffArtifacts.toString())
+        println JsonOutput.prettyPrint(diffArtifactGroup.toString())
 
-        assert 2 == diffArtifacts.size()
+        assert 2 == diffArtifactGroup.size()
         //
-        println diffArtifacts.get(0).toString()
+        println diffArtifactGroup.get(0).toString()
     }
 
 }

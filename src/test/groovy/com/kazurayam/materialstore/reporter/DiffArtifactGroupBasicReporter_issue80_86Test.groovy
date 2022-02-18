@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.reporter
 
-import com.kazurayam.materialstore.diffartifact.DiffArtifacts
+
+import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
@@ -21,13 +22,13 @@ import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.assertTrue
 
-class DiffArtifactsBasicReporter_issue80_86Test {
+class DiffArtifactGroupBasicReporter_issue80_86Test {
 
     static final Path fixtureDir = Paths.get(".")
             .resolve("src/test/resources/fixture/issue#80")
     static final Path outputDir = Paths.get(".")
             .resolve("build/tmp/testOutput")
-            .resolve(DiffArtifactsBasicReporter_issue80_86Test.class.getName())
+            .resolve(DiffArtifactGroupBasicReporter_issue80_86Test.class.getName())
 
     static Store store
     static final JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
@@ -82,14 +83,14 @@ class DiffArtifactsBasicReporter_issue80_86Test {
 
         // make diff of the 2 MaterialList objects
         // make diff
-        DiffArtifacts stuffedDiffArtifacts =
+        DiffArtifactGroup diffArtifactGroup =
                 store.makeDiff(left, right,
                         IgnoringMetadataKeys.of("profile", "URL", "URL.host"),
                         IdentifyMetadataValues.by(["URL.query": "\\w{32}"]))
 
         // compile HTML report
         DiffReporter reporter = store.newReporter(jobName)
-        Path report = reporter.reportDiffs(stuffedDiffArtifacts, "index.html")
+        Path report = reporter.reportDiffs(diffArtifactGroup, "index.html")
         assertTrue(Files.exists(report))
 
         // test the report content

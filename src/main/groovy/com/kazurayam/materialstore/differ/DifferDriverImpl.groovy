@@ -1,9 +1,10 @@
 package com.kazurayam.materialstore.differ
 
+
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.diffartifact.DiffArtifact
-import com.kazurayam.materialstore.diffartifact.DiffArtifacts
+import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -23,11 +24,11 @@ final class DifferDriverImpl implements DifferDriver {
     }
 
     @Override
-    DiffArtifacts differentiate(DiffArtifacts input) {
+    DiffArtifactGroup differentiate(DiffArtifactGroup input) {
         Objects.requireNonNull(input)
         Objects.requireNonNull(root_)
         //
-        DiffArtifacts stuffed = new DiffArtifacts()
+        DiffArtifactGroup stuffed = new DiffArtifactGroup()
         stuffed.setLeftMaterialList(input.getLeftMaterialList())
         stuffed.setRightMaterialList(input.getRightMaterialList())
         stuffed.setIgnoringMetadataKeys(input.getIgnoringMetadataKeys())

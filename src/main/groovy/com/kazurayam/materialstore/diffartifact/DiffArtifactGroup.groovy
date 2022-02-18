@@ -7,30 +7,30 @@ import com.kazurayam.materialstore.metadata.MetadataPattern
 
 import java.util.stream.Collectors
 
-final class DiffArtifacts {
+final class DiffArtifactGroup {
 
-    private final List<DiffArtifact> diffArtifacts
+    private final List<DiffArtifact> diffArtifactList
 
     /**
      * leftMaterialList, rightMaterialList, ignoringMetadataKeys
      * --- these are memorized here just for reporting purpose
-     * how this DiffArtifacts object was created.
+     * how this DiffArtifactGroup object was created.
      */
     private MaterialList leftMaterialList = MaterialList.NULL_OBJECT
     private MaterialList rightMaterialList = MaterialList.NULL_OBJECT
     private IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT
     private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
 
-    DiffArtifacts() {
-        diffArtifacts = new ArrayList<DiffArtifact>()
+    DiffArtifactGroup() {
+        diffArtifactList = new ArrayList<DiffArtifact>()
     }
 
     void add(DiffArtifact e) {
-        diffArtifacts.add(e)
+        diffArtifactList.add(e)
     }
 
     int countWarnings(Double criteria) {
-        diffArtifacts.stream()
+        diffArtifactList.stream()
                 .filter { DiffArtifact da ->
                     criteria < da.getDiffRatio()
                 }
@@ -39,7 +39,7 @@ final class DiffArtifacts {
     }
 
     DiffArtifact get(int index) {
-        return diffArtifacts.get(index)
+        return diffArtifactList.get(index)
     }
 
     IdentifyMetadataValues getIdentifyMetadataValues() {
@@ -59,7 +59,7 @@ final class DiffArtifacts {
     }
 
     Iterator<DiffArtifact> iterator() {
-        return diffArtifacts.iterator()
+        return diffArtifactList.iterator()
     }
 
     void setIdentifyMetadataValues(IdentifyMetadataValues identifyMetadataValues) {
@@ -79,16 +79,16 @@ final class DiffArtifacts {
     }
 
     int size() {
-        return diffArtifacts.size()
+        return diffArtifactList.size()
     }
 
     void sort() {
-        Collections.sort(diffArtifacts)
+        Collections.sort(diffArtifactList)
     }
 
     List<MetadataPattern> getMetadataPatterns() {
         List<MetadataPattern> list = new ArrayList<>()
-        diffArtifacts.each { DiffArtifact da ->
+        diffArtifactList.each { DiffArtifact da ->
             MetadataPattern mp = da.getDescriptor()
             MetadataPattern deepCopy = new MetadataPattern.Builder(mp).build()
             list.add(deepCopy)
@@ -102,7 +102,7 @@ final class DiffArtifacts {
         StringBuilder sb = new StringBuilder()
         int count = 0
         sb.append("[")
-        diffArtifacts.each { DiffArtifact da ->
+        diffArtifactList.each { DiffArtifact da ->
             if (count > 0) sb.append(",")
             sb.append(da.toString())
             count += 1

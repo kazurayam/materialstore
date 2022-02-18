@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.diffartifact
 
-import com.kazurayam.materialstore.filesystem.FileTypeDiffability
+
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
@@ -21,12 +21,12 @@ import java.nio.file.Paths
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertTrue
 
-class DiffArtifacts_issue87Test {
+class DiffArtifactGroup_issue87Test {
     private static Path fixtureDir = Paths.get(".")
             .resolve("src/test/resources/fixture/issue#80")
     private static final Path outputDir = Paths.get(".")
             .resolve("build/tmp/testOutput")
-            .resolve(DiffArtifacts_issue87Test.class.getName())
+            .resolve(DiffArtifactGroup_issue87Test.class.getName())
     private static Store store
 
     private JobName jobName
@@ -65,12 +65,12 @@ class DiffArtifacts_issue87Test {
 
     @Test
     void test_getMetadataPatterns() {
-        DiffArtifacts stuffedDiffArtifacts =
+        DiffArtifactGroup diffArtifactGroup =
                 store.makeDiff(left, right,
                         IgnoringMetadataKeys.of("profile", "URL.host"),
                         IdentifyMetadataValues.by(["URL.query":"\\w{32}"]))
 
-        List<MetadataPattern> metadataPatterns = stuffedDiffArtifacts.getMetadataPatterns();
+        List<MetadataPattern> metadataPatterns = diffArtifactGroup.getMetadataPatterns();
         assertEquals(8, metadataPatterns.size())
         //
         metadataPatterns.each { mp ->

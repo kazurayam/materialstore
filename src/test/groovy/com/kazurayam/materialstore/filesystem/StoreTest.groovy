@@ -1,8 +1,7 @@
 package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.ashotwrapper.AShotWrapper
-import com.kazurayam.materialstore.TestFixtureUtil
-import com.kazurayam.materialstore.diffartifact.DiffArtifacts
+import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
 import com.kazurayam.materialstore.metadata.Metadata
@@ -77,15 +76,15 @@ class StoreTest {
                 MetadataPattern.builderWithMap(["profile": profile2 ]).build())
 
         // make diff
-        DiffArtifacts stuffedDiffArtifacts =
+        DiffArtifactGroup diffArtifactGroup =
                 store.makeDiff(left, right,
                         IgnoringMetadataKeys.of("profile", "URL", "URL.host"),
                         IdentifyMetadataValues.NULL_OBJECT)
-        int warnings = stuffedDiffArtifacts.countWarnings(0.0d)
+        int warnings = diffArtifactGroup.countWarnings(0.0d)
         println "found ${warnings} differences"
 
         // compile HTML report
-        Path reportFile = store.reportDiffs(jobName, stuffedDiffArtifacts,
+        Path reportFile = store.reportDiffs(jobName, diffArtifactGroup,
                 0.0d,"index.html")
         assertTrue(Files.exists(reportFile))
     }

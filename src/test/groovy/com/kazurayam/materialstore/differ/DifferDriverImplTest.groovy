@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.differ
 
+
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -7,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.StoreImpl
 import com.kazurayam.materialstore.TestFixtureUtil
-import com.kazurayam.materialstore.diffartifact.DiffArtifacts
+import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
 import com.kazurayam.materialstore.metadata.MetadataPattern
 import org.apache.commons.io.FileUtils
@@ -54,13 +55,13 @@ class DifferDriverImplTest {
                 MetadataPattern.builderWithMap(["profile": "DevelopmentEnv"]).build(),
                 FileType.PNG)
 
-        DiffArtifacts input =
+        DiffArtifactGroup input =
                 storeImpl.zipMaterials(left, right,
                         IgnoringMetadataKeys.of("profile", "URL", "URL.host"))
         assertEquals(2, input.size())
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
-        DiffArtifacts stuffed = differDriver.differentiate(input)
+        DiffArtifactGroup stuffed = differDriver.differentiate(input)
         assertNotNull(stuffed)
         assertEquals(2, stuffed.size())
     }
@@ -91,12 +92,12 @@ class DifferDriverImplTest {
                 MetadataPattern.builderWithMap(["profile": "DevelopmentEnv"]).build(),
                 FileType.HTML)
 
-        DiffArtifacts input =
+        DiffArtifactGroup input =
                 storeImpl.zipMaterials(left, right,
                         IgnoringMetadataKeys.of("profile", "URL", "URL.host"))
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
-        DiffArtifacts stuffed = differDriver.differentiate(input)
+        DiffArtifactGroup stuffed = differDriver.differentiate(input)
         assertNotNull(stuffed)
         assertEquals(1, stuffed.size())
     }

@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.reporter
 
 
-import com.kazurayam.materialstore.diffartifact.DiffArtifacts
+import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -22,11 +22,11 @@ import java.nio.file.Paths
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertTrue
 
-class DiffArtifactsBasicReporterTest {
+class DiffArtifactGroupBasicReporterTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(DiffArtifactsBasicReporterTest.class.getName())
+                    .resolve(DiffArtifactGroupBasicReporterTest.class.getName())
 
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
@@ -62,14 +62,14 @@ class DiffArtifactsBasicReporterTest {
                 MetadataPattern.builderWithMap(["profile": profile2 ]).build())
 
         // make diff
-        DiffArtifacts stuffedDiffArtifacts =
+        DiffArtifactGroup diffArtifactGroup =
                 store.makeDiff(left, right,
                         IgnoringMetadataKeys.of("profile", "URL", "URL.host"),
                         IdentifyMetadataValues.NULL_OBJECT)
 
         // compile HTML report
         DiffReporter reporter = store.newReporter(jobName)
-        Path report = reporter.reportDiffs(stuffedDiffArtifacts, "index.html")
+        Path report = reporter.reportDiffs(diffArtifactGroup, "index.html")
         assertTrue(Files.exists(report))
     }
 
@@ -78,8 +78,8 @@ class DiffArtifactsBasicReporterTest {
 
     @Test
     void test_decideToBeWarned() {
-        assertEquals(false, DiffArtifactsBasicReporter.decideToBeWarned(0.00d, 0.0d))
-        assertEquals(true, DiffArtifactsBasicReporter.decideToBeWarned(1.23d, 0.0d))
-        assertEquals(false, DiffArtifactsBasicReporter.decideToBeWarned(1.23d, 25.0d))
+        assertEquals(false, DiffArtifactGroupBasicReporter.decideToBeWarned(0.00d, 0.0d))
+        assertEquals(true, DiffArtifactGroupBasicReporter.decideToBeWarned(1.23d, 0.0d))
+        assertEquals(false, DiffArtifactGroupBasicReporter.decideToBeWarned(1.23d, 25.0d))
     }
 }

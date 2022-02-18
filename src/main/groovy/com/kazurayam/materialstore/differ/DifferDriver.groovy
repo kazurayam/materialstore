@@ -1,11 +1,12 @@
 package com.kazurayam.materialstore.differ
 
+
 import com.kazurayam.materialstore.filesystem.FileType
-import com.kazurayam.materialstore.diffartifact.DiffArtifacts
+import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 
 interface DifferDriver {
 
-    DiffArtifacts differentiate(DiffArtifacts diffArtifacts)
+    DiffArtifactGroup differentiate(DiffArtifactGroup diffArtifactgroup)
 
     boolean hasDiffer(FileType fileType)
 }
