@@ -36,6 +36,12 @@ abstract class IgnoringMetadataKeys {
             this.keySet.add(key)
             return this
         }
+        Builder ignoreKeys(String... keys) {
+            keys.each {
+                this.keySet.add(it)
+            }
+            return this
+        }
         IgnoringMetadataKeys build() {
             return new IgnoringMetadataKeysImpl(keySet)
         }

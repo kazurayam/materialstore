@@ -1,33 +1,47 @@
 package com.kazurayam.materialstore.diffartifact
 
+import com.kazurayam.materialstore.filesystem.FileType
+import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
+import com.kazurayam.materialstore.metadata.Metadata
 import com.kazurayam.materialstore.metadata.MetadataPattern
 
 import java.util.stream.Collectors
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 final class DiffArtifactGroup {
 
-    private final List<DiffArtifact> diffArtifactList
+    private static final Logger logger = LoggerFactory.getLogger(DiffArtifactGroup.class)
+    private static final boolean verbose = false
 
-    /**
-     * leftMaterialList, rightMaterialList, ignoringMetadataKeys
-     * --- these are memorized here just for reporting purpose
-     * how this DiffArtifactGroup object was created.
-     */
-    private MaterialList leftMaterialList = MaterialList.NULL_OBJECT
-    private MaterialList rightMaterialList = MaterialList.NULL_OBJECT
+    private final List<DiffArtifact> diffArtifactList
+    private MaterialList leftMaterialList
+    private MaterialList rightMaterialList
+
     private IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT
     private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
+    private SortKeys sortKeys = SortKeys.NULL_OBJECT
 
-    @Deprecated
+
     DiffArtifactGroup() {
         diffArtifactList = new ArrayList<DiffArtifact>()
     }
 
     private DiffArtifactGroup(Builder builder) {
-        this.diffArtifactList = builder.diffArtifactList
+        this.leftMaterialList = builder.leftMaterialList
+        this.rightMaterialList = builder.rightMaterialList
+        this.ignoringMetadataKeys = builder.ignoringMetadataKeys
+        this.identifyMetadataValues = builder.identifyMetadataValues
+        this.sortKeys = builder.sortKeys
+        //
+        this.diffArtifactList =
+                zipMaterials(leftMaterialList, rightMaterialList,
+                        ignoringMetadataKeys,
+                        identifyMetadataValues,
+                        sortKeys)
     }
 
     void add(DiffArtifact e) {
@@ -63,6 +77,10 @@ final class DiffArtifactGroup {
         return this.rightMaterialList
     }
 
+    SortKeys getSortKeys() {
+        return this.sortKeys
+    }
+
     Iterator<DiffArtifact> iterator() {
         return diffArtifactList.iterator()
     }
@@ -83,6 +101,10 @@ final class DiffArtifactGroup {
         this.rightMaterialList = materialList
     }
 
+    void setSortKeys(SortKeys sortKeys) {
+        this.sortKeys = sortKeys
+    }
+
     int size() {
         return diffArtifactList.size()
     }
@@ -99,6 +121,108 @@ final class DiffArtifactGroup {
             list.add(deepCopy)
         }
         return list
+    }
+
+    /**
+     *
+     */
+    static List<DiffArtifact> zipMaterials(MaterialList leftList,
+                                           MaterialList rightList,
+                                           IgnoringMetadataKeys ignoringMetadataKeys,
+                                           IdentifyMetadataValues identifyMetadataValues,
+                                           SortKeys sortKeys) {
+        Objects.requireNonNull(leftList)
+        Objects.requireNonNull(rightList)
+        Objects.requireNonNull(ignoringMetadataKeys)
+        Objects.requireNonNull(identifyMetadataValues)
+        Objects.requireNonNull(sortKeys)
+
+        // the result
+        List<DiffArtifact> diffArtifactList = new ArrayList<>()
+
+        //
+        rightList.each { Material right->
+            FileType rightFileType = right.getIndexEntry().getFileType()
+            Metadata rightMetadata = right.getIndexEntry().getMetadata()
+            MetadataPattern rightPattern =
+                    MetadataPattern.builderWithMetadata(rightMetadata, ignoringMetadataKeys).build()
+           //
+            StringBuilder sb = new StringBuilder()  // to compose a log message
+            sb.append("\nright pattern: ${rightPattern}\n")
+            int foundLeftCount = 0
+            leftList.each { Material left ->
+                FileType leftFileType = left.getIndexEntry().getFileType()
+                Metadata leftMetadata = left.getIndexEntry().getMetadata()
+                if (leftFileType == rightFileType &&
+                        ( rightPattern.matches(leftMetadata) ||
+                                identifyMetadataValues.matches(leftMetadata) )
+                ) {
+                    DiffArtifact da =
+                            new DiffArtifact.Builder(left, right)
+                                    .setMetadataPattern(rightPattern)
+                                    .sortKeys(sortKeys)
+                                    .build()
+                    diffArtifactList.add(da)
+                    sb.append("left metadata: Y ${leftMetadata}\n")
+                    foundLeftCount += 1
+                } else {
+                    sb.append("left metadata: N ${leftMetadata}\n")
+                }
+            }
+            if (foundLeftCount == 0) {
+                DiffArtifact da =
+                        new DiffArtifact.Builder(Material.NULL_OBJECT, right)
+                                .setMetadataPattern(rightPattern)
+                                .sortKeys(sortKeys)
+                                .build()
+                diffArtifactList.add(da)
+            }
+            if (foundLeftCount == 0 || foundLeftCount >= 2) {
+                if (verbose) {
+                    logger.warn(sb.toString())
+                }
+            }
+        }
+
+        //
+        leftList.each { Material left ->
+            FileType leftFileType = left.getIndexEntry().getFileType()
+            Metadata leftMetadata = left.getIndexEntry().getMetadata()
+            MetadataPattern leftPattern =
+                    MetadataPattern.builderWithMetadata(leftMetadata, ignoringMetadataKeys).build()
+            StringBuilder sb = new StringBuilder()  // to compose a log message
+            sb.append("\nleft pattern: ${leftPattern}\n")
+            int foundRightCount = 0
+            rightList.each { Material right ->
+                FileType rightFileType = right.getIndexEntry().getFileType()
+                Metadata rightMetadata = right.getIndexEntry().getMetadata()
+                if (rightFileType == leftFileType &&
+                        ( leftPattern.matches(rightMetadata) ||
+                                identifyMetadataValues.matches(rightMetadata) )
+                ) {
+                    // this must have been found matched already; no need to create a DiffArtifact
+                    sb.append("right metadata: Y ${rightMetadata}\n")
+                    foundRightCount += 1
+                } else {
+                    sb.append("right metadata: N ${rightMetadata}\n")
+                }
+            }
+            if (foundRightCount == 0) {
+                DiffArtifact da =
+                        new DiffArtifact.Builder(left, Material.NULL_OBJECT)
+                                .setMetadataPattern(leftPattern)
+                                .sortKeys(sortKeys)
+                                .build()
+                diffArtifactList.add(da)
+            }
+            if (foundRightCount == 0 || foundRightCount >= 2) {
+                if (verbose) {
+                    logger.warn(sb.toString())
+                }
+            }
+        }
+
+        return diffArtifactList
     }
 
     //---------------------------------------------------------------
@@ -129,20 +253,37 @@ final class DiffArtifactGroup {
         private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
         private SortKeys sortKeys = SortKeys.NULL_OBJECT
         //
+        Builder() {
+            this.leftMaterialList
+        }
         Builder(MaterialList left, MaterialList right) {
             this.leftMaterialList = left
             this.rightMaterialList = right
             this.diffArtifactList = new ArrayList<>()
         }
-        Builder ignoringMetadataKeys(IgnoringMetadataKeys ignoringMetadataKeys) {
+        Builder ignoreKeys(String ... keys) {
+            IgnoringMetadataKeys imk =
+                    new IgnoringMetadataKeys.Builder().ignoreKeys(keys).build()
+            return setIgnoringMetadataKeys(imk)
+        }
+        Builder setIgnoringMetadataKeys(IgnoringMetadataKeys ignoringMetadataKeys) {
             this.ignoringMetadataKeys = ignoringMetadataKeys
             return this
         }
-        Builder identifyMetadataValues(IdentifyMetadataValues identifyMetadataValues) {
+        Builder identifyWithRegex(Map<String, String> pairs) {
+            IdentifyMetadataValues imv =
+                    new IdentifyMetadataValues.Builder().putAll(pairs).build()
+            return setIdentifyMetadataValues(imv)
+        }
+        Builder setIdentifyMetadataValues(IdentifyMetadataValues identifyMetadataValues) {
             this.identifyMetadataValues = identifyMetadataValues
             return this
         }
-        Builder sortKeys(SortKeys sortKeys) {
+        Builder sortByKeys(String ... args) {
+            SortKeys sortKeys = new SortKeys(args)
+            return this.setSortKeys(sortKeys)
+        }
+        Builder setSortKeys(SortKeys sortKeys) {
             this.sortKeys = sortKeys
             return this
         }

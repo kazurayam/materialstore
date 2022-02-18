@@ -26,13 +26,13 @@ final class DifferDriverImpl implements DifferDriver {
     @Override
     DiffArtifactGroup differentiate(DiffArtifactGroup input) {
         Objects.requireNonNull(input)
-        Objects.requireNonNull(root_)
         //
         DiffArtifactGroup stuffed = new DiffArtifactGroup()
         stuffed.setLeftMaterialList(input.getLeftMaterialList())
         stuffed.setRightMaterialList(input.getRightMaterialList())
         stuffed.setIgnoringMetadataKeys(input.getIgnoringMetadataKeys())
         stuffed.setIdentifyMetadataValues(input.getIdentifyMetadataValues())
+        stuffed.setSortKeys(input.getSortKeys())
         //
         input.each { DiffArtifact da ->
             FileType fileType
