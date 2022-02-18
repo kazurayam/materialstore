@@ -1,7 +1,8 @@
 package com.kazurayam.materialstore.reporter
 
-import com.kazurayam.materialstore.filesystem.FileTypeDiffability
+
 import com.kazurayam.materialstore.filesystem.FileType
+import com.kazurayam.materialstore.filesystem.FileTypeDiffability
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList

@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
-import com.kazurayam.materialstore.filesystem.FileType
-import com.kazurayam.materialstore.filesystem.FileTypeDiffability
+
 import org.junit.jupiter.api.Test
 import groovy.json.JsonOutput
 import static org.junit.jupiter.api.Assertions.assertEquals
