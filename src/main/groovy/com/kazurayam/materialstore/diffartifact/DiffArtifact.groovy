@@ -17,7 +17,7 @@ final class DiffArtifact implements Comparable {
     private final Material left
     private final Material right
     private final MetadataPattern metadataPattern
-    private final DiffArtifactComparisonPriorities comparisonPriorities
+    private final SortKeys sortKeys
     //
     private Material diff
     private Double diffRatio
@@ -28,7 +28,7 @@ final class DiffArtifact implements Comparable {
         this.metadataPattern = builder.metadataPattern
         this.diff = Material.NULL_OBJECT
         this.diffRatio = 0.0d
-        this.comparisonPriorities = builder.comparisonPriorities
+        this.sortKeys = builder.sortKeys
     }
 
     /**
@@ -42,7 +42,7 @@ final class DiffArtifact implements Comparable {
         this.right = source.getRight()
         this.diff = source.getDiff()
         this.metadataPattern = source.getDescriptor()
-        this.comparisonPriorities = source.getDiffArtifactComparisonPriorities()
+        this.sortKeys = source.getSortKeys()
     }
 
     void setDiff(Material diff) {
@@ -59,8 +59,8 @@ final class DiffArtifact implements Comparable {
         return this.left
     }
 
-    DiffArtifactComparisonPriorities getDiffArtifactComparisonPriorities() {
-        return this.comparisonPriorities
+    SortKeys getSortKeys() {
+        return this.sortKeys
     }
 
     String getFileTypeExtension() {
@@ -92,7 +92,7 @@ final class DiffArtifact implements Comparable {
     }
 
     String getDescription() {
-        return this.metadataPattern.getDescription(comparisonPriorities)
+        return this.metadataPattern.getDescription(sortKeys)
     }
 
     @Override
@@ -146,7 +146,7 @@ final class DiffArtifact implements Comparable {
         }
         DiffArtifact other = (DiffArtifact)obj
 
-        // Note that the DiffArtifactComparisonPriorities is taken into account here
+        // Note that the SortKey is taken into account here indirectly
         return this.getDescription() <=> other.getDescription()
     }
 
@@ -160,7 +160,7 @@ final class DiffArtifact implements Comparable {
         //
         private Material diff
         private Double diffRatio
-        private DiffArtifactComparisonPriorities comparisonPriorities
+        private SortKeys sortKeys
         Builder(Material left, Material right) {
             Objects.requireNonNull(left)
             Objects.requireNonNull(right)
@@ -169,15 +169,15 @@ final class DiffArtifact implements Comparable {
             this.metadataPattern = MetadataPattern.NULL_OBJECT
             this.diff = Material.NULL_OBJECT
             this.diffRatio = -1.0d
-            this.comparisonPriorities = DiffArtifactComparisonPriorities.NULL_OBJECT
+            this.sortKeys = SortKeys.NULL_OBJECT
         }
         Builder setMetadataPattern(MetadataPattern metadataPattern) {
             Objects.requireNonNull(metadataPattern)
             this.metadataPattern = metadataPattern
             return this
         }
-        Builder setDiffArtifactComparisonPriorities(DiffArtifactComparisonPriorities comparisonPriorities) {
-            this.comparisonPriorities = comparisonPriorities
+        Builder sortKeys(SortKeys sortKeys) {
+            this.sortKeys = sortKeys
             return this
         }
         DiffArtifact build() {

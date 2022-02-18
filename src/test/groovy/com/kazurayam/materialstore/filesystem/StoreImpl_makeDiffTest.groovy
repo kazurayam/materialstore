@@ -1,7 +1,8 @@
 package com.kazurayam.materialstore.filesystem
 
-import com.kazurayam.materialstore.diffartifact.DiffArtifactComparisonPriorities
+
 import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
+import com.kazurayam.materialstore.diffartifact.SortKeys
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
 import com.kazurayam.materialstore.metadata.MetadataPattern
@@ -70,7 +71,7 @@ class StoreImpl_makeDiffTest {
                 store.makeDiff(left, right,
                         IgnoringMetadataKeys.of("profile", "URL.host"),
                         IdentifyMetadataValues.by(["URL.query":"\\w{32}"]),
-                        DiffArtifactComparisonPriorities.NULL_OBJECT)
+                        SortKeys.NULL_OBJECT)
         int warnings = diffArtifactGroup.countWarnings(criteria)
         // compile the report
         Path reportFile =

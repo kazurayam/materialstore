@@ -2,8 +2,8 @@ package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.MaterialstoreException
 import com.kazurayam.materialstore.diffartifact.DiffArtifact
-import com.kazurayam.materialstore.diffartifact.DiffArtifactComparisonPriorities
 import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
+import com.kazurayam.materialstore.diffartifact.SortKeys
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.differ.DifferDriver
 import com.kazurayam.materialstore.differ.DifferDriverImpl
@@ -228,6 +228,7 @@ final class StoreImpl implements Store {
         return root_
     }
 
+    @Deprecated
     @Override
     DiffArtifactGroup makeDiff(MaterialList left,
                                MaterialList right,
@@ -236,25 +237,26 @@ final class StoreImpl implements Store {
         return this.makeDiff(left, right,
                 ignoringMetadataKeys,
                 identifyMetadataValues,
-                DiffArtifactComparisonPriorities.getNULL_OBJECT())
+                SortKeys.NULL_OBJECT)
     }
 
+    @Deprecated
     @Override
     DiffArtifactGroup makeDiff(MaterialList left,
                                MaterialList right,
                                IgnoringMetadataKeys ignoringMetadataKeys,
                                IdentifyMetadataValues identifyMetadataValues,
-                               DiffArtifactComparisonPriorities comparisonPriorities)
+                               SortKeys sortKeys)
     {
         Objects.requireNonNull(left)
         Objects.requireNonNull(right)
         Objects.requireNonNull(ignoringMetadataKeys)
         Objects.requireNonNull(identifyMetadataValues)
-        Objects.requireNonNull(comparisonPriorities)
+        Objects.requireNonNull(sortKeys)
 
         DiffArtifactGroup diffArtifactGroup =
                 this.zipMaterials(left, right,
-                        ignoringMetadataKeys, identifyMetadataValues, comparisonPriorities)
+                        ignoringMetadataKeys, identifyMetadataValues, sortKeys)
         assert diffArtifactGroup != null
 
         DifferDriver differDriver = new DifferDriverImpl.Builder(root_).build()
@@ -404,7 +406,7 @@ final class StoreImpl implements Store {
                                    IgnoringMetadataKeys ignoringMetadataKeys) {
         return zipMaterials(leftList, rightList, ignoringMetadataKeys,
                 IdentifyMetadataValues.NULL_OBJECT,
-                DiffArtifactComparisonPriorities.NULL_OBJECT)
+                SortKeys.NULL_OBJECT)
     }
 
     @Override
@@ -415,7 +417,7 @@ final class StoreImpl implements Store {
         return zipMaterials(leftList, rightList,
                 ignoringMetadataKeys,
                 identifyMetadataValues,
-                DiffArtifactComparisonPriorities.NULL_OBJECT)
+                SortKeys.NULL_OBJECT)
     }
 
     /**
@@ -430,12 +432,12 @@ final class StoreImpl implements Store {
                                    MaterialList rightList,
                                    IgnoringMetadataKeys ignoringMetadataKeys,
                                    IdentifyMetadataValues identifyMetadataValues,
-                                   DiffArtifactComparisonPriorities comparisonPriorities) {
+                                   SortKeys sortKeys) {
         Objects.requireNonNull(leftList)
         Objects.requireNonNull(rightList)
         Objects.requireNonNull(ignoringMetadataKeys)
         Objects.requireNonNull(identifyMetadataValues)
-        Objects.requireNonNull(comparisonPriorities)
+        Objects.requireNonNull(sortKeys)
 
         //
         DiffArtifactGroup diffArtifactGroup = new DiffArtifactGroup()
@@ -463,7 +465,7 @@ final class StoreImpl implements Store {
                     DiffArtifact da =
                             new DiffArtifact.Builder(left, right)
                                     .setMetadataPattern(rightPattern)
-                                    .setDiffArtifactComparisonPriorities(comparisonPriorities)
+                                    .sortKeys(sortKeys)
                                     .build()
                     diffArtifactGroup.add(da)
                     sb.append("left metadata: Y ${leftMetadata}\n")
@@ -476,7 +478,7 @@ final class StoreImpl implements Store {
                 DiffArtifact da =
                         new DiffArtifact.Builder(Material.NULL_OBJECT, right)
                                 .setMetadataPattern(rightPattern)
-                                .setDiffArtifactComparisonPriorities(comparisonPriorities)
+                                .sortKeys(sortKeys)
                                 .build()
                 diffArtifactGroup.add(da)
             }
@@ -514,7 +516,7 @@ final class StoreImpl implements Store {
                 DiffArtifact da =
                         new DiffArtifact.Builder(left, Material.NULL_OBJECT)
                                 .setMetadataPattern(leftPattern)
-                                .setDiffArtifactComparisonPriorities(comparisonPriorities)
+                                .sortKeys(sortKeys)
                                 .build()
                 diffArtifactGroup.add(da)
             }

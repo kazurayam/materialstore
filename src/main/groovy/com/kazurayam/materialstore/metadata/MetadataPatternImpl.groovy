@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.metadata
 
-import com.kazurayam.materialstore.diffartifact.DiffArtifactComparisonPriorities
+
+import com.kazurayam.materialstore.diffartifact.SortKeys
 import groovy.xml.MarkupBuilder
 
 final class MetadataPatternImpl extends MetadataPattern {
@@ -98,12 +99,12 @@ final class MetadataPatternImpl extends MetadataPattern {
     //------------- implements java.lang.Object -------
     @Override
     String toString() {
-        this.getDescription(DiffArtifactComparisonPriorities.NULL_OBJECT)
+        this.getDescription(SortKeys.NULL_OBJECT)
     }
 
     @Override
-    String getDescription(DiffArtifactComparisonPriorities comparisonPriorities) {
-        List<String> keyList = orderedKeyList(metadataPattern.keySet(), comparisonPriorities)
+    String getDescription(SortKeys sortKeys) {
+        List<String> keyList = orderedKeyList(metadataPattern.keySet(), sortKeys)
         //
         StringBuilder sb = new StringBuilder()
         int count = 0
@@ -124,15 +125,15 @@ final class MetadataPatternImpl extends MetadataPattern {
         return sb.toString()
     }
 
-    private List<String> orderedKeyList(Set<String> keySet, DiffArtifactComparisonPriorities comparisonPriorities) {
-        if (comparisonPriorities == DiffArtifactComparisonPriorities.NULL_OBJECT) {
+    private List<String> orderedKeyList(Set<String> keySet, SortKeys sortKeys) {
+        if (sortKeys == SortKeys.NULL_OBJECT) {
             List<String> keyList = new ArrayList<>(metadataPattern.keySet())
             Collections.sort(keyList)
             return keyList
         } else {
             Set<String> workSet = new HashSet<>(keySet)
             List<String> orderedKeyList = new ArrayList<>()
-            comparisonPriorities.each {k ->
+            sortKeys.each {k ->
                 if (workSet.contains(k)) {
                     orderedKeyList.add(k)
                     workSet.remove(k)

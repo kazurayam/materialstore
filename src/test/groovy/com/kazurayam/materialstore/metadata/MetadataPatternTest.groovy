@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.metadata
 
-import com.kazurayam.materialstore.diffartifact.DiffArtifactComparisonPriorities
+
+import com.kazurayam.materialstore.diffartifact.SortKeys
 import groovy.xml.MarkupBuilder
 import groovy.json.JsonOutput
 import org.junit.jupiter.api.Test
@@ -63,7 +64,7 @@ class MetadataPatternTest {
                 "profile": "Flaskr_ProductionEnv",
                 "step":"6"
         ]).build()
-        DiffArtifactComparisonPriorities orderArtifacts = new DiffArtifactComparisonPriorities("step", "profile")
+        SortKeys orderArtifacts = new SortKeys("step", "profile")
         String description = mp.getDescription(orderArtifacts)
         assertEquals('''{"step":"6", "profile":"Flaskr_ProductionEnv", "URL.path":"/"}''',
                 description)

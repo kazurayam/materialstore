@@ -2,21 +2,21 @@ package com.kazurayam.materialstore.diffartifact
 
 import com.google.gson.Gson
 
-class DiffArtifactComparisonPriorities {
+class SortKeys {
 
-    static final DiffArtifactComparisonPriorities NULL_OBJECT = new DiffArtifactComparisonPriorities(new ArrayList<String>())
+    public static final SortKeys NULL_OBJECT = new SortKeys(new ArrayList<String>())
 
     private final List<String> arguments
 
-    static DiffArtifactComparisonPriorities of(String ... args) {
-        return new DiffArtifactComparisonPriorities(args)
+    static SortKeys of(String ... args) {
+        return new SortKeys(args)
     }
 
-    private DiffArtifactComparisonPriorities(String ... args) {
+    private SortKeys(String ... args) {
         this(Arrays.asList(args))
     }
 
-    private DiffArtifactComparisonPriorities(List<String> args) {
+    private SortKeys(List<String> args) {
         this.arguments = args
     }
 

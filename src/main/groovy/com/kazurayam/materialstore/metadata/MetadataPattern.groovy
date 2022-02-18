@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.metadata
 
-import com.kazurayam.materialstore.diffartifact.DiffArtifactComparisonPriorities
+
+import com.kazurayam.materialstore.diffartifact.SortKeys
 import groovy.xml.MarkupBuilder
 
 import java.util.regex.Pattern
@@ -43,7 +44,7 @@ abstract class MetadataPattern {
 
     abstract MetadataPatternValue get(String key)
 
-    abstract String getDescription(DiffArtifactComparisonPriorities comparisonPriorities)
+    abstract String getDescription(SortKeys sortKeys)
 
     abstract String getAsString(String key)
 

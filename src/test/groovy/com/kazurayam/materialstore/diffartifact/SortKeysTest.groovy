@@ -19,12 +19,12 @@ import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.*
 
-class DiffArtifactComparisonPrioritiesTest {
+class SortKeysTest {
     private static Path fixtureDir = Paths.get(".")
             .resolve("src/test/resources/fixture/issue#89")
     private static final Path outputDir = Paths.get(".")
             .resolve("build/tmp/testOutput")
-            .resolve(DiffArtifactComparisonPrioritiesTest.class.getName())
+            .resolve(SortKeysTest.class.getName())
     private static Store store
 
     private JobName jobName
@@ -63,13 +63,13 @@ class DiffArtifactComparisonPrioritiesTest {
 
     @Test
     void test_smoke() {
-        DiffArtifactComparisonPriorities comparisonPriorities =
-                new DiffArtifactComparisonPriorities("step", "URL.path")
+        SortKeys sortKeys =
+                new SortKeys("step", "URL.path")
         DiffArtifactGroup das =
                 store.makeDiff(left, right,
                         IgnoringMetadataKeys.of("profile", "URL.host", "URL.port"),
                         IdentifyMetadataValues.NULL_OBJECT,
-                        comparisonPriorities
+                        sortKeys
                 )
         assertEquals(14, das.size())
         das.each {it ->
@@ -85,12 +85,12 @@ class DiffArtifactComparisonPrioritiesTest {
 
     @Test
     void test_constructor() {
-        assertNotNull(new DiffArtifactComparisonPriorities("step", "URL.path"))
+        assertNotNull(new SortKeys("step", "URL.path"))
     }
 
     @Test
     void test_toString() {
-        String json = new DiffArtifactComparisonPriorities("step", "URL.path").toString()
+        String json = new SortKeys("step", "URL.path").toString()
         println json
     }
 

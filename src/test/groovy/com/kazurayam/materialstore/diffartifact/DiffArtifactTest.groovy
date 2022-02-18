@@ -48,14 +48,14 @@ class DiffArtifactTest {
                 "profile": "Flaskr_ProductionEnv",
                 "step":"6"
         ]).build()
-        DiffArtifactComparisonPriorities comparisonPriorities =
-                new DiffArtifactComparisonPriorities("step", "profile")
+        SortKeys sortKeys =
+                new SortKeys("step", "profile")
         DiffArtifact diffArtifact =
                 new DiffArtifact.Builder(
                         Material.NULL_OBJECT,
                         Material.NULL_OBJECT)
                         .setMetadataPattern(mp)
-                        .setDiffArtifactComparisonPriorities(comparisonPriorities)
+                        .sortKeys(sortKeys)
                         .build()
         String description = diffArtifact.getDescription()
         assertEquals('''{"step":"6", "profile":"Flaskr_ProductionEnv", "URL.path":"/"}''',

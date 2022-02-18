@@ -21,8 +21,13 @@ final class DiffArtifactGroup {
     private IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT
     private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
 
+    @Deprecated
     DiffArtifactGroup() {
         diffArtifactList = new ArrayList<DiffArtifact>()
+    }
+
+    private DiffArtifactGroup(Builder builder) {
+        this.diffArtifactList = builder.diffArtifactList
     }
 
     void add(DiffArtifact e) {
@@ -111,4 +116,38 @@ final class DiffArtifactGroup {
         return sb.toString()
     }
 
+    /**
+     *
+     */
+    static class Builder {
+        // required
+        private final List<DiffArtifact> diffArtifactList
+        private final MaterialList leftMaterialList
+        private final MaterialList rightMaterialList
+        //
+        private IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT
+        private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
+        private SortKeys sortKeys = SortKeys.NULL_OBJECT
+        //
+        Builder(MaterialList left, MaterialList right) {
+            this.leftMaterialList = left
+            this.rightMaterialList = right
+            this.diffArtifactList = new ArrayList<>()
+        }
+        Builder ignoringMetadataKeys(IgnoringMetadataKeys ignoringMetadataKeys) {
+            this.ignoringMetadataKeys = ignoringMetadataKeys
+            return this
+        }
+        Builder identifyMetadataValues(IdentifyMetadataValues identifyMetadataValues) {
+            this.identifyMetadataValues = identifyMetadataValues
+            return this
+        }
+        Builder sortKeys(SortKeys sortKeys) {
+            this.sortKeys = sortKeys
+            return this
+        }
+        DiffArtifactGroup build() {
+            return new DiffArtifactGroup(this)
+        }
+    }
 }

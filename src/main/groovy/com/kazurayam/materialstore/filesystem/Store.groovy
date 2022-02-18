@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
-import com.kazurayam.materialstore.diffartifact.DiffArtifactComparisonPriorities
+import com.kazurayam.materialstore.diffartifact.SortKeys
 import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
@@ -39,14 +39,16 @@ interface Store {
 
     Path getRoot()
 
+    @Deprecated
     DiffArtifactGroup makeDiff(MaterialList left, MaterialList right,
                                IgnoringMetadataKeys ignoringMetadataKeys,
                                IdentifyMetadataValues identifyMetadataValues)
 
+    @Deprecated
     DiffArtifactGroup makeDiff(MaterialList left, MaterialList right,
                                IgnoringMetadataKeys ignoringMetadataKeys,
                                IdentifyMetadataValues identifyMetadataValues,
-                               DiffArtifactComparisonPriorities comparisonPriorities)
+                               SortKeys sortKeys)
 
     DiffReporter newReporter(JobName jobName)
 
@@ -93,5 +95,5 @@ interface Store {
     DiffArtifactGroup zipMaterials(MaterialList left, MaterialList right,
                                    IgnoringMetadataKeys ignoringMetadataKeys,
                                    IdentifyMetadataValues identifyMetadataValues,
-                                   DiffArtifactComparisonPriorities comparisonPriorities)
+                                   SortKeys sortKeys)
 }
