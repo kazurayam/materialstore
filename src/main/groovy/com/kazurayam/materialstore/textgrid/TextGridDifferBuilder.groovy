@@ -4,15 +4,15 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-import com.kazurayam.materialstore.DiffArtifacts
-import com.kazurayam.materialstore.IdentifyMetadataValues
-import com.kazurayam.materialstore.IgnoringMetadataKeys
-import com.kazurayam.materialstore.JobName
-import com.kazurayam.materialstore.JobTimestamp
-import com.kazurayam.materialstore.MaterialList
-import com.kazurayam.materialstore.MetadataPattern
-import com.kazurayam.materialstore.Store
-import com.kazurayam.materialstore.Stores
+import com.kazurayam.materialstore.diffartifact.DiffArtifacts
+import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
+import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
+import com.kazurayam.materialstore.filesystem.JobName
+import com.kazurayam.materialstore.filesystem.JobTimestamp
+import com.kazurayam.materialstore.filesystem.MaterialList
+import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.filesystem.Store
+import com.kazurayam.materialstore.filesystem.Stores
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

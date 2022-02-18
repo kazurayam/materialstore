@@ -1,7 +1,18 @@
 package com.kazurayam.materialstore.reporter
 
-import com.kazurayam.materialstore.*
+
+import com.kazurayam.materialstore.diffartifact.DiffArtifact
+import com.kazurayam.materialstore.diffartifact.DiffArtifacts
+import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.differ.DifferUtil
+import com.kazurayam.materialstore.filesystem.FileType
+import com.kazurayam.materialstore.filesystem.FileTypeDiffability
+import com.kazurayam.materialstore.filesystem.JobName
+import com.kazurayam.materialstore.filesystem.Material
+import com.kazurayam.materialstore.filesystem.MaterialList
+import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
+import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
+import com.kazurayam.materialstore.metadata.MetadataPattern
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -188,7 +199,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
     private static void makeModalSubsection(MarkupBuilder mb, DiffArtifact da, Integer seq) {
         Material right = da.getRight()
         mb.div(class: "show-diff") {
-            if (right.getDiffability() == Diffability.AS_IMAGE) {
+            if (right.getDiffability() == FileTypeDiffability.AS_IMAGE) {
                 String imageModalId = "imageModal${seq}"
                 String imageModalTitleId = "imageModalLabel${seq}"
                 String carouselId = "carouselControl${seq}"
@@ -271,7 +282,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
                         }
                     }
                 }
-            } else if (right.getDiffability() == Diffability.AS_TEXT) {
+            } else if (right.getDiffability() == FileTypeDiffability.AS_TEXT) {
                 String textModalId = "textModal${seq}"
                 String textModalTitleId = "textModalLabel${seq}"
                 mkp.comment("Button trigger modal")
@@ -388,6 +399,7 @@ final class DiffArtifactsBasicReporter implements DiffReporter {
         MetadataPattern getRightMetadataPattern() {
             return this.right
         }
+
         IdentifyMetadataValues getIdentifyMetadataValues() {
             return this.identifyMetadataValues
         }

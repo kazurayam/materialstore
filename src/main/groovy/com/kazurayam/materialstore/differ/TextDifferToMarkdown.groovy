@@ -2,8 +2,7 @@ package com.kazurayam.materialstore.differ
 
 import com.github.difflib.text.DiffRow
 import com.github.difflib.text.DiffRowGenerator
-import com.kazurayam.materialstore.Differ
-import com.kazurayam.materialstore.Material
+import com.kazurayam.materialstore.filesystem.Material
 
 import java.nio.charset.Charset
 import java.nio.file.Path

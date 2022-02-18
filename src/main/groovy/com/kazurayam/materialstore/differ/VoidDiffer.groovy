@@ -1,11 +1,10 @@
 package com.kazurayam.materialstore.differ
 
-import com.kazurayam.materialstore.DiffArtifact
-import com.kazurayam.materialstore.Differ
-import com.kazurayam.materialstore.FileType
-import com.kazurayam.materialstore.Jobber
-import com.kazurayam.materialstore.Material
-import com.kazurayam.materialstore.Metadata
+import com.kazurayam.materialstore.diffartifact.DiffArtifact
+import com.kazurayam.materialstore.filesystem.FileType
+import com.kazurayam.materialstore.filesystem.Jobber
+import com.kazurayam.materialstore.filesystem.Material
+import com.kazurayam.materialstore.metadata.Metadata
 
 import java.nio.charset.StandardCharsets
 import java.nio.file.Path

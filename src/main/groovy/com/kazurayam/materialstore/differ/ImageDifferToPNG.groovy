@@ -1,6 +1,12 @@
 package com.kazurayam.materialstore.differ
 
-import com.kazurayam.materialstore.*
+
+import com.kazurayam.materialstore.diffartifact.DiffArtifact
+import com.kazurayam.materialstore.filesystem.FileType
+import com.kazurayam.materialstore.filesystem.FileTypeDiffability
+import com.kazurayam.materialstore.filesystem.Jobber
+import com.kazurayam.materialstore.filesystem.Material
+import com.kazurayam.materialstore.metadata.Metadata
 import ru.yandex.qatools.ashot.comparison.ImageDiff
 import ru.yandex.qatools.ashot.comparison.ImageDiffer
 
@@ -40,7 +46,7 @@ final class ImageDifferToPNG implements Differ {
         Objects.requireNonNull(input.getRight())
         //
         Material left = input.getLeft()
-        if (! left.getDiffability() == Diffability.AS_IMAGE) {
+        if (! left.getDiffability() == FileTypeDiffability.AS_IMAGE) {
             throw new IllegalArgumentException("the left material is not an image: ${left}")
         }
         File leftFile = root_.resolve(left.getRelativePath()).toFile()
@@ -48,7 +54,7 @@ final class ImageDifferToPNG implements Differ {
         assert leftImage != null
         //
         Material right = input.getRight()
-        if (! right.getDiffability() == Diffability.AS_IMAGE) {
+        if (! right.getDiffability() == FileTypeDiffability.AS_IMAGE) {
             throw new IllegalArgumentException("the right material is not an image: ${right}")
         }
         File rightFile = root_.resolve(right.getRelativePath()).toFile()

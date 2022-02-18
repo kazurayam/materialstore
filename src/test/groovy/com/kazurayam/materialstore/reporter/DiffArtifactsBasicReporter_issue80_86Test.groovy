@@ -1,15 +1,15 @@
 package com.kazurayam.materialstore.reporter
 
-import com.kazurayam.materialstore.DiffArtifacts
-import com.kazurayam.materialstore.DiffReporter
-import com.kazurayam.materialstore.IdentifyMetadataValues
-import com.kazurayam.materialstore.IgnoringMetadataKeys
-import com.kazurayam.materialstore.JobName
-import com.kazurayam.materialstore.JobTimestamp
-import com.kazurayam.materialstore.MaterialList
-import com.kazurayam.materialstore.MetadataPattern
-import com.kazurayam.materialstore.Store
-import com.kazurayam.materialstore.Stores
+import com.kazurayam.materialstore.diffartifact.DiffArtifacts
+import com.kazurayam.materialstore.differ.DiffReporter
+import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
+import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
+import com.kazurayam.materialstore.filesystem.JobName
+import com.kazurayam.materialstore.filesystem.JobTimestamp
+import com.kazurayam.materialstore.filesystem.MaterialList
+import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.filesystem.Store
+import com.kazurayam.materialstore.filesystem.Stores
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -111,11 +111,11 @@ class DiffArtifactsBasicReporter_issue80_86Test {
         // make sure the HTML contains
         //     <span>"/npm/bootstrap-icons@</span><span class='semantic-version'>1.5.0</span><span>/font/bootstrap-icons.css"</span>
         // for short,
-        // a string "span><span class='semantic-version'>1." and
-        // a string ".0</span><span"
+        // a string "<span class='semantic-version'>1." and
+        // a string ".0</span>"
 
-        String s1 = "span><span class='semantic-version'>1.";
-        String s2 = ".0</span><span";
+        String s1 = "<span class='semantic-version'>1.";
+        String s2 = ".0</span>";
         assertTrue(reportText.contains(s1) && reportText.contains(s2),
                 String.format("expected \"%s\" and \"%s\" in the report but not found", s1, s2));
     }

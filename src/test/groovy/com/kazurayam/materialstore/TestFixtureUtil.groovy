@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore
 
-
+import com.kazurayam.materialstore.filesystem.JobName
+import com.kazurayam.materialstore.filesystem.Store
 import org.apache.commons.io.FileUtils
 
 import java.nio.file.Path

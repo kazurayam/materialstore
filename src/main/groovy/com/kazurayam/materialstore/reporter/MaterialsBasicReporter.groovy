@@ -1,13 +1,11 @@
 package com.kazurayam.materialstore.reporter
 
-import com.kazurayam.materialstore.Diffability
-import com.kazurayam.materialstore.FileType
-import com.kazurayam.materialstore.IdentifyMetadataValues
-import com.kazurayam.materialstore.IgnoringMetadataKeys
-import com.kazurayam.materialstore.JobName
-import com.kazurayam.materialstore.Material
-import com.kazurayam.materialstore.MaterialList
-import com.kazurayam.materialstore.MetadataPattern
+import com.kazurayam.materialstore.filesystem.FileTypeDiffability
+import com.kazurayam.materialstore.filesystem.FileType
+import com.kazurayam.materialstore.filesystem.JobName
+import com.kazurayam.materialstore.filesystem.Material
+import com.kazurayam.materialstore.filesystem.MaterialList
+import com.kazurayam.materialstore.metadata.MetadataPattern
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -154,11 +152,11 @@ final class MaterialsBasicReporter {
                             .toSpanSequence(mb, metadataPattern)
                 }
             }
-            if (material.getDiffability() == Diffability.AS_IMAGE) {
+            if (material.getDiffability() == FileTypeDiffability.AS_IMAGE) {
                 img(class: "img-fluid d-block w-75 centered",
                         alt: "image-material",
                         src: material.getRelativeURL())
-            } else if (material.getDiffability() == Diffability.AS_TEXT) {
+            } else if (material.getDiffability() == FileTypeDiffability.AS_TEXT) {
                 List<String> lines =
                         Files.readAllLines(
                                 material.toPath(root),

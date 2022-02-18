@@ -4,12 +4,12 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.util.stream.Collectors
 
-import com.kazurayam.materialstore.FileType
-import com.kazurayam.materialstore.JobName
-import com.kazurayam.materialstore.JobTimestamp
-import com.kazurayam.materialstore.Material
-import com.kazurayam.materialstore.Metadata
-import com.kazurayam.materialstore.Store
+import com.kazurayam.materialstore.filesystem.FileType
+import com.kazurayam.materialstore.filesystem.JobName
+import com.kazurayam.materialstore.filesystem.JobTimestamp
+import com.kazurayam.materialstore.filesystem.Material
+import com.kazurayam.materialstore.metadata.Metadata
+import com.kazurayam.materialstore.filesystem.Store
 
 class DefaultTextGridDiffer extends TextGridDifferBuilder {
 

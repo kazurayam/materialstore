@@ -1,7 +1,12 @@
 package com.kazurayam.materialstore.differ
 
-import com.kazurayam.materialstore.*
-import org.apache.commons.lang3.builder.Diff
+
+import com.kazurayam.materialstore.diffartifact.DiffArtifact
+import com.kazurayam.materialstore.filesystem.FileType
+import com.kazurayam.materialstore.filesystem.FileTypeDiffability
+import com.kazurayam.materialstore.filesystem.Jobber
+import com.kazurayam.materialstore.filesystem.Material
+import com.kazurayam.materialstore.metadata.Metadata
 
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
@@ -46,11 +51,11 @@ abstract class AbstractTextDiffer implements Differ {
         Objects.requireNonNull(input.getRight())
         //
         Material left = input.getLeft()
-        if (! left.getDiffability() == Diffability.AS_TEXT) {
+        if (! left.getDiffability() == FileTypeDiffability.AS_TEXT) {
             throw new IllegalArgumentException("${left} is not a text")
         }
         Material right = input.getRight()
-        if (! right.getDiffability() == Diffability.AS_TEXT) {
+        if (! right.getDiffability() == FileTypeDiffability.AS_TEXT) {
             throw new IllegalArgumentException("${right} is not a text")
         }
 
