@@ -64,6 +64,14 @@ class MObjectTest {
     }
 
     @Test
+    void test_getFileName() {
+        byte[] bytes = "Hello, world".getBytes("UTF-8")
+        MObject mObject = new MObject(bytes, FileType.TXT)
+        assertEquals("e02aa1b106d5c7c6a98def2b13005d5b84fd8dc8.txt",
+                mObject.getFileName())
+    }
+
+    @Test
     void test_deserialize_png() {
         Path f = imagesDir.resolve("20210623_225337.development.png")
         MObject productObject = MObject.deserialize(f, FileType.PNG)

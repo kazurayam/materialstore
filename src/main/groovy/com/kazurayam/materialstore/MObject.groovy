@@ -44,7 +44,7 @@ final class MObject {
     }
 
     String getFileName() {
-        return "${ID.toString()}.${fileType_.getExtension()}"
+        return "${getID().toString()}.${fileType_.getExtension()}"
     }
 
     byte[] getData() {
