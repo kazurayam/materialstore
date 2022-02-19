@@ -26,4 +26,4 @@ package-lock.json
 tmp/
 
 # groovydoc
-docs/api/
+#docs/api/

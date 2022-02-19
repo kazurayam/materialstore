@@ -5,5 +5,7 @@ See https://kazurayam.github.io/materialstore-examples/ for examples how to use 
 
 ## Dependencies
 
+See [build.gradle](./build.gradle)
+
 
 
