@@ -51,8 +51,9 @@ class TextDifferToMarkdownTest {
                 FileType.HTML)
 
         DiffArtifactGroup diffArtifactGroup =
-                storeImpl.zipMaterials(left, right,
-                        IgnoringMetadataKeys.of("profile", "URL", "URL.host"))
+                new DiffArtifactGroup.Builder(left, right)
+                        .ignoreKeys("profile", "URL", "URL.host")
+                        .build()
         assertNotNull(diffArtifactGroup)
         assertEquals(1, diffArtifactGroup.size())
         //

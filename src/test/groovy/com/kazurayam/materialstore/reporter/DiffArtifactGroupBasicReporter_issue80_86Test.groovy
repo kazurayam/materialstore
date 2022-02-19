@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.reporter
 
-
+import com.kazurayam.materialstore.MaterialstoreFacade
 import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
@@ -83,14 +83,15 @@ class DiffArtifactGroupBasicReporter_issue80_86Test {
 
         // make diff of the 2 MaterialList objects
         // make diff
-        DiffArtifactGroup diffArtifactGroup =
-                store.makeDiff(left, right,
-                        IgnoringMetadataKeys.of("profile", "URL", "URL.host"),
-                        IdentifyMetadataValues.by(["URL.query": "\\w{32}"]))
-
+        DiffArtifactGroup preparedDAG =
+                new DiffArtifactGroup.Builder(left, right)
+                        .ignoreKeys("profile", "URL", "URL.host")
+                        .identifyWithRegex(["URL.query": "\\w{32}"])
+                        .build()
+        DiffArtifactGroup stuffedDAG = new MaterialstoreFacade(store).makeDiff(preparedDAG)
         // compile HTML report
         DiffReporter reporter = store.newReporter(jobName)
-        Path report = reporter.reportDiffs(diffArtifactGroup, "index.html")
+        Path report = reporter.reportDiffs(stuffedDAG, "index.html")
         assertTrue(Files.exists(report))
 
         // test the report content

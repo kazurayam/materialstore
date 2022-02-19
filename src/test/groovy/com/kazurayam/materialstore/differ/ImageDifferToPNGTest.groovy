@@ -46,8 +46,9 @@ class ImageDifferToPNGTest {
                 FileType.PNG)
 
         DiffArtifactGroup diffArtifactGroup =
-                storeImpl.zipMaterials(left, right,
-                        IgnoringMetadataKeys.of("profile", "URL", "URL.host"))
+                new DiffArtifactGroup.Builder(left, right)
+                        .ignoreKeys("profile", "URL", "URL.host")
+                        .build()
         assertNotNull(diffArtifactGroup)
         assertEquals(2, diffArtifactGroup.size(), JsonOutput.prettyPrint(diffArtifactGroup.toString()))
         //

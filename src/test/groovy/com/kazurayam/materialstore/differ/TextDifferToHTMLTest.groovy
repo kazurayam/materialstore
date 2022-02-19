@@ -49,13 +49,14 @@ class TextDifferToHTMLTest {
                         .build(),
                 FileType.HTML)
 
-        DiffArtifactGroup diffArtifactGroup =
-                storeImpl.zipMaterials(expected, actual,
-                        IgnoringMetadataKeys.of("profile", "URL", "URL.host"))
-        assertNotNull(diffArtifactGroup)
-        assertEquals(1, diffArtifactGroup.size())
+        DiffArtifactGroup preparedDAG =
+                new DiffArtifactGroup.Builder(expected, actual)
+                        .ignoreKeys("profile", "URL", "URL.host")
+                        .build()
+        assertNotNull(preparedDAG)
+        assertEquals(1, preparedDAG.size())
         //
-        DiffArtifact stuffed = new TextDifferToHTML(root).makeDiffArtifact(diffArtifactGroup.get(0))
+        DiffArtifact stuffed = new TextDifferToHTML(root).makeDiffArtifact(preparedDAG.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertTrue(stuffed.getDiffRatio() > 0)

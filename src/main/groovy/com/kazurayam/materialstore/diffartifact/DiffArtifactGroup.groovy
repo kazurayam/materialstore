@@ -221,7 +221,7 @@ final class DiffArtifactGroup {
                 }
             }
         }
-
+        Collections.sort(diffArtifactList)
         return diffArtifactList
     }
 

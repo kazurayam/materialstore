@@ -56,8 +56,10 @@ class DifferDriverImplTest {
                 FileType.PNG)
 
         DiffArtifactGroup input =
-                storeImpl.zipMaterials(left, right,
-                        IgnoringMetadataKeys.of("profile", "URL", "URL.host"))
+                new DiffArtifactGroup.Builder(left, right)
+                        .ignoreKeys("profile", "URL", "URL.host")
+                        .build()
+
         assertEquals(2, input.size())
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
@@ -93,9 +95,10 @@ class DifferDriverImplTest {
                 FileType.HTML)
 
         DiffArtifactGroup input =
-                storeImpl.zipMaterials(left, right,
-                        IgnoringMetadataKeys.of("profile", "URL", "URL.host"))
-        //
+                new DiffArtifactGroup.Builder(left, right)
+                        .ignoreKeys("profile", "URL", "URL.host")
+                        .build()
+
         DifferDriver differDriver = new DifferDriverImpl.Builder(root).build()
         DiffArtifactGroup stuffed = differDriver.differentiate(input)
         assertNotNull(stuffed)

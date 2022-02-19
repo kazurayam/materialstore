@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.textgrid
 
+import com.kazurayam.materialstore.MaterialstoreFacade
 
 import java.nio.file.Files
 import java.nio.file.Path
@@ -68,11 +69,15 @@ abstract class TextGridDifferBuilder {
                 new MetadataPattern.Builder().build())
         double criteria = 0.0d
 
-        DiffArtifactGroup diffArtifactGroup = store.makeDiff(left, right,
-                IgnoringMetadataKeys.of("input"), IdentifyMetadataValues.NULL_OBJECT)
-        int warnings = diffArtifactGroup.countWarnings(criteria)
+        DiffArtifactGroup preparedDAG =
+                new DiffArtifactGroup.Builder(left, right)
+                        .ignoreKeys("input")
+                        .build()
+        DiffArtifactGroup stuffedDAG = new MaterialstoreFacade(store).makeDiff(preparedDAG)
 
-        reportFile = store.reportDiffs(jobName, diffArtifactGroup, criteria, jobName.toString() + "-index.html")
+        int warnings = stuffedDAG.countWarnings(criteria)
+
+        reportFile = store.reportDiffs(jobName, stuffedDAG, criteria, jobName.toString() + "-index.html")
         assert Files.exists(reportFile)
         logger.info("report is found at " + reportFile.normalize().toAbsolutePath())
 

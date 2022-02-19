@@ -66,9 +66,10 @@ class DiffArtifactGroup_issue87Test {
     @Test
     void test_getMetadataPatterns() {
         DiffArtifactGroup diffArtifactGroup =
-                store.makeDiff(left, right,
-                        IgnoringMetadataKeys.of("profile", "URL.host"),
-                        IdentifyMetadataValues.by(["URL.query":"\\w{32}"]))
+                new DiffArtifactGroup.Builder(left, right)
+                        .ignoreKeys("profile", "URL.host")
+                        .identifyWithRegex(["URL.query":"\\w{32}"])
+                        .build()
 
         List<MetadataPattern> metadataPatterns = diffArtifactGroup.getMetadataPatterns();
         assertEquals(8, metadataPatterns.size())

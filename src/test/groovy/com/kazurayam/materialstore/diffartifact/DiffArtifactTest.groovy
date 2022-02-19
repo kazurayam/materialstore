@@ -124,8 +124,9 @@ class DiffArtifactTest {
         assert 2 == rightList.size()
         //
         DiffArtifactGroup diffArtifactGroup =
-                store.zipMaterials(leftList, rightList,
-                        IgnoringMetadataKeys.of("profile", "URL", "URL.host", "category"))
+                new DiffArtifactGroup.Builder(leftList, rightList)
+                        .ignoreKeys("profile", "URL", "URL.host", "category")
+                        .build()
         assertNotNull(diffArtifactGroup)
 
         println JsonOutput.prettyPrint(diffArtifactGroup.toString())

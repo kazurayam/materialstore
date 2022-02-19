@@ -63,14 +63,11 @@ class SortKeysTest {
 
     @Test
     void test_smoke() {
-        SortKeys sortKeys =
-                new SortKeys("step", "URL.path")
         DiffArtifactGroup das =
-                store.makeDiff(left, right,
-                        IgnoringMetadataKeys.of("profile", "URL.host", "URL.port"),
-                        IdentifyMetadataValues.NULL_OBJECT,
-                        sortKeys
-                )
+                new DiffArtifactGroup.Builder(left, right)
+                        .ignoreKeys("profile", "URL.host", "URL.port")
+                        .sortByKeys("step", "URL.path")
+                        .build()
         assertEquals(14, das.size())
         das.each {it ->
             println it.getDescription()

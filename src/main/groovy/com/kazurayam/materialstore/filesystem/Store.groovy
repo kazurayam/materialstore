@@ -39,17 +39,6 @@ interface Store {
 
     Path getRoot()
 
-    @Deprecated
-    DiffArtifactGroup makeDiff(MaterialList left, MaterialList right,
-                               IgnoringMetadataKeys ignoringMetadataKeys,
-                               IdentifyMetadataValues identifyMetadataValues)
-
-    @Deprecated
-    DiffArtifactGroup makeDiff(MaterialList left, MaterialList right,
-                               IgnoringMetadataKeys ignoringMetadataKeys,
-                               IdentifyMetadataValues identifyMetadataValues,
-                               SortKeys sortKeys)
-
     DiffReporter newReporter(JobName jobName)
 
     Path reportDiffs(JobName jobName, DiffArtifactGroup diffArtifactGroup, Double criteria, String fileName)
@@ -84,16 +73,4 @@ interface Store {
     Material write(JobName jobName, JobTimestamp jobTimestamp,
                    FileType fileType, Metadata meta, String input,
                    Charset charset)
-
-    DiffArtifactGroup zipMaterials(MaterialList left, MaterialList right,
-                                   IgnoringMetadataKeys ignoringMetadataKeys)
-
-    DiffArtifactGroup zipMaterials(MaterialList left, MaterialList right,
-                                   IgnoringMetadataKeys ignoringMetadataKeys,
-                                   IdentifyMetadataValues identifyMetadataValues)
-
-    DiffArtifactGroup zipMaterials(MaterialList left, MaterialList right,
-                                   IgnoringMetadataKeys ignoringMetadataKeys,
-                                   IdentifyMetadataValues identifyMetadataValues,
-                                   SortKeys sortKeys)
 }
