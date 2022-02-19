@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore
 
 import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
+import com.kazurayam.materialstore.diffartifact.Resolvent
 import com.kazurayam.materialstore.differ.DifferDriver
 import com.kazurayam.materialstore.differ.DifferDriverImpl
 import com.kazurayam.materialstore.filesystem.Store
@@ -8,24 +9,34 @@ import com.kazurayam.materialstore.filesystem.Store
 class MaterialstoreFacade {
 
     private final Store store
+    private final List<Resolvent> resolventList
 
     MaterialstoreFacade(Store store) {
         this.store = store
+        this.resolventList = new ArrayList<>()
+        //
+        resolventList.add(new DifferDriverImpl.Builder(store.getRoot()).build())
     }
 
-    DiffArtifactGroup makeDiff(DiffArtifactGroup diffArtifactGroup) {
-        // prepare the default DifferDriver
-        DifferDriver differDriver = new DifferDriverImpl.Builder(store.getRoot()).build()
-        return makeDiff(diffArtifactGroup, differDriver)
+    void addResolvent(Resolvent resolvent) {
+        Objects.requireNonNull(resolvent)
+        resolventList.add(resolvent)
     }
 
-    static DiffArtifactGroup makeDiff(DiffArtifactGroup diffArtifactGroup, DifferDriver differDriver) {
+    DiffArtifactGroup workOn(DiffArtifactGroup input) {
+        DiffArtifactGroup tmp = new DiffArtifactGroup(input)
+        resolventList.each {resolvent ->
+            tmp = apply(tmp, resolvent)
+        }
+        tmp.sort()
+        return tmp
+    }
+
+    static DiffArtifactGroup apply(DiffArtifactGroup diffArtifactGroup, Resolvent resolvent) {
         Objects.requireNonNull(diffArtifactGroup)
-        Objects.requireNonNull(differDriver)
+        Objects.requireNonNull(resolvent)
         // perform diff-ing, stuff the result in the DiffArtifact collection
-        diffArtifactGroup.applyResolvent(differDriver)
-        // sort the collection for better presentation
-        diffArtifactGroup.sort()
+        diffArtifactGroup.applyResolvent(resolvent)
         return diffArtifactGroup
     }
 }

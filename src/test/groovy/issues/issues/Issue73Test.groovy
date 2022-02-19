@@ -71,7 +71,7 @@ class Issue73Test {
                         .ignoreKeys("profile", "URL.host")
                         .build()
         DiffArtifactGroup stuffedDAG =
-                new MaterialstoreFacade(store).makeDiff(preparedDAG)
+                new MaterialstoreFacade(store).workOn(preparedDAG)
         int warnings = stuffedDAG.countWarnings(criteria)
         // compile the report
         Path reportFile =

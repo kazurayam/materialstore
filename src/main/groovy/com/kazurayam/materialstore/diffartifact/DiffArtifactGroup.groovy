@@ -27,8 +27,25 @@ final class DiffArtifactGroup {
     private SortKeys sortKeys = SortKeys.NULL_OBJECT
 
 
-    DiffArtifactGroup() {
+    private DiffArtifactGroup() {
         diffArtifactList = new ArrayList<DiffArtifact>()
+    }
+
+    /**
+     * Deep-copy constructor
+     * @param source
+     */
+    public DiffArtifactGroup(DiffArtifactGroup source) {
+        this.leftMaterialList = new MaterialList(source.leftMaterialList)
+        this.rightMaterialList = new MaterialList(source.rightMaterialList)
+        this.ignoreMetadataKeys = source.ignoreMetadataKeys    // IgnoreMetadataKeys is immutable
+        this.identifyMetadataValues = source.identifyMetadataValues // IdentifyMetadataValues is immutable
+        this.sortKeys = source.sortKeys                        // SortKeys is immutable
+        List<DiffArtifact> tmp = new ArrayList<>()
+        source.diffArtifactList.each {sourceDA ->
+            tmp.add(new DiffArtifact(sourceDA))
+        }
+        this.diffArtifactList = tmp
     }
 
     private DiffArtifactGroup(Builder builder) {
@@ -43,6 +60,7 @@ final class DiffArtifactGroup {
                         this.ignoreMetadataKeys,
                         identifyMetadataValues,
                         sortKeys)
+        // at this timing the DiffArtifacts are not yet filled with the diff information, they are still vacant.
     }
 
     void add(DiffArtifact e) {
@@ -92,7 +110,7 @@ final class DiffArtifactGroup {
      * What is the term "Resolvent"? See Wikipedia
      * - https://en.wikipedia.org/wiki/Resolvent_(Galois_theory)
      */
-    void applyResolvent(DifferDriver differDriver) {
+    void applyResolvent(Resolvent differDriver) {
         List<DiffArtifact> zipped =
                 zipMaterials(leftMaterialList, rightMaterialList,
                         this.ignoreMetadataKeys,
@@ -100,7 +118,7 @@ final class DiffArtifactGroup {
                         sortKeys)
 
         // overwrite this.diffArtifactList with a List<DiffArtifact> with the Diff information stuffed
-        this.diffArtifactList = differDriver.differentiate(zipped)
+        this.diffArtifactList = differDriver.resolve(zipped)
     }
 
     void setIdentifyMetadataValues(IdentifyMetadataValues identifyMetadataValues) {

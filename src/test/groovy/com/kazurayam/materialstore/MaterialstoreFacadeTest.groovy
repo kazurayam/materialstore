@@ -65,7 +65,7 @@ class MaterialstoreFacadeTest {
     }
 
     @Test
-    void test_makeDiff() {
+    void test_apply() {
         DiffArtifactGroup preparedDAG =
                 DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
@@ -74,7 +74,7 @@ class MaterialstoreFacadeTest {
                         .build()
         assertNotNull(preparedDAG)
 
-        DiffArtifactGroup stuffedDAG = facade.makeDiff(preparedDAG)
+        DiffArtifactGroup stuffedDAG = facade.workOn(preparedDAG)
         assertNotNull(stuffedDAG)
 
         stuffedDAG.each { diffArtifact ->

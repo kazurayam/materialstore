@@ -64,7 +64,7 @@ class DiffArtifactGroupBasicReporterTest {
                 DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
-        DiffArtifactGroup stuffedDAG = new MaterialstoreFacade(store).makeDiff(preparedDAG)
+        DiffArtifactGroup stuffedDAG = new MaterialstoreFacade(store).workOn(preparedDAG)
 
         // compile HTML report
         DiffReporter reporter = store.newReporter(jobName)

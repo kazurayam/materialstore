@@ -21,6 +21,17 @@ final class MaterialList {
         this.materialList = new ArrayList<Material>()
     }
 
+    /**
+     * Deep-copy constructor
+     * @param source
+     */
+    MaterialList(MaterialList source) {
+        this.jobTimestamp = source.jobTimestamp         // JobTimestamp is immutable
+        this.metadataPattern = source.metadataPattern   // MetadataPattern is immutable
+        this.fileType = source.fileType                 // FileType is immutable
+        this.materialList = new ArrayList<>(source.materialList)  // Material is immutable
+    }
+
     //--------------- List-like methods -----------
 
     void add(Material material) {

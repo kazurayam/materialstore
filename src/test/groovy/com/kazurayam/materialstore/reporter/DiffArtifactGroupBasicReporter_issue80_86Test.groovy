@@ -86,7 +86,8 @@ class DiffArtifactGroupBasicReporter_issue80_86Test {
                         .ignoreKeys("profile", "URL", "URL.host")
                         .identifyWithRegex(["URL.query": "\\w{32}"])
                         .build()
-        DiffArtifactGroup stuffedDAG = new MaterialstoreFacade(store).makeDiff(preparedDAG)
+        DiffArtifactGroup stuffedDAG = new MaterialstoreFacade(store).workOn(preparedDAG)
+
         // compile HTML report
         DiffReporter reporter = store.newReporter(jobName)
         Path report = reporter.reportDiffs(stuffedDAG, "index.html")

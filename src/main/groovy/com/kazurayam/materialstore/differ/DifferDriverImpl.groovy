@@ -1,10 +1,8 @@
 package com.kazurayam.materialstore.differ
 
-
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.diffartifact.DiffArtifact
-import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 import com.kazurayam.materialstore.filesystem.Store
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -24,6 +22,28 @@ final class DifferDriverImpl implements DifferDriver {
         this.differs_ = builder.differs
     }
 
+    /**
+     * implements Resolvent
+     * @param input
+     * @return
+     */
+    @Override
+    List<DiffArtifact> resolve(List<DiffArtifact> input) {
+        return differentiate(input)
+    }
+
+
+    @Override
+    List<DiffArtifact> differentiate(List<DiffArtifact> input) {
+        Objects.requireNonNull(input)
+        List<DiffArtifact> result = new ArrayList<>()
+        input.each {preparedDiffArtifact ->
+            DiffArtifact stuffedDiffArtifact = differentiate(preparedDiffArtifact)
+            result.add(stuffedDiffArtifact)
+        }
+        return result
+    }
+
     @Override
     DiffArtifact differentiate(DiffArtifact da) {
         FileType fileType
@@ -40,17 +60,6 @@ final class DifferDriverImpl implements DifferDriver {
         differ.setRoot(root_)
         DiffArtifact stuffedDiffArtifact = differ.makeDiffArtifact(da)
         return stuffedDiffArtifact
-    }
-
-    @Override
-    List<DiffArtifact> differentiate(List<DiffArtifact> input) {
-        Objects.requireNonNull(input)
-        List<DiffArtifact> result = new ArrayList<>()
-        input.each {preparedDiffArtifact ->
-            DiffArtifact stuffedDiffArtifact = differentiate(preparedDiffArtifact)
-            result.add(stuffedDiffArtifact)
-        }
-        return result
     }
 
     @Override
