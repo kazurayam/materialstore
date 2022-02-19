@@ -5,6 +5,7 @@ import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.diffartifact.DiffArtifact
 import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
+import com.kazurayam.materialstore.filesystem.Store
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -52,25 +53,6 @@ final class DifferDriverImpl implements DifferDriver {
         return result
     }
 
-    @Deprecated
-    @Override
-    DiffArtifactGroup differentiate(DiffArtifactGroup input) {
-        Objects.requireNonNull(input)
-        //
-        DiffArtifactGroup result = new DiffArtifactGroup()
-        result.setLeftMaterialList(input.getLeftMaterialList())
-        result.setRightMaterialList(input.getRightMaterialList())
-        result.setIgnoringMetadataKeys(input.getIgnoringMetadataKeys())
-        result.setIdentifyMetadataValues(input.getIdentifyMetadataValues())
-        result.setSortKeys(input.getSortKeys())
-        //
-        input.each { DiffArtifact da ->
-            DiffArtifact stuffedDiffArtifact = differentiate(da)
-            result.add(stuffedDiffArtifact)
-        }
-        return result
-    }
-
     @Override
     boolean hasDiffer(FileType fileType) {
         return differs_.containsKey(fileType)
@@ -79,7 +61,11 @@ final class DifferDriverImpl implements DifferDriver {
     static class Builder {
         private Path root
         private Map<FileType, Differ> differs
+        Builder(Store store) {
+            this(store.getRoot())
+        }
         Builder(Path root) {
+            Objects.requireNonNull(root)
             this.root = root
             differs = new HashMap<FileType, Differ>()
             //

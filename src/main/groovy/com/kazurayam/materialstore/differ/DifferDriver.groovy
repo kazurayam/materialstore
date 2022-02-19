@@ -10,8 +10,5 @@ interface DifferDriver {
 
     List<DiffArtifact> differentiate(List<DiffArtifact> diffArtifactList)
 
-    @Deprecated
-    DiffArtifactGroup differentiate(DiffArtifactGroup diffArtifactGroup)
-
     boolean hasDiffer(FileType fileType)
 }

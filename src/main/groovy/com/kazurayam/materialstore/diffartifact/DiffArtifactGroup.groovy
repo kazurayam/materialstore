@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.diffartifact
 
+import com.kazurayam.materialstore.differ.DifferDriver
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
@@ -17,7 +18,7 @@ final class DiffArtifactGroup {
     private static final Logger logger = LoggerFactory.getLogger(DiffArtifactGroup.class)
     private static final boolean verbose = false
 
-    private final List<DiffArtifact> diffArtifactList
+    private List<DiffArtifact> diffArtifactList
     private MaterialList leftMaterialList
     private MaterialList rightMaterialList
 
@@ -83,6 +84,23 @@ final class DiffArtifactGroup {
 
     Iterator<DiffArtifact> iterator() {
         return diffArtifactList.iterator()
+    }
+
+    /**
+     * this method encapsulates a complex data processing
+     *
+     * What is the term "Resolvent"? See Wikipedia
+     * - https://en.wikipedia.org/wiki/Resolvent_(Galois_theory)
+     */
+    void applyResolvent(DifferDriver differDriver) {
+        List<DiffArtifact> zipped =
+                zipMaterials(leftMaterialList, rightMaterialList,
+                        ignoringMetadataKeys,
+                        identifyMetadataValues,
+                        sortKeys)
+
+        // overwrite this.diffArtifactList with a List<DiffArtifact> with the Diff information stuffed
+        this.diffArtifactList = differDriver.differentiate(zipped)
     }
 
     void setIdentifyMetadataValues(IdentifyMetadataValues identifyMetadataValues) {
