@@ -24,33 +24,51 @@ final class DifferDriverImpl implements DifferDriver {
     }
 
     @Override
+    DiffArtifact differentiate(DiffArtifact da) {
+        FileType fileType
+        if (da.getLeft() == Material.NULL_OBJECT) {
+            logger.warn("left Material was NULL_OBJECT. right=${da.getRight()}")
+            fileType = da.getRight().getIndexEntry().getFileType()
+        } else if (da.getRight() == Material.NULL_OBJECT) {
+            logger.warn("right Material was NULL_OBJECT. left=${da.getLeft()}")
+            fileType = da.getLeft().getIndexEntry().getFileType()
+        } else {
+            fileType = da.getRight().getIndexEntry().getFileType()
+        }
+        Differ differ = differs_.get(fileType)
+        differ.setRoot(root_)
+        DiffArtifact stuffedDiffArtifact = differ.makeDiffArtifact(da)
+        return stuffedDiffArtifact
+    }
+
+    @Override
+    List<DiffArtifact> differentiate(List<DiffArtifact> input) {
+        Objects.requireNonNull(input)
+        List<DiffArtifact> result = new ArrayList<>()
+        input.each {preparedDiffArtifact ->
+            DiffArtifact stuffedDiffArtifact = differentiate(preparedDiffArtifact)
+            result.add(stuffedDiffArtifact)
+        }
+        return result
+    }
+
+    @Deprecated
+    @Override
     DiffArtifactGroup differentiate(DiffArtifactGroup input) {
         Objects.requireNonNull(input)
         //
-        DiffArtifactGroup stuffed = new DiffArtifactGroup()
-        stuffed.setLeftMaterialList(input.getLeftMaterialList())
-        stuffed.setRightMaterialList(input.getRightMaterialList())
-        stuffed.setIgnoringMetadataKeys(input.getIgnoringMetadataKeys())
-        stuffed.setIdentifyMetadataValues(input.getIdentifyMetadataValues())
-        stuffed.setSortKeys(input.getSortKeys())
+        DiffArtifactGroup result = new DiffArtifactGroup()
+        result.setLeftMaterialList(input.getLeftMaterialList())
+        result.setRightMaterialList(input.getRightMaterialList())
+        result.setIgnoringMetadataKeys(input.getIgnoringMetadataKeys())
+        result.setIdentifyMetadataValues(input.getIdentifyMetadataValues())
+        result.setSortKeys(input.getSortKeys())
         //
         input.each { DiffArtifact da ->
-            FileType fileType
-            if (da.getLeft() == Material.NULL_OBJECT) {
-                logger.warn("left Material was NULL_OBJECT. right=${da.getRight()}")
-                fileType = da.getRight().getIndexEntry().getFileType()
-            } else if (da.getRight() == Material.NULL_OBJECT) {
-                logger.warn("right Material was NULL_OBJECT. left=${da.getLeft()}")
-                fileType = da.getLeft().getIndexEntry().getFileType()
-            } else {
-                fileType = da.getRight().getIndexEntry().getFileType()
-            }
-            Differ differ = differs_.get(fileType)
-            differ.setRoot(root_)
-            DiffArtifact stuffedDiffArtifact = differ.makeDiffArtifact(da)
-            stuffed.add(stuffedDiffArtifact)
+            DiffArtifact stuffedDiffArtifact = differentiate(da)
+            result.add(stuffedDiffArtifact)
         }
-        return stuffed
+        return result
     }
 
     @Override
