@@ -23,12 +23,6 @@ abstract class IdentifyMetadataValues {
 
     abstract boolean matches(Metadata metadata)
 
-    // --------------------- factory method --------------------
-    static IdentifyMetadataValues by(Map<String, String> pairs) {
-        Builder builder = new Builder()
-        builder.putAll(pairs)
-        return builder.build()
-    }
 
     /**
      *

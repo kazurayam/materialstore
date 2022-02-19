@@ -17,7 +17,9 @@ class IdentifyMetadataValuesTest {
 
     @BeforeEach
     void setup() {
-        imv = IdentifyMetadataValues.by(["URL.query": "\\w{32}"])
+        imv = new IdentifyMetadataValues.Builder()
+                .putAll(["URL.query": "\\w{32}"])
+                .build()
     }
 
     @Test

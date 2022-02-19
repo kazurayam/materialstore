@@ -14,14 +14,6 @@ abstract class IgnoringMetadataKeys {
 
     abstract void toSpanSequence(MarkupBuilder mb)
 
-    // -------------------- factory methods ------------
-    static IgnoringMetadataKeys of(String... keys) {
-        Builder builder = new Builder()
-        keys.each {
-            builder.ignoreKey(it)
-        }
-        return builder.build()
-    }
 
     /**
      *

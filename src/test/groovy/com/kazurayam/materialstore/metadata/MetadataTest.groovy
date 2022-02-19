@@ -157,7 +157,9 @@ class MetadataTest {
                 .put("URL.host", "baeldung.com").build()
         IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT
         IdentifyMetadataValues identifyMetadataValues =
-                IdentifyMetadataValues.by(["URL.query": "topic=java&version=8"])
+                new IdentifyMetadataValues.Builder()
+                        .putAll(["URL.query": "topic=java&version=8"])
+                        .build()
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
         metadata.toSpanSequence(mb, leftMetadataPattern, rightMetadataPattern,
@@ -179,7 +181,10 @@ class MetadataTest {
                 .put("profile", "ProductionEnv").build()
         MetadataPattern rightMetadataPattern = MetadataPattern.builder()
                 .put("URL.host", "baeldung.com").build()
-        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.of("URL.protocol")
+        IgnoringMetadataKeys ignoringMetadataKeys =
+                new IgnoringMetadataKeys.Builder()
+                        .ignoreKey("URL.protocol")
+                        .build()
         IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)

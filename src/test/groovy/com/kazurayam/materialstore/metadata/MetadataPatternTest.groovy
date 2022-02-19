@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.metadata
 
-
 import com.kazurayam.materialstore.diffartifact.SortKeys
 import groovy.xml.MarkupBuilder
 import groovy.json.JsonOutput
@@ -38,7 +37,10 @@ class MetadataPatternTest {
                 "profile":"ProjectionEnv",
                 "category":"screenshot"])
                 .build()
-        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.of("profile")
+        IgnoringMetadataKeys ignoringMetadataKeys =
+                new IgnoringMetadataKeys.Builder()
+                        .ignoreKey("profile")
+                        .build()
         MetadataPattern pattern = MetadataPattern.builderWithMetadata(metadata, ignoringMetadataKeys).build()
         assertNotNull(pattern)
         assertFalse(pattern.containsKey("profile"))
@@ -111,7 +113,10 @@ class MetadataPatternTest {
         Metadata metadataRight = Metadata.builderWithMap(
                 ["profile": "dev", "URL.path": "/npm/bootstrap@5.1.3-alpha/dist/js/bootstrap.bundle.min.js"])
                 .build()
-        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.of("profile")
+        IgnoringMetadataKeys ignoringMetadataKeys =
+                new IgnoringMetadataKeys.Builder()
+                        .ignoreKey("profile")
+                        .build()
         MetadataPattern metadataPattern = MetadataPattern.builderWithMetadata(metadataRight, ignoringMetadataKeys).build()
         assert metadataPattern.matches(metadataLeft)
     }

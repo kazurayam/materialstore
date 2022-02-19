@@ -10,7 +10,10 @@ class IgnoringMetadataKeysTest {
 
     @Test
     void test_of() {
-        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.of("profile", "URL.hostname")
+        IgnoringMetadataKeys ignoringMetadataKeys =
+                new IgnoringMetadataKeys.Builder()
+                        .ignoreKeys("profile", "URL.hostname")
+                        .build()
         assertNotNull(ignoringMetadataKeys)
         assertTrue(ignoringMetadataKeys.contains("profile"))
         assertEquals(2, ignoringMetadataKeys.size())
@@ -18,7 +21,10 @@ class IgnoringMetadataKeysTest {
 
     @Test
     void test_toString() {
-        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.of("profile", "URL.hostname")
+        IgnoringMetadataKeys ignoringMetadataKeys =
+                new IgnoringMetadataKeys.Builder()
+                        .ignoreKeys("profile", "URL.hostname")
+                        .build()
         String str = ignoringMetadataKeys.toString()
         assertNotNull(str)
         assertEquals("""{"URL.hostname", "profile"}""", str)
@@ -26,7 +32,10 @@ class IgnoringMetadataKeysTest {
 
     @Test
     void test_toSpanSequence() {
-        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.of("profile", "URL.hostname")
+        IgnoringMetadataKeys ignoringMetadataKeys =
+                new IgnoringMetadataKeys.Builder()
+                        .ignoreKeys("profile", "URL.hostname")
+                        .build()
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
         ignoringMetadataKeys.toSpanSequence(mb)

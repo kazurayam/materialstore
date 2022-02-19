@@ -89,7 +89,10 @@ class DiffArtifactGroupTest {
 
     @Test
     void test_setter_getter_IdentifyMetadataValues() {
-        IdentifyMetadataValues imv = IdentifyMetadataValues.by(["URL.query":"\\w{32}"])
+        IdentifyMetadataValues imv =
+                new IdentifyMetadataValues.Builder()
+                        .putAll(["URL.query":"\\w{32}"])
+                        .build()
         diffArtifactGroup.setIdentifyMetadataValues(imv)
         IdentifyMetadataValues result = diffArtifactGroup.getIdentifyMetadataValues()
         assertEquals(imv, result)
