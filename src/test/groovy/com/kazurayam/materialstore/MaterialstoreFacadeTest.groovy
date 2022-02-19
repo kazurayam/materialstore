@@ -70,7 +70,7 @@ class MaterialstoreFacadeTest {
                 DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
-                        .sortByKeys("URL.host")
+                        .sort("URL.host")
                         .build()
         assertNotNull(preparedDAG)
 

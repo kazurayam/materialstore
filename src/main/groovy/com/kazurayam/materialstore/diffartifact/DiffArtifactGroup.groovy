@@ -298,7 +298,7 @@ final class DiffArtifactGroup {
             this.identifyMetadataValues = identifyMetadataValues
             return this
         }
-        Builder sortByKeys(String ... args) {
+        Builder sort(String ... args) {
             SortKeys sortKeys = new SortKeys(args)
             return this.setSortKeys(sortKeys)
         }

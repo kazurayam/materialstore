@@ -149,7 +149,7 @@ class DiffArtifactGroupTest {
                 DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
-                        .sortByKeys("URL.path")
+                        .sort("URL.path")
                         .build()
         assertNotNull(diffArtifactGroup)
         diffArtifactGroup.each {diffArtifact ->

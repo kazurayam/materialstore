@@ -64,7 +64,7 @@ class SortKeysTest {
         DiffArtifactGroup das =
                 DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port")
-                        .sortByKeys("step", "URL.path")
+                        .sort("step", "URL.path")
                         .build()
         assertEquals(14, das.size())
         das.each {it ->
