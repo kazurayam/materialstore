@@ -2,9 +2,9 @@ package com.kazurayam.materialstore.metadata
 
 import groovy.xml.MarkupBuilder
 
-abstract class IgnoringMetadataKeys {
+abstract class IgnoreMetadataKeys {
 
-    public static final IgnoringMetadataKeys NULL_OBJECT = new Builder().build()
+    public static final IgnoreMetadataKeys NULL_OBJECT = new Builder().build()
 
     abstract int size()
 
@@ -33,8 +33,8 @@ abstract class IgnoringMetadataKeys {
             }
             return this
         }
-        IgnoringMetadataKeys build() {
-            return new IgnoringMetadataKeysImpl(keySet)
+        IgnoreMetadataKeys build() {
+            return new IgnoreMetadataKeysImpl(keySet)
         }
     }
 }

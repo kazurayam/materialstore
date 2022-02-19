@@ -2,8 +2,6 @@ package issues.issues
 
 import com.kazurayam.materialstore.MaterialstoreFacade
 import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
-import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
-import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList

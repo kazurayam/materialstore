@@ -9,7 +9,6 @@ import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.StoreImpl
 import com.kazurayam.materialstore.TestFixtureUtil
 import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
-import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
 import com.kazurayam.materialstore.metadata.MetadataPattern
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll

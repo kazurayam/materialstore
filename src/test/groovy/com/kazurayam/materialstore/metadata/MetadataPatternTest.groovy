@@ -32,23 +32,23 @@ class MetadataPatternTest {
     }
 
     @Test
-    void test_create_with_IgnoringMetadataKeys() {
+    void test_create_with_IgnoreMetadataKeys() {
         Metadata metadata = Metadata.builderWithMap([
                 "profile":"ProjectionEnv",
                 "category":"screenshot"])
                 .build()
-        IgnoringMetadataKeys ignoringMetadataKeys =
-                new IgnoringMetadataKeys.Builder()
+        IgnoreMetadataKeys ignoreMetadataKeys =
+                new IgnoreMetadataKeys.Builder()
                         .ignoreKey("profile")
                         .build()
-        MetadataPattern pattern = MetadataPattern.builderWithMetadata(metadata, ignoringMetadataKeys).build()
+        MetadataPattern pattern = MetadataPattern.builderWithMetadata(metadata, ignoreMetadataKeys).build()
         assertNotNull(pattern)
         assertFalse(pattern.containsKey("profile"))
         assertTrue(pattern.containsKey("category"))
     }
 
     @Test
-    void test_create_without_ignoringMetadataKeys() {
+    void test_create_without_IgnoreMetadataKeys() {
         Metadata metadata = Metadata.builderWithMap([
                 "profile":"ProjectionEnv",
                 "category":"screenshot"])
@@ -113,11 +113,11 @@ class MetadataPatternTest {
         Metadata metadataRight = Metadata.builderWithMap(
                 ["profile": "dev", "URL.path": "/npm/bootstrap@5.1.3-alpha/dist/js/bootstrap.bundle.min.js"])
                 .build()
-        IgnoringMetadataKeys ignoringMetadataKeys =
-                new IgnoringMetadataKeys.Builder()
+        IgnoreMetadataKeys ignoreMetadataKeys =
+                new IgnoreMetadataKeys.Builder()
                         .ignoreKey("profile")
                         .build()
-        MetadataPattern metadataPattern = MetadataPattern.builderWithMetadata(metadataRight, ignoringMetadataKeys).build()
+        MetadataPattern metadataPattern = MetadataPattern.builderWithMetadata(metadataRight, ignoreMetadataKeys).build()
         assert metadataPattern.matches(metadataLeft)
     }
 
@@ -187,8 +187,8 @@ class MetadataPatternTest {
                 .put("C","c")
                 .put("B","b")
                 .build()
-        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT
-        MetadataPattern pattern = MetadataPattern.builderWithMetadata(metadata, ignoringMetadataKeys).build()
+        IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
+        MetadataPattern pattern = MetadataPattern.builderWithMetadata(metadata, ignoreMetadataKeys).build()
         String expected = '''{"B":"b", "C":"c", "a":"a"}'''
         String actual = pattern.toString()
         println JsonOutput.prettyPrint(actual)

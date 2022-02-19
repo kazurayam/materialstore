@@ -32,8 +32,8 @@ abstract class MetadataPattern {
     }
 
     static Builder builderWithMetadata(Metadata metadata,
-                                       IgnoringMetadataKeys ignoringMetadataKeys) {
-        return new Builder(metadata, ignoringMetadataKeys)
+                                       IgnoreMetadataKeys ignoreMetadataKeys) {
+        return new Builder(metadata, ignoreMetadataKeys)
     }
 
     //-----------------------------------------------------------------
@@ -89,17 +89,17 @@ abstract class MetadataPattern {
             }
         }
         Builder(Metadata source) {
-            this(source, IgnoringMetadataKeys.NULL_OBJECT)
+            this(source, IgnoreMetadataKeys.NULL_OBJECT)
         }
         Builder(Metadata source,
-                IgnoringMetadataKeys ignoringMetadataKeys) {
+                IgnoreMetadataKeys ignoreMetadataKeys) {
             this()
-            Objects.requireNonNull(ignoringMetadataKeys)
+            Objects.requireNonNull(ignoreMetadataKeys)
             Objects.requireNonNull(source)
             //
             source.keySet().each {key ->
                 MetadataPatternValue mpv = MetadataPatternValue.of((String)source.get(key))
-                if (!ignoringMetadataKeys.contains(key)) {
+                if (!ignoreMetadataKeys.contains(key)) {
                     metadataPattern.put(key, mpv)
                 }
             }

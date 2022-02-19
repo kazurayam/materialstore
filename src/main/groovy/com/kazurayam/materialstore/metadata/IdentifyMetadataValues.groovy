@@ -19,7 +19,7 @@ abstract class IdentifyMetadataValues {
 
     abstract Set<String> keySet()
 
-    abstract Pattern get(String key)
+    abstract Pattern getPattern(String key)
 
     abstract boolean matches(Metadata metadata)
 
@@ -32,7 +32,7 @@ abstract class IdentifyMetadataValues {
         Builder() {
             this.attributeNameRegexPair = new HashMap<>();
         }
-        Builder put(String attributeName, String regex) {
+        Builder putNameRegexPair(String attributeName, String regex) {
             Objects.requireNonNull(attributeName)
             Objects.requireNonNull(regex)
             try {
@@ -45,10 +45,10 @@ abstract class IdentifyMetadataValues {
             }
             return this
         }
-        Builder putAll(Map<String, String> pairs) {
+        Builder putAllNameRegexPairs(Map<String, String> pairs) {
             Objects.requireNonNull(pairs)
             pairs.forEach({ key, value ->
-                this.put(key, value)
+                this.putNameRegexPair(key, value)
             })
             return this
         }

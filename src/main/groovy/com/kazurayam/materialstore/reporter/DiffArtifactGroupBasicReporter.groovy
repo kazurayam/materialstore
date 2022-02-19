@@ -11,7 +11,7 @@ import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
-import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
+import com.kazurayam.materialstore.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.metadata.MetadataPattern
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
@@ -127,10 +127,10 @@ final class DiffArtifactGroupBasicReporter implements DiffReporter {
                                 dd("not set")
                             }
                             //
-                            dt("IgnoringMetadataKeys")
-                            if (diffArtifactGroup.getIgnoringMetadataKeys() != IgnoringMetadataKeys.NULL_OBJECT) {
+                            dt("IgnoreMetadataKeys")
+                            if (diffArtifactGroup.getIgnoreMetadataKeys() != IgnoreMetadataKeys.NULL_OBJECT) {
                                 dd() {
-                                    diffArtifactGroup.getIgnoringMetadataKeys().toSpanSequence(mb)
+                                    diffArtifactGroup.getIgnoreMetadataKeys().toSpanSequence(mb)
                                 }
                             } else {
                                 dd("not set")
@@ -173,7 +173,7 @@ final class DiffArtifactGroupBasicReporter implements DiffReporter {
                                         Context context = new Context(
                                                 diffArtifactGroup.getLeftMaterialList().getMetadataPattern(),
                                                 diffArtifactGroup.getRightMaterialList().getMetadataPattern(),
-                                                diffArtifactGroup.getIgnoringMetadataKeys(),
+                                                diffArtifactGroup.getIgnoreMetadataKeys(),
                                                 diffArtifactGroup.getIdentifyMetadataValues()
                                         )
                                         makeMaterialSubsection(mb, "left", da.getLeft(), context)
@@ -333,7 +333,7 @@ final class DiffArtifactGroupBasicReporter implements DiffReporter {
      * @param mb
      * @param name
      * @param material
-     * @param context ["leftMetadataPattern": xxx, "rightMetadataPattern": xxx, "ignoringMetadataKeys": xxx]
+     * @param context ["leftMetadataPattern": xxx, "rightMetadataPattern": xxx, "ignoreMetadataKeys": xxx]
      */
     private static void makeMaterialSubsection(MarkupBuilder mb, String name, Material material,
                                                Context context) {
@@ -357,7 +357,7 @@ final class DiffArtifactGroupBasicReporter implements DiffReporter {
                             mb,
                             (MetadataPattern)context.getLeftMetadataPattern(),
                             (MetadataPattern)context.getRightMetadataPattern(),
-                            (IgnoringMetadataKeys)context.getIgnoringMetadataKeys(),
+                            (IgnoreMetadataKeys)context.getIgnoreMetadataKeys(),
                             (IdentifyMetadataValues)context.getIdentifyMetadataValues()
                     )
                 }
@@ -383,14 +383,14 @@ final class DiffArtifactGroupBasicReporter implements DiffReporter {
     class Context {
         private MetadataPattern left
         private MetadataPattern right
-        private IgnoringMetadataKeys ignoringMetadataKeys
+        private IgnoreMetadataKeys ignoreMetadataKeys
         private IdentifyMetadataValues identifyMetadataValues
         Context(MetadataPattern left, MetadataPattern right,
-                IgnoringMetadataKeys ignoringMetadataKeys,
+                IgnoreMetadataKeys ignoreMetadataKeys,
                 IdentifyMetadataValues identifyMetadataValues) {
             this.left = left
             this.right = right
-            this.ignoringMetadataKeys = ignoringMetadataKeys
+            this.ignoreMetadataKeys = ignoreMetadataKeys
             this.identifyMetadataValues = identifyMetadataValues
         }
         MetadataPattern getLeftMetadataPattern() {
@@ -403,8 +403,8 @@ final class DiffArtifactGroupBasicReporter implements DiffReporter {
         IdentifyMetadataValues getIdentifyMetadataValues() {
             return this.identifyMetadataValues
         }
-        IgnoringMetadataKeys getIgnoringMetadataKeys() {
-            return this.ignoringMetadataKeys
+        IgnoreMetadataKeys getIgnoreMetadataKeys() {
+            return this.ignoreMetadataKeys
         }
     }
 }

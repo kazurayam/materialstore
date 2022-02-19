@@ -3,15 +3,15 @@ package com.kazurayam.materialstore.metadata
 import com.kazurayam.materialstore.util.JsonUtil
 import groovy.xml.MarkupBuilder
 
-final class IgnoringMetadataKeysImpl extends IgnoringMetadataKeys {
+final class IgnoreMetadataKeysImpl extends IgnoreMetadataKeys {
 
     private Set<String> keySet
 
-    IgnoringMetadataKeysImpl(Set<String> source) {
+    IgnoreMetadataKeysImpl(Set<String> source) {
         this.keySet = source
     }
 
-    //------------- IgnoringMetadataKeys ------------------
+    //------------- IgnoreMetadataKeys ------------------
     @Override
     int size() {
         return keySet.size()

@@ -1,9 +1,6 @@
 package com.kazurayam.materialstore.metadata
 
-import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
-import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
-import com.kazurayam.materialstore.metadata.Metadata
-import com.kazurayam.materialstore.metadata.MetadataPattern
+
 import groovy.xml.MarkupBuilder
 import groovy.json.JsonOutput
 import org.junit.jupiter.api.Test
@@ -155,15 +152,15 @@ class MetadataTest {
                 .put("profile", "ProductionEnv").build()
         MetadataPattern rightMetadataPattern = MetadataPattern.builder()
                 .put("URL.host", "baeldung.com").build()
-        IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT
+        IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
         IdentifyMetadataValues identifyMetadataValues =
                 new IdentifyMetadataValues.Builder()
-                        .putAll(["URL.query": "topic=java&version=8"])
+                        .putAllNameRegexPairs(["URL.query": "topic=java&version=8"])
                         .build()
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
         metadata.toSpanSequence(mb, leftMetadataPattern, rightMetadataPattern,
-                ignoringMetadataKeys, identifyMetadataValues)
+                ignoreMetadataKeys, identifyMetadataValues)
         String str = sw.toString()
         assertNotNull(str)
         println str
@@ -172,7 +169,7 @@ class MetadataTest {
     }
 
     @Test
-    void test_toSpanSequence_dual_MetadataPatterns_with_IgnoringMetadataKeys() {
+    void test_toSpanSequence_dual_MetadataPatterns_with_IgnoreMetadataKeys() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
         Metadata metadata = Metadata.builderWithUrl(url)
                 .put("profile", "ProductionEnv")
@@ -181,15 +178,15 @@ class MetadataTest {
                 .put("profile", "ProductionEnv").build()
         MetadataPattern rightMetadataPattern = MetadataPattern.builder()
                 .put("URL.host", "baeldung.com").build()
-        IgnoringMetadataKeys ignoringMetadataKeys =
-                new IgnoringMetadataKeys.Builder()
+        IgnoreMetadataKeys ignoreMetadataKeys =
+                new IgnoreMetadataKeys.Builder()
                         .ignoreKey("URL.protocol")
                         .build()
         IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
         metadata.toSpanSequence(mb, leftMetadataPattern, rightMetadataPattern,
-                ignoringMetadataKeys, identifyMetadataValues)
+                ignoreMetadataKeys, identifyMetadataValues)
         String str = sw.toString()
         assertNotNull(str)
         println str

@@ -8,8 +8,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
-import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
-import com.kazurayam.materialstore.metadata.Metadata
+import com.kazurayam.materialstore.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.metadata.MetadataPattern
 import groovy.json.JsonOutput
 import org.apache.commons.io.FileUtils
@@ -20,7 +19,6 @@ import org.junit.jupiter.api.Test
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.regex.Pattern
 
 import static org.junit.jupiter.api.Assertions.*
 
@@ -91,7 +89,7 @@ class DiffArtifactGroupTest {
     void test_setter_getter_IdentifyMetadataValues() {
         IdentifyMetadataValues imv =
                 new IdentifyMetadataValues.Builder()
-                        .putAll(["URL.query":"\\w{32}"])
+                        .putAllNameRegexPairs(["URL.query":"\\w{32}"])
                         .build()
         diffArtifactGroup.setIdentifyMetadataValues(imv)
         IdentifyMetadataValues result = diffArtifactGroup.getIdentifyMetadataValues()
@@ -99,10 +97,10 @@ class DiffArtifactGroupTest {
     }
 
     @Test
-    void test_setter_getter_IgnoringMetadataKeys() {
-        diffArtifactGroup.setIgnoringMetadataKeys(IgnoringMetadataKeys.NULL_OBJECT)
-        IgnoringMetadataKeys ignoringMetadataKeys = diffArtifactGroup.getIgnoringMetadataKeys()
-        assertNotNull(ignoringMetadataKeys)
+    void test_setter_getter_IgnoreMetadataKeys() {
+        diffArtifactGroup.setIgnoreMetadataKeys(IgnoreMetadataKeys.NULL_OBJECT)
+        IgnoreMetadataKeys ignoreMetadataKeys = diffArtifactGroup.getIgnoreMetadataKeys()
+        assertNotNull(ignoreMetadataKeys)
     }
 
     @Test
@@ -167,8 +165,8 @@ class DiffArtifactGroupTest {
         specialFixture()
         List<DiffArtifact> diffArtifactList =
                 DiffArtifactGroup.zipMaterials(left, right,
-                        new IgnoringMetadataKeys.Builder().ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").build(),
-                        new IdentifyMetadataValues.Builder().putAll(["URL.query":"\\w{32}"]).build(),
+                        new IgnoreMetadataKeys.Builder().ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").build(),
+                        new IdentifyMetadataValues.Builder().putAllNameRegexPairs(["URL.query":"\\w{32}"]).build(),
                         new SortKeys("URL.host")
                         )
         assertNotNull(diffArtifactList)

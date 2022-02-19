@@ -43,7 +43,7 @@ abstract class Metadata implements Comparable {
     abstract void toSpanSequence(MarkupBuilder mb,
                                  MetadataPattern leftMetadataPattern,
                                  MetadataPattern rightMetadataPattern,
-                                 IgnoringMetadataKeys ignoringMetadataKeys,
+                                 IgnoreMetadataKeys ignoreMetadataKeys,
                                  IdentifyMetadataValues indentifyMetadataValues)
 
     //------------------Comparable-------------------------------------

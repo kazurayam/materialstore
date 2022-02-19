@@ -23,7 +23,7 @@ class IdentifyMetadataValuesImpl extends IdentifyMetadataValues {
     }
 
     @Override
-    Pattern get(String key) {
+    Pattern getPattern(String key) {
         return attributeNameRegexPairs.get(key)
     }
 
@@ -50,7 +50,7 @@ class IdentifyMetadataValuesImpl extends IdentifyMetadataValues {
     boolean matchesWithAttributeOf(String key, String value) {
         Objects.requireNonNull(key)
         Objects.requireNonNull(value)
-        Pattern pattern = get(key)
+        Pattern pattern = getPattern(key)
         if (pattern != null) {
             Matcher m = pattern.matcher(value)
             boolean b = m.matches()

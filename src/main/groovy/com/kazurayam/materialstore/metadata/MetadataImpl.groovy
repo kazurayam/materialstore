@@ -115,12 +115,12 @@ final class MetadataImpl extends Metadata {
     void toSpanSequence(MarkupBuilder mb,
                         MetadataPattern leftMetadataPattern,
                         MetadataPattern rightMetadataPattern,
-                        IgnoringMetadataKeys ignoringMetadataKeys,
+                        IgnoreMetadataKeys ignoreMetadataKeys,
                         IdentifyMetadataValues identifyMetadataValues) {
         Objects.requireNonNull(mb)
         Objects.requireNonNull(leftMetadataPattern)
         Objects.requireNonNull(rightMetadataPattern)
-        Objects.requireNonNull(ignoringMetadataKeys)
+        Objects.requireNonNull(ignoreMetadataKeys)
         Objects.requireNonNull(identifyMetadataValues)
         int count = 0
         List<String> keys = new ArrayList<String>(metadata.keySet())
@@ -132,7 +132,7 @@ final class MetadataImpl extends Metadata {
             }
 
             // make the <span> of the "key" part of an attribute of Metadata
-            if (ignoringMetadataKeys.contains(key)) {
+            if (ignoreMetadataKeys.contains(key)) {
                 mb.span(class: "ignoring-key", "\"${JsonUtil.escapeAsJsonString(key)}\"" + ":")
             } else {
                 mb.span("\"${JsonUtil.escapeAsJsonString(key)}\"" + ":")

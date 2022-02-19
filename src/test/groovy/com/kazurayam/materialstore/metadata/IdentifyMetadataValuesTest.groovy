@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.metadata
 
-import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
-import com.kazurayam.materialstore.metadata.Metadata
+
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -18,7 +17,7 @@ class IdentifyMetadataValuesTest {
     @BeforeEach
     void setup() {
         imv = new IdentifyMetadataValues.Builder()
-                .putAll(["URL.query": "\\w{32}"])
+                .putAllNameRegexPairs(["URL.query": "\\w{32}"])
                 .build()
     }
 
@@ -40,7 +39,7 @@ class IdentifyMetadataValuesTest {
 
     @Test
     void test_get() {
-        Pattern pattern = imv.get("URL.query")
+        Pattern pattern = imv.getPattern("URL.query")
     }
 
     @Test

@@ -5,7 +5,7 @@ import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
-import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
+import com.kazurayam.materialstore.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.metadata.Metadata
 import com.kazurayam.materialstore.metadata.MetadataPattern
 
@@ -22,7 +22,7 @@ final class DiffArtifactGroup {
     private MaterialList leftMaterialList
     private MaterialList rightMaterialList
 
-    private IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT
+    private IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
     private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
     private SortKeys sortKeys = SortKeys.NULL_OBJECT
 
@@ -34,13 +34,13 @@ final class DiffArtifactGroup {
     private DiffArtifactGroup(Builder builder) {
         this.leftMaterialList = builder.leftMaterialList
         this.rightMaterialList = builder.rightMaterialList
-        this.ignoringMetadataKeys = builder.ignoringMetadataKeys
+        this.ignoreMetadataKeys = builder.ignoreMetadataKeys
         this.identifyMetadataValues = builder.identifyMetadataValues
         this.sortKeys = builder.sortKeys
         //
         this.diffArtifactList =
                 zipMaterials(leftMaterialList, rightMaterialList,
-                        ignoringMetadataKeys,
+                        this.ignoreMetadataKeys,
                         identifyMetadataValues,
                         sortKeys)
     }
@@ -66,8 +66,8 @@ final class DiffArtifactGroup {
         return this.identifyMetadataValues
     }
 
-    IgnoringMetadataKeys getIgnoringMetadataKeys() {
-        return this.ignoringMetadataKeys
+    IgnoreMetadataKeys getIgnoreMetadataKeys() {
+        return this.ignoreMetadataKeys
     }
 
     MaterialList getLeftMaterialList() {
@@ -95,7 +95,7 @@ final class DiffArtifactGroup {
     void applyResolvent(DifferDriver differDriver) {
         List<DiffArtifact> zipped =
                 zipMaterials(leftMaterialList, rightMaterialList,
-                        ignoringMetadataKeys,
+                        this.ignoreMetadataKeys,
                         identifyMetadataValues,
                         sortKeys)
 
@@ -107,8 +107,8 @@ final class DiffArtifactGroup {
         this.identifyMetadataValues = identifyMetadataValues
     }
 
-    void setIgnoringMetadataKeys(IgnoringMetadataKeys ignoringMetadataKeys) {
-        this.ignoringMetadataKeys = ignoringMetadataKeys
+    void setIgnoreMetadataKeys(IgnoreMetadataKeys ignoreMetadataKeys) {
+        this.ignoreMetadataKeys = ignoreMetadataKeys
     }
 
     void setLeftMaterialList(MaterialList materialList) {
@@ -146,12 +146,12 @@ final class DiffArtifactGroup {
      */
     static List<DiffArtifact> zipMaterials(MaterialList leftList,
                                            MaterialList rightList,
-                                           IgnoringMetadataKeys ignoringMetadataKeys,
+                                           IgnoreMetadataKeys ignoreMetadataKeys,
                                            IdentifyMetadataValues identifyMetadataValues,
                                            SortKeys sortKeys) {
         Objects.requireNonNull(leftList)
         Objects.requireNonNull(rightList)
-        Objects.requireNonNull(ignoringMetadataKeys)
+        Objects.requireNonNull(ignoreMetadataKeys)
         Objects.requireNonNull(identifyMetadataValues)
         Objects.requireNonNull(sortKeys)
 
@@ -163,7 +163,7 @@ final class DiffArtifactGroup {
             FileType rightFileType = right.getIndexEntry().getFileType()
             Metadata rightMetadata = right.getIndexEntry().getMetadata()
             MetadataPattern rightPattern =
-                    MetadataPattern.builderWithMetadata(rightMetadata, ignoringMetadataKeys).build()
+                    MetadataPattern.builderWithMetadata(rightMetadata, ignoreMetadataKeys).build()
            //
             StringBuilder sb = new StringBuilder()  // to compose a log message
             sb.append("\nright pattern: ${rightPattern}\n")
@@ -207,7 +207,7 @@ final class DiffArtifactGroup {
             FileType leftFileType = left.getIndexEntry().getFileType()
             Metadata leftMetadata = left.getIndexEntry().getMetadata()
             MetadataPattern leftPattern =
-                    MetadataPattern.builderWithMetadata(leftMetadata, ignoringMetadataKeys).build()
+                    MetadataPattern.builderWithMetadata(leftMetadata, ignoreMetadataKeys).build()
             StringBuilder sb = new StringBuilder()  // to compose a log message
             sb.append("\nleft pattern: ${leftPattern}\n")
             int foundRightCount = 0
@@ -271,7 +271,7 @@ final class DiffArtifactGroup {
         private final MaterialList leftMaterialList
         private final MaterialList rightMaterialList
         //
-        private IgnoringMetadataKeys ignoringMetadataKeys = IgnoringMetadataKeys.NULL_OBJECT
+        private IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
         private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
         private SortKeys sortKeys = SortKeys.NULL_OBJECT
         //
@@ -281,17 +281,17 @@ final class DiffArtifactGroup {
             this.diffArtifactList = new ArrayList<>()
         }
         Builder ignoreKeys(String ... keys) {
-            IgnoringMetadataKeys imk =
-                    new IgnoringMetadataKeys.Builder().ignoreKeys(keys).build()
-            return setIgnoringMetadataKeys(imk)
+            IgnoreMetadataKeys imk =
+                    new IgnoreMetadataKeys.Builder().ignoreKeys(keys).build()
+            return setIgnoreMetadataKeys(imk)
         }
-        Builder setIgnoringMetadataKeys(IgnoringMetadataKeys ignoringMetadataKeys) {
-            this.ignoringMetadataKeys = ignoringMetadataKeys
+        Builder setIgnoreMetadataKeys(IgnoreMetadataKeys ignoreMetadataKeys) {
+            this.ignoreMetadataKeys = ignoreMetadataKeys
             return this
         }
         Builder identifyWithRegex(Map<String, String> pairs) {
             IdentifyMetadataValues imv =
-                    new IdentifyMetadataValues.Builder().putAll(pairs).build()
+                    new IdentifyMetadataValues.Builder().putAllNameRegexPairs(pairs).build()
             return setIdentifyMetadataValues(imv)
         }
         Builder setIdentifyMetadataValues(IdentifyMetadataValues identifyMetadataValues) {

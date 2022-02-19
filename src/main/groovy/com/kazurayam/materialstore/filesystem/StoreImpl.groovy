@@ -1,14 +1,8 @@
 package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.MaterialstoreException
-import com.kazurayam.materialstore.diffartifact.DiffArtifact
 import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
-import com.kazurayam.materialstore.diffartifact.SortKeys
 import com.kazurayam.materialstore.differ.DiffReporter
-import com.kazurayam.materialstore.differ.DifferDriver
-import com.kazurayam.materialstore.differ.DifferDriverImpl
-import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
-import com.kazurayam.materialstore.metadata.IgnoringMetadataKeys
 import com.kazurayam.materialstore.metadata.Metadata
 import com.kazurayam.materialstore.metadata.MetadataPattern
 import com.kazurayam.materialstore.reporter.DiffArtifactGroupBasicReporter
