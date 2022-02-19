@@ -8,11 +8,6 @@ class SortKeys {
 
     private final List<String> arguments
 
-    @Deprecated
-    static SortKeys of(String ... args) {
-        return new SortKeys(args)
-    }
-
     public SortKeys(String ... args) {
         this(Arrays.asList(args))
     }

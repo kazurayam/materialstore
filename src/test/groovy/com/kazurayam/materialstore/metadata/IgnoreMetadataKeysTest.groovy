@@ -42,6 +42,6 @@ class IgnoreMetadataKeysTest {
         String str = sw.toString()
         assertNotNull(str)
         //println str
-        assertTrue(str.contains("ignoring-key"))
+        assertTrue(str.contains("ignored-key"))
     }
 }

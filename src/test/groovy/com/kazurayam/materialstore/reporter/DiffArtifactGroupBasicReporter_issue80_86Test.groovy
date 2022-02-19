@@ -95,9 +95,9 @@ class DiffArtifactGroupBasicReporter_issue80_86Test {
         // test the report content
         String reportText = report.toFile().text
 
-        // make sure the HTML contains a string "class='ignoring-key'"
-        assertTrue(reportText.contains("class=\'ignoring-key\'"),
-                "expected \'class=\"identified-value\"\' in the report but not found")
+        // make sure the HTML contains a string "class='ignored-key'"
+        assertTrue(reportText.contains("class=\'ignored-key\'"),
+                "expected \'class=\"ignored-key\"\' in the report but not found")
 
         // make sure the HTML contains a string "class='matched-value'"
         assertTrue(reportText.contains("class=\'matched-value\'"),

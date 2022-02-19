@@ -191,7 +191,7 @@ class MetadataTest {
         assertNotNull(str)
         println str
         assertTrue(str.contains("matched-value"))
-        assertTrue(str.contains("ignoring-key"))
+        assertTrue(str.contains("ignored-key"))
     }
 
     @Test

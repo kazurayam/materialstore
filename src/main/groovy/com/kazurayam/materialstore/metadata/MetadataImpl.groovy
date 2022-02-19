@@ -133,7 +133,7 @@ final class MetadataImpl extends Metadata {
 
             // make the <span> of the "key" part of an attribute of Metadata
             if (ignoreMetadataKeys.contains(key)) {
-                mb.span(class: "ignoring-key", "\"${JsonUtil.escapeAsJsonString(key)}\"" + ":")
+                mb.span(class: "ignored-key", "\"${JsonUtil.escapeAsJsonString(key)}\"" + ":")
             } else {
                 mb.span("\"${JsonUtil.escapeAsJsonString(key)}\"" + ":")
             }

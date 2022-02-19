@@ -19,7 +19,7 @@
 .container .semantic-version {
   border: #FA98FA solid;
 }
-.container .ignoring-key {
+.container .ignored-key {
   background-color: #CCC;
 }
 .container .matched-value {

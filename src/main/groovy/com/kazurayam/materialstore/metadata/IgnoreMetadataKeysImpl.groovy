@@ -37,7 +37,7 @@ final class IgnoreMetadataKeysImpl extends IgnoreMetadataKeys {
             if (count > 0) {
                 mb.span(", ")
             }
-            mb.span(class: "ignoring-key",
+            mb.span(class: "ignored-key",
                     "\"" + JsonUtil.escapeAsJsonString(it) + "\"")
             count += 1
         }
