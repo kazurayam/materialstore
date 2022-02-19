@@ -46,7 +46,7 @@ class ImageDifferToPNGTest {
                 FileType.PNG)
 
         DiffArtifactGroup diffArtifactGroup =
-                new DiffArtifactGroup.Builder(left, right)
+                DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
         assertNotNull(diffArtifactGroup)

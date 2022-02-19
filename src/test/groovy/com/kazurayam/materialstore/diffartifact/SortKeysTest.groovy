@@ -64,7 +64,7 @@ class SortKeysTest {
     @Test
     void test_smoke() {
         DiffArtifactGroup das =
-                new DiffArtifactGroup.Builder(left, right)
+                DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port")
                         .sortByKeys("step", "URL.path")
                         .build()

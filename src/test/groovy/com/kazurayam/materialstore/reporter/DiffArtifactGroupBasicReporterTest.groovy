@@ -63,7 +63,7 @@ class DiffArtifactGroupBasicReporterTest {
 
         // make diff
         DiffArtifactGroup preparedDAG =
-                new DiffArtifactGroup.Builder(left, right)
+                DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
         DiffArtifactGroup stuffedDAG = new MaterialstoreFacade(store).makeDiff(preparedDAG)

@@ -67,7 +67,7 @@ class MaterialstoreFacadeTest {
     @Test
     void test_makeDiff() {
         DiffArtifactGroup preparedDAG =
-                new DiffArtifactGroup.Builder(left, right)
+                DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .sortByKeys("URL.host")

@@ -258,10 +258,14 @@ final class DiffArtifactGroup {
         return sb.toString()
     }
 
+    static Builder builder(MaterialList left, MaterialList right) {
+        return new Builder(left, right)
+    }
+
     /**
      *
      */
-    static class Builder {
+    private static class Builder {
         // required
         private final List<DiffArtifact> diffArtifactList
         private final MaterialList leftMaterialList
@@ -271,9 +275,6 @@ final class DiffArtifactGroup {
         private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
         private SortKeys sortKeys = SortKeys.NULL_OBJECT
         //
-        Builder() {
-            this.leftMaterialList
-        }
         Builder(MaterialList left, MaterialList right) {
             this.leftMaterialList = left
             this.rightMaterialList = right

@@ -23,7 +23,6 @@ abstract class IgnoringMetadataKeys {
         return builder.build()
     }
 
-
     /**
      *
      */

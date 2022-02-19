@@ -124,7 +124,7 @@ class DiffArtifactTest {
         assert 2 == rightList.size()
         //
         DiffArtifactGroup diffArtifactGroup =
-                new DiffArtifactGroup.Builder(leftList, rightList)
+                DiffArtifactGroup.builder(leftList, rightList)
                         .ignoreKeys("profile", "URL", "URL.host", "category")
                         .build()
         assertNotNull(diffArtifactGroup)

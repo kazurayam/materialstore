@@ -70,7 +70,7 @@ abstract class TextGridDifferBuilder {
         double criteria = 0.0d
 
         DiffArtifactGroup preparedDAG =
-                new DiffArtifactGroup.Builder(left, right)
+                DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("input")
                         .build()
         DiffArtifactGroup stuffedDAG = new MaterialstoreFacade(store).makeDiff(preparedDAG)

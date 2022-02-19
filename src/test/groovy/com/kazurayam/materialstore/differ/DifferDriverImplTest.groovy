@@ -71,7 +71,7 @@ class DifferDriverImplTest {
         assertEquals(1, right.size())
 
         DiffArtifactGroup diffArtifactGroup =
-                new DiffArtifactGroup.Builder(left, right)
+                DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
         assertNotNull(diffArtifactGroup)
@@ -98,7 +98,7 @@ class DifferDriverImplTest {
                 FileType.PNG)
 
         DiffArtifactGroup diffArtifactGroup =
-                new DiffArtifactGroup.Builder(left, right)
+                DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
         assertNotNull(diffArtifactGroup)

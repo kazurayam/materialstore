@@ -50,7 +50,7 @@ class TextDifferToHTMLTest {
                 FileType.HTML)
 
         DiffArtifactGroup preparedDAG =
-                new DiffArtifactGroup.Builder(expected, actual)
+                DiffArtifactGroup.builder(expected, actual)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
         assertNotNull(preparedDAG)

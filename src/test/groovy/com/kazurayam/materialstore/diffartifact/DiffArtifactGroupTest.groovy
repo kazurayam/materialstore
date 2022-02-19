@@ -56,7 +56,7 @@ class DiffArtifactGroupTest {
     void before() {
         MaterialList left = MaterialList.NULL_OBJECT
         MaterialList right = MaterialList.NULL_OBJECT
-        diffArtifactGroup = new DiffArtifactGroup.Builder(left, right).build()
+        diffArtifactGroup = DiffArtifactGroup.builder(left, right).build()
     }
 
     @Test
@@ -145,7 +145,7 @@ class DiffArtifactGroupTest {
     void test_Builder() {
         specialFixture()
         DiffArtifactGroup diffArtifactGroup =
-                new DiffArtifactGroup.Builder(left, right)
+                DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .sortByKeys("URL.path")

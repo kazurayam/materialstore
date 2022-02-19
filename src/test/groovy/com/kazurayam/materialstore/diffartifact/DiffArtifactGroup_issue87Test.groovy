@@ -66,7 +66,7 @@ class DiffArtifactGroup_issue87Test {
     @Test
     void test_getMetadataPatterns() {
         DiffArtifactGroup diffArtifactGroup =
-                new DiffArtifactGroup.Builder(left, right)
+                DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .build()

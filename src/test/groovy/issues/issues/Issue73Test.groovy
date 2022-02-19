@@ -69,7 +69,7 @@ class Issue73Test {
     void test_smoke() {
         Double criteria = 0.0d
         DiffArtifactGroup preparedDAG =
-                new DiffArtifactGroup.Builder(left, right)
+                DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host")
                         .build()
         DiffArtifactGroup stuffedDAG =

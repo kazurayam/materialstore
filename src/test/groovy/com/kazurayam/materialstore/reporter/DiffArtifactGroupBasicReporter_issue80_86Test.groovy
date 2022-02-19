@@ -84,7 +84,7 @@ class DiffArtifactGroupBasicReporter_issue80_86Test {
         // make diff of the 2 MaterialList objects
         // make diff
         DiffArtifactGroup preparedDAG =
-                new DiffArtifactGroup.Builder(left, right)
+                DiffArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .identifyWithRegex(["URL.query": "\\w{32}"])
                         .build()
