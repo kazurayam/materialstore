@@ -161,6 +161,75 @@ class DiffArtifactGroupTest {
     }
 
     @Test
+    void test_update() {
+        specialFixture()
+        DiffArtifactGroup diffArtifactGroup =
+                new DiffArtifactGroup.Builder(left, right)
+                        .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
+                        .identifyWithRegex(["URL.query":"\\w{32}"])
+                        .sort("URL.host")
+                        .build()
+        int theSize = diffArtifactGroup.size()
+        assertEquals(8, theSize)
+        //
+        DiffArtifact target = diffArtifactGroup.get(0)
+        //println JsonOutput.prettyPrint(target.toString())
+        /*
+{
+    "left": {
+        "jobName": "MyAdmin_visual_inspection_twins",
+        "jobTimestamp": "20220128_191320",
+        "ID": "75f6fc61a4a7beced95470f5ae881e533c3a2d8f",
+        "fileType": "html",
+        "metadata": {
+            "URL.host": "myadmin.kazurayam.com",
+            "URL.path": "/",
+            "URL.port": "80",
+            "URL.protocol": "http",
+            "profile": "MyAdmin_ProductionEnv"
+        }
+    },
+    "right": {
+        "jobName": "MyAdmin_visual_inspection_twins",
+        "jobTimestamp": "20220128_191342",
+        "ID": "5d7e467a45a85329612d1f0694f9d726bc14226d",
+        "fileType": "html",
+        "metadata": {
+            "URL.host": "devadmin.kazurayam.com",
+            "URL.path": "/",
+            "URL.port": "80",
+            "URL.protocol": "http",
+            "profile": "MyAdmin_DevelopmentEnv"
+        }
+    },
+    "diff": {
+        "jobName": "_",
+        "jobTimestamp": "_",
+        "ID": "0000000000000000000000000000000000000000",
+        "fileType": "",
+        "metadata": {
+
+        }
+    },
+    "metadataPattern": {
+        "URL.path": "/"
+    },
+    "diffRatio": 0.0
+}
+         */
+        // make a clone of the target
+        DiffArtifact clone = new DiffArtifact(target)
+        // let's update it
+        diffArtifactGroup.update(clone)
+        // now the head is not equal to the clone
+        assertNotEquals(diffArtifactGroup.get(0), clone)
+        // the tail is equal to the clone
+        assertEquals(diffArtifactGroup.get(theSize - 1), clone)
+        //
+        //println JsonOutput.prettyPrint(diffArtifactGroup.get(theSize - 1).toString())
+    }
+
+    @Test
     void test_zipMaterials() {
         specialFixture()
         List<DiffArtifact> diffArtifactList =

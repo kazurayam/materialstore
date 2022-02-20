@@ -67,6 +67,12 @@ final class DiffArtifactGroup {
         diffArtifactList.add(e)
     }
 
+    boolean update(DiffArtifact e) {
+        boolean wasPresent = diffArtifactList.remove(e)
+        diffArtifactList.add(e)
+        return wasPresent
+    }
+
     int countWarnings(Double criteria) {
         diffArtifactList.stream()
                 .filter { DiffArtifact da ->
