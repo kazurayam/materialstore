@@ -51,11 +51,11 @@ abstract class AbstractTextDiffer implements Differ {
         Objects.requireNonNull(artifact.getRight())
         //
         Material left = artifact.getLeft()
-        if (! left.getDiffability() == FileTypeDiffability.AS_TEXT) {
+        if (left.getDiffability() != FileTypeDiffability.AS_TEXT) {
             throw new IllegalArgumentException("${left} is not a text")
         }
         Material right = artifact.getRight()
-        if (! right.getDiffability() == FileTypeDiffability.AS_TEXT) {
+        if (right.getDiffability() != FileTypeDiffability.AS_TEXT) {
             throw new IllegalArgumentException("${right} is not a text")
         }
 
@@ -71,7 +71,7 @@ abstract class AbstractTextDiffer implements Differ {
                 "right": right.getIndexEntry().getID().toString(),
                 "ratio": DifferUtil.formatDiffRatioAsString(diffRatio)])
                 .build()
-        Jobber jobber = new Jobber(root_, right.getJobName(), artifact.getDiffTimestamp())
+        Jobber jobber = new Jobber(root_, right.getJobName(), artifact.getResolventTimestamp())
         Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata, Jobber.DuplicationHandling.CONTINUE)
         //
         //

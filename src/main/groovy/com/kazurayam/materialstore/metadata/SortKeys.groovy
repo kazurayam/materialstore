@@ -8,11 +8,11 @@ class SortKeys {
 
     private final List<String> arguments
 
-    public SortKeys(String ... args) {
+    SortKeys(String ... args) {
         this(Arrays.asList(args))
     }
 
-    public SortKeys(List<String> args) {
+    SortKeys(List<String> args) {
         this.arguments = args
     }
 

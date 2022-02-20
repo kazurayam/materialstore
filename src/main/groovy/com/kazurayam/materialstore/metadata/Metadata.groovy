@@ -44,7 +44,7 @@ abstract class Metadata implements Comparable {
                                  MetadataPattern leftMetadataPattern,
                                  MetadataPattern rightMetadataPattern,
                                  IgnoreMetadataKeys ignoreMetadataKeys,
-                                 IdentifyMetadataValues indentifyMetadataValues)
+                                 IdentifyMetadataValues identifyMetadataValues)
 
     //------------------Comparable-------------------------------------
     abstract int compareTo(Object obj)
@@ -100,8 +100,6 @@ abstract class Metadata implements Comparable {
             int posHash = url.toString().indexOf("#")
             if (posHash >= 0) {
                 metadata.put(KEY_URL_FRAGMENT, url.toString().substring(posHash + 1))
-            } else {
-                ; // no fragment found in the URL
             }
         }
         Builder put(String key, String value) {

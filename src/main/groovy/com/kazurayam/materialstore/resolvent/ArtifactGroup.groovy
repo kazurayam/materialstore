@@ -22,22 +22,17 @@ final class ArtifactGroup {
     private List<Artifact> artifactList
     private MaterialList leftMaterialList
     private MaterialList rightMaterialList
-    private JobTimestamp diffTimestamp
+    private JobTimestamp resolventTimestamp
 
     private IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
     private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
     private SortKeys sortKeys = SortKeys.NULL_OBJECT
 
-
-    private ArtifactGroup() {
-        artifactList = new ArrayList<Artifact>()
-    }
-
     /**
      * Deep-copy constructor
      * @param source
      */
-    public ArtifactGroup(ArtifactGroup source) {
+    ArtifactGroup(ArtifactGroup source) {
         this.leftMaterialList = new MaterialList(source.leftMaterialList)
         this.rightMaterialList = new MaterialList(source.rightMaterialList)
         this.ignoreMetadataKeys = source.ignoreMetadataKeys    // IgnoreMetadataKeys is immutable
@@ -48,7 +43,7 @@ final class ArtifactGroup {
             tmp.add(new Artifact(sourceDA))
         }
         this.artifactList = tmp
-        this.diffTimestamp = source.diffTimestamp
+        this.resolventTimestamp = source.resolventTimestamp
     }
 
     private ArtifactGroup(Builder builder) {
@@ -57,10 +52,10 @@ final class ArtifactGroup {
         this.ignoreMetadataKeys = builder.ignoreMetadataKeys
         this.identifyMetadataValues = builder.identifyMetadataValues
         this.sortKeys = builder.sortKeys
-        this.diffTimestamp = builder.diffTimestamp
+        this.resolventTimestamp = builder.resolventTimestamp
         //
         this.artifactList =
-                zipMaterials(leftMaterialList, rightMaterialList, diffTimestamp,
+                zipMaterials(leftMaterialList, rightMaterialList, this.resolventTimestamp,
                         ignoreMetadataKeys,
                         identifyMetadataValues,
                         sortKeys)
@@ -90,8 +85,8 @@ final class ArtifactGroup {
         return artifactList.get(index)
     }
 
-    JobTimestamp getDiffTimestamp() {
-        return diffTimestamp
+    JobTimestamp getResolventTimestamp() {
+        return this.resolventTimestamp
     }
 
     IdentifyMetadataValues getIdentifyMetadataValues() {
@@ -134,10 +129,6 @@ final class ArtifactGroup {
         this.rightMaterialList = materialList
     }
 
-    void setSortKeys(SortKeys sortKeys) {
-        this.sortKeys = sortKeys
-    }
-
     int size() {
         return artifactList.size()
     }
@@ -161,13 +152,13 @@ final class ArtifactGroup {
      */
     static List<Artifact> zipMaterials(MaterialList leftList,
                                        MaterialList rightList,
-                                       JobTimestamp diffTimestamp,
+                                       JobTimestamp resolventTimestamp,
                                        IgnoreMetadataKeys ignoreMetadataKeys,
                                        IdentifyMetadataValues identifyMetadataValues,
                                        SortKeys sortKeys) {
         Objects.requireNonNull(leftList)
         Objects.requireNonNull(rightList)
-        Objects.requireNonNull(diffTimestamp)
+        Objects.requireNonNull(resolventTimestamp)
         Objects.requireNonNull(ignoreMetadataKeys)
         Objects.requireNonNull(identifyMetadataValues)
         Objects.requireNonNull(sortKeys)
@@ -193,7 +184,7 @@ final class ArtifactGroup {
                                 identifyMetadataValues.matches(leftMetadata) )
                 ) {
                     Artifact da =
-                            new Artifact.Builder(left, right, diffTimestamp)
+                            new Artifact.Builder(left, right, resolventTimestamp)
                                     .setMetadataPattern(rightPattern)
                                     .sortKeys(sortKeys)
                                     .build()
@@ -206,7 +197,7 @@ final class ArtifactGroup {
             }
             if (foundLeftCount == 0) {
                 Artifact da =
-                        new Artifact.Builder(Material.NULL_OBJECT, right)
+                        new Artifact.Builder(Material.NULL_OBJECT, right, resolventTimestamp)
                                 .setMetadataPattern(rightPattern)
                                 .sortKeys(sortKeys)
                                 .build()
@@ -244,7 +235,7 @@ final class ArtifactGroup {
             }
             if (foundRightCount == 0) {
                 Artifact da =
-                        new Artifact.Builder(left, Material.NULL_OBJECT)
+                        new Artifact.Builder(left, Material.NULL_OBJECT, resolventTimestamp)
                                 .setMetadataPattern(leftPattern)
                                 .sortKeys(sortKeys)
                                 .build()
@@ -287,7 +278,7 @@ final class ArtifactGroup {
         private final List<Artifact> artifactList
         private final MaterialList leftMaterialList
         private final MaterialList rightMaterialList
-        private final JobTimestamp diffTimestamp
+        private final JobTimestamp resolventTimestamp
         //
         private IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
         private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
@@ -297,7 +288,7 @@ final class ArtifactGroup {
             this.leftMaterialList = left
             this.rightMaterialList = right
             this.artifactList = new ArrayList<>()
-            this.diffTimestamp = JobTimestamp.laterThan(left.getJobTimestamp(), right.getJobTimestamp())
+            this.resolventTimestamp = JobTimestamp.laterThan(left.getJobTimestamp(), right.getJobTimestamp())
         }
         Builder ignoreKeys(String ... keys) {
             IgnoreMetadataKeys imk =

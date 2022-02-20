@@ -16,10 +16,6 @@ import java.util.stream.Collectors
  */
 final class TextDifferToMarkdown extends AbstractTextDiffer implements Differ {
 
-    TextDifferToMarkdown() {
-        super()
-    }
-
     TextDifferToMarkdown(Path root) {
         super(root)
     }
@@ -30,10 +26,10 @@ final class TextDifferToMarkdown extends AbstractTextDiffer implements Differ {
         String revisedText = readMaterial(root, revised, charset)
 
         //build simple lists of the lines of the two text files
-        List<String> originalLines = readAllLines(originalText);
-        List<String> revisedLines = readAllLines(revisedText);
+        List<String> originalLines = readAllLines(originalText)
+        List<String> revisedLines = readAllLines(revisedText)
 
-        // Compute the difference between two texts and print it in humann-readable markup style
+        // Compute the difference between two texts and print it in human-readable markup style
         DiffRowGenerator generator =
                 DiffRowGenerator.create()
                         .showInlineDiffs(true)
@@ -79,10 +75,11 @@ final class TextDifferToMarkdown extends AbstractTextDiffer implements Differ {
         sb.append("- changed rows : ${changedRows.size()}\n")
         sb.append("- equal rows:  : ${equalRows.size()}\n\n")
 
-        sb.append("| line# | original | revised |\n");
-        sb.append("| ----: | :------- | :------ |\n");
+        sb.append("| line# | original | revised |\n")
+        sb.append("| ----: | :------- | :------ |\n")
         rows.eachWithIndex { DiffRow row, index ->
-            sb.append("| " + (index+1) + " | " + row.getOldLine() + " | " + row.getNewLine() + " |\n");
+            sb.append("| " + (index+1) + " | " + row.getOldLine() +
+                    " | " + row.getNewLine() + " |\n")
         }
 
         return new TextDiffContent.Builder(sb.toString())

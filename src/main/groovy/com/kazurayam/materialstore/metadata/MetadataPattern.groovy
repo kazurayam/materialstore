@@ -80,7 +80,6 @@ abstract class MetadataPattern {
             this()
             Objects.requireNonNull(map)
             map.keySet().each { key ->
-                String value = map.get(key)
                 metadataPattern.put(
                         key,
                         MetadataPatternValue.of(map.get(key))

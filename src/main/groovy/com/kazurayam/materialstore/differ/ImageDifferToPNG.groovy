@@ -46,7 +46,7 @@ final class ImageDifferToPNG implements Differ {
         Objects.requireNonNull(artifact.getRight())
         //
         Material left = artifact.getLeft()
-        if (! left.getDiffability() == FileTypeDiffability.AS_IMAGE) {
+        if (left.getDiffability() != FileTypeDiffability.AS_IMAGE) {
             throw new IllegalArgumentException("the left material is not an image: ${left}")
         }
         File leftFile = root_.resolve(left.getRelativePath()).toFile()
@@ -54,7 +54,7 @@ final class ImageDifferToPNG implements Differ {
         assert leftImage != null
         //
         Material right = artifact.getRight()
-        if (! right.getDiffability() == FileTypeDiffability.AS_IMAGE) {
+        if (right.getDiffability() != FileTypeDiffability.AS_IMAGE) {
             throw new IllegalArgumentException("the right material is not an image: ${right}")
         }
         File rightFile = root_.resolve(right.getRelativePath()).toFile()
@@ -63,7 +63,7 @@ final class ImageDifferToPNG implements Differ {
 
         // make a diff image using AShot
         ImageDiffer imgDiff = new ImageDiffer()
-        ImageDiff imageDiff = imgDiff.makeDiff(leftImage,rightImage);
+        ImageDiff imageDiff = imgDiff.makeDiff(leftImage,rightImage)
         Double diffRatio = calculateDiffRatioPercent(imageDiff)
         Metadata diffMetadata = Metadata.builderWithMap([
                 "category": "diff",
@@ -73,7 +73,7 @@ final class ImageDifferToPNG implements Differ {
                 .build()
         byte[] diffData = toByteArray(imageDiff.getDiffImage(), FileType.PNG)
         // write the image diff into disk
-        Jobber jobber = new Jobber(root_, right.getJobName(), artifact.getDiffTimestamp())
+        Jobber jobber = new Jobber(root_, right.getJobName(), artifact.getResolventTimestamp())
         Material diffMaterial =
                 jobber.write(diffData,
                         FileType.PNG,
@@ -96,13 +96,13 @@ final class ImageDifferToPNG implements Differ {
             assert bufferedImage != null
             return bufferedImage
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e)
         }
     }
 
     private static byte[] toByteArray(BufferedImage input, FileType fileType) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(input, fileType.extension, baos);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream()
+        ImageIO.write(input, fileType.extension, baos)
         byte[] data = baos.toByteArray()
         return data
     }

@@ -23,11 +23,10 @@ import java.util.stream.Collectors
  * e.g,
  * 6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{"URL":"http://demoaut-mimic.kazurayam.com/","profile":"DevelopmentEnv"}
  */
-final class Index implements Comparable {
+final class Index {
 
     private static final Logger logger_ = LoggerFactory.getLogger(Index.class)
 
-    private final Path indexFile_
     private final List<IndexEntry> lines_
     // Tuple of (ID, FileType, Metadata)
 
@@ -142,27 +141,10 @@ final class Index implements Comparable {
         return index
     }
 
-
-    @Override
-    boolean equals(Object obj) {
-        if (! obj instanceof Index) {
-            return false
-        }
-        Index other = (Index)obj
-        return indexFile_ == indexFile_ && lines_ == lines_
-    }
-
-    @Override
-    int hashCode() {
-        indexFile_.hashCode()
-    }
-
     @Override
     String toString() {
         StringBuilder sb = new StringBuilder()
         sb.append("{")
-        sb.append("\"indexFile\": \"" + indexFile_.toString() + "\"")
-        sb.append(",")
         sb.append("\"indexEntries\": [")
         int count = 0
         lines_.each { entry ->
@@ -175,14 +157,5 @@ final class Index implements Comparable {
         sb.append("]")
         sb.append("}")
         return sb.toString()
-    }
-
-    @Override
-    int compareTo(Object obj) {
-        if (! obj instanceof Index) {
-            throw new IllegalArgumentException("obj is not instance of Index")
-        }
-        Index other = (Index)obj
-        return this.indexFile_ <=> other.indexFile_
     }
 }

@@ -132,24 +132,6 @@ final class StoreImpl implements Store {
         return filtered
     }
 
-    /**
-     *
-     * @param jobName
-     * @return null if directory of the jobName does not exists
-     */
-    // unused. should delete this?
-    List<Jobber> findJobbersOf(JobName jobName) {
-        Path jobNamePath = root_.resolve(jobName.toString())
-        if (! Files.exists(jobNamePath)) {
-            return null
-        }
-        List<Jobber> result = Files.list(jobNamePath)
-                .filter { Path p -> JobTimestamp.isValid(p.getFileName().toString() ) }
-                .map { Path p -> new JobTimestamp(p.getFileName().toString()) }
-                .map { JobTimestamp jt -> new Jobber(root_, jobName, jt) }
-                .collect(Collectors.toList())
-        return result
-    }
 
     @Override
     JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp) {

@@ -30,7 +30,7 @@ abstract class IdentifyMetadataValues {
     static class Builder {
         Map<String, Pattern > attributeNameRegexPair
         Builder() {
-            this.attributeNameRegexPair = new HashMap<>();
+            this.attributeNameRegexPair = new HashMap<>()
         }
         Builder putNameRegexPair(String attributeName, String regex) {
             Objects.requireNonNull(attributeName)

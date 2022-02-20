@@ -14,7 +14,7 @@ class ReporterHelper {
      * The SCSS file is compiled by the "Node scss" module and driven by IntelliJ IDEA + File Watcher.
      * See https://www.jetbrains.com/help/idea/transpiling-sass-less-and-scss-to-css.html#less_sass_scss_compiling_to_css
      *
-     * @return a css content which should be embeded in the HTML file generated
+     * @return a css content which should be embedded in the HTML file generated
      * by MaterialsBasicReporter and ArtifactGroupBasicReporter
      */
     static String loadStyleFromClasspath() {

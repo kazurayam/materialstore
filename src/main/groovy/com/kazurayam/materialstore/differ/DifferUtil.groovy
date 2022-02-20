@@ -23,7 +23,7 @@ final class DifferUtil {
      */
     static Double roundUpTo2DecimalPlaces(Double diffRatio) {
         BigDecimal bd = new BigDecimal(diffRatio)
-        BigDecimal bdUP = bd.setScale(2, BigDecimal.ROUND_UP);  // 0.001 -> 0.01
+        BigDecimal bdUP = bd.setScale(2, BigDecimal.ROUND_UP)  // 0.001 -> 0.01
         return bdUP.doubleValue()
     }
 }

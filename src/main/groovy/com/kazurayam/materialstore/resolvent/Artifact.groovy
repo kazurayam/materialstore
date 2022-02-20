@@ -19,7 +19,7 @@ final class Artifact implements Comparable {
 
     private final Material left
     private final Material right
-    private final JobTimestamp diffTimestamp
+    private final JobTimestamp resolventTimestamp
     private final MetadataPattern metadataPattern
     private final SortKeys sortKeys
     //
@@ -30,7 +30,7 @@ final class Artifact implements Comparable {
         this.left = builder.left
         this.right = builder.right
         this.diff = builder.diff
-        this.diffTimestamp = builder.diffTimestamp
+        this.resolventTimestamp = builder.resolventTimestamp
         this.metadataPattern = builder.metadataPattern
         this.diffRatio = 0.0d
         this.sortKeys = builder.sortKeys
@@ -46,7 +46,7 @@ final class Artifact implements Comparable {
         this.left = source.getLeft()
         this.right = source.getRight()
         this.diff = source.getDiff()
-        this.diffTimestamp = source.diffTimestamp
+        this.resolventTimestamp = source.resolventTimestamp
         this.metadataPattern = source.getDescriptor()
         this.sortKeys = source.getSortKeys()
     }
@@ -93,8 +93,8 @@ final class Artifact implements Comparable {
         return DifferUtil.formatDiffRatioAsString(this.getDiffRatio())
     }
 
-    JobTimestamp getDiffTimestamp() {
-        return this.diffTimestamp
+    JobTimestamp getResolventTimestamp() {
+        return this.resolventTimestamp
     }
 
     MetadataPattern getDescriptor() {
@@ -137,8 +137,8 @@ final class Artifact implements Comparable {
         sb.append("\"right\":")
         sb.append(right.toString())
         sb.append(",")
-        sb.append("\"diffTimestamp\":\"")
-        sb.append(diffTimestamp.toString())
+        sb.append("\"resolventTimestamp\":\"")
+        sb.append(resolventTimestamp.toString())
         sb.append("\",")
         sb.append("\"diff\":")
         sb.append(diff.toString())
@@ -170,19 +170,19 @@ final class Artifact implements Comparable {
         // required
         private Material left
         private Material right
-        private JobTimestamp diffTimestamp
+        private JobTimestamp resolventTimestamp
         // optional
         private Material diff
         private MetadataPattern metadataPattern
         private Double diffRatio
         private SortKeys sortKeys
-        Builder(Material left, Material right, JobTimestamp diffTimestamp) {
+        Builder(Material left, Material right, JobTimestamp resolventTimestamp) {
             Objects.requireNonNull(left)
             Objects.requireNonNull(right)
-            Objects.requireNonNull(diffTimestamp)
+            Objects.requireNonNull(resolventTimestamp)
             this.left = left
             this.right = right
-            this.diffTimestamp = diffTimestamp
+            this.resolventTimestamp = resolventTimestamp
             this.diff = Material.NULL_OBJECT
             this.metadataPattern = MetadataPattern.NULL_OBJECT
             this.diffRatio = -1.0d

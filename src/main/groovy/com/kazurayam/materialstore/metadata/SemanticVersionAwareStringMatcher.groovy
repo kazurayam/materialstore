@@ -15,12 +15,12 @@ class SemanticVersionAwareStringMatcher {
     private static final String REGEX_TRAILER = '(\\S*)'
     static final Pattern VERSIONED_PATH_PARSER = Pattern.compile(REGEX_HEADER + REGEX_VERSION + REGEX_TRAILER)
 
-    private final String right;
-    private final Pattern pattern;
+    private final String right
+    private final Pattern pattern
 
-    public SemanticVersionAwareStringMatcher(String right) {
-        Objects.requireNonNull(right);
-        this.right = right;
+    SemanticVersionAwareStringMatcher(String right) {
+        Objects.requireNonNull(right)
+        this.right = right
         this.pattern = translatePathToRegex(right)
     }
 
@@ -39,14 +39,14 @@ class SemanticVersionAwareStringMatcher {
      * @param right
      * @return if left and right are identical, return true; otherwise false
      */
-    public Matcher matcher(String left) {
+    Matcher matcher(String left) {
         Objects.requireNonNull(left)
         return pattern.matcher(left)
     }
 
     /**
      * returns a java.util.regex.Matcher for the string.
-     * The matcher.matches() will return true if the string somewhere contains a sematic version
+     * The matcher.matches() will return true if the string somewhere contains a semantic version
      * in the format "0.1.2-a" alike.
      *
      * @param string

@@ -91,20 +91,6 @@ class StoreImplTest {
     }
 
     @Test
-    void test_findJobbersOf_JobName() {
-        JobName jobName = new JobName("test_getCachedJob")
-        // make sure the Job directory to be empty
-        FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
-        // stuff the Job directory with a fixture
-        Path jobNameDir = root.resolve(jobName.toString())
-        FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
-        //
-        List<Jobber> jobs = store.findJobbersOf(jobName)
-        assertNotNull(jobs, "should not be null")
-        assertEquals(2, jobs.size())
-    }
-
-    @Test
     void test_findJobTimestampPriorTo() {
         JobName jobName = new JobName("test_findLatestJobTimestamp")
         TestFixtureUtil.setupFixture(store, jobName)

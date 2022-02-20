@@ -44,10 +44,10 @@ final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
         String rightText = readMaterial(root, right, charset)
 
         //build simple lists of the lines of the two text files
-        List<String> leftLines = readAllLines(leftText);
-        List<String> rightLines = readAllLines(rightText);
+        List<String> leftLines = readAllLines(leftText)
+        List<String> rightLines = readAllLines(rightText)
 
-        // Compute the difference between two texts and print it in humann-readable markup style
+        // Compute the difference between two texts and print it in human-readable markup style
         DiffRowGenerator generator =
                 DiffRowGenerator.create()
                         .showInlineDiffs(true)
@@ -279,7 +279,7 @@ th {
     private static final Pattern SPLITTER =
             Pattern.compile("((?=${OLD_TAG})|(?<=${OLD_TAG})|(?=${NEW_TAG})|(?<=${NEW_TAG}))")
 
-    static List<String> splitStringWithOldNewTags(String line, clazz="pl") {
+    static List<String> splitStringWithOldNewTags(String line) {
         List<String> segments = SPLITTER.split(line) as List
         return segments
     }

@@ -20,12 +20,12 @@ final class MObject {
      */
 
     static String hashJDK(byte[] data) {
-        MessageDigest md = MessageDigest.getInstance("SHA1");
+        MessageDigest md = MessageDigest.getInstance("SHA1")
         md.update(data)
         byte[] digest = md.digest()
         StringBuffer sb = new StringBuffer()
         for (byte b : digest) {
-            sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
+            sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1))
         }
         return sb.toString()
     }

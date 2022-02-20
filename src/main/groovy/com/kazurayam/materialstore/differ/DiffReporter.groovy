@@ -19,7 +19,7 @@ interface DiffReporter {
      *
      * @param artifactGroup
      * @param reportFileName
-     * @return number of actifacts exceeding the given criteria
+     * @return number of artifacts exceeding the given criteria
      */
     Path reportDiffs(ArtifactGroup artifactGroup, String reportFileName)
 

@@ -20,7 +20,7 @@ final class DifferDriverImpl implements DifferDriver {
     private Map<FileType, Differ> differs_
 
     private DifferDriverImpl(Builder builder) {
-        this.root_ = builder.root;
+        this.root_ = builder.root
         this.differs_ = builder.differs
     }
 

@@ -110,7 +110,7 @@ final enum FileType {
                 return v
             }
         }
-        return FileType.UNSUPPORTED
+        return UNSUPPORTED
     }
 
     static FileType ofMimeType(String mimeType) {
@@ -124,7 +124,7 @@ final enum FileType {
     }
 
     static List<FileType> getFileTypesDiffableAsText() {
-        List<FileType> values = FileType.values() as List
+        List<FileType> values = values() as List
         return values.stream()
                 .filter({ ft ->
                     ft.getDiffability() == FileTypeDiffability.AS_TEXT
@@ -133,7 +133,7 @@ final enum FileType {
     }
 
     static List<FileType> getFileTypesDiffableAsImage() {
-        List<FileType> values = FileType.values() as List
+        List<FileType> values = values() as List
         return values.stream()
                 .filter({ ft ->
                     ft.getDiffability() == FileTypeDiffability.AS_IMAGE
@@ -142,43 +142,11 @@ final enum FileType {
     }
 
     static List<FileType> getFileTypesUnableToDiff() {
-        List<FileType> values = FileType.values() as List
+        List<FileType> values = values() as List
         return values.stream()
                 .filter({ ft ->
                     ft.getDiffability() == FileTypeDiffability.UNABLE
                 })
                 .collect(Collectors.toList())
-    }
-
-    /**
-     * returns a string which contains all of MIME types listed uniquely in comma-separated format.
-     * Example:
-     * <pre>application/json,application/msexcel,application/pdf,application/vnd-ms-office,application/vnd-xls,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/x-dos_mx_excel,application/x-excel,application/x-ms-excel,application/x-msexcel,application/x-xls,application/xls,application/xml,image/bmp,image/gif,image/jpeg,image/png,text/plain</pre>
-     * @return
-     */
-    static List<String> getAllMimeTypes() {
-        Set<String> mimetypeSet = new HashSet<String>()
-        for (FileType v : values()) {
-            mimetypeSet.addAll(v.getMimeTypes())
-        }
-        List<String> mimetypeList = new ArrayList(mimetypeSet)
-        Collections.sort(mimetypeList)
-        return mimetypeList
-    }
-
-    static String getAllMimeTypesAsString() {
-        List<String> mimetypeList = getAllMimeTypes()
-        StringBuilder sb = new StringBuilder()
-        int count = 0
-        for (String mimetype : mimetypeList) {
-            if (mimetype.length() > 0) {
-                if (count > 0) {
-                    sb.append(",")
-                }
-                count += 1
-                sb.append(mimetype)
-            }
-        }
-        return sb.toString()
     }
 }

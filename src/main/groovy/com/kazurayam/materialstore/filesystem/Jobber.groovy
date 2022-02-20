@@ -144,7 +144,7 @@ final class Jobber {
      * The "index" entries are identified uniquely by the combination of
      *     <FileType.extension> + <Metadata>
      *
-     * You can not write (create) 2 or more MObjects (=index enteries) with the same
+     * You can not write (create) 2 or more MObjects (=index entries) with the same
      * <FileType.extension> + <Metadata> combination.
      *
      * If you try to do write it, a MaterialstoreException will be raised.

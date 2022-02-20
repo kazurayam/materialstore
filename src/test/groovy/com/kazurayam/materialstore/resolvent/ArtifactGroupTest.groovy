@@ -80,10 +80,10 @@ class ArtifactGroupTest {
     }
 
     @Test
-    void test_getDiffTimestamp() {
-        JobTimestamp diffTimestamp = artifactGroup.getDiffTimestamp()
-        //println "diffTimestamp=${diffTimestamp.toString()}"
-        assertNotEquals(JobTimestamp.NULL_OBJECT, diffTimestamp)
+    void test_getResolventTimestamp() {
+        JobTimestamp resolventTimestamp = artifactGroup.getResolventTimestamp()
+        //println "resolventTimestamp=${resolventTimestamp.toString()}"
+        assertNotEquals(JobTimestamp.NULL_OBJECT, resolventTimestamp)
     }
 
     @Test
@@ -251,7 +251,7 @@ class ArtifactGroupTest {
         assertNotNull(artifactList)
         artifactList.each {artifact ->
             //println JsonOutput.prettyPrint(artifact.toString())
-            assertTrue(artifact.getDiffTimestamp() != JobTimestamp.NULL_OBJECT)
+            assertTrue(artifact.getResolventTimestamp() != JobTimestamp.NULL_OBJECT)
         }
         assertEquals(8, artifactList.size())
 
