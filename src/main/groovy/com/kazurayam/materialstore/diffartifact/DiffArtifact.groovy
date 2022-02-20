@@ -102,8 +102,7 @@ final class DiffArtifact implements Comparable {
         }
         DiffArtifact other = (DiffArtifact)obj
         return this.getRight() == other.getRight() &&
-                this.getLeft() == other.getLeft() &&
-                this.getDiff() == other.getDiff()
+                this.getLeft() == other.getLeft()
     }
 
     @Override
