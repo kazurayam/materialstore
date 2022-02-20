@@ -10,6 +10,7 @@ import com.kazurayam.materialstore.filesystem.Stores
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.SortKeys
 import groovy.json.JsonOutput
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll

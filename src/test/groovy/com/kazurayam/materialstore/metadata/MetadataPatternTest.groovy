@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.metadata
 
-import com.kazurayam.materialstore.diffartifact.SortKeys
+
 import groovy.xml.MarkupBuilder
 import groovy.json.JsonOutput
 import org.junit.jupiter.api.Test

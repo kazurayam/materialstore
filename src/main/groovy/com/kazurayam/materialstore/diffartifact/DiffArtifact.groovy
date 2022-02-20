@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.differ.DifferUtil
 import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.SortKeys
 
 /**
  * Data Transfer Object

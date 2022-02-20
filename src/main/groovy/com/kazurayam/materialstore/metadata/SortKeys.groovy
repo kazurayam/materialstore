@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.diffartifact
+package com.kazurayam.materialstore.metadata
 
 import com.google.gson.Gson
 

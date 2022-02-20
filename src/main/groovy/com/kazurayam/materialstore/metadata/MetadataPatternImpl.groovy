@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.metadata
 
 
-import com.kazurayam.materialstore.diffartifact.SortKeys
 import groovy.xml.MarkupBuilder
 
 final class MetadataPatternImpl extends MetadataPattern {

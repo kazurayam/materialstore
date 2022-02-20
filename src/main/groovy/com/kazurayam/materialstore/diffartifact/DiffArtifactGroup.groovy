@@ -8,6 +8,7 @@ import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.metadata.Metadata
 import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.SortKeys
 
 import java.util.stream.Collectors
 import org.slf4j.Logger
