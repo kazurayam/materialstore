@@ -77,8 +77,8 @@ class DifferDriverImplTest {
         assertEquals(1, diffArtifactGroup.size())
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(store).build()
-        diffArtifactGroup.applyResolvent(differDriver)
-        assertEquals(1, diffArtifactGroup.size())
+        DiffArtifactGroup resolved = differDriver.resolve(diffArtifactGroup)
+        assertEquals(1, resolved.size())
     }
 
     @Test
@@ -104,9 +104,9 @@ class DifferDriverImplTest {
         assertEquals(2, diffArtifactGroup.size())
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(store).build()
-        diffArtifactGroup.applyResolvent(differDriver)
-        assertNotNull(diffArtifactGroup)
-        assertEquals(2, diffArtifactGroup.size())
+        DiffArtifactGroup resolved = differDriver.resolve(diffArtifactGroup)
+        assertNotNull(resolved)
+        assertEquals(2, resolved.size())
     }
 
 }

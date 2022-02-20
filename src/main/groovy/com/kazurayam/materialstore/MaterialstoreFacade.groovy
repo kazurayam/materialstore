@@ -36,7 +36,6 @@ class MaterialstoreFacade {
         Objects.requireNonNull(diffArtifactGroup)
         Objects.requireNonNull(resolvent)
         // perform diff-ing, stuff the result in the DiffArtifact collection
-        diffArtifactGroup.applyResolvent(resolvent)
-        return diffArtifactGroup
+        return resolvent.resolve(diffArtifactGroup)
     }
 }

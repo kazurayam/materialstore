@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.differ
 
+import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.diffartifact.DiffArtifact
@@ -28,18 +29,25 @@ final class DifferDriverImpl implements DifferDriver {
      * @return
      */
     @Override
-    List<DiffArtifact> resolve(List<DiffArtifact> input) {
+    DiffArtifactGroup resolve(DiffArtifactGroup input) {
         return differentiate(input)
     }
 
 
     @Override
-    List<DiffArtifact> differentiate(List<DiffArtifact> input) {
+    DiffArtifactGroup differentiate(DiffArtifactGroup input) {
         Objects.requireNonNull(input)
-        List<DiffArtifact> result = new ArrayList<>()
-        input.each {preparedDiffArtifact ->
-            DiffArtifact stuffedDiffArtifact = differentiate(preparedDiffArtifact)
-            result.add(stuffedDiffArtifact)
+        List<DiffArtifact> differentiated = new ArrayList<>()
+        input.each {inputDA ->
+            // make the diff info
+            DiffArtifact stuffedDA = differentiate(inputDA)
+            differentiated.add(stuffedDA)
+        }
+        // clone the input to build the result
+        DiffArtifactGroup result = new DiffArtifactGroup(input)
+        differentiated.each {stuffedDA ->
+            // update the contents
+            result.update(stuffedDA)
         }
         return result
     }
