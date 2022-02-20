@@ -92,6 +92,10 @@ final class DiffArtifact implements Comparable {
         return DifferUtil.formatDiffRatioAsString(this.getDiffRatio())
     }
 
+    JobTimestamp getDiffTimestamp() {
+        return this.diffTimestamp
+    }
+
     MetadataPattern getDescriptor() {
         return this.metadataPattern
     }

@@ -250,6 +250,7 @@ class DiffArtifactGroupTest {
         assertNotNull(diffArtifactList)
         diffArtifactList.each {diffArtifact ->
             //println JsonOutput.prettyPrint(diffArtifact.toString())
+            assertTrue(diffArtifact.getDiffTimestamp() != JobTimestamp.NULL_OBJECT)
         }
         assertEquals(8, diffArtifactList.size())
 
