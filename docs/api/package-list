@@ -1,8 +1,8 @@
 com.kazurayam.materialstore
-com.kazurayam.materialstore.diffartifact
 com.kazurayam.materialstore.differ
 com.kazurayam.materialstore.filesystem
 com.kazurayam.materialstore.metadata
 com.kazurayam.materialstore.reporter
+com.kazurayam.materialstore.resolvent
 com.kazurayam.materialstore.textgrid
 com.kazurayam.materialstore.util
