@@ -140,7 +140,6 @@ class JobTimestampTest {
         assertEquals(expected, following)
     }
 
-
     @Test
     void test_nowOrFollowing() {
         JobTimestamp previous = JobTimestamp.now()
