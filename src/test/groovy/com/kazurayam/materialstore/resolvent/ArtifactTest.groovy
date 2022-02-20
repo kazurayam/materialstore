@@ -23,11 +23,11 @@ import java.util.regex.Pattern
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertNotNull
 
-class DiffArtifactTest {
+class ArtifactTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(DiffArtifactTest.class.getName())
+                    .resolve(ArtifactTest.class.getName())
 
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
@@ -50,13 +50,13 @@ class DiffArtifactTest {
         ]).build()
         SortKeys sortKeys =
                 new SortKeys("step", "profile")
-        DiffArtifact diffArtifact =
-                new DiffArtifact.Builder(
+        Artifact artifact =
+                new Artifact.Builder(
                         Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
                         .setMetadataPattern(mp)
                         .sortKeys(sortKeys)
                         .build()
-        String description = diffArtifact.getDescription()
+        String description = artifact.getDescription()
         assertEquals('''{"step":"6", "profile":"Flaskr_ProductionEnv", "URL.path":"/"}''',
                 description)
     }
@@ -67,14 +67,14 @@ class DiffArtifactTest {
                 "URL.host": "demoaut-mimic.kazurayam.com",
                 "URL.file": "/"
         ]).build()
-        DiffArtifact diffArtifact =
-                new DiffArtifact.Builder(
+        Artifact artifact =
+                new Artifact.Builder(
                         Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
                         .setMetadataPattern(mp)
                         .build()
         assertEquals(
                 '''{"URL.file":"/", "URL.host":"demoaut-mimic.kazurayam.com"}''',
-                diffArtifact.getDescription())
+                artifact.getDescription())
     }
 
     @Test
@@ -83,12 +83,12 @@ class DiffArtifactTest {
                 "URL.host": "demoaut-mimic.kazurayam.com",
                 "URL.file": "/"
         ]).build()
-        DiffArtifact diffArtifact =
-                new DiffArtifact.Builder(
+        Artifact artifact =
+                new Artifact.Builder(
                         Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
                         .setMetadataPattern(mp)
                         .build()
-        println JsonOutput.prettyPrint(diffArtifact.toString())
+        println JsonOutput.prettyPrint(artifact.toString())
     }
 
     @Test
@@ -120,17 +120,17 @@ class DiffArtifactTest {
                 FileType.PNG)
         assert 2 == rightList.size()
         //
-        DiffArtifactGroup diffArtifactGroup =
-                DiffArtifactGroup.builder(leftList, rightList)
+        ArtifactGroup artifactGroup =
+                ArtifactGroup.builder(leftList, rightList)
                         .ignoreKeys("profile", "URL", "URL.host", "category")
                         .build()
-        assertNotNull(diffArtifactGroup)
+        assertNotNull(artifactGroup)
 
-        println JsonOutput.prettyPrint(diffArtifactGroup.toString())
+        println JsonOutput.prettyPrint(artifactGroup.toString())
 
-        assert 2 == diffArtifactGroup.size()
+        assert 2 == artifactGroup.size()
         //
-        println diffArtifactGroup.get(0).toString()
+        println artifactGroup.get(0).toString()
     }
 
 }

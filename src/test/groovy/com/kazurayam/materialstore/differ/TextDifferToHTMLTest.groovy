@@ -1,8 +1,8 @@
 package com.kazurayam.materialstore.differ
 
 import com.kazurayam.materialstore.*
-import com.kazurayam.materialstore.resolvent.DiffArtifact
-import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
+import com.kazurayam.materialstore.resolvent.Artifact
+import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -48,14 +48,14 @@ class TextDifferToHTMLTest {
                         .build(),
                 FileType.HTML)
 
-        DiffArtifactGroup preparedDAG =
-                DiffArtifactGroup.builder(expected, actual)
+        ArtifactGroup preparedDAG =
+                ArtifactGroup.builder(expected, actual)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
         assertNotNull(preparedDAG)
         assertEquals(1, preparedDAG.size())
         //
-        DiffArtifact stuffed = new TextDifferToHTML(root).makeDiffArtifact(preparedDAG.get(0))
+        Artifact stuffed = new TextDifferToHTML(root).makeArtifact(preparedDAG.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertTrue(stuffed.getDiffRatio() > 0)

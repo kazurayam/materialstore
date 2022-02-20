@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.differ
 
 
-import com.kazurayam.materialstore.resolvent.DiffArtifact
+import com.kazurayam.materialstore.resolvent.Artifact
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.FileTypeDiffability
 import com.kazurayam.materialstore.filesystem.Jobber
@@ -39,13 +39,13 @@ final class ImageDifferToPNG implements Differ {
     }
 
     @Override
-    DiffArtifact makeDiffArtifact(DiffArtifact input) {
+    Artifact makeArtifact(Artifact artifact) {
         Objects.requireNonNull(root_)
-        Objects.requireNonNull(input)
-        Objects.requireNonNull(input.getLeft())
-        Objects.requireNonNull(input.getRight())
+        Objects.requireNonNull(artifact)
+        Objects.requireNonNull(artifact.getLeft())
+        Objects.requireNonNull(artifact.getRight())
         //
-        Material left = input.getLeft()
+        Material left = artifact.getLeft()
         if (! left.getDiffability() == FileTypeDiffability.AS_IMAGE) {
             throw new IllegalArgumentException("the left material is not an image: ${left}")
         }
@@ -53,7 +53,7 @@ final class ImageDifferToPNG implements Differ {
         BufferedImage leftImage = readImage(leftFile)
         assert leftImage != null
         //
-        Material right = input.getRight()
+        Material right = artifact.getRight()
         if (! right.getDiffability() == FileTypeDiffability.AS_IMAGE) {
             throw new IllegalArgumentException("the right material is not an image: ${right}")
         }
@@ -73,14 +73,14 @@ final class ImageDifferToPNG implements Differ {
                 .build()
         byte[] diffData = toByteArray(imageDiff.getDiffImage(), FileType.PNG)
         // write the image diff into disk
-        Jobber jobber = new Jobber(root_, right.getJobName(), input.getDiffTimestamp())
+        Jobber jobber = new Jobber(root_, right.getJobName(), artifact.getDiffTimestamp())
         Material diffMaterial =
                 jobber.write(diffData,
                         FileType.PNG,
                         diffMetadata, Jobber.DuplicationHandling.CONTINUE)
 
         //
-        DiffArtifact result = new DiffArtifact(input)
+        Artifact result = new Artifact(artifact)
         result.setDiff(diffMaterial)
         result.setDiffRatio(diffRatio)
         return result

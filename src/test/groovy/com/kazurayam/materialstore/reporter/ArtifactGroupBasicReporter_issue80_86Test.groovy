@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.reporter
 
 import com.kazurayam.materialstore.MaterialstoreFacade
-import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
+import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -20,13 +20,13 @@ import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.assertTrue
 
-class DiffArtifactGroupBasicReporter_issue80_86Test {
+class ArtifactGroupBasicReporter_issue80_86Test {
 
     static final Path fixtureDir = Paths.get(".")
             .resolve("src/test/resources/fixture/issue#80")
     static final Path outputDir = Paths.get(".")
             .resolve("build/tmp/testOutput")
-            .resolve(DiffArtifactGroupBasicReporter_issue80_86Test.class.getName())
+            .resolve(ArtifactGroupBasicReporter_issue80_86Test.class.getName())
 
     static Store store
     static final JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
@@ -81,12 +81,12 @@ class DiffArtifactGroupBasicReporter_issue80_86Test {
 
         // make diff of the 2 MaterialList objects
         // make diff
-        DiffArtifactGroup preparedDAG =
-                DiffArtifactGroup.builder(left, right)
+        ArtifactGroup preparedDAG =
+                ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .identifyWithRegex(["URL.query": "\\w{32}"])
                         .build()
-        DiffArtifactGroup stuffedDAG = new MaterialstoreFacade(store).workOn(preparedDAG)
+        ArtifactGroup stuffedDAG = new MaterialstoreFacade(store).workOn(preparedDAG)
 
         // compile HTML report
         DiffReporter reporter = store.newReporter(jobName)

@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.metadata
 
-import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
+
+import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
@@ -61,8 +62,8 @@ class SortKeysTest {
 
     @Test
     void test_smoke() {
-        DiffArtifactGroup das =
-                DiffArtifactGroup.builder(left, right)
+        ArtifactGroup das =
+                ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port")
                         .sort("step", "URL.path")
                         .build()

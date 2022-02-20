@@ -14,12 +14,12 @@ import java.util.stream.Collectors
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-final class DiffArtifactGroup {
+final class ArtifactGroup {
 
-    private static final Logger logger = LoggerFactory.getLogger(DiffArtifactGroup.class)
+    private static final Logger logger = LoggerFactory.getLogger(ArtifactGroup.class)
     private static final boolean verbose = false
 
-    private List<DiffArtifact> diffArtifactList
+    private List<Artifact> artifactList
     private MaterialList leftMaterialList
     private MaterialList rightMaterialList
     private JobTimestamp diffTimestamp
@@ -29,29 +29,29 @@ final class DiffArtifactGroup {
     private SortKeys sortKeys = SortKeys.NULL_OBJECT
 
 
-    private DiffArtifactGroup() {
-        diffArtifactList = new ArrayList<DiffArtifact>()
+    private ArtifactGroup() {
+        artifactList = new ArrayList<Artifact>()
     }
 
     /**
      * Deep-copy constructor
      * @param source
      */
-    public DiffArtifactGroup(DiffArtifactGroup source) {
+    public ArtifactGroup(ArtifactGroup source) {
         this.leftMaterialList = new MaterialList(source.leftMaterialList)
         this.rightMaterialList = new MaterialList(source.rightMaterialList)
         this.ignoreMetadataKeys = source.ignoreMetadataKeys    // IgnoreMetadataKeys is immutable
         this.identifyMetadataValues = source.identifyMetadataValues // IdentifyMetadataValues is immutable
         this.sortKeys = source.sortKeys                        // SortKeys is immutable
-        List<DiffArtifact> tmp = new ArrayList<>()
-        source.diffArtifactList.each {sourceDA ->
-            tmp.add(new DiffArtifact(sourceDA))
+        List<Artifact> tmp = new ArrayList<>()
+        source.artifactList.each { sourceDA ->
+            tmp.add(new Artifact(sourceDA))
         }
-        this.diffArtifactList = tmp
+        this.artifactList = tmp
         this.diffTimestamp = source.diffTimestamp
     }
 
-    private DiffArtifactGroup(Builder builder) {
+    private ArtifactGroup(Builder builder) {
         this.leftMaterialList = builder.leftMaterialList
         this.rightMaterialList = builder.rightMaterialList
         this.ignoreMetadataKeys = builder.ignoreMetadataKeys
@@ -59,35 +59,35 @@ final class DiffArtifactGroup {
         this.sortKeys = builder.sortKeys
         this.diffTimestamp = builder.diffTimestamp
         //
-        this.diffArtifactList =
+        this.artifactList =
                 zipMaterials(leftMaterialList, rightMaterialList, diffTimestamp,
                         ignoreMetadataKeys,
                         identifyMetadataValues,
                         sortKeys)
-        // at this timing the DiffArtifacts are not yet filled with the diff information, they are still vacant.
+        // at this timing the Artifacts are not yet filled with the diff information, they are still vacant.
     }
 
-    void add(DiffArtifact e) {
-        diffArtifactList.add(e)
+    void add(Artifact e) {
+        artifactList.add(e)
     }
 
-    boolean update(DiffArtifact e) {
-        boolean wasPresent = diffArtifactList.remove(e)
-        diffArtifactList.add(e)
+    boolean update(Artifact e) {
+        boolean wasPresent = artifactList.remove(e)
+        artifactList.add(e)
         return wasPresent
     }
 
     int countWarnings(Double criteria) {
-        diffArtifactList.stream()
-                .filter { DiffArtifact da ->
+        artifactList.stream()
+                .filter { Artifact da ->
                     criteria < da.getDiffRatio()
                 }
                 .collect(Collectors.toList())
                 .size()
     }
 
-    DiffArtifact get(int index) {
-        return diffArtifactList.get(index)
+    Artifact get(int index) {
+        return artifactList.get(index)
     }
 
     JobTimestamp getDiffTimestamp() {
@@ -114,8 +114,8 @@ final class DiffArtifactGroup {
         return this.sortKeys
     }
 
-    Iterator<DiffArtifact> iterator() {
-        return diffArtifactList.iterator()
+    Iterator<Artifact> iterator() {
+        return artifactList.iterator()
     }
 
     void setIdentifyMetadataValues(IdentifyMetadataValues identifyMetadataValues) {
@@ -139,16 +139,16 @@ final class DiffArtifactGroup {
     }
 
     int size() {
-        return diffArtifactList.size()
+        return artifactList.size()
     }
 
     void sort() {
-        Collections.sort(diffArtifactList)
+        Collections.sort(artifactList)
     }
 
     List<MetadataPattern> getMetadataPatterns() {
         List<MetadataPattern> list = new ArrayList<>()
-        diffArtifactList.each { DiffArtifact da ->
+        artifactList.each { Artifact da ->
             MetadataPattern mp = da.getDescriptor()
             MetadataPattern deepCopy = new MetadataPattern.Builder(mp).build()
             list.add(deepCopy)
@@ -159,12 +159,12 @@ final class DiffArtifactGroup {
     /**
      *
      */
-    static List<DiffArtifact> zipMaterials(MaterialList leftList,
-                                           MaterialList rightList,
-                                           JobTimestamp diffTimestamp,
-                                           IgnoreMetadataKeys ignoreMetadataKeys,
-                                           IdentifyMetadataValues identifyMetadataValues,
-                                           SortKeys sortKeys) {
+    static List<Artifact> zipMaterials(MaterialList leftList,
+                                       MaterialList rightList,
+                                       JobTimestamp diffTimestamp,
+                                       IgnoreMetadataKeys ignoreMetadataKeys,
+                                       IdentifyMetadataValues identifyMetadataValues,
+                                       SortKeys sortKeys) {
         Objects.requireNonNull(leftList)
         Objects.requireNonNull(rightList)
         Objects.requireNonNull(diffTimestamp)
@@ -173,7 +173,7 @@ final class DiffArtifactGroup {
         Objects.requireNonNull(sortKeys)
 
         // the result
-        List<DiffArtifact> diffArtifactList = new ArrayList<>()
+        List<Artifact> artifactList = new ArrayList<>()
 
         //
         rightList.each { Material right->
@@ -192,12 +192,12 @@ final class DiffArtifactGroup {
                         ( rightPattern.matches(leftMetadata) ||
                                 identifyMetadataValues.matches(leftMetadata) )
                 ) {
-                    DiffArtifact da =
-                            new DiffArtifact.Builder(left, right, diffTimestamp)
+                    Artifact da =
+                            new Artifact.Builder(left, right, diffTimestamp)
                                     .setMetadataPattern(rightPattern)
                                     .sortKeys(sortKeys)
                                     .build()
-                    diffArtifactList.add(da)
+                    artifactList.add(da)
                     sb.append("left metadata: Y ${leftMetadata}\n")
                     foundLeftCount += 1
                 } else {
@@ -205,12 +205,12 @@ final class DiffArtifactGroup {
                 }
             }
             if (foundLeftCount == 0) {
-                DiffArtifact da =
-                        new DiffArtifact.Builder(Material.NULL_OBJECT, right)
+                Artifact da =
+                        new Artifact.Builder(Material.NULL_OBJECT, right)
                                 .setMetadataPattern(rightPattern)
                                 .sortKeys(sortKeys)
                                 .build()
-                diffArtifactList.add(da)
+                artifactList.add(da)
             }
             if (foundLeftCount == 0 || foundLeftCount >= 2) {
                 if (verbose) {
@@ -235,7 +235,7 @@ final class DiffArtifactGroup {
                         ( leftPattern.matches(rightMetadata) ||
                                 identifyMetadataValues.matches(rightMetadata) )
                 ) {
-                    // this must have been found matched already; no need to create a DiffArtifact
+                    // this must have been found matched already; no need to create a Artifact
                     sb.append("right metadata: Y ${rightMetadata}\n")
                     foundRightCount += 1
                 } else {
@@ -243,12 +243,12 @@ final class DiffArtifactGroup {
                 }
             }
             if (foundRightCount == 0) {
-                DiffArtifact da =
-                        new DiffArtifact.Builder(left, Material.NULL_OBJECT)
+                Artifact da =
+                        new Artifact.Builder(left, Material.NULL_OBJECT)
                                 .setMetadataPattern(leftPattern)
                                 .sortKeys(sortKeys)
                                 .build()
-                diffArtifactList.add(da)
+                artifactList.add(da)
             }
             if (foundRightCount == 0 || foundRightCount >= 2) {
                 if (verbose) {
@@ -256,8 +256,8 @@ final class DiffArtifactGroup {
                 }
             }
         }
-        Collections.sort(diffArtifactList)
-        return diffArtifactList
+        Collections.sort(artifactList)
+        return artifactList
     }
 
     //---------------------------------------------------------------
@@ -266,7 +266,7 @@ final class DiffArtifactGroup {
         StringBuilder sb = new StringBuilder()
         int count = 0
         sb.append("[")
-        diffArtifactList.each { DiffArtifact da ->
+        artifactList.each { Artifact da ->
             if (count > 0) sb.append(",")
             sb.append(da.toString())
             count += 1
@@ -284,7 +284,7 @@ final class DiffArtifactGroup {
      */
     private static class Builder {
         // required
-        private final List<DiffArtifact> diffArtifactList
+        private final List<Artifact> artifactList
         private final MaterialList leftMaterialList
         private final MaterialList rightMaterialList
         private final JobTimestamp diffTimestamp
@@ -296,7 +296,7 @@ final class DiffArtifactGroup {
         Builder(MaterialList left, MaterialList right) {
             this.leftMaterialList = left
             this.rightMaterialList = right
-            this.diffArtifactList = new ArrayList<>()
+            this.artifactList = new ArrayList<>()
             this.diffTimestamp = JobTimestamp.laterThan(left.getJobTimestamp(), right.getJobTimestamp())
         }
         Builder ignoreKeys(String ... keys) {
@@ -325,8 +325,8 @@ final class DiffArtifactGroup {
             this.sortKeys = sortKeys
             return this
         }
-        DiffArtifactGroup build() {
-            return new DiffArtifactGroup(this)
+        ArtifactGroup build() {
+            return new ArtifactGroup(this)
         }
     }
 }

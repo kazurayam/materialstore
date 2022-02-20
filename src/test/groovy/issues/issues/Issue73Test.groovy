@@ -1,7 +1,7 @@
 package issues.issues
 
 import com.kazurayam.materialstore.MaterialstoreFacade
-import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
+import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
@@ -66,11 +66,11 @@ class Issue73Test {
     @Test
     void test_smoke() {
         Double criteria = 0.0d
-        DiffArtifactGroup preparedDAG =
-                DiffArtifactGroup.builder(left, right)
+        ArtifactGroup preparedDAG =
+                ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host")
                         .build()
-        DiffArtifactGroup stuffedDAG =
+        ArtifactGroup stuffedDAG =
                 new MaterialstoreFacade(store).workOn(preparedDAG)
         int warnings = stuffedDAG.countWarnings(criteria)
         // compile the report

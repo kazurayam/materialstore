@@ -15,7 +15,7 @@ class ReporterHelper {
      * See https://www.jetbrains.com/help/idea/transpiling-sass-less-and-scss-to-css.html#less_sass_scss_compiling_to_css
      *
      * @return a css content which should be embeded in the HTML file generated
-     * by MaterialsBasicReporter and DiffArtifactGroupBasicReporter
+     * by MaterialsBasicReporter and ArtifactGroupBasicReporter
      */
     static String loadStyleFromClasspath() {
         InputStream inputStream = ReporterHelper.class.getResourceAsStream(CSS_PATH)

@@ -23,12 +23,12 @@ import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.*
 
-class DiffArtifactGroupTest {
+class ArtifactGroupTest {
 
     private static Path outputDir =
             Paths.get(".")
                     .resolve("build/tmp/testOutput")
-                    .resolve(DiffArtifactGroupTest.class.getName())
+                    .resolve(ArtifactGroupTest.class.getName())
     private static Path storeDir = outputDir.resolve("store")
     private static Path issue80Dir =
             Paths.get(".").resolve("src/test/resources/fixture/issue#80")
@@ -40,7 +40,7 @@ class DiffArtifactGroupTest {
     private JobTimestamp timestampD
     private MaterialList left
     private MaterialList right
-    private DiffArtifactGroup diffArtifactGroup
+    private ArtifactGroup artifactGroup
 
     @BeforeAll
     static void beforeAll() {
@@ -55,42 +55,42 @@ class DiffArtifactGroupTest {
     void before() {
         MaterialList left = MaterialList.NULL_OBJECT
         MaterialList right = MaterialList.NULL_OBJECT
-        diffArtifactGroup = DiffArtifactGroup.builder(left, right).build()
+        artifactGroup = ArtifactGroup.builder(left, right).build()
     }
 
     @Test
     void test_add_size_get() {
-        diffArtifactGroup.add(DiffArtifact.NULL_OBJECT)
-        assertEquals(1, diffArtifactGroup.size())
-        assertEquals(DiffArtifact.NULL_OBJECT, diffArtifactGroup.get(0))
+        artifactGroup.add(Artifact.NULL_OBJECT)
+        assertEquals(1, artifactGroup.size())
+        assertEquals(Artifact.NULL_OBJECT, artifactGroup.get(0))
     }
 
     @Test
     void test_countWarnings() {
-        DiffArtifact tmp =
-                new DiffArtifact.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
+        Artifact tmp =
+                new Artifact.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
                         JobTimestamp.now())
                         .setMetadataPattern(MetadataPattern.NULL_OBJECT)
                         .build()
         tmp.setDiffRatio(45.0d)
-        diffArtifactGroup.add(tmp)
-        assertEquals(1, diffArtifactGroup.countWarnings(0.00d))
-        assertEquals(0, diffArtifactGroup.countWarnings(45.00d))
-        assertEquals(0, diffArtifactGroup.countWarnings(45.01d))
+        artifactGroup.add(tmp)
+        assertEquals(1, artifactGroup.countWarnings(0.00d))
+        assertEquals(0, artifactGroup.countWarnings(45.00d))
+        assertEquals(0, artifactGroup.countWarnings(45.01d))
     }
 
     @Test
     void test_getDiffTimestamp() {
-        JobTimestamp diffTimestamp = diffArtifactGroup.getDiffTimestamp()
+        JobTimestamp diffTimestamp = artifactGroup.getDiffTimestamp()
         //println "diffTimestamp=${diffTimestamp.toString()}"
         assertNotEquals(JobTimestamp.NULL_OBJECT, diffTimestamp)
     }
 
     @Test
     void test_iterator() {
-        diffArtifactGroup.add(DiffArtifact.NULL_OBJECT)
-        diffArtifactGroup.each { DiffArtifact it ->
-            assert it == DiffArtifact.NULL_OBJECT
+        artifactGroup.add(Artifact.NULL_OBJECT)
+        artifactGroup.each { Artifact it ->
+            assert it == Artifact.NULL_OBJECT
         }
     }
 
@@ -100,36 +100,36 @@ class DiffArtifactGroupTest {
                 new IdentifyMetadataValues.Builder()
                         .putAllNameRegexPairs(["URL.query":"\\w{32}"])
                         .build()
-        diffArtifactGroup.setIdentifyMetadataValues(imv)
-        IdentifyMetadataValues result = diffArtifactGroup.getIdentifyMetadataValues()
+        artifactGroup.setIdentifyMetadataValues(imv)
+        IdentifyMetadataValues result = artifactGroup.getIdentifyMetadataValues()
         assertEquals(imv, result)
     }
 
     @Test
     void test_setter_getter_IgnoreMetadataKeys() {
-        diffArtifactGroup.setIgnoreMetadataKeys(IgnoreMetadataKeys.NULL_OBJECT)
-        IgnoreMetadataKeys ignoreMetadataKeys = diffArtifactGroup.getIgnoreMetadataKeys()
+        artifactGroup.setIgnoreMetadataKeys(IgnoreMetadataKeys.NULL_OBJECT)
+        IgnoreMetadataKeys ignoreMetadataKeys = artifactGroup.getIgnoreMetadataKeys()
         assertNotNull(ignoreMetadataKeys)
     }
 
     @Test
     void test_setter_getter_LeftMaterialList() {
-        diffArtifactGroup.setLeftMaterialList(MaterialList.NULL_OBJECT)
-        MaterialList left = diffArtifactGroup.getLeftMaterialList()
+        artifactGroup.setLeftMaterialList(MaterialList.NULL_OBJECT)
+        MaterialList left = artifactGroup.getLeftMaterialList()
         assertNotNull(left)
     }
 
     @Test
     void test_setter_getter_RightMaterialList() {
-        diffArtifactGroup.setRightMaterialList(MaterialList.NULL_OBJECT)
-        MaterialList right = diffArtifactGroup.getRightMaterialList()
+        artifactGroup.setRightMaterialList(MaterialList.NULL_OBJECT)
+        MaterialList right = artifactGroup.getRightMaterialList()
         assertNotNull(right)
     }
 
     @Test
     void test_toString() {
-        diffArtifactGroup.add(DiffArtifact.NULL_OBJECT)
-        String s = diffArtifactGroup.toString()
+        artifactGroup.add(Artifact.NULL_OBJECT)
+        String s = artifactGroup.toString()
         println JsonOutput.prettyPrint(s)
         assertTrue(s.contains("left"), s)
         assertTrue(s.contains("right"), s)
@@ -154,34 +154,34 @@ class DiffArtifactGroupTest {
     @Test
     void test_Builder() {
         specialFixture()
-        DiffArtifactGroup diffArtifactGroup =
-                DiffArtifactGroup.builder(left, right)
+        ArtifactGroup artifactGroup =
+                ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .sort("URL.path")
                         .build()
-        assertNotNull(diffArtifactGroup)
-        diffArtifactGroup.each {diffArtifact ->
-            //println JsonOutput.prettyPrint(diffArtifact.toString())
-            assertNotEquals(ID.NULL_OBJECT, diffArtifact.getLeft().getIndexEntry().getID())
-            assertNotEquals(ID.NULL_OBJECT, diffArtifact.getRight().getIndexEntry().getID())
+        assertNotNull(artifactGroup)
+        artifactGroup.each {artifact ->
+            //println JsonOutput.prettyPrint(artifact.toString())
+            assertNotEquals(ID.NULL_OBJECT, artifact.getLeft().getIndexEntry().getID())
+            assertNotEquals(ID.NULL_OBJECT, artifact.getRight().getIndexEntry().getID())
         }
-        assertEquals(8, diffArtifactGroup.size())
+        assertEquals(8, artifactGroup.size())
     }
 
     @Test
     void test_update() {
         specialFixture()
-        DiffArtifactGroup diffArtifactGroup =
-                new DiffArtifactGroup.Builder(left, right)
+        ArtifactGroup artifactGroup =
+                new ArtifactGroup.Builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .sort("URL.host")
                         .build()
-        int theSize = diffArtifactGroup.size()
+        int theSize = artifactGroup.size()
         assertEquals(8, theSize)
         //
-        DiffArtifact target = diffArtifactGroup.get(0)
+        Artifact target = artifactGroup.get(0)
         //println JsonOutput.prettyPrint(target.toString())
         /*
 {
@@ -227,33 +227,33 @@ class DiffArtifactGroupTest {
 }
          */
         // make a clone of the target
-        DiffArtifact clone = new DiffArtifact(target)
+        Artifact clone = new Artifact(target)
         // let's update it
-        diffArtifactGroup.update(clone)
+        artifactGroup.update(clone)
         // now the head is not equal to the clone
-        assertNotEquals(diffArtifactGroup.get(0), clone)
+        assertNotEquals(artifactGroup.get(0), clone)
         // the tail is equal to the clone
-        assertEquals(diffArtifactGroup.get(theSize - 1), clone)
+        assertEquals(artifactGroup.get(theSize - 1), clone)
         //
-        //println JsonOutput.prettyPrint(diffArtifactGroup.get(theSize - 1).toString())
+        //println JsonOutput.prettyPrint(artifactGroup.get(theSize - 1).toString())
     }
 
     @Test
     void test_zipMaterials() {
         specialFixture()
-        List<DiffArtifact> diffArtifactList =
-                DiffArtifactGroup.zipMaterials(
+        List<Artifact> artifactList =
+                ArtifactGroup.zipMaterials(
                         left, right, JobTimestamp.now(),
                         new IgnoreMetadataKeys.Builder().ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").build(),
                         new IdentifyMetadataValues.Builder().putAllNameRegexPairs(["URL.query":"\\w{32}"]).build(),
                         new SortKeys("URL.host")
                         )
-        assertNotNull(diffArtifactList)
-        diffArtifactList.each {diffArtifact ->
-            //println JsonOutput.prettyPrint(diffArtifact.toString())
-            assertTrue(diffArtifact.getDiffTimestamp() != JobTimestamp.NULL_OBJECT)
+        assertNotNull(artifactList)
+        artifactList.each {artifact ->
+            //println JsonOutput.prettyPrint(artifact.toString())
+            assertTrue(artifact.getDiffTimestamp() != JobTimestamp.NULL_OBJECT)
         }
-        assertEquals(8, diffArtifactList.size())
+        assertEquals(8, artifactList.size())
 
     }
 }

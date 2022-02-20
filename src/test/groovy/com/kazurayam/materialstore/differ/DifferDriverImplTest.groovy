@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.StoreImpl
 import com.kazurayam.materialstore.TestFixtureUtil
-import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
+import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.metadata.MetadataPattern
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
@@ -69,15 +69,15 @@ class DifferDriverImplTest {
                 FileType.HTML)
         assertEquals(1, right.size())
 
-        DiffArtifactGroup diffArtifactGroup =
-                DiffArtifactGroup.builder(left, right)
+        ArtifactGroup artifactGroup =
+                ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
-        assertNotNull(diffArtifactGroup)
-        assertEquals(1, diffArtifactGroup.size())
+        assertNotNull(artifactGroup)
+        assertEquals(1, artifactGroup.size())
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(store).build()
-        DiffArtifactGroup resolved = differDriver.resolve(diffArtifactGroup)
+        ArtifactGroup resolved = differDriver.resolve(artifactGroup)
         assertEquals(1, resolved.size())
     }
 
@@ -96,15 +96,15 @@ class DifferDriverImplTest {
                 MetadataPattern.builderWithMap(["profile": "DevelopmentEnv"]).build(),
                 FileType.PNG)
 
-        DiffArtifactGroup diffArtifactGroup =
-                DiffArtifactGroup.builder(left, right)
+        ArtifactGroup artifactGroup =
+                ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
-        assertNotNull(diffArtifactGroup)
-        assertEquals(2, diffArtifactGroup.size())
+        assertNotNull(artifactGroup)
+        assertEquals(2, artifactGroup.size())
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(store).build()
-        DiffArtifactGroup resolved = differDriver.resolve(diffArtifactGroup)
+        ArtifactGroup resolved = differDriver.resolve(artifactGroup)
         assertNotNull(resolved)
         assertEquals(2, resolved.size())
     }

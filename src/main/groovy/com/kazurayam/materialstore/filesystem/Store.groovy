@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.filesystem
 
 
-import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
+import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.metadata.Metadata
 import com.kazurayam.materialstore.metadata.MetadataPattern
@@ -39,7 +39,7 @@ interface Store {
 
     DiffReporter newReporter(JobName jobName)
 
-    Path reportDiffs(JobName jobName, DiffArtifactGroup diffArtifactGroup, Double criteria, String fileName)
+    Path reportDiffs(JobName jobName, ArtifactGroup artifactGroup, Double criteria, String fileName)
 
     Path reportMaterials(JobName jobName, MaterialList materials, String fileName)
 

@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.differ
 
-import com.kazurayam.materialstore.resolvent.DiffArtifact
+
+import com.kazurayam.materialstore.resolvent.Artifact
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Jobber
 import com.kazurayam.materialstore.filesystem.Material
@@ -24,12 +25,12 @@ class VoidDiffer implements Differ {
     }
 
     @Override
-    DiffArtifact makeDiffArtifact(DiffArtifact input) {
-        Objects.requireNonNull(input)
-        Objects.requireNonNull(input.getLeft())
-        Objects.requireNonNull(input.getRight())
-        Material left = input.getLeft()
-        Material right = input.getRight()
+    Artifact makeArtifact(Artifact artifact) {
+        Objects.requireNonNull(artifact)
+        Objects.requireNonNull(artifact.getLeft())
+        Objects.requireNonNull(artifact.getRight())
+        Material left = artifact.getLeft()
+        Material right = artifact.getRight()
         //
         StringBuilder sb = new StringBuilder()
         sb.append("Unable to take diff of binary files.\n\n")
@@ -47,14 +48,14 @@ class VoidDiffer implements Differ {
                 "left": left.getIndexEntry().getID().toString(),
                 "right": right.getIndexEntry().getID().toString()])
                 .build()
-        Jobber jobber = new Jobber(root, right.getJobName(), input.getDiffTimestamp())
+        Jobber jobber = new Jobber(root, right.getJobName(), artifact.getDiffTimestamp())
         Material diffMaterial =
                 jobber.write(diffData,
                         FileType.TXT,
                         diffMetadata,
                         Jobber.DuplicationHandling.CONTINUE)
         //
-        DiffArtifact result = new DiffArtifact(input)
+        Artifact result = new Artifact(artifact)
         result.setDiff(diffMaterial)
         return result
     }

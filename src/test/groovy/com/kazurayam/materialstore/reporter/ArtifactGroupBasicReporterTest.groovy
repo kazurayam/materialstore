@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.reporter
 
 import com.kazurayam.materialstore.MaterialstoreFacade
-import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
+import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -20,11 +20,11 @@ import java.nio.file.Paths
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertTrue
 
-class DiffArtifactGroupBasicReporterTest {
+class ArtifactGroupBasicReporterTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(DiffArtifactGroupBasicReporterTest.class.getName())
+                    .resolve(ArtifactGroupBasicReporterTest.class.getName())
 
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
@@ -60,11 +60,11 @@ class DiffArtifactGroupBasicReporterTest {
                 MetadataPattern.builderWithMap(["profile": profile2 ]).build())
 
         // make diff
-        DiffArtifactGroup preparedDAG =
-                DiffArtifactGroup.builder(left, right)
+        ArtifactGroup preparedDAG =
+                ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
-        DiffArtifactGroup stuffedDAG = new MaterialstoreFacade(store).workOn(preparedDAG)
+        ArtifactGroup stuffedDAG = new MaterialstoreFacade(store).workOn(preparedDAG)
 
         // compile HTML report
         DiffReporter reporter = store.newReporter(jobName)
@@ -77,8 +77,8 @@ class DiffArtifactGroupBasicReporterTest {
 
     @Test
     void test_decideToBeWarned() {
-        assertEquals(false, DiffArtifactGroupBasicReporter.decideToBeWarned(0.00d, 0.0d))
-        assertEquals(true, DiffArtifactGroupBasicReporter.decideToBeWarned(1.23d, 0.0d))
-        assertEquals(false, DiffArtifactGroupBasicReporter.decideToBeWarned(1.23d, 25.0d))
+        assertEquals(false, ArtifactGroupBasicReporter.decideToBeWarned(0.00d, 0.0d))
+        assertEquals(true, ArtifactGroupBasicReporter.decideToBeWarned(1.23d, 0.0d))
+        assertEquals(false, ArtifactGroupBasicReporter.decideToBeWarned(1.23d, 25.0d))
     }
 }

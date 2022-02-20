@@ -1,11 +1,11 @@
 package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.MaterialstoreException
-import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
+import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.metadata.Metadata
 import com.kazurayam.materialstore.metadata.MetadataPattern
-import com.kazurayam.materialstore.reporter.DiffArtifactGroupBasicReporter
+import com.kazurayam.materialstore.reporter.ArtifactGroupBasicReporter
 import com.kazurayam.materialstore.reporter.MaterialsBasicReporter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -224,14 +224,14 @@ final class StoreImpl implements Store {
 
     @Override
     DiffReporter newReporter(JobName jobName) {
-        return new DiffArtifactGroupBasicReporter(root_, jobName)
+        return new ArtifactGroupBasicReporter(root_, jobName)
     }
 
     @Override
-    Path reportDiffs(JobName jobName, DiffArtifactGroup diffArtifactGroup, Double criteria, String fileName) {
+    Path reportDiffs(JobName jobName, ArtifactGroup artifactGroup, Double criteria, String fileName) {
         DiffReporter reporter = this.newReporter(jobName)
         reporter.setCriteria(criteria)
-        reporter.reportDiffs(diffArtifactGroup, fileName)
+        reporter.reportDiffs(artifactGroup, fileName)
         return root.resolve(fileName)
     }
 

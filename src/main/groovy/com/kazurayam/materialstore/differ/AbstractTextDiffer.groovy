@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.differ
 
 
-import com.kazurayam.materialstore.resolvent.DiffArtifact
+import com.kazurayam.materialstore.resolvent.Artifact
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.FileTypeDiffability
 import com.kazurayam.materialstore.filesystem.Jobber
@@ -44,17 +44,17 @@ abstract class AbstractTextDiffer implements Differ {
     }
 
     @Override
-    DiffArtifact makeDiffArtifact(DiffArtifact input) {
+    Artifact makeArtifact(Artifact artifact) {
         Objects.requireNonNull(root_)
-        Objects.requireNonNull(input)
-        Objects.requireNonNull(input.getLeft())
-        Objects.requireNonNull(input.getRight())
+        Objects.requireNonNull(artifact)
+        Objects.requireNonNull(artifact.getLeft())
+        Objects.requireNonNull(artifact.getRight())
         //
-        Material left = input.getLeft()
+        Material left = artifact.getLeft()
         if (! left.getDiffability() == FileTypeDiffability.AS_TEXT) {
             throw new IllegalArgumentException("${left} is not a text")
         }
-        Material right = input.getRight()
+        Material right = artifact.getRight()
         if (! right.getDiffability() == FileTypeDiffability.AS_TEXT) {
             throw new IllegalArgumentException("${right} is not a text")
         }
@@ -71,11 +71,11 @@ abstract class AbstractTextDiffer implements Differ {
                 "right": right.getIndexEntry().getID().toString(),
                 "ratio": DifferUtil.formatDiffRatioAsString(diffRatio)])
                 .build()
-        Jobber jobber = new Jobber(root_, right.getJobName(), input.getDiffTimestamp())
+        Jobber jobber = new Jobber(root_, right.getJobName(), artifact.getDiffTimestamp())
         Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata, Jobber.DuplicationHandling.CONTINUE)
         //
         //
-        DiffArtifact result = new DiffArtifact(input)
+        Artifact result = new Artifact(artifact)
         result.setDiff(diffMaterial)
         result.setDiffRatio(diffRatio)
         return result

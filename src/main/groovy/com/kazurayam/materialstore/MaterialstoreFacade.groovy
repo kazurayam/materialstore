@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore
 
-import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
+
+import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.resolvent.Resolvent
 import com.kazurayam.materialstore.differ.DifferDriverImpl
 import com.kazurayam.materialstore.filesystem.Store
@@ -22,8 +23,8 @@ class MaterialstoreFacade {
         resolventList.add(resolvent)
     }
 
-    DiffArtifactGroup workOn(DiffArtifactGroup input) {
-        DiffArtifactGroup tmp = new DiffArtifactGroup(input)
+    ArtifactGroup workOn(ArtifactGroup input) {
+        ArtifactGroup tmp = new ArtifactGroup(input)
         resolventList.each {resolvent ->
             tmp = apply(tmp, resolvent)
         }
@@ -31,10 +32,10 @@ class MaterialstoreFacade {
         return tmp
     }
 
-    static DiffArtifactGroup apply(DiffArtifactGroup diffArtifactGroup, Resolvent resolvent) {
-        Objects.requireNonNull(diffArtifactGroup)
+    static ArtifactGroup apply(ArtifactGroup artifactGroup, Resolvent resolvent) {
+        Objects.requireNonNull(artifactGroup)
         Objects.requireNonNull(resolvent)
-        // perform diff-ing, stuff the result in the DiffArtifact collection
-        return resolvent.resolve(diffArtifactGroup)
+        // perform diff-ing, stuff the result in the Artifact collection
+        return resolvent.resolve(artifactGroup)
     }
 }

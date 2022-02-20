@@ -1,8 +1,8 @@
 package com.kazurayam.materialstore.differ
 
 import com.kazurayam.materialstore.*
-import com.kazurayam.materialstore.resolvent.DiffArtifact
-import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
+import com.kazurayam.materialstore.resolvent.Artifact
+import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -49,14 +49,14 @@ class TextDifferToMarkdownTest {
                         .build(),
                 FileType.HTML)
 
-        DiffArtifactGroup diffArtifactGroup =
-                DiffArtifactGroup.builder(left, right)
+        ArtifactGroup artifactGroup =
+                ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
-        assertNotNull(diffArtifactGroup)
-        assertEquals(1, diffArtifactGroup.size())
+        assertNotNull(artifactGroup)
+        assertEquals(1, artifactGroup.size())
         //
-        DiffArtifact stuffed = new TextDifferToMarkdown(root).makeDiffArtifact(diffArtifactGroup.get(0))
+        Artifact stuffed = new TextDifferToMarkdown(root).makeArtifact(artifactGroup.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())

@@ -9,9 +9,9 @@ import com.kazurayam.materialstore.metadata.SortKeys
 /**
  * Data Transfer Object
  */
-final class DiffArtifact implements Comparable {
+final class Artifact implements Comparable {
 
-    public static final DiffArtifact NULL_OBJECT =
+    public static final Artifact NULL_OBJECT =
             new Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
                     JobTimestamp.NULL_OBJECT)
                     .setMetadataPattern(MetadataPattern.NULL_OBJECT)
@@ -26,7 +26,7 @@ final class DiffArtifact implements Comparable {
     private Material diff
     private Double diffRatio
 
-    private DiffArtifact(Builder builder) {
+    private Artifact(Builder builder) {
         this.left = builder.left
         this.right = builder.right
         this.diff = builder.diff
@@ -41,7 +41,7 @@ final class DiffArtifact implements Comparable {
      *
      * @param source
      */
-    DiffArtifact(DiffArtifact source) {
+    Artifact(Artifact source) {
         Objects.requireNonNull(source)
         this.left = source.getLeft()
         this.right = source.getRight()
@@ -107,10 +107,10 @@ final class DiffArtifact implements Comparable {
 
     @Override
     boolean equals(Object obj) {
-        if (! obj instanceof DiffArtifact) {
+        if (! obj instanceof Artifact) {
             return false
         }
-        DiffArtifact other = (DiffArtifact)obj
+        Artifact other = (Artifact)obj
         return this.getRight() == other.getRight() &&
                 this.getLeft() == other.getLeft()
     }
@@ -154,10 +154,10 @@ final class DiffArtifact implements Comparable {
 
     @Override
     int compareTo(Object obj) {
-        if (! obj instanceof DiffArtifact) {
+        if (! obj instanceof Artifact) {
             throw new IllegalArgumentException("obj is not instance of DiffResult")
         }
-        DiffArtifact other = (DiffArtifact)obj
+        Artifact other = (Artifact)obj
 
         // Note that the SortKey is taken into account here indirectly
         return this.getDescription() <=> other.getDescription()
@@ -197,8 +197,8 @@ final class DiffArtifact implements Comparable {
             this.sortKeys = sortKeys
             return this
         }
-        DiffArtifact build() {
-            return new DiffArtifact(this)
+        Artifact build() {
+            return new Artifact(this)
         }
     }
 }

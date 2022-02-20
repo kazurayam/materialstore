@@ -6,7 +6,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
+import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
@@ -67,11 +67,11 @@ abstract class TextGridDifferBuilder {
                 new MetadataPattern.Builder().build())
         double criteria = 0.0d
 
-        DiffArtifactGroup preparedDAG =
-                DiffArtifactGroup.builder(left, right)
+        ArtifactGroup preparedDAG =
+                ArtifactGroup.builder(left, right)
                         .ignoreKeys("input")
                         .build()
-        DiffArtifactGroup stuffedDAG = new MaterialstoreFacade(store).workOn(preparedDAG)
+        ArtifactGroup stuffedDAG = new MaterialstoreFacade(store).workOn(preparedDAG)
 
         int warnings = stuffedDAG.countWarnings(criteria)
 

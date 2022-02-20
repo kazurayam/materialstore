@@ -1,7 +1,8 @@
 package com.kazurayam.materialstore
 
-import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
-import com.kazurayam.materialstore.resolvent.DiffArtifactGroupTest
+
+import com.kazurayam.materialstore.resolvent.ArtifactGroup
+import com.kazurayam.materialstore.resolvent.ArtifactGroupTest
 import com.kazurayam.materialstore.filesystem.ID
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -9,7 +10,6 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
 import com.kazurayam.materialstore.metadata.MetadataPattern
-import groovy.json.JsonOutput
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -26,7 +26,7 @@ class MaterialstoreFacadeTest {
     private static Path outputDir =
             Paths.get(".")
                     .resolve("build/tmp/testOutput")
-                    .resolve(DiffArtifactGroupTest.class.getName())
+                    .resolve(ArtifactGroupTest.class.getName())
     private static Path storeDir = outputDir.resolve("store")
     private static Path issue80Dir =
             Paths.get(".").resolve("src/test/resources/fixture/issue#80")
@@ -37,7 +37,7 @@ class MaterialstoreFacadeTest {
     private JobTimestamp timestampD
     private MaterialList left
     private MaterialList right
-    private DiffArtifactGroup diffArtifactGroup
+    private ArtifactGroup artifactGroup
     private MaterialstoreFacade facade
 
     @BeforeAll
@@ -66,20 +66,20 @@ class MaterialstoreFacadeTest {
 
     @Test
     void test_apply() {
-        DiffArtifactGroup preparedDAG =
-                DiffArtifactGroup.builder(left, right)
+        ArtifactGroup preparedDAG =
+                ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .sort("URL.host")
                         .build()
         assertNotNull(preparedDAG)
 
-        DiffArtifactGroup stuffedDAG = facade.workOn(preparedDAG)
+        ArtifactGroup stuffedDAG = facade.workOn(preparedDAG)
         assertNotNull(stuffedDAG)
 
-        stuffedDAG.each { diffArtifact ->
-            //println JsonOutput.prettyPrint(diffArtifact.toString())
-            assertNotEquals(ID.NULL_OBJECT, diffArtifact.getDiff().getIndexEntry().getID())
+        stuffedDAG.each { artifact ->
+            //println JsonOutput.prettyPrint(artifact.toString())
+            assertNotEquals(ID.NULL_OBJECT, artifact.getDiff().getIndexEntry().getID())
         }
         assertEquals(8, stuffedDAG.size())
     }

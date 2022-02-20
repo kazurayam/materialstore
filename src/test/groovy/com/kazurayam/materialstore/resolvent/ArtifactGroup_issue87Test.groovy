@@ -19,12 +19,12 @@ import java.nio.file.Paths
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertTrue
 
-class DiffArtifactGroup_issue87Test {
+class ArtifactGroup_issue87Test {
     private static Path fixtureDir = Paths.get(".")
             .resolve("src/test/resources/fixture/issue#80")
     private static final Path outputDir = Paths.get(".")
             .resolve("build/tmp/testOutput")
-            .resolve(DiffArtifactGroup_issue87Test.class.getName())
+            .resolve(ArtifactGroup_issue87Test.class.getName())
     private static Store store
 
     private JobName jobName
@@ -63,13 +63,13 @@ class DiffArtifactGroup_issue87Test {
 
     @Test
     void test_getMetadataPatterns() {
-        DiffArtifactGroup diffArtifactGroup =
-                DiffArtifactGroup.builder(left, right)
+        ArtifactGroup artifactGroup =
+                ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .build()
 
-        List<MetadataPattern> metadataPatterns = diffArtifactGroup.getMetadataPatterns();
+        List<MetadataPattern> metadataPatterns = artifactGroup.getMetadataPatterns();
         assertEquals(8, metadataPatterns.size())
         //
         metadataPatterns.each { mp ->

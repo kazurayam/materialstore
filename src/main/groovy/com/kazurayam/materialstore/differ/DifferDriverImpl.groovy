@@ -1,9 +1,10 @@
 package com.kazurayam.materialstore.differ
 
-import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
+
+import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Material
-import com.kazurayam.materialstore.resolvent.DiffArtifact
+import com.kazurayam.materialstore.resolvent.Artifact
 import com.kazurayam.materialstore.filesystem.Store
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -29,22 +30,22 @@ final class DifferDriverImpl implements DifferDriver {
      * @return
      */
     @Override
-    DiffArtifactGroup resolve(DiffArtifactGroup input) {
+    ArtifactGroup resolve(ArtifactGroup input) {
         return differentiate(input)
     }
 
 
     @Override
-    DiffArtifactGroup differentiate(DiffArtifactGroup input) {
-        Objects.requireNonNull(input)
-        List<DiffArtifact> differentiated = new ArrayList<>()
-        input.each {inputDA ->
+    ArtifactGroup differentiate(ArtifactGroup artifactGroup) {
+        Objects.requireNonNull(artifactGroup)
+        List<Artifact> differentiated = new ArrayList<>()
+        artifactGroup.each { inputDA ->
             // make the diff info
-            DiffArtifact stuffedDA = differentiate(inputDA)
+            Artifact stuffedDA = differentiate(inputDA)
             differentiated.add(stuffedDA)
         }
         // clone the input to build the result
-        DiffArtifactGroup result = new DiffArtifactGroup(input)
+        ArtifactGroup result = new ArtifactGroup(artifactGroup)
         differentiated.each {stuffedDA ->
             // update the contents
             result.update(stuffedDA)
@@ -53,21 +54,21 @@ final class DifferDriverImpl implements DifferDriver {
     }
 
     @Override
-    DiffArtifact differentiate(DiffArtifact da) {
+    Artifact differentiate(Artifact artifact) {
         FileType fileType
-        if (da.getLeft() == Material.NULL_OBJECT) {
-            logger.warn("left Material was NULL_OBJECT. right=${da.getRight()}")
-            fileType = da.getRight().getIndexEntry().getFileType()
-        } else if (da.getRight() == Material.NULL_OBJECT) {
-            logger.warn("right Material was NULL_OBJECT. left=${da.getLeft()}")
-            fileType = da.getLeft().getIndexEntry().getFileType()
+        if (artifact.getLeft() == Material.NULL_OBJECT) {
+            logger.warn("left Material was NULL_OBJECT. right=${artifact.getRight()}")
+            fileType = artifact.getRight().getIndexEntry().getFileType()
+        } else if (artifact.getRight() == Material.NULL_OBJECT) {
+            logger.warn("right Material was NULL_OBJECT. left=${artifact.getLeft()}")
+            fileType = artifact.getLeft().getIndexEntry().getFileType()
         } else {
-            fileType = da.getRight().getIndexEntry().getFileType()
+            fileType = artifact.getRight().getIndexEntry().getFileType()
         }
         Differ differ = differs_.get(fileType)
         differ.setRoot(root_)
-        DiffArtifact stuffedDiffArtifact = differ.makeDiffArtifact(da)
-        return stuffedDiffArtifact
+        Artifact stuffedArtifact = differ.makeArtifact(artifact)
+        return stuffedArtifact
     }
 
     @Override
