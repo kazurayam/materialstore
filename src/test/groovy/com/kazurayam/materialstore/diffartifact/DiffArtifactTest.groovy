@@ -51,8 +51,7 @@ class DiffArtifactTest {
                 new SortKeys("step", "profile")
         DiffArtifact diffArtifact =
                 new DiffArtifact.Builder(
-                        Material.NULL_OBJECT,
-                        Material.NULL_OBJECT)
+                        Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
                         .setMetadataPattern(mp)
                         .sortKeys(sortKeys)
                         .build()
@@ -69,8 +68,7 @@ class DiffArtifactTest {
         ]).build()
         DiffArtifact diffArtifact =
                 new DiffArtifact.Builder(
-                        Material.NULL_OBJECT,
-                        Material.NULL_OBJECT)
+                        Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
                         .setMetadataPattern(mp)
                         .build()
         assertEquals(
@@ -86,8 +84,7 @@ class DiffArtifactTest {
         ]).build()
         DiffArtifact diffArtifact =
                 new DiffArtifact.Builder(
-                        Material.NULL_OBJECT,
-                        Material.NULL_OBJECT)
+                        Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
                         .setMetadataPattern(mp)
                         .build()
         println JsonOutput.prettyPrint(diffArtifact.toString())

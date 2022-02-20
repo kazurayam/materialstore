@@ -6,9 +6,8 @@ import java.nio.file.Path
 
 interface Differ {
 
-    void setRoot(Path root)
-
     DiffArtifact makeDiffArtifact(DiffArtifact diffArtifact)
 
+    void setRoot(Path root)
 
 }

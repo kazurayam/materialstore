@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.diffartifact
 
-import com.kazurayam.materialstore.differ.DifferDriver
 import com.kazurayam.materialstore.filesystem.FileType
+import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
@@ -21,6 +21,7 @@ final class DiffArtifactGroup {
     private List<DiffArtifact> diffArtifactList
     private MaterialList leftMaterialList
     private MaterialList rightMaterialList
+    private JobTimestamp diffTimestamp
 
     private IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
     private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
@@ -46,6 +47,7 @@ final class DiffArtifactGroup {
             tmp.add(new DiffArtifact(sourceDA))
         }
         this.diffArtifactList = tmp
+        this.diffTimestamp = source.diffTimestamp
     }
 
     private DiffArtifactGroup(Builder builder) {
@@ -54,10 +56,11 @@ final class DiffArtifactGroup {
         this.ignoreMetadataKeys = builder.ignoreMetadataKeys
         this.identifyMetadataValues = builder.identifyMetadataValues
         this.sortKeys = builder.sortKeys
+        this.diffTimestamp = builder.diffTimestamp
         //
         this.diffArtifactList =
-                zipMaterials(leftMaterialList, rightMaterialList,
-                        this.ignoreMetadataKeys,
+                zipMaterials(leftMaterialList, rightMaterialList, diffTimestamp,
+                        ignoreMetadataKeys,
                         identifyMetadataValues,
                         sortKeys)
         // at this timing the DiffArtifacts are not yet filled with the diff information, they are still vacant.
@@ -84,6 +87,10 @@ final class DiffArtifactGroup {
 
     DiffArtifact get(int index) {
         return diffArtifactList.get(index)
+    }
+
+    JobTimestamp getDiffTimestamp() {
+        return diffTimestamp
     }
 
     IdentifyMetadataValues getIdentifyMetadataValues() {
@@ -153,11 +160,13 @@ final class DiffArtifactGroup {
      */
     static List<DiffArtifact> zipMaterials(MaterialList leftList,
                                            MaterialList rightList,
+                                           JobTimestamp diffTimestamp,
                                            IgnoreMetadataKeys ignoreMetadataKeys,
                                            IdentifyMetadataValues identifyMetadataValues,
                                            SortKeys sortKeys) {
         Objects.requireNonNull(leftList)
         Objects.requireNonNull(rightList)
+        Objects.requireNonNull(diffTimestamp)
         Objects.requireNonNull(ignoreMetadataKeys)
         Objects.requireNonNull(identifyMetadataValues)
         Objects.requireNonNull(sortKeys)
@@ -183,7 +192,7 @@ final class DiffArtifactGroup {
                                 identifyMetadataValues.matches(leftMetadata) )
                 ) {
                     DiffArtifact da =
-                            new DiffArtifact.Builder(left, right)
+                            new DiffArtifact.Builder(left, right, diffTimestamp)
                                     .setMetadataPattern(rightPattern)
                                     .sortKeys(sortKeys)
                                     .build()
@@ -277,6 +286,7 @@ final class DiffArtifactGroup {
         private final List<DiffArtifact> diffArtifactList
         private final MaterialList leftMaterialList
         private final MaterialList rightMaterialList
+        private final JobTimestamp diffTimestamp
         //
         private IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
         private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
@@ -286,6 +296,7 @@ final class DiffArtifactGroup {
             this.leftMaterialList = left
             this.rightMaterialList = right
             this.diffArtifactList = new ArrayList<>()
+            this.diffTimestamp = JobTimestamp.laterThan(left.getJobTimestamp(), right.getJobTimestamp())
         }
         Builder ignoreKeys(String ... keys) {
             IgnoreMetadataKeys imk =

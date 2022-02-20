@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.diffartifact
 
+import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.differ.DifferUtil
 import com.kazurayam.materialstore.metadata.MetadataPattern
@@ -10,12 +11,14 @@ import com.kazurayam.materialstore.metadata.MetadataPattern
 final class DiffArtifact implements Comparable {
 
     public static final DiffArtifact NULL_OBJECT =
-            new Builder(Material.NULL_OBJECT, Material.NULL_OBJECT)
+            new Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
+                    JobTimestamp.NULL_OBJECT)
                     .setMetadataPattern(MetadataPattern.NULL_OBJECT)
                     .build()
 
     private final Material left
     private final Material right
+    private final JobTimestamp diffTimestamp
     private final MetadataPattern metadataPattern
     private final SortKeys sortKeys
     //
@@ -25,8 +28,9 @@ final class DiffArtifact implements Comparable {
     private DiffArtifact(Builder builder) {
         this.left = builder.left
         this.right = builder.right
+        this.diff = builder.diff
+        this.diffTimestamp = builder.diffTimestamp
         this.metadataPattern = builder.metadataPattern
-        this.diff = Material.NULL_OBJECT
         this.diffRatio = 0.0d
         this.sortKeys = builder.sortKeys
     }
@@ -41,6 +45,7 @@ final class DiffArtifact implements Comparable {
         this.left = source.getLeft()
         this.right = source.getRight()
         this.diff = source.getDiff()
+        this.diffTimestamp = source.diffTimestamp
         this.metadataPattern = source.getDescriptor()
         this.sortKeys = source.getSortKeys()
     }
@@ -120,12 +125,16 @@ final class DiffArtifact implements Comparable {
     String toString() {
         StringBuilder sb = new StringBuilder()
         sb.append("{")
+        // jobName is ignored as it is not necessary
         sb.append("\"left\":")
         sb.append(left.toString())
         sb.append(",")
         sb.append("\"right\":")
         sb.append(right.toString())
         sb.append(",")
+        sb.append("\"diffTimestamp\":\"")
+        sb.append(diffTimestamp.toString())
+        sb.append("\",")
         sb.append("\"diff\":")
         sb.append(diff.toString())
         sb.append(",")
@@ -153,20 +162,24 @@ final class DiffArtifact implements Comparable {
      *
      */
     static class Builder {
+        // required
         private Material left
         private Material right
-        private MetadataPattern metadataPattern
-        //
+        private JobTimestamp diffTimestamp
+        // optional
         private Material diff
+        private MetadataPattern metadataPattern
         private Double diffRatio
         private SortKeys sortKeys
-        Builder(Material left, Material right) {
+        Builder(Material left, Material right, JobTimestamp diffTimestamp) {
             Objects.requireNonNull(left)
             Objects.requireNonNull(right)
+            Objects.requireNonNull(diffTimestamp)
             this.left = left
             this.right = right
-            this.metadataPattern = MetadataPattern.NULL_OBJECT
+            this.diffTimestamp = diffTimestamp
             this.diff = Material.NULL_OBJECT
+            this.metadataPattern = MetadataPattern.NULL_OBJECT
             this.diffRatio = -1.0d
             this.sortKeys = SortKeys.NULL_OBJECT
         }

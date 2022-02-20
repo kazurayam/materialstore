@@ -67,7 +67,8 @@ class DiffArtifactGroupTest {
     @Test
     void test_countWarnings() {
         DiffArtifact tmp =
-                new DiffArtifact.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT)
+                new DiffArtifact.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
+                        JobTimestamp.now())
                         .setMetadataPattern(MetadataPattern.NULL_OBJECT)
                         .build()
         tmp.setDiffRatio(45.0d)
@@ -75,6 +76,13 @@ class DiffArtifactGroupTest {
         assertEquals(1, diffArtifactGroup.countWarnings(0.00d))
         assertEquals(0, diffArtifactGroup.countWarnings(45.00d))
         assertEquals(0, diffArtifactGroup.countWarnings(45.01d))
+    }
+
+    @Test
+    void test_getDiffTimestamp() {
+        JobTimestamp diffTimestamp = diffArtifactGroup.getDiffTimestamp()
+        //println "diffTimestamp=${diffTimestamp.toString()}"
+        assertNotEquals(JobTimestamp.NULL_OBJECT, diffTimestamp)
     }
 
     @Test
@@ -233,7 +241,8 @@ class DiffArtifactGroupTest {
     void test_zipMaterials() {
         specialFixture()
         List<DiffArtifact> diffArtifactList =
-                DiffArtifactGroup.zipMaterials(left, right,
+                DiffArtifactGroup.zipMaterials(
+                        left, right, JobTimestamp.now(),
                         new IgnoreMetadataKeys.Builder().ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").build(),
                         new IdentifyMetadataValues.Builder().putAllNameRegexPairs(["URL.query":"\\w{32}"]).build(),
                         new SortKeys("URL.host")

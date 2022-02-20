@@ -14,10 +14,15 @@ final class MaterialList {
 
     private List<Material> materialList
 
-    MaterialList(JobTimestamp jobTimestamp, MetadataPattern metadataPattern, FileType fileType) {
+    MaterialList(JobTimestamp jobTimestamp, MetadataPattern metadataPattern,
+                 FileType fileType) {
+        Objects.requireNonNull(jobTimestamp)
+        Objects.requireNonNull(metadataPattern)
+        Objects.requireNonNull(fileType)
         this.jobTimestamp = jobTimestamp
         this.metadataPattern = metadataPattern
         this.fileType = fileType
+        //
         this.materialList = new ArrayList<Material>()
     }
 

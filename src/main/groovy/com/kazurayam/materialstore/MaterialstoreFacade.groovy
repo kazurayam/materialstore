@@ -2,7 +2,6 @@ package com.kazurayam.materialstore
 
 import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
 import com.kazurayam.materialstore.diffartifact.Resolvent
-import com.kazurayam.materialstore.differ.DifferDriver
 import com.kazurayam.materialstore.differ.DifferDriverImpl
 import com.kazurayam.materialstore.filesystem.Store
 
