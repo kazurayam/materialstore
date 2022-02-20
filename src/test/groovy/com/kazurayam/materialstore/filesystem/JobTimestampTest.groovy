@@ -16,13 +16,24 @@ class JobTimestampTest {
     private static final Pattern pattern = Pattern.compile("\\d{8}_\\d{6}")
 
     @Test
+    void test_compareTo() {
+        JobTimestamp epoch = new JobTimestamp("_")
+        JobTimestamp previous  = new JobTimestamp("20220220_092830")
+        assertTrue((epoch <=> previous) < 0)
+        JobTimestamp following = new JobTimestamp("20220220_092835")
+        assertTrue((previous <=> following) < 0)
+        assertTrue((following <=> epoch) > 0)
+        assertTrue((epoch <=> epoch) == 0)
+    }
+
+    @Test
     void test_value_usual_case() {
         JobTimestamp now = JobTimestamp.now()
         LocalDateTime value = now.value()
         validate(value)
     }
 
-    void validate(LocalDateTime value) {
+    static void validate(LocalDateTime value) {
         String formatted = JobTimestamp.FORMATTER.format(value)
         //println formatted
         assertTrue(pattern.matcher(formatted).matches(),
@@ -43,6 +54,7 @@ class JobTimestampTest {
         long between = JobTimestamp.betweenSeconds(previous, following)
         assertEquals(5L, between)
     }
+
 
     @Test
     void test_minusDays() {
@@ -141,10 +153,15 @@ class JobTimestampTest {
     }
 
     @Test
-    void test_nowOrFollowing() {
+    void test_laterThan() {
         JobTimestamp previous = JobTimestamp.now()
-        JobTimestamp actual = JobTimestamp.nowOrFollowing(previous)
+        // 1 argument
+        JobTimestamp actual = JobTimestamp.laterThan(previous)
         assertNotEquals(previous, actual)
         assertEquals(1L, JobTimestamp.betweenSeconds(previous, actual))
+        // 2 arguments
+        JobTimestamp onceMore = JobTimestamp.laterThan(previous, actual)
+        assertNotEquals(previous, onceMore)
+        assertNotEquals(actual, onceMore)
     }
 }

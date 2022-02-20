@@ -9,13 +9,13 @@ import java.time.temporal.TemporalUnit
 
 final class JobTimestamp implements Comparable {
 
-    public static final String SPECIAL_NAME = "_"
-    public static final JobTimestamp NULL_OBJECT = new JobTimestamp(SPECIAL_NAME)
+    public static final String EPOCH_NAME = "_"
+    public static final JobTimestamp NULL_OBJECT = new JobTimestamp(EPOCH_NAME)
     public static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ofPattern("yyyyMMdd_kkmmss")
 
     static boolean isValid(String s) {
-        if (s == "_") {
+        if (s == EPOCH_NAME) {
             return true
         }
         try {
@@ -31,16 +31,31 @@ final class JobTimestamp implements Comparable {
         return new JobTimestamp(FORMATTER.format(now))
     }
 
-    static JobTimestamp nowOrFollowing(JobTimestamp previous) {
-        return theTimeOrFollowing(previous, now())
+    static JobTimestamp epoch() {
+        return new JobTimestamp(EPOCH_NAME)
     }
 
-    static JobTimestamp theTimeOrFollowing(JobTimestamp previous, JobTimestamp theTime) {
-        long between = betweenSeconds(previous, theTime)
+    static JobTimestamp max(JobTimestamp ... timestamps) {
+        JobTimestamp work = epoch()
+        timestamps.each {jt ->
+            if (jt > work) {
+                work = jt
+            }
+        }
+        return work
+    }
+
+    static JobTimestamp laterThan(JobTimestamp ... previous) {
+        return theTimeOrLaterThan(max(previous), now())
+    }
+
+    static JobTimestamp theTimeOrLaterThan(JobTimestamp thanThis, JobTimestamp theTime) {
+        long between = betweenSeconds(thanThis, theTime)
+        JobTimestamp result
         if (between > 0) {
             return theTime
         } else {
-            return theTime.plusSeconds(1L)
+            return max(thanThis, theTime).plusSeconds(1L)
         }
     }
 
@@ -146,7 +161,7 @@ final class JobTimestamp implements Comparable {
     }
 
     LocalDateTime value() {
-        if (jobTimestamp_ == SPECIAL_NAME) {
+        if (jobTimestamp_ == EPOCH_NAME) {
             return LocalDateTime.ofEpochSecond(0L, 0, ZoneOffset.UTC)
         } else {
             return LocalDateTime.parse(jobTimestamp_, FORMATTER)
@@ -159,6 +174,6 @@ final class JobTimestamp implements Comparable {
             throw new IllegalArgumentException("not instance of JobTimestamp")
         }
         JobTimestamp other = (JobTimestamp)o
-        return this.jobTimestamp_ <=> other.jobTimestamp_
+        return this.value() <=> other.value()
     }
 }
