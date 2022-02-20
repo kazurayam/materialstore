@@ -12,7 +12,7 @@ final class JobTimestamp implements Comparable {
     public static final String EPOCH_NAME = "_"
     public static final JobTimestamp NULL_OBJECT = new JobTimestamp(EPOCH_NAME)
     public static final DateTimeFormatter FORMATTER =
-            DateTimeFormatter.ofPattern("yyyyMMdd_kkmmss")
+            DateTimeFormatter.ofPattern("uuuuMMdd_HHmmss")
 
     static boolean isValid(String s) {
         if (s == EPOCH_NAME) {
@@ -51,7 +51,6 @@ final class JobTimestamp implements Comparable {
 
     static JobTimestamp theTimeOrLaterThan(JobTimestamp thanThis, JobTimestamp theTime) {
         long between = betweenSeconds(thanThis, theTime)
-        JobTimestamp result
         if (between > 0) {
             return theTime
         } else {
@@ -73,8 +72,7 @@ final class JobTimestamp implements Comparable {
      */
     JobTimestamp(String jobTimestamp) {
         if (! isValid(jobTimestamp)) {
-            throw new IllegalArgumentException("jobTimestamp(${jobTimestamp})" +
-                    "must be in the format of ${FORMATTER.toString()}")
+            throw new IllegalArgumentException("jobTimestamp(${jobTimestamp}) must be in the format of ${FORMATTER.toString()}")
         }
         this.jobTimestamp_ = jobTimestamp
     }
