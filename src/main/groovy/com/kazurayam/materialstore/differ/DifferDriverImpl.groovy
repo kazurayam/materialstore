@@ -1,9 +1,9 @@
 package com.kazurayam.materialstore.differ
 
-import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
+import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Material
-import com.kazurayam.materialstore.diffartifact.DiffArtifact
+import com.kazurayam.materialstore.resolvent.DiffArtifact
 import com.kazurayam.materialstore.filesystem.Store
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

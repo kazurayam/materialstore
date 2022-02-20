@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.diffartifact
+package com.kazurayam.materialstore.resolvent
 
 
 import com.kazurayam.materialstore.filesystem.JobName

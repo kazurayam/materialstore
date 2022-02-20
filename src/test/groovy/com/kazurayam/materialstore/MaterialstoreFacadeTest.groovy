@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore
 
-import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
-import com.kazurayam.materialstore.diffartifact.DiffArtifactGroupTest
+import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
+import com.kazurayam.materialstore.resolvent.DiffArtifactGroupTest
 import com.kazurayam.materialstore.filesystem.ID
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp

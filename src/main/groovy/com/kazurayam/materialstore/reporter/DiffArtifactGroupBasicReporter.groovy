@@ -1,8 +1,8 @@
 package com.kazurayam.materialstore.reporter
 
 
-import com.kazurayam.materialstore.diffartifact.DiffArtifact
-import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
+import com.kazurayam.materialstore.resolvent.DiffArtifact
+import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.differ.DifferUtil
 import com.kazurayam.materialstore.filesystem.FileType

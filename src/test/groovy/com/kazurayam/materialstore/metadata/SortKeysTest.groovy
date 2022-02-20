@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.metadata
 
-import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
+import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList

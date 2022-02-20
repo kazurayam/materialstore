@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.differ
 
-import com.kazurayam.materialstore.diffartifact.DiffArtifactGroup
+import com.kazurayam.materialstore.resolvent.DiffArtifactGroup
 
 import java.nio.file.Path
 
