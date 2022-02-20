@@ -47,7 +47,7 @@ class VoidDiffer implements Differ {
                 "left": left.getIndexEntry().getID().toString(),
                 "right": right.getIndexEntry().getID().toString()])
                 .build()
-        Jobber jobber = new Jobber(root, right.getJobName(), right.getJobTimestamp())
+        Jobber jobber = new Jobber(root, right.getJobName(), input.getDiffTimestamp())
         Material diffMaterial =
                 jobber.write(diffData,
                         FileType.TXT,

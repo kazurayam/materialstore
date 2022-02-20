@@ -71,7 +71,7 @@ abstract class AbstractTextDiffer implements Differ {
                 "right": right.getIndexEntry().getID().toString(),
                 "ratio": DifferUtil.formatDiffRatioAsString(diffRatio)])
                 .build()
-        Jobber jobber = new Jobber(root_, right.getJobName(), right.getJobTimestamp())
+        Jobber jobber = new Jobber(root_, right.getJobName(), input.getDiffTimestamp())
         Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata, Jobber.DuplicationHandling.CONTINUE)
         //
         //
