@@ -2,7 +2,6 @@ package com.kazurayam.materialstore
 
 
 import com.kazurayam.materialstore.resolvent.ArtifactGroup
-import com.kazurayam.materialstore.resolvent.ArtifactGroupTest
 import com.kazurayam.materialstore.filesystem.ID
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -38,7 +37,6 @@ class MaterialstoreFacadeTest {
     private JobTimestamp timestampD
     private MaterialList left
     private MaterialList right
-    private ArtifactGroup artifactGroup
     private MaterialstoreFacade facade
 
     @BeforeAll

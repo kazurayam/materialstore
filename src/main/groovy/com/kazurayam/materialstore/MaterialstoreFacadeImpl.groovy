@@ -70,9 +70,10 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
     ArtifactGroup workOn(ArtifactGroup input) {
         ArtifactGroup tmp = new ArtifactGroup(input)
         resolventList.each {resolvent ->
-            tmp = apply(tmp, resolvent)
+            tmp = resolvent.resolve(tmp)
         }
         tmp.sort()
         return tmp
     }
+
 }
