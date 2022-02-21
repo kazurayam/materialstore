@@ -33,9 +33,6 @@ class ArtifactGroupBasicReporter_issue80_86Test {
     static final JobTimestamp timestampP = new JobTimestamp("20220128_191320")
     static final JobTimestamp timestampD = new JobTimestamp("20220128_191342")
 
-    static final String leftUrl = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-    static final String rightUrl = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3-rc1/dist/js/bootstrap.bundle.min.js"
-
     MaterialList left
     MaterialList right
 
@@ -79,6 +76,8 @@ class ArtifactGroupBasicReporter_issue80_86Test {
                 MetadataPattern.builderWithMap(["profile": profile2]).build()
         )
 
+        MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
+
         // make diff of the 2 MaterialList objects
         // make diff
         ArtifactGroup preparedDAG =
@@ -86,10 +85,10 @@ class ArtifactGroupBasicReporter_issue80_86Test {
                         .ignoreKeys("profile", "URL", "URL.host")
                         .identifyWithRegex(["URL.query": "\\w{32}"])
                         .build()
-        ArtifactGroup stuffedDAG = new MaterialstoreFacade(store).workOn(preparedDAG)
+        ArtifactGroup stuffedDAG = facade.workOn(preparedDAG)
 
         // compile HTML report
-        DiffReporter reporter = store.newReporter(jobName)
+        DiffReporter reporter = facade.newReporter(jobName)
         Path report = reporter.reportDiffs(stuffedDAG, "index.html")
         assertTrue(Files.exists(report))
 
@@ -115,10 +114,10 @@ class ArtifactGroupBasicReporter_issue80_86Test {
         // a string "<span class='semantic-version'>1." and
         // a string ".0</span>"
 
-        String s1 = "<span class='semantic-version'>1.";
-        String s2 = ".0</span>";
+        String s1 = "<span class='semantic-version'>1."
+        String s2 = ".0</span>"
         assertTrue(reportText.contains(s1) && reportText.contains(s2),
-                String.format("expected \"%s\" and \"%s\" in the report but not found", s1, s2));
+                String.format("expected \"%s\" and \"%s\" in the report but not found", s1, s2))
     }
 
 

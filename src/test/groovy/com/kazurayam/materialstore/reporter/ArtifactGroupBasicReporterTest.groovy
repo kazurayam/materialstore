@@ -59,15 +59,17 @@ class ArtifactGroupBasicReporterTest {
         MaterialList right = store.select(jobName, jobTimestamp,
                 MetadataPattern.builderWithMap(["profile": profile2 ]).build())
 
+        MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
+
         // make diff
         ArtifactGroup preparedDAG =
                 ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
-        ArtifactGroup stuffedDAG = new MaterialstoreFacade(store).workOn(preparedDAG)
+        ArtifactGroup stuffedDAG = facade.workOn(preparedDAG)
 
         // compile HTML report
-        DiffReporter reporter = store.newReporter(jobName)
+        DiffReporter reporter = facade.newReporter(jobName)
         Path report = reporter.reportDiffs(stuffedDAG, "index.html")
         assertTrue(Files.exists(report))
     }

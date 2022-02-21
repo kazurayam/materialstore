@@ -67,15 +67,19 @@ abstract class TextGridDifferBuilder {
                 new MetadataPattern.Builder().build())
         double criteria = 0.0d
 
+        MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
+
         ArtifactGroup preparedDAG =
                 ArtifactGroup.builder(left, right)
                         .ignoreKeys("input")
                         .build()
-        ArtifactGroup stuffedDAG = new MaterialstoreFacade(store).workOn(preparedDAG)
+        ArtifactGroup stuffedDAG = facade.workOn(preparedDAG)
 
         int warnings = stuffedDAG.countWarnings(criteria)
 
-        reportFile = store.reportDiffs(jobName, stuffedDAG, criteria, jobName.toString() + "-index.html")
+        reportFile =
+                facade.reportArtifactGroup(jobName, stuffedDAG, criteria,
+                        jobName.toString() + "-index.html")
         assert Files.exists(reportFile)
         logger.info("report is found at " + reportFile.normalize().toAbsolutePath())
 

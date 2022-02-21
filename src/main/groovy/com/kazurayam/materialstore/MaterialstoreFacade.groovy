@@ -1,36 +1,30 @@
 package com.kazurayam.materialstore
 
-
+import com.kazurayam.materialstore.differ.DiffReporter
+import com.kazurayam.materialstore.filesystem.JobName
+import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.resolvent.Resolvent
-import com.kazurayam.materialstore.differ.DifferDriverImpl
 import com.kazurayam.materialstore.filesystem.Store
 
-class MaterialstoreFacade {
+import java.nio.file.Path
 
-    private final Store store
-    private final List<Resolvent> resolventList
+abstract class MaterialstoreFacade {
 
-    MaterialstoreFacade(Store store) {
-        this.store = store
-        this.resolventList = new ArrayList<>()
-        //
-        resolventList.add(new DifferDriverImpl.Builder(store.getRoot()).build())
+    static final MaterialstoreFacade newInstance(Store store) {
+        return new MaterialstoreFacadeImpl(store)
     }
 
-    void addResolvent(Resolvent resolvent) {
-        Objects.requireNonNull(resolvent)
-        resolventList.add(resolvent)
-    }
+    abstract void addResolvent(Resolvent resolvent)
 
-    ArtifactGroup workOn(ArtifactGroup input) {
-        ArtifactGroup tmp = new ArtifactGroup(input)
-        resolventList.each {resolvent ->
-            tmp = apply(tmp, resolvent)
-        }
-        tmp.sort()
-        return tmp
-    }
+    abstract Path getRoot()
+    abstract Store getStore()
+    abstract DiffReporter newReporter(JobName jobName)
+    abstract Path reportArtifactGroup(JobName jobName, ArtifactGroup artifactGroup,
+                              Double criteria, String fileName)
+    abstract Path reportMaterials(JobName jobName, MaterialList materialList,
+                         String fileName = "list.html")
+    abstract ArtifactGroup workOn(ArtifactGroup input)
 
     static ArtifactGroup apply(ArtifactGroup artifactGroup, Resolvent resolvent) {
         Objects.requireNonNull(artifactGroup)

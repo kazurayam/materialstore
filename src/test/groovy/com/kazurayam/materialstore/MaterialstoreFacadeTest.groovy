@@ -26,7 +26,8 @@ class MaterialstoreFacadeTest {
     private static Path outputDir =
             Paths.get(".")
                     .resolve("build/tmp/testOutput")
-                    .resolve(ArtifactGroupTest.class.getName())
+                    .resolve(MaterialstoreFacadeTest.class.getName())
+
     private static Path storeDir = outputDir.resolve("store")
     private static Path issue80Dir =
             Paths.get(".").resolve("src/test/resources/fixture/issue#80")
@@ -61,7 +62,7 @@ class MaterialstoreFacadeTest {
         right = store.select(jobName, timestampD,
                 MetadataPattern.builderWithMap(["profile": "MyAdmin_DevelopmentEnv" ]).build()
         )
-        facade = new MaterialstoreFacade(store)
+        facade = MaterialstoreFacade.newInstance(store)
     }
 
     @Test
@@ -82,5 +83,31 @@ class MaterialstoreFacadeTest {
             assertNotEquals(ID.NULL_OBJECT, artifact.getDiff().getIndexEntry().getID())
         }
         assertEquals(8, stuffedDAG.size())
+    }
+
+    @Test
+    void test_reportMaterials() {
+        JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
+        JobTimestamp jobTimestamp = new JobTimestamp("20220128_191320")
+        MaterialList materialList = store.select(jobName, jobTimestamp, MetadataPattern.ANY)
+        MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
+        Path report = facade.reportMaterials(jobName, materialList, "list.html")
+        assertNotNull(report)
+        assertTrue(Files.exists(report))
+    }
+
+    @Test
+    void test_reportArtifactGroup() {
+        ArtifactGroup preparedAG =
+                ArtifactGroup.builder(left, right)
+                        .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
+                        .identifyWithRegex(["URL.query":"\\w{32}"])
+                        .sort("URL.host")
+                        .build()
+        ArtifactGroup stuffedAG = facade.workOn(preparedAG)
+        JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
+        Path report = facade.reportArtifactGroup(jobName, stuffedAG, 0.0D,"diff.html")
+        assertNotNull(report)
+        assertTrue(Files.exists(report))
     }
 }

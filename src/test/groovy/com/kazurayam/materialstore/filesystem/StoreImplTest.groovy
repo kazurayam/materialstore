@@ -162,17 +162,6 @@ class StoreImplTest {
         assertEquals("store", store.getRoot().getFileName().toString())
     }
 
-    @Test
-    void test_reportMaterials() {
-        JobName jobName = new JobName("test_reportMaterials")
-        TestFixtureUtil.setupFixture(store, jobName)
-        //
-        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
-        MaterialList materialList = store.select(jobName, jobTimestamp, MetadataPattern.ANY)
-        Path report = store.reportMaterials(jobName, materialList, "list.html")
-        assertNotNull(report)
-        assertTrue(Files.exists(report))
-    }
 
     @Test
     void test_select_2_files_in_4() {
