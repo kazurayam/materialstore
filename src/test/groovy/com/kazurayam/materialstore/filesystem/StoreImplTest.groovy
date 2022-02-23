@@ -90,6 +90,7 @@ class StoreImplTest {
         assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(0))
     }
 
+
     @Test
     void test_findJobTimestampPriorTo() {
         JobName jobName = new JobName("test_findLatestJobTimestamp")
@@ -101,6 +102,7 @@ class StoreImplTest {
         assertNotEquals(JobTimestamp.NULL_OBJECT, second)
         assertEquals(new JobTimestamp("20210713_093357"), second)
     }
+
 
     @Test
     void test_findLatestJobTimestamp() {
@@ -162,6 +164,81 @@ class StoreImplTest {
         assertEquals("store", store.getRoot().getFileName().toString())
     }
 
+    @Test
+    void test_queryAllJobTimestamp() {
+        JobName jobName = new JobName("test_queryAllJobTimestamps")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        URL url = new URL("http://demoaut-mimic.kazurayam.com/")
+        Metadata metadata = new Metadata.Builder().putAll([
+                "URL.host":"demoaut-mimic.kazurayam.com",
+                "profile":"DevelopmentEnv"
+        ]).build()
+        MetadataPattern query = new MetadataPattern.Builder(metadata).build()
+        List<JobTimestamp> jobTimestamps =
+                store.queryAllJobTimestamps(jobName, query)
+        assertNotNull(jobTimestamps)
+        assertEquals(2, jobTimestamps.size())
+        assertEquals(new JobTimestamp("20210715_145922"), jobTimestamps.get(0))
+        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(1))
+    }
+
+    @Test
+    void test_queryAllJobTimestampPriorTo() {
+        JobName jobName = new JobName("test_queryAllJobTimestampsPriorTo")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        URL url = new URL("http://demoaut-mimic.kazurayam.com/")
+        Metadata metadata = new Metadata.Builder().putAll([
+                "URL.host":"demoaut-mimic.kazurayam.com",
+                "profile":"DevelopmentEnv"
+        ]).build()
+        MetadataPattern query = new MetadataPattern.Builder(metadata).build()
+        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
+        List<JobTimestamp> jobTimestamps =
+                store.queryAllJobTimestampsPriorTo(jobName, query, jobTimestamp)
+        assertNotNull(jobTimestamps)
+        assertEquals(1, jobTimestamps.size())
+        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(0))
+    }
+
+    @Test
+    void test_queryJobTimestampPriorTo() {
+        JobName jobName = new JobName("test_queryJobTimestampPriorTo")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        URL url = new URL("http://demoaut-mimic.kazurayam.com/")
+        Metadata metadata = new Metadata.Builder().putAll([
+                "URL.host":"demoaut-mimic.kazurayam.com",
+                "profile":"DevelopmentEnv"
+        ]).build()
+        MetadataPattern query = new MetadataPattern.Builder(metadata).build()
+        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
+        JobTimestamp found =
+                store.queryJobTimestampPriorTo(jobName, query, jobTimestamp)
+        assertNotNull(found)
+        assertNotEquals(JobTimestamp.NULL_OBJECT, found)
+        assertEquals(new JobTimestamp("20210713_093357"), found)
+    }
+
+
+    @Test
+    void test_queryLatestJobTimestamp() {
+        JobName jobName = new JobName("test_queryLatestJobTimestamp")
+        TestFixtureUtil.setupFixture(store, jobName)
+        //
+        URL url = new URL("http://demoaut-mimic.kazurayam.com/")
+        Metadata metadata = new Metadata.Builder().putAll([
+                "URL.host":"demoaut-mimic.kazurayam.com",
+                "profile":"DevelopmentEnv"
+        ]).build()
+        MetadataPattern query = new MetadataPattern.Builder(metadata).build()
+        JobTimestamp found =
+                store.queryLatestJobTimestamp(jobName, query)
+        assertNotNull(found)
+        assertNotEquals(JobTimestamp.NULL_OBJECT, found)
+        assertEquals(new JobTimestamp("20210715_145922"), found)
+    }
 
     @Test
     void test_select_2_files_in_4() {

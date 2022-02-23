@@ -42,14 +42,6 @@ final class StoreImpl implements Store {
         this.jobberCache_ = new HashSet<Jobber>()
     }
 
-    /**
-     * initially verbose is set to false. it can be changed.
-     *
-     * @param verbose
-     */
-    void setVerbose(boolean verbose) {
-        this.verbose = verbose
-    }
 
     @Override
     int deleteMaterialsOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp,
@@ -104,7 +96,7 @@ final class StoreImpl implements Store {
                             .map {n -> new JobTimestamp(n) }
                             .collect(Collectors.toList())
             // sort the list in reverse order (the latest timestamp should come first)
-            Collections.reverse(jobTimestamps)
+            Collections.sort(jobTimestamps, Collections.reverseOrder())
             return jobTimestamps
         } else {
             throw new MaterialstoreException(
@@ -124,7 +116,7 @@ final class StoreImpl implements Store {
                             (jt <=> jobTimestamp) < 0
                         }
                         .collect(Collectors.toList())
-        Collections.reverse(filtered)
+        //Collections.reverse(filtered)
         return filtered
     }
 
@@ -140,6 +132,7 @@ final class StoreImpl implements Store {
             return JobTimestamp.NULL_OBJECT
         }
     }
+
 
     @Override
     JobTimestamp findLatestJobTimestamp(JobName jobName) throws MaterialstoreException {
@@ -200,6 +193,66 @@ final class StoreImpl implements Store {
         return root_
     }
 
+    @Override
+    List<JobTimestamp> queryAllJobTimestamps(JobName jobName,
+                                             MetadataPattern query) {
+        Objects.requireNonNull(jobName)
+        Objects.requireNonNull(query)
+        List<JobTimestamp> all = findAllJobTimestamps(jobName)
+        List<JobTimestamp> filtered = new ArrayList<>()
+        all.each { jobTimestamp ->
+            // select Material objects that match with the query given
+            MaterialList materialList =
+                    this.select(jobName, jobTimestamp, query)
+            //logger.info("[findAllJobTimestampWithMetadata] materialList.size()=${materialList.size()}")
+            if (materialList.size() > 0) {
+                filtered.add(jobTimestamp)
+            }
+        }
+        return filtered
+    }
+
+    @Override
+    List<JobTimestamp> queryAllJobTimestampsPriorTo(
+            JobName jobName, MetadataPattern query, JobTimestamp jobTimestamp) {
+        Objects.requireNonNull(jobTimestamp)
+        List<JobTimestamp> all = this.queryAllJobTimestamps(jobName, query)
+        List<JobTimestamp> filtered =
+                all.stream()
+                        .filter { JobTimestamp jt ->
+                            (jt <=> jobTimestamp) < 0
+                        }
+                        .collect(Collectors.toList())
+        Collections.reverse(filtered)
+        return filtered
+    }
+
+    @Override
+    JobTimestamp queryJobTimestampPriorTo(
+            JobName jobName, MetadataPattern query, JobTimestamp jobTimestamp) {
+        List<JobTimestamp> all =
+                queryAllJobTimestampsPriorTo(jobName, query, jobTimestamp)
+        if (all.size() > 0) {
+            return all.get(0)
+        } else {
+            return JobTimestamp.NULL_OBJECT
+        }
+    }
+
+    @Override
+    JobTimestamp queryLatestJobTimestamp(JobName jobName, MetadataPattern query) {
+        List<JobTimestamp> all = queryAllJobTimestamps(jobName, query)
+
+        //all.each {
+        //    logger.info("[queryLatestJobTimestamp] ${it.toString()}")
+        //}
+
+        if (all.size() > 0) {
+            return all.get(0)
+        } else {
+            return JobTimestamp.NULL_OBJECT
+        }
+    }
 
     @Override
     MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
@@ -227,6 +280,15 @@ final class StoreImpl implements Store {
         } else {
             return null
         }
+    }
+
+    /**
+     * initially verbose is set to false. it can be changed.
+     *
+     * @param verbose
+     */
+    void setVerbose(boolean verbose) {
+        this.verbose = verbose
     }
 
     static byte[] toByteArray(InputStream inputStream) {

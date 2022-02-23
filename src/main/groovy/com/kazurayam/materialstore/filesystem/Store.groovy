@@ -17,7 +17,6 @@ interface Store {
 
     static final Store NULL_OBJECT = new StoreImpl(Files.createTempDirectory("TempDirectory"))
 
-
     int deleteMaterialsOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp,
                                           long amountToSubtract, TemporalUnit unit)
 
@@ -25,9 +24,17 @@ interface Store {
 
     List<JobTimestamp> findAllJobTimestampsPriorTo(JobName jobName, JobTimestamp jobTimestamp)
 
+    JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp)
+
     JobTimestamp findLatestJobTimestamp(JobName jobName)
 
-    JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp)
+    List<JobTimestamp> queryAllJobTimestamps(JobName jobName, MetadataPattern query)
+
+    List<JobTimestamp> queryAllJobTimestampsPriorTo(JobName jobName, MetadataPattern query, JobTimestamp jobTimestamp)
+
+    JobTimestamp queryJobTimestampPriorTo(JobName jobName, MetadataPattern query, JobTimestamp jobTimestamp)
+
+    JobTimestamp queryLatestJobTimestamp(JobName jobName, MetadataPattern query)
 
     Jobber getJobber(JobName jobName, JobTimestamp jobTimestamp)
 
