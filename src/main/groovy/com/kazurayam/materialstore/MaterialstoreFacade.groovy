@@ -24,6 +24,9 @@ abstract class MaterialstoreFacade {
 
     abstract Store getStore()
 
+    abstract Path makeDiffAndReport(JobName jobName, ArtifactGroup artifactGroup,
+                                    Double criteria, String filename)
+
     abstract DiffReporter newReporter(JobName jobName)
 
     abstract Path reportArtifactGroup(JobName jobName, ArtifactGroup artifactGroup,
@@ -33,5 +36,6 @@ abstract class MaterialstoreFacade {
                          String fileName = "list.html")
 
     abstract ArtifactGroup workOn(ArtifactGroup input)
+
 
 }

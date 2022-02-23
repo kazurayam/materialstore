@@ -42,6 +42,19 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
     }
 
     @Override
+    Path makeDiffAndReport(JobName jobName, ArtifactGroup artifactGroup,
+                           Double criteria, String fileName) {
+        Objects.requireNonNull(jobName)
+        Objects.requireNonNull(artifactGroup)
+        Objects.requireNonNull(criteria)
+        Objects.requireNonNull(fileName)
+        // make diff
+        ArtifactGroup stuffedAG = this.workOn(artifactGroup)
+        Path report = this.reportArtifactGroup(jobName, stuffedAG, criteria, fileName)
+        return report
+    }
+
+    @Override
     DiffReporter newReporter(JobName jobName) {
         return new ArtifactGroupBasicReporter(getRoot(), jobName)
     }

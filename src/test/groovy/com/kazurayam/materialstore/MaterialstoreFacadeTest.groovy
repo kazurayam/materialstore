@@ -89,7 +89,7 @@ class MaterialstoreFacadeTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20220128_191320")
         MaterialList materialList = store.select(jobName, jobTimestamp, MetadataPattern.ANY)
         MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
-        Path report = facade.reportMaterials(jobName, materialList, "list.html")
+        Path report = facade.reportMaterials(jobName, materialList, "test_reportMaterials.html")
         assertNotNull(report)
         assertTrue(Files.exists(report))
     }
@@ -104,7 +104,20 @@ class MaterialstoreFacadeTest {
                         .build()
         ArtifactGroup stuffedAG = facade.workOn(preparedAG)
         JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
-        Path report = facade.reportArtifactGroup(jobName, stuffedAG, 0.0D,"diff.html")
+        Path report = facade.reportArtifactGroup(jobName, stuffedAG, 0.0D,"test_reportArtifactGroup.html")
+        assertNotNull(report)
+        assertTrue(Files.exists(report))
+    }
+
+    @Test
+    void test_makeDiffAndReport() {
+        ArtifactGroup preparedAG =
+                ArtifactGroup.builder(left, right)
+                        .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
+                        .identifyWithRegex(["URL.query":"\\w{32}"])
+                        .sort("URL.host")
+                        .build()
+        Path report = facade.makeDiffAndReport(jobName, preparedAG, 0.0D, "test_makeDiffAndReport.html")
         assertNotNull(report)
         assertTrue(Files.exists(report))
     }
