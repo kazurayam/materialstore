@@ -12,7 +12,7 @@ import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.metadata.IgnoreMetadataKeys
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -94,9 +94,9 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
                                     dl() {
                                         dt("JobTimestamp :")
                                         dd(left.getJobTimestamp().toString())
-                                        dt("MetadataPattern :")
+                                        dt("QueryOnMetadata :")
                                         dd() {
-                                            left.getMetadataPattern().toSpanSequence(mb)
+                                            left.getQueryOnMetadata().toSpanSequence(mb)
                                         }
                                         dt("FileType :")
                                         FileType fileType = left.getFileType()
@@ -114,9 +114,9 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
                                     dl() {
                                         dt("JobTimestamp :")
                                         dd(right.getJobTimestamp().toString())
-                                        dt("MetadataPattern :")
+                                        dt("QueryOnMetadata :")
                                         dd() {
-                                            right.getMetadataPattern().toSpanSequence(mb)
+                                            right.getQueryOnMetadata().toSpanSequence(mb)
                                         }
                                         dt("FileType :")
                                         FileType fileType = right.getFileType()
@@ -171,8 +171,8 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
                                         makeModalSubsection(mb, da, index+1)
                                         //
                                         Context context = new Context(
-                                                artifactGroup.getLeftMaterialList().getMetadataPattern(),
-                                                artifactGroup.getRightMaterialList().getMetadataPattern(),
+                                                artifactGroup.getLeftMaterialList().getQueryOnMetadata(),
+                                                artifactGroup.getRightMaterialList().getQueryOnMetadata(),
                                                 artifactGroup.getIgnoreMetadataKeys(),
                                                 artifactGroup.getIdentifyMetadataValues()
                                         )
@@ -333,7 +333,7 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
      * @param mb
      * @param name
      * @param material
-     * @param context ["leftMetadataPattern": xxx, "rightMetadataPattern": xxx, "ignoreMetadataKeys": xxx]
+     * @param context ["leftQuery": xxx, "rightQuery": xxx, "ignoreMetadataKeys": xxx]
      */
     private static void makeMaterialSubsection(MarkupBuilder mb, String name, Material material,
                                                Context context) {
@@ -355,8 +355,8 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
                 dd() {
                     material.getIndexEntry().getMetadata().toSpanSequence(
                             mb,
-                            (MetadataPattern)context.getLeftMetadataPattern(),
-                            (MetadataPattern)context.getRightMetadataPattern(),
+                            (QueryOnMetadata)context.getLeftQueryOnMetadata(),
+                            (QueryOnMetadata)context.getRightQueryOnMetadata(),
                             (IgnoreMetadataKeys)context.getIgnoreMetadataKeys(),
                             (IdentifyMetadataValues)context.getIdentifyMetadataValues()
                     )
@@ -381,11 +381,11 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
      *
      */
     class Context {
-        private MetadataPattern left
-        private MetadataPattern right
+        private QueryOnMetadata left
+        private QueryOnMetadata right
         private IgnoreMetadataKeys ignoreMetadataKeys
         private IdentifyMetadataValues identifyMetadataValues
-        Context(MetadataPattern left, MetadataPattern right,
+        Context(QueryOnMetadata left, QueryOnMetadata right,
                 IgnoreMetadataKeys ignoreMetadataKeys,
                 IdentifyMetadataValues identifyMetadataValues) {
             this.left = left
@@ -393,10 +393,10 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
             this.ignoreMetadataKeys = ignoreMetadataKeys
             this.identifyMetadataValues = identifyMetadataValues
         }
-        MetadataPattern getLeftMetadataPattern() {
+        QueryOnMetadata getLeftQueryOnMetadata() {
             return this.left
         }
-        MetadataPattern getRightMetadataPattern() {
+        QueryOnMetadata getRightQueryOnMetadata() {
             return this.right
         }
 

@@ -9,7 +9,7 @@ import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.StoreImpl
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import org.junit.jupiter.api.Test
 
 import java.nio.file.Path
@@ -36,14 +36,14 @@ class TextDifferToMarkdownTest {
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         //
         MaterialList left = storeImpl.select(jobName, jobTimestamp,
-                MetadataPattern.builderWithMap([
+                QueryOnMetadata.builderWithMap([
                         "category":"page source",
                         "profile": "ProductionEnv"])
                         .build(),
                 FileType.HTML)
 
         MaterialList right = storeImpl.select(jobName, jobTimestamp,
-                MetadataPattern.builderWithMap([
+                QueryOnMetadata.builderWithMap([
                         "category":"page source",
                         "profile": "DevelopmentEnv"])
                         .build(),

@@ -3,7 +3,7 @@ package com.kazurayam.materialstore.resolvent
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.differ.DifferUtil
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import com.kazurayam.materialstore.metadata.SortKeys
 
 /**
@@ -14,13 +14,13 @@ final class Artifact implements Comparable {
     public static final Artifact NULL_OBJECT =
             new Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
                     JobTimestamp.NULL_OBJECT)
-                    .setMetadataPattern(MetadataPattern.NULL_OBJECT)
+                    .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT)
                     .build()
 
     private final Material left
     private final Material right
     private final JobTimestamp resolventTimestamp
-    private final MetadataPattern metadataPattern
+    private final QueryOnMetadata query
     private final SortKeys sortKeys
     //
     private Material diff
@@ -31,7 +31,7 @@ final class Artifact implements Comparable {
         this.right = builder.right
         this.diff = builder.diff
         this.resolventTimestamp = builder.resolventTimestamp
-        this.metadataPattern = builder.metadataPattern
+        this.query = builder.query
         this.diffRatio = 0.0d
         this.sortKeys = builder.sortKeys
     }
@@ -47,7 +47,7 @@ final class Artifact implements Comparable {
         this.right = source.getRight()
         this.diff = source.getDiff()
         this.resolventTimestamp = source.resolventTimestamp
-        this.metadataPattern = source.getDescriptor()
+        this.query = source.getDescriptor()
         this.sortKeys = source.getSortKeys()
     }
 
@@ -97,12 +97,12 @@ final class Artifact implements Comparable {
         return this.resolventTimestamp
     }
 
-    MetadataPattern getDescriptor() {
-        return this.metadataPattern
+    QueryOnMetadata getDescriptor() {
+        return this.query
     }
 
     String getDescription() {
-        return this.metadataPattern.getDescription(sortKeys)
+        return this.query.getDescription(sortKeys)
     }
 
     @Override
@@ -143,8 +143,8 @@ final class Artifact implements Comparable {
         sb.append("\"diff\":")
         sb.append(diff.toString())
         sb.append(",")
-        sb.append("\"metadataPattern\":")
-        sb.append(metadataPattern.toString())
+        sb.append("\"queryOnMetadata\":")
+        sb.append(query.toString())
         sb.append(",")
         sb.append("\"diffRatio\":")
         sb.append(diffRatio)
@@ -173,7 +173,7 @@ final class Artifact implements Comparable {
         private JobTimestamp resolventTimestamp
         // optional
         private Material diff
-        private MetadataPattern metadataPattern
+        private QueryOnMetadata query
         private Double diffRatio
         private SortKeys sortKeys
         Builder(Material left, Material right, JobTimestamp resolventTimestamp) {
@@ -184,13 +184,13 @@ final class Artifact implements Comparable {
             this.right = right
             this.resolventTimestamp = resolventTimestamp
             this.diff = Material.NULL_OBJECT
-            this.metadataPattern = MetadataPattern.NULL_OBJECT
+            this.query = QueryOnMetadata.NULL_OBJECT
             this.diffRatio = -1.0d
             this.sortKeys = SortKeys.NULL_OBJECT
         }
-        Builder setMetadataPattern(MetadataPattern metadataPattern) {
-            Objects.requireNonNull(metadataPattern)
-            this.metadataPattern = metadataPattern
+        Builder setQueryOnMetadata(QueryOnMetadata query) {
+            Objects.requireNonNull(query)
+            this.query = query
             return this
         }
         Builder sortKeys(SortKeys sortKeys) {

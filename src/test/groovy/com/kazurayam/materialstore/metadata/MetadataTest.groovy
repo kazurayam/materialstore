@@ -143,14 +143,14 @@ class MetadataTest {
     }
 
     @Test
-    void test_toSpanSequence_dual_MetadataPatterns_with_IdentifyMetadataValues() {
+    void test_toSpanSequence_dual_QueryOnMetadata_with_IdentifyMetadataValues() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
         Metadata metadata = Metadata.builderWithUrl(url)
                 .put("profile", "ProductionEnv")
                 .build()
-        MetadataPattern leftMetadataPattern = MetadataPattern.builder()
+        QueryOnMetadata leftQuery = QueryOnMetadata.builder()
                 .put("profile", "ProductionEnv").build()
-        MetadataPattern rightMetadataPattern = MetadataPattern.builder()
+        QueryOnMetadata rightQuery = QueryOnMetadata.builder()
                 .put("URL.host", "baeldung.com").build()
         IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
         IdentifyMetadataValues identifyMetadataValues =
@@ -159,7 +159,7 @@ class MetadataTest {
                         .build()
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
-        metadata.toSpanSequence(mb, leftMetadataPattern, rightMetadataPattern,
+        metadata.toSpanSequence(mb, leftQuery, rightQuery,
                 ignoreMetadataKeys, identifyMetadataValues)
         String str = sw.toString()
         assertNotNull(str)
@@ -169,14 +169,14 @@ class MetadataTest {
     }
 
     @Test
-    void test_toSpanSequence_dual_MetadataPatterns_with_IgnoreMetadataKeys() {
+    void test_toSpanSequence_dual_QueryOnMetadata_with_IgnoreMetadataKeys() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
         Metadata metadata = Metadata.builderWithUrl(url)
                 .put("profile", "ProductionEnv")
                 .build()
-        MetadataPattern leftMetadataPattern = MetadataPattern.builder()
+        QueryOnMetadata leftQuery = QueryOnMetadata.builder()
                 .put("profile", "ProductionEnv").build()
-        MetadataPattern rightMetadataPattern = MetadataPattern.builder()
+        QueryOnMetadata rightQuery = QueryOnMetadata.builder()
                 .put("URL.host", "baeldung.com").build()
         IgnoreMetadataKeys ignoreMetadataKeys =
                 new IgnoreMetadataKeys.Builder()
@@ -185,7 +185,7 @@ class MetadataTest {
         IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
-        metadata.toSpanSequence(mb, leftMetadataPattern, rightMetadataPattern,
+        metadata.toSpanSequence(mb, leftQuery, rightQuery,
                 ignoreMetadataKeys, identifyMetadataValues)
         String str = sw.toString()
         assertNotNull(str)
@@ -195,17 +195,17 @@ class MetadataTest {
     }
 
     @Test
-    void test_toSpanSequence_single_MetadataPattern() {
+    void test_toSpanSequence_single_QueryOnMetadata() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
         Metadata metadata = Metadata.builderWithUrl(url)
                 .put("profile", "ProductionEnv")
                 .build()
-        MetadataPattern metadataPattern = MetadataPattern.builder()
+        QueryOnMetadata query = QueryOnMetadata.builder()
                 .put("*", Pattern.compile(".*Env"))
                 .build()
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
-        metadata.toSpanSequence(mb, metadataPattern)
+        metadata.toSpanSequence(mb, query)
         String str = sw.toString()
         assertNotNull(str)
         println str

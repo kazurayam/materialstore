@@ -3,24 +3,24 @@ package com.kazurayam.materialstore.metadata
 
 import groovy.xml.MarkupBuilder
 
-final class MetadataPatternImpl extends MetadataPattern {
+final class QueryOnMetadataImpl extends QueryOnMetadata {
 
-    private final Map<String, MetadataPatternValue> metadataPattern
+    private final Map<String, QueryOnMetadataValue> keyValuePairs
 
-    MetadataPatternImpl(Map<String, MetadataPatternValue> source) {
-        this.metadataPattern = source
+    QueryOnMetadataImpl(Map<String, QueryOnMetadataValue> source) {
+        this.keyValuePairs = source
     }
 
     //------------- implements MapLike ----------------
 
     @Override
     boolean containsKey(String key) {
-        return metadataPattern.containsKey(key)
+        return keyValuePairs.containsKey(key)
     }
 
     @Override
-    MetadataPatternValue get(String key) {
-        return metadataPattern.get(key)
+    QueryOnMetadataValue get(String key) {
+        return keyValuePairs.get(key)
     }
 
     @Override
@@ -30,35 +30,35 @@ final class MetadataPatternImpl extends MetadataPattern {
 
     @Override
     boolean isEmpty() {
-        return metadataPattern.isEmpty()
+        return keyValuePairs.isEmpty()
     }
 
     @Override
     Set<String> keySet() {
-        return metadataPattern.keySet()
+        return keyValuePairs.keySet()
     }
 
     @Override
     int size() {
-        return metadataPattern.size()
+        return keyValuePairs.size()
     }
 
     @Override
     Set<Entry> entrySet() {
         Set<Entry> entrySet = new HashSet<Entry>()
         this.keySet().forEach {key ->
-            MetadataPatternValue mpv = this.get(key)
+            QueryOnMetadataValue mpv = this.get(key)
             Entry entry = new Entry(key, mpv)
             entrySet.add(entry)
         }
         return entrySet
     }
 
-    //------------- implements MetadataPattern --------
+    //------------- implements QueryOnMetadata --------
     /**
-     * Returns true if this MetadataPattern has one or more entries that matches with
+     * Returns true if this QueryOnMetadata has one or more entries that matches with
      * one or more entries in the given Metadata.
-     * Returns false if this MetadataPattern has no entry that matches with
+     * Returns false if this QueryOnMetadata has no entry that matches with
      * any of entries in the given Metadata.
      *
      * @param metadata
@@ -80,7 +80,7 @@ final class MetadataPatternImpl extends MetadataPattern {
 
     @Override
     void toSpanSequence(MarkupBuilder mb) {
-        List<String> keyList = new ArrayList(metadataPattern.keySet())
+        List<String> keyList = new ArrayList(keyValuePairs.keySet())
         Collections.sort(keyList)
         int count = 0
         mb.span("{")
@@ -103,7 +103,7 @@ final class MetadataPatternImpl extends MetadataPattern {
 
     @Override
     String getDescription(SortKeys sortKeys) {
-        List<String> keyList = orderedKeyList(metadataPattern.keySet(), sortKeys)
+        List<String> keyList = orderedKeyList(keyValuePairs.keySet(), sortKeys)
         //
         StringBuilder sb = new StringBuilder()
         int count = 0
@@ -115,7 +115,7 @@ final class MetadataPatternImpl extends MetadataPattern {
             sb.append("\"")
             sb.append(key.toString())
             sb.append("\":\"")
-            MetadataPatternValue value = this.get(key)
+            QueryOnMetadataValue value = this.get(key)
             sb.append(value.toString())
             sb.append("\"")
             count += 1
@@ -126,7 +126,7 @@ final class MetadataPatternImpl extends MetadataPattern {
 
     private List<String> orderedKeyList(Set<String> keySet, SortKeys sortKeys) {
         if (sortKeys == SortKeys.NULL_OBJECT) {
-            List<String> keyList = new ArrayList<>(metadataPattern.keySet())
+            List<String> keyList = new ArrayList<>(keyValuePairs.keySet())
             Collections.sort(keyList)
             return keyList
         } else {

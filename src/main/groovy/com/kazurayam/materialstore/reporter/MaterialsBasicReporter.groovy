@@ -6,7 +6,7 @@ import com.kazurayam.materialstore.filesystem.FileTypeDiffability
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -82,9 +82,9 @@ final class MaterialsBasicReporter {
                                 dl() {
                                     dt("JobTimestamp :")
                                     dd(materialList.getJobTimestamp().toString())
-                                    dt("MetadataPattern :")
+                                    dt("QueryOnMetadata :")
                                     dd() {
-                                        materialList.getMetadataPattern().toSpanSequence(mb)
+                                        materialList.getQueryOnMetadata().toSpanSequence(mb)
                                     }
                                     dt("FileType :")
                                     FileType fileType = materialList.getFileType()
@@ -116,7 +116,7 @@ final class MaterialsBasicReporter {
                                         "data-bs-parent": "#accordionExample") {
                                     mb.div(class: "accordion-body") {
                                         makeAccordionBody(root_, mb, material,
-                                                materialList.getMetadataPattern())
+                                                materialList.getQueryOnMetadata())
                                     }
                                 }
                             }
@@ -134,7 +134,7 @@ final class MaterialsBasicReporter {
     }
 
     private static void makeAccordionBody(Path root, MarkupBuilder mb, Material material,
-                                          MetadataPattern metadataPattern) {
+                                          QueryOnMetadata query) {
         mb.div(class: "show-detail") {
             dl(class: "detail") {
                 dt("URL")
@@ -150,7 +150,7 @@ final class MaterialsBasicReporter {
                 dd() {
                     material.getIndexEntry()
                             .getMetadata()
-                            .toSpanSequence(mb, metadataPattern)
+                            .toSpanSequence(mb, query)
                 }
             }
             if (material.getDiffability() == FileTypeDiffability.AS_IMAGE) {

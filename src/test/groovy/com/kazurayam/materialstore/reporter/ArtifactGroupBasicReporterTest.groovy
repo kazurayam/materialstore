@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.StoreImpl
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -52,12 +52,12 @@ class ArtifactGroupBasicReporterTest {
         // pickup the materials that belongs to the 2 "profiles"
         String profile1 = "ProductionEnv"
         MaterialList left = store.select(jobName, jobTimestamp,
-                MetadataPattern.builderWithMap(["profile": profile1 ]).build()
+                QueryOnMetadata.builderWithMap(["profile": profile1 ]).build()
         )
 
         String profile2 = "DevelopmentEnv"
         MaterialList right = store.select(jobName, jobTimestamp,
-                MetadataPattern.builderWithMap(["profile": profile2 ]).build())
+                QueryOnMetadata.builderWithMap(["profile": profile2 ]).build())
 
         MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
 

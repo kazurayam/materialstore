@@ -5,7 +5,7 @@ import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
 import org.apache.commons.io.FileUtils
@@ -54,11 +54,11 @@ class Issue73Test {
     @BeforeEach
     void beforeEach() {
         left = store.select(jobName, timestampP,
-                MetadataPattern.builderWithMap(["profile": "MyAdmin_ProductionEnv"]).build()
+                QueryOnMetadata.builderWithMap(["profile": "MyAdmin_ProductionEnv"]).build()
         )
         assert left.size() == 8
         right = store.select(jobName, timestampD,
-                MetadataPattern.builderWithMap(["profile": "MyAdmin_DevelopmentEnv"]).build()
+                QueryOnMetadata.builderWithMap(["profile": "MyAdmin_DevelopmentEnv"]).build()
         )
         assert right.size() == 8
     }

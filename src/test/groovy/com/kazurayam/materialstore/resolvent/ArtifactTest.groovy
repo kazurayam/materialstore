@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import com.kazurayam.materialstore.metadata.SortKeys
 import groovy.json.JsonOutput
 import org.apache.commons.io.FileUtils
@@ -43,7 +43,7 @@ class ArtifactTest {
 
     @Test
     void test_getDescription_more() {
-        MetadataPattern mp = MetadataPattern.builderWithMap([
+        QueryOnMetadata mp = QueryOnMetadata.builderWithMap([
                 "URL.path": "/",
                 "profile": "Flaskr_ProductionEnv",
                 "step":"6"
@@ -53,7 +53,7 @@ class ArtifactTest {
         Artifact artifact =
                 new Artifact.Builder(
                         Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
-                        .setMetadataPattern(mp)
+                        .setQueryOnMetadata(mp)
                         .sortKeys(sortKeys)
                         .build()
         String description = artifact.getDescription()
@@ -63,14 +63,14 @@ class ArtifactTest {
 
     @Test
     void test_getDescription() {
-        MetadataPattern mp = MetadataPattern.builderWithMap([
+        QueryOnMetadata mp = QueryOnMetadata.builderWithMap([
                 "URL.host": "demoaut-mimic.kazurayam.com",
                 "URL.file": "/"
         ]).build()
         Artifact artifact =
                 new Artifact.Builder(
                         Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
-                        .setMetadataPattern(mp)
+                        .setQueryOnMetadata(mp)
                         .build()
         assertEquals(
                 '''{"URL.file":"/", "URL.host":"demoaut-mimic.kazurayam.com"}''',
@@ -79,14 +79,14 @@ class ArtifactTest {
 
     @Test
     void test_toString() {
-        MetadataPattern mp = MetadataPattern.builderWithMap([
+        QueryOnMetadata mp = QueryOnMetadata.builderWithMap([
                 "URL.host": "demoaut-mimic.kazurayam.com",
                 "URL.file": "/"
         ]).build()
         Artifact artifact =
                 new Artifact.Builder(
                         Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
-                        .setMetadataPattern(mp)
+                        .setQueryOnMetadata(mp)
                         .build()
         println JsonOutput.prettyPrint(artifact.toString())
     }
@@ -103,7 +103,7 @@ class ArtifactTest {
         Jobber jobberOfLeft = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
         MaterialList leftList = jobberOfLeft.selectMaterials(
-                MetadataPattern.builder()
+                QueryOnMetadata.builder()
                         .put("profile", "ProductionEnv")
                         .put("URL.file", Pattern.compile(".*"))
                         .build(),
@@ -113,7 +113,7 @@ class ArtifactTest {
         Jobber jobberOfRight = store.getJobber(jobName,
                 new JobTimestamp("20210715_145922"))
         MaterialList rightList= jobberOfRight.selectMaterials(
-                MetadataPattern.builder()
+                QueryOnMetadata.builder()
                         .put("profile", "DevelopmentEnv")
                         .put("URL.file", Pattern.compile(".*"))
                         .build(),

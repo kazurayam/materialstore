@@ -6,7 +6,7 @@ import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -52,27 +52,27 @@ class ArtifactGroup_issue87Test {
         timestampD = new JobTimestamp("20220128_191342")
 
         left = store.select(jobName, timestampP,
-                MetadataPattern.builderWithMap(["profile": "MyAdmin_ProductionEnv"]).build()
+                QueryOnMetadata.builderWithMap(["profile": "MyAdmin_ProductionEnv"]).build()
         )
         assert left.size() == 8
         right = store.select(jobName, timestampD,
-                MetadataPattern.builderWithMap(["profile": "MyAdmin_DevelopmentEnv"]).build()
+                QueryOnMetadata.builderWithMap(["profile": "MyAdmin_DevelopmentEnv"]).build()
         )
         assert right.size() == 8
     }
 
     @Test
-    void test_getMetadataPatterns() {
+    void test_getQueryOnMetadataList() {
         ArtifactGroup artifactGroup =
                 ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .build()
 
-        List<MetadataPattern> metadataPatterns = artifactGroup.getMetadataPatterns();
-        assertEquals(8, metadataPatterns.size())
+        List<QueryOnMetadata> queryList = artifactGroup.getQueryOnMetadataList();
+        assertEquals(8, queryList.size())
         //
-        metadataPatterns.each { mp ->
+        queryList.each { mp ->
             println mp.toString()
         }
         /* before issue#87, the output was
@@ -95,7 +95,7 @@ after issue87, the output is
 {"URL.path":"/npm/bootstrap-icons@1.7.2/font/fonts/bootstrap-icons.woff2", "URL.port":"80", "URL.protocol":"https", "URL.query":"30af91bf14e37666a085fb8a161ff36d"}
 {"URL.path":"/umineko-1960x1960.jpg", "URL.port":"80", "URL.protocol":"http"}
          */
-        assertTrue(metadataPatterns.get(0).toString().startsWith("{\"URL.path\":\"/\""), metadataPatterns.get(0).toString())
-        assertTrue(metadataPatterns.get(2).toString().startsWith("{\"URL.path\":\"/ajax"), metadataPatterns.get(2).toString())
+        assertTrue(queryList.get(0).toString().startsWith("{\"URL.path\":\"/\""), queryList.get(0).toString())
+        assertTrue(queryList.get(2).toString().startsWith("{\"URL.path\":\"/ajax"), queryList.get(2).toString())
     }
 }

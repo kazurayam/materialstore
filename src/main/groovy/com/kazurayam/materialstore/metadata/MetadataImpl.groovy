@@ -67,9 +67,9 @@ final class MetadataImpl extends Metadata {
     }
 
     @Override
-    void toSpanSequence(MarkupBuilder mb, MetadataPattern metadataPattern) {
+    void toSpanSequence(MarkupBuilder mb, QueryOnMetadata query) {
         Objects.requireNonNull(mb)
-        Objects.requireNonNull(metadataPattern)
+        Objects.requireNonNull(query)
         int count = 0
         List<String> keys = new ArrayList<String>(metadata.keySet())
         Collections.sort(keys)
@@ -82,7 +82,7 @@ final class MetadataImpl extends Metadata {
             mb.span("\"${JsonUtil.escapeAsJsonString(key)}\"" + ":")
 
             // make the <span> of the "value" part of an attribute of Metadata
-            String cssClassName = getCSSClassNameSolo(metadataPattern, key)
+            String cssClassName = getCSSClassNameSolo(query, key)
             if (cssClassName != null) {
                 mb.span(class: "matched-value",
                         "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
@@ -94,13 +94,13 @@ final class MetadataImpl extends Metadata {
         mb.span("}")
     }
 
-    private String getCSSClassNameSolo(MetadataPattern metadataPattern, String key) {
-        boolean matchesByAster = metadataPattern.containsKey("*") &&
-                metadataPattern.get("*").matches(this.get(key))
+    private String getCSSClassNameSolo(QueryOnMetadata query, String key) {
+        boolean matchesByAster = query.containsKey("*") &&
+                query.get("*").matches(this.get(key))
 
-        boolean matchesIndividually = metadataPattern.containsKey(key) &&
+        boolean matchesIndividually = query.containsKey(key) &&
                 this.containsKey(key) &&
-                metadataPattern.get(key).matches(this.get(key))
+                query.get(key).matches(this.get(key))
 
         if (matchesByAster || matchesIndividually) {
             return "matched-value"
@@ -113,13 +113,13 @@ final class MetadataImpl extends Metadata {
 
     @Override
     void toSpanSequence(MarkupBuilder mb,
-                        MetadataPattern leftMetadataPattern,
-                        MetadataPattern rightMetadataPattern,
+                        QueryOnMetadata leftQuery,
+                        QueryOnMetadata rightQuery,
                         IgnoreMetadataKeys ignoreMetadataKeys,
                         IdentifyMetadataValues identifyMetadataValues) {
         Objects.requireNonNull(mb)
-        Objects.requireNonNull(leftMetadataPattern)
-        Objects.requireNonNull(rightMetadataPattern)
+        Objects.requireNonNull(leftQuery)
+        Objects.requireNonNull(rightQuery)
         Objects.requireNonNull(ignoreMetadataKeys)
         Objects.requireNonNull(identifyMetadataValues)
         int count = 0
@@ -140,7 +140,7 @@ final class MetadataImpl extends Metadata {
 
             // make the <span> of the "value" part of an attribute of Metadata
             String cssClass = getCSSClassName(
-                    leftMetadataPattern, rightMetadataPattern,
+                    leftQuery, rightQuery,
                     key,
                     identifyMetadataValues)
             if (cssClass != null) {
@@ -166,7 +166,7 @@ final class MetadataImpl extends Metadata {
     }
 
 
-    private String getCSSClassName(MetadataPattern left, MetadataPattern right,
+    private String getCSSClassName(QueryOnMetadata left, QueryOnMetadata right,
                                    String key,
                                    IdentifyMetadataValues identifyMetadataValues) {
         boolean canBePaired = (

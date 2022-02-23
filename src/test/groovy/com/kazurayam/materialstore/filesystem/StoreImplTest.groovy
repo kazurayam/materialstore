@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.TestFixtureUtil
 import com.kazurayam.materialstore.metadata.Metadata
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -152,7 +152,7 @@ class StoreImplTest {
         JobName jobName = new JobName("test_getAbsolutePathOf")
         TestFixtureUtil.setupFixture(store, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
-        MaterialList materialList = store.select(jobName, jobTimestamp, MetadataPattern.ANY)
+        MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY)
         Path abs = store.getPathOf(materialList.get(0))
         assertNotNull(abs)
         println abs.toString()
@@ -174,7 +174,7 @@ class StoreImplTest {
                 "URL.host":"demoaut-mimic.kazurayam.com",
                 "profile":"DevelopmentEnv"
         ]).build()
-        MetadataPattern query = new MetadataPattern.Builder(metadata).build()
+        QueryOnMetadata query = new QueryOnMetadata.Builder(metadata).build()
         List<JobTimestamp> jobTimestamps =
                 store.queryAllJobTimestamps(jobName, query)
         assertNotNull(jobTimestamps)
@@ -193,7 +193,7 @@ class StoreImplTest {
                 "URL.host":"demoaut-mimic.kazurayam.com",
                 "profile":"DevelopmentEnv"
         ]).build()
-        MetadataPattern query = new MetadataPattern.Builder(metadata).build()
+        QueryOnMetadata query = new QueryOnMetadata.Builder(metadata).build()
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         List<JobTimestamp> jobTimestamps =
                 store.queryAllJobTimestampsPriorTo(jobName, query, jobTimestamp)
@@ -212,7 +212,7 @@ class StoreImplTest {
                 "URL.host":"demoaut-mimic.kazurayam.com",
                 "profile":"DevelopmentEnv"
         ]).build()
-        MetadataPattern query = new MetadataPattern.Builder(metadata).build()
+        QueryOnMetadata query = new QueryOnMetadata.Builder(metadata).build()
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         JobTimestamp found =
                 store.queryJobTimestampPriorTo(jobName, query, jobTimestamp)
@@ -232,7 +232,7 @@ class StoreImplTest {
                 "URL.host":"demoaut-mimic.kazurayam.com",
                 "profile":"DevelopmentEnv"
         ]).build()
-        MetadataPattern query = new MetadataPattern.Builder(metadata).build()
+        QueryOnMetadata query = new QueryOnMetadata.Builder(metadata).build()
         JobTimestamp found =
                 store.queryLatestJobTimestamp(jobName, query)
         assertNotNull(found)
@@ -257,7 +257,7 @@ class StoreImplTest {
         }
         // select 2 members amongst 4 by matching "city" with a Regular Expression `To.*`
         MaterialList selected = store.select(jobName, jobTimestamp,
-                MetadataPattern.builder()
+                QueryOnMetadata.builder()
                         .put("city", Pattern.compile("To.*"))
                         .build())
         assertEquals(2, selected.size())
@@ -275,7 +275,7 @@ class StoreImplTest {
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
         //
-        MetadataPattern pattern = MetadataPattern.builder()
+        QueryOnMetadata pattern = QueryOnMetadata.builder()
                 .put("profile", Pattern.compile(".*"))
                 .put("URL", Pattern.compile(".*"))
                 .build()
@@ -297,7 +297,7 @@ class StoreImplTest {
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
         //
-        MetadataPattern pattern = MetadataPattern.builder()
+        QueryOnMetadata pattern = QueryOnMetadata.builder()
                 .put("profile", Pattern.compile(".*"))
                 .put("URL", Pattern.compile(".*"))
                 .build()

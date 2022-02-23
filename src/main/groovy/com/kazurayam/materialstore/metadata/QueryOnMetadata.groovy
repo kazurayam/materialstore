@@ -5,12 +5,12 @@ import groovy.xml.MarkupBuilder
 
 import java.util.regex.Pattern
 
-abstract class MetadataPattern {
+abstract class QueryOnMetadata {
 
-    public static final MetadataPattern NULL_OBJECT =
+    public static final QueryOnMetadata NULL_OBJECT =
             new Builder().build()
 
-    public static final MetadataPattern ANY =
+    public static final QueryOnMetadata ANY =
             new Builder().put(
                     "*",
                     Pattern.compile(".*")
@@ -41,7 +41,7 @@ abstract class MetadataPattern {
 
     abstract Set<Entry> entrySet()
 
-    abstract MetadataPatternValue get(String key)
+    abstract QueryOnMetadataValue get(String key)
 
     abstract String getDescription(SortKeys sortKeys)
 
@@ -70,19 +70,19 @@ abstract class MetadataPattern {
      */
     static class Builder {
 
-        private Map<String, MetadataPatternValue> metadataPattern
+        private Map<String, QueryOnMetadataValue> query
 
         Builder() {
-            this.metadataPattern = new HashMap<String, MetadataPatternValue>()
+            this.query = new HashMap<String, QueryOnMetadataValue>()
         }
 
         Builder(Map<String, String> map) {
             this()
             Objects.requireNonNull(map)
             map.keySet().each { key ->
-                metadataPattern.put(
+                query.put(
                         key,
-                        MetadataPatternValue.of(map.get(key))
+                        QueryOnMetadataValue.of(map.get(key))
                 )
             }
         }
@@ -96,56 +96,56 @@ abstract class MetadataPattern {
             Objects.requireNonNull(source)
             //
             source.keySet().each {key ->
-                MetadataPatternValue mpv = MetadataPatternValue.of((String)source.get(key))
+                QueryOnMetadataValue mpv = QueryOnMetadataValue.of((String)source.get(key))
                 if (!ignoreMetadataKeys.contains(key)) {
-                    metadataPattern.put(key, mpv)
+                    query.put(key, mpv)
                 }
             }
         }
-        Builder(MetadataPattern source) {
+        Builder(QueryOnMetadata source) {
             this()
             Objects.requireNonNull(source)
             source.keySet().each {key ->
-                MetadataPatternValue mpv = new MetadataPatternValue.Builder(source.get(key)).build()
-                metadataPattern.put(key, mpv)
+                QueryOnMetadataValue mpv = new QueryOnMetadataValue.Builder(source.get(key)).build()
+                query.put(key, mpv)
             }
         }
         Builder put(String key, String value) {
-            metadataPattern.put(
+            query.put(
                     key,
-                    MetadataPatternValue.of(value)
+                    QueryOnMetadataValue.of(value)
             )
             return this
         }
         Builder put(String key, Pattern value) {
-            metadataPattern.put(
+            query.put(
                     key,
-                    MetadataPatternValue.of(value)
+                    QueryOnMetadataValue.of(value)
             )
             return this
         }
-        MetadataPattern build() {
-            return new MetadataPatternImpl(metadataPattern)
+        QueryOnMetadata build() {
+            return new QueryOnMetadataImpl(query)
         }
     }
 
     /**
-     * a pair of Key-Value in the MetadataPattern object.
+     * a pair of Key-Value in the QueryOnMetadata object.
      * This class implements boolean matches(Metadata) method, which works
-     * as a helper for MetadataPatternImpl#matches(Metadata) method.
+     * as a helper for QueryOnMetadataImpl#matches(Metadata) method.
      */
     static class Entry implements Comparable {
         private String key
-        private MetadataPatternValue metadataPatternValue
-        Entry(String key, MetadataPatternValue metadataPatternValue) {
+        private QueryOnMetadataValue query
+        Entry(String key, QueryOnMetadataValue query) {
             this.key = key
-            this.metadataPatternValue = metadataPatternValue
+            this.query = query
         }
         String getKey() {
             return this.key
         }
-        MetadataPatternValue getMetadataPatternValue() {
-            return this.metadataPatternValue
+        QueryOnMetadataValue getQueryOnMetadataValue() {
+            return this.query
         }
         /**
          *
@@ -156,13 +156,13 @@ abstract class MetadataPattern {
             if (this.key == "*") {
                 boolean found = false
                 metadata.keySet().each {metadataKey ->
-                    if (this.metadataPatternValue.matches(metadata.get(metadataKey))) {
+                    if (this.queryOnMetadataValue.matches(metadata.get(metadataKey))) {
                         found = true
                     }
                 }
                 return found
             } else if (metadata.containsKey(key)) {
-                return this.metadataPatternValue.matches(metadata.get(key))
+                return this.query.matches(metadata.get(key))
             } else {
                 return false
             }
@@ -175,7 +175,7 @@ abstract class MetadataPattern {
             Entry other = (Entry)obj
             def keyComp = this.key <=> other.key
             if (keyComp != 0) {
-                return this.metadataPatternValue <=> other.metadataPatternValue
+                return this.query <=> other.queryOnMetadataValue
             } else
                 return keyComp
         }

@@ -3,7 +3,7 @@ package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.MaterialstoreException
 import com.kazurayam.materialstore.metadata.Metadata
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -88,16 +88,16 @@ final class Jobber {
     /**
      *
      * @param fileType
-     * @param metadataPattern
+     * @param query
      * @return
      */
-    MaterialList selectMaterials(MetadataPattern metadataPattern, FileType fileType) {
-        Objects.requireNonNull(metadataPattern)
+    MaterialList selectMaterials(QueryOnMetadata query, FileType fileType) {
+        Objects.requireNonNull(query)
         Objects.requireNonNull(fileType)
-        MaterialList result = new MaterialList(jobTimestamp, metadataPattern, fileType)
+        MaterialList result = new MaterialList(jobTimestamp, query, fileType)
         index.eachWithIndex { IndexEntry entry, x ->
-            if (metadataPattern == MetadataPattern.ANY ||
-                    metadataPattern.matches(entry.getMetadata())) {
+            if (query == QueryOnMetadata.ANY ||
+                    query.matches(entry.getMetadata())) {
                 if (fileType == FileType.NULL_OBJECT || fileType == entry.getFileType()) {
                     Material material = new Material(jobName, jobTimestamp, entry)
                     result.add(material)
@@ -107,8 +107,8 @@ final class Jobber {
         return result
     }
     
-    MaterialList selectMaterials(MetadataPattern metadataPattern) {
-        return selectMaterials(metadataPattern, FileType.NULL_OBJECT)
+    MaterialList selectMaterials(QueryOnMetadata query) {
+        return selectMaterials(query, FileType.NULL_OBJECT)
     }
 
     /**

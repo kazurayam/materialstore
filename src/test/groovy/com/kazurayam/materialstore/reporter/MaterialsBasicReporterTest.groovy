@@ -6,7 +6,7 @@ import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.StoreImpl
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -50,7 +50,7 @@ class MaterialsBasicReporterTest {
                 new MaterialsBasicReporter(root, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         MaterialList list = store.select(jobName, jobTimestamp,
-                MetadataPattern.builder()
+                QueryOnMetadata.builder()
                         .put("profile", Pattern.compile(".*Env")).build()
         )
         assertTrue(list.size() > 0, "list is empty")

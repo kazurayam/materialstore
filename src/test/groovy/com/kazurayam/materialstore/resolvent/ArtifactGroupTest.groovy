@@ -9,7 +9,7 @@ import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.metadata.IgnoreMetadataKeys
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import com.kazurayam.materialstore.metadata.SortKeys
 import groovy.json.JsonOutput
 import org.apache.commons.io.FileUtils
@@ -70,7 +70,7 @@ class ArtifactGroupTest {
         Artifact tmp =
                 new Artifact.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
                         JobTimestamp.now())
-                        .setMetadataPattern(MetadataPattern.NULL_OBJECT)
+                        .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT)
                         .build()
         tmp.setDiffRatio(45.0d)
         artifactGroup.add(tmp)
@@ -134,7 +134,7 @@ class ArtifactGroupTest {
         assertTrue(s.contains("left"), s)
         assertTrue(s.contains("right"), s)
         assertTrue(s.contains("diff"), s)
-        assertTrue(s.contains("metadataPattern"), s)
+        assertTrue(s.contains("queryOnMetadata"), s)
         assertTrue(s.contains("diffRatio"), s)
     }
 
@@ -143,11 +143,11 @@ class ArtifactGroupTest {
         jobName = new JobName("MyAdmin_visual_inspection_twins")
         timestampP = new JobTimestamp("20220128_191320")
         left = store.select(jobName, timestampP,
-                MetadataPattern.builderWithMap([ "profile": "MyAdmin_ProductionEnv" ]).build()
+                QueryOnMetadata.builderWithMap(["profile": "MyAdmin_ProductionEnv" ]).build()
         )
         timestampD = new JobTimestamp("20220128_191342")
         right = store.select(jobName, timestampD,
-                MetadataPattern.builderWithMap(["profile": "MyAdmin_DevelopmentEnv" ]).build()
+                QueryOnMetadata.builderWithMap(["profile": "MyAdmin_DevelopmentEnv" ]).build()
         )
     }
 
@@ -220,7 +220,7 @@ class ArtifactGroupTest {
 
         }
     },
-    "metadataPattern": {
+    "queryOnMetadata": {
         "URL.path": "/"
     },
     "diffRatio": 0.0

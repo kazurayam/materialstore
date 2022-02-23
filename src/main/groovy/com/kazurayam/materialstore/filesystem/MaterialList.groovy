@@ -1,26 +1,27 @@
 package com.kazurayam.materialstore.filesystem
 
-import com.kazurayam.materialstore.metadata.MetadataPattern
+
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 
 final class MaterialList {
 
-    public static final NULL_OBJECT = new MaterialList(JobTimestamp.NULL_OBJECT, MetadataPattern.NULL_OBJECT, FileType.NULL_OBJECT)
+    public static final NULL_OBJECT = new MaterialList(JobTimestamp.NULL_OBJECT, QueryOnMetadata.NULL_OBJECT, FileType.NULL_OBJECT)
 
     private JobTimestamp jobTimestamp
 
-    private MetadataPattern metadataPattern
+    private QueryOnMetadata query
 
     private FileType fileType
 
     private List<Material> materialList
 
-    MaterialList(JobTimestamp jobTimestamp, MetadataPattern metadataPattern,
+    MaterialList(JobTimestamp jobTimestamp, QueryOnMetadata query,
                  FileType fileType) {
         Objects.requireNonNull(jobTimestamp)
-        Objects.requireNonNull(metadataPattern)
+        Objects.requireNonNull(query)
         Objects.requireNonNull(fileType)
         this.jobTimestamp = jobTimestamp
-        this.metadataPattern = metadataPattern
+        this.query = query
         this.fileType = fileType
         //
         this.materialList = new ArrayList<Material>()
@@ -32,7 +33,7 @@ final class MaterialList {
      */
     MaterialList(MaterialList source) {
         this.jobTimestamp = source.jobTimestamp         // JobTimestamp is immutable
-        this.metadataPattern = source.metadataPattern   // MetadataPattern is immutable
+        this.query = source.queryOnMetadata   // QueryOnMetadata is immutable
         this.fileType = source.fileType                 // FileType is immutable
         this.materialList = new ArrayList<>(source.materialList)  // Material is immutable
     }
@@ -64,8 +65,8 @@ final class MaterialList {
         return this.jobTimestamp
     }
 
-    MetadataPattern getMetadataPattern() {
-        return this.metadataPattern
+    QueryOnMetadata getQueryOnMetadata() {
+        return this.query
     }
 
     FileType getFileType() {
@@ -89,8 +90,8 @@ final class MaterialList {
         //
         StringBuilder sb2 = new StringBuilder()
         sb2.append("{")
-        sb2.append('''"metadataPattern":''')
-        sb2.append(this.metadataPattern.toString())
+        sb2.append('''"queryOnMetadata":''')
+        sb2.append(this.query.toString())
         sb2.append(",")
         sb2.append('''"fileType":''')
         sb2.append('''"''')

@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.filesystem
 
 
 import com.kazurayam.materialstore.metadata.Metadata
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 
 import java.awt.image.BufferedImage
 import java.nio.charset.Charset
@@ -28,13 +28,13 @@ interface Store {
 
     JobTimestamp findLatestJobTimestamp(JobName jobName)
 
-    List<JobTimestamp> queryAllJobTimestamps(JobName jobName, MetadataPattern query)
+    List<JobTimestamp> queryAllJobTimestamps(JobName jobName, QueryOnMetadata query)
 
-    List<JobTimestamp> queryAllJobTimestampsPriorTo(JobName jobName, MetadataPattern query, JobTimestamp jobTimestamp)
+    List<JobTimestamp> queryAllJobTimestampsPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp)
 
-    JobTimestamp queryJobTimestampPriorTo(JobName jobName, MetadataPattern query, JobTimestamp jobTimestamp)
+    JobTimestamp queryJobTimestampPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp)
 
-    JobTimestamp queryLatestJobTimestamp(JobName jobName, MetadataPattern query)
+    JobTimestamp queryLatestJobTimestamp(JobName jobName, QueryOnMetadata query)
 
     Jobber getJobber(JobName jobName, JobTimestamp jobTimestamp)
 
@@ -43,13 +43,13 @@ interface Store {
     Path getRoot()
 
     MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
-                        MetadataPattern metadataPattern)
+                        QueryOnMetadata query)
 
     MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
-                        MetadataPattern metadataPattern, FileType fileType)
+                        QueryOnMetadata query, FileType fileType)
 
     File selectFile(JobName jobName, JobTimestamp jobTimestamp,
-                    MetadataPattern metadataPattern, FileType fileType)
+                    QueryOnMetadata query, FileType fileType)
 
     Material write(JobName jobName, JobTimestamp jobTimestamp,
                    FileType fileType, Metadata meta, BufferedImage input)

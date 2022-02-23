@@ -9,7 +9,7 @@ import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.StoreImpl
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import groovy.json.JsonOutput
 import org.junit.jupiter.api.Test
 
@@ -37,11 +37,11 @@ class ImageDifferToPNGTest {
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         //
         MaterialList left = storeImpl.select(jobName, jobTimestamp,
-                MetadataPattern.builderWithMap(["profile": "ProductionEnv"]).build(),
+                QueryOnMetadata.builderWithMap(["profile": "ProductionEnv"]).build(),
                 FileType.PNG)
 
         MaterialList right = storeImpl.select(jobName, jobTimestamp,
-                MetadataPattern.builderWithMap(["profile": "DevelopmentEnv"]).build(),
+                QueryOnMetadata.builderWithMap(["profile": "DevelopmentEnv"]).build(),
                 FileType.PNG)
 
         ArtifactGroup artifactGroup =

@@ -6,7 +6,7 @@ import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
 import org.apache.commons.io.FileUtils
@@ -50,11 +50,11 @@ class ArtifactGroupBasicReporter_issue80_86Test {
     @BeforeEach
     void beforeEach() {
         left = store.select(jobName, timestampP,
-                MetadataPattern.builderWithMap(["profile": "MyAdmin_ProductionEnv"]).build()
+                QueryOnMetadata.builderWithMap(["profile": "MyAdmin_ProductionEnv"]).build()
         )
         assert left.size() == 8
         right = store.select(jobName, timestampD,
-                MetadataPattern.builderWithMap(["profile": "MyAdmin_DevelopmentEnv"]).build()
+                QueryOnMetadata.builderWithMap(["profile": "MyAdmin_DevelopmentEnv"]).build()
         )
         assert right.size() == 8
     }
@@ -68,12 +68,12 @@ class ArtifactGroupBasicReporter_issue80_86Test {
         // pick up the materials that belongs to the 2 "profiles"
         String profile1 = "MyAdmin_ProductionEnv"
         MaterialList left = store.select(jobName, timestampP,
-                MetadataPattern.builderWithMap(["profile": profile1]).build()
+                QueryOnMetadata.builderWithMap(["profile": profile1]).build()
         )
 
         String profile2 = "MyAdmin_DevelopmentEnv"
         MaterialList right = store.select(jobName, timestampD,
-                MetadataPattern.builderWithMap(["profile": profile2]).build()
+                QueryOnMetadata.builderWithMap(["profile": profile2]).build()
         )
 
         MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)

@@ -2,17 +2,8 @@ package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.MaterialstoreException
 import com.kazurayam.materialstore.TestFixtureUtil
-import com.kazurayam.materialstore.filesystem.FileType
-import com.kazurayam.materialstore.filesystem.ID
-import com.kazurayam.materialstore.filesystem.JobName
-import com.kazurayam.materialstore.filesystem.JobTimestamp
-import com.kazurayam.materialstore.filesystem.Jobber
-import com.kazurayam.materialstore.filesystem.Material
-import com.kazurayam.materialstore.filesystem.MaterialList
-import com.kazurayam.materialstore.filesystem.Store
-import com.kazurayam.materialstore.filesystem.StoreImpl
 import com.kazurayam.materialstore.metadata.Metadata
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -123,7 +114,7 @@ class JobberTest {
         byte[] data = baos.toByteArray()
         Material material = jobber.write(data, FileType.PNG, metadata)
         //
-        MetadataPattern pattern = MetadataPattern.builder()
+        QueryOnMetadata pattern = QueryOnMetadata.builder()
                 .put("profile", Pattern.compile(".*"))
                 .build()
         MaterialList materialList = jobber.selectMaterials(pattern, FileType.PNG)
@@ -138,7 +129,7 @@ class JobberTest {
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         Jobber jobber = new Jobber(root, jobName, jobTimestamp)
-        MetadataPattern pattern = MetadataPattern.builder()
+        QueryOnMetadata pattern = QueryOnMetadata.builder()
                 .put("profile", "DevelopmentEnv")
                 .put("URL", Pattern.compile(".*"))
                 .build()
@@ -149,14 +140,14 @@ class JobberTest {
     }
 
     @Test
-    void test_selectMaterial_with_MetadataPatternANY() {
+    void test_selectMaterial_with_QueryOnMetadataANY() {
         JobName jobName = new JobName("test_selectMaterials_without_FileType")
         TestFixtureUtil.setupFixture(store, jobName)
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         Jobber jobber = new Jobber(root, jobName, jobTimestamp)
-        // select with MetadataPattern.ANY, which means all Materials in the job directory
-        MaterialList materialList = jobber.selectMaterials(MetadataPattern.ANY)
+        // select with QueryOnMetadata.ANY, which means all Materials in the job directory
+        MaterialList materialList = jobber.selectMaterials(QueryOnMetadata.ANY)
         assertNotNull(materialList)
         assertEquals(6, materialList.size())
     }

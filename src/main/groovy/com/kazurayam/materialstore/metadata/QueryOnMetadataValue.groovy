@@ -7,22 +7,22 @@ import org.slf4j.LoggerFactory
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-class MetadataPatternValue implements Comparable {
+class QueryOnMetadataValue implements Comparable {
 
-    private static final Logger logger = LoggerFactory.getLogger(MetadataPatternValue.class)
+    private static final Logger logger = LoggerFactory.getLogger(QueryOnMetadataValue.class)
 
     private String valueString = null
     private Pattern valuePattern = null
 
-    static MetadataPatternValue of(String key) {
+    static QueryOnMetadataValue of(String key) {
         return new Builder(key).build()
     }
 
-    static MetadataPatternValue of(Pattern key) {
+    static QueryOnMetadataValue of(Pattern key) {
         return new Builder(key).build()
     }
 
-    private MetadataPatternValue(Builder builder) {
+    private QueryOnMetadataValue(Builder builder) {
         this.valueString = builder.valueString
         this.valuePattern = builder.valuePattern
     }
@@ -60,9 +60,9 @@ class MetadataPatternValue implements Comparable {
     //------------ java.lang.Object------------------------------------
     @Override
     boolean equals(Object obj) {
-        if (! obj instanceof MetadataPatternValue)
+        if (! obj instanceof QueryOnMetadataValue)
             return false
-        MetadataPatternValue other = (MetadataPatternValue)obj
+        QueryOnMetadataValue other = (QueryOnMetadataValue)obj
         if (this.isString() && other.isString() &&
                 this.valueString == other.valueString) {
             return true
@@ -96,10 +96,10 @@ class MetadataPatternValue implements Comparable {
     //---------------- Comparable -------------------------------------
     @Override
     int compareTo(Object obj) {
-        if (! obj instanceof MetadataPatternValue) {
+        if (! obj instanceof QueryOnMetadataValue) {
             throw new IllegalArgumentException("obj is " + obj.getClass().getName())
         }
-        MetadataPatternValue other = (MetadataPatternValue)obj
+        QueryOnMetadataValue other = (QueryOnMetadataValue)obj
         if (this.isString() && other.isString()) {
             return this.valueString <=> other.valueString
         } else if (this.isPattern() && other.isPattern()) {
@@ -125,13 +125,13 @@ class MetadataPatternValue implements Comparable {
             Objects.requireNonNull(valuePattern)
             this.valuePattern = valuePattern
         }
-        Builder(MetadataPatternValue source) {
+        Builder(QueryOnMetadataValue source) {
             Objects.requireNonNull(source)
             this.valueString = source.valueString
             this.valuePattern = source.valuePattern
         }
-        MetadataPatternValue build() {
-            return new MetadataPatternValue(this)
+        QueryOnMetadataValue build() {
+            return new QueryOnMetadataValue(this)
         }
     }
 

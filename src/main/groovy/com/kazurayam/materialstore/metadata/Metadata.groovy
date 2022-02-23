@@ -27,22 +27,15 @@ abstract class Metadata implements Comparable {
 
     /**
      *
-     * @param metadataPattern
-     * @return
-     */
-    //abstract boolean match(MetadataPattern metadataPattern)
-
-    /**
-     *
      * @return
      */
     abstract URL toURL()
 
-    abstract void toSpanSequence(MarkupBuilder mb, MetadataPattern metadataPattern)
+    abstract void toSpanSequence(MarkupBuilder mb, QueryOnMetadata query)
 
     abstract void toSpanSequence(MarkupBuilder mb,
-                                 MetadataPattern leftMetadataPattern,
-                                 MetadataPattern rightMetadataPattern,
+                                 QueryOnMetadata leftQuery,
+                                 QueryOnMetadata rightQuery,
                                  IgnoreMetadataKeys ignoreMetadataKeys,
                                  IdentifyMetadataValues identifyMetadataValues)
 

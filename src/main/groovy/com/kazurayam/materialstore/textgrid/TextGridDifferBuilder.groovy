@@ -10,7 +10,7 @@ import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
 import org.slf4j.Logger
@@ -61,10 +61,10 @@ abstract class TextGridDifferBuilder {
         jsonifyAndStore(store, jobName, timestamp2, input2, keyRange, "input2")
 
         MaterialList left = store.select(jobName, timestamp1,
-                new MetadataPattern.Builder().build())
+                new QueryOnMetadata.Builder().build())
 
         MaterialList right = store.select(jobName, timestamp2,
-                new MetadataPattern.Builder().build())
+                new QueryOnMetadata.Builder().build())
         double criteria = 0.0d
 
         MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)

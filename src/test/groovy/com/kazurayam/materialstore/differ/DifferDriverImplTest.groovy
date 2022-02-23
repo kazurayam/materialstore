@@ -9,7 +9,7 @@ import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.StoreImpl
 import com.kazurayam.materialstore.TestFixtureUtil
 import com.kazurayam.materialstore.resolvent.ArtifactGroup
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -59,13 +59,13 @@ class DifferDriverImplTest {
 
         JobTimestamp timestamp1 = new JobTimestamp("20210715_145922")
         MaterialList left = store.select(jobName, timestamp1,
-                MetadataPattern.builderWithMap(["profile": "ProductionEnv"]).build(),
+                QueryOnMetadata.builderWithMap(["profile": "ProductionEnv"]).build(),
                 FileType.HTML)
         assertEquals(1, left.size())
 
         JobTimestamp timestamp2 = new JobTimestamp("20210715_145922")
         MaterialList right = store.select(jobName, timestamp2,
-                MetadataPattern.builderWithMap(["profile": "DevelopmentEnv"]).build(),
+                QueryOnMetadata.builderWithMap(["profile": "DevelopmentEnv"]).build(),
                 FileType.HTML)
         assertEquals(1, right.size())
 
@@ -89,11 +89,11 @@ class DifferDriverImplTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         //
         MaterialList left = store.select(jobName, jobTimestamp,
-                MetadataPattern.builderWithMap(["profile": "ProductionEnv"]).build(),
+                QueryOnMetadata.builderWithMap(["profile": "ProductionEnv"]).build(),
                 FileType.PNG)
 
         MaterialList right = store.select(jobName, jobTimestamp,
-                MetadataPattern.builderWithMap(["profile": "DevelopmentEnv"]).build(),
+                QueryOnMetadata.builderWithMap(["profile": "DevelopmentEnv"]).build(),
                 FileType.PNG)
 
         ArtifactGroup artifactGroup =

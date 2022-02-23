@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.MaterialstoreException
 import com.kazurayam.materialstore.metadata.Metadata
-import com.kazurayam.materialstore.metadata.MetadataPattern
+import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -195,7 +195,7 @@ final class StoreImpl implements Store {
 
     @Override
     List<JobTimestamp> queryAllJobTimestamps(JobName jobName,
-                                             MetadataPattern query) {
+                                             QueryOnMetadata query) {
         Objects.requireNonNull(jobName)
         Objects.requireNonNull(query)
         List<JobTimestamp> all = findAllJobTimestamps(jobName)
@@ -214,7 +214,7 @@ final class StoreImpl implements Store {
 
     @Override
     List<JobTimestamp> queryAllJobTimestampsPriorTo(
-            JobName jobName, MetadataPattern query, JobTimestamp jobTimestamp) {
+            JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp) {
         Objects.requireNonNull(jobTimestamp)
         List<JobTimestamp> all = this.queryAllJobTimestamps(jobName, query)
         List<JobTimestamp> filtered =
@@ -229,7 +229,7 @@ final class StoreImpl implements Store {
 
     @Override
     JobTimestamp queryJobTimestampPriorTo(
-            JobName jobName, MetadataPattern query, JobTimestamp jobTimestamp) {
+            JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp) {
         List<JobTimestamp> all =
                 queryAllJobTimestampsPriorTo(jobName, query, jobTimestamp)
         if (all.size() > 0) {
@@ -240,7 +240,7 @@ final class StoreImpl implements Store {
     }
 
     @Override
-    JobTimestamp queryLatestJobTimestamp(JobName jobName, MetadataPattern query) {
+    JobTimestamp queryLatestJobTimestamp(JobName jobName, QueryOnMetadata query) {
         List<JobTimestamp> all = queryAllJobTimestamps(jobName, query)
 
         //all.each {
@@ -256,23 +256,23 @@ final class StoreImpl implements Store {
 
     @Override
     MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
-                        MetadataPattern metadataPattern, FileType fileType) {
+                        QueryOnMetadata query, FileType fileType) {
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
-        return jobber.selectMaterials(metadataPattern, fileType)
+        return jobber.selectMaterials(query, fileType)
     }
 
     @Override
     MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
-                        MetadataPattern metadataPattern) {
+                        QueryOnMetadata query) {
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
-        return jobber.selectMaterials(metadataPattern)
+        return jobber.selectMaterials(query)
     }
 
     @Override
     File selectFile(JobName jobName, JobTimestamp jobTimestamp,
-                    MetadataPattern metadataPattern, FileType fileType) {
+                    QueryOnMetadata query, FileType fileType) {
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
-        MaterialList materials = jobber.selectMaterials(metadataPattern, fileType)
+        MaterialList materials = jobber.selectMaterials(query, fileType)
         if (materials.size() > 0) {
             Material material = materials.get(0)
             File f = material.toFile(root_)

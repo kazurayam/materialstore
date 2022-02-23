@@ -51,11 +51,11 @@ class SortKeysTest {
         timestampD = new JobTimestamp("20220217_103106")
 
         left = store.select(jobName, timestampP,
-                MetadataPattern.builderWithMap(["profile": "Flaskr_ProductionEnv"]).build()
+                QueryOnMetadata.builderWithMap(["profile": "Flaskr_ProductionEnv"]).build()
         )
         assert left.size() == 14
         right = store.select(jobName, timestampD,
-                MetadataPattern.builderWithMap(["profile": "Flaskr_DevelopmentEnv"]).build()
+                QueryOnMetadata.builderWithMap(["profile": "Flaskr_DevelopmentEnv"]).build()
         )
         assert right.size() == 14
     }
