@@ -2,7 +2,10 @@ package com.kazurayam.materialstore.metadata
 
 
 import groovy.xml.MarkupBuilder
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
+import java.util.regex.Matcher
 import java.util.regex.Pattern
 
 abstract class QueryOnMetadata {
@@ -41,7 +44,7 @@ abstract class QueryOnMetadata {
 
     abstract Set<Entry> entrySet()
 
-    abstract QueryOnMetadataValue get(String key)
+    abstract QValue get(String key)
 
     abstract String getDescription(SortKeys sortKeys)
 
@@ -70,10 +73,10 @@ abstract class QueryOnMetadata {
      */
     static class Builder {
 
-        private Map<String, QueryOnMetadataValue> query
+        private Map<String, QValue> query
 
         Builder() {
-            this.query = new HashMap<String, QueryOnMetadataValue>()
+            this.query = new HashMap<String, QValue>()
         }
 
         Builder(Map<String, String> map) {
@@ -82,7 +85,7 @@ abstract class QueryOnMetadata {
             map.keySet().each { key ->
                 query.put(
                         key,
-                        QueryOnMetadataValue.of(map.get(key))
+                        QValue.of(map.get(key))
                 )
             }
         }
@@ -96,7 +99,7 @@ abstract class QueryOnMetadata {
             Objects.requireNonNull(source)
             //
             source.keySet().each {key ->
-                QueryOnMetadataValue mpv = QueryOnMetadataValue.of((String)source.get(key))
+                QValue mpv = QValue.of((String)source.get(key))
                 if (!ignoreMetadataKeys.contains(key)) {
                     query.put(key, mpv)
                 }
@@ -106,21 +109,21 @@ abstract class QueryOnMetadata {
             this()
             Objects.requireNonNull(source)
             source.keySet().each {key ->
-                QueryOnMetadataValue mpv = new QueryOnMetadataValue.Builder(source.get(key)).build()
+                QValue mpv = new QValue.Builder(source.get(key)).build()
                 query.put(key, mpv)
             }
         }
         Builder put(String key, String value) {
             query.put(
                     key,
-                    QueryOnMetadataValue.of(value)
+                    QValue.of(value)
             )
             return this
         }
         Builder put(String key, Pattern value) {
             query.put(
                     key,
-                    QueryOnMetadataValue.of(value)
+                    QValue.of(value)
             )
             return this
         }
@@ -136,15 +139,15 @@ abstract class QueryOnMetadata {
      */
     static class Entry implements Comparable {
         private String key
-        private QueryOnMetadataValue query
-        Entry(String key, QueryOnMetadataValue query) {
+        private QValue query
+        Entry(String key, QValue qValue) {
             this.key = key
-            this.query = query
+            this.query = qValue
         }
         String getKey() {
             return this.key
         }
-        QueryOnMetadataValue getQueryOnMetadataValue() {
+        QValue getQValue() {
             return this.query
         }
         /**
@@ -156,7 +159,7 @@ abstract class QueryOnMetadata {
             if (this.key == "*") {
                 boolean found = false
                 metadata.keySet().each {metadataKey ->
-                    if (this.queryOnMetadataValue.matches(metadata.get(metadataKey))) {
+                    if (this.QValue.matches(metadata.get(metadataKey))) {
                         found = true
                     }
                 }
@@ -175,9 +178,139 @@ abstract class QueryOnMetadata {
             Entry other = (Entry)obj
             def keyComp = this.key <=> other.key
             if (keyComp != 0) {
-                return this.query <=> other.queryOnMetadataValue
+                return this.query <=> other.QValue
             } else
                 return keyComp
         }
+    }
+
+    static class QValue implements Comparable {
+
+        private static final Logger logger = LoggerFactory.getLogger(QValue.class)
+
+        private String valueString = null
+        private Pattern valuePattern = null
+
+        static QValue of(String key) {
+            return new Builder(key).build()
+        }
+
+        static QValue of(Pattern key) {
+            return new Builder(key).build()
+        }
+
+        private QValue(Builder builder) {
+            this.valueString = builder.valueString
+            this.valuePattern = builder.valuePattern
+        }
+
+        boolean isString() {
+            return valueString != null
+        }
+
+        boolean isPattern() {
+            return valuePattern != null
+        }
+
+        boolean matches(String subject) {
+            if (this.isString()) {
+                //logger.info("subject                      : \"${subject}\"")
+                //logger.info("valueString                  : \"${valueString}\"")
+                //logger.info("subject == valueString       : \"${subject == valueString}\"")
+                //logger.info("SemanticVersionAware.similar : \"${SemanticVersionAwareStringMatcher.similar(subject, valueString)}\"")
+                //logger.info("--------------------------------------------")
+
+                if (subject == valueString) {
+                    return true
+                } else {
+                    SemanticVersionAwareStringMatcher sm = new SemanticVersionAwareStringMatcher(valueString)
+                    Matcher m = sm.matcher(subject)
+                    return m.matches()
+                }
+            } else if (this.isPattern()) {
+                return valuePattern.matcher(subject).matches()
+            } else {
+                throw new IllegalStateException()
+            }
+        }
+
+        //------------ java.lang.Object------------------------------------
+        @Override
+        boolean equals(Object obj) {
+            if (! obj instanceof QValue)
+                return false
+            QValue other = (QValue)obj
+            if (this.isString() && other.isString() &&
+                    this.valueString == other.valueString) {
+                return true
+            } else return this.isPattern() && other.isPattern() &&
+                    this.valuePattern.toString() == other.valuePattern.toString()
+        }
+
+        @Override
+        int hashCode() {
+            if (this.isString()) {
+                return this.valueString.hashCode()
+            } else if (this.isPattern()) {
+                return this.valuePattern.hashCode()
+            } else {
+                throw new IllegalStateException("is neither of String and Pattern")
+            }
+        }
+
+        @Override
+        String toString() {
+            if (this.isString()) {
+                return this.valueString
+            } else if (this.isPattern()) {
+                return "re:" + this.valuePattern.toString()
+            } else {
+                throw new IllegalStateException("is neither of String and Pattern")
+            }
+        }
+
+
+        //---------------- Comparable -------------------------------------
+        @Override
+        int compareTo(Object obj) {
+            if (! obj instanceof QValue) {
+                throw new IllegalArgumentException("obj is " + obj.getClass().getName())
+            }
+            QValue other = (QValue)obj
+            if (this.isString() && other.isString()) {
+                return this.valueString <=> other.valueString
+            } else if (this.isPattern() && other.isPattern()) {
+                return this.valuePattern.toString() <=> other.valuePattern.toString()
+            } else if (this.isString() && other.isPattern()) {
+                return -1
+            } else {  // this.isPattern() && other.isString()
+                return 1
+            }
+        }
+
+        /**
+         *
+         */
+        static class Builder {
+            private String valueString
+            private Pattern valuePattern
+            Builder(String valueString) {
+                Objects.requireNonNull(valueString)
+                this.valueString = valueString
+            }
+            Builder(Pattern valuePattern) {
+                Objects.requireNonNull(valuePattern)
+                this.valuePattern = valuePattern
+            }
+            Builder(QValue source) {
+                Objects.requireNonNull(source)
+                this.valueString = source.valueString
+                this.valuePattern = source.valuePattern
+            }
+            QValue build() {
+                return new QValue(this)
+            }
+        }
+
     }
 }

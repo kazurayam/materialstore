@@ -5,22 +5,22 @@ import groovy.xml.MarkupBuilder
 
 final class QueryOnMetadataImpl extends QueryOnMetadata {
 
-    private final Map<String, QueryOnMetadataValue> keyValuePairs
+    private final Map<String, QValue> keyQValuePairs
 
-    QueryOnMetadataImpl(Map<String, QueryOnMetadataValue> source) {
-        this.keyValuePairs = source
+    QueryOnMetadataImpl(Map<String, QValue> source) {
+        this.keyQValuePairs = source
     }
 
     //------------- implements MapLike ----------------
 
     @Override
     boolean containsKey(String key) {
-        return keyValuePairs.containsKey(key)
+        return keyQValuePairs.containsKey(key)
     }
 
     @Override
-    QueryOnMetadataValue get(String key) {
-        return keyValuePairs.get(key)
+    QValue get(String key) {
+        return keyQValuePairs.get(key)
     }
 
     @Override
@@ -30,25 +30,25 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
 
     @Override
     boolean isEmpty() {
-        return keyValuePairs.isEmpty()
+        return keyQValuePairs.isEmpty()
     }
 
     @Override
     Set<String> keySet() {
-        return keyValuePairs.keySet()
+        return keyQValuePairs.keySet()
     }
 
     @Override
     int size() {
-        return keyValuePairs.size()
+        return keyQValuePairs.size()
     }
 
     @Override
     Set<Entry> entrySet() {
         Set<Entry> entrySet = new HashSet<Entry>()
         this.keySet().forEach {key ->
-            QueryOnMetadataValue mpv = this.get(key)
-            Entry entry = new Entry(key, mpv)
+            QValue qValue = this.get(key)
+            Entry entry = new Entry(key, qValue)
             entrySet.add(entry)
         }
         return entrySet
@@ -80,7 +80,7 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
 
     @Override
     void toSpanSequence(MarkupBuilder mb) {
-        List<String> keyList = new ArrayList(keyValuePairs.keySet())
+        List<String> keyList = new ArrayList(keyQValuePairs.keySet())
         Collections.sort(keyList)
         int count = 0
         mb.span("{")
@@ -103,7 +103,7 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
 
     @Override
     String getDescription(SortKeys sortKeys) {
-        List<String> keyList = orderedKeyList(keyValuePairs.keySet(), sortKeys)
+        List<String> keyList = orderedKeyList(keyQValuePairs.keySet(), sortKeys)
         //
         StringBuilder sb = new StringBuilder()
         int count = 0
@@ -115,8 +115,8 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
             sb.append("\"")
             sb.append(key.toString())
             sb.append("\":\"")
-            QueryOnMetadataValue value = this.get(key)
-            sb.append(value.toString())
+            QValue qValue = this.get(key)
+            sb.append(qValue.toString())
             sb.append("\"")
             count += 1
         })
@@ -126,7 +126,7 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
 
     private List<String> orderedKeyList(Set<String> keySet, SortKeys sortKeys) {
         if (sortKeys == SortKeys.NULL_OBJECT) {
-            List<String> keyList = new ArrayList<>(keyValuePairs.keySet())
+            List<String> keyList = new ArrayList<>(keyQValuePairs.keySet())
             Collections.sort(keyList)
             return keyList
         } else {
