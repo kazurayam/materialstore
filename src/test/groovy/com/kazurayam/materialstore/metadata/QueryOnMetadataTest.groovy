@@ -12,11 +12,11 @@ class QueryOnMetadataTest {
 
     @Test
     void test_ANY() {
-        QueryOnMetadata mp = QueryOnMetadata.ANY
-        assertNotNull(mp)
-        assertEquals(1, mp.size())
-        assertTrue(mp.containsKey("*"))
-        assertEquals("re:.*", mp.getAsString("*"))
+        QueryOnMetadata query = QueryOnMetadata.ANY
+        assertNotNull(query)
+        assertEquals(1, query.size())
+        assertTrue(query.containsKey("*"))
+        assertEquals("re:.*", query.getAsString("*"))
     }
 
     @Test
@@ -41,10 +41,10 @@ class QueryOnMetadataTest {
                 new IgnoreMetadataKeys.Builder()
                         .ignoreKey("profile")
                         .build()
-        QueryOnMetadata pattern = QueryOnMetadata.builderWithMetadata(metadata, ignoreMetadataKeys).build()
-        assertNotNull(pattern)
-        assertFalse(pattern.containsKey("profile"))
-        assertTrue(pattern.containsKey("category"))
+        QueryOnMetadata query = QueryOnMetadata.builderWithMetadata(metadata, ignoreMetadataKeys).build()
+        assertNotNull(query)
+        assertFalse(query.containsKey("profile"))
+        assertTrue(query.containsKey("category"))
     }
 
     @Test
@@ -53,10 +53,10 @@ class QueryOnMetadataTest {
                 "profile":"ProjectionEnv",
                 "category":"screenshot"])
                 .build()
-        QueryOnMetadata pattern = QueryOnMetadata.builderWithMetadata(metadata).build()
-        assertNotNull(pattern)
-        assertTrue(pattern.containsKey("profile"))
-        assertTrue(pattern.containsKey("category"))
+        QueryOnMetadata query = QueryOnMetadata.builderWithMetadata(metadata).build()
+        assertNotNull(query)
+        assertTrue(query.containsKey("profile"))
+        assertTrue(query.containsKey("category"))
     }
 
     @Test
@@ -130,9 +130,9 @@ class QueryOnMetadataTest {
 
     @Test
     void test_NULLOBJECT() {
-        QueryOnMetadata mp = QueryOnMetadata.NULL_OBJECT
-        assertNotNull(mp)
-        assertEquals(0, mp.size())
+        QueryOnMetadata query = QueryOnMetadata.NULL_OBJECT
+        assertNotNull(query)
+        assertEquals(0, query.size())
     }
 
 
@@ -149,11 +149,11 @@ class QueryOnMetadataTest {
         Metadata metadata = Metadata.builder()
                 .put("profile", "DevEnv")
                 .put("URL.host", "demoaut-mimic.kazurayam.com").build()
-        QueryOnMetadata pattern = QueryOnMetadata.builderWithMetadata(metadata).build()
+        QueryOnMetadata query = QueryOnMetadata.builderWithMetadata(metadata).build()
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
         mb.div() {
-            pattern.toSpanSequence(mb)
+            query.toSpanSequence(mb)
         }
         String markup = sw.toString()
         assertNotNull(markup)
@@ -163,7 +163,7 @@ class QueryOnMetadataTest {
 
     @Test
     void test_toSpanSequence_regex() {
-        QueryOnMetadata pattern = QueryOnMetadata.builder()
+        QueryOnMetadata query = QueryOnMetadata.builder()
                 .put("*", Pattern.compile(".*"))
                 .build()
         Metadata metadata = Metadata.builder()
@@ -172,7 +172,7 @@ class QueryOnMetadataTest {
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
         mb.div() {
-            pattern.toSpanSequence(mb)
+            query.toSpanSequence(mb)
         }
         String markup = sw.toString()
         assertNotNull(markup)
@@ -188,9 +188,9 @@ class QueryOnMetadataTest {
                 .put("B","b")
                 .build()
         IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
-        QueryOnMetadata pattern = QueryOnMetadata.builderWithMetadata(metadata, ignoreMetadataKeys).build()
+        QueryOnMetadata query = QueryOnMetadata.builderWithMetadata(metadata, ignoreMetadataKeys).build()
         String expected = '''{"B":"b", "C":"c", "a":"a"}'''
-        String actual = pattern.toString()
+        String actual = query.toString()
         println JsonOutput.prettyPrint(actual)
         assertEquals(expected, actual)
     }

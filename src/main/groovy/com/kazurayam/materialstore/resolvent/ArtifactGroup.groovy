@@ -139,9 +139,9 @@ final class ArtifactGroup {
 
     List<QueryOnMetadata> getQueryOnMetadataList() {
         List<QueryOnMetadata> list = new ArrayList<>()
-        artifactList.each { Artifact da ->
-            QueryOnMetadata mp = da.getDescriptor()
-            QueryOnMetadata deepCopy = new QueryOnMetadata.Builder(mp).build()
+        artifactList.each { Artifact artifact ->
+            QueryOnMetadata query = artifact.getDescriptor()
+            QueryOnMetadata deepCopy = QueryOnMetadata.builderWithDeepCopy(query).build()
             list.add(deepCopy)
         }
         return list

@@ -61,10 +61,10 @@ abstract class TextGridDifferBuilder {
         jsonifyAndStore(store, jobName, timestamp2, input2, keyRange, "input2")
 
         MaterialList left = store.select(jobName, timestamp1,
-                new QueryOnMetadata.Builder().build())
+                QueryOnMetadata.builder().build())
 
         MaterialList right = store.select(jobName, timestamp2,
-                new QueryOnMetadata.Builder().build())
+                QueryOnMetadata.builder().build())
         double criteria = 0.0d
 
         MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)

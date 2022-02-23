@@ -38,6 +38,10 @@ abstract class QueryOnMetadata {
         return new Builder(metadata, ignoreMetadataKeys)
     }
 
+    static Builder builderWithDeepCopy(QueryOnMetadata source) {
+        return new Builder(source)
+    }
+
     //-----------------------------------------------------------------
 
     abstract boolean containsKey(String key)
@@ -71,7 +75,7 @@ abstract class QueryOnMetadata {
     /**
      *
      */
-    static class Builder {
+    private static class Builder {
 
         private Map<String, QValue> query
 
