@@ -140,7 +140,7 @@ final class ArtifactGroup {
     List<QueryOnMetadata> getQueryOnMetadataList() {
         List<QueryOnMetadata> list = new ArrayList<>()
         artifactList.each { Artifact artifact ->
-            QueryOnMetadata query = artifact.getDescriptor()
+            QueryOnMetadata query = artifact.getQueryOnMetadata()
             QueryOnMetadata deepCopy = QueryOnMetadata.builderWithDeepCopy(query).build()
             list.add(deepCopy)
         }

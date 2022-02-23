@@ -47,7 +47,7 @@ final class Artifact implements Comparable {
         this.right = source.getRight()
         this.diff = source.getDiff()
         this.resolventTimestamp = source.resolventTimestamp
-        this.query = source.getDescriptor()
+        this.query = source.getQueryOnMetadata()
         this.sortKeys = source.getSortKeys()
     }
 
@@ -97,10 +97,15 @@ final class Artifact implements Comparable {
         return this.resolventTimestamp
     }
 
-    QueryOnMetadata getDescriptor() {
+    QueryOnMetadata getQueryOnMetadata() {
         return this.query
     }
 
+    /**
+     * String representation of this Artifact instance
+     *
+     * @return
+     */
     String getDescription() {
         return this.query.getDescription(sortKeys)
     }

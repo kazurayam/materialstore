@@ -50,6 +50,13 @@ abstract class QueryOnMetadata {
 
     abstract QValue get(String key)
 
+    /**
+     * string representation of this QueryOnMetadata,
+     * the keys are sorted by the given SortKeys specification
+     *
+     * @param sortKeys
+     * @return
+     */
     abstract String getDescription(SortKeys sortKeys)
 
     abstract String getAsString(String key)

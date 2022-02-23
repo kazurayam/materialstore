@@ -219,7 +219,7 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
                             div(class: "modal-header") {
                                 h5(class: "modal-title",
                                         id: "${imageModalTitleId}") {
-                                    span("${da.getDescriptor()} ${da.getFileTypeExtension()} ${da.getDiffRatioAsString()}%")
+                                    span("${da.getQueryOnMetadata()} ${da.getFileTypeExtension()} ${da.getDiffRatioAsString()}%")
                                     button(type: "button",
                                             class: "btn-close",
                                             "data-bs-dismiss": "modal",
@@ -300,7 +300,7 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
                             div(class: "modal-header") {
                                 h5(class: "modal-title",
                                         id: "${textModalTitleId}") {
-                                    span("${da.getDescriptor()} ${da.getFileTypeExtension()} ${da.getDiffRatioAsString()}%")
+                                    span("${da.getQueryOnMetadata()} ${da.getFileTypeExtension()} ${da.getDiffRatioAsString()}%")
                                     button(type: "button",
                                             class: "btn-close",
                                             "data-bs-dismiss": "modal",
