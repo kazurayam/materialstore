@@ -69,7 +69,7 @@ abstract class Metadata implements Comparable {
     /**
      *
      */
-    static class Builder {
+    private static class Builder {
         Map<String, String> metadata
         Builder() {
             metadata = new HashMap<String, String>()

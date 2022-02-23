@@ -35,7 +35,7 @@ class DefaultTextGridDiffer extends TextGridDifferBuilder {
         //
         Path tempFile = Files.createTempFile(null, null)
         writeLinesIntoFile(lines, tempFile.toFile())
-        Metadata metadata = new Metadata.Builder()
+        Metadata metadata = Metadata.builder()
                 .put("input", inputId)
                 .put("target", "rows")
                 .build()
@@ -55,7 +55,7 @@ class DefaultTextGridDiffer extends TextGridDifferBuilder {
         //
         Path tempFile = Files.createTempFile(null, null)
         writeLinesIntoFile(lines, tempFile.toFile())
-        Metadata metadata = new Metadata.Builder()
+        Metadata metadata = Metadata.builder()
                 .put("input", inputId)
                 .put("target", "keys")
                 .build()
