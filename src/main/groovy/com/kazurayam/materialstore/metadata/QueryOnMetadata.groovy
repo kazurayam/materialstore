@@ -82,7 +82,7 @@ abstract class QueryOnMetadata {
     /**
      *
      */
-    private static class Builder {
+    public static class Builder {
 
         private Map<String, QValue> query
 
