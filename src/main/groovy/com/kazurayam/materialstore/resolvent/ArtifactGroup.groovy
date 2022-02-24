@@ -273,7 +273,7 @@ final class ArtifactGroup {
     /**
      *
      */
-    private static class Builder {
+    static class Builder {
         // required
         private final List<Artifact> artifactList
         private final MaterialList leftMaterialList
