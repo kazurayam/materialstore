@@ -8,6 +8,7 @@ plugins {
 group 'com.kazurayam'
 version '0.3.6'
 
+
 ext.isReleaseVersion = ! version.endsWith("SNAPSHOT")
 
 repositories {
