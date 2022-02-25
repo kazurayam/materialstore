@@ -28,8 +28,6 @@ final class StoreImpl implements Store {
 
     public static final String ROOT_DIRECTORY_NAME = "store"
 
-    private boolean verbose = false
-
     StoreImpl() {
         this(Paths.get(ROOT_DIRECTORY_NAME))
     }
@@ -37,11 +35,12 @@ final class StoreImpl implements Store {
     StoreImpl(Path root) {
         Objects.requireNonNull(root)
         // ensure the root directory to exist
-        Files.createDirectories(root)
+        if (!Files.exists(root)) {
+            Files.createDirectories(root)
+        }
         this.root_ = root
         this.jobberCache_ = new HashSet<Jobber>()
     }
-
 
     @Override
     int deleteMaterialsOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp,
@@ -91,12 +90,19 @@ final class StoreImpl implements Store {
             List<JobTimestamp> jobTimestamps =
                     Files.list(jobNameDir)
                             .filter { p -> Files.isDirectory(p) }
-                            .map {p -> p.getFileName().toString() }
+                            .map { p -> p.getFileName().toString() }
                             .filter { n -> JobTimestamp.isValid(n) }
-                            .map {n -> new JobTimestamp(n) }
+                            .map { n -> new JobTimestamp(n) }
                             .collect(Collectors.toList())
             // sort the list in reverse order (the latest timestamp should come first)
             Collections.sort(jobTimestamps, Collections.reverseOrder())
+
+            logger.debug(String.format("[findAllJobTimestamps] jobName=%s", jobName))
+            logger.debug(String.format("[findAllJobTimestamps] jobTimestamps.size()=%d", jobTimestamps.size()))
+            jobTimestamps.eachWithIndex { jt, index ->
+                logger.debug(String.format("[findAllJobTimestamps] jt[%d]=%s", index, jt.toString()))
+            }
+
             return jobTimestamps
         } else {
             throw new MaterialstoreException(
@@ -199,16 +205,31 @@ final class StoreImpl implements Store {
         Objects.requireNonNull(jobName)
         Objects.requireNonNull(query)
         List<JobTimestamp> all = findAllJobTimestamps(jobName)
+
+        logger.debug(String.format("[queryAllJobTimestamps] all.size()=%d", all.size()))
+        all.eachWithIndex { ajt, index ->
+            logger.debug(String.format("[queryAllJobTimestamps] ajt[%d]=%s", index, ajt.toString()))
+        }
+
         List<JobTimestamp> filtered = new ArrayList<>()
         all.each { jobTimestamp ->
             // select Material objects that match with the query given
             MaterialList materialList =
                     this.select(jobName, jobTimestamp, query)
-            //logger.info("[findAllJobTimestampWithMetadata] materialList.size()=${materialList.size()}")
+            String msg = "[queryAllJobTimestamps] materialList.size()=${materialList.size()}, query=${query.toString()}"
             if (materialList.size() > 0) {
+                logger.debug(msg)
                 filtered.add(jobTimestamp)
+            } else {
+                logger.info(msg)
             }
         }
+
+        logger.debug(String.format("[queryAllJobTimestamps] filtered.size()=%d", filtered.size()))
+        filtered.eachWithIndex { fjt, index ->
+            logger.debug(String.format("[queryAllJobTimestamps] fjt[%d]=%s", index, fjt.toString()))
+        }
+
         return filtered
     }
 
@@ -217,6 +238,12 @@ final class StoreImpl implements Store {
             JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp) {
         Objects.requireNonNull(jobTimestamp)
         List<JobTimestamp> all = this.queryAllJobTimestamps(jobName, query)
+
+        logger.debug(String.format("[queryAllJobTimestampsPriorTo] all.size()=%d", all.size()))
+        all.eachWithIndex { ajt, index ->
+            logger.debug(String.format("[queryAllJobTimestampsPriorTo] aft[%d]=%s", index, ajt.toString()))
+        }
+
         List<JobTimestamp> filtered =
                 all.stream()
                         .filter { JobTimestamp jt ->
@@ -224,6 +251,12 @@ final class StoreImpl implements Store {
                         }
                         .collect(Collectors.toList())
         Collections.reverse(filtered)
+
+        logger.debug(String.format("[queryAllJobTimestampsPriorTo] filtered.size()=%d", filtered.size()))
+        filtered.eachWithIndex { fjt, index ->
+            logger.debug(String.format("[queryAllJobTimestampsPriorTo] jft[%d]=%s", index, fjt.toString()))
+        }
+
         return filtered
     }
 
@@ -232,6 +265,7 @@ final class StoreImpl implements Store {
             JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp) {
         List<JobTimestamp> all =
                 queryAllJobTimestampsPriorTo(jobName, query, jobTimestamp)
+        logger.debug(String.format("[queryJobTimestampPriorTo] all.size()=%d", all.size()))
         if (all.size() > 0) {
             return all.get(0)
         } else {
@@ -280,15 +314,6 @@ final class StoreImpl implements Store {
         } else {
             return null
         }
-    }
-
-    /**
-     * initially verbose is set to false. it can be changed.
-     *
-     * @param verbose
-     */
-    void setVerbose(boolean verbose) {
-        this.verbose = verbose
     }
 
     static byte[] toByteArray(InputStream inputStream) {

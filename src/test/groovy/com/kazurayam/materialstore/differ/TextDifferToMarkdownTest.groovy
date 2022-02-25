@@ -29,7 +29,7 @@ class TextDifferToMarkdownTest {
 
     @Test
     void test_makeDiff() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         StoreImpl storeImpl = new StoreImpl(root)
         JobName jobName = new JobName("test_makeDiff")
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")

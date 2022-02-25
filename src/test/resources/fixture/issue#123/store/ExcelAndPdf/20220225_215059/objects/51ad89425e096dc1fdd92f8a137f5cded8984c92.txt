@@ -1,0 +1,6 @@
+Unable to take diff of binary files.
+
+left:  {"jobName":"つみたてNISAの対象商品","jobTimestamp":"20220225_214327","ID":"c9bf1f300c8553539197caacff892168545bcb57","fileType":"pdf","metadata":{"URL.host":"www.fsa.go.jp", "URL.path":"/policy/nisa/20170614-2/27.pdf", "URL.port":"80", "URL.protocol":"https", "seq":"8"}}
+
+right: {"jobName":"つみたてNISAの対象商品","jobTimestamp":"20220225_215051","ID":"c9bf1f300c8553539197caacff892168545bcb57","fileType":"pdf","metadata":{"URL.host":"www.fsa.go.jp", "URL.path":"/policy/nisa/20170614-2/27.pdf", "URL.port":"80", "URL.protocol":"https", "seq":"8"}}
+

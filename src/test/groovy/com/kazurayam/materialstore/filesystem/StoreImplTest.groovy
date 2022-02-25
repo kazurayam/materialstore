@@ -30,6 +30,8 @@ class StoreImplTest {
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
 
+    static Boolean verbose = true
+
     Path root
     Store store
 
@@ -39,6 +41,10 @@ class StoreImplTest {
             FileUtils.deleteDirectory(outputDir.toFile())
         }
         Files.createDirectories(outputDir)
+        // if verbose logging required, change the log level
+        if (verbose) {
+            System.setProperty("org.slf4j.simpleLogger.log.com.kazurayam.materialstore.filesystem.StoreImpl", "DEBUG")
+        }
     }
 
     @BeforeEach

@@ -30,7 +30,7 @@ class TextDifferToHTMLTest {
 
     @Test
     void test_makeDiff() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         StoreImpl storeImpl = new StoreImpl(root)
         JobName jobName = new JobName("test_makeDiff")
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
@@ -48,14 +48,14 @@ class TextDifferToHTMLTest {
                         .build(),
                 FileType.HTML)
 
-        ArtifactGroup preparedDAG =
+        ArtifactGroup prepared =
                 ArtifactGroup.builder(expected, actual)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
-        assertNotNull(preparedDAG)
-        assertEquals(1, preparedDAG.size())
+        assertNotNull(prepared)
+        assertEquals(1, prepared.size())
         //
-        Artifact stuffed = new TextDifferToHTML(root).makeArtifact(preparedDAG.get(0))
+        Artifact stuffed = new TextDifferToHTML(root).makeArtifact(prepared.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertTrue(stuffed.getDiffRatio() > 0)
