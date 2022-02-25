@@ -42,8 +42,8 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
     }
 
     @Override
-    Result makeDiffAndReport(JobName jobName, ArtifactGroup artifactGroup,
-                           Double criteria, String fileName) {
+    DiffResult makeDiffAndReport(JobName jobName, ArtifactGroup artifactGroup,
+                                 Double criteria, String fileName) {
         Objects.requireNonNull(jobName)
         Objects.requireNonNull(artifactGroup)
         Objects.requireNonNull(criteria)
@@ -52,7 +52,7 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
         ArtifactGroup workedOut = this.workOn(artifactGroup)
         Path report = this.reportArtifactGroup(jobName, workedOut, criteria, fileName)
         int warnings = workedOut.countWarnings(criteria)
-        return new Result(report, warnings)
+        return new DiffResult(report, warnings)
     }
 
     @Override

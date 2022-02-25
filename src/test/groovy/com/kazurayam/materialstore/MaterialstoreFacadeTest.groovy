@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore
 
-import com.kazurayam.materialstore.MaterialstoreFacade.Result
+import com.kazurayam.materialstore.MaterialstoreFacade.DiffResult
 import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.filesystem.ID
 import com.kazurayam.materialstore.filesystem.JobName
@@ -117,9 +117,9 @@ class MaterialstoreFacadeTest {
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .sort("URL.host")
                         .build()
-        Result result = facade.makeDiffAndReport(jobName, preparedAG, 0.0D, "test_makeDiffAndReport.html")
-        assertNotNull(result)
-        assertTrue(Files.exists(result.report()))
-        assertTrue(result.warnings() > 0)
+        DiffResult diffResult = facade.makeDiffAndReport(jobName, preparedAG, 0.0D, "test_makeDiffAndReport.html")
+        assertNotNull(diffResult)
+        assertTrue(Files.exists(diffResult.report()))
+        assertTrue(diffResult.warnings() > 0)
     }
 }

@@ -25,8 +25,8 @@ abstract class MaterialstoreFacade {
 
     abstract Store getStore()
 
-    abstract Result makeDiffAndReport(JobName jobName, ArtifactGroup artifactGroup,
-                                    Double criteria, String filename)
+    abstract DiffResult makeDiffAndReport(JobName jobName, ArtifactGroup artifactGroup,
+                                          Double criteria, String filename)
 
     abstract DiffReporter newReporter(JobName jobName)
 
@@ -38,13 +38,15 @@ abstract class MaterialstoreFacade {
 
     abstract ArtifactGroup workOn(ArtifactGroup input)
 
-    static class Result {
+    static class DiffResult {
         private Path report
         private Integer warnings
-        Result(Path report) {
+
+        DiffResult(Path report) {
             this(report, 0)
         }
-        Result(Path report, Integer warnings) {
+
+        DiffResult(Path report, Integer warnings) {
             Objects.requireNonNull(report)
             Objects.requireNonNull(warnings)
             this.report = report
