@@ -1,0 +1,8 @@
+@startuml
+start
+:Materialize stage;
+:Map stage;
+:Reduce stage;
+:Report stage;
+end
+@enduml
