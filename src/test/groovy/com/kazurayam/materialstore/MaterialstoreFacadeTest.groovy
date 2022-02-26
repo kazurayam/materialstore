@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore
 
-import com.kazurayam.materialstore.MaterialstoreFacade.DiffResult
 import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.filesystem.ID
 import com.kazurayam.materialstore.filesystem.JobName
@@ -73,7 +72,7 @@ class MaterialstoreFacadeTest {
                         .build()
         assertNotNull(preparedDAG)
 
-        ArtifactGroup stuffedDAG = facade.workOn(preparedDAG)
+        ArtifactGroup stuffedDAG = facade.reduce(preparedDAG)
         assertNotNull(stuffedDAG)
 
         stuffedDAG.each { artifact ->
@@ -84,42 +83,31 @@ class MaterialstoreFacadeTest {
     }
 
     @Test
-    void test_reportMaterials() {
+    void test_report_MaterialList() {
         JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
         JobTimestamp jobTimestamp = new JobTimestamp("20220128_191320")
         MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY)
         MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
-        Path report = facade.reportMaterials(jobName, materialList, "test_reportMaterials.html")
+        Path report = facade.report(jobName, materialList, "test_reportMaterials.html")
         assertNotNull(report)
         assertTrue(Files.exists(report))
     }
 
     @Test
-    void test_reportArtifactGroup() {
+    void test_report_ArtifactGroup() {
         ArtifactGroup preparedAG =
                 ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .sort("URL.host")
                         .build()
-        ArtifactGroup stuffedAG = facade.workOn(preparedAG)
+        ArtifactGroup reducedAG = facade.reduce(preparedAG)
         JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
-        Path report = facade.reportArtifactGroup(jobName, stuffedAG, 0.0D,"test_reportArtifactGroup.html")
+        double criteria = 0.0D
+        Path report = facade.report(jobName, reducedAG, criteria,"test_reportArtifactGroup.html")
         assertNotNull(report)
         assertTrue(Files.exists(report))
+        assertTrue(reducedAG.countWarnings(criteria) > 0)
     }
 
-    @Test
-    void test_makeDiffAndReport() {
-        ArtifactGroup preparedAG =
-                ArtifactGroup.builder(left, right)
-                        .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
-                        .identifyWithRegex(["URL.query":"\\w{32}"])
-                        .sort("URL.host")
-                        .build()
-        DiffResult diffResult = facade.makeDiffAndReport(jobName, preparedAG, 0.0D, "test_makeDiffAndReport.html")
-        assertNotNull(diffResult)
-        assertTrue(Files.exists(diffResult.report()))
-        assertTrue(diffResult.warnings() > 0)
-    }
 }

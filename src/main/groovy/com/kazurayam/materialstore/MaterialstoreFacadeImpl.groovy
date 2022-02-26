@@ -21,7 +21,6 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
     MaterialstoreFacadeImpl(Store store) {
         this.store = store
         this.resolventList = new ArrayList<>()
-        //
         resolventList.add(new DifferDriverImpl.Builder(store.getRoot()).build())
     }
 
@@ -42,26 +41,12 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
     }
 
     @Override
-    DiffResult makeDiffAndReport(JobName jobName, ArtifactGroup artifactGroup,
-                                 Double criteria, String fileName) {
-        Objects.requireNonNull(jobName)
-        Objects.requireNonNull(artifactGroup)
-        Objects.requireNonNull(criteria)
-        Objects.requireNonNull(fileName)
-        // make diff
-        ArtifactGroup workedOut = this.workOn(artifactGroup)
-        Path report = this.reportArtifactGroup(jobName, workedOut, criteria, fileName)
-        int warnings = workedOut.countWarnings(criteria)
-        return new DiffResult(report, warnings)
-    }
-
-    @Override
     DiffReporter newReporter(JobName jobName) {
         return new ArtifactGroupBasicReporter(getRoot(), jobName)
     }
 
     @Override
-    Path reportArtifactGroup(JobName jobName, ArtifactGroup artifactGroup,
+    Path report(JobName jobName, ArtifactGroup artifactGroup,
                              Double criteria, String fileName) {
         DiffReporter reporter = this.newReporter(jobName)
         reporter.setCriteria(criteria)
@@ -70,7 +55,7 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
     }
 
     @Override
-    Path reportMaterials(JobName jobName, MaterialList materialList,
+    Path report(JobName jobName, MaterialList materialList,
                          String fileName = "list.html") {
         Objects.requireNonNull(jobName)
         Objects.requireNonNull(materialList)
@@ -81,7 +66,7 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
     }
 
     @Override
-    ArtifactGroup workOn(ArtifactGroup input) {
+    ArtifactGroup reduce(ArtifactGroup input) {
         ArtifactGroup tmp = new ArtifactGroup(input)
         resolventList.each {resolvent ->
             tmp = resolvent.resolve(tmp)

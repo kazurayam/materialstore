@@ -66,17 +66,16 @@ class Issue73Test {
     @Test
     void test_smoke() {
         MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
-        ArtifactGroup preparedDAG =
+        ArtifactGroup preparedAG =
                 ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host")
                         .build()
-        ArtifactGroup stuffedDAG = facade.workOn(preparedDAG)
+        ArtifactGroup reducedAG = facade.reduce(preparedAG)
         Double criteria = 0.0d
-        int warnings = stuffedDAG.countWarnings(criteria)
+        int warnings = reducedAG.countWarnings(criteria)
         // compile the report
-        Path reportFile =
-                facade.reportArtifactGroup(jobName, stuffedDAG, criteria,
+        Path reportFile = facade.report(jobName, reducedAG, criteria,
                         jobName.toString() + "-index.html")
-        assert stuffedDAG.size() == 8
+        assert reducedAG.size() == 8
     }
 }

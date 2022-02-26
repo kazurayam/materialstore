@@ -80,16 +80,16 @@ class ArtifactGroupBasicReporter_issue80_86Test {
 
         // make diff of the 2 MaterialList objects
         // make diff
-        ArtifactGroup preparedDAG =
+        ArtifactGroup preparedAG =
                 ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .identifyWithRegex(["URL.query": "\\w{32}"])
                         .build()
-        ArtifactGroup stuffedDAG = facade.workOn(preparedDAG)
+        ArtifactGroup reducedAG = facade.reduce(preparedAG)
 
         // compile HTML report
         DiffReporter reporter = facade.newReporter(jobName)
-        Path report = reporter.reportDiffs(stuffedDAG, "index.html")
+        Path report = reporter.reportDiffs(reducedAG, "index.html")
         assertTrue(Files.exists(report))
 
         // test the report content

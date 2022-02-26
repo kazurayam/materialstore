@@ -62,15 +62,15 @@ class ArtifactGroupBasicReporterTest {
         MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
 
         // make diff
-        ArtifactGroup preparedDAG =
+        ArtifactGroup preparedAG =
                 ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
-        ArtifactGroup stuffedDAG = facade.workOn(preparedDAG)
+        ArtifactGroup reducedAG = facade.reduce(preparedAG)
 
         // compile HTML report
         DiffReporter reporter = facade.newReporter(jobName)
-        Path report = reporter.reportDiffs(stuffedDAG, "index.html")
+        Path report = reporter.reportDiffs(reducedAG, "index.html")
         assertTrue(Files.exists(report))
     }
 

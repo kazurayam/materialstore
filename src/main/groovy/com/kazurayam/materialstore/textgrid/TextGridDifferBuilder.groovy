@@ -69,16 +69,13 @@ abstract class TextGridDifferBuilder {
 
         MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
 
-        ArtifactGroup preparedDAG =
+        ArtifactGroup preparedAG =
                 ArtifactGroup.builder(left, right)
                         .ignoreKeys("input")
                         .build()
-        ArtifactGroup stuffedDAG = facade.workOn(preparedDAG)
-
-        int warnings = stuffedDAG.countWarnings(criteria)
-
-        reportFile =
-                facade.reportArtifactGroup(jobName, stuffedDAG, criteria,
+        ArtifactGroup reducedAG = facade.reduce(preparedAG)
+        int warnings = reducedAG.countWarnings(criteria)
+        reportFile = facade.report(jobName, reducedAG, criteria,
                         jobName.toString() + "-index.html")
         assert Files.exists(reportFile)
         logger.info("report is found at " + reportFile.normalize().toAbsolutePath())
