@@ -4,5 +4,5 @@ com.kazurayam.materialstore.filesystem
 com.kazurayam.materialstore.metadata
 com.kazurayam.materialstore.reporter
 com.kazurayam.materialstore.resolvent
-com.kazurayam.materialstore.textgrid
+com.kazurayam.materialstore.facet.textgrid
 com.kazurayam.materialstore.util

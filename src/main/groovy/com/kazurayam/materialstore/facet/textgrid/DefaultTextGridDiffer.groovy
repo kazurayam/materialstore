@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.textgrid
+package com.kazurayam.materialstore.facet.textgrid
 
 import java.nio.file.Files
 import java.nio.file.Path

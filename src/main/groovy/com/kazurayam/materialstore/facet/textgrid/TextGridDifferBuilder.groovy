@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.textgrid
+package com.kazurayam.materialstore.facet.textgrid
 
 import com.kazurayam.materialstore.MaterialstoreFacade
 
