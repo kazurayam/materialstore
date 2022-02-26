@@ -34,6 +34,7 @@ ext {
     ashotVersion = '1.5.4'
     javadiffutilsVersion = '4.9'
     gsonVersion = '2.8.9'
+    freemarkerVersion = '2.3.31'
 }
 
 dependencies {
@@ -51,6 +52,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/io.github.java-diff-utils/java-diff-utils
     implementation group: 'io.github.java-diff-utils', name: 'java-diff-utils', version: "${javadiffutilsVersion}"
+
+    implementation group: 'org.freemarker', name: 'freemarker', version: "${freemarkerVersion}"
 
     implementation "org.seleniumhq.selenium:selenium-java:${seleniumjavaVersion}"
 

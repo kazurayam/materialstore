@@ -8,7 +8,6 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
-import com.kazurayam.materialstore.resolvent.Artifact
 import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -26,7 +25,6 @@ class VoidDifferTest {
 
     private static Path outputDir
     private static Store store
-    private Path outputFile
 
     JobName jobName
     ArtifactGroup prepared
