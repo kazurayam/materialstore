@@ -247,6 +247,21 @@ class StoreImplTest {
     }
 
     @Test
+    void test_read_material() {
+        JobName jobName = new JobName("test_read_material")
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        Metadata metadata = Metadata.builderWithMap([
+                "profile": "DevelopmentEnv",
+                "URL": "http://demoaut-mimic.kazurayam.com/"])
+                .build()
+        Path input = imagesDir.resolve("20210710_142631.development.png")
+        Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
+        //
+        byte[] bytes = store.read(material)
+        assertTrue(bytes.length > 0)
+    }
+
+    @Test
     void test_select_2_files_in_4() {
         JobName jobName = new JobName("test_select_2_files_in_4")
         JobTimestamp jobTimestamp = JobTimestamp.now()

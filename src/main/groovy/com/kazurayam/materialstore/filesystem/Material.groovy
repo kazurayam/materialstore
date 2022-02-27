@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
+import com.kazurayam.materialstore.metadata.Metadata
 
 import java.nio.file.Files
 import java.nio.file.Path
@@ -20,6 +21,10 @@ final class Material implements Comparable {
         this.indexEntry_ = indexEntry
     }
 
+    FileType getFileType() {
+        return this.getIndexEntry().getFileType()
+    }
+
     JobName getJobName() {
         return jobName_
     }
@@ -30,6 +35,10 @@ final class Material implements Comparable {
 
     IndexEntry getIndexEntry() {
         return indexEntry_
+    }
+
+    Metadata getMetadata() {
+        return this.getIndexEntry().getMetadata()
     }
 
     /**

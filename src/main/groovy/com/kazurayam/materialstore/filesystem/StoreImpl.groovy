@@ -289,6 +289,14 @@ final class StoreImpl implements Store {
     }
 
     @Override
+    byte[] read(Material material) {
+        Objects.requireNonNull(material)
+        Jobber jobber = this.getJobber(material.getJobName(), material.getJobTimestamp())
+        assert jobber != null
+        return jobber.read(material)
+    }
+
+    @Override
     MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
                         QueryOnMetadata query, FileType fileType) {
         Jobber jobber = this.getJobber(jobName, jobTimestamp)

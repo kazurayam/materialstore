@@ -36,6 +36,8 @@ interface Store {
 
     JobTimestamp queryLatestJobTimestamp(JobName jobName, QueryOnMetadata query)
 
+    byte[] read(Material material)
+
     Jobber getJobber(JobName jobName, JobTimestamp jobTimestamp)
 
     Path getPathOf(Material material)

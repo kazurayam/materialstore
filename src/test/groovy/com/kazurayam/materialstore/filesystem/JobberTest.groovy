@@ -23,7 +23,7 @@ class JobberTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(this.getClass().getName())
+                    .resolve(JobberTest.class.getName())
 
     private static Path imagesDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_images")
@@ -45,7 +45,7 @@ class JobberTest {
     @BeforeEach
     void beforeEach() {
         root = outputDir.resolve("store")
-        store = new StoreImpl(root)
+        store = Stores.newInstance(root)
     }
 
 
