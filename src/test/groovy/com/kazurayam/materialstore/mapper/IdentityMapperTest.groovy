@@ -61,13 +61,14 @@ class IdentityMapperTest {
         //
         Mapper mapper = new IdentityMapper()
         mapper.setStore(store)
-        byte[] mapped = mapper.map(source)
-        assertTrue(mapped.length > 0)
-        //
-        JobTimestamp newTimestamp = JobTimestamp.now()
-        store.write(jobName, newTimestamp, source.getFileType(),
-                source.getMetadata(), mapped)
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        MappedResultSerializer serializer = new MappedResultSerializer(store, jobName, jobTimestamp)
+        mapper.setMappingListener(serializer)
+        mapper.map(source)
+        MaterialList serialized = store.select(jobName, jobTimestamp,
+                QueryOnMetadata.builder().build())
+        assertTrue(serialized.size() > 0)
+        Material material = serialized.get(0)
+        assertEquals("www.google.com", material.getMetadata().get("URL.host"))
     }
-
-
 }
