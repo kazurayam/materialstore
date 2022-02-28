@@ -23,6 +23,18 @@ class MetadataTest {
     }
 
     @Test
+    void test_builder_copy() {
+        URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
+        Map<String, String> additionalMetadata = ["summer":"warm", "winter":"cold"]
+        Metadata metadata = Metadata.builderWithUrl(url).putAll(additionalMetadata).build()
+        //
+        Metadata copied = Metadata.builder(metadata).build()
+        assertNotNull(copied)
+        assertEquals("warm", copied.get("summer"))
+        assertEquals("cold", copied.get("winter"))
+    }
+
+    @Test
     void test_Builder_with_URL_as_arg() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
         Metadata metadata = Metadata.builderWithUrl(url).build()

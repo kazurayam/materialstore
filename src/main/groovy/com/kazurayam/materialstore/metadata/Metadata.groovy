@@ -47,6 +47,15 @@ abstract class Metadata implements Comparable {
         return new Builder()
     }
 
+    /**
+     * with deep copy
+     * @param source
+     * @return
+     */
+    static Builder builder(Metadata source) {
+        return new Builder(source)
+    }
+
     static Builder builderWithUrl(URL url) {
         return new Builder(url)
     }
@@ -54,6 +63,7 @@ abstract class Metadata implements Comparable {
     static Builder builderWithMap(Map map) {
         return new Builder(map)
     }
+
 
     // ----------------------- helper ----------------------------------
     /**
@@ -73,6 +83,12 @@ abstract class Metadata implements Comparable {
         Map<String, String> metadata
         Builder() {
             metadata = new HashMap<String, String>()
+        }
+        Builder(Metadata source) {
+            metadata = new HashMap<String, String>()
+            for (String key : source.keySet()) {
+                metadata.put(key, source.get(key))
+            }
         }
         Builder(Map map) {
             Objects.requireNonNull(map)
