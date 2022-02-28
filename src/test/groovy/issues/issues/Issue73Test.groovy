@@ -24,7 +24,7 @@ import java.nio.file.Paths
 class Issue73Test {
 
     static final Path fixtureDir = Paths.get(".")
-            .resolve("src/test/resources/fixture/issue#73")
+            .resolve("src/test/fixture/issue#73")
     static final Path outputDir = Paths.get(".")
             .resolve("build/tmp/testOutput")
             .resolve(Issue73Test.class.getName())

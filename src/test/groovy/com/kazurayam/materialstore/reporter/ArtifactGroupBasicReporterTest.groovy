@@ -27,7 +27,7 @@ class ArtifactGroupBasicReporterTest {
                     .resolve(ArtifactGroupBasicReporterTest.class.getName())
 
     private static Path resultsDir =
-            Paths.get(".").resolve("src/test/resources/fixture/sample_results")
+            Paths.get(".").resolve("src/test/fixture/sample_results")
 
     @BeforeAll
     static void beforeAll() {

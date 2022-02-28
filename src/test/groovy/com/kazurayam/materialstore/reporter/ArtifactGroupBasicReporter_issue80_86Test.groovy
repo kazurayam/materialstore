@@ -23,7 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue
 class ArtifactGroupBasicReporter_issue80_86Test {
 
     static final Path fixtureDir = Paths.get(".")
-            .resolve("src/test/resources/fixture/issue#80")
+            .resolve("src/test/fixture/issue#80")
+
     static final Path outputDir = Paths.get(".")
             .resolve("build/tmp/testOutput")
             .resolve(ArtifactGroupBasicReporter_issue80_86Test.class.getName())

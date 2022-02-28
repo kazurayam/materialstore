@@ -31,7 +31,7 @@ class ArtifactGroupTest {
                     .resolve(ArtifactGroupTest.class.getName())
     private static Path storeDir = outputDir.resolve("store")
     private static Path issue80Dir =
-            Paths.get(".").resolve("src/test/resources/fixture/issue#80")
+            Paths.get(".").resolve("src/test/fixture/issue#80")
 
 
     private Store store

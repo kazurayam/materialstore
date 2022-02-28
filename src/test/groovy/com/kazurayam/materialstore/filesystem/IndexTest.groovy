@@ -19,7 +19,7 @@ class IndexTest {
                     .resolve(IndexTest.class.getName())
 
     private static Path resultsDir =
-            Paths.get(".").resolve("src/test/resources/fixture/sample_results")
+            Paths.get(".").resolve("src/test/fixture/sample_results")
 
     @Test
     void test_parseLine_smoke() {

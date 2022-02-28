@@ -19,11 +19,14 @@ import java.nio.file.Paths
 import static org.junit.jupiter.api.Assertions.*
 
 class SortKeysTest {
+
     private static Path fixtureDir = Paths.get(".")
-            .resolve("src/test/resources/fixture/issue#89")
+            .resolve("src/test/fixture/issue#89")
+
     private static final Path outputDir = Paths.get(".")
             .resolve("build/tmp/testOutput")
             .resolve(SortKeysTest.class.getName())
+
     private static Store store
 
     private JobName jobName

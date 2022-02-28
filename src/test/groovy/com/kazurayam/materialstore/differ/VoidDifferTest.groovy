@@ -41,7 +41,7 @@ class VoidDifferTest {
                     .forEach({f -> f.delete()});
         }
         Files.createDirectories(outputDir)
-        Path fixtureDir = projectDir.resolve("src/test/resources/fixture")
+        Path fixtureDir = projectDir.resolve("src/test/fixture")
         FileUtils.copyDirectory(fixtureDir.resolve("issue#80").toFile(),
                 outputDir.resolve("store").toFile())
         Path root = outputDir.resolve("store")

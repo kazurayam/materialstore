@@ -21,10 +21,10 @@ class MObjectTest {
                     .resolve(MObjectTest.class.getName())
 
     private static Path imagesDir =
-            Paths.get(".").resolve("src/test/resources/fixture/sample_images")
+            Paths.get(".").resolve("src/test/fixture/sample_images")
 
     private static Path htmlDir =
-            Paths.get(".").resolve("src/test/resources/fixture/sample_html")
+            Paths.get(".").resolve("src/test/fixture/sample_html")
 
     @BeforeAll
     static void beforeAll() {

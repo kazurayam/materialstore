@@ -27,7 +27,7 @@ class IdentityMapperTest {
                     .resolve(IdentityMapperTest.class.getName())
 
     private static Path resultsDir =
-            Paths.get(".").resolve("src/test/resources/fixture/sample_results")
+            Paths.get(".").resolve("src/test/fixture/sample_results")
 
     private Path root
     private Store store

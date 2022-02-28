@@ -26,10 +26,10 @@ class JobberTest {
                     .resolve(JobberTest.class.getName())
 
     private static Path imagesDir =
-            Paths.get(".").resolve("src/test/resources/fixture/sample_images")
+            Paths.get(".").resolve("src/test/fixture/sample_images")
 
     private static Path resultsDir =
-            Paths.get(".").resolve("src/test/resources/fixture/sample_results")
+            Paths.get(".").resolve("src/test/fixture/sample_results")
 
     private Path root
     private Store store
