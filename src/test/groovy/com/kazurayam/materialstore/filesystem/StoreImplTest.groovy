@@ -250,7 +250,7 @@ class StoreImplTest {
     void test_read_material() {
         JobName jobName = new JobName("test_read_material")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = Metadata.builderWithMap([
+        Metadata metadata = Metadata.builder([
                 "profile": "DevelopmentEnv",
                 "URL": "http://demoaut-mimic.kazurayam.com/"])
                 .build()
@@ -268,10 +268,10 @@ class StoreImplTest {
         Path input = imagesDir.resolve("20210710_142631.development.png")
         //
         List<Metadata> metadataList = new ArrayList<Metadata>()
-        metadataList.add(Metadata.builderWithMap(["city":"Thanh pho Ho Chi Minh", "country":"VN"]).build())
-        metadataList.add(Metadata.builderWithMap(["city":"Tokyo", "country":"JP"]).build())
-        metadataList.add(Metadata.builderWithMap(["city":"Prague", "country":"CZ"]).build())
-        metadataList.add(Metadata.builderWithMap(["city":"Toronto", "country":"CA"]).build())
+        metadataList.add(Metadata.builder(["city":"Thanh pho Ho Chi Minh", "country":"VN"]).build())
+        metadataList.add(Metadata.builder(["city":"Tokyo", "country":"JP"]).build())
+        metadataList.add(Metadata.builder(["city":"Prague", "country":"CZ"]).build())
+        metadataList.add(Metadata.builder(["city":"Toronto", "country":"CA"]).build())
         metadataList.forEach { metadata ->
             Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
             assertNotNull(material)
@@ -288,7 +288,7 @@ class StoreImplTest {
     void test_select_with_FileType() {
         JobName jobName = new JobName("test_select")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = Metadata.builderWithMap([
+        Metadata metadata = Metadata.builder([
                 "profile": "DevelopmentEnv",
                 "URL": "http://demoaut-mimic.kazurayam.com/"])
                 .build()
@@ -310,7 +310,7 @@ class StoreImplTest {
     void test_selectFile() {
         JobName jobName = new JobName("test_selectFile")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = Metadata.builderWithMap([
+        Metadata metadata = Metadata.builder([
                 "profile": "DevelopmentEnv",
                 "URL": "http://demoaut-mimic.kazurayam.com/"])
                 .build()
@@ -332,7 +332,7 @@ class StoreImplTest {
     void test_write_BufferedImage() {
         JobName jobName = new JobName("test_write_BufferedImage")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = Metadata.builderWithMap([
+        Metadata metadata = Metadata.builder([
                 "profile": "ProductionEnv",
                 "URL": "http://demoaut.katalon.com/"])
                 .build()
@@ -347,7 +347,7 @@ class StoreImplTest {
     void test_write_File() {
         JobName jobName = new JobName("test_write_file")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = Metadata.builderWithMap([
+        Metadata metadata = Metadata.builder([
                 "profile": "DevelopmentEnv",
                 "URL": "http://demoaut-mimic.kazurayam.com/"])
                 .build()
@@ -361,7 +361,7 @@ class StoreImplTest {
     void test_write_Path() {
         JobName jobName = new JobName("test_write_path")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = Metadata.builderWithMap([
+        Metadata metadata = Metadata.builder([
                 "profile": "DevelopmentEnv",
                 "URL": "http://demoaut-mimic.kazurayam.com/"])
                 .build()
@@ -375,7 +375,7 @@ class StoreImplTest {
     void test_write_string() {
         JobName jobName = new JobName("test_write_String")
         JobTimestamp jobTimestamp = JobTimestamp.now()
-        Metadata metadata = Metadata.builderWithMap([
+        Metadata metadata = Metadata.builder([
                 "profile": "ProductionEnv",
                 "URL": "http://demoaut.katalon.com/"])
                 .build()

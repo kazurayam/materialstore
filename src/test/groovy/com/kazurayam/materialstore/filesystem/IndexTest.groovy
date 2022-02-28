@@ -35,7 +35,7 @@ class IndexTest {
     void test_formatLine_smoke() {
         ID id = new ID("6141b40cfe9e7340a483a3097c4f6ff5d20e04ea")
         FileType fileType = FileType.PNG
-        Metadata metadata = Metadata.builderWithMap([
+        Metadata metadata = Metadata.builder([
                 "profile": "DevelopmentEnv",
                 "URL": "http://demoaut-mimic.kazurayam.com/"])
                 .build()

@@ -56,11 +56,11 @@ abstract class Metadata implements Comparable {
         return new Builder(source)
     }
 
-    static Builder builderWithUrl(URL url) {
+    static Builder builder(URL url) {
         return new Builder(url)
     }
 
-    static Builder builderWithMap(Map map) {
+    static Builder builder(Map map) {
         return new Builder(map)
     }
 

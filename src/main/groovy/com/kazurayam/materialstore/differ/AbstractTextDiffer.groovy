@@ -65,7 +65,7 @@ abstract class AbstractTextDiffer implements Differ {
 
         //
         byte[] diffData = toByteArray(textDiffContent.getContent())
-        Metadata diffMetadata = Metadata.builderWithMap([
+        Metadata diffMetadata = Metadata.builder([
                 "category": "diff",
                 "left": left.getIndexEntry().getID().toString(),
                 "right": right.getIndexEntry().getID().toString(),

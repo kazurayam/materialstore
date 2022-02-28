@@ -44,21 +44,21 @@ class IdentifyMetadataValuesTest {
 
     @Test
     void test_matches_truthy() {
-        Metadata metadata = Metadata.builderWithMap(
+        Metadata metadata = Metadata.builder(
                 ["URL.query": "856008caa5eb66df68595e734e59580d"]).build()
         assertTrue(imv.matches(metadata))
     }
 
     @Test
     void test_matches_falsy_no_key() {
-        Metadata metadata = Metadata.builderWithMap(
+        Metadata metadata = Metadata.builder(
                 ["foo": "bar"]).build()
         assertFalse(imv.matches(metadata))
     }
 
     @Test
     void test_matches_falsy_unmatching_value() {
-        Metadata metadata = Metadata.builderWithMap(
+        Metadata metadata = Metadata.builder(
                 ["URL.query": "foo"]).build()
         assertFalse(imv.matches(metadata))
     }

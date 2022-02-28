@@ -65,7 +65,7 @@ final class ImageDifferToPNG implements Differ {
         ImageDiffer imgDiff = new ImageDiffer()
         ImageDiff imageDiff = imgDiff.makeDiff(leftImage,rightImage)
         Double diffRatio = calculateDiffRatioPercent(imageDiff)
-        Metadata diffMetadata = Metadata.builderWithMap([
+        Metadata diffMetadata = Metadata.builder([
                 "category": "diff",
                 "ratio": DifferUtil.formatDiffRatioAsString(diffRatio),
                 "left": left.getIndexEntry().getID().toString(),

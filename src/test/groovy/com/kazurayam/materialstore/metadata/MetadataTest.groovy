@@ -16,7 +16,7 @@ class MetadataTest {
     void test_Builder_putAll() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
         Map<String, String> additionalMetadata = ["summer":"warm", "winter":"cold"]
-        Metadata metadata = Metadata.builderWithUrl(url).putAll(additionalMetadata).build()
+        Metadata metadata = Metadata.builder(url).putAll(additionalMetadata).build()
         assertNotNull(metadata)
         assertEquals("warm", metadata.get("summer"))
         assertEquals("cold", metadata.get("winter"))
@@ -26,7 +26,7 @@ class MetadataTest {
     void test_builder_copy() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
         Map<String, String> additionalMetadata = ["summer":"warm", "winter":"cold"]
-        Metadata metadata = Metadata.builderWithUrl(url).putAll(additionalMetadata).build()
+        Metadata metadata = Metadata.builder(url).putAll(additionalMetadata).build()
         //
         Metadata copied = Metadata.builder(metadata).build()
         assertNotNull(copied)
@@ -37,7 +37,7 @@ class MetadataTest {
     @Test
     void test_Builder_with_URL_as_arg() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
-        Metadata metadata = Metadata.builderWithUrl(url).build()
+        Metadata metadata = Metadata.builder(url).build()
         assertNotNull(metadata)
         assertEquals("https", metadata.get("URL.protocol"))
         assertEquals("80", metadata.get("URL.port"))
@@ -57,7 +57,7 @@ class MetadataTest {
     @Test
     void test_Builder_with_URL_with_port() {
         URL url = new URL("http://127.0.0.1:3000/")
-        Metadata metadata = Metadata.builderWithUrl(url).build()
+        Metadata metadata = Metadata.builder(url).build()
         assertNotNull(metadata)
         assertEquals("http", metadata.get("URL.protocol"))
         assertEquals("3000", metadata.get("URL.port"))
@@ -65,28 +65,28 @@ class MetadataTest {
 
     @Test
     void test_compareTo_equals() {
-        Metadata metadata1 = Metadata.builderWithMap(["profile":"X"]).build()
-        Metadata metadata2 = Metadata.builderWithMap(["profile":"X"]).build()
+        Metadata metadata1 = Metadata.builder(["profile":"X"]).build()
+        Metadata metadata2 = Metadata.builder(["profile":"X"]).build()
         assertEquals(0, metadata1 <=> metadata2)
     }
 
     @Test
     void test_compareTo_minus() {
-        Metadata metadata1 = Metadata.builderWithMap(["profile":"X"]).build()
-        Metadata metadata2 = Metadata.builderWithMap(["profile":"Y"]).build()
+        Metadata metadata1 = Metadata.builder(["profile":"X"]).build()
+        Metadata metadata2 = Metadata.builder(["profile":"Y"]).build()
         assertEquals(-1, metadata1 <=> metadata2)
     }
 
     @Test
     void test_compareTo_plus() {
-        Metadata metadata1 = Metadata.builderWithMap(["profile":"X"]).build()
-        Metadata metadata2 = Metadata.builderWithMap(["profile":"A"]).build()
+        Metadata metadata1 = Metadata.builder(["profile":"X"]).build()
+        Metadata metadata2 = Metadata.builder(["profile":"A"]).build()
         assertEquals(1, metadata1 <=> metadata2)
     }
 
     @Test
     void test_constructor() {
-        Metadata metadata = Metadata.builderWithMap([
+        Metadata metadata = Metadata.builder([
                 "profile":"ProductionEnv"])
                 .build()
         assertEquals("ProductionEnv", metadata.get("profile"))
@@ -94,17 +94,17 @@ class MetadataTest {
 
     @Test
     void test_containsKey() {
-        Metadata metadata = Metadata.builderWithMap(["profile":"ProductionEnv"]).build()
+        Metadata metadata = Metadata.builder(["profile":"ProductionEnv"]).build()
         assertTrue(metadata.containsKey("profile"))
         assertFalse(metadata.containsKey("foo"))
     }
 
     @Test
     void test_equals() {
-        Metadata m1 = Metadata.builderWithMap(["profile":"ProductionEnv"]).build()
-        Metadata m2 = Metadata.builderWithMap(["profile":"ProductionEnv"]).build()
-        Metadata m3 = Metadata.builderWithMap(["profile":"DevelopmentEnv"]).build()
-        Metadata m4 = Metadata.builderWithMap(["foo":"bar"]).build()
+        Metadata m1 = Metadata.builder(["profile":"ProductionEnv"]).build()
+        Metadata m2 = Metadata.builder(["profile":"ProductionEnv"]).build()
+        Metadata m3 = Metadata.builder(["profile":"DevelopmentEnv"]).build()
+        Metadata m4 = Metadata.builder(["foo":"bar"]).build()
         assertEquals(m1, m2)
         assertNotEquals(m1, m3)
         assertNotEquals(m1, m4)
@@ -112,20 +112,20 @@ class MetadataTest {
 
     @Test
     void test_get() {
-        Metadata metadata = Metadata.builderWithMap(["profile":"ProductionEnv"]).build()
+        Metadata metadata = Metadata.builder(["profile":"ProductionEnv"]).build()
         assertEquals("ProductionEnv", metadata.get("profile"))
         assertNull(metadata.get("foo"))
     }
 
     @Test
     void test_isEmpty() {
-        Metadata metadata = Metadata.builderWithMap([:]).build()
+        Metadata metadata = Metadata.builder([:]).build()
         assertTrue(metadata.isEmpty())
     }
 
     @Test
     void test_keySet() {
-        Metadata metadata = Metadata.builderWithMap(["profile":"ProductionEnv"]).build()
+        Metadata metadata = Metadata.builder(["profile":"ProductionEnv"]).build()
         Set<String> keySet = metadata.keySet()
         assertEquals(1, keySet.size())
         assertTrue(keySet.contains("profile"))
@@ -150,14 +150,14 @@ class MetadataTest {
 
     @Test
     void test_size() {
-        Metadata metadata = Metadata.builderWithMap(["key": "value"]).build()
+        Metadata metadata = Metadata.builder(["key": "value"]).build()
         assertEquals(1, metadata.size())
     }
 
     @Test
     void test_toSpanSequence_dual_QueryOnMetadata_with_IdentifyMetadataValues() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
-        Metadata metadata = Metadata.builderWithUrl(url)
+        Metadata metadata = Metadata.builder(url)
                 .put("profile", "ProductionEnv")
                 .build()
         QueryOnMetadata leftQuery = QueryOnMetadata.builder()
@@ -183,7 +183,7 @@ class MetadataTest {
     @Test
     void test_toSpanSequence_dual_QueryOnMetadata_with_IgnoreMetadataKeys() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
-        Metadata metadata = Metadata.builderWithUrl(url)
+        Metadata metadata = Metadata.builder(url)
                 .put("profile", "ProductionEnv")
                 .build()
         QueryOnMetadata leftQuery = QueryOnMetadata.builder()
@@ -209,7 +209,7 @@ class MetadataTest {
     @Test
     void test_toSpanSequence_single_QueryOnMetadata() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
-        Metadata metadata = Metadata.builderWithUrl(url)
+        Metadata metadata = Metadata.builder(url)
                 .put("profile", "ProductionEnv")
                 .build()
         QueryOnMetadata query = QueryOnMetadata.builder()
@@ -229,7 +229,7 @@ class MetadataTest {
      */
     @Test
     void test_toString() {
-        Metadata metadata = Metadata.builderWithMap(["b": "B", "a": "A"]).build()
+        Metadata metadata = Metadata.builder(["b": "B", "a": "A"]).build()
         String s = metadata.toString()
         println JsonOutput.prettyPrint(s)
         assertEquals(
@@ -239,7 +239,7 @@ class MetadataTest {
 
     @Test
     void test_toString_should_have_redundant_whitespaces() {
-        Metadata metadata = Metadata.builderWithMap(["a":"A", "b":"B", "c":"C"]).build()
+        Metadata metadata = Metadata.builder(["a":"A", "b":"B", "c":"C"]).build()
         String s = metadata.toString()
         println JsonOutput.prettyPrint(s)
         assertEquals(
@@ -251,7 +251,7 @@ class MetadataTest {
     @Test
     void test_toURL() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
-        Metadata metadata = Metadata.builderWithUrl(url).build()
+        Metadata metadata = Metadata.builder(url).build()
         assertNotNull(metadata)
         URL recreated = metadata.toURL()
         URL urlWithoutFragment = new URL("https://baeldung.com/articles?topic=java&version=8")

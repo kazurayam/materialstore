@@ -41,7 +41,7 @@ final class IndexEntry implements Comparable {
                     try {
                         Object obj = new JsonSlurper().parseText(items[2])
                         assert obj instanceof Map
-                        metadata = Metadata.builderWithMap((Map)obj).build()
+                        metadata = Metadata.builder((Map)obj).build()
                     } catch (Exception e) {
                         throw new IllegalArgumentException("unable to parse metadata part")
                     }

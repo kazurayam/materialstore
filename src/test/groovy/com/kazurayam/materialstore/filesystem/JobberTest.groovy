@@ -105,7 +105,7 @@ class JobberTest {
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber jobber = store.getJobber(jobName, jobTimestamp)
         Metadata metadata = Metadata
-                .builderWithUrl(new URL("http://demoaut-mimic.katalon.com/"))
+                .builder(new URL("http://demoaut-mimic.katalon.com/"))
                 .put("profile", "DevelopmentEnv")
                 .build()
         BufferedImage image =  ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile())
@@ -158,7 +158,7 @@ class JobberTest {
         JobName jobName = new JobName("test_write")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber jobber = store.getJobber(jobName, jobTimestamp)
-        Metadata metadata = Metadata.builderWithMap([
+        Metadata metadata = Metadata.builder([
                 "profile": "DevelopmentEnv",
                  "URL": "http://demoaut-mimic.katalon.com/"])
                 .build()
@@ -178,14 +178,14 @@ class JobberTest {
         Jobber jobber = store.getJobber(jobName, jobTimestamp)
         byte[] data = "foo".getBytes()
         //
-        Metadata metadata1 = Metadata.builderWithMap([
+        Metadata metadata1 = Metadata.builder([
                 "profile":"ProductionEnv",
                 "URL":"http://example.com"])
                 .build()
         Material material1 = jobber.write(data, FileType.TXT, metadata1)
         assert material1 != null
         //
-        Metadata metadata2 = Metadata.builderWithMap([
+        Metadata metadata2 = Metadata.builder([
                 "profile":"DevelopmentEnv",
                 "URL":"http://example.com"])
                 .build()
@@ -198,7 +198,7 @@ class JobberTest {
         JobName jobName = new JobName("test_write_duplicating_metadata_Terminate")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber jobber = store.getJobber(jobName, jobTimestamp)
-        Metadata metadata = Metadata.builderWithMap([
+        Metadata metadata = Metadata.builder([
                 "profile":"SomeEnv",
                 "URL":"http://example.com"])
                 .build()
@@ -221,7 +221,7 @@ class JobberTest {
         JobName jobName = new JobName("test_write_duplicating_metadata_SkipOne")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Jobber jobber = store.getJobber(jobName, jobTimestamp)
-        Metadata metadata = Metadata.builderWithMap([
+        Metadata metadata = Metadata.builder([
                 "profile":"SomeEnv",
                 "URL":"http://example.com"])
                 .build()

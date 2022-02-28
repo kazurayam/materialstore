@@ -67,7 +67,7 @@ class VoidDiffer implements Differ {
         byte[] diffData = baos.toByteArray()
 
         // materialize the byte[] into the store
-        Metadata diffMetadata = Metadata.builderWithMap([
+        Metadata diffMetadata = Metadata.builder([
                 "category": "diff",
                 "left": left.getIndexEntry().getID().toString(),
                 "right": right.getIndexEntry().getID().toString()])

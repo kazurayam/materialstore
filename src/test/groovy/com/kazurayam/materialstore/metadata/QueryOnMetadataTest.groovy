@@ -33,7 +33,7 @@ class QueryOnMetadataTest {
 
     @Test
     void test_create_with_IgnoreMetadataKeys() {
-        Metadata metadata = Metadata.builderWithMap([
+        Metadata metadata = Metadata.builder([
                 "profile":"ProjectionEnv",
                 "category":"screenshot"])
                 .build()
@@ -49,7 +49,7 @@ class QueryOnMetadataTest {
 
     @Test
     void test_create_without_IgnoreMetadataKeys() {
-        Metadata metadata = Metadata.builderWithMap([
+        Metadata metadata = Metadata.builder([
                 "profile":"ProjectionEnv",
                 "category":"screenshot"])
                 .build()
@@ -75,14 +75,14 @@ class QueryOnMetadataTest {
     @Test
     void test_matches_ANY() {
         QueryOnMetadata query = QueryOnMetadata.ANY
-        Metadata metadata = Metadata.builderWithMap(["profile": "ProductionEnv"]).build()
+        Metadata metadata = Metadata.builder(["profile": "ProductionEnv"]).build()
         assertTrue(query.matches(metadata))
     }
 
     @Test
     void test_matches_falsy() {
         QueryOnMetadata query = QueryOnMetadata.builderWithMap(["profile": "ProductionEnv"]).build()
-        Metadata metadata = Metadata.builderWithMap(["foo": "bar"]).build()
+        Metadata metadata = Metadata.builder(["foo": "bar"]).build()
         assertFalse(query.matches(metadata))
     }
 
@@ -92,25 +92,25 @@ class QueryOnMetadataTest {
                 .put("profile", "ProductionEnv")
                 .put("URL.file", Pattern.compile(".*")).build()
         //
-        Metadata metadata1 = Metadata.builderWithMap(["profile": "ProductionEnv", "URL.file": "/"]).build()
+        Metadata metadata1 = Metadata.builder(["profile": "ProductionEnv", "URL.file": "/"]).build()
         assertTrue(query.matches(metadata1))
         //
-        Metadata metadata2 = Metadata.builderWithMap(["profile": "DevelopEnv", "URL.file": "/"]).build()
+        Metadata metadata2 = Metadata.builder(["profile": "DevelopEnv", "URL.file": "/"]).build()
         assertFalse(query.matches(metadata2))
         //
-        Metadata metadata3 = Metadata.builderWithMap(["profile": "ProductionEnv"]).build()
+        Metadata metadata3 = Metadata.builder(["profile": "ProductionEnv"]).build()
         assertFalse(query.matches(metadata3))
         //
-        Metadata metadata4 = Metadata.builderWithMap(["URL.file": "/"]).build()
+        Metadata metadata4 = Metadata.builder(["URL.file": "/"]).build()
         assertFalse(query.matches(metadata4))
     }
 
     @Test
     void test_matches_2_paths_with_semantic_version() {
-        Metadata metadataLeft = Metadata.builderWithMap(
+        Metadata metadataLeft = Metadata.builder(
                 ["profile": "prod","URL.path": "/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"])
                 .build()
-        Metadata metadataRight = Metadata.builderWithMap(
+        Metadata metadataRight = Metadata.builder(
                 ["profile": "dev", "URL.path": "/npm/bootstrap@5.1.3-alpha/dist/js/bootstrap.bundle.min.js"])
                 .build()
         IgnoreMetadataKeys ignoreMetadataKeys =
@@ -124,7 +124,7 @@ class QueryOnMetadataTest {
     @Test
     void test_matches_truthy() {
         QueryOnMetadata query = QueryOnMetadata.builderWithMap(["profile": "ProductionEnv"]).build()
-        Metadata metadata = Metadata.builderWithMap(["profile": "ProductionEnv"]).build()
+        Metadata metadata = Metadata.builder(["profile": "ProductionEnv"]).build()
         assertTrue(query.matches(metadata))
     }
 
