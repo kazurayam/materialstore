@@ -7,18 +7,15 @@ import java.security.MessageDigest
 
 final class MObject {
 
-    private final byte[] data_
+    private final ID id_
 
     private final FileType fileType_
 
     private static final int BUFFER_SIZE = 8000
 
-    /*
-    static String hash(byte[] data) {
-        return DigestUtils.sha1Hex(data)
-    }
+    /**
+     * calculate SHA1 message digest of the given data
      */
-
     static String hashJDK(byte[] data) {
         MessageDigest md = MessageDigest.getInstance("SHA1")
         md.update(data)
@@ -30,14 +27,15 @@ final class MObject {
         return sb.toString()
     }
 
-    MObject(byte[] data, FileType fileType) {
-        Objects.requireNonNull(data)
-        this.data_ = data
+    MObject(ID id, FileType fileType) {
+        Objects.requireNonNull(id)
+        Objects.requireNonNull(fileType)
+        this.id_ = id
         this.fileType_ = fileType
     }
 
     ID getID() {
-        return new ID(hashJDK(data_))
+        return id_
     }
 
     FileType getFileType() {
@@ -45,27 +43,19 @@ final class MObject {
     }
 
     String getFileName() {
-        return "${getID().toString()}.${fileType_.getExtension()}"
+        return "${getID().toString()}.${getFileType().getExtension()}"
     }
 
-    byte[] getData() {
-        return data_
-    }
-
-    Path resolvePath(Path objectsDir) {
-        return objectsDir.resolve(this.getFileName())
-    }
-
-    boolean exists(Path objectsDir) {
-        Path file = this.resolvePath(objectsDir)
+    boolean existsInDir(Path objectsDir) {
+        Path file = objectsDir.resolve(this.getFileName())
         return Files.exists(file)
     }
 
-    void serialize(Path objectsDir) {
+    static void serialize(byte[] data, Path objectsDir) {
         Objects.requireNonNull(objectsDir)
         //
         FileOutputStream fos = new FileOutputStream(objectsDir.toFile())
-        ByteArrayInputStream bais = new ByteArrayInputStream(data_)
+        ByteArrayInputStream bais = new ByteArrayInputStream(data)
         byte[] buff = new byte[BUFFER_SIZE]
         int bytesRead
         while ((bytesRead = bais.read(buff)) != -1) {
@@ -76,9 +66,8 @@ final class MObject {
         bais.close()
     }
 
-    static MObject deserialize(Path objectFile, FileType fileType) {
+    static byte[] deserialize(Path objectFile) {
         Objects.requireNonNull(objectFile)
-        Objects.requireNonNull(fileType)
         if (!Files.exists(objectFile)) {
             throw new IllegalArgumentException("${objectFile} is not present")
         }
@@ -92,7 +81,7 @@ final class MObject {
         byte[] data = baos.toByteArray()
         fis.close()
         baos.close()
-        return new MObject(data, fileType)
+        return data
     }
 
     @Override

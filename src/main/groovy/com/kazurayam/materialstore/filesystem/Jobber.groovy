@@ -71,8 +71,7 @@ final class Jobber {
         Objects.requireNonNull(fileType)
         String fileName = "${id.toString()}.${fileType.getExtension()}"
         Path objectFile = this.getObjectsDir().resolve(fileName)
-        MObject mObject = MObject.deserialize(objectFile, fileType)
-        return mObject.getData()
+        return MObject.deserialize(objectFile)
     }
 
     byte[] read(IndexEntry indexEntry) {
@@ -198,11 +197,12 @@ final class Jobber {
         } else {
             // new metadata should be stored in the directory
             // write the byte[] data into file if the MObject is not yet there.
-            MObject mObject = new MObject(data, fileType)
-            if (!mObject.exists(this.getObjectsDir())) {
+            ID id = new ID(MObject.hashJDK(data))
+            MObject mObject = new MObject(id, fileType)
+            if (!mObject.existsInDir(this.getObjectsDir())) {
                 // save the "byte[] data" into disk
                 Path objectFile = this.getObjectsDir().resolve(mObject.getFileName())
-                mObject.serialize(objectFile)
+                mObject.serialize(data, objectFile)
             }
             // insert a line into the "index" content on memory
             IndexEntry indexEntry = index.put(mObject.getID(), fileType, metadata)

@@ -13,6 +13,7 @@ import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertNotNull
+import static org.junit.jupiter.api.Assertions.assertTrue
 
 class MObjectTest {
 
@@ -34,15 +35,6 @@ class MObjectTest {
         Files.createDirectories(outputDir)
     }
 
-    @Disabled
-    @Test
-    void test_hash() {
-        String source = "Hello, world!"
-        byte[] b = source.getBytes(StandardCharsets.UTF_8)
-        String sha1 = MObject.hash(b)
-        assertNotNull(sha1)
-        assertEquals(40, sha1.length())
-    }
 
     @Test
     void test_hashJDK() {
@@ -54,20 +46,12 @@ class MObjectTest {
         assertEquals(40, sha1.length())
     }
 
-    @Disabled
-    @Test
-    void test_compare_hash_algo() {
-        String source = "Hello, world!"
-        byte[] b = source.getBytes(StandardCharsets.UTF_8)
-        String sha1 = MObject.hash(b)
-        String sha1JDK = MObject.hashJDK(b)
-        assertEquals(sha1, sha1JDK)
-    }
 
     @Test
     void test_getFileName() {
         byte[] bytes = "Hello, world".getBytes("UTF-8")
-        MObject mObject = new MObject(bytes, FileType.TXT)
+        ID id = new ID(MObject.hashJDK(bytes))
+        MObject mObject = new MObject(id, FileType.TXT)
         assertEquals("e02aa1b106d5c7c6a98def2b13005d5b84fd8dc8.txt",
                 mObject.getFileName())
     }
@@ -75,38 +59,40 @@ class MObjectTest {
     @Test
     void test_deserialize_png() {
         Path f = imagesDir.resolve("20210623_225337.development.png")
-        MObject productObject = MObject.deserialize(f, FileType.PNG)
-        assertNotNull(productObject)
+        byte[] data = MObject.deserialize(f)
+        assertTrue(data.length > 0)
     }
 
     @Test
     void test_serialize_png() {
         Path f = imagesDir.resolve("20210623_225337.development.png")
-        MObject productObject = MObject.deserialize(f, FileType.PNG)
+        byte[] data = MObject.deserialize(f)
+        ID id = new ID(MObject.hashJDK(data))
+        MObject mObject = new MObject(id, FileType.PNG)
         Path work = outputDir.resolve("test_serialize_png")
         Path objectsDir = work.resolve("objects")
         Files.createDirectories(objectsDir)
-        Path objectFile = objectsDir.resolve(productObject.getFileName())
-        productObject.serialize(objectFile)
+        Path objectFile = objectsDir.resolve(mObject.getFileName())
+        mObject.serialize(data, objectFile)
     }
 
     @Test
     void test_deserialize_html() {
         Path f = htmlDir.resolve("development.html")
-        MObject productObject = MObject.deserialize(f, FileType.HTML)
-        assertNotNull(productObject)
+        byte[] data = MObject.deserialize(f)
+        assertTrue(data.length > 0)
     }
 
     @Test
     void test_serialize_html() {
         Path f = htmlDir.resolve("development.html")
-        MObject productObject = MObject.deserialize(f, FileType.HTML)
+        byte[] data = MObject.deserialize(f)
+        ID id = new ID(MObject.hashJDK(data))
+        MObject mObject = new MObject(id, FileType.HTML)
         Path work = outputDir.resolve("test_serialize_html")
         Path objectsDir = work.resolve("objects")
         Files.createDirectories(objectsDir)
-        Path objectFile = objectsDir.resolve(productObject.getFileName())
-        productObject.serialize(objectFile)
+        Path objectFile = objectsDir.resolve(mObject.getFileName())
+        MObject.serialize(data, objectFile)
     }
-
-
 }
