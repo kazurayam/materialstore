@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.mapper
+package com.kazurayam.materialstore.map
 
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.Store

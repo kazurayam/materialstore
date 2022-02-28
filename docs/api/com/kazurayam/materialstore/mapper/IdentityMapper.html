@@ -85,13 +85,13 @@ if (location.href.indexOf('is-external=true') == -1) {
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
 
-    <div class="subTitle">Package: <strong>com.kazurayam.materialstore.mapper</strong></div>
+    <div class="subTitle">Package: <strong>com.kazurayam.materialstore.map</strong></div>
 
     <h2 title="[Groovy] Class IdentityMapper" class="title">[Groovy] Class IdentityMapper</h2>
 </div>
 <div class="contentContainer">
 <ul class="inheritance">
-<li><ul class="inheritance"></ul></li><li>com.kazurayam.materialstore.mapper.IdentityMapper
+<li><ul class="inheritance"></ul></li><li>com.kazurayam.materialstore.map.IdentityMapper
 </ul>
 <div class="description">
     <ul class="blockList">
@@ -173,11 +173,17 @@ extends java.lang.Object
                         
                         <tr class="altColor">
                             <td class="colFirst"><code></code></td>
-                            <td class="colLast"><code><a href='../../../../com/kazurayam/materialstore/mapper/MapperResult.html'>MapperResult</a></code></td>
+                            <td class="colLast"><code>void</code></td>
                             <td class="colLast"><code><strong><a href="#map(com.kazurayam.materialstore.filesystem.Material)">map</a></strong>(<a href='../../../../com/kazurayam/materialstore/filesystem/Material.html'>Material</a> material)</code><br></td>
                         </tr>
                         
                         <tr class="rowColor">
+                            <td class="colFirst"><code></code></td>
+                            <td class="colLast"><code>void</code></td>
+                            <td class="colLast"><code><strong><a href="#setMappingListener(com.kazurayam.materialstore.mapper.MappingListener)">setMappingListener</a></strong>(<a href='../../../../com/kazurayam/materialstore/mapper/MappingListener.html'>MappingListener</a> listener)</code><br></td>
+                        </tr>
+                        
+                        <tr class="altColor">
                             <td class="colFirst"><code></code></td>
                             <td class="colLast"><code>void</code></td>
                             <td class="colLast"><code><strong><a href="#setStore(com.kazurayam.materialstore.filesystem.Store)">setStore</a></strong>(<a href='../../../../com/kazurayam/materialstore/filesystem/Store.html'>Store</a> store)</code><br></td>
@@ -255,7 +261,16 @@ extends java.lang.Object
                         <ul class="blockListLast">
                             <li class="blockList">
                                 <h4>@java.lang.Override
-<a href='../../../../com/kazurayam/materialstore/mapper/MapperResult.html'>MapperResult</a> <strong>map</strong>(<a href='../../../../com/kazurayam/materialstore/filesystem/Material.html'>Material</a> material)</h4>
+void <strong>map</strong>(<a href='../../../../com/kazurayam/materialstore/filesystem/Material.html'>Material</a> material)</h4>
+                                <p></p>
+                            </li>
+                        </ul>
+                    
+                        <a name="setMappingListener(com.kazurayam.materialstore.mapper.MappingListener)"><!-- --></a>
+                        <ul class="blockListLast">
+                            <li class="blockList">
+                                <h4>@java.lang.Override
+void <strong>setMappingListener</strong>(<a href='../../../../com/kazurayam/materialstore/mapper/MappingListener.html'>MappingListener</a> listener)</h4>
                                 <p></p>
                             </li>
                         </ul>
@@ -263,7 +278,8 @@ extends java.lang.Object
                         <a name="setStore(com.kazurayam.materialstore.filesystem.Store)"><!-- --></a>
                         <ul class="blockListLast">
                             <li class="blockList">
-                                <h4>void <strong>setStore</strong>(<a href='../../../../com/kazurayam/materialstore/filesystem/Store.html'>Store</a> store)</h4>
+                                <h4>@java.lang.Override
+void <strong>setStore</strong>(<a href='../../../../com/kazurayam/materialstore/filesystem/Store.html'>Store</a> store)</h4>
                                 <p></p>
                             </li>
                         </ul>

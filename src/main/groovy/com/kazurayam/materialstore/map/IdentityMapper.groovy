@@ -1,11 +1,10 @@
-package com.kazurayam.materialstore.mapper
+package com.kazurayam.materialstore.map
 
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Jobber
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.Store
-import com.kazurayam.materialstore.metadata.Metadata
 
 class IdentityMapper implements Mapper {
 
