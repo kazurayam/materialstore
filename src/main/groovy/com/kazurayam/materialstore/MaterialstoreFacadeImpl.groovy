@@ -1,14 +1,14 @@
 package com.kazurayam.materialstore
 
 
-import com.kazurayam.materialstore.differ.DiffReporter
+import com.kazurayam.materialstore.reduce.differ.DiffReporter
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.report.MProductGroupBasicReporter
 import com.kazurayam.materialstore.report.MaterialsBasicReporter
 import com.kazurayam.materialstore.reduce.MProductGroup
 import com.kazurayam.materialstore.reduce.Reducer
-import com.kazurayam.materialstore.differ.DifferDriverImpl
+import com.kazurayam.materialstore.reduce.differ.DifferDriverImpl
 import com.kazurayam.materialstore.filesystem.Store
 
 import java.nio.file.Path

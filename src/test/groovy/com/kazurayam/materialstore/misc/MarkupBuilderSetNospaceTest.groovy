@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.misc
 
-import com.kazurayam.materialstore.differ.TextDifferToHTML
+import com.kazurayam.materialstore.reduce.differ.TextDifferToHTML
 import groovy.xml.MarkupBuilder
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test

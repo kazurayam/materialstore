@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore
 
-import com.kazurayam.materialstore.differ.DiffReporter
+import com.kazurayam.materialstore.reduce.differ.DiffReporter
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.reduce.MProductGroup

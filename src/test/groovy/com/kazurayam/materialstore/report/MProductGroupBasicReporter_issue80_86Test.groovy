@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.report
 
 import com.kazurayam.materialstore.MaterialstoreFacade
-import com.kazurayam.materialstore.differ.DiffReporter
+import com.kazurayam.materialstore.reduce.differ.DiffReporter
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList

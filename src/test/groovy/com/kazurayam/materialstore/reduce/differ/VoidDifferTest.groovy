@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.differ
+package com.kazurayam.materialstore.reduce.differ
 
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.JobName

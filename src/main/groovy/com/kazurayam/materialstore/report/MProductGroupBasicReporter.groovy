@@ -1,8 +1,8 @@
 package com.kazurayam.materialstore.report
 
 
-import com.kazurayam.materialstore.differ.DiffReporter
-import com.kazurayam.materialstore.differ.DifferUtil
+import com.kazurayam.materialstore.reduce.differ.DiffReporter
+import com.kazurayam.materialstore.reduce.differ.DifferUtil
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.FileTypeDiffability
 import com.kazurayam.materialstore.filesystem.JobName
