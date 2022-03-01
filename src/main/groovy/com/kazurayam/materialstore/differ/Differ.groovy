@@ -1,13 +1,13 @@
 package com.kazurayam.materialstore.differ
 
 
-import com.kazurayam.materialstore.resolvent.Artifact
+import com.kazurayam.materialstore.resolvent.MProduct
 
 import java.nio.file.Path
 
 interface Differ {
 
-    Artifact makeArtifact(Artifact artifact)
+    MProduct makeMProduct(MProduct mProduct)
 
     void setRoot(Path root)
 

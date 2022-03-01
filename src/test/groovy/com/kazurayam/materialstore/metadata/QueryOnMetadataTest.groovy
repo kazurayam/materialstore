@@ -66,8 +66,8 @@ class QueryOnMetadataTest {
                 "profile": "Flaskr_ProductionEnv",
                 "step":"6"
         ]).build()
-        SortKeys orderArtifacts = new SortKeys("step", "profile")
-        String description = mp.getDescription(orderArtifacts)
+        SortKeys sortKeys = new SortKeys("step", "profile")
+        String description = mp.getDescription(sortKeys)
         assertEquals('''{"step":"6", "profile":"Flaskr_ProductionEnv", "URL.path":"/"}''',
                 description)
     }

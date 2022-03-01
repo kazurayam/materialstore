@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore
 
-import com.kazurayam.materialstore.resolvent.ArtifactGroup
+
 import com.kazurayam.materialstore.filesystem.ID
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -8,6 +8,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
+import com.kazurayam.materialstore.resolvent.MProductGroup
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -64,22 +65,22 @@ class MaterialstoreFacadeTest {
 
     @Test
     void test_apply() {
-        ArtifactGroup preparedDAG =
-                ArtifactGroup.builder(left, right)
+        MProductGroup prepared =
+                MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .sort("URL.host")
                         .build()
-        assertNotNull(preparedDAG)
+        assertNotNull(prepared)
 
-        ArtifactGroup stuffedDAG = facade.reduce(preparedDAG)
-        assertNotNull(stuffedDAG)
+        MProductGroup stuffed = facade.reduce(prepared)
+        assertNotNull(stuffed)
 
-        stuffedDAG.each { artifact ->
-            //println JsonOutput.prettyPrint(artifact.toString())
-            assertNotEquals(ID.NULL_OBJECT, artifact.getDiff().getIndexEntry().getID())
+        stuffed.each { mProduct ->
+            //println JsonOutput.prettyPrint(mProduct.toString())
+            assertNotEquals(ID.NULL_OBJECT, mProduct.getDiff().getIndexEntry().getID())
         }
-        assertEquals(8, stuffedDAG.size())
+        assertEquals(8, stuffed.size())
     }
 
     @Test
@@ -94,17 +95,17 @@ class MaterialstoreFacadeTest {
     }
 
     @Test
-    void test_report_ArtifactGroup() {
-        ArtifactGroup preparedAG =
-                ArtifactGroup.builder(left, right)
+    void test_report_MProductGroup() {
+        MProductGroup preparedAG =
+                MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .sort("URL.host")
                         .build()
-        ArtifactGroup reducedAG = facade.reduce(preparedAG)
+        MProductGroup reducedAG = facade.reduce(preparedAG)
         JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
         double criteria = 0.0D
-        Path report = facade.report(jobName, reducedAG, criteria,"test_reportArtifactGroup.html")
+        Path report = facade.report(jobName, reducedAG, criteria,"test_report_MProductGroup.html")
         assertNotNull(report)
         assertTrue(Files.exists(report))
         assertTrue(reducedAG.countWarnings(criteria) > 0)

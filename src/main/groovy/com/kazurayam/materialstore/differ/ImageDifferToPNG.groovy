@@ -1,12 +1,12 @@
 package com.kazurayam.materialstore.differ
 
 
-import com.kazurayam.materialstore.resolvent.Artifact
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.FileTypeDiffability
 import com.kazurayam.materialstore.filesystem.Jobber
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.metadata.Metadata
+import com.kazurayam.materialstore.resolvent.MProduct
 import ru.yandex.qatools.ashot.comparison.ImageDiff
 import ru.yandex.qatools.ashot.comparison.ImageDiffer
 
@@ -39,13 +39,13 @@ final class ImageDifferToPNG implements Differ {
     }
 
     @Override
-    Artifact makeArtifact(Artifact artifact) {
+    MProduct makeMProduct(MProduct mProduct) {
         Objects.requireNonNull(root_)
-        Objects.requireNonNull(artifact)
-        Objects.requireNonNull(artifact.getLeft())
-        Objects.requireNonNull(artifact.getRight())
+        Objects.requireNonNull(mProduct)
+        Objects.requireNonNull(mProduct.getLeft())
+        Objects.requireNonNull(mProduct.getRight())
         //
-        Material left = artifact.getLeft()
+        Material left = mProduct.getLeft()
         if (left.getDiffability() != FileTypeDiffability.AS_IMAGE) {
             throw new IllegalArgumentException("the left material is not an image: ${left}")
         }
@@ -53,7 +53,7 @@ final class ImageDifferToPNG implements Differ {
         BufferedImage leftImage = readImage(leftFile)
         assert leftImage != null
         //
-        Material right = artifact.getRight()
+        Material right = mProduct.getRight()
         if (right.getDiffability() != FileTypeDiffability.AS_IMAGE) {
             throw new IllegalArgumentException("the right material is not an image: ${right}")
         }
@@ -73,14 +73,14 @@ final class ImageDifferToPNG implements Differ {
                 .build()
         byte[] diffData = toByteArray(imageDiff.getDiffImage(), FileType.PNG)
         // write the image diff into disk
-        Jobber jobber = new Jobber(root_, right.getJobName(), artifact.getResolventTimestamp())
+        Jobber jobber = new Jobber(root_, right.getJobName(), mProduct.getResolventTimestamp())
         Material diffMaterial =
                 jobber.write(diffData,
                         FileType.PNG,
                         diffMetadata, Jobber.DuplicationHandling.CONTINUE)
 
         //
-        Artifact result = new Artifact(artifact)
+        MProduct result = new MProduct(mProduct)
         result.setDiff(diffMaterial)
         result.setDiffRatio(diffRatio)
         return result

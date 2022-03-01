@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.reporter
 
 import com.kazurayam.materialstore.MaterialstoreFacade
-import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -9,6 +8,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.StoreImpl
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
+import com.kazurayam.materialstore.resolvent.MProductGroup
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -20,11 +20,11 @@ import java.nio.file.Paths
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertTrue
 
-class ArtifactGroupBasicReporterTest {
+class MProductGroupBasicReporterTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(ArtifactGroupBasicReporterTest.class.getName())
+                    .resolve(MProductGroupBasicReporterTest.class.getName())
 
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/fixture/sample_results")
@@ -62,11 +62,11 @@ class ArtifactGroupBasicReporterTest {
         MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
 
         // make diff
-        ArtifactGroup preparedAG =
-                ArtifactGroup.builder(left, right)
+        MProductGroup preparedAG =
+                MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
-        ArtifactGroup reducedAG = facade.reduce(preparedAG)
+        MProductGroup reducedAG = facade.reduce(preparedAG)
 
         // compile HTML report
         DiffReporter reporter = facade.newReporter(jobName)
@@ -79,8 +79,8 @@ class ArtifactGroupBasicReporterTest {
 
     @Test
     void test_decideToBeWarned() {
-        assertEquals(false, ArtifactGroupBasicReporter.decideToBeWarned(0.00d, 0.0d))
-        assertEquals(true, ArtifactGroupBasicReporter.decideToBeWarned(1.23d, 0.0d))
-        assertEquals(false, ArtifactGroupBasicReporter.decideToBeWarned(1.23d, 25.0d))
+        assertEquals(false, MProductGroupBasicReporter.decideToBeWarned(0.00d, 0.0d))
+        assertEquals(true, MProductGroupBasicReporter.decideToBeWarned(1.23d, 0.0d))
+        assertEquals(false, MProductGroupBasicReporter.decideToBeWarned(1.23d, 25.0d))
     }
 }

@@ -1,8 +1,7 @@
 package com.kazurayam.materialstore.differ
 
 import com.kazurayam.materialstore.*
-import com.kazurayam.materialstore.resolvent.Artifact
-import com.kazurayam.materialstore.resolvent.ArtifactGroup
+import com.kazurayam.materialstore.resolvent.MProductGroup
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -10,6 +9,7 @@ import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.StoreImpl
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
+import com.kazurayam.materialstore.resolvent.MProduct
 import org.junit.jupiter.api.Test
 
 import java.nio.file.Path
@@ -49,14 +49,14 @@ class TextDifferToMarkdownTest {
                         .build(),
                 FileType.HTML)
 
-        ArtifactGroup artifactGroup =
-                ArtifactGroup.builder(left, right)
+        MProductGroup mProductGroup =
+                MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
-        assertNotNull(artifactGroup)
-        assertEquals(1, artifactGroup.size())
+        assertNotNull(mProductGroup)
+        assertEquals(1, mProductGroup.size())
         //
-        Artifact stuffed = new TextDifferToMarkdown(root).makeArtifact(artifactGroup.get(0))
+        MProduct stuffed = new TextDifferToMarkdown(root).makeMProduct(mProductGroup.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())

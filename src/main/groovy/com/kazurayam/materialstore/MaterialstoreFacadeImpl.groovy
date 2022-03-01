@@ -4,9 +4,9 @@ package com.kazurayam.materialstore
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.MaterialList
-import com.kazurayam.materialstore.reporter.ArtifactGroupBasicReporter
+import com.kazurayam.materialstore.reporter.MProductGroupBasicReporter
 import com.kazurayam.materialstore.reporter.MaterialsBasicReporter
-import com.kazurayam.materialstore.resolvent.ArtifactGroup
+import com.kazurayam.materialstore.resolvent.MProductGroup
 import com.kazurayam.materialstore.resolvent.Resolvent
 import com.kazurayam.materialstore.differ.DifferDriverImpl
 import com.kazurayam.materialstore.filesystem.Store
@@ -42,15 +42,15 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
 
     @Override
     DiffReporter newReporter(JobName jobName) {
-        return new ArtifactGroupBasicReporter(getRoot(), jobName)
+        return new MProductGroupBasicReporter(getRoot(), jobName)
     }
 
     @Override
-    Path report(JobName jobName, ArtifactGroup artifactGroup,
-                             Double criteria, String fileName) {
+    Path report(JobName jobName, MProductGroup mProductGroup,
+                Double criteria, String fileName) {
         DiffReporter reporter = this.newReporter(jobName)
         reporter.setCriteria(criteria)
-        reporter.reportDiffs(artifactGroup, fileName)
+        reporter.reportDiffs(mProductGroup, fileName)
         return root.resolve(fileName)
     }
 
@@ -66,8 +66,8 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
     }
 
     @Override
-    ArtifactGroup reduce(ArtifactGroup input) {
-        ArtifactGroup tmp = new ArtifactGroup(input)
+    MProductGroup reduce(MProductGroup input) {
+        MProductGroup tmp = new MProductGroup(input)
         resolventList.each {resolvent ->
             tmp = resolvent.resolve(tmp)
         }

@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
-import com.kazurayam.materialstore.resolvent.ArtifactGroup
+import com.kazurayam.materialstore.resolvent.MProductGroup
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -27,7 +27,7 @@ class VoidDifferTest {
     private static Store store
 
     JobName jobName
-    ArtifactGroup prepared
+    MProductGroup prepared
 
     @BeforeAll
     static void beforeAll() {
@@ -60,7 +60,7 @@ class VoidDifferTest {
                 QueryOnMetadata.builder(["URL.path": "/npm/bootstrap-icons@1.7.2/font/fonts/bootstrap-icons.woff2"]).build(),
                 FileType.WOFF2)
         prepared =
-                ArtifactGroup.builder(left, right)
+                MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.query")
                         .build()
 

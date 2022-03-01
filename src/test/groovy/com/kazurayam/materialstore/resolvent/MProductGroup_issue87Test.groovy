@@ -19,14 +19,14 @@ import java.nio.file.Paths
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertTrue
 
-class ArtifactGroup_issue87Test {
+class MProductGroup_issue87Test {
 
     private static Path fixtureDir = Paths.get(".")
             .resolve("src/test/fixture/issue#80")
 
     private static final Path outputDir = Paths.get(".")
             .resolve("build/tmp/testOutput")
-            .resolve(ArtifactGroup_issue87Test.class.getName())
+            .resolve(MProductGroup_issue87Test.class.getName())
 
     private static Store store
 
@@ -36,7 +36,7 @@ class ArtifactGroup_issue87Test {
 
     MaterialList left
     MaterialList right
-    ArtifactGroup artifactGroup
+    MProductGroup mProductGroup
 
     @BeforeAll
     static void beforeAll() {
@@ -64,8 +64,8 @@ class ArtifactGroup_issue87Test {
         )
         assert right.size() == 8
 
-        artifactGroup =
-                ArtifactGroup.builder(left, right)
+        mProductGroup =
+                MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .build()
@@ -74,31 +74,31 @@ class ArtifactGroup_issue87Test {
     @Test
     void test_getJobTimestampLeft() {
         assertEquals(new JobTimestamp("20220128_191320"),
-                artifactGroup.getJobTimestampLeft())
+                mProductGroup.getJobTimestampLeft())
     }
 
     @Test
     void test_getJobTimestampRight() {
         assertEquals(new JobTimestamp("20220128_191342"),
-                artifactGroup.getJobTimestampRight())
+                mProductGroup.getJobTimestampRight())
     }
 
     @Test
     void test_getJobTimestampPrevious() {
         assertEquals(new JobTimestamp("20220128_191320"),
-                artifactGroup.getJobTimestampPrevious())
+                mProductGroup.getJobTimestampPrevious())
     }
 
     @Test
     void test_getJobTimestampFollowing() {
         assertEquals(new JobTimestamp("20220128_191342"),
-                artifactGroup.getJobTimestampFollowing())
+                mProductGroup.getJobTimestampFollowing())
     }
 
     @Test
     void test_getQueryOnMetadataList() {
 
-        List<QueryOnMetadata> queryList = artifactGroup.getQueryOnMetadataList();
+        List<QueryOnMetadata> queryList = mProductGroup.getQueryOnMetadataList();
         assertEquals(8, queryList.size())
         //
         queryList.each { mp ->

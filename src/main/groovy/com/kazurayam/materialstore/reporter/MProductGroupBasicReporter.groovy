@@ -1,8 +1,6 @@
 package com.kazurayam.materialstore.reporter
 
 
-import com.kazurayam.materialstore.resolvent.Artifact
-import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.differ.DifferUtil
 import com.kazurayam.materialstore.filesystem.FileType
@@ -13,6 +11,8 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
+import com.kazurayam.materialstore.resolvent.MProduct
+import com.kazurayam.materialstore.resolvent.MProductGroup
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -20,9 +20,9 @@ import org.slf4j.LoggerFactory
 import java.nio.file.Files
 import java.nio.file.Path
 
-final class ArtifactGroupBasicReporter implements DiffReporter {
+final class MProductGroupBasicReporter implements DiffReporter {
 
-    private static final Logger logger = LoggerFactory.getLogger(ArtifactGroupBasicReporter.class)
+    private static final Logger logger = LoggerFactory.getLogger(MProductGroupBasicReporter.class)
 
     private Path root_
 
@@ -30,7 +30,7 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
 
     private Double criteria_ = 0.0d
 
-    ArtifactGroupBasicReporter(Path root, JobName jobName) {
+    MProductGroupBasicReporter(Path root, JobName jobName) {
         Objects.requireNonNull(root)
         Objects.requireNonNull(jobName)
         if (! Files.exists(root)) {
@@ -49,8 +49,8 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
     }
 
     @Override
-    Path reportDiffs(ArtifactGroup artifactGroup, String reportFileName = "index.html") {
-        Objects.requireNonNull(artifactGroup)
+    Path reportDiffs(MProductGroup mProductGroup, String reportFileName = "index.html") {
+        Objects.requireNonNull(mProductGroup)
         Objects.requireNonNull(reportFileName)
         //
         Path reportFile = root_.resolve(reportFileName)
@@ -88,7 +88,7 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
                             dd(jobName_.toString())
                             //
                             dt("Left MaterialList specification")
-                            MaterialList left = artifactGroup.getMaterialListLeft()
+                            MaterialList left = mProductGroup.getMaterialListLeft()
                             if (left != MaterialList.NULL_OBJECT) {
                                 dd() {
                                     dl() {
@@ -108,7 +108,7 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
                             }
                             //
                             dt("Right MaterialList specification")
-                            MaterialList right = artifactGroup.getMaterialListRight()
+                            MaterialList right = mProductGroup.getMaterialListRight()
                             if (right != MaterialList.NULL_OBJECT) {
                                 dd() {
                                     dl() {
@@ -128,9 +128,9 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
                             }
                             //
                             dt("IgnoreMetadataKeys")
-                            if (artifactGroup.getIgnoreMetadataKeys() != IgnoreMetadataKeys.NULL_OBJECT) {
+                            if (mProductGroup.getIgnoreMetadataKeys() != IgnoreMetadataKeys.NULL_OBJECT) {
                                 dd() {
-                                    artifactGroup.getIgnoreMetadataKeys().toSpanSequence(mb)
+                                    mProductGroup.getIgnoreMetadataKeys().toSpanSequence(mb)
                                 }
                             } else {
                                 dd("not set")
@@ -139,7 +139,7 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
                     }
                     div(class: "accordion",
                             id: "diff-contents") {
-                        artifactGroup.eachWithIndex { Artifact da, int index ->
+                        mProductGroup.eachWithIndex { MProduct da, int index ->
                             div(id: "accordion${index+1}",
                                     class: "accordion-item") {
                                 h2(id: "heading${index+1}",
@@ -171,10 +171,10 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
                                         makeModalSubsection(mb, da, index+1)
                                         //
                                         Context context = new Context(
-                                                artifactGroup.getMaterialListLeft().getQueryOnMetadata(),
-                                                artifactGroup.getMaterialListRight().getQueryOnMetadata(),
-                                                artifactGroup.getIgnoreMetadataKeys(),
-                                                artifactGroup.getIdentifyMetadataValues()
+                                                mProductGroup.getMaterialListLeft().getQueryOnMetadata(),
+                                                mProductGroup.getMaterialListRight().getQueryOnMetadata(),
+                                                mProductGroup.getIgnoreMetadataKeys(),
+                                                mProductGroup.getIdentifyMetadataValues()
                                         )
                                         makeMaterialSubsection(mb, "left", da.getLeft(), context)
                                         makeMaterialSubsection(mb, "right", da.getRight(), context)
@@ -196,7 +196,7 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
         return reportFile
     }
 
-    private static void makeModalSubsection(MarkupBuilder mb, Artifact da, Integer seq) {
+    private static void makeModalSubsection(MarkupBuilder mb, MProduct da, Integer seq) {
         Material right = da.getRight()
         mb.div(class: "show-diff") {
             if (right.getDiffability() == FileTypeDiffability.AS_IMAGE) {

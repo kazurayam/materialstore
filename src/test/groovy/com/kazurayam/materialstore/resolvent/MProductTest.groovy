@@ -23,11 +23,11 @@ import java.util.regex.Pattern
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertNotNull
 
-class ArtifactTest {
+class MProductTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(ArtifactTest.class.getName())
+                    .resolve(MProductTest.class.getName())
 
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/fixture/sample_results")
@@ -50,13 +50,13 @@ class ArtifactTest {
         ]).build()
         SortKeys sortKeys =
                 new SortKeys("step", "profile")
-        Artifact artifact =
-                new Artifact.Builder(
+        MProduct mProduct =
+                new MProduct.Builder(
                         Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
                         .setQueryOnMetadata(mp)
                         .sortKeys(sortKeys)
                         .build()
-        String description = artifact.getDescription()
+        String description = mProduct.getDescription()
         assertEquals('''{"step":"6", "profile":"Flaskr_ProductionEnv", "URL.path":"/"}''',
                 description)
     }
@@ -67,14 +67,14 @@ class ArtifactTest {
                 "URL.host": "demoaut-mimic.kazurayam.com",
                 "URL.file": "/"
         ]).build()
-        Artifact artifact =
-                new Artifact.Builder(
+        MProduct mProduct =
+                new MProduct.Builder(
                         Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
                         .setQueryOnMetadata(mp)
                         .build()
         assertEquals(
                 '''{"URL.file":"/", "URL.host":"demoaut-mimic.kazurayam.com"}''',
-                artifact.getDescription())
+                mProduct.getDescription())
     }
 
     @Test
@@ -83,12 +83,12 @@ class ArtifactTest {
                 "URL.host": "demoaut-mimic.kazurayam.com",
                 "URL.file": "/"
         ]).build()
-        Artifact artifact =
-                new Artifact.Builder(
+        MProduct mProduct =
+                new MProduct.Builder(
                         Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
                         .setQueryOnMetadata(mp)
                         .build()
-        println JsonOutput.prettyPrint(artifact.toString())
+        println JsonOutput.prettyPrint(mProduct.toString())
     }
 
     @Test
@@ -120,17 +120,17 @@ class ArtifactTest {
                 FileType.PNG)
         assert 2 == rightList.size()
         //
-        ArtifactGroup artifactGroup =
-                ArtifactGroup.builder(leftList, rightList)
+        MProductGroup mProductGroup =
+                MProductGroup.builder(leftList, rightList)
                         .ignoreKeys("profile", "URL", "URL.host", "category")
                         .build()
-        assertNotNull(artifactGroup)
+        assertNotNull(mProductGroup)
 
-        println JsonOutput.prettyPrint(artifactGroup.toString())
+        println JsonOutput.prettyPrint(mProductGroup.toString())
 
-        assert 2 == artifactGroup.size()
+        assert 2 == mProductGroup.size()
         //
-        println artifactGroup.get(0).toString()
+        println mProductGroup.get(0).toString()
     }
 
 }

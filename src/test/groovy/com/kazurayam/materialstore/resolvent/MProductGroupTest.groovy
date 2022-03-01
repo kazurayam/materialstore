@@ -23,12 +23,12 @@ import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.*
 
-class ArtifactGroupTest {
+class MProductGroupTest {
 
     private static Path outputDir =
             Paths.get(".")
                     .resolve("build/tmp/testOutput")
-                    .resolve(ArtifactGroupTest.class.getName())
+                    .resolve(MProductGroupTest.class.getName())
     private static Path storeDir = outputDir.resolve("store")
     private static Path issue80Dir =
             Paths.get(".").resolve("src/test/fixture/issue#80")
@@ -40,7 +40,7 @@ class ArtifactGroupTest {
     private JobTimestamp timestampD
     private MaterialList left
     private MaterialList right
-    private ArtifactGroup artifactGroup
+    private MProductGroup mProductGroup
 
     @BeforeAll
     static void beforeAll() {
@@ -55,42 +55,42 @@ class ArtifactGroupTest {
     void before() {
         MaterialList left = MaterialList.NULL_OBJECT
         MaterialList right = MaterialList.NULL_OBJECT
-        artifactGroup = ArtifactGroup.builder(left, right).build()
+        mProductGroup = MProductGroup.builder(left, right).build()
     }
 
     @Test
     void test_add_size_get() {
-        artifactGroup.add(Artifact.NULL_OBJECT)
-        assertEquals(1, artifactGroup.size())
-        assertEquals(Artifact.NULL_OBJECT, artifactGroup.get(0))
+        mProductGroup.add(MProduct.NULL_OBJECT)
+        assertEquals(1, mProductGroup.size())
+        assertEquals(MProduct.NULL_OBJECT, mProductGroup.get(0))
     }
 
     @Test
     void test_countWarnings() {
-        Artifact tmp =
-                new Artifact.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
+        MProduct tmp =
+                new MProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
                         JobTimestamp.now())
                         .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT)
                         .build()
         tmp.setDiffRatio(45.0d)
-        artifactGroup.add(tmp)
-        assertEquals(1, artifactGroup.countWarnings(0.00d))
-        assertEquals(0, artifactGroup.countWarnings(45.00d))
-        assertEquals(0, artifactGroup.countWarnings(45.01d))
+        mProductGroup.add(tmp)
+        assertEquals(1, mProductGroup.countWarnings(0.00d))
+        assertEquals(0, mProductGroup.countWarnings(45.00d))
+        assertEquals(0, mProductGroup.countWarnings(45.01d))
     }
 
     @Test
     void test_getResolventTimestamp() {
-        JobTimestamp resolventTimestamp = artifactGroup.getResolventTimestamp()
+        JobTimestamp resolventTimestamp = mProductGroup.getResolventTimestamp()
         //println "resolventTimestamp=${resolventTimestamp.toString()}"
         assertNotEquals(JobTimestamp.NULL_OBJECT, resolventTimestamp)
     }
 
     @Test
     void test_iterator() {
-        artifactGroup.add(Artifact.NULL_OBJECT)
-        artifactGroup.each { Artifact it ->
-            assert it == Artifact.NULL_OBJECT
+        mProductGroup.add(MProduct.NULL_OBJECT)
+        mProductGroup.each { MProduct it ->
+            assert it == MProduct.NULL_OBJECT
         }
     }
 
@@ -100,36 +100,36 @@ class ArtifactGroupTest {
                 new IdentifyMetadataValues.Builder()
                         .putAllNameRegexPairs(["URL.query":"\\w{32}"])
                         .build()
-        artifactGroup.setIdentifyMetadataValues(imv)
-        IdentifyMetadataValues result = artifactGroup.getIdentifyMetadataValues()
+        mProductGroup.setIdentifyMetadataValues(imv)
+        IdentifyMetadataValues result = mProductGroup.getIdentifyMetadataValues()
         assertEquals(imv, result)
     }
 
     @Test
     void test_setter_getter_IgnoreMetadataKeys() {
-        artifactGroup.setIgnoreMetadataKeys(IgnoreMetadataKeys.NULL_OBJECT)
-        IgnoreMetadataKeys ignoreMetadataKeys = artifactGroup.getIgnoreMetadataKeys()
+        mProductGroup.setIgnoreMetadataKeys(IgnoreMetadataKeys.NULL_OBJECT)
+        IgnoreMetadataKeys ignoreMetadataKeys = mProductGroup.getIgnoreMetadataKeys()
         assertNotNull(ignoreMetadataKeys)
     }
 
     @Test
     void test_setter_getter_MaterialListLeft() {
-        artifactGroup.setMaterialListLeft(MaterialList.NULL_OBJECT)
-        MaterialList left = artifactGroup.getMaterialListLeft()
+        mProductGroup.setMaterialListLeft(MaterialList.NULL_OBJECT)
+        MaterialList left = mProductGroup.getMaterialListLeft()
         assertNotNull(left)
     }
 
     @Test
     void test_setter_getter_MaterialListRight() {
-        artifactGroup.setMaterialListRight(MaterialList.NULL_OBJECT)
-        MaterialList right = artifactGroup.getMaterialListRight()
+        mProductGroup.setMaterialListRight(MaterialList.NULL_OBJECT)
+        MaterialList right = mProductGroup.getMaterialListRight()
         assertNotNull(right)
     }
 
     @Test
     void test_toString() {
-        artifactGroup.add(Artifact.NULL_OBJECT)
-        String s = artifactGroup.toString()
+        mProductGroup.add(MProduct.NULL_OBJECT)
+        String s = mProductGroup.toString()
         println JsonOutput.prettyPrint(s)
         assertTrue(s.contains("left"), s)
         assertTrue(s.contains("right"), s)
@@ -154,34 +154,34 @@ class ArtifactGroupTest {
     @Test
     void test_Builder() {
         specialFixture()
-        ArtifactGroup artifactGroup =
-                ArtifactGroup.builder(left, right)
+        MProductGroup mProductGroup =
+                MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .sort("URL.path")
                         .build()
-        assertNotNull(artifactGroup)
-        artifactGroup.each {artifact ->
-            //println JsonOutput.prettyPrint(artifact.toString())
-            assertNotEquals(ID.NULL_OBJECT, artifact.getLeft().getIndexEntry().getID())
-            assertNotEquals(ID.NULL_OBJECT, artifact.getRight().getIndexEntry().getID())
+        assertNotNull(mProductGroup)
+        mProductGroup.each {mProduct ->
+            //println JsonOutput.prettyPrint(mProduct.toString())
+            assertNotEquals(ID.NULL_OBJECT, mProduct.getLeft().getIndexEntry().getID())
+            assertNotEquals(ID.NULL_OBJECT, mProduct.getRight().getIndexEntry().getID())
         }
-        assertEquals(8, artifactGroup.size())
+        assertEquals(8, mProductGroup.size())
     }
 
     @Test
     void test_update() {
         specialFixture()
-        ArtifactGroup artifactGroup =
-                new ArtifactGroup.Builder(left, right)
+        MProductGroup mProductGroup =
+                new MProductGroup.Builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .sort("URL.host")
                         .build()
-        int theSize = artifactGroup.size()
+        int theSize = mProductGroup.size()
         assertEquals(8, theSize)
         //
-        Artifact target = artifactGroup.get(0)
+        MProduct target = mProductGroup.get(0)
         //println JsonOutput.prettyPrint(target.toString())
         /*
 {
@@ -227,33 +227,33 @@ class ArtifactGroupTest {
 }
          */
         // make a clone of the target
-        Artifact clone = new Artifact(target)
+        MProduct clone = new MProduct(target)
         // let's update it
-        artifactGroup.update(clone)
+        mProductGroup.update(clone)
         // now the head is not equal to the clone
-        assertNotEquals(artifactGroup.get(0), clone)
+        assertNotEquals(mProductGroup.get(0), clone)
         // the tail is equal to the clone
-        assertEquals(artifactGroup.get(theSize - 1), clone)
+        assertEquals(mProductGroup.get(theSize - 1), clone)
         //
-        //println JsonOutput.prettyPrint(artifactGroup.get(theSize - 1).toString())
+        //println JsonOutput.prettyPrint(mProductGroup.get(theSize - 1).toString())
     }
 
     @Test
     void test_zipMaterials() {
         specialFixture()
-        List<Artifact> artifactList =
-                ArtifactGroup.zipMaterials(
+        List<MProduct> mProductList =
+                MProductGroup.zipMaterials(
                         left, right, JobTimestamp.now(),
                         new IgnoreMetadataKeys.Builder().ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").build(),
                         new IdentifyMetadataValues.Builder().putAllNameRegexPairs(["URL.query":"\\w{32}"]).build(),
                         new SortKeys("URL.host")
                         )
-        assertNotNull(artifactList)
-        artifactList.each {artifact ->
-            //println JsonOutput.prettyPrint(artifact.toString())
-            assertTrue(artifact.getResolventTimestamp() != JobTimestamp.NULL_OBJECT)
+        assertNotNull(mProductList)
+        mProductList.each {mProduct ->
+            //println JsonOutput.prettyPrint(mProduct.toString())
+            assertTrue(mProduct.getResolventTimestamp() != JobTimestamp.NULL_OBJECT)
         }
-        assertEquals(8, artifactList.size())
+        assertEquals(8, mProductList.size())
 
     }
 }

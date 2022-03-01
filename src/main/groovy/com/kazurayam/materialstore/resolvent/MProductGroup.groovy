@@ -14,12 +14,12 @@ import java.util.stream.Collectors
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-final class ArtifactGroup {
+final class MProductGroup {
 
-    private static final Logger logger = LoggerFactory.getLogger(ArtifactGroup.class)
+    private static final Logger logger = LoggerFactory.getLogger(MProductGroup.class)
     private static final boolean verbose = false
 
-    private List<Artifact> artifactList
+    private List<MProduct> mProductList
     private MaterialList materialList0
     private MaterialList materialList1
     private JobTimestamp resolventTimestamp
@@ -32,21 +32,21 @@ final class ArtifactGroup {
      * Deep-copy constructor
      * @param source
      */
-    ArtifactGroup(ArtifactGroup source) {
+    MProductGroup(MProductGroup source) {
         this.materialList0 = new MaterialList(source.materialList0)
         this.materialList1 = new MaterialList(source.materialList1)
         this.ignoreMetadataKeys = source.ignoreMetadataKeys    // IgnoreMetadataKeys is immutable
         this.identifyMetadataValues = source.identifyMetadataValues // IdentifyMetadataValues is immutable
         this.sortKeys = source.sortKeys                        // SortKeys is immutable
-        List<Artifact> tmp = new ArrayList<>()
-        source.artifactList.each { sourceDA ->
-            tmp.add(new Artifact(sourceDA))
+        List<MProduct> tmp = new ArrayList<>()
+        source.mProductList.each { sourceDA ->
+            tmp.add(new MProduct(sourceDA))
         }
-        this.artifactList = tmp
+        this.mProductList = tmp
         this.resolventTimestamp = source.resolventTimestamp
     }
 
-    private ArtifactGroup(Builder builder) {
+    private MProductGroup(Builder builder) {
         this.materialList0 = builder.materialList0
         this.materialList1 = builder.materialList1
         this.ignoreMetadataKeys = builder.ignoreMetadataKeys
@@ -54,35 +54,35 @@ final class ArtifactGroup {
         this.sortKeys = builder.sortKeys
         this.resolventTimestamp = builder.resolventTimestamp
         //
-        this.artifactList =
+        this.mProductList =
                 zipMaterials(materialList0, materialList1, this.resolventTimestamp,
                         ignoreMetadataKeys,
                         identifyMetadataValues,
                         sortKeys)
-        // at this timing the Artifacts are not yet filled with the diff information, they are still vacant.
+        // at this timing the MProducts are not yet filled with the diff information, they are still vacant.
     }
 
-    void add(Artifact e) {
-        artifactList.add(e)
+    void add(MProduct e) {
+        mProductList.add(e)
     }
 
-    boolean update(Artifact e) {
-        boolean wasPresent = artifactList.remove(e)
-        artifactList.add(e)
+    boolean update(MProduct e) {
+        boolean wasPresent = mProductList.remove(e)
+        mProductList.add(e)
         return wasPresent
     }
 
     int countWarnings(Double criteria) {
-        artifactList.stream()
-                .filter { Artifact da ->
+        mProductList.stream()
+                .filter { MProduct da ->
                     criteria < da.getDiffRatio()
                 }
                 .collect(Collectors.toList())
                 .size()
     }
 
-    Artifact get(int index) {
-        return artifactList.get(index)
+    MProduct get(int index) {
+        return mProductList.get(index)
     }
 
     JobTimestamp getResolventTimestamp() {
@@ -133,8 +133,8 @@ final class ArtifactGroup {
         return this.sortKeys
     }
 
-    Iterator<Artifact> iterator() {
-        return artifactList.iterator()
+    Iterator<MProduct> iterator() {
+        return mProductList.iterator()
     }
 
     void setIdentifyMetadataValues(IdentifyMetadataValues identifyMetadataValues) {
@@ -154,17 +154,17 @@ final class ArtifactGroup {
     }
 
     int size() {
-        return artifactList.size()
+        return mProductList.size()
     }
 
     void sort() {
-        Collections.sort(artifactList)
+        Collections.sort(mProductList)
     }
 
     List<QueryOnMetadata> getQueryOnMetadataList() {
         List<QueryOnMetadata> list = new ArrayList<>()
-        artifactList.each { Artifact artifact ->
-            QueryOnMetadata query = artifact.getQueryOnMetadata()
+        mProductList.each { MProduct mProduct ->
+            QueryOnMetadata query = mProduct.getQueryOnMetadata()
             QueryOnMetadata deepCopy = QueryOnMetadata.builder(query).build()
             list.add(deepCopy)
         }
@@ -174,7 +174,7 @@ final class ArtifactGroup {
     /**
      *
      */
-    static List<Artifact> zipMaterials(MaterialList leftList,
+    static List<MProduct> zipMaterials(MaterialList leftList,
                                        MaterialList rightList,
                                        JobTimestamp resolventTimestamp,
                                        IgnoreMetadataKeys ignoreMetadataKeys,
@@ -188,7 +188,7 @@ final class ArtifactGroup {
         Objects.requireNonNull(sortKeys)
 
         // the result
-        List<Artifact> artifactList = new ArrayList<>()
+        List<MProduct> mProductList = new ArrayList<>()
 
         //
         rightList.each { Material right->
@@ -207,12 +207,12 @@ final class ArtifactGroup {
                         ( rightPattern.matches(leftMetadata) ||
                                 identifyMetadataValues.matches(leftMetadata) )
                 ) {
-                    Artifact da =
-                            new Artifact.Builder(left, right, resolventTimestamp)
+                    MProduct da =
+                            new MProduct.Builder(left, right, resolventTimestamp)
                                     .setQueryOnMetadata(rightPattern)
                                     .sortKeys(sortKeys)
                                     .build()
-                    artifactList.add(da)
+                    mProductList.add(da)
                     sb.append("left metadata: Y ${leftMetadata}\n")
                     foundLeftCount += 1
                 } else {
@@ -220,12 +220,12 @@ final class ArtifactGroup {
                 }
             }
             if (foundLeftCount == 0) {
-                Artifact da =
-                        new Artifact.Builder(Material.NULL_OBJECT, right, resolventTimestamp)
+                MProduct da =
+                        new MProduct.Builder(Material.NULL_OBJECT, right, resolventTimestamp)
                                 .setQueryOnMetadata(rightPattern)
                                 .sortKeys(sortKeys)
                                 .build()
-                artifactList.add(da)
+                mProductList.add(da)
             }
             if (foundLeftCount == 0 || foundLeftCount >= 2) {
                 if (verbose) {
@@ -250,7 +250,7 @@ final class ArtifactGroup {
                         ( leftPattern.matches(rightMetadata) ||
                                 identifyMetadataValues.matches(rightMetadata) )
                 ) {
-                    // this must have been found matched already; no need to create a Artifact
+                    // this must have been found matched already; no need to create a MProduct
                     sb.append("right metadata: Y ${rightMetadata}\n")
                     foundRightCount += 1
                 } else {
@@ -258,12 +258,12 @@ final class ArtifactGroup {
                 }
             }
             if (foundRightCount == 0) {
-                Artifact da =
-                        new Artifact.Builder(left, Material.NULL_OBJECT, resolventTimestamp)
+                MProduct da =
+                        new MProduct.Builder(left, Material.NULL_OBJECT, resolventTimestamp)
                                 .setQueryOnMetadata(leftPattern)
                                 .sortKeys(sortKeys)
                                 .build()
-                artifactList.add(da)
+                mProductList.add(da)
             }
             if (foundRightCount == 0 || foundRightCount >= 2) {
                 if (verbose) {
@@ -271,8 +271,8 @@ final class ArtifactGroup {
                 }
             }
         }
-        Collections.sort(artifactList)
-        return artifactList
+        Collections.sort(mProductList)
+        return mProductList
     }
 
     //---------------------------------------------------------------
@@ -281,7 +281,7 @@ final class ArtifactGroup {
         StringBuilder sb = new StringBuilder()
         int count = 0
         sb.append("[")
-        artifactList.each { Artifact da ->
+        mProductList.each { MProduct da ->
             if (count > 0) sb.append(",")
             sb.append(da.toString())
             count += 1
@@ -299,7 +299,7 @@ final class ArtifactGroup {
      */
     static class Builder {
         // required
-        private final List<Artifact> artifactList
+        private final List<MProduct> mProductList
         private final MaterialList materialList0
         private final MaterialList materialList1
         private final JobTimestamp resolventTimestamp
@@ -311,7 +311,7 @@ final class ArtifactGroup {
         Builder(MaterialList materialList0, MaterialList materialList1) {
             this.materialList0 = materialList0
             this.materialList1 = materialList1
-            this.artifactList = new ArrayList<>()
+            this.mProductList = new ArrayList<>()
             int order = materialList0.getJobTimestamp() <=> materialList1.getJobTimestamp()
             if (order <= 0) {
                 this.resolventTimestamp =
@@ -346,8 +346,8 @@ final class ArtifactGroup {
             this.sortKeys = sortKeys
             return this
         }
-        ArtifactGroup build() {
-            return new ArtifactGroup(this)
+        MProductGroup build() {
+            return new MProductGroup(this)
         }
     }
 }

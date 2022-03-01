@@ -9,9 +9,9 @@ import com.kazurayam.materialstore.metadata.SortKeys
 /**
  * Data Transfer Object
  */
-final class Artifact implements Comparable {
+final class MProduct implements Comparable {
 
-    public static final Artifact NULL_OBJECT =
+    public static final MProduct NULL_OBJECT =
             new Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
                     JobTimestamp.NULL_OBJECT)
                     .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT)
@@ -26,7 +26,7 @@ final class Artifact implements Comparable {
     private Material diff
     private Double diffRatio
 
-    private Artifact(Builder builder) {
+    private MProduct(Builder builder) {
         this.left = builder.left
         this.right = builder.right
         this.diff = builder.diff
@@ -41,7 +41,7 @@ final class Artifact implements Comparable {
      *
      * @param source
      */
-    Artifact(Artifact source) {
+    MProduct(MProduct source) {
         Objects.requireNonNull(source)
         this.left = source.getLeft()
         this.right = source.getRight()
@@ -102,7 +102,7 @@ final class Artifact implements Comparable {
     }
 
     /**
-     * String representation of this Artifact instance
+     * String representation of this MProduct instance
      *
      * @return
      */
@@ -112,10 +112,10 @@ final class Artifact implements Comparable {
 
     @Override
     boolean equals(Object obj) {
-        if (! obj instanceof Artifact) {
+        if (! obj instanceof MProduct) {
             return false
         }
-        Artifact other = (Artifact)obj
+        MProduct other = (MProduct)obj
         return this.getRight() == other.getRight() &&
                 this.getLeft() == other.getLeft()
     }
@@ -159,10 +159,10 @@ final class Artifact implements Comparable {
 
     @Override
     int compareTo(Object obj) {
-        if (! obj instanceof Artifact) {
+        if (! obj instanceof MProduct) {
             throw new IllegalArgumentException("obj is not instance of DiffResult")
         }
-        Artifact other = (Artifact)obj
+        MProduct other = (MProduct)obj
 
         // Note that the SortKey is taken into account here indirectly
         return this.getDescription() <=> other.getDescription()
@@ -202,8 +202,8 @@ final class Artifact implements Comparable {
             this.sortKeys = sortKeys
             return this
         }
-        Artifact build() {
-            return new Artifact(this)
+        MProduct build() {
+            return new MProduct(this)
         }
     }
 }

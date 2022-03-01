@@ -1,8 +1,7 @@
 package com.kazurayam.materialstore.differ
 
 import com.kazurayam.materialstore.*
-import com.kazurayam.materialstore.resolvent.Artifact
-import com.kazurayam.materialstore.resolvent.ArtifactGroup
+import com.kazurayam.materialstore.resolvent.MProduct
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -10,6 +9,7 @@ import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.StoreImpl
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
+import com.kazurayam.materialstore.resolvent.MProductGroup
 import groovy.json.JsonOutput
 import org.junit.jupiter.api.Test
 
@@ -44,14 +44,14 @@ class ImageDifferToPNGTest {
                 QueryOnMetadata.builder(["profile": "DevelopmentEnv"]).build(),
                 FileType.PNG)
 
-        ArtifactGroup artifactGroup =
-                ArtifactGroup.builder(left, right)
+        MProductGroup mProductGroup =
+                MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
-        assertNotNull(artifactGroup)
-        assertEquals(2, artifactGroup.size(), JsonOutput.prettyPrint(artifactGroup.toString()))
+        assertNotNull(mProductGroup)
+        assertEquals(2, mProductGroup.size(), JsonOutput.prettyPrint(mProductGroup.toString()))
         //
-        Artifact stuffed = new ImageDifferToPNG(root).makeArtifact(artifactGroup.get(0))
+        MProduct stuffed = new ImageDifferToPNG(root).makeMProduct(mProductGroup.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertTrue(stuffed.getDiffRatio() > 0)

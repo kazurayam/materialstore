@@ -6,7 +6,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-import com.kazurayam.materialstore.resolvent.ArtifactGroup
+import com.kazurayam.materialstore.resolvent.MProductGroup
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
@@ -69,11 +69,11 @@ abstract class TextGridDifferBuilder {
 
         MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
 
-        ArtifactGroup preparedAG =
-                ArtifactGroup.builder(left, right)
+        MProductGroup preparedAG =
+                MProductGroup.builder(left, right)
                         .ignoreKeys("input")
                         .build()
-        ArtifactGroup reducedAG = facade.reduce(preparedAG)
+        MProductGroup reducedAG = facade.reduce(preparedAG)
         int warnings = reducedAG.countWarnings(criteria)
         reportFile = facade.report(jobName, reducedAG, criteria,
                         jobName.toString() + "-index.html")

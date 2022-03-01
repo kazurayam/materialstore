@@ -1,8 +1,7 @@
 package com.kazurayam.materialstore.differ
 
 import com.kazurayam.materialstore.*
-import com.kazurayam.materialstore.resolvent.Artifact
-import com.kazurayam.materialstore.resolvent.ArtifactGroup
+import com.kazurayam.materialstore.resolvent.MProduct
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -10,6 +9,7 @@ import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.StoreImpl
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
+import com.kazurayam.materialstore.resolvent.MProductGroup
 import groovy.xml.MarkupBuilder
 import org.junit.jupiter.api.Test
 
@@ -48,14 +48,14 @@ class TextDifferToHTMLTest {
                         .build(),
                 FileType.HTML)
 
-        ArtifactGroup prepared =
-                ArtifactGroup.builder(expected, actual)
+        MProductGroup prepared =
+                MProductGroup.builder(expected, actual)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
         assertNotNull(prepared)
         assertEquals(1, prepared.size())
         //
-        Artifact stuffed = new TextDifferToHTML(root).makeArtifact(prepared.get(0))
+        MProduct stuffed = new TextDifferToHTML(root).makeMProduct(prepared.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertTrue(stuffed.getDiffRatio() > 0)

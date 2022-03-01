@@ -1,12 +1,11 @@
 package com.kazurayam.materialstore.differ
 
 
-import com.kazurayam.materialstore.resolvent.Artifact
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Jobber
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.metadata.Metadata
-
+import com.kazurayam.materialstore.resolvent.MProduct
 import freemarker.cache.ClassTemplateLoader
 import freemarker.template.Configuration
 import freemarker.template.TemplateExceptionHandler
@@ -44,12 +43,12 @@ class VoidDiffer implements Differ {
     }
 
     @Override
-    Artifact makeArtifact(Artifact artifact) {
-        Objects.requireNonNull(artifact)
-        Objects.requireNonNull(artifact.getLeft())
-        Objects.requireNonNull(artifact.getRight())
-        Material left = artifact.getLeft()
-        Material right = artifact.getRight()
+    MProduct makeMProduct(MProduct mProduct) {
+        Objects.requireNonNull(mProduct)
+        Objects.requireNonNull(mProduct.getLeft())
+        Objects.requireNonNull(mProduct.getRight())
+        Material left = mProduct.getLeft()
+        Material right = mProduct.getRight()
         //
         Map<String, Object> dataModel = new HashMap<>()
         dataModel.put("left", left.toString())
@@ -73,14 +72,14 @@ class VoidDiffer implements Differ {
                 "right": right.getIndexEntry().getID().toString()])
                 .build()
         assert root != null
-        Jobber jobber = new Jobber(root, right.getJobName(), artifact.getResolventTimestamp())
+        Jobber jobber = new Jobber(root, right.getJobName(), mProduct.getResolventTimestamp())
         Material diffMaterial =
                 jobber.write(diffData,
                         FileType.HTML,
                         diffMetadata,
                         Jobber.DuplicationHandling.CONTINUE)
         //
-        Artifact result = new Artifact(artifact)
+        MProduct result = new MProduct(mProduct)
         result.setDiff(diffMaterial)
         return result
     }

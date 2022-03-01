@@ -1,13 +1,13 @@
 package issues.issues
 
 import com.kazurayam.materialstore.MaterialstoreFacade
-import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
+import com.kazurayam.materialstore.resolvent.MProductGroup
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -66,11 +66,11 @@ class Issue73Test {
     @Test
     void test_smoke() {
         MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
-        ArtifactGroup preparedAG =
-                ArtifactGroup.builder(left, right)
+        MProductGroup preparedAG =
+                MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host")
                         .build()
-        ArtifactGroup reducedAG = facade.reduce(preparedAG)
+        MProductGroup reducedAG = facade.reduce(preparedAG)
         Double criteria = 0.0d
         int warnings = reducedAG.countWarnings(criteria)
         // compile the report

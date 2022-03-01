@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.reporter
 
 import com.kazurayam.materialstore.MaterialstoreFacade
-import com.kazurayam.materialstore.resolvent.ArtifactGroup
 import com.kazurayam.materialstore.differ.DiffReporter
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -9,6 +8,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
+import com.kazurayam.materialstore.resolvent.MProductGroup
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -20,14 +20,14 @@ import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.assertTrue
 
-class ArtifactGroupBasicReporter_issue80_86Test {
+class MProductGroupBasicReporter_issue80_86Test {
 
     static final Path fixtureDir = Paths.get(".")
             .resolve("src/test/fixture/issue#80")
 
     static final Path outputDir = Paths.get(".")
             .resolve("build/tmp/testOutput")
-            .resolve(ArtifactGroupBasicReporter_issue80_86Test.class.getName())
+            .resolve(MProductGroupBasicReporter_issue80_86Test.class.getName())
 
     static Store store
     static final JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
@@ -81,12 +81,12 @@ class ArtifactGroupBasicReporter_issue80_86Test {
 
         // make diff of the 2 MaterialList objects
         // make diff
-        ArtifactGroup preparedAG =
-                ArtifactGroup.builder(left, right)
+        MProductGroup preparedAG =
+                MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .identifyWithRegex(["URL.query": "\\w{32}"])
                         .build()
-        ArtifactGroup reducedAG = facade.reduce(preparedAG)
+        MProductGroup reducedAG = facade.reduce(preparedAG)
 
         // compile HTML report
         DiffReporter reporter = facade.newReporter(jobName)

@@ -1,12 +1,12 @@
 package com.kazurayam.materialstore.differ
 
 
-import com.kazurayam.materialstore.resolvent.Artifact
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.FileTypeDiffability
 import com.kazurayam.materialstore.filesystem.Jobber
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.metadata.Metadata
+import com.kazurayam.materialstore.resolvent.MProduct
 
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
@@ -44,17 +44,17 @@ abstract class AbstractTextDiffer implements Differ {
     }
 
     @Override
-    Artifact makeArtifact(Artifact artifact) {
+    MProduct makeMProduct(MProduct mProduct) {
         Objects.requireNonNull(root_)
-        Objects.requireNonNull(artifact)
-        Objects.requireNonNull(artifact.getLeft())
-        Objects.requireNonNull(artifact.getRight())
+        Objects.requireNonNull(mProduct)
+        Objects.requireNonNull(mProduct.getLeft())
+        Objects.requireNonNull(mProduct.getRight())
         //
-        Material left = artifact.getLeft()
+        Material left = mProduct.getLeft()
         if (left.getDiffability() != FileTypeDiffability.AS_TEXT) {
             throw new IllegalArgumentException("${left} is not a text")
         }
-        Material right = artifact.getRight()
+        Material right = mProduct.getRight()
         if (right.getDiffability() != FileTypeDiffability.AS_TEXT) {
             throw new IllegalArgumentException("${right} is not a text")
         }
@@ -71,11 +71,11 @@ abstract class AbstractTextDiffer implements Differ {
                 "right": right.getIndexEntry().getID().toString(),
                 "ratio": DifferUtil.formatDiffRatioAsString(diffRatio)])
                 .build()
-        Jobber jobber = new Jobber(root_, right.getJobName(), artifact.getResolventTimestamp())
+        Jobber jobber = new Jobber(root_, right.getJobName(), mProduct.getResolventTimestamp())
         Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata, Jobber.DuplicationHandling.CONTINUE)
         //
         //
-        Artifact result = new Artifact(artifact)
+        MProduct result = new MProduct(mProduct)
         result.setDiff(diffMaterial)
         result.setDiffRatio(diffRatio)
         return result
