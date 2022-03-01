@@ -250,7 +250,6 @@ final class StoreImpl implements Store {
                             (jt <=> jobTimestamp) < 0
                         }
                         .collect(Collectors.toList())
-        Collections.reverse(filtered)
 
         logger.debug(String.format("[queryAllJobTimestampsPriorTo] filtered.size()=%d", filtered.size()))
         filtered.eachWithIndex { fjt, index ->

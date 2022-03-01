@@ -79,9 +79,10 @@ class StoreImplTest {
         //
         List<JobTimestamp> jobTimestamps = store.findAllJobTimestamps(jobName)
         assertNotNull(jobTimestamps)
-        assertEquals(2, jobTimestamps.size())
-        assertEquals(new JobTimestamp("20210715_145922"), jobTimestamps.get(0))
-        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(1))
+        assertEquals(3, jobTimestamps.size())
+        assertEquals(new JobTimestamp("20210715_150000"), jobTimestamps.get(0))
+        assertEquals(new JobTimestamp("20210715_145922"), jobTimestamps.get(1))
+        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(2))
     }
 
     @Test
@@ -89,24 +90,25 @@ class StoreImplTest {
         JobName jobName = new JobName("test_findAllJobTimestampsPriorTo")
         TestFixtureUtil.setupFixture(store, jobName)
         //
-        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
+        JobTimestamp jobTimestamp = new JobTimestamp("20210715_150000")
         List<JobTimestamp> jobTimestamps = store.findAllJobTimestampsPriorTo(jobName, jobTimestamp)
         assertNotNull(jobTimestamps)
-        assertEquals(1, jobTimestamps.size())
-        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(0))
+        assertEquals(2, jobTimestamps.size())
+        assertEquals(new JobTimestamp("20210715_145922"), jobTimestamps.get(0))
+        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(1))
     }
 
 
     @Test
-    void test_findJobTimestampPriorTo() {
-        JobName jobName = new JobName("test_findLatestJobTimestamp")
+    void test_findLatestJobTimestampPriorTo() {
+        JobName jobName = new JobName("test_findLatestJobTimestampPriorTo")
         TestFixtureUtil.setupFixture(store, jobName)
         //
-        JobTimestamp latest = store.findLatestJobTimestamp(jobName)
-        JobTimestamp second = store.findJobTimestampPriorTo(jobName, latest)
+        JobTimestamp latest = store.findLatestJobTimestamp(jobName)  // 20210715_150000
+        JobTimestamp second = store.findJobTimestampPriorTo(jobName, latest) // 20210715_145922
         assertNotNull(second)
         assertNotEquals(JobTimestamp.NULL_OBJECT, second)
-        assertEquals(new JobTimestamp("20210713_093357"), second)
+        assertEquals(new JobTimestamp("20210715_145922"), second)
     }
 
 
@@ -118,7 +120,7 @@ class StoreImplTest {
         JobTimestamp jobTimestamp = store.findLatestJobTimestamp(jobName)
         assertNotNull(jobTimestamp)
         assertNotEquals(JobTimestamp.NULL_OBJECT, jobTimestamp)
-        assertEquals(new JobTimestamp("20210715_145922"), jobTimestamp)
+        assertEquals(new JobTimestamp("20210715_150000"), jobTimestamp)
     }
 
     /**
@@ -184,9 +186,10 @@ class StoreImplTest {
         List<JobTimestamp> jobTimestamps =
                 store.queryAllJobTimestamps(jobName, query)
         assertNotNull(jobTimestamps)
-        assertEquals(2, jobTimestamps.size())
-        assertEquals(new JobTimestamp("20210715_145922"), jobTimestamps.get(0))
-        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(1))
+        assertEquals(3, jobTimestamps.size())
+        assertEquals(new JobTimestamp("20210715_150000"), jobTimestamps.get(0))
+        assertEquals(new JobTimestamp("20210715_145922"), jobTimestamps.get(1))
+        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(2))
     }
 
     @Test
@@ -200,12 +203,13 @@ class StoreImplTest {
                 "profile":"DevelopmentEnv"
         ]).build()
         QueryOnMetadata query = new QueryOnMetadata.Builder(metadata).build()
-        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
+        JobTimestamp jobTimestamp = new JobTimestamp("20210715_150000")
         List<JobTimestamp> jobTimestamps =
                 store.queryAllJobTimestampsPriorTo(jobName, query, jobTimestamp)
         assertNotNull(jobTimestamps)
-        assertEquals(1, jobTimestamps.size())
-        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(0))
+        assertEquals(2, jobTimestamps.size())
+        assertEquals(new JobTimestamp("20210715_145922"), jobTimestamps.get(0))
+        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(1))
     }
 
     @Test
@@ -219,12 +223,12 @@ class StoreImplTest {
                 "profile":"DevelopmentEnv"
         ]).build()
         QueryOnMetadata query = new QueryOnMetadata.Builder(metadata).build()
-        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
+        JobTimestamp jobTimestamp = new JobTimestamp("20210715_150000")
         JobTimestamp found =
                 store.queryJobTimestampPriorTo(jobName, query, jobTimestamp)
         assertNotNull(found)
         assertNotEquals(JobTimestamp.NULL_OBJECT, found)
-        assertEquals(new JobTimestamp("20210713_093357"), found)
+        assertEquals(new JobTimestamp("20210715_145922"), found)
     }
 
 
@@ -243,7 +247,7 @@ class StoreImplTest {
                 store.queryLatestJobTimestamp(jobName, query)
         assertNotNull(found)
         assertNotEquals(JobTimestamp.NULL_OBJECT, found)
-        assertEquals(new JobTimestamp("20210715_145922"), found)
+        assertEquals(new JobTimestamp("20210715_150000"), found)
     }
 
     @Test
