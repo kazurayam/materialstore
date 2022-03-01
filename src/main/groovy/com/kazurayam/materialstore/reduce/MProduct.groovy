@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.resolvent
+package com.kazurayam.materialstore.reduce
 
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material

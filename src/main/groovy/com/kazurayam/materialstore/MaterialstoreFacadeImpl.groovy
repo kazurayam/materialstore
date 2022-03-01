@@ -6,8 +6,8 @@ import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.reporter.MProductGroupBasicReporter
 import com.kazurayam.materialstore.reporter.MaterialsBasicReporter
-import com.kazurayam.materialstore.resolvent.MProductGroup
-import com.kazurayam.materialstore.resolvent.Reducer
+import com.kazurayam.materialstore.reduce.MProductGroup
+import com.kazurayam.materialstore.reduce.Reducer
 import com.kazurayam.materialstore.differ.DifferDriverImpl
 import com.kazurayam.materialstore.filesystem.Store
 

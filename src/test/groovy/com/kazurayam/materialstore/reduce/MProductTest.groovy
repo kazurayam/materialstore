@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.resolvent
+package com.kazurayam.materialstore.reduce
 
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.JobName

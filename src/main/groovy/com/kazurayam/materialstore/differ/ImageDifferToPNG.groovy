@@ -6,7 +6,7 @@ import com.kazurayam.materialstore.filesystem.FileTypeDiffability
 import com.kazurayam.materialstore.filesystem.Jobber
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.metadata.Metadata
-import com.kazurayam.materialstore.resolvent.MProduct
+import com.kazurayam.materialstore.reduce.MProduct
 import ru.yandex.qatools.ashot.comparison.ImageDiff
 import ru.yandex.qatools.ashot.comparison.ImageDiffer
 

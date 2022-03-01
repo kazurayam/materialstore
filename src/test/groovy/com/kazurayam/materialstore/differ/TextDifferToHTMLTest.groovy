@@ -1,15 +1,11 @@
 package com.kazurayam.materialstore.differ
 
-import com.kazurayam.materialstore.*
-import com.kazurayam.materialstore.resolvent.MProduct
-import com.kazurayam.materialstore.filesystem.FileType
-import com.kazurayam.materialstore.filesystem.JobName
-import com.kazurayam.materialstore.filesystem.JobTimestamp
-import com.kazurayam.materialstore.filesystem.Material
-import com.kazurayam.materialstore.filesystem.MaterialList
-import com.kazurayam.materialstore.filesystem.StoreImpl
+
+import com.kazurayam.materialstore.TestFixtureUtil
+import com.kazurayam.materialstore.filesystem.*
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
-import com.kazurayam.materialstore.resolvent.MProductGroup
+import com.kazurayam.materialstore.reduce.MProduct
+import com.kazurayam.materialstore.reduce.MProductGroup
 import groovy.xml.MarkupBuilder
 import org.junit.jupiter.api.Test
 

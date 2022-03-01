@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
-import com.kazurayam.materialstore.resolvent.MProductGroup
+import com.kazurayam.materialstore.reduce.MProductGroup
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test

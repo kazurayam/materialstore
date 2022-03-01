@@ -5,7 +5,7 @@ import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Jobber
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.metadata.Metadata
-import com.kazurayam.materialstore.resolvent.MProduct
+import com.kazurayam.materialstore.reduce.MProduct
 import freemarker.cache.ClassTemplateLoader
 import freemarker.template.Configuration
 import freemarker.template.TemplateExceptionHandler

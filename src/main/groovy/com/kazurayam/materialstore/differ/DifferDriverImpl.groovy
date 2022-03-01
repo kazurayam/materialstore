@@ -4,8 +4,8 @@ package com.kazurayam.materialstore.differ
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.Store
-import com.kazurayam.materialstore.resolvent.MProduct
-import com.kazurayam.materialstore.resolvent.MProductGroup
+import com.kazurayam.materialstore.reduce.MProduct
+import com.kazurayam.materialstore.reduce.MProductGroup
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

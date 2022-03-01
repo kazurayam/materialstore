@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.differ
 
 
-import com.kazurayam.materialstore.resolvent.MProductGroup
+import com.kazurayam.materialstore.reduce.MProductGroup
 
 import java.nio.file.Path
 

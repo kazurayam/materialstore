@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.resolvent
+package com.kazurayam.materialstore.reduce
 
 interface Reducer {
 

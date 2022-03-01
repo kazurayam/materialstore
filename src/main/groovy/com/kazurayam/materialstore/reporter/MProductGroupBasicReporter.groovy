@@ -11,8 +11,8 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
-import com.kazurayam.materialstore.resolvent.MProduct
-import com.kazurayam.materialstore.resolvent.MProductGroup
+import com.kazurayam.materialstore.reduce.MProduct
+import com.kazurayam.materialstore.reduce.MProductGroup
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
