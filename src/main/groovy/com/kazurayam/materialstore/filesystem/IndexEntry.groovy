@@ -8,15 +8,16 @@ import java.nio.file.Paths
 
 final class IndexEntry implements Comparable {
 
-    public static final IndexEntry NULL_OBJECT = new IndexEntry(ID.NULL_OBJECT, FileType.NULL_OBJECT, Metadata.NULL_OBJECT)
+    public static final IndexEntry NULL_OBJECT =
+            new IndexEntry(
+                    new MObject(ID.NULL_OBJECT, FileType.NULL_OBJECT),
+                    Metadata.NULL_OBJECT)
 
-    private ID id_
-    private FileType fileType_
+    private MObject mObject_
     private Metadata metadata_
 
-    IndexEntry(ID id, FileType fileType, Metadata metadata) {
-        this.id_ = id
-        this.fileType_ = fileType
+    IndexEntry(MObject mObject, Metadata metadata) {
+        this.mObject_ = mObject
         this.metadata_ = metadata
     }
 
@@ -49,21 +50,26 @@ final class IndexEntry implements Comparable {
             }
         }
         if (id != null && fileType != null && metadata != null) {
-            return new IndexEntry(id, fileType, metadata)
+            return new IndexEntry(new MObject(id, fileType), metadata)
         }
         return null   // blank line returns null
     }
 
-    ID getID() {
-        return id_
-    }
-
-    FileType getFileType() {
-        return fileType_
+    private MObject getMObject() {
+        return mObject_
     }
 
     Path getFileName() {
-        return Paths.get(this.getID().toString() + "." + this.getFileType().getExtension())
+        MObject mObject = getMObject()
+        return Paths.get(mObject.getID().toString() + "." + mObject.getFileType().getExtension())
+    }
+
+    FileType getFileType() {
+        return getMObject().getFileType()
+    }
+
+    ID getID() {
+        return getMObject().getID()
     }
 
     Metadata getMetadata() {
@@ -76,16 +82,14 @@ final class IndexEntry implements Comparable {
             return false
         }
         IndexEntry other = (IndexEntry)obj
-        return this.getID() == other.getID() &&
-                this.getFileType() == other.getFileType() &&
+        return this.getMObject() == other.getMObject() &&
                 this.getMetadata() == other.getMetadata()
     }
 
     @Override
     int hashCode() {
         int hash = 7
-        hash = 31 * hash + this.getID().hashCode()
-        hash = 31 * hash + this.getFileType().hashCode()
+        hash = 31 * hash + this.getMObject().hashCode()
         hash = 31 * hash + this.getMetadata().hashCode()
         return hash
     }
@@ -94,9 +98,9 @@ final class IndexEntry implements Comparable {
     String toString() {
         StringBuilder sb = new StringBuilder()
         sb.append("{")
-        sb.append("\"id\": \"" + this.getID().toString() + "\"")
+        sb.append("\"id\": \"" + this.getMObject().getID().toString() + "\"")
         sb.append(",")
-        sb.append("\"fileType\": " + this.getFileType().toString())
+        sb.append("\"fileType\": " + this.getMObject().getFileType().toString())
         sb.append(",")
         sb.append("\"metadata\": " + this.getMetadata().toString())
         sb.append("}")

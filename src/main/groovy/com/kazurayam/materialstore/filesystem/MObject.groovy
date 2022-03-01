@@ -99,4 +99,20 @@ final class MObject {
         hash = 31 * hash + this.getID().hashCode()
         return hash
     }
+
+    @Override
+    String toString() {
+        StringBuilder sb = new StringBuilder()
+        sb.append("{")
+        sb.append("\"id\":\"")
+        sb.append(getID().toString())
+        sb.append("\"")
+        sb.append(",")
+        sb.append("}")
+        sb.append("\"fileType\":\"")
+        sb.append(getFileType().toString())
+        sb.append("\"")
+        sb.append("}")
+        return sb.toString()
+    }
 }

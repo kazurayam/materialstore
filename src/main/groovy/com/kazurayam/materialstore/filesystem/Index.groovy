@@ -61,7 +61,7 @@ final class Index {
                     "metadata:${metadata.toString()} is already " +
                     "there in the index")
         }
-        IndexEntry indexEntry = new IndexEntry(id, fileType, metadata)
+        IndexEntry indexEntry = new IndexEntry(new MObject(id, fileType), metadata)
         lines_.add(indexEntry)
         return indexEntry
     }

@@ -119,7 +119,7 @@ final class Jobber {
         Objects.requireNonNull(id)
         Material result = null
         index.eachWithIndex { IndexEntry entry, x ->
-            if (entry.getID() == id) {
+            if (entry.getMObject().getID() == id) {
                 result = new Material(jobName, jobTimestamp, entry)
                 return
             }
