@@ -1,9 +1,9 @@
 com.kazurayam.materialstore
-com.kazurayam.materialstore.differ
 com.kazurayam.materialstore.facet.textgrid
 com.kazurayam.materialstore.filesystem
 com.kazurayam.materialstore.map
 com.kazurayam.materialstore.metadata
-com.kazurayam.materialstore.reporter
-com.kazurayam.materialstore.resolvent
+com.kazurayam.materialstore.reduce
+com.kazurayam.materialstore.reduce.differ
+com.kazurayam.materialstore.report
 com.kazurayam.materialstore.util
