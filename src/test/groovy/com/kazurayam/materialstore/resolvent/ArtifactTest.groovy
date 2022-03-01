@@ -43,7 +43,7 @@ class ArtifactTest {
 
     @Test
     void test_getDescription_more() {
-        QueryOnMetadata mp = QueryOnMetadata.builderWithMap([
+        QueryOnMetadata mp = QueryOnMetadata.builder([
                 "URL.path": "/",
                 "profile": "Flaskr_ProductionEnv",
                 "step":"6"
@@ -63,7 +63,7 @@ class ArtifactTest {
 
     @Test
     void test_getDescription() {
-        QueryOnMetadata mp = QueryOnMetadata.builderWithMap([
+        QueryOnMetadata mp = QueryOnMetadata.builder([
                 "URL.host": "demoaut-mimic.kazurayam.com",
                 "URL.file": "/"
         ]).build()
@@ -79,7 +79,7 @@ class ArtifactTest {
 
     @Test
     void test_toString() {
-        QueryOnMetadata mp = QueryOnMetadata.builderWithMap([
+        QueryOnMetadata mp = QueryOnMetadata.builder([
                 "URL.host": "demoaut-mimic.kazurayam.com",
                 "URL.file": "/"
         ]).build()

@@ -37,11 +37,11 @@ class ImageDifferToPNGTest {
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         //
         MaterialList left = storeImpl.select(jobName, jobTimestamp,
-                QueryOnMetadata.builderWithMap(["profile": "ProductionEnv"]).build(),
+                QueryOnMetadata.builder(["profile": "ProductionEnv"]).build(),
                 FileType.PNG)
 
         MaterialList right = storeImpl.select(jobName, jobTimestamp,
-                QueryOnMetadata.builderWithMap(["profile": "DevelopmentEnv"]).build(),
+                QueryOnMetadata.builder(["profile": "DevelopmentEnv"]).build(),
                 FileType.PNG)
 
         ArtifactGroup artifactGroup =

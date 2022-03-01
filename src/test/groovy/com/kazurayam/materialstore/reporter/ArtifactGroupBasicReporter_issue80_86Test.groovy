@@ -51,11 +51,11 @@ class ArtifactGroupBasicReporter_issue80_86Test {
     @BeforeEach
     void beforeEach() {
         left = store.select(jobName, timestampP,
-                QueryOnMetadata.builderWithMap(["profile": "MyAdmin_ProductionEnv"]).build()
+                QueryOnMetadata.builder(["profile": "MyAdmin_ProductionEnv"]).build()
         )
         assert left.size() == 8
         right = store.select(jobName, timestampD,
-                QueryOnMetadata.builderWithMap(["profile": "MyAdmin_DevelopmentEnv"]).build()
+                QueryOnMetadata.builder(["profile": "MyAdmin_DevelopmentEnv"]).build()
         )
         assert right.size() == 8
     }
@@ -69,12 +69,12 @@ class ArtifactGroupBasicReporter_issue80_86Test {
         // pick up the materials that belongs to the 2 "profiles"
         String profile1 = "MyAdmin_ProductionEnv"
         MaterialList left = store.select(jobName, timestampP,
-                QueryOnMetadata.builderWithMap(["profile": profile1]).build()
+                QueryOnMetadata.builder(["profile": profile1]).build()
         )
 
         String profile2 = "MyAdmin_DevelopmentEnv"
         MaterialList right = store.select(jobName, timestampD,
-                QueryOnMetadata.builderWithMap(["profile": profile2]).build()
+                QueryOnMetadata.builder(["profile": profile2]).build()
         )
 
         MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)

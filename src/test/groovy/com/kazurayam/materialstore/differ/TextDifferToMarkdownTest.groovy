@@ -36,14 +36,14 @@ class TextDifferToMarkdownTest {
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         //
         MaterialList left = storeImpl.select(jobName, jobTimestamp,
-                QueryOnMetadata.builderWithMap([
+                QueryOnMetadata.builder([
                         "category":"page source",
                         "profile": "ProductionEnv"])
                         .build(),
                 FileType.HTML)
 
         MaterialList right = storeImpl.select(jobName, jobTimestamp,
-                QueryOnMetadata.builderWithMap([
+                QueryOnMetadata.builder([
                         "category":"page source",
                         "profile": "DevelopmentEnv"])
                         .build(),

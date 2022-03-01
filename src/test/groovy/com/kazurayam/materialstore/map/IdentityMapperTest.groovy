@@ -53,7 +53,7 @@ class IdentityMapperTest {
     @Test
     void test_smoke() {
         JobTimestamp fixtureTimestamp = new JobTimestamp("20210713_093357")
-        QueryOnMetadata query = QueryOnMetadata.builderWithMap(["URL.host": "www.google.com"]).build()
+        QueryOnMetadata query = QueryOnMetadata.builder(["URL.host": "www.google.com"]).build()
         MaterialList mList = store.select(jobName, fixtureTimestamp, query)
         assertEquals(1, mList.size())
         Material source = mList.get(0)

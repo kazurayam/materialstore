@@ -54,10 +54,10 @@ class VoidDifferTest {
         JobTimestamp timestamp1 = new JobTimestamp("20220128_191320")
         JobTimestamp timestamp2 = new JobTimestamp("20220128_191342")
         MaterialList left = store.select(jobName, timestamp1,
-                QueryOnMetadata.builderWithMap(["URL.path": "/npm/bootstrap-icons@1.5.0/font/fonts/bootstrap-icons.woff2"]).build(),
+                QueryOnMetadata.builder(["URL.path": "/npm/bootstrap-icons@1.5.0/font/fonts/bootstrap-icons.woff2"]).build(),
                 FileType.WOFF2)
         MaterialList right = store.select(jobName, timestamp2,
-                QueryOnMetadata.builderWithMap(["URL.path": "/npm/bootstrap-icons@1.7.2/font/fonts/bootstrap-icons.woff2"]).build(),
+                QueryOnMetadata.builder(["URL.path": "/npm/bootstrap-icons@1.7.2/font/fonts/bootstrap-icons.woff2"]).build(),
                 FileType.WOFF2)
         prepared =
                 ArtifactGroup.builder(left, right)

@@ -59,13 +59,13 @@ class DifferDriverImplTest {
 
         JobTimestamp timestamp1 = new JobTimestamp("20210715_145922")
         MaterialList left = store.select(jobName, timestamp1,
-                QueryOnMetadata.builderWithMap(["profile": "ProductionEnv"]).build(),
+                QueryOnMetadata.builder(["profile": "ProductionEnv"]).build(),
                 FileType.HTML)
         assertEquals(1, left.size())
 
         JobTimestamp timestamp2 = new JobTimestamp("20210715_145922")
         MaterialList right = store.select(jobName, timestamp2,
-                QueryOnMetadata.builderWithMap(["profile": "DevelopmentEnv"]).build(),
+                QueryOnMetadata.builder(["profile": "DevelopmentEnv"]).build(),
                 FileType.HTML)
         assertEquals(1, right.size())
 
@@ -89,11 +89,11 @@ class DifferDriverImplTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         //
         MaterialList left = store.select(jobName, jobTimestamp,
-                QueryOnMetadata.builderWithMap(["profile": "ProductionEnv"]).build(),
+                QueryOnMetadata.builder(["profile": "ProductionEnv"]).build(),
                 FileType.PNG)
 
         MaterialList right = store.select(jobName, jobTimestamp,
-                QueryOnMetadata.builderWithMap(["profile": "DevelopmentEnv"]).build(),
+                QueryOnMetadata.builder(["profile": "DevelopmentEnv"]).build(),
                 FileType.PNG)
 
         ArtifactGroup artifactGroup =

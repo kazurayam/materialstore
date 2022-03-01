@@ -25,20 +25,20 @@ abstract class QueryOnMetadata {
         return new Builder()
     }
 
-    static Builder builderWithMap(Map<String, String> source) {
+    static Builder builder(Map<String, String> source) {
         return new Builder(source)
     }
 
-    static Builder builderWithMetadata(Metadata metadata) {
+    static Builder builder(Metadata metadata) {
         return new Builder(metadata)
     }
 
-    static Builder builderWithMetadata(Metadata metadata,
-                                       IgnoreMetadataKeys ignoreMetadataKeys) {
+    static Builder builder(Metadata metadata,
+                           IgnoreMetadataKeys ignoreMetadataKeys) {
         return new Builder(metadata, ignoreMetadataKeys)
     }
 
-    static Builder builderWithDeepCopy(QueryOnMetadata source) {
+    static Builder builder(QueryOnMetadata source) {
         return new Builder(source)
     }
 

@@ -54,11 +54,11 @@ class Issue73Test {
     @BeforeEach
     void beforeEach() {
         left = store.select(jobName, timestampP,
-                QueryOnMetadata.builderWithMap(["profile": "MyAdmin_ProductionEnv"]).build()
+                QueryOnMetadata.builder(["profile": "MyAdmin_ProductionEnv"]).build()
         )
         assert left.size() == 8
         right = store.select(jobName, timestampD,
-                QueryOnMetadata.builderWithMap(["profile": "MyAdmin_DevelopmentEnv"]).build()
+                QueryOnMetadata.builder(["profile": "MyAdmin_DevelopmentEnv"]).build()
         )
         assert right.size() == 8
     }

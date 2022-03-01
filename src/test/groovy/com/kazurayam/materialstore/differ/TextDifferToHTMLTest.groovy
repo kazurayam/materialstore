@@ -37,13 +37,13 @@ class TextDifferToHTMLTest {
         TestFixtureUtil.setupFixture(storeImpl, jobName)
         //
         MaterialList expected = storeImpl.select(jobName, jobTimestamp,
-                QueryOnMetadata.builderWithMap([
+                QueryOnMetadata.builder([
                         "category":"page source", "profile": "ProductionEnv"])
                         .build(),
                 FileType.HTML)
 
         MaterialList actual = storeImpl.select(jobName, jobTimestamp,
-                QueryOnMetadata.builderWithMap([
+                QueryOnMetadata.builder([
                         "category":"page source","profile": "DevelopmentEnv"])
                         .build(),
                 FileType.HTML)

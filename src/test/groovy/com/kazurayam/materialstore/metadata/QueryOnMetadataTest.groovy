@@ -41,7 +41,7 @@ class QueryOnMetadataTest {
                 new IgnoreMetadataKeys.Builder()
                         .ignoreKey("profile")
                         .build()
-        QueryOnMetadata query = QueryOnMetadata.builderWithMetadata(metadata, ignoreMetadataKeys).build()
+        QueryOnMetadata query = QueryOnMetadata.builder(metadata, ignoreMetadataKeys).build()
         assertNotNull(query)
         assertFalse(query.containsKey("profile"))
         assertTrue(query.containsKey("category"))
@@ -53,7 +53,7 @@ class QueryOnMetadataTest {
                 "profile":"ProjectionEnv",
                 "category":"screenshot"])
                 .build()
-        QueryOnMetadata query = QueryOnMetadata.builderWithMetadata(metadata).build()
+        QueryOnMetadata query = QueryOnMetadata.builder(metadata).build()
         assertNotNull(query)
         assertTrue(query.containsKey("profile"))
         assertTrue(query.containsKey("category"))
@@ -61,7 +61,7 @@ class QueryOnMetadataTest {
 
     @Test
     void test_getDescription() {
-        QueryOnMetadata mp = QueryOnMetadata.builderWithMap([
+        QueryOnMetadata mp = QueryOnMetadata.builder([
                 "URL.path": "/",
                 "profile": "Flaskr_ProductionEnv",
                 "step":"6"
@@ -81,7 +81,7 @@ class QueryOnMetadataTest {
 
     @Test
     void test_matches_falsy() {
-        QueryOnMetadata query = QueryOnMetadata.builderWithMap(["profile": "ProductionEnv"]).build()
+        QueryOnMetadata query = QueryOnMetadata.builder(["profile": "ProductionEnv"]).build()
         Metadata metadata = Metadata.builder(["foo": "bar"]).build()
         assertFalse(query.matches(metadata))
     }
@@ -117,13 +117,13 @@ class QueryOnMetadataTest {
                 new IgnoreMetadataKeys.Builder()
                         .ignoreKey("profile")
                         .build()
-        QueryOnMetadata query = QueryOnMetadata.builderWithMetadata(metadataRight, ignoreMetadataKeys).build()
+        QueryOnMetadata query = QueryOnMetadata.builder(metadataRight, ignoreMetadataKeys).build()
         assert query.matches(metadataLeft)
     }
 
     @Test
     void test_matches_truthy() {
-        QueryOnMetadata query = QueryOnMetadata.builderWithMap(["profile": "ProductionEnv"]).build()
+        QueryOnMetadata query = QueryOnMetadata.builder(["profile": "ProductionEnv"]).build()
         Metadata metadata = Metadata.builder(["profile": "ProductionEnv"]).build()
         assertTrue(query.matches(metadata))
     }
@@ -149,7 +149,7 @@ class QueryOnMetadataTest {
         Metadata metadata = Metadata.builder()
                 .put("profile", "DevEnv")
                 .put("URL.host", "demoaut-mimic.kazurayam.com").build()
-        QueryOnMetadata query = QueryOnMetadata.builderWithMetadata(metadata).build()
+        QueryOnMetadata query = QueryOnMetadata.builder(metadata).build()
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
         mb.div() {
@@ -188,7 +188,7 @@ class QueryOnMetadataTest {
                 .put("B","b")
                 .build()
         IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
-        QueryOnMetadata query = QueryOnMetadata.builderWithMetadata(metadata, ignoreMetadataKeys).build()
+        QueryOnMetadata query = QueryOnMetadata.builder(metadata, ignoreMetadataKeys).build()
         String expected = '''{"B":"b", "C":"c", "a":"a"}'''
         String actual = query.toString()
         println JsonOutput.prettyPrint(actual)

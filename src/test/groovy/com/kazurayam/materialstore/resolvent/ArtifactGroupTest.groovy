@@ -143,11 +143,11 @@ class ArtifactGroupTest {
         jobName = new JobName("MyAdmin_visual_inspection_twins")
         timestampP = new JobTimestamp("20220128_191320")
         left = store.select(jobName, timestampP,
-                QueryOnMetadata.builderWithMap(["profile": "MyAdmin_ProductionEnv" ]).build()
+                QueryOnMetadata.builder(["profile": "MyAdmin_ProductionEnv" ]).build()
         )
         timestampD = new JobTimestamp("20220128_191342")
         right = store.select(jobName, timestampD,
-                QueryOnMetadata.builderWithMap(["profile": "MyAdmin_DevelopmentEnv" ]).build()
+                QueryOnMetadata.builder(["profile": "MyAdmin_DevelopmentEnv" ]).build()
         )
     }
 

@@ -52,12 +52,12 @@ class ArtifactGroupBasicReporterTest {
         // pickup the materials that belongs to the 2 "profiles"
         String profile1 = "ProductionEnv"
         MaterialList left = store.select(jobName, jobTimestamp,
-                QueryOnMetadata.builderWithMap(["profile": profile1 ]).build()
+                QueryOnMetadata.builder(["profile": profile1 ]).build()
         )
 
         String profile2 = "DevelopmentEnv"
         MaterialList right = store.select(jobName, jobTimestamp,
-                QueryOnMetadata.builderWithMap(["profile": profile2 ]).build())
+                QueryOnMetadata.builder(["profile": profile2 ]).build())
 
         MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
 

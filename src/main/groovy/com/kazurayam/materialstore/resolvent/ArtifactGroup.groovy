@@ -141,7 +141,7 @@ final class ArtifactGroup {
         List<QueryOnMetadata> list = new ArrayList<>()
         artifactList.each { Artifact artifact ->
             QueryOnMetadata query = artifact.getQueryOnMetadata()
-            QueryOnMetadata deepCopy = QueryOnMetadata.builderWithDeepCopy(query).build()
+            QueryOnMetadata deepCopy = QueryOnMetadata.builder(query).build()
             list.add(deepCopy)
         }
         return list
@@ -171,7 +171,7 @@ final class ArtifactGroup {
             FileType rightFileType = right.getIndexEntry().getFileType()
             Metadata rightMetadata = right.getIndexEntry().getMetadata()
             QueryOnMetadata rightPattern =
-                    QueryOnMetadata.builderWithMetadata(rightMetadata, ignoreMetadataKeys).build()
+                    QueryOnMetadata.builder(rightMetadata, ignoreMetadataKeys).build()
            //
             StringBuilder sb = new StringBuilder()  // to compose a log message
             sb.append("\nright pattern: ${rightPattern}\n")
@@ -215,7 +215,7 @@ final class ArtifactGroup {
             FileType leftFileType = left.getIndexEntry().getFileType()
             Metadata leftMetadata = left.getIndexEntry().getMetadata()
             QueryOnMetadata leftPattern =
-                    QueryOnMetadata.builderWithMetadata(leftMetadata, ignoreMetadataKeys).build()
+                    QueryOnMetadata.builder(leftMetadata, ignoreMetadataKeys).build()
             StringBuilder sb = new StringBuilder()  // to compose a log message
             sb.append("\nleft pattern: ${leftPattern}\n")
             int foundRightCount = 0
