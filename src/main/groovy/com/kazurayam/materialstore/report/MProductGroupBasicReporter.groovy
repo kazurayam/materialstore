@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.reporter
+package com.kazurayam.materialstore.report
 
 
 import com.kazurayam.materialstore.differ.DiffReporter

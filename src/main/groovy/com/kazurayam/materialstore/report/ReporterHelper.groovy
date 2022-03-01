@@ -1,8 +1,8 @@
-package com.kazurayam.materialstore.reporter
+package com.kazurayam.materialstore.report
 
 class ReporterHelper {
 
-    static final String CSS_PATH = "/com/kazurayam/materialstore/reporter/style.css"
+    static final String CSS_PATH = "/com/kazurayam/materialstore/report/style.css"
 
     private ReporterHelper() {}
 

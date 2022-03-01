@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.reporter
+package com.kazurayam.materialstore.report
 
 import org.junit.jupiter.api.Test
 
