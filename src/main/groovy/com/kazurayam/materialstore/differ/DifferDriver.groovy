@@ -3,10 +3,10 @@ package com.kazurayam.materialstore.differ
 
 import com.kazurayam.materialstore.resolvent.MProduct
 import com.kazurayam.materialstore.resolvent.MProductGroup
-import com.kazurayam.materialstore.resolvent.Resolvent
+import com.kazurayam.materialstore.resolvent.Reducer
 import com.kazurayam.materialstore.filesystem.FileType
 
-interface DifferDriver extends Resolvent {
+interface DifferDriver extends Reducer {
 
     MProductGroup differentiate(MProductGroup mProductGroup)
 

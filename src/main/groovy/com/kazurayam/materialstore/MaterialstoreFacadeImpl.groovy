@@ -7,7 +7,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.reporter.MProductGroupBasicReporter
 import com.kazurayam.materialstore.reporter.MaterialsBasicReporter
 import com.kazurayam.materialstore.resolvent.MProductGroup
-import com.kazurayam.materialstore.resolvent.Resolvent
+import com.kazurayam.materialstore.resolvent.Reducer
 import com.kazurayam.materialstore.differ.DifferDriverImpl
 import com.kazurayam.materialstore.filesystem.Store
 
@@ -16,7 +16,7 @@ import java.nio.file.Path
 class MaterialstoreFacadeImpl extends MaterialstoreFacade {
 
     private final Store store
-    private final List<Resolvent> resolventList
+    private final List<Reducer> resolventList
 
     MaterialstoreFacadeImpl(Store store) {
         this.store = store
@@ -25,7 +25,7 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
     }
 
     @Override
-    void addResolvent(Resolvent resolvent) {
+    void addResolvent(Reducer resolvent) {
         Objects.requireNonNull(resolvent)
         resolventList.add(resolvent)
     }
@@ -69,7 +69,7 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
     MProductGroup reduce(MProductGroup input) {
         MProductGroup tmp = new MProductGroup(input)
         resolventList.each {resolvent ->
-            tmp = resolvent.resolve(tmp)
+            tmp = resolvent.reduce(tmp)
         }
         tmp.sort()
         return tmp

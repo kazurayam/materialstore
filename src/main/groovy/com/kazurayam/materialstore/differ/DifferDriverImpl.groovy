@@ -25,12 +25,12 @@ final class DifferDriverImpl implements DifferDriver {
     }
 
     /**
-     * implements Resolvent
+     * implements Reducer
      * @param input
      * @return
      */
     @Override
-    MProductGroup resolve(MProductGroup input) {
+    MProductGroup reduce(MProductGroup input) {
         return differentiate(input)
     }
 

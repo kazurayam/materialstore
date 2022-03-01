@@ -77,7 +77,7 @@ class DifferDriverImplTest {
         assertEquals(1, mProductGroup.size())
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(store).build()
-        MProductGroup resolved = differDriver.resolve(mProductGroup)
+        MProductGroup resolved = differDriver.reduce(mProductGroup)
         assertEquals(1, resolved.size())
     }
 
@@ -104,7 +104,7 @@ class DifferDriverImplTest {
         assertEquals(2, mProductGroup.size())
         //
         DifferDriver differDriver = new DifferDriverImpl.Builder(store).build()
-        MProductGroup resolved = differDriver.resolve(mProductGroup)
+        MProductGroup resolved = differDriver.reduce(mProductGroup)
         assertNotNull(resolved)
         assertEquals(2, resolved.size())
     }
