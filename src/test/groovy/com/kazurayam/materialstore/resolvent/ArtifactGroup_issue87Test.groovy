@@ -36,6 +36,7 @@ class ArtifactGroup_issue87Test {
 
     MaterialList left
     MaterialList right
+    ArtifactGroup artifactGroup
 
     @BeforeAll
     static void beforeAll() {
@@ -62,15 +63,40 @@ class ArtifactGroup_issue87Test {
                 QueryOnMetadata.builder(["profile": "MyAdmin_DevelopmentEnv"]).build()
         )
         assert right.size() == 8
-    }
 
-    @Test
-    void test_getQueryOnMetadataList() {
-        ArtifactGroup artifactGroup =
+        artifactGroup =
                 ArtifactGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host")
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .build()
+    }
+
+    @Test
+    void test_getJobTimestampLeft() {
+        assertEquals(new JobTimestamp("20220128_191320"),
+                artifactGroup.getJobTimestampLeft())
+    }
+
+    @Test
+    void test_getJobTimestampRight() {
+        assertEquals(new JobTimestamp("20220128_191342"),
+                artifactGroup.getJobTimestampRight())
+    }
+
+    @Test
+    void test_getJobTimestampPrevious() {
+        assertEquals(new JobTimestamp("20220128_191320"),
+                artifactGroup.getJobTimestampPrevious())
+    }
+
+    @Test
+    void test_getJobTimestampFollowing() {
+        assertEquals(new JobTimestamp("20220128_191342"),
+                artifactGroup.getJobTimestampFollowing())
+    }
+
+    @Test
+    void test_getQueryOnMetadataList() {
 
         List<QueryOnMetadata> queryList = artifactGroup.getQueryOnMetadataList();
         assertEquals(8, queryList.size())

@@ -88,7 +88,7 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
                             dd(jobName_.toString())
                             //
                             dt("Left MaterialList specification")
-                            MaterialList left = artifactGroup.getLeftMaterialList()
+                            MaterialList left = artifactGroup.getMaterialListLeft()
                             if (left != MaterialList.NULL_OBJECT) {
                                 dd() {
                                     dl() {
@@ -108,7 +108,7 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
                             }
                             //
                             dt("Right MaterialList specification")
-                            MaterialList right = artifactGroup.getRightMaterialList()
+                            MaterialList right = artifactGroup.getMaterialListRight()
                             if (right != MaterialList.NULL_OBJECT) {
                                 dd() {
                                     dl() {
@@ -171,8 +171,8 @@ final class ArtifactGroupBasicReporter implements DiffReporter {
                                         makeModalSubsection(mb, da, index+1)
                                         //
                                         Context context = new Context(
-                                                artifactGroup.getLeftMaterialList().getQueryOnMetadata(),
-                                                artifactGroup.getRightMaterialList().getQueryOnMetadata(),
+                                                artifactGroup.getMaterialListLeft().getQueryOnMetadata(),
+                                                artifactGroup.getMaterialListRight().getQueryOnMetadata(),
                                                 artifactGroup.getIgnoreMetadataKeys(),
                                                 artifactGroup.getIdentifyMetadataValues()
                                         )

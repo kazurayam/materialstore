@@ -113,16 +113,16 @@ class ArtifactGroupTest {
     }
 
     @Test
-    void test_setter_getter_LeftMaterialList() {
-        artifactGroup.setLeftMaterialList(MaterialList.NULL_OBJECT)
-        MaterialList left = artifactGroup.getLeftMaterialList()
+    void test_setter_getter_MaterialListLeft() {
+        artifactGroup.setMaterialListLeft(MaterialList.NULL_OBJECT)
+        MaterialList left = artifactGroup.getMaterialListLeft()
         assertNotNull(left)
     }
 
     @Test
-    void test_setter_getter_RightMaterialList() {
-        artifactGroup.setRightMaterialList(MaterialList.NULL_OBJECT)
-        MaterialList right = artifactGroup.getRightMaterialList()
+    void test_setter_getter_MaterialListRight() {
+        artifactGroup.setMaterialListRight(MaterialList.NULL_OBJECT)
+        MaterialList right = artifactGroup.getMaterialListRight()
         assertNotNull(right)
     }
 

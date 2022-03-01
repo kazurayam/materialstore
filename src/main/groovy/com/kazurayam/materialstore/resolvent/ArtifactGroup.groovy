@@ -20,8 +20,8 @@ final class ArtifactGroup {
     private static final boolean verbose = false
 
     private List<Artifact> artifactList
-    private MaterialList leftMaterialList
-    private MaterialList rightMaterialList
+    private MaterialList materialList0
+    private MaterialList materialList1
     private JobTimestamp resolventTimestamp
 
     private IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
@@ -33,8 +33,8 @@ final class ArtifactGroup {
      * @param source
      */
     ArtifactGroup(ArtifactGroup source) {
-        this.leftMaterialList = new MaterialList(source.leftMaterialList)
-        this.rightMaterialList = new MaterialList(source.rightMaterialList)
+        this.materialList0 = new MaterialList(source.materialList0)
+        this.materialList1 = new MaterialList(source.materialList1)
         this.ignoreMetadataKeys = source.ignoreMetadataKeys    // IgnoreMetadataKeys is immutable
         this.identifyMetadataValues = source.identifyMetadataValues // IdentifyMetadataValues is immutable
         this.sortKeys = source.sortKeys                        // SortKeys is immutable
@@ -47,15 +47,15 @@ final class ArtifactGroup {
     }
 
     private ArtifactGroup(Builder builder) {
-        this.leftMaterialList = builder.leftMaterialList
-        this.rightMaterialList = builder.rightMaterialList
+        this.materialList0 = builder.materialList0
+        this.materialList1 = builder.materialList1
         this.ignoreMetadataKeys = builder.ignoreMetadataKeys
         this.identifyMetadataValues = builder.identifyMetadataValues
         this.sortKeys = builder.sortKeys
         this.resolventTimestamp = builder.resolventTimestamp
         //
         this.artifactList =
-                zipMaterials(leftMaterialList, rightMaterialList, this.resolventTimestamp,
+                zipMaterials(materialList0, materialList1, this.resolventTimestamp,
                         ignoreMetadataKeys,
                         identifyMetadataValues,
                         sortKeys)
@@ -93,16 +93,40 @@ final class ArtifactGroup {
         return this.identifyMetadataValues
     }
 
+    JobTimestamp getJobTimestampLeft() {
+        return this.getMaterialListLeft().getJobTimestamp()
+    }
+
+    JobTimestamp getJobTimestampRight() {
+        return this.getMaterialListRight().getJobTimestamp()
+    }
+
+    JobTimestamp getJobTimestampPrevious() {
+        return this.getMaterialListPrevious().getJobTimestamp()
+    }
+
+    JobTimestamp getJobTimestampFollowing() {
+        return this.getMaterialListFollowing().getJobTimestamp()
+    }
+
     IgnoreMetadataKeys getIgnoreMetadataKeys() {
         return this.ignoreMetadataKeys
     }
 
-    MaterialList getLeftMaterialList() {
-        return this.leftMaterialList
+    MaterialList getMaterialListLeft() {
+        return this.materialList0
     }
 
-    MaterialList getRightMaterialList() {
-        return this.rightMaterialList
+    MaterialList getMaterialListRight() {
+        return this.materialList1
+    }
+
+    MaterialList getMaterialListPrevious() {
+        return this.materialList0
+    }
+
+    MaterialList getMaterialListFollowing() {
+        return this.materialList1
     }
 
     SortKeys getSortKeys() {
@@ -121,12 +145,12 @@ final class ArtifactGroup {
         this.ignoreMetadataKeys = ignoreMetadataKeys
     }
 
-    void setLeftMaterialList(MaterialList materialList) {
-        this.leftMaterialList = materialList
+    void setMaterialListLeft(MaterialList materialList) {
+        this.materialList0 = materialList
     }
 
-    void setRightMaterialList(MaterialList materialList) {
-        this.rightMaterialList = materialList
+    void setMaterialListRight(MaterialList materialList) {
+        this.materialList1 = materialList
     }
 
     int size() {
@@ -276,19 +300,25 @@ final class ArtifactGroup {
     static class Builder {
         // required
         private final List<Artifact> artifactList
-        private final MaterialList leftMaterialList
-        private final MaterialList rightMaterialList
+        private final MaterialList materialList0
+        private final MaterialList materialList1
         private final JobTimestamp resolventTimestamp
         //
         private IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
         private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
         private SortKeys sortKeys = SortKeys.NULL_OBJECT
         //
-        Builder(MaterialList left, MaterialList right) {
-            this.leftMaterialList = left
-            this.rightMaterialList = right
+        Builder(MaterialList materialList0, MaterialList materialList1) {
+            this.materialList0 = materialList0
+            this.materialList1 = materialList1
             this.artifactList = new ArrayList<>()
-            this.resolventTimestamp = JobTimestamp.laterThan(left.getJobTimestamp(), right.getJobTimestamp())
+            int order = materialList0.getJobTimestamp() <=> materialList1.getJobTimestamp()
+            if (order <= 0) {
+                this.resolventTimestamp =
+                        JobTimestamp.laterThan(materialList0.getJobTimestamp(), materialList1.getJobTimestamp())
+            } else {
+                throw new IllegalArgumentException("left=${materialList0.getJobTimestamp()}, right=${materialList1.getJobTimestamp()}. expected left < right.")
+            }
         }
         Builder ignoreKeys(String ... keys) {
             IgnoreMetadataKeys imk =
