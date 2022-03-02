@@ -7,6 +7,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
+import groovy.json.JsonOutput
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
@@ -70,6 +71,20 @@ class MProductGroup_issue87Test {
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .build()
     }
+
+    @Test
+    void test_getDescription_short() {
+        String desc = mProductGroup.getDescription(false)
+        println JsonOutput.prettyPrint(desc)
+    }
+
+    @Test
+    void test_getDescription_full() {
+        String desc = mProductGroup.getDescription(true)
+        println JsonOutput.prettyPrint(desc)
+    }
+
+
 
     @Test
     void test_getJobTimestampLeft() {

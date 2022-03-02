@@ -81,9 +81,15 @@ class MProductGroupTest {
 
     @Test
     void test_getResolventTimestamp() {
-        JobTimestamp resolventTimestamp = mProductGroup.getResolventTimestamp()
+        JobTimestamp resolventTimestamp = mProductGroup.getResultTimestamp()
         //println "resolventTimestamp=${resolventTimestamp.toString()}"
         assertNotEquals(JobTimestamp.NULL_OBJECT, resolventTimestamp)
+    }
+
+    @Test
+    void test_getDescription() {
+        String desc = mProductGroup.getDescription(false)
+        println JsonOutput.prettyPrint(desc)
     }
 
     @Test

@@ -394,4 +394,9 @@ final class StoreImpl implements Store {
         wrt.close()
         return this.write(jobName, jobTimestamp, fileType, meta, data)
     }
+
+    @Override
+    String toString() {
+        return root_.toString()
+    }
 }

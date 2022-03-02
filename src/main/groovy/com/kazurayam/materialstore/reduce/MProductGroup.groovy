@@ -22,7 +22,7 @@ final class MProductGroup {
     private List<MProduct> mProductList
     private MaterialList materialList0
     private MaterialList materialList1
-    private JobTimestamp resolventTimestamp
+    private JobTimestamp resultTimestamp
 
     private IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
     private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
@@ -43,7 +43,7 @@ final class MProductGroup {
             tmp.add(new MProduct(sourceDA))
         }
         this.mProductList = tmp
-        this.resolventTimestamp = source.resolventTimestamp
+        this.resultTimestamp = source.resultTimestamp
     }
 
     private MProductGroup(Builder builder) {
@@ -52,10 +52,10 @@ final class MProductGroup {
         this.ignoreMetadataKeys = builder.ignoreMetadataKeys
         this.identifyMetadataValues = builder.identifyMetadataValues
         this.sortKeys = builder.sortKeys
-        this.resolventTimestamp = builder.resolventTimestamp
+        this.resultTimestamp = builder.resolventTimestamp
         //
         this.mProductList =
-                zipMaterials(materialList0, materialList1, this.resolventTimestamp,
+                zipMaterials(materialList0, materialList1, this.resultTimestamp,
                         ignoreMetadataKeys,
                         identifyMetadataValues,
                         sortKeys)
@@ -85,8 +85,8 @@ final class MProductGroup {
         return mProductList.get(index)
     }
 
-    JobTimestamp getResolventTimestamp() {
-        return this.resolventTimestamp
+    JobTimestamp getResultTimestamp() {
+        return this.resultTimestamp
     }
 
     IdentifyMetadataValues getIdentifyMetadataValues() {
@@ -278,15 +278,42 @@ final class MProductGroup {
     //---------------------------------------------------------------
     @Override
     String toString() {
+        return getDescription(true)
+    }
+
+    String getDescription(boolean fullContent=false) {
         StringBuilder sb = new StringBuilder()
-        int count = 0
-        sb.append("[")
-        mProductList.each { MProduct da ->
-            if (count > 0) sb.append(",")
-            sb.append(da.toString())
-            count += 1
+        sb.append("{")
+        sb.append("\"resultTimestamp\":\"")
+        sb.append(this.resultTimestamp.toString())
+        sb.append("\"")
+        sb.append(",")
+        sb.append("\"materialList0\":{")
+        sb.append("\"jobTimestamp\":\"")
+        sb.append(materialList0.getJobTimestamp().toString())
+        sb.append("\",\"size\":")
+        sb.append(materialList0.size())
+        sb.append("}")
+        sb.append(",")
+        sb.append("\"materialList1\":{")
+        sb.append("\"jobTimestamp\":\"")
+        sb.append(materialList1.getJobTimestamp().toString())
+        sb.append("\",\"size\":")
+        sb.append(materialList1.size())
+        sb.append("}")
+        if (fullContent) {
+            sb.append(",")
+            int count = 0
+            sb.append("\"mProductList\":")
+            sb.append("[")
+            mProductList.each { MProduct da ->
+                if (count > 0) sb.append(",")
+                sb.append(da.toString())
+                count += 1
+            }
+            sb.append("]")
         }
-        sb.append("]")
+        sb.append("}")
         return sb.toString()
     }
 
