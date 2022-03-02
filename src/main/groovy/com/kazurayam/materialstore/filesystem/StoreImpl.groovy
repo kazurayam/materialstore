@@ -298,7 +298,30 @@ final class StoreImpl implements Store {
     JobTimestamp queryJobTimestampWithSimilarContentPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp) {
         Objects.requireNonNull(jobName)
         Objects.requireNonNull(jobTimestamp)
-        throw new RuntimeException("TODO")
+        List<JobTimestamp> all =
+                queryAllJobTimestampsPriorTo(jobName, query, jobTimestamp)
+        logger.debug(String.format("[queryJobTimestampWithSimilarContentPriorTo] all.size()=%d", all.size()))
+        MaterialList baseList = this.select(jobName, jobTimestamp, QueryOnMetadata.ANY)
+        logger.debug(String.format("[queryJobTimestampWithSimilarContentPriorTo] baseList.size()=%d", baseList.size()))
+        assert baseList.size() > 0
+        for (JobTimestamp previous : all) {
+            logger.debug(String.format("[queryJobTimestampWithSimilarContentPriorTo] previous=%s", previous.toString()))
+            MaterialList targetList = this.select(jobName, previous, QueryOnMetadata.ANY)
+            if (similar(baseList, targetList)) {
+                return previous
+            }
+        }
+        return JobTimestamp.NULL_OBJECT
+    }
+
+    private static boolean similar(MaterialList baseList, MaterialList targetList) {
+        int count = 0
+        for (Material base : baseList) {
+            if (targetList.containsSimilarMetadataAs(base)) {
+                count += 1
+            }
+        }
+        return count == baseList.size()
     }
 
     @Override

@@ -248,10 +248,16 @@ class StoreImplTest {
         JobName jobName = new JobName("test_queryJobTimestampWithSimilarContentPriorTo")
         TestFixtureUtil.setupFixture(store, jobName)
         // add one more JobTimestamp directory to mee the test requirement
+        store.copyMaterials(jobName,
+                new JobTimestamp("20210713_093357"),
+                new JobTimestamp("20210715_145947"))
+        //
+        JobTimestamp previous =
+                store.queryJobTimestampWithSimilarContentPriorTo(jobName,
+                        QueryOnMetadata.ANY,
+                        new JobTimestamp("20210715_150000"))
 
-
-
-        fail("TODO")
+        assertEquals(new JobTimestamp("20210715_145922"), previous)
     }
 
     @Test

@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
-
+import com.kazurayam.materialstore.metadata.Metadata
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
 
 final class MaterialList {
@@ -50,6 +50,17 @@ final class MaterialList {
 
     boolean contains(Material material) {
         return materialList.contains(material)
+    }
+
+    boolean containsSimilarMetadataAs(Material material) {
+        Metadata baseMetadata = material.getMetadata()
+        for (Material targetMaterial : materialList) {
+            Metadata targetMetadata = targetMaterial.getMetadata()
+            if (baseMetadata == targetMetadata) {
+                return true
+            }
+        }
+        return false
     }
 
     int size() {
