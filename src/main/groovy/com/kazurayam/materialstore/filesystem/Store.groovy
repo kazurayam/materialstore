@@ -20,6 +20,8 @@ interface Store {
     int deleteMaterialsOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp,
                                           long amountToSubtract, TemporalUnit unit)
 
+    int copyMaterials(JobName jobName, JobTimestamp source, JobTimestamp target)
+
     List<JobTimestamp> findAllJobTimestamps(JobName jobName)
 
     List<JobTimestamp> findAllJobTimestampsPriorTo(JobName jobName, JobTimestamp jobTimestamp)
@@ -33,6 +35,8 @@ interface Store {
     List<JobTimestamp> queryAllJobTimestampsPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp)
 
     JobTimestamp queryJobTimestampPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp)
+
+    JobTimestamp queryJobTimestampWithSimilarContentPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp)
 
     JobTimestamp queryLatestJobTimestamp(JobName jobName, QueryOnMetadata query)
 

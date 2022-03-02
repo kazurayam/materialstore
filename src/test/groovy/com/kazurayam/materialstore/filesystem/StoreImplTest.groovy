@@ -54,6 +54,18 @@ class StoreImplTest {
     }
 
     @Test
+    void test_copyMaterials() {
+        JobName jobName = new JobName("test_copyMaterials")
+        TestFixtureUtil.setupFixture(store, jobName)
+        JobTimestamp source = new JobTimestamp("20210715_145922")
+        JobTimestamp target = JobTimestamp.now()
+        store.copyMaterials(jobName, source, target)
+        //
+        MaterialList copied = store.select(jobName, target, QueryOnMetadata.ANY)
+        assertTrue(copied.size() > 0)
+    }
+
+    @Test
     void test_deleteMaterialsOlderThanExclusive() {
         JobName jobName = new JobName("test_deleteMaterialsOlderThanExclusive")
         TestFixtureUtil.setupFixture(store, jobName)
@@ -231,6 +243,16 @@ class StoreImplTest {
         assertEquals(new JobTimestamp("20210715_145922"), found)
     }
 
+    @Test
+    void test_queryJobTimestampWithSimilarContentPriorTo() {
+        JobName jobName = new JobName("test_queryJobTimestampWithSimilarContentPriorTo")
+        TestFixtureUtil.setupFixture(store, jobName)
+        // add one more JobTimestamp directory to mee the test requirement
+
+
+
+        fail("TODO")
+    }
 
     @Test
     void test_queryLatestJobTimestamp() {

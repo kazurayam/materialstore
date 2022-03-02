@@ -1,6 +1,9 @@
 package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.MaterialstoreException
+import com.kazurayam.materialstore.map.IdentityMapper
+import com.kazurayam.materialstore.map.MappedResultSerializer
+import com.kazurayam.materialstore.map.Mapper
 import com.kazurayam.materialstore.metadata.Metadata
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import org.slf4j.Logger
@@ -40,6 +43,26 @@ final class StoreImpl implements Store {
         }
         this.root_ = root
         this.jobberCache_ = new HashSet<Jobber>()
+    }
+
+    @Override
+    int copyMaterials(JobName jobName, JobTimestamp source, JobTimestamp target) {
+        Objects.requireNonNull(jobName)
+        Objects.requireNonNull(source)
+        Objects.requireNonNull(target)
+        MaterialList sourceMaterialList =
+                this.select(jobName, source, QueryOnMetadata.ANY)
+        MappedResultSerializer serializer =
+                new MappedResultSerializer(this, jobName, target)
+        Mapper identity = new IdentityMapper()
+        identity.setStore(this)
+        identity.setMappingListener(serializer)
+        int count = 0
+        for (Material material : sourceMaterialList) {
+            identity.map(material)
+            count++
+        }
+        return count
     }
 
     @Override
@@ -138,7 +161,6 @@ final class StoreImpl implements Store {
             return JobTimestamp.NULL_OBJECT
         }
     }
-
 
     @Override
     JobTimestamp findLatestJobTimestamp(JobName jobName) throws MaterialstoreException {
@@ -270,6 +292,13 @@ final class StoreImpl implements Store {
         } else {
             return JobTimestamp.NULL_OBJECT
         }
+    }
+
+    @Override
+    JobTimestamp queryJobTimestampWithSimilarContentPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp) {
+        Objects.requireNonNull(jobName)
+        Objects.requireNonNull(jobTimestamp)
+        throw new RuntimeException("TODO")
     }
 
     @Override

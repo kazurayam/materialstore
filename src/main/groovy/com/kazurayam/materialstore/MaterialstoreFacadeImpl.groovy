@@ -16,18 +16,18 @@ import java.nio.file.Path
 class MaterialstoreFacadeImpl extends MaterialstoreFacade {
 
     private final Store store
-    private final List<Reducer> resolventList
+    private final List<Reducer> reducerList
 
     MaterialstoreFacadeImpl(Store store) {
         this.store = store
-        this.resolventList = new ArrayList<>()
-        resolventList.add(new DifferDriverImpl.Builder(store.getRoot()).build())
+        this.reducerList = new ArrayList<>()
+        reducerList.add(new DifferDriverImpl.Builder(store.getRoot()).build())
     }
 
     @Override
-    void addResolvent(Reducer resolvent) {
-        Objects.requireNonNull(resolvent)
-        resolventList.add(resolvent)
+    void addResolvent(Reducer reducer) {
+        Objects.requireNonNull(reducer)
+        reducerList.add(reducer)
     }
 
     @Override
@@ -68,8 +68,8 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
     @Override
     MProductGroup reduce(MProductGroup input) {
         MProductGroup tmp = new MProductGroup(input)
-        resolventList.each {resolvent ->
-            tmp = resolvent.reduce(tmp)
+        reducerList.each { reducer ->
+            tmp = reducer.reduce(tmp)
         }
         tmp.sort()
         return tmp
