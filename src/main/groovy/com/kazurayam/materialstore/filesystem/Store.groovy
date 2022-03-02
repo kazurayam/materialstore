@@ -36,6 +36,8 @@ interface Store {
 
     JobTimestamp queryJobTimestampPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp)
 
+    JobTimestamp queryJobTimestampWithSimilarContentPriorTo(JobName jobName, JobTimestamp jobTimestamp)
+
     JobTimestamp queryJobTimestampWithSimilarContentPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp)
 
     JobTimestamp queryLatestJobTimestamp(JobName jobName, QueryOnMetadata query)

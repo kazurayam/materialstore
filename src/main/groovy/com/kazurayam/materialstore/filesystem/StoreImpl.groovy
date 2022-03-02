@@ -295,6 +295,11 @@ final class StoreImpl implements Store {
     }
 
     @Override
+    JobTimestamp queryJobTimestampWithSimilarContentPriorTo(JobName jobName, JobTimestamp jobTimestamp) {
+        return queryJobTimestampWithSimilarContentPriorTo(jobName, QueryOnMetadata.ANY, jobTimestamp)
+    }
+
+    @Override
     JobTimestamp queryJobTimestampWithSimilarContentPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp) {
         Objects.requireNonNull(jobName)
         Objects.requireNonNull(jobTimestamp)
