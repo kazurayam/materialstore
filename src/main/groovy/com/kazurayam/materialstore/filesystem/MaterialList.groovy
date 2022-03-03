@@ -5,7 +5,11 @@ import com.kazurayam.materialstore.metadata.QueryOnMetadata
 
 final class MaterialList {
 
-    public static final NULL_OBJECT = new MaterialList(JobTimestamp.NULL_OBJECT, QueryOnMetadata.NULL_OBJECT, FileType.NULL_OBJECT)
+    public static final NULL_OBJECT =
+            new MaterialList(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT,
+                    QueryOnMetadata.NULL_OBJECT, FileType.NULL_OBJECT)
+
+    private JobName jobName
 
     private JobTimestamp jobTimestamp
 
@@ -15,11 +19,13 @@ final class MaterialList {
 
     private List<Material> materialList
 
-    MaterialList(JobTimestamp jobTimestamp, QueryOnMetadata query,
-                 FileType fileType) {
+    MaterialList(JobName jobName, JobTimestamp jobTimestamp,
+                 QueryOnMetadata query, FileType fileType) {
+        Objects.requireNonNull(jobName)
         Objects.requireNonNull(jobTimestamp)
         Objects.requireNonNull(query)
         Objects.requireNonNull(fileType)
+        this.jobName = jobName
         this.jobTimestamp = jobTimestamp
         this.query = query
         this.fileType = fileType
@@ -32,6 +38,7 @@ final class MaterialList {
      * @param source
      */
     MaterialList(MaterialList source) {
+        this.jobName = source.jobName
         this.jobTimestamp = source.jobTimestamp         // JobTimestamp is immutable
         this.query = source.queryOnMetadata   // QueryOnMetadata is immutable
         this.fileType = source.fileType                 // FileType is immutable
@@ -72,6 +79,10 @@ final class MaterialList {
     }
 
     // --------------- unique method ------------
+    JobName getJobName() {
+        return this.jobName
+    }
+
     JobTimestamp getJobTimestamp() {
         return this.jobTimestamp
     }
@@ -101,6 +112,10 @@ final class MaterialList {
         //
         StringBuilder sb2 = new StringBuilder()
         sb2.append("{")
+        sb2.append("\"jobName\":\"" + jobName.toString() + "\"")
+        sb2.append(",")
+        sb2.append("\"jobTimestamp\":\"" + jobTimestamp.toString() + "\"")
+        sb2.append(",")
         sb2.append('''"queryOnMetadata":''')
         sb2.append(this.query.toString())
         sb2.append(",")

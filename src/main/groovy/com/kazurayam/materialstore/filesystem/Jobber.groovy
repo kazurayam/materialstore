@@ -93,7 +93,7 @@ final class Jobber {
     MaterialList selectMaterials(QueryOnMetadata query, FileType fileType) {
         Objects.requireNonNull(query)
         Objects.requireNonNull(fileType)
-        MaterialList result = new MaterialList(jobTimestamp, query, fileType)
+        MaterialList result = new MaterialList(jobName, jobTimestamp, query, fileType)
         index.eachWithIndex { IndexEntry entry, x ->
             if (query == QueryOnMetadata.ANY ||
                     query.matches(entry.getMetadata())) {
