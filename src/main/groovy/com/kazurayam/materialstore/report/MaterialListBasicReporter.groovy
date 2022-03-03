@@ -6,6 +6,7 @@ import com.kazurayam.materialstore.filesystem.FileTypeDiffability
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
+import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
@@ -15,21 +16,18 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 
-final class MaterialsBasicReporter {
+final class MaterialListBasicReporter extends MaterialListReporter {
 
-    private static final Logger logger = LoggerFactory.getLogger(MaterialsBasicReporter.class)
+    private static final Logger logger = LoggerFactory.getLogger(MaterialListBasicReporter.class)
 
-    private Path root_
+    private Store store_
 
     private JobName jobName_
 
-    MaterialsBasicReporter(Path root, JobName jobName) {
-        Objects.requireNonNull(root)
+    MaterialListBasicReporter(Store store, JobName jobName) {
+        Objects.requireNonNull(store)
         Objects.requireNonNull(jobName)
-        if (! Files.exists(root)) {
-            throw new IllegalArgumentException("${root} is not present")
-        }
-        this.root_ = root
+        this.store_ = store
         this.jobName_ = jobName
     }
 
@@ -40,11 +38,12 @@ final class MaterialsBasicReporter {
      * @param reportFileName
      * @return
      */
-    Path reportMaterials(MaterialList materialList, String reportFileName = "list.html") {
+    @Override
+    Path report(MaterialList materialList, String reportFileName = "list.html") {
         Objects.requireNonNull(materialList)
         Objects.requireNonNull(reportFileName)
         //
-        Path reportFile = root_.resolve(reportFileName)
+        Path reportFile = store_.getRoot().resolve(reportFileName)
         //
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
@@ -74,7 +73,7 @@ final class MaterialsBasicReporter {
                     div(id: "collapsingHeader", class: "collapse header") {
                         dl() {
                             dt("Root path :")
-                            dd(root_.normalize().toString())
+                            dd(store_.getRoot().normalize().toString())
                             dt("JobName :")
                             dd(jobName_.toString())
                             dt("MaterialList specification")
@@ -115,7 +114,7 @@ final class MaterialsBasicReporter {
                                         "aria-labelledby": "heading${index+1}",
                                         "data-bs-parent": "#accordionExample") {
                                     mb.div(class: "accordion-body") {
-                                        makeAccordionBody(root_, mb, material,
+                                        makeAccordionBody(store_.getRoot(), mb, material,
                                                 materialList.getQueryOnMetadata())
                                     }
                                 }

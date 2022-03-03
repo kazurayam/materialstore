@@ -18,11 +18,11 @@ import java.util.regex.Pattern
 
 import static org.junit.jupiter.api.Assertions.assertTrue
 
-class MaterialsBasicReporterTest {
+class MaterialListBasicReporterTest {
 
     private static Path outputDir =
             Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(MaterialsBasicReporterTest.class.getName())
+                    .resolve(MaterialListBasicReporterTest.class.getName())
 
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/fixture/sample_results")
@@ -46,8 +46,8 @@ class MaterialsBasicReporterTest {
         Path jobNameDir = root.resolve(jobName.toString())
         FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
         //
-        MaterialsBasicReporter reporter =
-                new MaterialsBasicReporter(root, jobName)
+        MaterialListBasicReporter reporter =
+                new MaterialListBasicReporter(store, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         MaterialList list = store.select(jobName, jobTimestamp,
                 QueryOnMetadata.builder()
@@ -55,7 +55,7 @@ class MaterialsBasicReporterTest {
         )
         assertTrue(list.size() > 0, "list is empty")
         String fileName = "list.html"
-        Path report = reporter.reportMaterials(list, fileName)
+        Path report = reporter.report(list, fileName)
         //
         assertTrue(Files.exists(report))
     }

@@ -5,7 +5,7 @@ import com.kazurayam.materialstore.reduce.differ.DiffReporter
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.report.MProductGroupBasicReporter
-import com.kazurayam.materialstore.report.MaterialsBasicReporter
+import com.kazurayam.materialstore.report.MaterialListBasicReporter
 import com.kazurayam.materialstore.reduce.MProductGroup
 import com.kazurayam.materialstore.reduce.Reducer
 import com.kazurayam.materialstore.reduce.differ.DifferDriverImpl
@@ -42,7 +42,7 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
 
     @Override
     DiffReporter newReporter(JobName jobName) {
-        return new MProductGroupBasicReporter(getRoot(), jobName)
+        return new MProductGroupBasicReporter(getStore(), jobName)
     }
 
     @Override
@@ -60,9 +60,9 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
         Objects.requireNonNull(jobName)
         Objects.requireNonNull(materialList)
         Objects.requireNonNull(fileName)
-        MaterialsBasicReporter reporter =
-                new MaterialsBasicReporter(this.root, jobName)
-        return reporter.reportMaterials(materialList, fileName)
+        MaterialListBasicReporter reporter =
+                new MaterialListBasicReporter(store, jobName)
+        return reporter.report(materialList, fileName)
     }
 
     @Override

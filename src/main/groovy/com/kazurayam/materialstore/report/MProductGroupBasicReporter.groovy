@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.report
 
-
+import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.reduce.differ.DiffReporter
 import com.kazurayam.materialstore.reduce.differ.DifferUtil
 import com.kazurayam.materialstore.filesystem.FileType
@@ -20,23 +20,20 @@ import org.slf4j.LoggerFactory
 import java.nio.file.Files
 import java.nio.file.Path
 
-final class MProductGroupBasicReporter implements DiffReporter {
+final class MProductGroupBasicReporter extends MProductGroupReporter implements DiffReporter {
 
     private static final Logger logger = LoggerFactory.getLogger(MProductGroupBasicReporter.class)
 
-    private Path root_
+    private Store store_
 
     private JobName jobName_
 
     private Double criteria_ = 0.0d
 
-    MProductGroupBasicReporter(Path root, JobName jobName) {
-        Objects.requireNonNull(root)
+    MProductGroupBasicReporter(Store store, JobName jobName) {
+        Objects.requireNonNull(store)
         Objects.requireNonNull(jobName)
-        if (! Files.exists(root)) {
-            throw new IllegalArgumentException("${root} is not present")
-        }
-        this.root_ = root
+        this.store_ = store
         this.jobName_ = jobName
     }
 
@@ -49,11 +46,16 @@ final class MProductGroupBasicReporter implements DiffReporter {
     }
 
     @Override
+    Path report(MProductGroup mProductGroup, String reportFileName = "index.html") {
+        return this.reportDiffs(mProductGroup, reportFileName)
+    }
+
+    @Override
     Path reportDiffs(MProductGroup mProductGroup, String reportFileName = "index.html") {
         Objects.requireNonNull(mProductGroup)
         Objects.requireNonNull(reportFileName)
         //
-        Path reportFile = root_.resolve(reportFileName)
+        Path reportFile = store_.getRoot().resolve(reportFileName)
         //
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
@@ -83,7 +85,7 @@ final class MProductGroupBasicReporter implements DiffReporter {
                     div(id: "collapsingHeader", class: "collapse header") {
                         dl() {
                             dt("Root path :")
-                            dd(root_.normalize().toString())
+                            dd(store_.getRoot().normalize().toString())
                             dt("JobName :")
                             dd(jobName_.toString())
                             //
