@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.reduce
 
 import com.kazurayam.materialstore.filesystem.FileType
+import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
@@ -107,6 +108,10 @@ final class MProductGroup {
 
     JobTimestamp getJobTimestampFollowing() {
         return this.getMaterialListFollowing().getJobTimestamp()
+    }
+
+    JobName getJobName() {
+        return this.getMaterialListRight().getJobName()
     }
 
     IgnoreMetadataKeys getIgnoreMetadataKeys() {
@@ -284,6 +289,10 @@ final class MProductGroup {
     String getDescription(boolean fullContent=false) {
         StringBuilder sb = new StringBuilder()
         sb.append("{")
+        sb.append("\"jobName\":\"")
+        sb.append(this.getJobName().toString())
+        sb.append("\"")
+        sb.append(",")
         sb.append("\"resultTimestamp\":\"")
         sb.append(this.resultTimestamp.toString())
         sb.append("\"")

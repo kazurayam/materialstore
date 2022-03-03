@@ -93,6 +93,15 @@ class MProductGroupTest {
     }
 
     @Test
+    void test_getJobName() {
+        specialFixture()
+        MProductGroup mProductGroup =
+                MProductGroup.builder(left, right).build()
+        assertEquals(new JobName("MyAdmin_visual_inspection_twins"),
+                mProductGroup.getJobName())
+    }
+
+    @Test
     void test_iterator() {
         mProductGroup.add(MProduct.NULL_OBJECT)
         mProductGroup.each { MProduct it ->
