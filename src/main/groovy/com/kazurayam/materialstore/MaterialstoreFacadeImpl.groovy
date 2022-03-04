@@ -16,33 +16,24 @@ import java.nio.file.Path
 class MaterialstoreFacadeImpl extends MaterialstoreFacade {
 
     private final Store store
-    private final List<Reducer> reducerList
+    private final Reducer reducer
 
     MaterialstoreFacadeImpl(Store store) {
         this.store = store
-        this.reducerList = new ArrayList<>()
-        reducerList.add(new DifferDriverImpl.Builder(store.getRoot()).build())
-    }
-
-    @Override
-    void addResolvent(Reducer reducer) {
-        Objects.requireNonNull(reducer)
-        reducerList.add(reducer)
-    }
-
-    @Override
-    Path getRoot() {
-        return getStore().getRoot()
-    }
-
-    @Override
-    Store getStore() {
-        return this.store
+        this.reducer = new DifferDriverImpl.Builder(store.getRoot()).build()
     }
 
     @Override
     DiffReporter newReporter(JobName jobName) {
-        return new MProductGroupBasicReporter(getStore(), jobName)
+        return new MProductGroupBasicReporter(store, jobName)
+    }
+
+    @Override
+    MProductGroup reduce(MProductGroup input) {
+        MProductGroup tmp = new MProductGroup(input)
+        tmp = reducer.reduce(tmp)
+        tmp.sort()
+        return tmp
     }
 
     @Override
@@ -51,7 +42,7 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
         DiffReporter reporter = this.newReporter(mProductGroup.getJobName())
         reporter.setCriteria(criteria)
         reporter.reportDiffs(mProductGroup, fileName)
-        return root.resolve(fileName)
+        return store.getRoot().resolve(fileName)
     }
 
     @Override
@@ -64,14 +55,5 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
         return reporter.report(materialList, fileName)
     }
 
-    @Override
-    MProductGroup reduce(MProductGroup input) {
-        MProductGroup tmp = new MProductGroup(input)
-        reducerList.each { reducer ->
-            tmp = reducer.reduce(tmp)
-        }
-        tmp.sort()
-        return tmp
-    }
 
 }

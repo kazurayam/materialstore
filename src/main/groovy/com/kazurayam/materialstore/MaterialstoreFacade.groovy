@@ -18,12 +18,6 @@ abstract class MaterialstoreFacade {
         return new MaterialstoreFacadeImpl(store)
     }
 
-    abstract void addResolvent(Reducer resolvent)
-
-    abstract Path getRoot()
-
-    abstract Store getStore()
-
     abstract DiffReporter newReporter(JobName jobName)
 
     abstract MProductGroup reduce(MProductGroup input)
