@@ -29,6 +29,8 @@ final class MProductGroup {
     private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
     private SortKeys sortKeys = SortKeys.NULL_OBJECT
 
+    private boolean readyToReport
+
     /**
      * Deep-copy constructor
      * @param source
@@ -45,6 +47,7 @@ final class MProductGroup {
         }
         this.mProductList = tmp
         this.resultTimestamp = source.resultTimestamp
+        this.readyToReport = source.readyToReport
     }
 
     private MProductGroup(Builder builder) {
@@ -138,6 +141,10 @@ final class MProductGroup {
         return this.sortKeys
     }
 
+    boolean isReadyToReport() {
+        return this.readyToReport
+    }
+
     Iterator<MProduct> iterator() {
         return mProductList.iterator()
     }
@@ -156,6 +163,13 @@ final class MProductGroup {
 
     void setMaterialListRight(MaterialList materialList) {
         this.materialList1 = materialList
+    }
+
+    /**
+     * supposed to be used only by DifferDriverImpl
+     */
+    protected void setReadyToReport(boolean readyToReport) {
+        this.readyToReport = readyToReport
     }
 
     int size() {
@@ -297,6 +311,8 @@ final class MProductGroup {
         sb.append(this.resultTimestamp.toString())
         sb.append("\"")
         sb.append(",")
+        sb.append("\"isReadyToReport\":" + this.isReadyToReport())
+        sb.append(",")
         sb.append("\"materialList0\":{")
         sb.append("\"jobTimestamp\":\"")
         sb.append(materialList0.getJobTimestamp().toString())
@@ -343,6 +359,7 @@ final class MProductGroup {
         private IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
         private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
         private SortKeys sortKeys = SortKeys.NULL_OBJECT
+        private boolean readyToReport = false
         //
         Builder(MaterialList materialList0, MaterialList materialList1) {
             this.materialList0 = materialList0

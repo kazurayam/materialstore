@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.reduce.differ
+package com.kazurayam.materialstore.reduce
 
 
 import com.kazurayam.materialstore.reduce.MProduct

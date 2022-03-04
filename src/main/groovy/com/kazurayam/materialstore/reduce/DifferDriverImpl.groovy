@@ -1,11 +1,13 @@
-package com.kazurayam.materialstore.reduce.differ
+package com.kazurayam.materialstore.reduce
 
 
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.Store
-import com.kazurayam.materialstore.reduce.MProduct
-import com.kazurayam.materialstore.reduce.MProductGroup
+import com.kazurayam.materialstore.reduce.differ.Differ
+import com.kazurayam.materialstore.reduce.differ.ImageDifferToPNG
+import com.kazurayam.materialstore.reduce.differ.TextDifferToHTML
+import com.kazurayam.materialstore.reduce.differ.VoidDiffer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -50,6 +52,7 @@ final class DifferDriverImpl implements DifferDriver {
             // update the contents
             result.update(stuffedDA)
         }
+        result.setReadyToReport(true)
         return result
     }
 

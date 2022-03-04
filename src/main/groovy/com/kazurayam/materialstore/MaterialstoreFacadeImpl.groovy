@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.report.MProductGroupBasicReporter
 import com.kazurayam.materialstore.report.MaterialListBasicReporter
 import com.kazurayam.materialstore.reduce.MProductGroup
 import com.kazurayam.materialstore.reduce.Reducer
-import com.kazurayam.materialstore.reduce.differ.DifferDriverImpl
+import com.kazurayam.materialstore.reduce.DifferDriverImpl
 import com.kazurayam.materialstore.filesystem.Store
 
 import java.nio.file.Path

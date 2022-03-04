@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.report
 
+import com.kazurayam.materialstore.MaterialstoreException
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.reduce.differ.DiffReporter
 import com.kazurayam.materialstore.reduce.differ.DifferUtil
@@ -54,6 +55,12 @@ final class MProductGroupBasicReporter extends MProductGroupReporter implements 
     Path reportDiffs(MProductGroup mProductGroup, String reportFileName = "index.html") {
         Objects.requireNonNull(mProductGroup)
         Objects.requireNonNull(reportFileName)
+        //
+        if (! mProductGroup.isReadyToReport()) {
+            throw new MaterialstoreException(
+                    "given MProductGroup is not ready to report. mProductGroup=" +
+                            mProductGroup.toString())
+        }
         //
         Path reportFile = store_.getRoot().resolve(reportFileName)
         //

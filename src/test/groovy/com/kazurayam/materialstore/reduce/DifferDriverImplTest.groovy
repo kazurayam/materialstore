@@ -1,9 +1,9 @@
-package com.kazurayam.materialstore.reduce.differ
+package com.kazurayam.materialstore.reduce
 
 import com.kazurayam.materialstore.TestFixtureUtil
 import com.kazurayam.materialstore.filesystem.*
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
-import com.kazurayam.materialstore.reduce.MProductGroup
+import com.kazurayam.materialstore.reduce.differ.ImageDifferToPNG
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
