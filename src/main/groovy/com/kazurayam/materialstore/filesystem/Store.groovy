@@ -44,14 +44,21 @@ interface Store {
 
     byte[] read(Material material)
 
+    Jobber getCachedJobber(JobName jobName, JobTimestamp jobTimestamp)
+
     Jobber getJobber(JobName jobName, JobTimestamp jobTimestamp)
 
     Path getPathOf(Material material)
 
     Path getRoot()
 
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp)
+
     MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
                         QueryOnMetadata query)
+
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
+                        FileType fileType)
 
     MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
                         QueryOnMetadata query, FileType fileType)

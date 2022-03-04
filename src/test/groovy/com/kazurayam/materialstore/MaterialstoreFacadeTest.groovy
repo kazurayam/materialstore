@@ -83,7 +83,7 @@ class MaterialstoreFacadeTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20220128_191320")
         MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY)
         MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
-        Path report = facade.report(jobName, materialList, "test_reportMaterials.html")
+        Path report = facade.report(materialList, "test_reportMaterials.html")
         assertNotNull(report)
         assertTrue(Files.exists(report))
     }
@@ -99,7 +99,7 @@ class MaterialstoreFacadeTest {
         MProductGroup reducedAG = facade.reduce(preparedAG)
         JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
         double criteria = 0.0D
-        Path report = facade.report(jobName, reducedAG, criteria,"test_report_MProductGroup.html")
+        Path report = facade.report(reducedAG, criteria,"test_report_MProductGroup.html")
         assertNotNull(report)
         assertTrue(Files.exists(report))
         assertTrue(reducedAG.countWarnings(criteria) > 0)

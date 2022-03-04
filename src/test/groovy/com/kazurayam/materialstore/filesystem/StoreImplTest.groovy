@@ -318,7 +318,7 @@ class StoreImplTest {
 
     @Test
     void test_select_with_FileType() {
-        JobName jobName = new JobName("test_select")
+        JobName jobName = new JobName("test_select_with_FileType")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = Metadata.builder([
                 "profile": "DevelopmentEnv",
@@ -334,6 +334,24 @@ class StoreImplTest {
                 .build()
         // select specifying FileType
         MaterialList materials = store.select(jobName, jobTimestamp, pattern, FileType.PNG)
+        assertNotNull(materials)
+        assertEquals(1, materials.size())
+    }
+
+    @Test
+    void test_select_without_QueryOnMetadata_without_FileType() {
+        JobName jobName = new JobName("test_select_without_QueryOnMetadata_without_FileType")
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        Metadata metadata = Metadata.builder([
+                "profile": "DevelopmentEnv",
+                "URL": "http://demoaut-mimic.kazurayam.com/"])
+                .build()
+        Path input = imagesDir.resolve("20210710_142631.development.png")
+        Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
+        assertNotNull(material)
+        //
+        // select all
+        MaterialList materials = store.select(jobName, jobTimestamp)
         assertNotNull(materials)
         assertEquals(1, materials.size())
     }

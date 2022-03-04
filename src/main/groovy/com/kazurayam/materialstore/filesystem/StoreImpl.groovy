@@ -367,6 +367,19 @@ final class StoreImpl implements Store {
     }
 
     @Override
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
+                        FileType fileType) {
+        Jobber jobber = this.getJobber(jobName, jobTimestamp)
+        return jobber.selectMaterials(QueryOnMetadata.ANY, fileType)
+    }
+
+    @Override
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp) {
+        Jobber jobber = this.getJobber(jobName, jobTimestamp)
+        return jobber.selectMaterials(QueryOnMetadata.ANY)
+    }
+
+    @Override
     File selectFile(JobName jobName, JobTimestamp jobTimestamp,
                     QueryOnMetadata query, FileType fileType) {
         Jobber jobber = this.getJobber(jobName, jobTimestamp)

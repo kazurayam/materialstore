@@ -46,22 +46,21 @@ class MaterialstoreFacadeImpl extends MaterialstoreFacade {
     }
 
     @Override
-    Path report(JobName jobName, MProductGroup mProductGroup,
-                Double criteria, String fileName) {
-        DiffReporter reporter = this.newReporter(jobName)
+    Path report(MProductGroup mProductGroup, Double criteria, String fileName) {
+        Objects.requireNonNull(mProductGroup)
+        DiffReporter reporter = this.newReporter(mProductGroup.getJobName())
         reporter.setCriteria(criteria)
         reporter.reportDiffs(mProductGroup, fileName)
         return root.resolve(fileName)
     }
 
     @Override
-    Path report(JobName jobName, MaterialList materialList,
+    Path report(MaterialList materialList,
                          String fileName = "list.html") {
-        Objects.requireNonNull(jobName)
         Objects.requireNonNull(materialList)
         Objects.requireNonNull(fileName)
         MaterialListBasicReporter reporter =
-                new MaterialListBasicReporter(store, jobName)
+                new MaterialListBasicReporter(store, materialList.getJobName())
         return reporter.report(materialList, fileName)
     }
 

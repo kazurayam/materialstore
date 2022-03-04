@@ -28,9 +28,7 @@ abstract class MaterialstoreFacade {
 
     abstract MProductGroup reduce(MProductGroup input)
 
-    abstract Path report(JobName jobName, MProductGroup mProductGroup,
-                         Double criteria, String fileName)
+    abstract Path report(MProductGroup mProductGroup, Double criteria, String fileName)
 
-    abstract Path report(JobName jobName, MaterialList materialList,
-                         String fileName)
+    abstract Path report(MaterialList materialList, String fileName)
 }

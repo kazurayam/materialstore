@@ -75,7 +75,7 @@ abstract class TextGridDifferBuilder {
                         .build()
         MProductGroup reducedAG = facade.reduce(preparedAG)
         int warnings = reducedAG.countWarnings(criteria)
-        reportFile = facade.report(jobName, reducedAG, criteria,
+        reportFile = facade.report(reducedAG, criteria,
                         jobName.toString() + "-index.html")
         assert Files.exists(reportFile)
         logger.info("report is found at " + reportFile.normalize().toAbsolutePath())

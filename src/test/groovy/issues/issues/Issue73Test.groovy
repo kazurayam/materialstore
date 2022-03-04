@@ -74,7 +74,7 @@ class Issue73Test {
         Double criteria = 0.0d
         int warnings = reducedAG.countWarnings(criteria)
         // compile the report
-        Path reportFile = facade.report(jobName, reducedAG, criteria,
+        Path reportFile = facade.report(reducedAG, criteria,
                         jobName.toString() + "-index.html")
         assert reducedAG.size() == 8
     }
