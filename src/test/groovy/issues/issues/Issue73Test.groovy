@@ -1,6 +1,7 @@
 package issues.issues
 
-import com.kazurayam.materialstore.MaterialstoreFacade
+
+import com.kazurayam.materialstore.Inspector
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
@@ -65,16 +66,16 @@ class Issue73Test {
 
     @Test
     void test_smoke() {
-        MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
+        Inspector inspector = Inspector.newInstance(store)
         MProductGroup preparedAG =
                 MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host")
                         .build()
-        MProductGroup reducedAG = facade.reduce(preparedAG)
+        MProductGroup reducedAG = inspector.reduce(preparedAG)
         Double criteria = 0.0d
         int warnings = reducedAG.countWarnings(criteria)
         // compile the report
-        Path reportFile = facade.report(reducedAG, criteria,
+        Path reportFile = inspector.report(reducedAG, criteria,
                         jobName.toString() + "-index.html")
         assert reducedAG.size() == 8
     }

@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.facet.textgrid
 
-import com.kazurayam.materialstore.MaterialstoreFacade
+
+import com.kazurayam.materialstore.Inspector
 
 import java.nio.file.Files
 import java.nio.file.Path
@@ -67,15 +68,15 @@ abstract class TextGridDifferBuilder {
                 QueryOnMetadata.builder().build())
         double criteria = 0.0d
 
-        MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
+        Inspector inspector = Inspector.newInstance(store)
 
         MProductGroup preparedAG =
                 MProductGroup.builder(left, right)
                         .ignoreKeys("input")
                         .build()
-        MProductGroup reducedAG = facade.reduce(preparedAG)
+        MProductGroup reducedAG = inspector.reduce(preparedAG)
         int warnings = reducedAG.countWarnings(criteria)
-        reportFile = facade.report(reducedAG, criteria,
+        reportFile = inspector.report(reducedAG, criteria,
                         jobName.toString() + "-index.html")
         assert Files.exists(reportFile)
         logger.info("report is found at " + reportFile.normalize().toAbsolutePath())

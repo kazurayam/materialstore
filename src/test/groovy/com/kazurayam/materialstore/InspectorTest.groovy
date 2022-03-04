@@ -14,12 +14,12 @@ import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.*
 
-class MaterialstoreFacadeTest {
+class InspectorTest {
 
     private static Path outputDir =
             Paths.get(".")
                     .resolve("build/tmp/testOutput")
-                    .resolve(MaterialstoreFacadeTest.class.getName())
+                    .resolve(InspectorTest.class.getName())
 
     private static Path storeDir = outputDir.resolve("store")
     private static Path issue80Dir =
@@ -31,7 +31,7 @@ class MaterialstoreFacadeTest {
     private JobTimestamp timestampD
     private MaterialList left
     private MaterialList right
-    private MaterialstoreFacade facade
+    private Inspector inspector
 
     @BeforeAll
     static void beforeAll() {
@@ -54,7 +54,7 @@ class MaterialstoreFacadeTest {
         right = store.select(jobName, timestampD,
                 QueryOnMetadata.builder(["profile": "MyAdmin_DevelopmentEnv" ]).build()
         )
-        facade = MaterialstoreFacade.newInstance(store)
+        inspector = Inspector.newInstance(store)
     }
 
     @Test
@@ -67,7 +67,7 @@ class MaterialstoreFacadeTest {
                         .build()
         assertNotNull(prepared)
 
-        MProductGroup stuffed = facade.reduce(prepared)
+        MProductGroup stuffed = inspector.reduce(prepared)
         assertNotNull(stuffed)
 
         stuffed.each { mProduct ->
@@ -82,8 +82,8 @@ class MaterialstoreFacadeTest {
         JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
         JobTimestamp jobTimestamp = new JobTimestamp("20220128_191320")
         MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY)
-        MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
-        Path report = facade.report(materialList, "test_reportMaterials.html")
+        Inspector inspector = Inspector.newInstance(store)
+        Path report = inspector.report(materialList, "test_reportMaterials.html")
         assertNotNull(report)
         assertTrue(Files.exists(report))
     }
@@ -96,10 +96,10 @@ class MaterialstoreFacadeTest {
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .sort("URL.host")
                         .build()
-        MProductGroup reducedAG = facade.reduce(preparedAG)
+        MProductGroup reducedAG = inspector.reduce(preparedAG)
         JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
         double criteria = 0.0D
-        Path report = facade.report(reducedAG, criteria,"test_report_MProductGroup.html")
+        Path report = inspector.report(reducedAG, criteria,"test_report_MProductGroup.html")
         assertNotNull(report)
         assertTrue(Files.exists(report))
         assertTrue(reducedAG.countWarnings(criteria) > 0)

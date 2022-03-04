@@ -13,12 +13,12 @@ import com.kazurayam.materialstore.filesystem.Store
 
 import java.nio.file.Path
 
-class MaterialstoreFacadeImpl extends MaterialstoreFacade {
+class InspectorImpl extends Inspector {
 
     private final Store store
     private final Reducer reducer
 
-    MaterialstoreFacadeImpl(Store store) {
+    InspectorImpl(Store store) {
         this.store = store
         this.reducer = new DifferDriverImpl.Builder(store.getRoot()).build()
     }

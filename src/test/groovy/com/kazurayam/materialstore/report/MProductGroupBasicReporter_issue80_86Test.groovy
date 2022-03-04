@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.report
 
-import com.kazurayam.materialstore.MaterialstoreFacade
+import com.kazurayam.materialstore.Inspector
 import com.kazurayam.materialstore.reduce.differ.DiffReporter
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
@@ -77,7 +77,7 @@ class MProductGroupBasicReporter_issue80_86Test {
                 QueryOnMetadata.builder(["profile": profile2]).build()
         )
 
-        MaterialstoreFacade facade = MaterialstoreFacade.newInstance(store)
+        Inspector inspector = Inspector.newInstance(store)
 
         // make diff of the 2 MaterialList objects
         // make diff
@@ -86,10 +86,10 @@ class MProductGroupBasicReporter_issue80_86Test {
                         .ignoreKeys("profile", "URL", "URL.host")
                         .identifyWithRegex(["URL.query": "\\w{32}"])
                         .build()
-        MProductGroup reducedAG = facade.reduce(preparedAG)
+        MProductGroup reducedAG = inspector.reduce(preparedAG)
 
         // compile HTML report
-        DiffReporter reporter = facade.newReporter(jobName)
+        DiffReporter reporter = inspector.newReporter(jobName)
         Path report = reporter.reportDiffs(reducedAG, "index.html")
         assertTrue(Files.exists(report))
 

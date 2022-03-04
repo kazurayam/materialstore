@@ -4,18 +4,17 @@ import com.kazurayam.materialstore.reduce.differ.DiffReporter
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.reduce.MProductGroup
-import com.kazurayam.materialstore.reduce.Reducer
 import com.kazurayam.materialstore.filesystem.Store
 
 import java.nio.file.Path
 
-abstract class MaterialstoreFacade {
+abstract class Inspector {
 
     /**
      * the factory method
      */
-    static final MaterialstoreFacade newInstance(Store store) {
-        return new MaterialstoreFacadeImpl(store)
+    static final Inspector newInstance(Store store) {
+        return new InspectorImpl(store)
     }
 
     abstract DiffReporter newReporter(JobName jobName)
