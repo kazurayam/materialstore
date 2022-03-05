@@ -6,7 +6,7 @@ import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.metadata.Metadata
 
-class MappedResultSerializer implements MappingListener {
+class MappedResultSerializer extends MappingListener {
 
     private Store store
     private JobName jobName
