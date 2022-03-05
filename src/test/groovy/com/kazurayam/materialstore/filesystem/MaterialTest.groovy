@@ -70,7 +70,7 @@ class MaterialTest {
     }
 
     @Test
-    void test_toFile() {
+    void test_toFile_and_toURL() {
         Path root = outputDir.resolve("Materials")
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_toFile")
@@ -84,5 +84,9 @@ class MaterialTest {
         //
         File f = material.toFile(root)
         assertTrue(f.exists())
+        //
+        URL url = material.toURL(root)
+        assertTrue(url.toExternalForm().startsWith("file:/"), url.toString())
     }
+
 }

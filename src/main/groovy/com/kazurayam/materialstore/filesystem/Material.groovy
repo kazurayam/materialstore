@@ -78,6 +78,16 @@ final class Material implements Comparable {
     }
 
     /**
+     * returns a URL in the form of "file:/". The path will be an absolute path.
+     * @param root
+     * @return URL of this Material
+     */
+    URL toURL(Path root) {
+        return this.toFile(root).toURI().toURL()
+    }
+
+
+    /**
      * @return the returned value of getRelative() is stringified, and
      * replace all of `\` character to `/` to make it a valid relative URL string.
      */
