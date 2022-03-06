@@ -104,6 +104,14 @@ final class Material implements Comparable {
         return this.getIndexEntry().getFileType().getDiffability()
     }
 
+    /**
+     * checks if this has the same FileType and Metadata as the other.
+     * JobName and JobTimestamp are disregarded.
+     */
+    boolean isSimilar(Material other) {
+        return this.getIndexEntry() == other.getIndexEntry()
+    }
+
     @Override
     boolean equals(Object obj) {
         if (! obj instanceof Material) {

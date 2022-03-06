@@ -30,6 +30,16 @@ class MaterialTest {
         Files.createDirectories(outputDir)
     }
 
+    void test_isSimilar() {
+        IndexEntry indexEntry = IndexEntry.parseLine(sampleLine)
+        JobName jobName = new JobName("test_isSimilar")
+        JobTimestamp timestamp0 = new JobTimestamp("20220305_010000")
+        JobTimestamp timestamp1 = new JobTimestamp("20220306_235959")
+        Material material0 = new Material(jobName, timestamp0, indexEntry)
+        Material material1 = new Material(jobName, timestamp1, indexEntry)
+        assertEquals(material1, material0)
+    }
+
     @Test
     void test_smoke() {
         IndexEntry indexEntry = IndexEntry.parseLine(sampleLine)
