@@ -72,7 +72,7 @@ class VoidDiffer implements Differ {
                 "right": right.getIndexEntry().getID().toString()])
                 .build()
         assert root != null
-        Jobber jobber = new Jobber(root, right.getJobName(), mProduct.getResolventTimestamp())
+        Jobber jobber = new Jobber(root, right.getJobName(), mProduct.getReducedTimestamp())
         Material diffMaterial =
                 jobber.write(diffData,
                         FileType.HTML,

@@ -37,7 +37,7 @@ final class MProductGroup {
         this.ignoreMetadataKeys = builder.ignoreMetadataKeys
         this.identifyMetadataValues = builder.identifyMetadataValues
         this.sortKeys = builder.sortKeys
-        this.resultTimestamp = builder.resolventTimestamp
+        this.resultTimestamp = builder.resultTimestamp
         // this is the most mysterious part of the materialstore library
         this.mProductList =
                 zipMaterials(materialList0, materialList1, this.resultTimestamp,
@@ -195,13 +195,13 @@ final class MProductGroup {
      */
     static List<MProduct> zipMaterials(MaterialList leftList,
                                        MaterialList rightList,
-                                       JobTimestamp resolventTimestamp,
+                                       JobTimestamp resultTimestamp,
                                        IgnoreMetadataKeys ignoreMetadataKeys,
                                        IdentifyMetadataValues identifyMetadataValues,
                                        SortKeys sortKeys) {
         Objects.requireNonNull(leftList)
         Objects.requireNonNull(rightList)
-        Objects.requireNonNull(resolventTimestamp)
+        Objects.requireNonNull(resultTimestamp)
         Objects.requireNonNull(ignoreMetadataKeys)
         Objects.requireNonNull(identifyMetadataValues)
         Objects.requireNonNull(sortKeys)
@@ -227,7 +227,7 @@ final class MProductGroup {
                                 identifyMetadataValues.matches(leftMetadata) )
                 ) {
                     MProduct mp =
-                            new MProduct.Builder(left, right, resolventTimestamp)
+                            new MProduct.Builder(left, right, resultTimestamp)
                                     .setQueryOnMetadata(rightPattern)
                                     .sortKeys(sortKeys)
                                     .build()
@@ -240,7 +240,7 @@ final class MProductGroup {
             }
             if (foundLeftCount == 0) {
                 MProduct mp =
-                        new MProduct.Builder(Material.NULL_OBJECT, right, resolventTimestamp)
+                        new MProduct.Builder(Material.NULL_OBJECT, right, resultTimestamp)
                                 .setQueryOnMetadata(rightPattern)
                                 .sortKeys(sortKeys)
                                 .build()
@@ -277,7 +277,7 @@ final class MProductGroup {
             }
             if (foundRightCount == 0) {
                 MProduct da =
-                        new MProduct.Builder(left, Material.NULL_OBJECT, resolventTimestamp)
+                        new MProduct.Builder(left, Material.NULL_OBJECT, resultTimestamp)
                                 .setQueryOnMetadata(leftPattern)
                                 .sortKeys(sortKeys)
                                 .build()
@@ -352,7 +352,7 @@ final class MProductGroup {
         private final List<MProduct> mProductList
         private final MaterialList materialList0
         private final MaterialList materialList1
-        private final JobTimestamp resolventTimestamp
+        private final JobTimestamp resultTimestamp
         //
         private IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
         private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
@@ -365,7 +365,7 @@ final class MProductGroup {
             this.mProductList = new ArrayList<>()
             int order = materialList0.getJobTimestamp() <=> materialList1.getJobTimestamp()
             if (order <= 0) {
-                this.resolventTimestamp =
+                this.resultTimestamp =
                         JobTimestamp.laterThan(materialList0.getJobTimestamp(), materialList1.getJobTimestamp())
             } else {
                 throw new IllegalArgumentException("left=${materialList0.getJobTimestamp()}, right=${materialList1.getJobTimestamp()}. expected left < right.")

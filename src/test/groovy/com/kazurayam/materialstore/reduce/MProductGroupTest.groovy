@@ -80,10 +80,10 @@ class MProductGroupTest {
     }
 
     @Test
-    void test_getResolventTimestamp() {
-        JobTimestamp resolventTimestamp = mProductGroup.getResultTimestamp()
-        //println "resolventTimestamp=${resolventTimestamp.toString()}"
-        assertNotEquals(JobTimestamp.NULL_OBJECT, resolventTimestamp)
+    void test_getResultTimestamp() {
+        JobTimestamp resultTimestamp = mProductGroup.getResultTimestamp()
+        //println "resultTimestamp=${resultTimestamp.toString()}"
+        assertNotEquals(JobTimestamp.NULL_OBJECT, resultTimestamp)
     }
 
     @Test
@@ -266,7 +266,7 @@ class MProductGroupTest {
         assertNotNull(mProductList)
         mProductList.each {mProduct ->
             //println JsonOutput.prettyPrint(mProduct.toString())
-            assertTrue(mProduct.getResolventTimestamp() != JobTimestamp.NULL_OBJECT)
+            assertTrue(mProduct.getReducedTimestamp() != JobTimestamp.NULL_OBJECT)
         }
         assertEquals(8, mProductList.size())
 

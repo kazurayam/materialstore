@@ -19,7 +19,7 @@ final class MProduct implements Comparable {
 
     private final Material left
     private final Material right
-    private final JobTimestamp resolventTimestamp
+    private final JobTimestamp reducedTimestamp
     private final QueryOnMetadata query
     private final SortKeys sortKeys
     //
@@ -30,7 +30,7 @@ final class MProduct implements Comparable {
         this.left = builder.left
         this.right = builder.right
         this.diff = builder.diff
-        this.resolventTimestamp = builder.resolventTimestamp
+        this.reducedTimestamp = builder.reducedTimestamp
         this.query = builder.query
         this.diffRatio = 0.0d
         this.sortKeys = builder.sortKeys
@@ -46,7 +46,7 @@ final class MProduct implements Comparable {
         this.left = source.getLeft()
         this.right = source.getRight()
         this.diff = source.getDiff()
-        this.resolventTimestamp = source.resolventTimestamp
+        this.reducedTimestamp = source.reducedTimestamp
         this.query = source.getQueryOnMetadata()
         this.sortKeys = source.getSortKeys()
     }
@@ -93,8 +93,8 @@ final class MProduct implements Comparable {
         return DifferUtil.formatDiffRatioAsString(this.getDiffRatio())
     }
 
-    JobTimestamp getResolventTimestamp() {
-        return this.resolventTimestamp
+    JobTimestamp getReducedTimestamp() {
+        return this.reducedTimestamp
     }
 
     QueryOnMetadata getQueryOnMetadata() {
@@ -142,8 +142,8 @@ final class MProduct implements Comparable {
         sb.append("\"right\":")
         sb.append(right.toString())
         sb.append(",")
-        sb.append("\"resolventTimestamp\":\"")
-        sb.append(resolventTimestamp.toString())
+        sb.append("\"reducedTimestamp\":\"")
+        sb.append(reducedTimestamp.toString())
         sb.append("\",")
         sb.append("\"diff\":")
         sb.append(diff.toString())
@@ -175,19 +175,19 @@ final class MProduct implements Comparable {
         // required
         private Material left
         private Material right
-        private JobTimestamp resolventTimestamp
+        private JobTimestamp reducedTimestamp
         // optional
         private Material diff
         private QueryOnMetadata query
         private Double diffRatio
         private SortKeys sortKeys
-        Builder(Material left, Material right, JobTimestamp resolventTimestamp) {
+        Builder(Material left, Material right, JobTimestamp reducedTimestamp) {
             Objects.requireNonNull(left)
             Objects.requireNonNull(right)
-            Objects.requireNonNull(resolventTimestamp)
+            Objects.requireNonNull(reducedTimestamp)
             this.left = left
             this.right = right
-            this.resolventTimestamp = resolventTimestamp
+            this.reducedTimestamp = reducedTimestamp
             this.diff = Material.NULL_OBJECT
             this.query = QueryOnMetadata.NULL_OBJECT
             this.diffRatio = -1.0d
