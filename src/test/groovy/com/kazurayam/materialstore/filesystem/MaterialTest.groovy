@@ -37,6 +37,7 @@ class MaterialTest {
         assertNotNull(material)
         assertEquals("6141b40cfe9e7340a483a3097c4f6ff5d20e04ea",
                 material.getIndexEntry().getID().toString())
+        assertEquals("6141b40", material.getShortId())
         assertEquals(FileType.PNG, material.getIndexEntry().getFileType())
         assertEquals("""{"URL":"http://demoaut-mimic.kazurayam.com/", "profile":"DevelopmentEnv"}""",
                 material.getIndexEntry().getMetadata().toString())

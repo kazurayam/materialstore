@@ -96,6 +96,10 @@ final class Material implements Comparable {
         return s.replace("\\", "/")
     }
 
+    String getShortId() {
+        return getIndexEntry().getShortId()
+    }
+
     FileTypeDiffability getDiffability() {
         return this.getIndexEntry().getFileType().getDiffability()
     }

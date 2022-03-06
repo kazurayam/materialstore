@@ -26,6 +26,10 @@ final class ID implements Comparable {
         return sha1_
     }
 
+    String getShortSha1() {
+        return sha1_.substring(0, 7)
+    }
+
     @Override
     boolean equals(Object obj) {
         if (! obj instanceof ID) {

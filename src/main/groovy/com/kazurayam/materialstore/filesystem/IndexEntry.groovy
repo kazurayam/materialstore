@@ -72,6 +72,10 @@ final class IndexEntry implements Comparable {
         return getMObject().getID()
     }
 
+    String getShortId() {
+        return getID().getShortSha1()
+    }
+
     Metadata getMetadata() {
         return metadata_
     }
