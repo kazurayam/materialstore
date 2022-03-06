@@ -51,6 +51,12 @@ final class MaterialList {
         materialList.add(material)
     }
 
+    void add(List<Material> list) {
+        list.each {material ->
+            materialList.add(material)
+        }
+    }
+
     Material get(int index) {
         return materialList.get(index)
     }
@@ -59,20 +65,19 @@ final class MaterialList {
         return materialList.contains(material)
     }
 
-    Material findSimilarMetadataAs(Material material) {
-        Metadata baseMetadata = material.getMetadata()
+    List<Material> findMaterialsSimilarTo(Material baseMaterial) {
+        List<Material> list = new ArrayList<>()
         for (Material targetMaterial : materialList) {
-            Metadata targetMetadata = targetMaterial.getMetadata()
-            if (baseMetadata == targetMetadata) {
-                return targetMaterial
+            if (targetMaterial.isSimilar(baseMaterial)) {
+                list.add(targetMaterial)
             }
         }
-        return Material.NULL_OBJECT
+        return list
     }
 
-    boolean containsSimilarMetadataAs(Material material) {
-        Material found = findSimilarMetadataAs(material)
-        return (found != Material.NULL_OBJECT)
+    boolean containsMaterialsSimilarTo(Material material) {
+        List<Material> found = findMaterialsSimilarTo(material)
+        return (found.size() > 0)
     }
 
     int countMaterialsWithIdStartingWith(String idStarter) {
