@@ -59,15 +59,30 @@ final class MaterialList {
         return materialList.contains(material)
     }
 
-    boolean containsSimilarMetadataAs(Material material) {
+    Material findSimilarMetadataAs(Material material) {
         Metadata baseMetadata = material.getMetadata()
         for (Material targetMaterial : materialList) {
             Metadata targetMetadata = targetMaterial.getMetadata()
             if (baseMetadata == targetMetadata) {
-                return true
+                return targetMaterial
             }
         }
-        return false
+        return Material.NULL_OBJECT
+    }
+
+    boolean containsSimilarMetadataAs(Material material) {
+        Material found = findSimilarMetadataAs(material)
+        return (found != Material.NULL_OBJECT)
+    }
+
+    int countMaterialsWithIdStartingWith(String idStarter) {
+        int count = 0
+        for (Material material : materialList) {
+            if (material.getIndexEntry().getID().getSha1().startsWith(idStarter)) {
+                count += 1
+            }
+        }
+        return count
     }
 
     int size() {

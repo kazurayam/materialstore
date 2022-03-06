@@ -23,6 +23,14 @@ class MaterialListTest {
     }
 
     @Test
+    void test_countMaterialsWithIdStartingWith() {
+        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query, fileType)
+        assertEquals(0, materialList.countMaterialsWithIdStartingWith("6141b40"))
+        materialList.add(material)
+        assertEquals(1, materialList.countMaterialsWithIdStartingWith("6141b40"))
+    }
+
+    @Test
     void test_smoke() {
         MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query, fileType)
         materialList.add(material)
