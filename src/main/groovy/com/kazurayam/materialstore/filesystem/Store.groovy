@@ -36,11 +36,9 @@ interface Store {
 
     JobTimestamp queryJobTimestampPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp)
 
-    JobTimestamp queryJobTimestampWithSimilarContentPriorTo(JobName jobName, JobTimestamp jobTimestamp)
-
-    JobTimestamp queryJobTimestampWithSimilarContentPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp)
-
     JobTimestamp queryLatestJobTimestamp(JobName jobName, QueryOnMetadata query)
+
+    MaterialList queryMaterialListWithSimilarContentPriorTo(JobName jobName, JobTimestamp jobTimestamp)
 
     byte[] read(Material material)
 
@@ -63,7 +61,7 @@ interface Store {
     MaterialList select(JobName jobName, JobTimestamp jobTimestamp,
                         QueryOnMetadata query, FileType fileType)
 
-    File selectFile(JobName jobName, JobTimestamp jobTimestamp,
+    Material selectSingle(JobName jobName, JobTimestamp jobTimestamp,
                     QueryOnMetadata query, FileType fileType)
 
     Material write(JobName jobName, JobTimestamp jobTimestamp,

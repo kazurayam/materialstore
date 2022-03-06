@@ -2,8 +2,12 @@ package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.metadata.Metadata
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 final class MaterialList {
+
+    private static Logger logger = LoggerFactory.getLogger(MaterialList.class.getName())
 
     public static final NULL_OBJECT =
             new MaterialList(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT,
@@ -65,19 +69,30 @@ final class MaterialList {
         return materialList.contains(material)
     }
 
+    boolean containsMaterialsSimilarTo(Material baseMaterial) {
+        List<Material> found = findMaterialsSimilarTo(baseMaterial)
+        return (found.size() > 0)
+    }
+
     List<Material> findMaterialsSimilarTo(Material baseMaterial) {
         List<Material> list = new ArrayList<>()
         for (Material targetMaterial : materialList) {
-            if (targetMaterial.isSimilar(baseMaterial)) {
+            boolean similar = targetMaterial.isSimilar(baseMaterial)
+            if (similar) {
+                logger.debug(String.format(
+                        "[findMaterialsSimilarTo] target=%s is similar to base=%s",
+                        targetMaterial.getShortId(), baseMaterial.getShortId()))
+
                 list.add(targetMaterial)
+
+            } else {
+                logger.debug(String.format(
+                        "[findMaterialsSimilarTo] target=%s is NOT similar to base=%s",
+                        targetMaterial.getShortId(), baseMaterial.getShortId()))
             }
         }
+        logger.debug(String.format("[findMaterialsSimilarTo] list.size()=%d", list.size()))
         return list
-    }
-
-    boolean containsMaterialsSimilarTo(Material material) {
-        List<Material> found = findMaterialsSimilarTo(material)
-        return (found.size() > 0)
     }
 
     int countMaterialsWithIdStartingWith(String idStarter) {

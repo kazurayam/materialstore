@@ -295,38 +295,72 @@ final class StoreImpl implements Store {
     }
 
     @Override
-    JobTimestamp queryJobTimestampWithSimilarContentPriorTo(JobName jobName, JobTimestamp jobTimestamp) {
-        return queryJobTimestampWithSimilarContentPriorTo(jobName, QueryOnMetadata.ANY, jobTimestamp)
+    MaterialList queryMaterialListWithSimilarContentPriorTo(JobName jobName, JobTimestamp jobTimestamp) {
+        return queryMaterialListWithSimilarContentPriorTo(jobName, QueryOnMetadata.ANY, jobTimestamp)
     }
 
-    @Override
-    JobTimestamp queryJobTimestampWithSimilarContentPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp) {
+
+    MaterialList queryMaterialListWithSimilarContentPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp) {
         Objects.requireNonNull(jobName)
         Objects.requireNonNull(jobTimestamp)
-        List<JobTimestamp> all =
+        List<JobTimestamp> allJobTimestamps =
                 queryAllJobTimestampsPriorTo(jobName, query, jobTimestamp)
-        logger.debug(String.format("[queryJobTimestampWithSimilarContentPriorTo] all.size()=%d", all.size()))
+        logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] allJobTimestamps.size()=%d", allJobTimestamps.size()))
         MaterialList baseList = this.select(jobName, jobTimestamp, QueryOnMetadata.ANY)
-        logger.debug(String.format("[queryJobTimestampWithSimilarContentPriorTo] baseList.size()=%d", baseList.size()))
+        logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] baseList.size()=%d", baseList.size()))
         assert baseList.size() > 0
-        for (JobTimestamp previous : all) {
-            logger.debug(String.format("[queryJobTimestampWithSimilarContentPriorTo] previous=%s", previous.toString()))
+        for (JobTimestamp previous : allJobTimestamps) {
+            logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] previous=%s", previous.toString()))
+
             MaterialList targetList = this.select(jobName, previous, QueryOnMetadata.ANY)
             if (similar(baseList, targetList)) {
-                return previous
+                logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] previous%s is similar to base=%s",
+                        previous.toString(), baseList.getJobTimestamp()))
+                MaterialList collected = collect(baseList, targetList)
+                logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] collected.size()=%d", collected.size()))
+                return collected
+            } else {
+                logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] previous%s is not similar to base=%s",
+                        previous.toString(), baseList.getJobTimestamp()))
             }
         }
-        return JobTimestamp.NULL_OBJECT
+        return MaterialList.NULL_OBJECT
     }
 
     private static boolean similar(MaterialList baseList, MaterialList targetList) {
         int count = 0
         for (Material base : baseList) {
-            if (targetList.containsSimilarMetadataAs(base)) {
+            if (targetList.containsMaterialsSimilarTo(base)) {
                 count += 1
             }
         }
         return count == baseList.size()
+    }
+
+    /**
+     * lookup the Materials amongst the targetList which are similar to the baseList
+     * while ignoring non-similar Materials in the targetList,
+     * then return the collection of the found Materials
+     *
+     * @param baseList
+     * @param targetList
+     * @return
+     */
+    private static MaterialList collect(MaterialList baseList, MaterialList targetList) {
+        MaterialList collection =
+                new MaterialList(targetList.getJobName(), targetList.getJobTimestamp(),
+                        targetList.getQueryOnMetadata(), targetList.getFileType())
+        int count = 0;
+        for (Material base : baseList) {
+            List<Material> found = targetList.findMaterialsSimilarTo(base)
+            if (found.size() > 0) {
+                collection.add(found)
+            }
+        }
+
+        assert collection.countMaterialsWithIdStartingWith("5d7e467") <= 1
+
+        return collection
     }
 
     @Override
@@ -380,14 +414,12 @@ final class StoreImpl implements Store {
     }
 
     @Override
-    File selectFile(JobName jobName, JobTimestamp jobTimestamp,
+    Material selectSingle(JobName jobName, JobTimestamp jobTimestamp,
                     QueryOnMetadata query, FileType fileType) {
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
         MaterialList materials = jobber.selectMaterials(query, fileType)
         if (materials.size() > 0) {
-            Material material = materials.get(0)
-            File f = material.toFile(root_)
-            return f
+            return materials.get(0)
         } else {
             return null
         }

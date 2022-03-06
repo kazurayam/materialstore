@@ -86,8 +86,8 @@ final class IndexEntry implements Comparable {
             return false
         }
         IndexEntry other = (IndexEntry)obj
-        return this.getMObject() == other.getMObject() &&
-                this.getMetadata() == other.getMetadata()
+        return this.getFileType().equals(other.getFileType()) &&
+                this.getMetadata().equals(other.getMetadata())
     }
 
     @Override

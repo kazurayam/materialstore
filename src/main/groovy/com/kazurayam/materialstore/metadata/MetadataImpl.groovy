@@ -229,6 +229,7 @@ final class MetadataImpl extends Metadata {
             return false
         }
         MetadataImpl other = (MetadataImpl)obj
+        /*
         if (other.size() != other.metadata.size()) {
             return false
         }
@@ -246,6 +247,8 @@ final class MetadataImpl extends Metadata {
             }
         }
         return result
+         */
+        return this.toString() == other.toString()
     }
 
 

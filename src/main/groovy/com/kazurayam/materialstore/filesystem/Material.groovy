@@ -109,7 +109,7 @@ final class Material implements Comparable {
      * JobName and JobTimestamp are disregarded.
      */
     boolean isSimilar(Material other) {
-        return this.getIndexEntry() == other.getIndexEntry()
+        return this.getIndexEntry().equals(other.getIndexEntry())
     }
 
     @Override

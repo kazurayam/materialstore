@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory
 final class MProductGroup {
 
     private static final Logger logger = LoggerFactory.getLogger(MProductGroup.class)
-    private static final boolean verbose = false
+    private static final boolean verbose = true
 
     private List<MProduct> mProductList
     private MaterialList materialList0
@@ -31,6 +31,22 @@ final class MProductGroup {
 
     private boolean readyToReport
 
+    private MProductGroup(Builder builder) {
+        this.materialList0 = builder.materialList0
+        this.materialList1 = builder.materialList1
+        this.ignoreMetadataKeys = builder.ignoreMetadataKeys
+        this.identifyMetadataValues = builder.identifyMetadataValues
+        this.sortKeys = builder.sortKeys
+        this.resultTimestamp = builder.resolventTimestamp
+        // this is the most mysterious part of the materialstore library
+        this.mProductList =
+                zipMaterials(materialList0, materialList1, this.resultTimestamp,
+                        ignoreMetadataKeys,
+                        identifyMetadataValues,
+                        sortKeys)
+        // at this timing the MProducts are not yet filled with the diff information, they are still vacant.
+    }
+
     /**
      * Deep-copy constructor
      * @param source
@@ -42,28 +58,12 @@ final class MProductGroup {
         this.identifyMetadataValues = source.identifyMetadataValues // IdentifyMetadataValues is immutable
         this.sortKeys = source.sortKeys                        // SortKeys is immutable
         List<MProduct> tmp = new ArrayList<>()
-        source.mProductList.each { sourceDA ->
-            tmp.add(new MProduct(sourceDA))
+        source.mProductList.each { sourceMProduct ->
+            tmp.add(new MProduct(sourceMProduct))
         }
         this.mProductList = tmp
         this.resultTimestamp = source.resultTimestamp
         this.readyToReport = source.readyToReport
-    }
-
-    private MProductGroup(Builder builder) {
-        this.materialList0 = builder.materialList0
-        this.materialList1 = builder.materialList1
-        this.ignoreMetadataKeys = builder.ignoreMetadataKeys
-        this.identifyMetadataValues = builder.identifyMetadataValues
-        this.sortKeys = builder.sortKeys
-        this.resultTimestamp = builder.resolventTimestamp
-        //
-        this.mProductList =
-                zipMaterials(materialList0, materialList1, this.resultTimestamp,
-                        ignoreMetadataKeys,
-                        identifyMetadataValues,
-                        sortKeys)
-        // at this timing the MProducts are not yet filled with the diff information, they are still vacant.
     }
 
     void add(MProduct e) {
@@ -215,9 +215,9 @@ final class MProductGroup {
             Metadata rightMetadata = right.getIndexEntry().getMetadata()
             QueryOnMetadata rightPattern =
                     QueryOnMetadata.builder(rightMetadata, ignoreMetadataKeys).build()
-           //
-            StringBuilder sb = new StringBuilder()  // to compose a log message
-            sb.append("\nright pattern: ${rightPattern}\n")
+            //
+            logger.debug("--------")
+            logger.debug("right ${right.getShortId()} ${rightFileType.getExtension()} pattern: ${rightPattern}")
             int foundLeftCount = 0
             leftList.each { Material left ->
                 FileType leftFileType = left.getIndexEntry().getFileType()
@@ -226,30 +226,29 @@ final class MProductGroup {
                         ( rightPattern.matches(leftMetadata) ||
                                 identifyMetadataValues.matches(leftMetadata) )
                 ) {
-                    MProduct da =
+                    MProduct mp =
                             new MProduct.Builder(left, right, resolventTimestamp)
                                     .setQueryOnMetadata(rightPattern)
                                     .sortKeys(sortKeys)
                                     .build()
-                    mProductList.add(da)
-                    sb.append("left metadata: Y ${leftMetadata}\n")
+                    mProductList.add(mp)
+                    logger.debug("left Y ${left.getShortId()} ${leftFileType.getExtension()} ${leftMetadata}")
                     foundLeftCount += 1
                 } else {
-                    sb.append("left metadata: N ${leftMetadata}\n")
+                    logger.debug("left N ${left.getShortId()} ${leftFileType.getExtension()} ${leftMetadata}")
                 }
             }
             if (foundLeftCount == 0) {
-                MProduct da =
+                MProduct mp =
                         new MProduct.Builder(Material.NULL_OBJECT, right, resolventTimestamp)
                                 .setQueryOnMetadata(rightPattern)
                                 .sortKeys(sortKeys)
                                 .build()
-                mProductList.add(da)
+                mProductList.add(mp)
             }
+            logger.debug("foundLeftCount=${foundLeftCount}")
             if (foundLeftCount == 0 || foundLeftCount >= 2) {
-                if (verbose) {
-                    logger.warn(sb.toString())
-                }
+                logger.info("foundLeftCount=${foundLeftCount} is unusual")
             }
         }
 
@@ -259,8 +258,8 @@ final class MProductGroup {
             Metadata leftMetadata = left.getIndexEntry().getMetadata()
             QueryOnMetadata leftPattern =
                     QueryOnMetadata.builder(leftMetadata, ignoreMetadataKeys).build()
-            StringBuilder sb = new StringBuilder()  // to compose a log message
-            sb.append("\nleft pattern: ${leftPattern}\n")
+            logger.debug("--------")
+            logger.debug("left ${left.getShortId()} ${leftFileType.toString()} pattern: ${leftPattern}")
             int foundRightCount = 0
             rightList.each { Material right ->
                 FileType rightFileType = right.getIndexEntry().getFileType()
@@ -270,10 +269,10 @@ final class MProductGroup {
                                 identifyMetadataValues.matches(rightMetadata) )
                 ) {
                     // this must have been found matched already; no need to create a MProduct
-                    sb.append("right metadata: Y ${rightMetadata}\n")
+                    logger.debug("right Y ${right.getShortId()} ${rightFileType.getExtension()} ${rightMetadata}")
                     foundRightCount += 1
                 } else {
-                    sb.append("right metadata: N ${rightMetadata}\n")
+                    logger.debug("right N ${right.getShortId()} ${rightFileType.getExtension()} ${rightMetadata}")
                 }
             }
             if (foundRightCount == 0) {
@@ -284,10 +283,9 @@ final class MProductGroup {
                                 .build()
                 mProductList.add(da)
             }
+            logger.debug("foundRightCount=${foundRightCount}")
             if (foundRightCount == 0 || foundRightCount >= 2) {
-                if (verbose) {
-                    logger.warn(sb.toString())
-                }
+                logger.info("foundRightCount=${foundRightCount} is unusual")
             }
         }
         Collections.sort(mProductList)

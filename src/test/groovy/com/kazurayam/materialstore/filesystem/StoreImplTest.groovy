@@ -30,6 +30,9 @@ class StoreImplTest {
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/fixture/sample_results")
 
+    private static Path htmlDir =
+            Paths.get(".").resolve("src/test/fixture/sample_html")
+
     static Boolean verbose = true
 
     Path root
@@ -244,20 +247,21 @@ class StoreImplTest {
     }
 
     @Test
-    void test_queryJobTimestampWithSimilarContentPriorTo() {
-        JobName jobName = new JobName("test_queryJobTimestampWithSimilarContentPriorTo")
+    void test_queryMaterialListWithSimilarContentPriorTo() {
+        JobName jobName = new JobName("test_queryMaterialListWithSimilarContentPriorTo")
         TestFixtureUtil.setupFixture(store, jobName)
         // add one more JobTimestamp directory to mee the test requirement
         store.copyMaterials(jobName,
                 new JobTimestamp("20210713_093357"),
                 new JobTimestamp("20210715_145947"))
         //
-        JobTimestamp previous =
-                store.queryJobTimestampWithSimilarContentPriorTo(jobName,
-                        QueryOnMetadata.ANY,
+        MaterialList previousMaterialList =
+                store.queryMaterialListWithSimilarContentPriorTo(jobName,
                         new JobTimestamp("20210715_150000"))
 
-        assertEquals(new JobTimestamp("20210715_145922"), previous)
+        assertEquals(new JobTimestamp("20210715_145922"),
+                previousMaterialList.getJobTimestamp())
+        assertEquals(6, previousMaterialList.size())
     }
 
     @Test
@@ -317,8 +321,8 @@ class StoreImplTest {
     }
 
     @Test
-    void test_select_with_FileType() {
-        JobName jobName = new JobName("test_select_with_FileType")
+    void test_select_with_QueryOnMetadataAny_FileTypePNG() {
+        JobName jobName = new JobName("test_select_with_QueryOnMetadataAny_FileTypePNG")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = Metadata.builder([
                 "profile": "DevelopmentEnv",
@@ -327,20 +331,24 @@ class StoreImplTest {
         Path input = imagesDir.resolve("20210710_142631.development.png")
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
-        //
-        QueryOnMetadata pattern = QueryOnMetadata.builder()
-                .put("profile", Pattern.compile(".*"))
-                .put("URL", Pattern.compile(".*"))
+        // insert NON-PNG file
+        Metadata metadataMore = Metadata.builder([
+                "profile": "DevelopmentEnv",
+                "URL": "http://demoaut-mimic.kazurayam.com/"])
                 .build()
-        // select specifying FileType
-        MaterialList materials = store.select(jobName, jobTimestamp, pattern, FileType.PNG)
+        Path inputMore = htmlDir.resolve("development.html")
+        Material materialMore = store.write(jobName, jobTimestamp, FileType.HTML, metadataMore, inputMore)
+        assertNotNull(materialMore)
+        // select specifying FileType.PNG excluding FileType.HTML and others
+        MaterialList materials = store.select(jobName, jobTimestamp,
+                QueryOnMetadata.ANY, FileType.PNG)
         assertNotNull(materials)
         assertEquals(1, materials.size())
     }
 
     @Test
-    void test_select_without_QueryOnMetadata_without_FileType() {
-        JobName jobName = new JobName("test_select_without_QueryOnMetadata_without_FileType")
+    void test_select_without_QueryOnMetadataAny_without_FileType() {
+        JobName jobName = new JobName("test_select_without_QueryOnMetadataAny_without_FileType")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = Metadata.builder([
                 "profile": "DevelopmentEnv",
@@ -350,15 +358,23 @@ class StoreImplTest {
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
         //
+        // insert NON-PNG file
+        Metadata metadataMore = Metadata.builder([
+                "profile": "DevelopmentEnv",
+                "URL": "http://demoaut-mimic.kazurayam.com/"])
+                .build()
+        Path inputMore = htmlDir.resolve("development.html")
+        Material materialMore = store.write(jobName, jobTimestamp, FileType.HTML, metadataMore, inputMore)
+        assertNotNull(materialMore)
         // select all
         MaterialList materials = store.select(jobName, jobTimestamp)
         assertNotNull(materials)
-        assertEquals(1, materials.size())
+        assertEquals(2, materials.size())
     }
 
     @Test
-    void test_selectFile() {
-        JobName jobName = new JobName("test_selectFile")
+    void test_selectSingle() {
+        JobName jobName = new JobName("test_selectSingle")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = Metadata.builder([
                 "profile": "DevelopmentEnv",
@@ -373,9 +389,9 @@ class StoreImplTest {
                 .put("URL", Pattern.compile(".*"))
                 .build()
         // select specifying FileType
-        File f = store.selectFile(jobName, jobTimestamp, pattern, FileType.PNG)
-        assertNotNull(f)
-        assertTrue(f.exists())
+        Material mat = store.selectSingle(jobName, jobTimestamp, pattern, FileType.PNG)
+        assertNotNull(mat)
+        assertTrue(Files.exists(mat.toPath(store.getRoot())))
     }
 
     @Test
