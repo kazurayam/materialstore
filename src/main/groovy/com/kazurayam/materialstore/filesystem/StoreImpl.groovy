@@ -295,33 +295,26 @@ final class StoreImpl implements Store {
     }
 
     @Override
-    MaterialList queryMaterialListWithSimilarContentPriorTo(JobName jobName, JobTimestamp jobTimestamp) {
-        return queryMaterialListWithSimilarContentPriorTo(jobName, QueryOnMetadata.ANY, jobTimestamp)
-    }
-
-
-    MaterialList queryMaterialListWithSimilarContentPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp) {
-        Objects.requireNonNull(jobName)
-        Objects.requireNonNull(jobTimestamp)
+    MaterialList queryMaterialListWithSimilarContentPriorTo(MaterialList base) {
+        Objects.requireNonNull(base)
+        logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] base.size()=%d", base.size()))
+        assert base.size() > 0
         List<JobTimestamp> allJobTimestamps =
-                queryAllJobTimestampsPriorTo(jobName, query, jobTimestamp)
+                queryAllJobTimestampsPriorTo(base.getJobName(), base.getQueryOnMetadata(), base.getJobTimestamp())
         logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] allJobTimestamps.size()=%d", allJobTimestamps.size()))
-        MaterialList baseList = this.select(jobName, jobTimestamp, QueryOnMetadata.ANY)
-        logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] baseList.size()=%d", baseList.size()))
-        assert baseList.size() > 0
         for (JobTimestamp previous : allJobTimestamps) {
             logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] previous=%s", previous.toString()))
 
-            MaterialList targetList = this.select(jobName, previous, QueryOnMetadata.ANY)
-            if (similar(baseList, targetList)) {
-                logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] previous%s is similar to base=%s",
-                        previous.toString(), baseList.getJobTimestamp()))
-                MaterialList collected = collect(baseList, targetList)
+            MaterialList candidate = select(base.getJobName(), previous, base.getQueryOnMetadata())
+            if (similar(base, candidate)) {
+                logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] previous=%s is similar to base=%s",
+                        previous.toString(), base.getJobTimestamp()))
+                MaterialList collected = collect(base, candidate)
                 logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] collected.size()=%d", collected.size()))
                 return collected
             } else {
-                logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] previous%s is not similar to base=%s",
-                        previous.toString(), baseList.getJobTimestamp()))
+                logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] previous=%s is not similar to base=%s",
+                        previous.toString(), base.getJobTimestamp()))
             }
         }
         return MaterialList.NULL_OBJECT
@@ -357,8 +350,7 @@ final class StoreImpl implements Store {
                 collection.add(found)
             }
         }
-
-        assert collection.countMaterialsWithIdStartingWith("5d7e467") <= 1
+        //assert collection.countMaterialsWithIdStartingWith("5d7e467") <= 1
 
         return collection
     }

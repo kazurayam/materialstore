@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.TestFixtureUtil
+import com.kazurayam.materialstore.map.MappingListener
 import com.kazurayam.materialstore.metadata.Metadata
 import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import org.apache.commons.io.FileUtils
@@ -254,14 +255,29 @@ class StoreImplTest {
         store.copyMaterials(jobName,
                 new JobTimestamp("20210713_093357"),
                 new JobTimestamp("20210715_145947"))
-        //
+
+        // create the base MaterialList of FileType.HTML
+        MaterialList base = store.select(jobName, new JobTimestamp("20210715_150000"),
+                QueryOnMetadata.ANY, FileType.HTML)
+
+        /*
         MaterialList previousMaterialList =
                 store.queryMaterialListWithSimilarContentPriorTo(jobName,
                         new JobTimestamp("20210715_150000"))
-
         assertEquals(new JobTimestamp("20210715_145922"),
                 previousMaterialList.getJobTimestamp())
         assertEquals(6, previousMaterialList.size())
+         */
+
+        // now reflect the base to find a target MaterialList of FileType.HTML
+        // out of some previous JobTimestamp direcory
+        MaterialList target =
+                store.queryMaterialListWithSimilarContentPriorTo(base)
+        assertEquals(new JobTimestamp("20210715_145922"),
+                target.getJobTimestamp())
+        assertEquals(2, target.size())
+        assertEquals(FileType.HTML, target.get(0).getFileType())
+        assertEquals(FileType.HTML, target.get(1).getFileType())
     }
 
     @Test

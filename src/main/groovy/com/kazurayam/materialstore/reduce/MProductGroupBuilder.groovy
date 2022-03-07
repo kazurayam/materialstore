@@ -30,20 +30,17 @@ class MProductGroupBuilder {
         Objects.requireNonNull(store)
         Objects.requireNonNull(currentMaterialList)
 
-        JobName jobName = currentMaterialList.getJobName()
-        JobTimestamp currentTimestamp = currentMaterialList.getJobTimestamp()
-
         // infer the previous MaterialList to compare the MaterialList of the current JobTimestamp against
         MaterialList previousMaterialList =
-                store.queryMaterialListWithSimilarContentPriorTo(jobName, currentTimestamp)
+                store.queryMaterialListWithSimilarContentPriorTo(currentMaterialList)
         assert previousMaterialList.size() > 0
 
         //logger.info("[chronos] previousMaterialList=${JsonOutput.prettyPrint(previousMaterialList.toString())}")
 
-        logger.info("[chronos] jobName=${jobName}, store=${store}")
+        logger.info("[chronos] jobName=${currentMaterialList.getJobName()}, store=${store}")
         logger.info("[chronos] previousMaterialList.getJobTimestamp()=${previousMaterialList.getJobTimestamp()}")
         logger.info("[chronos] previousMaterialList.size()=${previousMaterialList.size()}")
-        logger.info("[chronos] currentMaterialList.getJobTimestamp()=${currentTimestamp}")
+        logger.info("[chronos] currentMaterialList.getJobTimestamp()=${currentMaterialList.getJobTimestamp()}")
         logger.info("[chronos] currentMaterialList.size()=${currentMaterialList.size()}")
 
         // zip 2 MaterialLists to form a single MProductGroup
