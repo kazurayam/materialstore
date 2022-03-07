@@ -1,11 +1,8 @@
 package com.kazurayam.materialstore.reduce
 
 
-import com.kazurayam.materialstore.filesystem.JobName
-import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
-import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import groovy.json.JsonOutput
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -31,11 +28,9 @@ class MProductGroupBuilder {
         Objects.requireNonNull(currentMaterialList)
 
         // infer the previous MaterialList to compare the MaterialList of the current JobTimestamp against
-        MaterialList previousMaterialList =
-                store.queryMaterialListWithSimilarContentPriorTo(currentMaterialList)
-        assert previousMaterialList.size() > 0
+        MaterialList previousMaterialList = store.reflect(currentMaterialList)
 
-        //logger.info("[chronos] previousMaterialList=${JsonOutput.prettyPrint(previousMaterialList.toString())}")
+        assert previousMaterialList.size() > 0
 
         logger.info("[chronos] jobName=${currentMaterialList.getJobName()}, store=${store}")
         logger.info("[chronos] previousMaterialList.getJobTimestamp()=${previousMaterialList.getJobTimestamp()}")

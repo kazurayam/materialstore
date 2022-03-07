@@ -38,7 +38,7 @@ interface Store {
 
     JobTimestamp queryLatestJobTimestamp(JobName jobName, QueryOnMetadata query)
 
-    MaterialList queryMaterialListWithSimilarContentPriorTo(MaterialList baseMaterialList)
+    MaterialList reflect(MaterialList baseMaterialList)
 
     byte[] read(Material material)
 

@@ -295,7 +295,7 @@ final class StoreImpl implements Store {
     }
 
     @Override
-    MaterialList queryMaterialListWithSimilarContentPriorTo(MaterialList base) {
+    MaterialList reflect(MaterialList base) {
         Objects.requireNonNull(base)
         logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] base.size()=%d", base.size()))
         assert base.size() > 0
