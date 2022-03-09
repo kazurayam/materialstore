@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
+import com.kazurayam.materialstore.net.data.DataURLEnabler
 import groovy.xml.MarkupBuilder
 import groovy.json.JsonOutput
 import org.junit.jupiter.api.Test
@@ -256,9 +257,40 @@ class MetadataTest {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
         Metadata metadata = Metadata.builder(url).build()
         assertNotNull(metadata)
-        URL recreated = metadata.toURL()
-        URL urlWithoutFragment = new URL("https://baeldung.com/articles?topic=java&version=8")
-        assertEquals(urlWithoutFragment, recreated)
+        URL actual = metadata.toURL()
+        URL expected = new URL("https://baeldung.com/articles?topic=java&version=8")
+        assertEquals(expected, actual)
     }
 
+    @Test
+    void test_toURL_with_port() {
+        URL url = new URL("http://127.0.0.1:3080/index")
+        Metadata metadata = Metadata.builder(url).build()
+        assertNotNull(metadata)
+        URL actual = metadata.toURL()
+        URL expected = new URL("http://127.0.0.1:3080/index")
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    void test_toURL_file_scheme() {
+        URL url = new URL("file:/c/users/foo/temp/bar")
+        Metadata metadata = Metadata.builder(url).build()
+        assertNotNull(metadata)
+        URL actual = metadata.toURL()
+        URL expected = new URL("file:/c/users/foo/temp/bar")
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    void test_toURL_data_scheme() {
+        DataURLEnabler.enableDataURL();
+        String data = "data:text/html,%3Ch1%3EHello%2C%20World%21%3C%2Fh1%3E"
+        URL url = new URL(data)
+        Metadata metadata = Metadata.builder(url).build()
+        assertNotNull(metadata)
+        URL actual = metadata.toURL()
+        URL expected = new URL(data)
+        assertEquals(expected, actual)
+    }
 }

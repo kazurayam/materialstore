@@ -18,7 +18,6 @@ final class MetadataImpl extends Metadata {
         this.metadata = metadata
     }
 
-
     // ------------ implements Metadata -------------------
     @Override
     boolean containsKey(String key) {
@@ -55,8 +54,15 @@ final class MetadataImpl extends Metadata {
         if (metadata.containsKey(KEY_URL_HOST)) {
             StringBuilder sb = new StringBuilder()
             sb.append(metadata.get(KEY_URL_PROTOCOL))
-            sb.append("://")
+            sb.append(":")
+            if (metadata.get(KEY_URL_PROTOCOL).startsWith("http")) {
+                sb.append("//")
+            }
             sb.append(metadata.get(KEY_URL_HOST))
+            if (metadata.containsKey(KEY_URL_PORT) && metadata.get(KEY_URL_PORT) != "80") {
+                sb.append(":")
+                sb.append(metadata.get(KEY_URL_PORT))
+            }
             sb.append(metadata.get(KEY_URL_PATH))
             if (metadata.containsKey(KEY_URL_QUERY)) {
                 sb.append("?")
@@ -275,5 +281,4 @@ final class MetadataImpl extends Metadata {
         MetadataImpl other = (MetadataImpl)(obj)
         return this.toString() <=> other.toString()
     }
-
 }

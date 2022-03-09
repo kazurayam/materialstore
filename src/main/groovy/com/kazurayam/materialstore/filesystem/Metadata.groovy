@@ -100,7 +100,13 @@ abstract class Metadata implements Comparable {
             this()
             Objects.requireNonNull(url)
             metadata.put(KEY_URL_PROTOCOL, url.getProtocol())
-            metadata.put(KEY_URL_PORT, (url.getPort() < 0) ? '80' : Integer.valueOf(url.getPort()).toString())
+            if (url.getProtocol().startsWith("http")) {
+                if (url.getPort() < 0) {
+                    metadata.put(KEY_URL_PORT, '80')
+                } else {
+                    metadata.put(KEY_URL_PORT, Integer.valueOf(url.getPort()).toString())
+                }
+            }
             metadata.put(KEY_URL_HOST, url.getHost())
             if (url.getPath() != null) {
                 metadata.put(KEY_URL_PATH, url.getPath())
