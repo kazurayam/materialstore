@@ -5,11 +5,11 @@ import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
-import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
-import com.kazurayam.materialstore.metadata.IgnoreMetadataKeys
-import com.kazurayam.materialstore.metadata.Metadata
-import com.kazurayam.materialstore.metadata.QueryOnMetadata
-import com.kazurayam.materialstore.metadata.SortKeys
+import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
+import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
+import com.kazurayam.materialstore.filesystem.Metadata
+import com.kazurayam.materialstore.filesystem.QueryOnMetadata
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys
 
 import java.util.stream.Collectors
 import org.slf4j.Logger

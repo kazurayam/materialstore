@@ -9,16 +9,15 @@ import com.kazurayam.materialstore.filesystem.FileTypeDiffability
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
-import com.kazurayam.materialstore.metadata.IdentifyMetadataValues
-import com.kazurayam.materialstore.metadata.IgnoreMetadataKeys
-import com.kazurayam.materialstore.metadata.QueryOnMetadata
+import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
+import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
+import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.reduce.MProduct
 import com.kazurayam.materialstore.reduce.MProductGroup
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import java.nio.file.Files
 import java.nio.file.Path
 
 final class MProductGroupBasicReporter extends MProductGroupReporter implements DiffReporter {

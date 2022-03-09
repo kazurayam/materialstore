@@ -1,9 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
 
-import com.kazurayam.materialstore.metadata.Metadata
-import com.kazurayam.materialstore.metadata.QueryOnMetadata
-
 import java.awt.image.BufferedImage
 import java.nio.charset.Charset
 import java.nio.file.Files

@@ -1,6 +1,6 @@
-package com.kazurayam.materialstore.metadata
+package com.kazurayam.materialstore.filesystem.metadata
 
-
+import com.kazurayam.materialstore.filesystem.Metadata
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

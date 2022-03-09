@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
-import com.kazurayam.materialstore.metadata.Metadata
+
 import groovy.json.JsonSlurper
 
 import java.nio.file.Path

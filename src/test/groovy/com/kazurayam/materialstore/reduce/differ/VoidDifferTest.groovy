@@ -7,7 +7,7 @@ import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.Stores
-import com.kazurayam.materialstore.metadata.QueryOnMetadata
+import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.reduce.DifferDriver
 import com.kazurayam.materialstore.reduce.DifferDriverImpl
 import com.kazurayam.materialstore.reduce.MProductGroup

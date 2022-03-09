@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.filesystem
 
-import com.kazurayam.materialstore.metadata.Metadata
 
 import java.nio.file.Files
 import java.nio.file.Path

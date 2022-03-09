@@ -1,6 +1,6 @@
-package com.kazurayam.materialstore.metadata
+package com.kazurayam.materialstore.filesystem.metadata
 
-import com.kazurayam.materialstore.metadata.SemanticVersionAwareStringMatcher
+
 import org.junit.jupiter.api.Test
 
 import java.util.regex.Matcher

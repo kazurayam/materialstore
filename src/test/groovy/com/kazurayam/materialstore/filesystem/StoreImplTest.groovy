@@ -1,8 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.TestFixtureUtil
-import com.kazurayam.materialstore.metadata.Metadata
-import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach

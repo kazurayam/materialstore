@@ -1,11 +1,11 @@
-package com.kazurayam.materialstore.metadata
+package com.kazurayam.materialstore.filesystem.metadata
 
 
 import org.junit.jupiter.api.Test
 import java.util.regex.Pattern
 
 import static org.junit.jupiter.api.Assertions.*
-import com.kazurayam.materialstore.metadata.QueryOnMetadata.QValue
+import com.kazurayam.materialstore.filesystem.QueryOnMetadata.QValue
 
 class QValueTest {
 

@@ -3,7 +3,6 @@ package com.kazurayam.materialstore.reduce.differ
 
 import com.kazurayam.materialstore.TestFixtureUtil
 import com.kazurayam.materialstore.filesystem.*
-import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import com.kazurayam.materialstore.reduce.MProduct
 import com.kazurayam.materialstore.reduce.MProductGroup
 import org.junit.jupiter.api.Test

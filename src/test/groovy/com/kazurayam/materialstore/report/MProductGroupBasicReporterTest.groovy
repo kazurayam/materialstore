@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.StoreImpl
-import com.kazurayam.materialstore.metadata.QueryOnMetadata
+import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.reduce.MProductGroup
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll

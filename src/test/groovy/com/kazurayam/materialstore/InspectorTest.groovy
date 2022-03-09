@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore
 
 import com.kazurayam.materialstore.filesystem.*
-import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import com.kazurayam.materialstore.reduce.MProductGroup
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll

@@ -5,15 +5,11 @@ import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.Store
-import com.kazurayam.materialstore.metadata.Metadata
+import com.kazurayam.materialstore.filesystem.Metadata
 
-import java.io.IOException
-import java.io.InputStream
-import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
-import java.util.Objects
 
 class URLMaterializer {
 

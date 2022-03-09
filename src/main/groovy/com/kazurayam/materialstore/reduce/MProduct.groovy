@@ -3,8 +3,8 @@ package com.kazurayam.materialstore.reduce
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.reduce.differ.DifferUtil
-import com.kazurayam.materialstore.metadata.QueryOnMetadata
-import com.kazurayam.materialstore.metadata.SortKeys
+import com.kazurayam.materialstore.filesystem.QueryOnMetadata
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys
 
 /**
  * Data Transfer Object

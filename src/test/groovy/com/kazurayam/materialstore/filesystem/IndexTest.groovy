@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
 
-import com.kazurayam.materialstore.metadata.Metadata
 import org.junit.jupiter.api.Test
 import groovy.json.JsonOutput
 import java.nio.file.Files

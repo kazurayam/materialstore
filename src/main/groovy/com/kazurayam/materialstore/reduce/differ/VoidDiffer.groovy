@@ -4,7 +4,7 @@ package com.kazurayam.materialstore.reduce.differ
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Jobber
 import com.kazurayam.materialstore.filesystem.Material
-import com.kazurayam.materialstore.metadata.Metadata
+import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.reduce.MProduct
 import freemarker.cache.ClassTemplateLoader
 import freemarker.template.Configuration

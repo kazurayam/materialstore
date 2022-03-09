@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
 
-import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 

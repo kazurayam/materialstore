@@ -4,8 +4,6 @@ import com.kazurayam.materialstore.MaterialstoreException
 import com.kazurayam.materialstore.map.IdentityMapper
 import com.kazurayam.materialstore.map.MappedResultSerializer
 import com.kazurayam.materialstore.map.Mapper
-import com.kazurayam.materialstore.metadata.Metadata
-import com.kazurayam.materialstore.metadata.QueryOnMetadata
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 

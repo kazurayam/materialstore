@@ -1,6 +1,8 @@
-package com.kazurayam.materialstore.metadata
+package com.kazurayam.materialstore.filesystem
 
-
+import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
+import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
+import com.kazurayam.materialstore.filesystem.metadata.MetadataImpl
 import groovy.xml.MarkupBuilder
 import org.apache.http.NameValuePair
 import org.apache.http.client.utils.URLEncodedUtils

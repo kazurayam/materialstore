@@ -1,6 +1,6 @@
-package com.kazurayam.materialstore.metadata
+package com.kazurayam.materialstore.filesystem.metadata
 
-
+import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.reduce.MProductGroup
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
