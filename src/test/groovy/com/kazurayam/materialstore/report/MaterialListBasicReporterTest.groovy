@@ -5,8 +5,8 @@ import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
-import com.kazurayam.materialstore.filesystem.StoreImpl
-import com.kazurayam.materialstore.metadata.QueryOnMetadata
+import com.kazurayam.materialstore.filesystem.Stores
+import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -38,7 +38,7 @@ class MaterialListBasicReporterTest {
     @Test
     void test_report() {
         Path root = outputDir.resolve("store")
-        Store store = new StoreImpl(root)
+        Store store = Stores.newInstance(root)
         JobName jobName = new JobName("test_report")
         // make sure the Job directory to be empty
         FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
@@ -46,7 +46,7 @@ class MaterialListBasicReporterTest {
         Path jobNameDir = root.resolve(jobName.toString())
         FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
         //
-        MaterialListBasicReporter reporter =
+        MaterialListReporter reporter =
                 new MaterialListBasicReporter(store, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         MaterialList list = store.select(jobName, jobTimestamp,
