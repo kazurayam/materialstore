@@ -88,7 +88,7 @@ class JobberTest {
  */
     @Test
     void test_selectMaterial_byID() {
-        JobName jobName = new JobName("test_selectMaterial")
+        JobName jobName = new JobName("test_selectMaterial_byID")
         TestFixtureUtil.setupFixture(store, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
         Jobber jobber = new Jobber(root, jobName, jobTimestamp)
@@ -129,7 +129,7 @@ class JobberTest {
         Jobber jobber = new Jobber(root, jobName, jobTimestamp)
         QueryOnMetadata pattern = QueryOnMetadata.builder()
                 .put("profile", "DevelopmentEnv")
-                .put("URL", Pattern.compile(".*"))
+                .put("URL.host", Pattern.compile(".*"))
                 .build()
         // select without FileType
         MaterialList materialList = jobber.selectMaterials(pattern)

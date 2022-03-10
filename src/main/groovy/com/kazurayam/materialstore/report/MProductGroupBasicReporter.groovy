@@ -369,6 +369,14 @@ final class MProductGroupBasicReporter extends MProductGroupReporter implements 
                             (IdentifyMetadataValues)context.getIdentifyMetadataValues()
                     )
                 }
+                if (material.getMetadata().toURL() != null) {
+                    dt("Source URL")
+                    dd() {
+                        a(href: material.getMetadata().toURL().toExternalForm(),
+                                target: "source",
+                                material.getMetadata().toURL().toExternalForm())
+                    }
+                }
             }
         }
     }

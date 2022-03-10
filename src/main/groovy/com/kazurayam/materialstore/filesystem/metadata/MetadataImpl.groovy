@@ -4,6 +4,8 @@ import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.util.JsonUtil
 import groovy.xml.MarkupBuilder
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 import java.util.regex.Matcher
 
@@ -11,6 +13,8 @@ import java.util.regex.Matcher
  *
  */
 final class MetadataImpl extends Metadata {
+
+    private static final Logger logger = LoggerFactory.getLogger(MetadataImpl.class.getName())
 
     private final Map<String, String> metadata
 
@@ -51,7 +55,7 @@ final class MetadataImpl extends Metadata {
 
     @Override
     URL toURL() {
-        if (metadata.containsKey(KEY_URL_HOST)) {
+        if (metadata.containsKey(KEY_URL_PROTOCOL) && metadata.containsKey(KEY_URL_HOST)) {
             StringBuilder sb = new StringBuilder()
             sb.append(metadata.get(KEY_URL_PROTOCOL))
             sb.append(":")

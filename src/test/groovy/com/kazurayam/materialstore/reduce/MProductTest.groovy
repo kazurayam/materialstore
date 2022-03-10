@@ -105,7 +105,7 @@ class MProductTest {
         MaterialList leftList = jobberOfLeft.selectMaterials(
                 QueryOnMetadata.builder()
                         .put("profile", "ProductionEnv")
-                        .put("URL.file", Pattern.compile(".*"))
+                        .put("URL.path", Pattern.compile(".*"))
                         .build(),
                 FileType.PNG)
         assert 2 == leftList.size()
@@ -115,7 +115,7 @@ class MProductTest {
         MaterialList rightList= jobberOfRight.selectMaterials(
                 QueryOnMetadata.builder()
                         .put("profile", "DevelopmentEnv")
-                        .put("URL.file", Pattern.compile(".*"))
+                        .put("URL.path", Pattern.compile(".*"))
                         .build(),
                 FileType.PNG)
         assert 2 == rightList.size()

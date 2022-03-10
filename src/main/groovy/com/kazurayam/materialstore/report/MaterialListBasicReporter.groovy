@@ -144,12 +144,18 @@ final class MaterialListBasicReporter extends MaterialListReporter {
                 }
                 dt("FileType")
                 dd(material.getIndexEntry().getFileType().getExtension())
-                //
                 dt("Metadata")
                 dd() {
-                    material.getIndexEntry()
-                            .getMetadata()
+                    material.getMetadata()
                             .toSpanSequence(mb, query)
+                }
+                if (material.getMetadata().toURL() != null) {
+                    dt("Source URL")
+                    dd() {
+                        a(href: material.getMetadata().toURL().toExternalForm(),
+                            target: "source",
+                            material.getMetadata().toURL().toExternalForm())
+                    }
                 }
             }
             if (material.getDiffability() == FileTypeDiffability.AS_IMAGE) {
