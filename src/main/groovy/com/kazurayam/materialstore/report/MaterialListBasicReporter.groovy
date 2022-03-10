@@ -136,7 +136,7 @@ final class MaterialListBasicReporter extends MaterialListReporter {
                                           QueryOnMetadata query) {
         mb.div(class: "show-detail") {
             dl(class: "detail") {
-                dt("URL")
+                dt("Material URL")
                 dd() {
                     a(href: material.getRelativeURL(),
                             target: "material",

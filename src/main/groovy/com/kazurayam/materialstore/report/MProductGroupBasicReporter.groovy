@@ -348,7 +348,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter implements 
         mb.div(class: "show-detail") {
             h2(name)
             dl(class: "detail") {
-                dt("URL")
+                dt("Material URL")
                 dd() {
                     a(href: material.getRelativeURL(),
                             target: name,
