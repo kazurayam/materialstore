@@ -1,10 +1,10 @@
 package com.kazurayam.materialstore
 
 
-import com.kazurayam.materialstore.reduce.differ.DiffReporter
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.report.MProductGroupBasicReporter
+import com.kazurayam.materialstore.report.MProductGroupReporter
 import com.kazurayam.materialstore.report.MaterialListBasicReporter
 import com.kazurayam.materialstore.reduce.MProductGroup
 import com.kazurayam.materialstore.reduce.Reducer
@@ -24,7 +24,7 @@ class InspectorImpl extends Inspector {
     }
 
     @Override
-    DiffReporter newReporter(JobName jobName) {
+    MProductGroupReporter newReporter(JobName jobName) {
         return new MProductGroupBasicReporter(store, jobName)
     }
 
@@ -39,10 +39,18 @@ class InspectorImpl extends Inspector {
     @Override
     Path report(MProductGroup mProductGroup, Double criteria, String fileName) {
         Objects.requireNonNull(mProductGroup)
-        DiffReporter reporter = this.newReporter(mProductGroup.getJobName())
+        MProductGroupReporter reporter = this.newReporter(mProductGroup.getJobName())
         reporter.setCriteria(criteria)
-        reporter.reportDiffs(mProductGroup, fileName)
+        reporter.report(mProductGroup, fileName)
         return store.getRoot().resolve(fileName)
+    }
+
+    @Override
+    void report(MProductGroup mProductGroup, Double criteria, Path filePath) {
+        Objects.requireNonNull(mProductGroup)
+        MProductGroupReporter reporter = this.newReporter(mProductGroup.getJobName())
+        reporter.setCriteria(criteria)
+        reporter.report(mProductGroup, filePath)
     }
 
     @Override
@@ -55,5 +63,13 @@ class InspectorImpl extends Inspector {
         return reporter.report(materialList, fileName)
     }
 
+    @Override
+    void report(MaterialList materialList, Path filePath) {
+        Objects.requireNonNull(materialList)
+        Objects.requireNonNull(filePath)
+        MaterialListBasicReporter reporter =
+                new MaterialListBasicReporter(store, materialList.getJobName())
+        reporter.report(materialList, filePath)
+    }
 
 }

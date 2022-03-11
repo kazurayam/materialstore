@@ -9,9 +9,17 @@ import java.nio.file.Path
 
 abstract class MaterialListReporter {
 
-    abstract Path report(MaterialList materialList, String reportFileName) throws MaterialstoreException
+    abstract Path report(MaterialList materialList, String fileName) throws MaterialstoreException
 
-    static MaterialListReporter newInstance(Store store, JobName jobName) {
+    abstract void report(MaterialList materialList, Path filePath) throws MaterialstoreException
+
+    static final MaterialListReporter newInstance(Store store, JobName jobName) {
         return new MaterialListBasicReporter(store, jobName)
     }
+
+    static final String getTitle(Path file) {
+        String fileName = file.getFileName().toString()
+        return fileName.substring(0, fileName.indexOf(".html"))
+    }
+
 }

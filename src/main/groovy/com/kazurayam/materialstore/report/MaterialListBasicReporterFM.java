@@ -80,7 +80,20 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
     public Path report(MaterialList materialList, String reportFileName)
             throws MaterialstoreException {
         Objects.requireNonNull(materialList);
+        /* write the resulting HTML into a file*/
+        String fileName = (reportFileName == null) ? "list.html" : reportFileName;
+        Path filePath = store.getRoot()
+                        .resolve(materialList.getJobName().toString())
+                        .resolve(fileName);
+        this.report(materialList, filePath);
+        return filePath;
+    }
 
+    @Override
+    public void report(MaterialList materialList, Path filePath)
+            throws MaterialstoreException {
+        Objects.requireNonNull(materialList);
+        Objects.requireNonNull(filePath);
         /* Create a data-model */
         Map<String, Object> model = new HashMap<>();
         model.put("user", "Big Joe");
@@ -101,17 +114,12 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
             throw new MaterialstoreException(e);
         }
 
-        /* write the resulting HTML into a file*/
-        String fileName = (reportFileName == null) ? "list.html" : reportFileName;
-        Path reportFile = store.getRoot().resolve(fileName);
         try {
-            Files.write(reportFile,
+            Files.write(filePath,
                     sw.toString().getBytes(StandardCharsets.UTF_8),
                     StandardOpenOption.CREATE);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
-
-        return reportFile;
     }
 }

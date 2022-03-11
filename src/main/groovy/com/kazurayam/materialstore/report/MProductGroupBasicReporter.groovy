@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.report
 
 import com.kazurayam.materialstore.MaterialstoreException
 import com.kazurayam.materialstore.filesystem.Store
-import com.kazurayam.materialstore.reduce.differ.DiffReporter
+
 import com.kazurayam.materialstore.reduce.differ.DifferUtil
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.FileTypeDiffability
@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory
 
 import java.nio.file.Path
 
-final class MProductGroupBasicReporter extends MProductGroupReporter implements DiffReporter {
+final class MProductGroupBasicReporter extends MProductGroupReporter {
 
     private static final Logger logger = LoggerFactory.getLogger(MProductGroupBasicReporter.class)
 
@@ -46,22 +46,22 @@ final class MProductGroupBasicReporter extends MProductGroupReporter implements 
     }
 
     @Override
-    Path report(MProductGroup mProductGroup, String reportFileName = "index.html") {
-        return this.reportDiffs(mProductGroup, reportFileName)
+    Path report(MProductGroup mProductGroup, String fileName) {
+        Path reportFile = store_.getRoot().resolve(fileName)
+        this.report(mProductGroup, reportFile)
+        return reportFile
     }
 
     @Override
-    Path reportDiffs(MProductGroup mProductGroup, String reportFileName = "index.html") {
+    void report(MProductGroup mProductGroup, Path filePath) {
         Objects.requireNonNull(mProductGroup)
-        Objects.requireNonNull(reportFileName)
+        Objects.requireNonNull(filePath)
         //
         if (! mProductGroup.isReadyToReport()) {
             throw new MaterialstoreException(
                     "given MProductGroup is not ready to report. mProductGroup=" +
                             mProductGroup.toString())
         }
-        //
-        Path reportFile = store_.getRoot().resolve(reportFileName)
         //
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
@@ -79,7 +79,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter implements 
             }
             body() {
                 div(class: "container") {
-                    h1(class: "title", jobName_.toString()) {
+                    h1(class: "title", getTitle(filePath)) {
                         button(class: "btn btn-secondary",
                                 type: "button",
                                 "data-bs-toggle":   "collapse",
@@ -199,9 +199,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter implements 
                         crossorigin: "anonymous", "")
             }
         }
-        reportFile.toFile().text = "<!doctype html>\n" + sw.toString()
-
-        return reportFile
+        filePath.toFile().text = "<!doctype html>\n" + sw.toString()
     }
 
     private static void makeModalSubsection(MarkupBuilder mb, MProduct da, Integer seq) {

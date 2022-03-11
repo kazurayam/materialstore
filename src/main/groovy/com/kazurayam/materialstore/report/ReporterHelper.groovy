@@ -1,5 +1,9 @@
 package com.kazurayam.materialstore.report
 
+import com.kazurayam.materialstore.filesystem.JobName
+
+import java.nio.file.Path
+
 class ReporterHelper {
 
     static final String CSS_PATH = "/com/kazurayam/materialstore/report/style.css"
@@ -33,4 +37,6 @@ class ReporterHelper {
             throw new IllegalArgumentException("unabled to load ${CSS_PATH}")
         }
     }
+
+
 }
