@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
-import com.kazurayam.materialstore.filesystem.Metadata
-import com.kazurayam.materialstore.filesystem.QueryOnMetadata
+
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.net.data.DataURLEnabler
@@ -156,6 +155,17 @@ class MetadataTest {
     void test_size() {
         Metadata metadata = Metadata.builder(["key": "value"]).build()
         assertEquals(1, metadata.size())
+    }
+
+    @Test
+    void test_toURLAsString() {
+        String source = "https://docs.oracle.com/javase/7/docs/api/java/nio/file/Path.html#resolve(java.lang.String)"
+        String sourceWithoutFragment = source.substring(0, source.indexOf("#"))
+        URL url = new URL(source)
+        Metadata metadata = Metadata.builder(url).build()
+        println metadata.toURL().toString()
+        assert metadata.toURL().toString() == sourceWithoutFragment
+        assert metadata.toURLAsString() == source
     }
 
     @Test

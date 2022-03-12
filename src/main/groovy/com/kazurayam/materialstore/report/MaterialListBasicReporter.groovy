@@ -44,7 +44,14 @@ final class MaterialListBasicReporter extends MaterialListReporter {
         Objects.requireNonNull(reportFileName)
         //
         Path reportFile = store_.getRoot().resolve(reportFileName)
-        //
+        this.report(materialList, reportFile)
+        return reportFile
+    }
+
+    @Override
+    void report(MaterialList materialList, Path filePath) {
+        Objects.requireNonNull(materialList)
+        Objects.requireNonNull(filePath)
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
         mb.html(lang: "en") {
@@ -61,7 +68,7 @@ final class MaterialListBasicReporter extends MaterialListReporter {
             }
             body() {
                 div(class: "container") {
-                    h1(class: "title", jobName_.toString()) {
+                    h1(class: "title", getTitle(filePath)) {
                         button(class: "btn btn-secondary",
                                 type: "button",
                                 "data-bs-toggle":   "collapse",
@@ -128,9 +135,9 @@ final class MaterialListBasicReporter extends MaterialListReporter {
                         crossorigin: "anonymous", "")
             }
         }
-        reportFile.toFile().text = "<!doctype html>\n" + sw.toString()
-        return reportFile
+        filePath.toFile().text = "<!doctype html>\n" + sw.toString()
     }
+
 
     private static void makeAccordionBody(Path root, MarkupBuilder mb, Material material,
                                           QueryOnMetadata query) {

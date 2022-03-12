@@ -54,12 +54,12 @@ final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                         .inlineDiffByWord(true)
                         .oldTag({ f -> OLD_TAG } as Function)
                         .newTag({ f -> NEW_TAG } as Function)
-                        .lineNormalizer({str ->
-                                str.replaceAll("&lt;", "<")
-                                        .replaceAll("&gt;",">")
-                                        .replaceAll("&quot;", "\"")
-                                        .replaceAll("&apos;", "\'")
-                                        .replaceAll("&amp;", "&")
+                        .lineNormalizer({ str ->
+                            str.replaceAll("&lt;", "<")
+                                    .replaceAll("&gt;", ">")
+                                    .replaceAll("&quot;", "\"")
+                                    .replaceAll("&apos;", "\'")
+                                    .replaceAll("&amp;", "&")
 
 
                         })
@@ -89,7 +89,7 @@ final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
 
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
-        mb.html(lang:"en") {
+        mb.html(lang: "en") {
             head() {
                 meta(charset: "utf-8")
                 title("TextDifferToHTML output")
@@ -97,30 +97,6 @@ final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
             }
             body() {
                 div(id: "container") {
-                    div(id: "inputs") {
-                        h2("Left")
-                        dl() {
-                            dt("URL")
-                            dd() {
-                                a(href: "../../../" + left.getRelativeURL(),
-                                        target: "Left",
-                                        left.getRelativeURL())
-                            }
-                            dt("metadata")
-                            dd(left.getIndexEntry().getMetadata().toString())
-                        }
-                        h2("Right")
-                        dl() {
-                            dt("URL")
-                            dd() {
-                                a(href: "../../../" + right.getRelativeURL(),
-                                        target: "Right",
-                                        right.getRelativeURL())
-                            }
-                            dt("metadata")
-                            dd(right.getIndexEntry().getMetadata().toString())
-                        }
-                    }
                     div(id: "decision") {
                         //
                         Double diffRatio = DifferUtil.roundUpTo2DecimalPlaces(
@@ -133,7 +109,7 @@ final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                         h3() {
                             if (equalRows.size() < rows.size()) {
                                 span("are DIFFERENT")
-                                span(style:"margin-left: 20px;", "${ratio}%")
+                                span(style: "margin-left: 20px;", "${ratio}%")
                             } else {
                                 span("are EQUAL")
                             }
@@ -147,15 +123,15 @@ final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                                         span(rows.size())
                                     }
                                     li() {
-                                        span(class: "code-insert","inserted :")
+                                        span(class: "code-insert", "inserted :")
                                         span(class: "code-insert", insertedRows.size())
                                     }
                                     li() {
-                                        span(class: "code-delete","deleted :")
+                                        span(class: "code-delete", "deleted :")
                                         span(class: "code-delete", deletedRows.size())
                                     }
                                     li() {
-                                        span(class: "code-change","changed :")
+                                        span(class: "code-change", "changed :")
                                         span(class: "code-change", changedRows.size())
                                     }
                                     li() {
@@ -168,7 +144,7 @@ final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                     }
                     table(id: "split-diff") {
                         colgroup() {
-                            col(width:"44")
+                            col(width: "62")
                             col()
                             col()
                         }
@@ -178,6 +154,51 @@ final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                                 th("Left")
                                 th("Right")
                             }
+                            tr() {
+                                th("Material")
+                                td() {
+                                    a(href: "../../../" + left.getRelativeURL(),
+                                            target: "Left",
+                                            left.getRelativeURL())
+                                }
+                                td() {
+                                    a(href: "../../../" + right.getRelativeURL(),
+                                            target: "Right",
+                                            right.getRelativeURL())
+                                }
+                            }
+                            tr() {
+                                th("index")
+                                td() {
+                                    span(left.getIndexEntry().getFileType().getExtension())
+                                    span(left.getIndexEntry().getMetadata().toString())
+                                }
+                                td() {
+                                    span(left.getIndexEntry().getFileType().getExtension())
+                                    span(right.getIndexEntry().getMetadata().toString())
+                                }
+                            }
+                            tr() {
+                                th("Source")
+                                td() {
+                                    URL url = left.getIndexEntry().getMetadata().toURL()
+                                    if (url != null) {
+                                        a(href: url.toExternalForm(), target: "Left", url.toExternalForm())
+                                    }
+                                }
+                                td() {
+                                    URL url = right.getIndexEntry().getMetadata().toURL()
+                                    if (url != null) {
+                                        a(href: url.toExternalForm(), target: "Right", url.toExternalForm())
+                                    }
+                                }
+                            }
+                            tr() {
+                                th("----")
+                                td()
+                                td()
+                            }
+
                         }
                         tbody() {
                             rows.eachWithIndex { DiffRow row, index ->
@@ -212,6 +233,9 @@ final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
         return textDiffContent
     }
 
+
+    //-----------------------------------------------------------------
+
     private static String getStyle() {
         return """
 * {
@@ -234,6 +258,9 @@ table {
     border-spacing: 0;
     border: 1px solid #ccc;
     width: 100%;
+}
+thead tr {
+    border-bottom: 1px solid #ccc;
 }
 td, th {
     font-size: 12px;

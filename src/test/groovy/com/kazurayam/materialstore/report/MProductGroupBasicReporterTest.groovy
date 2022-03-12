@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.report
 
 
 import com.kazurayam.materialstore.Inspector
-import com.kazurayam.materialstore.reduce.differ.DiffReporter
+
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.MaterialList
@@ -39,10 +39,10 @@ class MProductGroupBasicReporterTest {
     }
 
     @Test
-    void test_reportDiffs() {
+    void test_report() {
         Path root = outputDir.resolve("Materials")
         Store store = new StoreImpl(root)
-        JobName jobName = new JobName("test_reportDiffs")
+        JobName jobName = new JobName("test_report")
         // make sure the Job directory to be empty
         FileUtils.deleteDirectory(root.resolve(jobName.toString()).toFile())
         // stuff the Job directory with a fixture
@@ -63,15 +63,16 @@ class MProductGroupBasicReporterTest {
         Inspector inspector = Inspector.newInstance(store)
 
         // make diff
-        MProductGroup preparedAG =
+        MProductGroup prepared =
                 MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
-        MProductGroup reducedAG = inspector.reduce(preparedAG)
+
+        MProductGroup reduced = inspector.reduce(prepared)
 
         // compile HTML report
-        DiffReporter reporter = inspector.newReporter(jobName)
-        Path report = reporter.reportDiffs(reducedAG, "index.html")
+        MProductGroupReporter reporter = inspector.newReporter(jobName)
+        Path report = reporter.report(reduced, jobName.toString() + "-index.html")
         assertTrue(Files.exists(report))
     }
 

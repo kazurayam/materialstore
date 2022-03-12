@@ -16,6 +16,7 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.util.regex.Pattern
 
+import static org.junit.jupiter.api.Assertions.assertNotNull
 import static org.junit.jupiter.api.Assertions.assertTrue
 
 class MaterialListBasicReporterTest {
@@ -54,9 +55,10 @@ class MaterialListBasicReporterTest {
                         .put("profile", Pattern.compile(".*Env")).build()
         )
         assertTrue(list.size() > 0, "list is empty")
-        String fileName = "list.html"
+        String fileName = jobName.toString() + "-list.html"
         Path report = reporter.report(list, fileName)
         //
+        assertNotNull(report)
         assertTrue(Files.exists(report))
     }
 }
