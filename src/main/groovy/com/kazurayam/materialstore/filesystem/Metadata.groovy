@@ -27,10 +27,8 @@ abstract class Metadata implements Comparable {
     abstract Set<String> keySet()
     abstract int size()
 
-    /**
-     *
-     * @return
-     */
+    abstract String toURLAsString()
+
     abstract URL toURL()
 
     abstract void toSpanSequence(MarkupBuilder mb, QueryOnMetadata query)

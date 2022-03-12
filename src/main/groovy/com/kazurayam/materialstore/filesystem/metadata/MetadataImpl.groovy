@@ -54,6 +54,15 @@ final class MetadataImpl extends Metadata {
     // -------------- overrides methods of Metadata -------------------
 
     @Override
+    String toURLAsString() {
+        if (metadata.containsKey(KEY_URL_FRAGMENT)) {
+            return this.toURL().toExternalForm() + "#" + metadata.get(KEY_URL_FRAGMENT)
+        } else {
+            return this.toURL().toExternalForm()
+        }
+    }
+
+    @Override
     URL toURL() {
         if (metadata.containsKey(KEY_URL_PROTOCOL) && metadata.containsKey(KEY_URL_HOST)) {
             StringBuilder sb = new StringBuilder()
