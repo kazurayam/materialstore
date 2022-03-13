@@ -144,7 +144,7 @@ final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                     }
                     table(id: "split-diff") {
                         colgroup() {
-                            col(width: "62")
+                            col(width: "66")
                             col()
                             col()
                         }
