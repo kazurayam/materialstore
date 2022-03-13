@@ -35,6 +35,7 @@
         </dl>
       </div>
       <div class='accordion' id='accordionExample'>
+        <#--
       <#list materialList>
         <#items as material>
           <div class='accordion-item'>
@@ -47,6 +48,7 @@
           </div>
         </#items>
       </#list>
+      -->
       </div>
     </div>
   </body>
