@@ -168,13 +168,20 @@ final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                                 }
                             }
                             tr() {
-                                th("index")
+                                th("FileType")
                                 td() {
                                     span(left.getIndexEntry().getFileType().getExtension())
-                                    span(left.getIndexEntry().getMetadata().toString())
                                 }
                                 td() {
                                     span(left.getIndexEntry().getFileType().getExtension())
+                                }
+                            }
+                            tr() {
+                                th("Metadata")
+                                td() {
+                                    span(left.getIndexEntry().getMetadata().toString())
+                                }
+                                td() {
                                     span(right.getIndexEntry().getMetadata().toString())
                                 }
                             }
