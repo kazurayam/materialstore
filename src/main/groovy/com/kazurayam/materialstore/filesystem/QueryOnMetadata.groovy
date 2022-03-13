@@ -76,7 +76,10 @@ abstract class QueryOnMetadata {
     /**
      * emit a HTML fragment (like the following) into the argument MarkupBuilder
      *
-     * <span>{"profile":</span><span class="matched-value">"ProductionEnv"</span><span>}</span>
+     * <span>{</span>
+     * <span>"profile":</span>
+     * <span class="matched-value">"ProductionEnv"</span>
+     * <span>}</span>
      *
      * @param mb
      */

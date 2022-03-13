@@ -109,8 +109,8 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
                 jsonTextTokens.add(["text": ","])
             }
             jsonTextTokens.add(["text" : "\"" + key.toString() + "\":"])
-            // FIXME
-            jsonTextTokens.add(["text": "\"" + getAsString(key) + "\""])
+            jsonTextTokens.add(["class" : "matched-value",
+                                "text": "\"" + getAsString(key) + "\""])
             count += 1
         })
         jsonTextTokens.add(["text": "}"])
