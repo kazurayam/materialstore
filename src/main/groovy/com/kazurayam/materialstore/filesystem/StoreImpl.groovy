@@ -340,7 +340,7 @@ final class StoreImpl implements Store {
     private static MaterialList collect(MaterialList baseList, MaterialList targetList) {
         MaterialList collection =
                 new MaterialList(targetList.getJobName(), targetList.getJobTimestamp(),
-                        targetList.getQueryOnMetadata(), targetList.getFileType())
+                        targetList.getQueryOnMetadata())
         int count = 0;
         for (Material base : baseList) {
             List<Material> found = targetList.findMaterialsSimilarTo(base)

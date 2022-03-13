@@ -106,9 +106,6 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                                         dd() {
                                             left.getQueryOnMetadata().toSpanSequence(mb)
                                         }
-                                        dt("FileType :")
-                                        FileType fileType = left.getFileType()
-                                        dd((fileType != FileType.NULL_OBJECT) ? fileType.getExtension() : "not specified")
                                     }
                                 }
                             } else {
@@ -126,9 +123,6 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                                         dd() {
                                             right.getQueryOnMetadata().toSpanSequence(mb)
                                         }
-                                        dt("FileType :")
-                                        FileType fileType = right.getFileType()
-                                        dd((fileType != FileType.NULL_OBJECT) ? fileType.getExtension() : "not specified")
                                     }
                                 }
                             } else {

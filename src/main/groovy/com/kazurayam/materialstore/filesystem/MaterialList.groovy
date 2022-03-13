@@ -10,7 +10,7 @@ final class MaterialList {
 
     public static final NULL_OBJECT =
             new MaterialList(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT,
-                    QueryOnMetadata.NULL_OBJECT, FileType.NULL_OBJECT)
+                    QueryOnMetadata.NULL_OBJECT)
 
     private JobName jobName
 
@@ -18,20 +18,16 @@ final class MaterialList {
 
     private QueryOnMetadata query
 
-    private FileType fileType
-
     private List<Material> materialList
 
     MaterialList(JobName jobName, JobTimestamp jobTimestamp,
-                 QueryOnMetadata query, FileType fileType) {
+                 QueryOnMetadata query) {
         Objects.requireNonNull(jobName)
         Objects.requireNonNull(jobTimestamp)
         Objects.requireNonNull(query)
-        Objects.requireNonNull(fileType)
         this.jobName = jobName
         this.jobTimestamp = jobTimestamp
         this.query = query
-        this.fileType = fileType
         //
         this.materialList = new ArrayList<Material>()
     }
@@ -44,7 +40,6 @@ final class MaterialList {
         this.jobName = source.jobName
         this.jobTimestamp = source.jobTimestamp         // JobTimestamp is immutable
         this.query = source.queryOnMetadata   // QueryOnMetadata is immutable
-        this.fileType = source.fileType                 // FileType is immutable
         this.materialList = new ArrayList<>(source.materialList)  // Material is immutable
     }
 
@@ -125,10 +120,6 @@ final class MaterialList {
         return this.query
     }
 
-    FileType getFileType() {
-        return this.fileType
-    }
-
     //---------------- java.lang.Object -----------
     @Override
     String toString() {
@@ -153,10 +144,6 @@ final class MaterialList {
         sb2.append('''"queryOnMetadata":''')
         sb2.append(this.query.toString())
         sb2.append(",")
-        sb2.append('''"fileType":''')
-        sb2.append('''"''')
-        sb2.append(this.fileType.getExtension())
-        sb2.append('''",''')
         sb2.append('''"metadataList":''')
         sb2.append(sb.toString())
         sb2.append("}")

@@ -92,9 +92,6 @@ final class MaterialListBasicReporter extends MaterialListReporter {
                                     dd() {
                                         materialList.getQueryOnMetadata().toSpanSequence(mb)
                                     }
-                                    dt("FileType :")
-                                    FileType fileType = materialList.getFileType()
-                                    dd((fileType != FileType.NULL_OBJECT) ? fileType.getExtension() : "not specified")
                                 }
                             }
                         }
