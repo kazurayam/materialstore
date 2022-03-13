@@ -86,14 +86,32 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
         int count = 0
         mb.span("{")
         keyList.forEach( { String key ->
-            if (count > 0) {
-                mb.span(", ")
-            }
+            if (count > 0) { mb.span(", ") }
             mb.span("\"${key.toString()}\":")
             mb.span("class": "matched-value", "\"" + this.getAsString(key) + "\"")
             count += 1
         })
         mb.span("}")
+    }
+
+    @Override
+    String toSpanSequence() {
+        List<String> keyList = new ArrayList(keyQValuePairs.keySet())
+        Collections.sort(keyList)
+        int count = 0
+        StringWriter sw = new StringWriter()
+        PrintWriter pw = new PrintWriter(sw)
+        pw.println("<span>{</span>")
+        keyList.forEach({ String key ->
+            if (count > 0) { pw.println("<span>, </span>") }
+            pw.println("<span>\"" + key.toString() + "\"</span>")
+            pw.println("<span class='matched-value'>\"" + this.getAsString(key) + "\"</span>")
+            count += 1
+        })
+        pw.println("<span>}</span>")
+        pw.flush()
+        pw.close()
+        return sw.toString()
     }
 
     //------------- implements java.lang.Object -------

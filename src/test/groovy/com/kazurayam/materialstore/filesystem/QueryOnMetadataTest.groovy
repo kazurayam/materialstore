@@ -147,12 +147,28 @@ class QueryOnMetadataTest {
     }
 
 
-    @Test
-    void test_toSpanSequence() {
+    private static QueryOnMetadata getToSpanSequenceFixture() {
         Metadata metadata = Metadata.builder()
                 .put("profile", "DevEnv")
                 .put("URL.host", "demoaut-mimic.kazurayam.com").build()
-        QueryOnMetadata query = QueryOnMetadata.builder(metadata).build()
+        QueryOnMetadata query = QueryOnMetadata.builder(metadata)
+                .put("*", Pattern.compile(".*"))
+                .build()
+        return query
+    }
+
+    @Test
+    void test_toSpanSequence() {
+        QueryOnMetadata query = getToSpanSequenceFixture()
+        String markup = query.toSpanSequence()
+        assertNotNull(markup)
+        //println markup
+        assertTrue(markup.contains("matched-value"))
+    }
+
+    @Test
+    void test_toSpanSequence_withMarkupBuilder() {
+        QueryOnMetadata query = getToSpanSequenceFixture()
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
         mb.div() {
@@ -164,24 +180,6 @@ class QueryOnMetadataTest {
         assertTrue(markup.contains("matched-value"))
     }
 
-    @Test
-    void test_toSpanSequence_regex() {
-        QueryOnMetadata query = QueryOnMetadata.builder()
-                .put("*", Pattern.compile(".*"))
-                .build()
-        Metadata metadata = Metadata.builder()
-                .put("profile", "DevEnv")
-                .put("URL.host", "demoaut-mimic.kazurayam.com").build()
-        StringWriter sw = new StringWriter()
-        MarkupBuilder mb = new MarkupBuilder(sw)
-        mb.div() {
-            query.toSpanSequence(mb)
-        }
-        String markup = sw.toString()
-        assertNotNull(markup)
-        //println markup
-        assertTrue(markup.contains("matched-value"))
-    }
 
     @Test
     void test_toString_keys_should_be_sorted() {

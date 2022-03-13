@@ -81,7 +81,7 @@ abstract class QueryOnMetadata {
      * @param mb
      */
     abstract void toSpanSequence(MarkupBuilder mb)
-
+    abstract String toSpanSequence()
 
     /**
      *
