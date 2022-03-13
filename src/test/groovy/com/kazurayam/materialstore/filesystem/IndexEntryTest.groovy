@@ -1,5 +1,7 @@
 package com.kazurayam.materialstore.filesystem
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.kazurayam.materialstore.filesystem.IndexEntry
 import org.junit.jupiter.api.Test
 import groovy.json.JsonOutput
@@ -25,5 +27,18 @@ class IndexEntryTest {
         println JsonOutput.prettyPrint(s)
         assert ! s.contains('''"{\\"FileType''')
         assert ! s.contains('''"{\\"URL''')
+    }
+
+    @Test
+    void test_forTemplate() {
+        IndexEntry indexEntry = IndexEntry.parseLine(sampleLine)
+        Map<String, Object> map = indexEntry.forTemplate();
+        // print map keys and values
+        Gson gson = new GsonBuilder().setPrettyPrinting().create()
+        System.out.println gson.toJson(map)
+        //
+        assertTrue(((String)map.get("id")).startsWith("6141"))
+        assertTrue(map.get("fileType") instanceof Map)
+        assertTrue(map.get("metadata") instanceof Map)
     }
 }

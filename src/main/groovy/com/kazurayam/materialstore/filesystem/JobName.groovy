@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
-final class JobName implements Comparable {
+final class JobName implements Comparable, JSONifiable {
 
     public static final JobName NULL_OBJECT = new JobName("_")
 
@@ -18,6 +18,11 @@ final class JobName implements Comparable {
             return true
         }
         return Filename.isValid(s)
+    }
+
+    @Override
+    String toJson() {
+        return "\"" + jobName_ + "\""
     }
 
     @Override

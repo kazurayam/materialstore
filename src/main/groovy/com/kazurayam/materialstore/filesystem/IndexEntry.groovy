@@ -1,12 +1,12 @@
 package com.kazurayam.materialstore.filesystem
 
-
+import com.google.gson.Gson
 import groovy.json.JsonSlurper
 
 import java.nio.file.Path
 import java.nio.file.Paths
 
-final class IndexEntry implements Comparable {
+final class IndexEntry implements Comparable, JSONifiable, TemplateReady {
 
     public static final IndexEntry NULL_OBJECT =
             new IndexEntry(
@@ -100,15 +100,27 @@ final class IndexEntry implements Comparable {
 
     @Override
     String toString() {
+        return toJson()
+    }
+
+    @Override
+    String toJson() {
         StringBuilder sb = new StringBuilder()
         sb.append("{")
-        sb.append("\"id\": \"" + this.getMObject().getID().toString() + "\"")
+        sb.append("\"id\": " + this.getMObject().getID().toJson())
         sb.append(",")
-        sb.append("\"fileType\": " + this.getMObject().getFileType().toString())
+        sb.append("\"fileType\": " + this.getMObject().getFileType().toJson())
         sb.append(",")
         sb.append("\"metadata\": " + this.getMetadata().toString())
         sb.append("}")
         return sb.toString()
+    }
+
+    @Override
+    Map<String, Object> forTemplate() {
+        // convert JSON string to Java Map
+        Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
+        return map
     }
 
     @Override

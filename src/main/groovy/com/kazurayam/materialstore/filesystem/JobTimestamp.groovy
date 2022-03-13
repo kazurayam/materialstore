@@ -7,7 +7,7 @@ import java.time.format.DateTimeParseException
 import java.time.temporal.ChronoUnit
 import java.time.temporal.TemporalUnit
 
-final class JobTimestamp implements Comparable {
+final class JobTimestamp implements Comparable, JSONifiable {
 
     public static final String EPOCH_NAME = "_"
     public static final JobTimestamp NULL_OBJECT = new JobTimestamp(EPOCH_NAME)
@@ -156,6 +156,11 @@ final class JobTimestamp implements Comparable {
     @Override
     String toString() {
         return jobTimestamp_
+    }
+
+    @Override
+    String toJson() {
+        return "\"" + jobTimestamp_ + "\""
     }
 
     LocalDateTime value() {

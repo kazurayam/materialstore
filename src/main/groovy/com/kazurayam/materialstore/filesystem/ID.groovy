@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
-final class ID implements Comparable {
+final class ID implements Comparable, JSONifiable {
 
     public static final ID NULL_OBJECT = new ID("0" * 40)
 
@@ -28,6 +28,11 @@ final class ID implements Comparable {
 
     String getShortSha1() {
         return sha1_.substring(0, 7)
+    }
+
+    @Override
+    String toJson() {
+        return "\"" + sha1_ + "\""
     }
 
     @Override

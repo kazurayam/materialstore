@@ -1,8 +1,10 @@
 package com.kazurayam.materialstore.filesystem
 
+import com.google.gson.Gson
+
 import java.util.stream.Collectors
 
-final enum FileType {
+final enum FileType implements JSONifiable, TemplateReady {
 
     BMP  ('bmp', FileTypeDiffability.AS_IMAGE, ['image/bmp']),
     CSS  ('css', FileTypeDiffability.AS_TEXT,  ['text/css']),
@@ -81,12 +83,13 @@ final enum FileType {
 
     @Override
     String toString() {
-        return toJsonText() //this.getExtension()
+        return toJson() //this.getExtension()
     }
 
-    String toJsonText() {
+    @Override
+    String toJson() {
         StringBuilder sb = new StringBuilder()
-        sb.append('{"FileType":{')
+        sb.append('{')
         sb.append('"extension":"' + this.getExtension() + '","mimeTypes":[')
         def count = 0
         for (String mimetype: this.getMimeTypes()) {
@@ -100,8 +103,15 @@ final enum FileType {
         sb.append(',"diffability":"')
         sb.append(this.getDiffability())
         sb.append('"')
-        sb.append('}}')
+        sb.append('}')
         return sb.toString()
+    }
+
+    @Override
+    Map<String, Object> forTemplate() {
+        // convert JSON string to Java Map
+        Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
+        return map
     }
 
     static FileType getByExtension(String ext) {

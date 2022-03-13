@@ -1,5 +1,8 @@
 package com.kazurayam.materialstore.filesystem
 
+/**
+ * checks if the giving string is valid as a file name
+ */
 final class Filename {
 
     static final String PROHIBITED_CHARACTERS = "/\\?*:|\"<>&"

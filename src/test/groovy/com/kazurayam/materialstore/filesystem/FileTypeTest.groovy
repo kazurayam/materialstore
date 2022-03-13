@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.filesystem
 
-
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import org.junit.jupiter.api.Test
 import groovy.json.JsonOutput
 import static org.junit.jupiter.api.Assertions.assertEquals
@@ -46,6 +47,18 @@ class FileTypeTest {
     @Test
     void test_toString() {
         String s = FileType.PNG.toString()
-        println JsonOutput.prettyPrint(s)
+        //println JsonOutput.prettyPrint(s)
+    }
+
+    @Test
+    void test_forTemplate() {
+        Map<String, Object> map = FileType.PNG.forTemplate();
+        // print map keys and values
+        Gson gson = new GsonBuilder().setPrettyPrinting().create()
+        //System.out.println gson.toJson(map)
+        //
+        assertEquals("png", map.get("extension"))
+        assertEquals("image/png", ((List)map.get("mimeTypes")).get(0))
+        assertEquals("AS_IMAGE", map.get("diffability"))
     }
 }
