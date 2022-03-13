@@ -25,7 +25,7 @@
               <dd>${materialList.getJobTimestamp().toString()}</dd>
               <dt>QueryOnMetadata :</dt>
               <dd>
-                ${materialList.getQueryOnMetadata().getSequenceOfSpans()}
+                <#-- ${materialList.getQueryOnMetadata().getSequenceOfSpans()} -->
               </dd>
               <dt>FileType :</dt>
               <dt></dt>
