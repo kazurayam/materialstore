@@ -96,6 +96,6 @@ public class MaterialListBasicReporterFMTest {
 
         //compute the patch: this is the diffutils part
         Patch<String> patch = DiffUtils.diff(original, revised);
-        //assertEquals(0, patch.getDeltas().size());
+        assertEquals(0, patch.getDeltas().size());
     }
 }

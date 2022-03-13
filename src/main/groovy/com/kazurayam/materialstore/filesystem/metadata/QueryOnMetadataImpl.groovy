@@ -86,7 +86,9 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
         int count = 0
         mb.span("{")
         keyList.forEach( { String key ->
-            if (count > 0) { mb.span(", ") }
+            if (count > 0) {
+                mb.span(", ")
+            }
             mb.span("\"${key.toString()}\":")
             mb.span("class": "matched-value", "\"" + this.getAsString(key) + "\"")
             count += 1
@@ -95,23 +97,24 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
     }
 
     @Override
-    String toSpanSequence() {
+    List<Map<String,String>> toJSONTextTokens() {
+        List<Map<String, String>> jsonTextTokens = new ArrayList<>()
+        //
         List<String> keyList = new ArrayList(keyQValuePairs.keySet())
         Collections.sort(keyList)
         int count = 0
-        StringWriter sw = new StringWriter()
-        PrintWriter pw = new PrintWriter(sw)
-        pw.println("<span>{</span>")
+        jsonTextTokens.add(["text": "{"])
         keyList.forEach({ String key ->
-            if (count > 0) { pw.println("<span>, </span>") }
-            pw.println("<span>\"" + key.toString() + "\"</span>")
-            pw.println("<span class='matched-value'>\"" + this.getAsString(key) + "\"</span>")
+            if (count > 0) {
+                jsonTextTokens.add(["text": ","])
+            }
+            jsonTextTokens.add(["text" : "\"" + key.toString() + "\":"])
+            // FIXME
+            jsonTextTokens.add(["text": "\"" + getAsString(key) + "\""])
             count += 1
         })
-        pw.println("<span>}</span>")
-        pw.flush()
-        pw.close()
-        return sw.toString()
+        jsonTextTokens.add(["text": "}"])
+        return jsonTextTokens
     }
 
     //------------- implements java.lang.Object -------

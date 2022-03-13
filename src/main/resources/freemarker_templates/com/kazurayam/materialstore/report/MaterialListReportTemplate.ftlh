@@ -1,3 +1,5 @@
+<#import "QueryOnMetadata_toJSONTextTokens.ftlh" as qom>
+
 <!doctype html>
 <html lang='en'>
   <head>
@@ -25,10 +27,9 @@
               <dd>${materialList.getJobTimestamp().toString()}</dd>
               <dt>QueryOnMetadata :</dt>
               <dd>
-                <#-- ${materialList.getQueryOnMetadata().getSequenceOfSpans()} -->
+                <@qom.renderQueryOnMetadataAsSpanSequence
+                tokens=materialList.getQueryOnMetadata().toJSONTextTokens() />
               </dd>
-              <dt>FileType :</dt>
-              <dt></dt>
             </dl>
           </dd>
 

@@ -158,12 +158,12 @@ class QueryOnMetadataTest {
     }
 
     @Test
-    void test_toSpanSequence() {
+    void test_toJSONTextTokens() {
         QueryOnMetadata query = getToSpanSequenceFixture()
-        String markup = query.toSpanSequence()
-        assertNotNull(markup)
+        List<Map<String, String>> tokens = query.toJSONTextTokens()
+        assertNotNull(tokens)
         //println markup
-        assertTrue(markup.contains("matched-value"))
+
     }
 
     @Test
