@@ -4,6 +4,7 @@ import com.github.difflib.DiffUtils;
 import com.github.difflib.patch.AbstractDelta;
 import com.github.difflib.patch.Patch;
 import com.kazurayam.materialstore.MaterialstoreException;
+import com.kazurayam.materialstore.TextDiffUtil;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.MaterialList;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -73,7 +75,7 @@ public class MaterialListBasicReporterFMTest {
                         .put("profile", Pattern.compile(".*Env")).build()
         );
         assertTrue(list.size() > 0, "list is empty");
-        String fileName = "test_report-list.html";
+        String fileName = "test_report-listFM.html";
         Path report = reporter.report(list, fileName);
         //
         assertTrue(Files.exists(report));
@@ -87,14 +89,13 @@ public class MaterialListBasicReporterFMTest {
         // using java-diff-utils, compare 2 report files
         List<String> original = Files.readAllLines(reportByMarkupBuilder);
         List<String> revised = Files.readAllLines(report);
+        Path diff = outputDir.resolve("store").resolve("diff.md");
+        TextDiffUtil.writeDiff(original, revised, diff,
+                Arrays.asList("test_report-",
+                        "MaterialListBasicReporterFMTest"));
+
         //compute the patch: this is the diffutils part
         Patch<String> patch = DiffUtils.diff(original, revised);
-        //simple output the computed patch to console
-        logger.info("start delta >>>>");
-        for (AbstractDelta<String> delta : patch.getDeltas()) {
-            logger.info(delta.toString());
-        }
-        logger.info("<<<< end delta");
-        //assertEquals(0, patch.getDeltas().size());
+        assertEquals(0, patch.getDeltas().size());
     }
 }

@@ -82,9 +82,7 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
         Objects.requireNonNull(materialList);
         /* write the resulting HTML into a file*/
         String fileName = (reportFileName == null) ? "list.html" : reportFileName;
-        Path filePath = store.getRoot()
-                        .resolve(materialList.getJobName().toString())
-                        .resolve(fileName);
+        Path filePath = store.getRoot().resolve(fileName);
         this.report(materialList, filePath);
         return filePath;
     }
@@ -96,7 +94,12 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
         Objects.requireNonNull(filePath);
         /* Create a data-model */
         Map<String, Object> model = new HashMap<>();
-        model.put("user", "Big Joe");
+        model.put("style", ReporterHelper.loadStyleFromClasspath());
+        model.put("jobName", jobName);
+        model.put("title", getTitle(filePath));
+        model.put("filePath", filePath);
+        model.put("store", store);
+        model.put("materialList", materialList);
 
         /* Get the template */
         Template temp;
