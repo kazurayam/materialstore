@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.filesystem.metadata
 
+import com.kazurayam.materialstore.util.JsonUtil
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -61,6 +62,11 @@ class MetadataAttributeTest {
     @Test
     void test_toTemplateModel() {
         Map<String, Object> model = instance.toTemplateModel()
+        println JsonUtil.prettyPrint(instance.toJson())
         assertEquals("profile", model.get("key"))
+        assertEquals("DevEnv_1.2.3-beta", model.get("value"))
+        assertEquals(true, model.get("ignoredByKey"))
+        assertEquals(true, model.get("identifiedByValue"))
+        assertEquals("1.2.3-beta", model.get("semanticVersion"))
     }
 }

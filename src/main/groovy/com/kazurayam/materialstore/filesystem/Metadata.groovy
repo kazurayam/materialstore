@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
+import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute
 import com.kazurayam.materialstore.filesystem.metadata.MetadataImpl
 import groovy.xml.MarkupBuilder
 import org.apache.http.NameValuePair
@@ -23,12 +24,11 @@ abstract class Metadata implements Comparable, JSONifiable, TemplateReady {
 
     abstract boolean containsKey(String key)
     abstract String get(String key)
+    abstract MetadataAttribute getMetadataAttribute(String key)
     abstract boolean isEmpty()
     abstract Set<String> keySet()
     abstract int size()
-
     abstract String toURLAsString()
-
     abstract URL toURL()
 
     abstract void toSpanSequence(MarkupBuilder mb, QueryOnMetadata query)
@@ -86,55 +86,70 @@ abstract class Metadata implements Comparable, JSONifiable, TemplateReady {
      *
      */
     public static class Builder {
-        Map<String, String> metadata
+        Map<String, MetadataAttribute> attributes
         Builder() {
-            metadata = new HashMap<String, String>()
+            attributes = new HashMap<String, MetadataAttribute>()
         }
         Builder(Metadata source) {
-            metadata = new HashMap<String, String>()
+            this()
             for (String key : source.keySet()) {
-                metadata.put(key, source.get(key))
+                attributes.put(key, source.getMetadataAttribute(key))
             }
         }
-        Builder(Map map) {
-            Objects.requireNonNull(map)
-            metadata = new HashMap(map)
+        Builder(Map<String, String> map) {
+            this()
+            for (String key : map.keySet()) {
+                MetadataAttribute attribute = new MetadataAttribute(key, map.get(key))
+                attributes.put(key, attribute)
+            }
         }
         Builder(URL url) {
             this()
             Objects.requireNonNull(url)
-            metadata.put(KEY_URL_PROTOCOL, url.getProtocol())
+            attributes.put(KEY_URL_PROTOCOL,
+                    new MetadataAttribute(KEY_URL_PROTOCOL,
+                            url.getProtocol()))
             if (url.getProtocol().startsWith("http")) {
                 if (url.getPort() < 0) {
-                    metadata.put(KEY_URL_PORT, '80')
+                    attributes.put(KEY_URL_PORT,
+                            new MetadataAttribute(KEY_URL_PORT, '80'))
                 } else {
-                    metadata.put(KEY_URL_PORT, Integer.valueOf(url.getPort()).toString())
+                    attributes.put(KEY_URL_PORT,
+                            new MetadataAttribute(KEY_URL_PORT,
+                                    Integer.valueOf(url.getPort()).toString()))
                 }
             }
-            metadata.put(KEY_URL_HOST, url.getHost())
+            attributes.put(KEY_URL_HOST,
+                    new MetadataAttribute(KEY_URL_HOST, url.getHost()))
             if (url.getPath() != null) {
-                metadata.put(KEY_URL_PATH, url.getPath())
+                attributes.put(KEY_URL_PATH,
+                        new MetadataAttribute(KEY_URL_PATH, url.getPath()))
             }
             if (url.getQuery() != null) {
-                metadata.put(KEY_URL_QUERY, url.getQuery())
+                attributes.put(KEY_URL_QUERY,
+                        new MetadataAttribute(KEY_URL_QUERY, url.getQuery()))
             }
             int posHash = url.toString().indexOf("#")
             if (posHash >= 0) {
-                metadata.put(KEY_URL_FRAGMENT, url.toString().substring(posHash + 1))
+                attributes.put(KEY_URL_FRAGMENT,
+                        new MetadataAttribute(KEY_URL_FRAGMENT,
+                                url.toString().substring(posHash + 1)))
             }
         }
         Builder put(String key, String value) {
             Objects.requireNonNull(key)
-            metadata.put(key, value)
+            attributes.put(key, new MetadataAttribute(key, value))
             return this
         }
         Builder putAll(Map<String, String> m) {
             Objects.requireNonNull(m)
-            metadata.putAll(m)
+            for (String key : m.keySet()) {
+                attributes.put(key, new MetadataAttribute(key, m.get(key)))
+            }
             return this
         }
         Metadata build() {
-            return new MetadataImpl(metadata)
+            return new MetadataImpl(attributes)
         }
     }
 

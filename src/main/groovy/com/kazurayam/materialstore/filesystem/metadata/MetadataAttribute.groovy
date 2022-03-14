@@ -11,7 +11,7 @@ import com.kazurayam.materialstore.util.JsonUtil
 class MetadataAttribute implements Comparable<MetadataAttribute>, JSONifiable, TemplateReady {
 
     private String key = null
-    private Object value = null
+    private String value = null
     private boolean ignoredByKey = false
     private boolean identifiedByValue = false
     private String semanticVersion = null
@@ -20,12 +20,12 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, JSONifiable, T
         this(key, null)
     }
 
-    MetadataAttribute(String key, Object value) {
+    MetadataAttribute(String key, String value) {
         this.key = key
         this.value = value
     }
 
-    void setValue(Object value) {
+    void setValue(String value) {
         this.value = value
     }
 
@@ -45,7 +45,7 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, JSONifiable, T
         return this.key
     }
 
-    Object getValue() {
+    String getValue() {
         return this.value
     }
 
@@ -91,11 +91,21 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, JSONifiable, T
     String toJson() {
         StringBuilder sb = new StringBuilder()
         sb.append("{")
+        sb.append("\"" + JsonUtil.escapeAsJsonString(this.getKey()) + "\"")
+        sb.append(": ")
+        sb.append("\"" + JsonUtil.escapeAsJsonString(this.getValue()) + "\"")
+        sb.append("}")
+        return sb.toString()
+    }
+
+    String toRichJson() {
+        StringBuilder sb = new StringBuilder()
+        sb.append("{")
         sb.append("\"key\":")
         sb.append("\"" + JsonUtil.escapeAsJsonString(this.getKey()) + "\"")
         sb.append(",")
         sb.append("\"value\":")
-        sb.append("\"" + JsonUtil.escapeAsJsonString(this.getValue().toString()) + "\"")
+        sb.append("\"" + JsonUtil.escapeAsJsonString(this.getValue()) + "\"")
         if (isIgnoredByKey()) {
             sb.append(",")
             sb.append("\"ignoredByKey\":")
@@ -128,7 +138,7 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, JSONifiable, T
     @Override
     Map<String, Object> toTemplateModel() {
         // convert JSON string to Java Map
-        Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
+        Map<String, Object> map = new Gson().fromJson(toRichJson(), Map.class)
         return map
     }
 }

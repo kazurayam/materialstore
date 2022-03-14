@@ -15,40 +15,57 @@ import java.util.regex.Matcher
  */
 final class MetadataImpl extends Metadata {
 
-    private static final Logger logger = LoggerFactory.getLogger(MetadataImpl.class.getName())
+    private static final Logger logger =
+            LoggerFactory.getLogger(MetadataImpl.class.getName())
 
-    private final Map<String, String> metadata
+    private final Map<String, MetadataAttribute> attributes
 
-    protected MetadataImpl(Map<String, String> metadata) {
-        this.metadata = metadata
+    protected MetadataImpl(Map<String, MetadataAttribute> attributes) {
+        this.attributes = attributes
     }
-
+    /*
+    protected MetadataImpl(Map<String, String> map) {
+        for (String key : map.keySet) {
+            MetadataAttribute attribute =
+                    new MetadataAttribute(key, map.get(key).getValue)
+            attributes.put(key, attribute)
+        }
+    }
+    */
     // ------------ implements Metadata -------------------
     @Override
     boolean containsKey(String key) {
-        return metadata.containsKey((String)key)
+        return attributes.containsKey(key)
     }
 
     @Override
     String get(String key) {
-        return metadata.get(key)
+        MetadataAttribute attribute = attributes.get(key)
+        if (attribute != null) {
+            return attribute.getValue()
+        } else {
+            return null
+        }
+    }
+
+    @Override
+    MetadataAttribute getMetadataAttribute(String key) {
+        return attributes.get(key)
     }
 
     @Override
     boolean isEmpty() {
-        return metadata.isEmpty()
+        return attributes.isEmpty()
     }
 
     @Override
     Set<String> keySet() {
-        return metadata.keySet()
+        return attributes.keySet()
     }
-
-
 
     @Override
     int size()  {
-        metadata.size()
+        attributes.size()
     }
 
 
@@ -56,31 +73,33 @@ final class MetadataImpl extends Metadata {
 
     @Override
     String toURLAsString() {
-        if (metadata.containsKey(KEY_URL_FRAGMENT)) {
-            return this.toURL().toExternalForm() + "#" + metadata.get(KEY_URL_FRAGMENT)
+        if (attributes.containsKey(KEY_URL_FRAGMENT)) {
+            return toURL().toExternalForm() +
+                    "#" + attributes.get(KEY_URL_FRAGMENT).getValue()
         } else {
-            return this.toURL().toExternalForm()
+            return toURL().toExternalForm()
         }
     }
 
     @Override
     URL toURL() {
-        if (metadata.containsKey(KEY_URL_PROTOCOL) && metadata.containsKey(KEY_URL_HOST)) {
+        if (attributes.containsKey(KEY_URL_PROTOCOL) && attributes.containsKey(KEY_URL_HOST)) {
             StringBuilder sb = new StringBuilder()
-            sb.append(metadata.get(KEY_URL_PROTOCOL))
+            sb.append(attributes.get(KEY_URL_PROTOCOL).getValue())
             sb.append(":")
-            if (metadata.get(KEY_URL_PROTOCOL).startsWith("http")) {
+            if (attributes.get(KEY_URL_PROTOCOL).getValue().startsWith("http")) {
                 sb.append("//")
             }
-            sb.append(metadata.get(KEY_URL_HOST))
-            if (metadata.containsKey(KEY_URL_PORT) && metadata.get(KEY_URL_PORT) != "80") {
+            sb.append(attributes.get(KEY_URL_HOST).getValue())
+            if (attributes.containsKey(KEY_URL_PORT) &&
+                    attributes.get(KEY_URL_PORT).getValue() != "80") {
                 sb.append(":")
-                sb.append(metadata.get(KEY_URL_PORT))
+                sb.append(attributes.get(KEY_URL_PORT).getValue())
             }
-            sb.append(metadata.get(KEY_URL_PATH))
-            if (metadata.containsKey(KEY_URL_QUERY)) {
+            sb.append(attributes.get(KEY_URL_PATH).getValue())
+            if (attributes.containsKey(KEY_URL_QUERY)) {
                 sb.append("?")
-                sb.append(metadata.get(KEY_URL_QUERY))
+                sb.append(attributes.get(KEY_URL_QUERY).getValue())
             }
             return new URL(sb.toString())
         } else {
@@ -93,7 +112,7 @@ final class MetadataImpl extends Metadata {
         Objects.requireNonNull(mb)
         Objects.requireNonNull(query)
         int count = 0
-        List<String> keys = new ArrayList<String>(metadata.keySet())
+        List<String> keys = new ArrayList<String>(attributes.keySet())
         Collections.sort(keys)
         mb.span("{")
         keys.forEach {key ->
@@ -129,9 +148,7 @@ final class MetadataImpl extends Metadata {
         } else {
             return null
         }
-
     }
-
 
     @Override
     void toSpanSequence(MarkupBuilder mb,
@@ -145,7 +162,7 @@ final class MetadataImpl extends Metadata {
         Objects.requireNonNull(ignoreMetadataKeys)
         Objects.requireNonNull(identifyMetadataValues)
         int count = 0
-        List<String> keys = new ArrayList<String>(metadata.keySet())
+        List<String> keys = new ArrayList<String>(attributes.keySet())
         Collections.sort(keys)
         mb.span("{")
         keys.forEach { key ->
@@ -221,24 +238,19 @@ final class MetadataImpl extends Metadata {
         StringBuilder sb = new StringBuilder()
         int entryCount = 0
         sb.append("{")
-        assert metadata != null, "metadata_ is null before iterating over keys"
+        assert attributes != null, "metadata_ is null before iterating over keys"
         //println "keys: ${metadata_.keySet()}"
-        List<String> keys = new ArrayList<String>(metadata.keySet())
-        Map<String,String> copy = new HashMap<String,String>(metadata)
+        List<String> keys = new ArrayList<String>(attributes.keySet())
+        Map<String, MetadataAttribute> copy = new HashMap<>(attributes)
         // sort by the key
         Collections.sort(keys)
         keys.each { key ->
             if (entryCount > 0) {
                 sb.append(", ")    // comma followed by a white space
             }
-            sb.append('"')
-            assert copy != null, "metadata_ is null for key=${key}"
-            sb.append(JsonUtil.escapeAsJsonString(key))
-            sb.append('"')
+            sb.append('"' + JsonUtil.escapeAsJsonString(key) + '"')
             sb.append(':')
-            sb.append('"')
-            sb.append(JsonUtil.escapeAsJsonString(copy.get(key)))
-            sb.append('"')
+            sb.append('"' + copy.get(key).getValue() + '"')
             entryCount += 1
         }
         sb.append("}")
@@ -267,25 +279,6 @@ final class MetadataImpl extends Metadata {
             return false
         }
         MetadataImpl other = (MetadataImpl)obj
-        /*
-        if (other.size() != other.metadata.size()) {
-            return false
-        }
-        //
-        Set otherKeySet = other.keySet()
-        if (this.keySet() != otherKeySet) {
-            return false
-        }
-        //
-        boolean result = true
-        this.keySet().each { key ->
-            if (this.get(key) != other.get(key)) {
-                result = false
-                return
-            }
-        }
-        return result
-         */
         return this.toString() == other.toString()
     }
 

@@ -3,6 +3,7 @@ package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
+import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute
 import com.kazurayam.materialstore.net.data.DataURLEnabler
 import com.kazurayam.materialstore.util.JsonUtil
 import groovy.xml.MarkupBuilder
@@ -90,8 +91,8 @@ class MetadataTest {
 
     @Test
     void test_constructor() {
-        Metadata metadata = Metadata.builder([
-                "profile":"ProductionEnv"])
+        Metadata metadata = Metadata.builder(
+                ["profile":"ProductionEnv"])
                 .build()
         assertEquals("ProductionEnv", metadata.get("profile"))
     }
@@ -119,6 +120,13 @@ class MetadataTest {
         Metadata metadata = Metadata.builder(["profile":"ProductionEnv"]).build()
         assertEquals("ProductionEnv", metadata.get("profile"))
         assertNull(metadata.get("foo"))
+    }
+
+    @Test
+    void test_getMetadataAttribute() {
+        Metadata metadata = Metadata.builder(["profile":"ProductionEnv"]).build()
+        MetadataAttribute profile = metadata.getMetadataAttribute("profile")
+        assertEquals("ProductionEnv", profile.getValue())
     }
 
     @Test
@@ -243,13 +251,13 @@ class MetadataTest {
      * In the string representation, the keys should be sorted
      */
     @Test
-    void test_toString() {
+    void test_toJson() {
         Metadata metadata = Metadata.builder(["b": "B", "a": "A"]).build()
-        String s = metadata.toString()
-        println JsonOutput.prettyPrint(s)
+        String s = metadata.toJson()
+        println s
         assertEquals(
                 '''{"a":"A", "b":"B"}''',
-                metadata.toString())
+                metadata.toJson())
     }
 
     @Test
@@ -329,4 +337,6 @@ class MetadataTest {
         URL expected = new URL(data)
         assertEquals(expected, actual)
     }
+
+
 }
