@@ -1,10 +1,13 @@
 package com.kazurayam.materialstore.filesystem
 
+import com.google.gson.Gson
+import com.kazurayam.materialstore.util.JsonUtil
+
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 
-final class Material implements Comparable {
+final class Material implements Comparable, JSONifiable, TemplateReady {
 
     public static final Material NULL_OBJECT =
             new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, IndexEntry.NULL_OBJECT)
@@ -132,21 +135,9 @@ final class Material implements Comparable {
 
     @Override
     String toString() {
-        StringBuilder sb = new StringBuilder()
-        sb.append("{")
-        sb.append("\"jobName\":\"" + this.getJobName() + "\"")
-        sb.append(",")
-        sb.append("\"jobTimestamp\":\"" + this.getJobTimestamp() + "\"")
-        sb.append(",")
-        sb.append("\"ID\":\"" + this.getIndexEntry().getID().toString() + "\"")
-        sb.append(",")
-        sb.append("\"fileType\":\"" + this.getIndexEntry().getFileType().getExtension() + "\"")
-        sb.append(",")
-        sb.append("\"metadata\":")
-        sb.append(this.getIndexEntry().getMetadata().toString())
-        sb.append("}")
-        return sb.toString()
+        return toJson()
     }
+
 
     @Override
     int compareTo(Object obj) {
@@ -165,6 +156,31 @@ final class Material implements Comparable {
         } else {
             return comparisonByJobName
         }
+    }
+
+    @Override
+    String toJson() {
+        StringBuilder sb = new StringBuilder()
+        sb.append("{")
+        sb.append("\"jobName\":\"" + this.getJobName() + "\"")
+        sb.append(",")
+        sb.append("\"jobTimestamp\":\"" + this.getJobTimestamp() + "\"")
+        sb.append(",")
+        sb.append("\"id\":\"" + this.getIndexEntry().getID().toString() + "\"")
+        sb.append(",")
+        sb.append("\"fileType\":\"" + this.getIndexEntry().getFileType().getExtension() + "\"")
+        sb.append(",")
+        sb.append("\"metadata\":")
+        sb.append(this.getIndexEntry().getMetadata().toString())
+        sb.append("}")
+        return JsonUtil.prettyPrint(sb.toString())
+    }
+
+    @Override
+    Map<String, Object> toTemplateModel() {
+        // convert JSON string to Java Map
+        Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
+        return map
     }
 }
 

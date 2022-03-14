@@ -263,6 +263,30 @@ class MetadataTest {
     }
 
     @Test
+    void test_toTemplateModel() {
+        URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
+        Metadata metadata = Metadata.builder(url).build()
+        Map<String, Object> model = metadata.toTemplateModel()
+        assertEquals("https", model.get("URL.protocol"))
+        assertEquals("baeldung.com", model.get("URL.host"))
+        assertEquals("80", model.get("URL.port"))
+        assertEquals("/articles", model.get("URL.path"))
+        assertEquals("topic=java&version=8", model.get("URL.query"))
+        assertEquals("content", model.get("URL.fragment"))
+        List<String> keyList = new ArrayList<>(model.keySet())
+        Collections.sort(keyList)
+        assertEquals(6, keyList.size())
+        assertEquals(Arrays.asList(
+                "URL.fragment",
+                "URL.host",
+                "URL.path",
+                "URL.port",
+                "URL.protocol",
+                "URL.query",
+        ), keyList)
+    }
+
+    @Test
     void test_toURL() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
         Metadata metadata = Metadata.builder(url).build()

@@ -30,16 +30,6 @@ class MaterialTest {
         Files.createDirectories(outputDir)
     }
 
-    void test_isSimilar() {
-        IndexEntry indexEntry = IndexEntry.parseLine(sampleLine)
-        JobName jobName = new JobName("test_isSimilar")
-        JobTimestamp timestamp0 = new JobTimestamp("20220305_010000")
-        JobTimestamp timestamp1 = new JobTimestamp("20220306_235959")
-        Material material0 = new Material(jobName, timestamp0, indexEntry)
-        Material material1 = new Material(jobName, timestamp1, indexEntry)
-        assertEquals(material1, material0)
-    }
-
     @Test
     void test_smoke() {
         IndexEntry indexEntry = IndexEntry.parseLine(sampleLine)
@@ -60,7 +50,7 @@ class MaterialTest {
 
     @Test
     void test_getRelativePath_getRelativeURL() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_getRelativePath")
         // copy the fixture files to the output dir
@@ -82,9 +72,9 @@ class MaterialTest {
 
     @Test
     void test_toFile_and_toURL() {
-        Path root = outputDir.resolve("Materials")
+        Path root = outputDir.resolve("store")
         Store store = new StoreImpl(root)
-        JobName jobName = new JobName("test_toFile")
+        JobName jobName = new JobName("test_toFile_and_toURL")
         // copy the fixture files to the output dir
         TestFixtureUtil.setupFixture(store, jobName)
         //
@@ -100,4 +90,29 @@ class MaterialTest {
         assertTrue(url.toExternalForm().startsWith("file:/"), url.toString())
     }
 
+    @Test
+    void test_toTemplateModel() {
+        Path root = outputDir.resolve("store")
+        Store store = new StoreImpl(root)
+        JobName jobName = new JobName("test_toTemplateModel")
+        //
+        TestFixtureUtil.setupFixture(store, jobName)
+        JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
+        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"))
+        //
+        println material.toJson()
+        Map<String, Object> model = material.toTemplateModel()
+        assertNotNull(model)
+        assertEquals("test_toTemplateModel", model.get("jobName"))
+        assertEquals("20210713_093357", model.get("jobTimestamp"))
+        assertEquals("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490", model.get("id"))
+        assertEquals("png", model.get("fileType"))
+        Map<String, String> metadata = (Map<String, String>)model.get("metadata")
+        assertEquals("demoaut.katalon.com", metadata.get("URL.host"))
+        assertEquals("/", metadata.get("URL.path"))
+        assertEquals("http", metadata.get("URL.protocol"))
+        assertEquals("screenshot", metadata.get("category"))
+        assertEquals("ProductionEnv", metadata.get("profile"))
+    }
 }

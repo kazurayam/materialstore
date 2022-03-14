@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.filesystem.metadata
 
+import com.google.gson.Gson
 import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.util.JsonUtil
@@ -213,9 +214,9 @@ final class MetadataImpl extends Metadata {
         }
     }
 
-    // ------- overriding java.lang.Object -------
+    //--------JSONifiable----------------------------------------------
     @Override
-    String toString() {
+    String toJson() {
         //return new JsonOutput().toJson(metadata)
         StringBuilder sb = new StringBuilder()
         int entryCount = 0
@@ -241,8 +242,24 @@ final class MetadataImpl extends Metadata {
             entryCount += 1
         }
         sb.append("}")
+        // WARNING: should not pretty-print this. it will causes a lot of problems
         return sb.toString()
     }
+
+    //--------TemplateReady--------------------------------------------
+    @Override
+    Map<String, Object> toTemplateModel() {
+        // convert JSON string to Java Map
+        Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
+        return map
+    }
+
+    // ------- overriding java.lang.Object -------
+    @Override
+    String toString() {
+        return toJson()
+    }
+
 
     @Override
     boolean equals(Object obj) {

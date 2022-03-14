@@ -7,12 +7,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals
 
 class IDTest {
 
-    private static Gson gson = new Gson()
-
     @Test
     void test_toJson() {
         ID id = new ID("1234567890123456789012345678901234567890")
-        String jsonified = id.toJson()
-        assertEquals(id.toString(), jsonified)
+        String json = id.toJson()
+        assertEquals("\"" + id.toString() + "\"", json)
     }
 }

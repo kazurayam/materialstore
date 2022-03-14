@@ -167,6 +167,16 @@ class QueryOnMetadataTest {
     }
 
     @Test
+    void test_toTemplateModel() {
+        QueryOnMetadata query = getToSpanSequenceFixture()
+        //println query.toJson()
+        Map<String, Object> model = query.toTemplateModel()
+        assertEquals("re:.*", model.get("*"))
+        assertEquals("demoaut-mimic.kazurayam.com", model.get("URL.host"))
+        assertEquals("DevEnv", model.get("profile"))
+    }
+
+    @Test
     void test_toSpanSequence_withMarkupBuilder() {
         QueryOnMetadata query = getToSpanSequenceFixture()
         StringWriter sw = new StringWriter()

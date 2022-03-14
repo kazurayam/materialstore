@@ -65,21 +65,21 @@ class SortKeysTest {
 
     @Test
     void test_smoke() {
-        MProductGroup das =
+        MProductGroup mProductGroup =
                 MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.port")
                         .sort("step", "URL.path")
                         .build()
-        assertEquals(14, das.size())
-        das.each {it ->
+        assertEquals(14, mProductGroup.size())
+        mProductGroup.each {it ->
             println it.getDescription()
         }
-        assertTrue(das.get(0).getDescription().startsWith("{\"step\":\"1\""))
-        assertTrue(das.get(1).getDescription().startsWith("{\"step\":\"1\""))
-        assertTrue(das.get(2).getDescription().startsWith("{\"step\":\"2\""))
-        assertTrue(das.get(3).getDescription().startsWith("{\"step\":\"2\""))
-        assertTrue(das.get(4).getDescription().startsWith("{\"step\":\"3\""))
-        assertTrue(das.get(5).getDescription().startsWith("{\"step\":\"3\""))
+        assertTrue(mProductGroup.get(0).getDescription().startsWith("{\"step\":\"1\""))
+        assertTrue(mProductGroup.get(1).getDescription().startsWith("{\"step\":\"1\""))
+        assertTrue(mProductGroup.get(2).getDescription().startsWith("{\"step\":\"2\""))
+        assertTrue(mProductGroup.get(3).getDescription().startsWith("{\"step\":\"2\""))
+        assertTrue(mProductGroup.get(4).getDescription().startsWith("{\"step\":\"3\""))
+        assertTrue(mProductGroup.get(5).getDescription().startsWith("{\"step\":\"3\""))
     }
 
     @Test

@@ -1,10 +1,12 @@
 package com.kazurayam.materialstore.filesystem
 
-
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.kazurayam.materialstore.util.JsonUtil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-final class MaterialList {
+final class MaterialList implements JSONifiable, TemplateReady {
 
     private static Logger logger = LoggerFactory.getLogger(MaterialList.class.getName())
 
@@ -123,7 +125,22 @@ final class MaterialList {
     //---------------- java.lang.Object -----------
     @Override
     String toString() {
+        return toJson()
+    }
+
+    //-------JSONifiable-----------------------------------------------
+    @Override
+    String toJson() {
         StringBuilder sb = new StringBuilder()
+        sb.append("{")
+        sb.append("\"jobName\":\"" + jobName.toString() + "\"")
+        sb.append(",")
+        sb.append("\"jobTimestamp\":\"" + jobTimestamp.toString() + "\"")
+        sb.append(",")
+        sb.append('''"queryOnMetadata":''')
+        sb.append(this.query.toString())
+        sb.append(",")
+        sb.append('''"materialList":''')
         int count = 0
         sb.append("[")
         this.materialList.each {material ->
@@ -134,19 +151,16 @@ final class MaterialList {
             count += 1
         }
         sb.append("]")
-        //
-        StringBuilder sb2 = new StringBuilder()
-        sb2.append("{")
-        sb2.append("\"jobName\":\"" + jobName.toString() + "\"")
-        sb2.append(",")
-        sb2.append("\"jobTimestamp\":\"" + jobTimestamp.toString() + "\"")
-        sb2.append(",")
-        sb2.append('''"queryOnMetadata":''')
-        sb2.append(this.query.toString())
-        sb2.append(",")
-        sb2.append('''"metadataList":''')
-        sb2.append(sb.toString())
-        sb2.append("}")
-        return sb2.toString()
+        sb.append("}")
+        return JsonUtil.prettyPrint(sb.toString(), Map.class)
     }
+
+    //--------TemplateReady--------------------------------------------
+    @Override
+    Map<String, Object> toTemplateModel() {
+        // convert JSON string to Java Map
+        Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
+        return map
+    }
+
 }

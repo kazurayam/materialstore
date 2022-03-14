@@ -1,7 +1,9 @@
 package com.kazurayam.materialstore.filesystem.metadata
 
+import com.google.gson.Gson
 import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
+import com.kazurayam.materialstore.util.JsonUtil
 import groovy.xml.MarkupBuilder
 
 final class QueryOnMetadataImpl extends QueryOnMetadata {
@@ -120,7 +122,12 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
     //------------- implements java.lang.Object -------
     @Override
     String toString() {
-        this.getDescription(SortKeys.NULL_OBJECT)
+        return getDescription(SortKeys.NULL_OBJECT)
+    }
+
+    @Override
+    String toJson() {
+        return getDescription(SortKeys.NULL_OBJECT)
     }
 
     @Override
@@ -143,6 +150,7 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
             count += 1
         })
         sb.append("}")
+        // WARNING: must not pretty-print this.
         return sb.toString()
     }
 
@@ -169,4 +177,10 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
         }
     }
 
+    @Override
+    Map<String, Object> toTemplateModel() {
+        // convert JSON string to Java Map
+        Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
+        return map
+    }
 }

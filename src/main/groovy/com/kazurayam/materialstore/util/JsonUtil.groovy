@@ -1,5 +1,8 @@
 package com.kazurayam.materialstore.util
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+
 final class JsonUtil {
 
     private JsonUtil() {}
@@ -36,5 +39,17 @@ final class JsonUtil {
             }
         }
         return sb.toString()
+    }
+
+    static String prettyPrint(String sourceJson) {
+        return prettyPrint(sourceJson, Map.class)
+    }
+
+    static String prettyPrint(String sourceJson, Class clazz) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create()
+        // parse JSON text to an Map
+        Object obj = gson.fromJson(sourceJson, clazz)
+        // serialize the object back to a JSON text in pretty-print format
+        String multiLineJson = gson.toJson(obj)
     }
 }

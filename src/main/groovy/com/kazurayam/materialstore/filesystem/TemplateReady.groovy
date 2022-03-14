@@ -2,6 +2,6 @@ package com.kazurayam.materialstore.filesystem
 
 interface TemplateReady {
 
-    Map<String, Object> forTemplate()
+    Map<String, Object> toTemplateModel()
 
 }

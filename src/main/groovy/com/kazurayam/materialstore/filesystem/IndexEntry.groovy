@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.filesystem
 
 import com.google.gson.Gson
+import com.kazurayam.materialstore.util.JsonUtil
 import groovy.json.JsonSlurper
 
 import java.nio.file.Path
@@ -113,11 +114,11 @@ final class IndexEntry implements Comparable, JSONifiable, TemplateReady {
         sb.append(",")
         sb.append("\"metadata\": " + this.getMetadata().toString())
         sb.append("}")
-        return sb.toString()
+        return JsonUtil.prettyPrint(sb.toString())
     }
 
     @Override
-    Map<String, Object> forTemplate() {
+    Map<String, Object> toTemplateModel() {
         // convert JSON string to Java Map
         Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
         return map

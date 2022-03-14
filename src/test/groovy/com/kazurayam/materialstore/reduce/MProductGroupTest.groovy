@@ -3,6 +3,7 @@ package com.kazurayam.materialstore.reduce
 import com.kazurayam.materialstore.filesystem.ID
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
+import com.kazurayam.materialstore.filesystem.Jobber
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
@@ -165,6 +166,7 @@ class MProductGroupTest {
                 QueryOnMetadata.builder(["profile": "MyAdmin_DevelopmentEnv" ]).build()
         )
     }
+
 
     @Test
     void test_Builder() {

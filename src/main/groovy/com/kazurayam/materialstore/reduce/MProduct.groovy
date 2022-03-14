@@ -1,15 +1,19 @@
 package com.kazurayam.materialstore.reduce
 
+import com.google.gson.Gson
+import com.kazurayam.materialstore.filesystem.JSONifiable
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
+import com.kazurayam.materialstore.filesystem.TemplateReady
 import com.kazurayam.materialstore.reduce.differ.DifferUtil
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys
+import com.kazurayam.materialstore.util.JsonUtil
 
 /**
  * Data Transfer Object
  */
-final class MProduct implements Comparable {
+final class MProduct implements Comparable, JSONifiable, TemplateReady {
 
     public static final MProduct NULL_OBJECT =
             new Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
@@ -133,29 +137,9 @@ final class MProduct implements Comparable {
 
     @Override
     String toString() {
-        StringBuilder sb = new StringBuilder()
-        sb.append("{")
-        // jobName is ignored as it is not necessary
-        sb.append("\"left\":")
-        sb.append(left.toString())
-        sb.append(",")
-        sb.append("\"right\":")
-        sb.append(right.toString())
-        sb.append(",")
-        sb.append("\"reducedTimestamp\":\"")
-        sb.append(reducedTimestamp.toString())
-        sb.append("\",")
-        sb.append("\"diff\":")
-        sb.append(diff.toString())
-        sb.append(",")
-        sb.append("\"queryOnMetadata\":")
-        sb.append(query.toString())
-        sb.append(",")
-        sb.append("\"diffRatio\":")
-        sb.append(diffRatio)
-        sb.append("}")
-        return sb.toString()
+        return toJson()
     }
+
 
     @Override
     int compareTo(Object obj) {
@@ -166,6 +150,40 @@ final class MProduct implements Comparable {
 
         // Note that the SortKey is taken into account here indirectly
         return this.getDescription() <=> other.getDescription()
+    }
+
+    //--------JSONifiable----------------------------------------------
+    @Override
+    String toJson() {
+        StringBuilder sb = new StringBuilder()
+        sb.append("{")
+        sb.append("\"reducedTimestamp\":\"")
+        sb.append(reducedTimestamp.toString())
+        sb.append("\",")
+        sb.append("\"diffRatio\":")
+        sb.append(diffRatio)
+        sb.append(",")
+        sb.append("\"left\":")
+        sb.append(left.toJson())
+        sb.append(",")
+        sb.append("\"right\":")
+        sb.append(right.toJson())
+        sb.append(",")
+        sb.append("\"queryOnMetadata\":")
+        sb.append(query.toJson())
+        sb.append(",")
+        sb.append("\"diff\":")
+        sb.append(diff.toJson())
+        sb.append("}")
+        return JsonUtil.prettyPrint(sb.toString())
+    }
+
+    //--------TemplateReady--------------------------------------------
+    @Override
+    Map<String, Object> toTemplateModel() {
+        // convert JSON string to Java Map
+        Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
+        return map
     }
 
     /**

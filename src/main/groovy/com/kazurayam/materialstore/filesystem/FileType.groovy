@@ -108,7 +108,7 @@ final enum FileType implements JSONifiable, TemplateReady {
     }
 
     @Override
-    Map<String, Object> forTemplate() {
+    Map<String, Object> toTemplateModel() {
         // convert JSON string to Java Map
         Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
         return map

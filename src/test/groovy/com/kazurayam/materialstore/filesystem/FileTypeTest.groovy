@@ -3,7 +3,7 @@ package com.kazurayam.materialstore.filesystem
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import org.junit.jupiter.api.Test
-import groovy.json.JsonOutput
+
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertTrue
 
@@ -52,7 +52,7 @@ class FileTypeTest {
 
     @Test
     void test_forTemplate() {
-        Map<String, Object> map = FileType.PNG.forTemplate();
+        Map<String, Object> map = FileType.PNG.toTemplateModel();
         // print map keys and values
         Gson gson = new GsonBuilder().setPrettyPrinting().create()
         //System.out.println gson.toJson(map)

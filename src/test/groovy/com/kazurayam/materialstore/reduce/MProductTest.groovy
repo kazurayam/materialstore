@@ -91,11 +91,33 @@ class MProductTest {
         println JsonOutput.prettyPrint(mProduct.toString())
     }
 
+
+
     @Test
-    void test_toString_alt() {
+    void test_toJson() {
+        QueryOnMetadata mp = QueryOnMetadata.builder([
+                "URL.host": "demoaut-mimic.kazurayam.com",
+                "URL.file": "/"
+        ]).build()
+        MProduct mProduct =
+                new MProduct.Builder(
+                        Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
+                        .setQueryOnMetadata(mp)
+                        .build()
+        String json = mProduct.toJson()
+        println json
+    }
+
+
+    /**
+     * FIXME:
+     * this test should be moved to the MProductGroupTest class
+     */
+    @Test
+    void test_MProductGroup_toTemplateModel() {
         Path root = outputDir.resolve("store")
         Store store = Stores.newInstance(root)
-        JobName jobName = new JobName("test_toString_alt")
+        JobName jobName = new JobName("test_MProductGroup_toTemplateModel")
         // stuff the Job directory with a fixture
         Path jobNameDir = root.resolve(jobName.toString())
         FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile())
@@ -126,11 +148,116 @@ class MProductTest {
                         .build()
         assertNotNull(mProductGroup)
 
-        println JsonOutput.prettyPrint(mProductGroup.toString())
-
-        assert 2 == mProductGroup.size()
-        //
-        println mProductGroup.get(0).toString()
+        //println mProductGroup.toJson()
+        /*
+{
+  "jobName": "test_MProductGroup_toTemplateModel",
+  "resultTimestamp": "20220314_101804",
+  "isReadyToReport": false,
+  "materialList0": {
+    "jobTimestamp": "20210715_145922",
+    "size": 2.0
+  },
+  "materialList1": {
+    "jobTimestamp": "20210715_145922",
+    "size": 2.0
+  },
+  "mProductList": [
+    {
+      "reducedTimestamp": "20220314_101804",
+      "diffRatio": 0.0,
+      "left": {
+        "jobName": "test_MProductGroup_toTemplateModel",
+        "jobTimestamp": "20210715_145922",
+        "id": "71c074d8dc52d9d589b2cbdb08a586717d457d18",
+        "fileType": "png",
+        "metadata": {
+          "URL.host": "demoaut.katalon.com",
+          "URL.path": "/",
+          "URL.protocol": "http",
+          "category": "screenshot",
+          "profile": "ProductionEnv",
+          "xpath": "//a[@id\u003d\u0027btn-make-appointment\u0027]"
+        }
+      },
+      "right": {
+        "jobName": "test_MProductGroup_toTemplateModel",
+        "jobTimestamp": "20210715_145922",
+        "id": "ba259dadd0142acdc598532c76aa82e1f5a852b0",
+        "fileType": "png",
+        "metadata": {
+          "URL.host": "demoaut-mimic.kazurayam.com",
+          "URL.path": "/",
+          "URL.protocol": "http",
+          "category": "screenshot",
+          "profile": "DevelopmentEnv",
+          "xpath": "//a[@id\u003d\u0027btn-make-appointment\u0027]"
+        }
+      },
+      "queryOnMetadata": {
+        "URL.path": "/",
+        "URL.protocol": "http",
+        "xpath": "//a[@id\u003d\u0027btn-make-appointment\u0027]"
+      },
+      "diff": {
+        "jobName": "_",
+        "jobTimestamp": "_",
+        "id": "0000000000000000000000000000000000000000",
+        "fileType": "",
+        "metadata": {}
+      }
+    },
+    {
+      "reducedTimestamp": "20220314_101804",
+      "diffRatio": 0.0,
+      "left": {
+        "jobName": "test_MProductGroup_toTemplateModel",
+        "jobTimestamp": "20210715_145922",
+        "id": "464212dbd99fbddc5f7442089523fab4b9247b9b",
+        "fileType": "png",
+        "metadata": {
+          "URL.host": "demoaut.katalon.com",
+          "URL.path": "/",
+          "URL.protocol": "http",
+          "category": "screenshot",
+          "profile": "ProductionEnv",
+          "xpath": "/html"
+        }
+      },
+      "right": {
+        "jobName": "test_MProductGroup_toTemplateModel",
+        "jobTimestamp": "20210715_145922",
+        "id": "75693d3480688939fda48692a31da28440252fe0",
+        "fileType": "png",
+        "metadata": {
+          "URL.host": "demoaut-mimic.kazurayam.com",
+          "URL.path": "/",
+          "URL.protocol": "http",
+          "category": "screenshot",
+          "profile": "DevelopmentEnv",
+          "xpath": "/html"
+        }
+      },
+      "queryOnMetadata": {
+        "URL.path": "/",
+        "URL.protocol": "http",
+        "xpath": "/html"
+      },
+      "diff": {
+        "jobName": "_",
+        "jobTimestamp": "_",
+        "id": "0000000000000000000000000000000000000000",
+        "fileType": "",
+        "metadata": {}
+      }
     }
-
+  ]
+}
+         */
+        Map<String, Object> model = mProductGroup.toTemplateModel()
+        assertNotNull(model)
+        List<Map<String, Object>> mProductList =
+                (List<Map<String, Object>>)model.get("mProductList")
+        assertEquals(2, mProductList.size())
+    }
 }

@@ -64,6 +64,15 @@ class MaterialListTest {
         materialList.add(material)
         String str = materialList.toString()
         assertNotNull(str)
-        println str
+        //println str
+    }
+
+    @Test
+    void test_toJson() {
+        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query)
+        materialList.add(material)
+        String json = materialList.toJson()
+        assertNotNull(json)
+        println json
     }
 }

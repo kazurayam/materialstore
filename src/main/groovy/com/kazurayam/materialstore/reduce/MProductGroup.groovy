@@ -1,21 +1,25 @@
 package com.kazurayam.materialstore.reduce
 
+import com.google.gson.Gson
 import com.kazurayam.materialstore.filesystem.FileType
+import com.kazurayam.materialstore.filesystem.JSONifiable
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
+import com.kazurayam.materialstore.filesystem.TemplateReady
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys
+import com.kazurayam.materialstore.util.JsonUtil
 
 import java.util.stream.Collectors
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-final class MProductGroup {
+final class MProductGroup implements JSONifiable, TemplateReady {
 
     private static final Logger logger = LoggerFactory.getLogger(MProductGroup.class)
     private static final boolean verbose = true
@@ -298,6 +302,12 @@ final class MProductGroup {
         return getDescription(true)
     }
 
+    @Override
+    String toJson() {
+        return getDescription(true)
+    }
+
+    //
     String getDescription(boolean fullContent=false) {
         StringBuilder sb = new StringBuilder()
         sb.append("{")
@@ -337,8 +347,17 @@ final class MProductGroup {
             sb.append("]")
         }
         sb.append("}")
-        return sb.toString()
+        return JsonUtil.prettyPrint(sb.toString())
     }
+
+    //--------TemplateReady--------------------------------------------
+    Map<String, Object> toTemplateModel() {
+        // convert JSON string to Java Map
+        Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
+        return map
+    }
+
+
 
     static Builder builder(MaterialList left, MaterialList right) {
         return new Builder(left, right)
