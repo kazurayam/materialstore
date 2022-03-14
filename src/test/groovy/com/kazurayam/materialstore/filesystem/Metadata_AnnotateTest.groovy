@@ -9,6 +9,7 @@ import groovy.json.JsonOutput
 import groovy.xml.MarkupBuilder
 import org.apache.http.NameValuePair
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 import java.util.regex.Pattern
@@ -29,8 +30,14 @@ class Metadata_AnnotateTest {
     void setup() {
         url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
         metadata = Metadata.builder(url).put("profile", "ProductionEnv").build()
-        leftQuery = QueryOnMetadata.builder().put("profile", "ProductionEnv").build()
-        rightQuery = QueryOnMetadata.builder().put("URL.host", "baeldung.com").build()
+        leftQuery = QueryOnMetadata.builder()
+                .put("profile", "ProductionEnv")
+                .put("URL.path", "/articles")
+                .build()
+        rightQuery = QueryOnMetadata.builder()
+                .put("URL.host", "baeldung.com")
+                .put("URL.path", "/articles")
+                .build()
         ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
         identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
     }
@@ -50,6 +57,7 @@ class Metadata_AnnotateTest {
         assertTrue(hostAttr.isMatchedIndividually())
     }
 
+    @Disabled
     @Test
     void test_toSpanSequence_single_QueryOnMetadata() {
         QueryOnMetadata query =
@@ -65,10 +73,25 @@ class Metadata_AnnotateTest {
     }
 
     @Test
-    void test_annotate_dual_QueryOnMetadata_with_IdentifyMetadataValues() {
-        fail("TODO")
+    void test_annotate_dual_QueryOnMetadata() {
+        metadata.annotate(leftQuery, rightQuery,
+                ignoreMetadataKeys, identifyMetadataValues)
+        MetadataAttribute pathAttr = metadata.getMetadataAttribute("URL.path")
+        assertTrue(pathAttr.isPaired())
     }
 
+    @Test
+    void test_annotate_dual_QueryOnMetadata_with_IdentifyMetadataValues() {
+        IdentifyMetadataValues identifyMetadataValues =
+                new IdentifyMetadataValues.Builder()
+                        .putAllNameRegexPairs(["URL.query": "topic=java&version=8"]).build()
+        metadata.annotate(leftQuery, rightQuery,
+                ignoreMetadataKeys, identifyMetadataValues)
+        MetadataAttribute queryAttr = metadata.getMetadataAttribute("URL.query")
+        assertTrue(queryAttr.isIdentifiedByValue())
+    }
+
+    @Disabled
     @Test
     void test_toSpanSequence_dual_QueryOnMetadata_with_IdentifyMetadataValues() {
         IdentifyMetadataValues identifyMetadataValues =
@@ -88,9 +111,16 @@ class Metadata_AnnotateTest {
 
     @Test
     void test_annotate_dual_QueryOnMetadata_with_IgnoreMetadataKeys() {
-        fail("TODO")
+        IgnoreMetadataKeys ignoreMetadataKeys =
+                new IgnoreMetadataKeys.Builder()
+                        .ignoreKey("URL.protocol").build()
+        metadata.annotate(leftQuery, rightQuery,
+                ignoreMetadataKeys, identifyMetadataValues)
+        MetadataAttribute queryAttr = metadata.getMetadataAttribute("URL.protocol")
+        assertTrue(queryAttr.isIgnoredByKey())
     }
 
+    @Disabled
     @Test
     void test_toSpanSequence_dual_QueryOnMetadata_with_IgnoreMetadataKeys() {
         IgnoreMetadataKeys ignoreMetadataKeys =

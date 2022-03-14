@@ -232,33 +232,20 @@ final class MetadataImpl extends Metadata {
         Objects.requireNonNull(identifyMetadataValues)
         Set<String> keys = attributes.keySet()
         keys.forEach { key ->
-
             MetadataAttribute attribute = attributes.get(key)
-
             if (ignoreMetadataKeys.contains(key)) {
                 attribute.setIgnoredByKey(true)
             }
-
-            // make the <span> of the "value" part of an attribute of Metadata
-            String cssClass = getCSSClassName(
-                    leftQuery, rightQuery,
-                    key,
-                    identifyMetadataValues)
-            if (cssClass != null) {
-                mb.span(class: cssClass,
-                        "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
-            } else {
-                Matcher m = SemanticVersionAwareStringMatcher.straightMatcher(this.get(key))
-                if (m.matches()) {
-                    // <span>"/npm/bootstrap-icons@</span><span class='semantic-version'>1.5.0</span><span>/font/bootstrap-icons.css"</span>
-                    mb.span("\"${JsonUtil.escapeAsJsonString(m.group(1))}")
-                    mb.span(class: "semantic-version",
-                            "${JsonUtil.escapeAsJsonString(m.group(2))}")
-                    mb.span("${JsonUtil.escapeAsJsonString(m.group(4))}\"")
-                } else {
-                    // <span>xxxxxxx</span>
-                    mb.span("\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
-                }
+            if (canBePaired(leftQuery, rightQuery, key)) {
+                attribute.setPaired(true)
+            }
+            if (canBeIdentified(key, identifyMetadataValues)) {
+                attribute.setIdentifiedByValue(true)
+            }
+            //
+            Matcher m = SemanticVersionAwareStringMatcher.straightMatcher(this.get(key))
+            if (m.matches()) {
+                attribute.setSemanticVersion(m.group(2))
             }
         }
     }
