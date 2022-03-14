@@ -39,6 +39,13 @@ abstract class Metadata implements Comparable, JSONifiable, TemplateReady {
                                  IgnoreMetadataKeys ignoreMetadataKeys,
                                  IdentifyMetadataValues identifyMetadataValues)
 
+    abstract void annotate(QueryOnMetadata query)
+
+    abstract void annotate(QueryOnMetadata leftQuery,
+                           QueryOnMetadata rightQuery,
+                           IgnoreMetadataKeys ignoreMetadataKeys,
+                           IdentifyMetadataValues identifyMetadataValues)
+
     //------------------Comparable-------------------------------------
     abstract int compareTo(Object obj)
 

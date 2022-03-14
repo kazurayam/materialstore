@@ -108,6 +108,19 @@ final class MetadataImpl extends Metadata {
     }
 
     @Override
+    void annotate(QueryOnMetadata query) {
+        Objects.requireNonNull(query)
+        attributes.keySet().forEach { key ->
+            if (matchesByAster(query, key)) {
+                attributes.get(key).setMatchedByAster(true)
+            }
+            if (matchesIndividually(query, key)) {
+                attributes.get(key).setMatchedIndividually(true)
+            }
+        }
+    }
+
+    @Override
     void toSpanSequence(MarkupBuilder mb, QueryOnMetadata query) {
         Objects.requireNonNull(mb)
         Objects.requireNonNull(query)
@@ -135,15 +148,19 @@ final class MetadataImpl extends Metadata {
         mb.span("}")
     }
 
-    private String getCSSClassNameSolo(QueryOnMetadata query, String key) {
-        boolean matchesByAster = query.containsKey("*") &&
+    private boolean matchesByAster(QueryOnMetadata query, String key) {
+        return query.containsKey("*") &&
                 query.get("*").matches(this.get(key))
+    }
 
-        boolean matchesIndividually = query.containsKey(key) &&
+    private boolean matchesIndividually(QueryOnMetadata query, String key) {
+        return query.containsKey(key) &&
                 this.containsKey(key) &&
                 query.get(key).matches(this.get(key))
+    }
 
-        if (matchesByAster || matchesIndividually) {
+    private String getCSSClassNameSolo(QueryOnMetadata query, String key) {
+        if (matchesByAster(query, key) || matchesIndividually(query, key)) {
             return "matched-value"
         } else {
             return null
@@ -204,24 +221,54 @@ final class MetadataImpl extends Metadata {
         mb.span("}")
     }
 
+    @Override
+    void annotate(QueryOnMetadata leftQuery,
+                  QueryOnMetadata rightQuery,
+                  IgnoreMetadataKeys ignoreMetadataKeys,
+                  IdentifyMetadataValues identifyMetadataValues) {
+        Objects.requireNonNull(leftQuery)
+        Objects.requireNonNull(rightQuery)
+        Objects.requireNonNull(ignoreMetadataKeys)
+        Objects.requireNonNull(identifyMetadataValues)
+        Set<String> keys = attributes.keySet()
+        keys.forEach { key ->
 
-    private String getCSSClassName(QueryOnMetadata left, QueryOnMetadata right,
+            MetadataAttribute attribute = attributes.get(key)
+
+            if (ignoreMetadataKeys.contains(key)) {
+                attribute.setIgnoredByKey(true)
+            }
+
+            // make the <span> of the "value" part of an attribute of Metadata
+            String cssClass = getCSSClassName(
+                    leftQuery, rightQuery,
+                    key,
+                    identifyMetadataValues)
+            if (cssClass != null) {
+                mb.span(class: cssClass,
+                        "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
+            } else {
+                Matcher m = SemanticVersionAwareStringMatcher.straightMatcher(this.get(key))
+                if (m.matches()) {
+                    // <span>"/npm/bootstrap-icons@</span><span class='semantic-version'>1.5.0</span><span>/font/bootstrap-icons.css"</span>
+                    mb.span("\"${JsonUtil.escapeAsJsonString(m.group(1))}")
+                    mb.span(class: "semantic-version",
+                            "${JsonUtil.escapeAsJsonString(m.group(2))}")
+                    mb.span("${JsonUtil.escapeAsJsonString(m.group(4))}\"")
+                } else {
+                    // <span>xxxxxxx</span>
+                    mb.span("\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
+                }
+            }
+        }
+    }
+
+    private String getCSSClassName(QueryOnMetadata left,
+                                   QueryOnMetadata right,
                                    String key,
                                    IdentifyMetadataValues identifyMetadataValues) {
-        boolean canBePaired = (
-                left.containsKey("*")  &&
-                        left.get("*").matches(this.get(key)) ||
-                left.containsKey(key)      &&
-                        left.get(key).matches(this.get(key)) ||
-                right.containsKey("*") &&
-                        right.get("*").matches(this.get(key)) ||
-                right.containsKey(key)     &&
-                        right.get(key).matches(this.get(key))        )
-
-        boolean canBeIdentified = (
-                identifyMetadataValues.containsKey(key) &&
-                identifyMetadataValues.matches(this)        )
-
+        boolean canBePaired = this.canBePaired(left, right, key)
+        boolean canBeIdentified = this.canBeIdentified(key, identifyMetadataValues)
         if (canBePaired) {
             return "matched-value"
         } else if (canBeIdentified) {
@@ -230,6 +277,23 @@ final class MetadataImpl extends Metadata {
             return null
         }
     }
+
+    private boolean canBePaired(QueryOnMetadata left,
+                                QueryOnMetadata right,
+                                String key) {
+        return left.containsKey("*")  && left.get("*").matches(this.get(key)) ||
+                left.containsKey(key)      && left.get(key).matches(this.get(key)) ||
+                right.containsKey("*") && right.get("*").matches(this.get(key)) ||
+                right.containsKey(key)     && right.get(key).matches(this.get(key))
+    }
+
+    private boolean canBeIdentified(
+            String key,
+            IdentifyMetadataValues identifyMetadataValues) {
+        return identifyMetadataValues.containsKey(key) &&
+                identifyMetadataValues.matches(this)
+    }
+
 
     //--------JSONifiable----------------------------------------------
     @Override

@@ -14,6 +14,9 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, JSONifiable, T
     private String value = null
     private boolean ignoredByKey = false
     private boolean identifiedByValue = false
+    private boolean matchedByAster = false
+    private boolean matchedIndividually = false
+    private boolean paired = false
     private String semanticVersion = null
 
     MetadataAttribute(String key) {
@@ -37,6 +40,18 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, JSONifiable, T
         this.identifiedByValue = b
     }
 
+    void setMatchedByAster(boolean b) {
+        this.matchedByAster = b
+    }
+
+    void setMatchedIndividually(boolean b) {
+        this.matchedIndividually = b
+    }
+
+    void setPaired(boolean b) {
+        this.paired = b
+    }
+
     void setSemanticVersion(String version) {
         this.semanticVersion = version
     }
@@ -57,6 +72,18 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, JSONifiable, T
         return this.identifiedByValue
     }
 
+    boolean isMatchedByAster() {
+        return this.matchedByAster
+    }
+
+    boolean isMatchedIndividually() {
+        return this.matchedIndividually
+    }
+
+    boolean isPaired() {
+        return this.paired
+    }
+
     String getSemanticVersion() {
         return this.semanticVersion
     }
@@ -68,10 +95,7 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, JSONifiable, T
         }
         MetadataAttribute other = (MetadataAttribute)obj
         return this.getKey() == other.getKey() &&
-                this.getValue() == other.getValue() &&
-                this.isIgnoredByKey() == other.isIgnoredByKey() &&
-                this.isIdentifiedByValue() == other.isIdentifiedByValue() &&
-                this.getSemanticVersion() == other.getSemanticVersion()
+                this.getValue() == other.getValue()
     }
 
     @Override
@@ -114,6 +138,21 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, JSONifiable, T
         if (isIdentifiedByValue()) {
             sb.append(",")
             sb.append("\"identifiedByValue\":")
+            sb.append("true")
+        }
+        if (isMatchedByAster()) {
+            sb.append(",")
+            sb.append("\"matchedByAster\":")
+            sb.append("true")
+        }
+        if (isMatchedIndividually()) {
+            sb.append(",")
+            sb.append("\"matchedIndividually\":")
+            sb.append("true")
+        }
+        if (isPaired()) {
+            sb.append(",")
+            sb.append("\"paired\":")
             sb.append("true")
         }
         if (getSemanticVersion() != null) {
