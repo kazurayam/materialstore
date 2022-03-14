@@ -187,7 +187,6 @@ class QueryOnMetadataTest {
         String markup = sw.toString()
         assertNotNull(markup)
         //println markup
-        assertTrue(markup.contains("matched-value"))
     }
 
 
