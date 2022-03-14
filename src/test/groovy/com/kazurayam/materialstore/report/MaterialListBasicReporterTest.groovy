@@ -52,7 +52,9 @@ class MaterialListBasicReporterTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
         MaterialList list = store.select(jobName, jobTimestamp,
                 QueryOnMetadata.builder()
-                        .put("profile", Pattern.compile(".*Env")).build()
+                        .put("profile", Pattern.compile(".*Env"))
+                        .put("category", "page source")
+                        .build()
         )
         assertTrue(list.size() > 0, "list is empty")
         String fileName = jobName.toString() + "-list.html"

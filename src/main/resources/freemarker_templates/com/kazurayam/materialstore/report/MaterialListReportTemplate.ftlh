@@ -24,11 +24,10 @@
           <dd>
             <dl>
               <dt>JobTimestamp :</dt>
-              <dd>${materialList.getJobTimestamp().toString()}</dd>
+              <dd>${materialList.jobTimestamp}</dd>
               <dt>QueryOnMetadata :</dt>
               <dd>
-                <@qom.renderQueryOnMetadataAsSpanSequence
-                tokens=materialList.getQueryOnMetadata().toJSONTextTokens() />
+                <@qom.renderQueryOnMetadata keyValuePairs=materialList.queryOnMetadata />
               </dd>
             </dl>
           </dd>

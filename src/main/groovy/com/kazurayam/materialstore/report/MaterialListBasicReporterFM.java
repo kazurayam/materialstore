@@ -97,9 +97,9 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
         model.put("style", ReporterHelper.loadStyleFromClasspath());
         model.put("jobName", jobName);
         model.put("title", getTitle(filePath));
-        model.put("filePath", filePath);
+        model.put("filePath", filePath.toString());
         model.put("store", store);
-        model.put("materialList", materialList);
+        model.put("materialList", materialList.toTemplateModel());
 
         /* Get the template */
         Template temp;

@@ -4,6 +4,7 @@ package com.kazurayam.materialstore.filesystem
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.net.data.DataURLEnabler
+import com.kazurayam.materialstore.util.JsonUtil
 import groovy.xml.MarkupBuilder
 import groovy.json.JsonOutput
 import org.junit.jupiter.api.Test
@@ -266,6 +267,7 @@ class MetadataTest {
     void test_toTemplateModel() {
         URL url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
         Metadata metadata = Metadata.builder(url).build()
+        println JsonUtil.prettyPrint(metadata.toJson())
         Map<String, Object> model = metadata.toTemplateModel()
         assertEquals("https", model.get("URL.protocol"))
         assertEquals("baeldung.com", model.get("URL.host"))

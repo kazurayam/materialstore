@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -69,10 +70,13 @@ public class MaterialListBasicReporterFMTest {
         //
         MaterialListReporter reporter =
                 new MaterialListBasicReporterFM(store, jobName);
+        //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         MaterialList list = store.select(jobName, jobTimestamp,
                 QueryOnMetadata.builder()
-                        .put("profile", Pattern.compile(".*Env")).build()
+                        .put("profile", Pattern.compile(".*Env"))
+                        .put("category", "page source")
+                        .build()
         );
         assertTrue(list.size() > 0, "list is empty");
         String fileName = "test_report-listFM.html";
@@ -87,8 +91,8 @@ public class MaterialListBasicReporterFMTest {
         assert Files.exists(reportByMarkupBuilder);
 
         // using java-diff-utils, compare 2 report files
-        List<String> original = Files.readAllLines(reportByMarkupBuilder);
-        List<String> revised = Files.readAllLines(report);
+        List<String> original = trimLines(Files.readAllLines(reportByMarkupBuilder));
+        List<String> revised = trimLines(Files.readAllLines(report));
         Path diff = outputDir.resolve("store").resolve("diff.md");
         TextDiffUtil.writeDiff(original, revised, diff,
                 Arrays.asList("test_report-",
@@ -97,5 +101,13 @@ public class MaterialListBasicReporterFMTest {
         //compute the patch: this is the diffutils part
         Patch<String> patch = DiffUtils.diff(original, revised);
         assertEquals(0, patch.getDeltas().size());
+    }
+
+    List<String> trimLines(List<String> source) {
+        List<String> trimmed = new ArrayList<>();
+        for (String line : source) {
+            trimmed.add(line.trim());
+        }
+        return trimmed;
     }
 }

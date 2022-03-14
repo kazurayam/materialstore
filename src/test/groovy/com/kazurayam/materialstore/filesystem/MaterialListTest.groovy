@@ -29,6 +29,15 @@ class MaterialListTest {
     }
 
     @Test
+    void test_toTemplateModel() {
+        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query)
+        //println materialList.toJson()
+        Map<String, Object> model = materialList.toTemplateModel()
+        //println model
+        assertNotNull(model)
+    }
+
+    @Test
     void test_smoke() {
         MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query)
         materialList.add(material)
