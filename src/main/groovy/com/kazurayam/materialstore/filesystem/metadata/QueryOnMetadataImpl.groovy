@@ -92,7 +92,7 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
                 mb.span(", ")
             }
             mb.span("\"${key.toString()}\":")
-            mb.span("class": "matched-value", "\"" + this.getAsString(key) + "\"")
+            mb.span("\"" + this.getAsString(key) + "\"")
             count += 1
         })
         mb.span("}")

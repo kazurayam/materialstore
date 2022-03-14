@@ -1,11 +1,9 @@
-<#--<@renderQueryOnMetadataAsSpanSequence tokens=TOKENS/>-->
-
-<#macro renderQueryOnMetadataAsSpanSequence tokens>
-    <#list tokens as token>
-        <#if token.class??>
-                <span class='${token.class}'>${token.text}</span>
-        <#else>
-                <span>${token.text}</span>
-        </#if>
+<#macro renderQueryOnMetadata keyValuePairs>
+    <span>{</span>
+    <#list keyValuePairs as key, value>
+        <span>"${key}":</span>
+        <span>"${value}"</span>
+        <#sep><span>, </span></#sep>
     </#list>
+    <span>}</span>
 </#macro>
