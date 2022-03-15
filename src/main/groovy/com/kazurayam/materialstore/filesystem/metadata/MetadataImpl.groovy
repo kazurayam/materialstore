@@ -3,7 +3,7 @@ package com.kazurayam.materialstore.filesystem.metadata
 import com.google.gson.Gson
 import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
-import com.kazurayam.materialstore.report.ReporterHelper
+import com.kazurayam.materialstore.report.markupbuilder_templates.MetadataTemplate
 import com.kazurayam.materialstore.util.JsonUtil
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
@@ -112,10 +112,10 @@ final class MetadataImpl extends Metadata {
     void annotate(QueryOnMetadata query) {
         Objects.requireNonNull(query)
         attributes.keySet().forEach { key ->
-            if (ReporterHelper.matchesByAster(query, key)) {
+            if (new MetadataTemplate(this).matchesByAster(query, key)) {
                 attributes.get(key).setMatchedByAster(true)
             }
-            if (ReporterHelper.matchesIndividually(query, key)) {
+            if (new MetadataTemplate(this).matchesIndividually(query, key)) {
                 attributes.get(key).setMatchedIndividually(true)
             }
         }
@@ -150,8 +150,8 @@ final class MetadataImpl extends Metadata {
     }
 
     private String getCSSClassNameSolo(QueryOnMetadata query, String key) {
-        if (ReporterHelper.matchesByAster(this, query, key) ||
-                ReporterHelper.matchesIndividually(this, query, key)) {
+        if (new MetadataTemplate(this).matchesByAster(query, key) ||
+                new MetadataTemplate(this).matchesIndividually(query, key)) {
             return "matched-value"
         } else {
             return null
@@ -186,7 +186,7 @@ final class MetadataImpl extends Metadata {
             }
 
             // make the <span> of the "value" part of an attribute of Metadata
-            String cssClass = ReporterHelper.getCSSClassName(this,
+            String cssClass = new MetadataTemplate(this).getCSSClassName(
                     leftQuery, rightQuery, key, identifyMetadataValues)
             if (cssClass != null) {
                 mb.span(class: cssClass,
@@ -225,10 +225,10 @@ final class MetadataImpl extends Metadata {
             if (ignoreMetadataKeys.contains(key)) {
                 attribute.setIgnoredByKey(true)
             }
-            if (ReporterHelper.canBePaired(this, leftQuery, rightQuery, key)) {
+            if (new MetadataTemplate(this).canBePaired(leftQuery, rightQuery, key)) {
                 attribute.setPaired(true)
             }
-            if (ReporterHelper.canBeIdentified(this, key, identifyMetadataValues)) {
+            if (new MetadataTemplate(this).canBeIdentified(key, identifyMetadataValues)) {
                 attribute.setIdentifiedByValue(true)
             }
             //
