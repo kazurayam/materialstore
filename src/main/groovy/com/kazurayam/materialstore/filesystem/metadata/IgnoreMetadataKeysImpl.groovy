@@ -18,6 +18,11 @@ final class IgnoreMetadataKeysImpl extends IgnoreMetadataKeys {
     }
 
     @Override
+    Set<String> keySet() {
+        return new HashSet<String>(keySet)
+    }
+
+    @Override
     boolean contains(String key) {
         return keySet.contains(key)
     }

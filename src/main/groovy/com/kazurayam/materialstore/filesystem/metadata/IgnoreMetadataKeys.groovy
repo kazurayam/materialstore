@@ -8,6 +8,8 @@ abstract class IgnoreMetadataKeys {
 
     abstract int size()
 
+    abstract Set<String> keySet()
+
     abstract boolean contains(String key)
 
     abstract Iterator<String> iterator()

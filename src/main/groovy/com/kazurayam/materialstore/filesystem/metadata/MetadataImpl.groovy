@@ -3,6 +3,7 @@ package com.kazurayam.materialstore.filesystem.metadata
 import com.google.gson.Gson
 import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
+import com.kazurayam.materialstore.report.ReporterHelper
 import com.kazurayam.materialstore.util.JsonUtil
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
@@ -111,10 +112,10 @@ final class MetadataImpl extends Metadata {
     void annotate(QueryOnMetadata query) {
         Objects.requireNonNull(query)
         attributes.keySet().forEach { key ->
-            if (matchesByAster(query, key)) {
+            if (ReporterHelper.matchesByAster(query, key)) {
                 attributes.get(key).setMatchedByAster(true)
             }
-            if (matchesIndividually(query, key)) {
+            if (ReporterHelper.matchesIndividually(query, key)) {
                 attributes.get(key).setMatchedIndividually(true)
             }
         }
@@ -148,19 +149,9 @@ final class MetadataImpl extends Metadata {
         mb.span("}")
     }
 
-    private boolean matchesByAster(QueryOnMetadata query, String key) {
-        return query.containsKey("*") &&
-                query.get("*").matches(this.get(key))
-    }
-
-    private boolean matchesIndividually(QueryOnMetadata query, String key) {
-        return query.containsKey(key) &&
-                this.containsKey(key) &&
-                query.get(key).matches(this.get(key))
-    }
-
     private String getCSSClassNameSolo(QueryOnMetadata query, String key) {
-        if (matchesByAster(query, key) || matchesIndividually(query, key)) {
+        if (ReporterHelper.matchesByAster(this, query, key) ||
+                ReporterHelper.matchesIndividually(this, query, key)) {
             return "matched-value"
         } else {
             return null
@@ -195,10 +186,8 @@ final class MetadataImpl extends Metadata {
             }
 
             // make the <span> of the "value" part of an attribute of Metadata
-            String cssClass = getCSSClassName(
-                    leftQuery, rightQuery,
-                    key,
-                    identifyMetadataValues)
+            String cssClass = ReporterHelper.getCSSClassName(this,
+                    leftQuery, rightQuery, key, identifyMetadataValues)
             if (cssClass != null) {
                 mb.span(class: cssClass,
                         "\"${JsonUtil.escapeAsJsonString(this.get(key))}\"")
@@ -236,10 +225,10 @@ final class MetadataImpl extends Metadata {
             if (ignoreMetadataKeys.contains(key)) {
                 attribute.setIgnoredByKey(true)
             }
-            if (canBePaired(leftQuery, rightQuery, key)) {
+            if (ReporterHelper.canBePaired(this, leftQuery, rightQuery, key)) {
                 attribute.setPaired(true)
             }
-            if (canBeIdentified(key, identifyMetadataValues)) {
+            if (ReporterHelper.canBeIdentified(this, key, identifyMetadataValues)) {
                 attribute.setIdentifiedByValue(true)
             }
             //
@@ -249,38 +238,6 @@ final class MetadataImpl extends Metadata {
             }
         }
     }
-
-    private String getCSSClassName(QueryOnMetadata left,
-                                   QueryOnMetadata right,
-                                   String key,
-                                   IdentifyMetadataValues identifyMetadataValues) {
-        boolean canBePaired = this.canBePaired(left, right, key)
-        boolean canBeIdentified = this.canBeIdentified(key, identifyMetadataValues)
-        if (canBePaired) {
-            return "matched-value"
-        } else if (canBeIdentified) {
-            return "identified-value"
-        } else {
-            return null
-        }
-    }
-
-    private boolean canBePaired(QueryOnMetadata left,
-                                QueryOnMetadata right,
-                                String key) {
-        return left.containsKey("*")  && left.get("*").matches(this.get(key)) ||
-                left.containsKey(key)      && left.get(key).matches(this.get(key)) ||
-                right.containsKey("*") && right.get("*").matches(this.get(key)) ||
-                right.containsKey(key)     && right.get(key).matches(this.get(key))
-    }
-
-    private boolean canBeIdentified(
-            String key,
-            IdentifyMetadataValues identifyMetadataValues) {
-        return identifyMetadataValues.containsKey(key) &&
-                identifyMetadataValues.matches(this)
-    }
-
 
     //--------JSONifiable----------------------------------------------
     @Override

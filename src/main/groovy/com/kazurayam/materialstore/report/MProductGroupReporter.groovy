@@ -1,8 +1,14 @@
 package com.kazurayam.materialstore.report
 
 import com.kazurayam.materialstore.filesystem.JobName
+import com.kazurayam.materialstore.filesystem.Metadata
+import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.Store
+import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
+import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.reduce.MProductGroup
+import com.kazurayam.materialstore.util.JsonUtil
+import groovy.xml.MarkupBuilder
 
 import java.nio.file.Path
 
@@ -28,5 +34,4 @@ abstract class MProductGroupReporter {
         String fileName = file.getFileName().toString()
         return fileName.substring(0, fileName.indexOf(".html"))
     }
-
 }
