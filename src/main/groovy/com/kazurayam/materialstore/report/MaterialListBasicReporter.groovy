@@ -8,6 +8,7 @@ import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
+import com.kazurayam.materialstore.report.markupbuilder_templates.MetadataTemplate
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -150,7 +151,7 @@ final class MaterialListBasicReporter extends MaterialListReporter {
                 dd(material.getIndexEntry().getFileType().getExtension())
                 dt("Metadata")
                 dd() {
-                    material.getMetadata()
+                    new MetadataTemplate(material.getMetadata())
                             .toSpanSequence(mb, query)
                 }
                 if (material.getMetadata().toURL() != null) {

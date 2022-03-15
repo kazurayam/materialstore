@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute
 import com.kazurayam.materialstore.net.data.DataURLEnabler
+import com.kazurayam.materialstore.report.markupbuilder_templates.MetadataTemplate
 import com.kazurayam.materialstore.util.JsonUtil
 import groovy.json.JsonOutput
 import groovy.xml.MarkupBuilder
@@ -65,7 +66,7 @@ class Metadata_AnnotateTest {
         //
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
-        metadata.toSpanSequence(mb, query)
+        new MetadataTemplate(metadata).toSpanSequence(mb, query)
         String str = sw.toString()
         assertNotNull(str)
         println str
@@ -102,7 +103,7 @@ class Metadata_AnnotateTest {
         //
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
-        metadata.toSpanSequence(mb, leftQuery, rightQuery,
+        new MetadataTemplate(metadata).toSpanSequence(mb, leftQuery, rightQuery,
                 ignoreMetadataKeys, identifyMetadataValues)
         String str = sw.toString()
         assertNotNull(str)
@@ -131,7 +132,7 @@ class Metadata_AnnotateTest {
         //
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
-        metadata.toSpanSequence(mb, leftQuery, rightQuery,
+        new MetadataTemplate(metadata).toSpanSequence(mb, leftQuery, rightQuery,
                 ignoreMetadataKeys, identifyMetadataValues)
         String str = sw.toString()
         assertNotNull(str)

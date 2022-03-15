@@ -2,14 +2,13 @@ package com.kazurayam.materialstore.report.markdupbuilder_templates
 
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
+import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.report.markupbuilder_templates.MetadataTemplate
+import groovy.xml.MarkupBuilder
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 
 import static org.junit.jupiter.api.Assertions.*
-
-import static org.junit.jupiter.api.Assertions.assertEquals
-import static org.junit.jupiter.api.Assertions.assertTrue
 
 class MetadataTemplateTest extends AbstractTemplateTest {
 
@@ -63,7 +62,10 @@ class MetadataTemplateTest extends AbstractTemplateTest {
 
     @Test
     void test_getCSSClassNameSolo() {
-        fail("TODO")
+        QueryOnMetadata query0 = QueryOnMetadata.builder(metadata0).build()
+        String cssClassName =
+                new MetadataTemplate(metadata0).getCSSClassNameSolo(query0, "profile")
+        assertEquals("matched-value", cssClassName)
     }
 
 
@@ -82,12 +84,69 @@ class MetadataTemplateTest extends AbstractTemplateTest {
 
     @Test
     void test_toSpanSequence_Metadata_dual_QueryOnMetadata() {
-        fail("TODO")
+        QueryOnMetadata query = QueryOnMetadata.builder(metadata0).build()
+        StringWriter sw = new StringWriter()
+        MarkupBuilder mb = new MarkupBuilder(sw)
+        new MetadataTemplate(metadata0).toSpanSequence(mb, query)
+        String markup = sw.toString()
+        /*
+<span>{</span>
+<span>"URL.host":</span>
+<span class='matched-value'>"cdnjs.cloudflare.com"</span>
+<span>, </span>
+<span>"URL.path":</span>
+<span class='matched-value'>"/ajax/libs/jquery/1.11.3/jquery.js"</span>
+<span>, </span>
+<span>"URL.port":</span>
+<span class='matched-value'>"80"</span>
+<span>, </span>
+<span>"URL.protocol":</span>
+<span class='matched-value'>"https"</span>
+<span>, </span>
+<span>"profile":</span>
+<span class='matched-value'>"MyAdmin_ProductionEnv"</span>
+<span>}</span>
+         */
+        println markup
     }
 
     @Test
     void test_toSpanSequence_Metadata_single_QueryOnMetadata() {
-        fail("TODO")
+        QueryOnMetadata query0 = QueryOnMetadata.builder(metadata0).build()
+        QueryOnMetadata query1 = QueryOnMetadata.builder(metadata1).build()
+        IgnoreMetadataKeys ignoreMetadataKeys =
+                new IgnoreMetadataKeys.Builder()
+                        .ignoreKey("URL.protocol").build()
+        IdentifyMetadataValues identifyMetadataValues =
+                new IdentifyMetadataValues.Builder()
+                        .putAllNameRegexPairs("URL.query": "q=\\d{5}").build()
+        StringWriter sw = new StringWriter()
+        MarkupBuilder mb = new MarkupBuilder(sw)
+        new MetadataTemplate(metadata0).toSpanSequence(
+                mb, query0, query1, ignoreMetadataKeys, identifyMetadataValues)
+        String markup = sw.toString()
+        /*
+<span>{</span>
+<span>"URL.host":</span>
+<span class='matched-value'>"cdnjs.cloudflare.com"</span>
+<span>, </span>
+<span>"URL.path":</span>
+<span class='matched-value'>"/ajax/libs/jquery/1.11.3/jquery.js"</span>
+<span>, </span>
+<span>"URL.port":</span>
+<span class='matched-value'>"80"</span>
+<span>, </span>
+<span class='ignored-key'>"URL.protocol":</span>
+<span class='matched-value'>"https"</span>
+<span>, </span>
+<span>"URL.query":</span>
+<span class='matched-value'>"q=12345"</span>
+<span>, </span>
+<span>"profile":</span>
+<span class='matched-value'>"MyAdmin_ProductionEnv"</span>
+<span>}</span>
+         */
+        println markup
     }
 
 }

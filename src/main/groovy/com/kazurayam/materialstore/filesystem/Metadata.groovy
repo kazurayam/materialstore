@@ -22,6 +22,11 @@ abstract class Metadata implements Comparable, JSONifiable, TemplateReady {
     public static final String KEY_URL_QUERY = "URL.query"
     public static final String KEY_URL_FRAGMENT = "URL.fragment"
 
+    abstract void annotate(QueryOnMetadata query)
+    abstract void annotate(QueryOnMetadata leftQuery,
+                           QueryOnMetadata rightQuery,
+                           IgnoreMetadataKeys ignoreMetadataKeys,
+                           IdentifyMetadataValues identifyMetadataValues)
     abstract boolean containsKey(String key)
     abstract String get(String key)
     abstract MetadataAttribute getMetadataAttribute(String key)
@@ -30,21 +35,6 @@ abstract class Metadata implements Comparable, JSONifiable, TemplateReady {
     abstract int size()
     abstract String toURLAsString()
     abstract URL toURL()
-
-    abstract void toSpanSequence(MarkupBuilder mb, QueryOnMetadata query)
-
-    abstract void toSpanSequence(MarkupBuilder mb,
-                                 QueryOnMetadata leftQuery,
-                                 QueryOnMetadata rightQuery,
-                                 IgnoreMetadataKeys ignoreMetadataKeys,
-                                 IdentifyMetadataValues identifyMetadataValues)
-
-    abstract void annotate(QueryOnMetadata query)
-
-    abstract void annotate(QueryOnMetadata leftQuery,
-                           QueryOnMetadata rightQuery,
-                           IgnoreMetadataKeys ignoreMetadataKeys,
-                           IdentifyMetadataValues identifyMetadataValues)
 
     //------------------Comparable-------------------------------------
     abstract int compareTo(Object obj)

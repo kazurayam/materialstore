@@ -5,6 +5,7 @@ import com.kazurayam.materialstore.util.JsonUtil
 import groovy.xml.MarkupBuilder
 
 class IgnoreMetadataKeysTemplate {
+
     static void toSpanSequence(IgnoreMetadataKeys ignoreMetadataKeys, MarkupBuilder mb) {
         List<String> list = new ArrayList<String>(ignoreMetadataKeys.keySet())
         Collections.sort(list)

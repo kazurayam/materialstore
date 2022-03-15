@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import groovy.xml.MarkupBuilder
 
 class QueryOnMetadataTemplate {
+
     static void toSpanSequence(QueryOnMetadata query, MarkupBuilder mb) {
         List<String> keyList = new ArrayList(query.keySet())
         Collections.sort(keyList)

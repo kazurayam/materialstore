@@ -14,6 +14,7 @@ import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.reduce.MProduct
 import com.kazurayam.materialstore.reduce.MProductGroup
+import com.kazurayam.materialstore.report.markupbuilder_templates.MetadataTemplate
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -353,7 +354,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                 dt("metadata")
                 //dd(material.getIndexEntry().getMetadata().toString())
                 dd() {
-                    material.getIndexEntry().getMetadata().toSpanSequence(
+                    new MetadataTemplate(material.getIndexEntry().getMetadata()).toSpanSequence(
                             mb,
                             (QueryOnMetadata)context.getLeftQueryOnMetadata(),
                             (QueryOnMetadata)context.getRightQueryOnMetadata(),
