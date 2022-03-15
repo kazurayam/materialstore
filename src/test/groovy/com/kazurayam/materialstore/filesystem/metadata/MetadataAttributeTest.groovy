@@ -41,7 +41,12 @@ class MetadataAttributeTest {
 
     @Test
     void test_toJson() {
-        println instance.toJson()
+        println JsonUtil.prettyPrint(instance.toJson())
+    }
+
+    @Test
+    void test_toRichJson() {
+        println JsonUtil.prettyPrint(instance.toRichJson())
     }
 
     @Test

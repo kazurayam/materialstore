@@ -76,8 +76,10 @@ class Metadata_AnnotateTest {
     void test_annotate_dual_QueryOnMetadata() {
         metadata.annotate(leftQuery, rightQuery,
                 ignoreMetadataKeys, identifyMetadataValues)
+        println JsonUtil.prettyPrint(metadata.toJson())
         MetadataAttribute pathAttr = metadata.getMetadataAttribute("URL.path")
         assertTrue(pathAttr.isPaired())
+        println JsonUtil.prettyPrint(pathAttr.toRichJson())
     }
 
     @Test
