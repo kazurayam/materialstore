@@ -30,18 +30,4 @@ class IgnoreMetadataKeysTest {
         assertEquals("""{"URL.hostname", "profile"}""", str)
     }
 
-    @Test
-    void test_toSpanSequence() {
-        IgnoreMetadataKeys ignoreMetadataKeys =
-                new IgnoreMetadataKeys.Builder()
-                        .ignoreKeys("profile", "URL.hostname")
-                        .build()
-        StringWriter sw = new StringWriter()
-        MarkupBuilder mb = new MarkupBuilder(sw)
-        ignoreMetadataKeys.toSpanSequence(mb)
-        String str = sw.toString()
-        assertNotNull(str)
-        //println str
-        assertTrue(str.contains("ignored-key"))
-    }
 }

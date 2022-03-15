@@ -15,7 +15,7 @@ class QueryOnMetadataTemplateTest extends AbstractTemplateTest {
         QueryOnMetadata query = QueryOnMetadata.builder(metadata0).build()
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
-        QueryOnMetadataTemplate.toSpanSequence(query, mb)
+        new QueryOnMetadataTemplate(query).toSpanSequence(mb)
         String markup = sw.toString()
         /*
 <span>{</span>

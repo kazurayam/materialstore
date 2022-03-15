@@ -35,6 +35,7 @@
           <option value="http://tiles.apache.org/" />
           <option value="http://demoaut-mimic.kazurayam.com" />
           <option value="http://demoaut.katalon.com" />
+          <option value="http://myadmin.kazurayam.com" />
         </list>
       </option>
     </inspection_tool>

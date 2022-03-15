@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.filesystem.metadata
 
 import com.kazurayam.materialstore.util.JsonUtil
-import groovy.xml.MarkupBuilder
 
 final class IgnoreMetadataKeysImpl extends IgnoreMetadataKeys {
 
@@ -30,23 +29,6 @@ final class IgnoreMetadataKeysImpl extends IgnoreMetadataKeys {
     @Override
     Iterator<String> iterator() {
         keySet.iterator()
-    }
-
-    @Override
-    void toSpanSequence(MarkupBuilder mb) {
-        List<String> list = new ArrayList<String>(keySet)
-        Collections.sort(list)
-        int count = 0
-        mb.span("{")
-        list.each {
-            if (count > 0) {
-                mb.span(", ")
-            }
-            mb.span(class: "ignored-key",
-                    "\"" + JsonUtil.escapeAsJsonString(it) + "\"")
-            count += 1
-        }
-        mb.span("}")
     }
 
     //------------------------- override java.lang.Object ------------------

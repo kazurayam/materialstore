@@ -5,7 +5,6 @@ import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.filesystem.metadata.QueryOnMetadataImpl
 import com.kazurayam.materialstore.filesystem.metadata.SemanticVersionAwareStringMatcher
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys
-import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -73,17 +72,6 @@ abstract class QueryOnMetadata implements JSONifiable, TemplateReady {
 
     abstract int size()
 
-    /**
-     * emit a HTML fragment (like the following) into the argument MarkupBuilder
-     *
-     * <span>{</span>
-     * <span>"profile":</span>
-     * <span class="matched-value">"ProductionEnv"</span>
-     * <span>}</span>
-     *
-     * @param mb
-     */
-    abstract void toSpanSequence(MarkupBuilder mb)
     abstract List<Map<String,String>> toJSONTextTokens()
 
     /**

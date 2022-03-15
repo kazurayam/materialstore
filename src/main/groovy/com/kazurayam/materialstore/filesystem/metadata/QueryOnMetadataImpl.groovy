@@ -3,8 +3,6 @@ package com.kazurayam.materialstore.filesystem.metadata
 import com.google.gson.Gson
 import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
-import com.kazurayam.materialstore.util.JsonUtil
-import groovy.xml.MarkupBuilder
 
 final class QueryOnMetadataImpl extends QueryOnMetadata {
 
@@ -78,24 +76,6 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
             }
         }
         return result
-    }
-
-
-    @Override
-    void toSpanSequence(MarkupBuilder mb) {
-        List<String> keyList = new ArrayList(keyQValuePairs.keySet())
-        Collections.sort(keyList)
-        int count = 0
-        mb.span("{")
-        keyList.forEach( { String key ->
-            if (count > 0) {
-                mb.span(", ")
-            }
-            mb.span("\"${key.toString()}\":")
-            mb.span("\"" + this.getAsString(key) + "\"")
-            count += 1
-        })
-        mb.span("}")
     }
 
     @Override

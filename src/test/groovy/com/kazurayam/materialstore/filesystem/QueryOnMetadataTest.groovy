@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys
+import com.kazurayam.materialstore.report.markupbuilder_templates.QueryOnMetadataTemplate
 import groovy.xml.MarkupBuilder
 import groovy.json.JsonOutput
 import org.junit.jupiter.api.Test
@@ -182,7 +183,7 @@ class QueryOnMetadataTest {
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
         mb.div() {
-            query.toSpanSequence(mb)
+            new QueryOnMetadataTemplate(query).toSpanSequence(mb)
         }
         String markup = sw.toString()
         assertNotNull(markup)

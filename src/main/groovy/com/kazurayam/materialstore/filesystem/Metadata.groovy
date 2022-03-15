@@ -4,7 +4,6 @@ import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute
 import com.kazurayam.materialstore.filesystem.metadata.MetadataImpl
-import groovy.xml.MarkupBuilder
 import org.apache.http.NameValuePair
 import org.apache.http.client.utils.URLEncodedUtils
 
@@ -27,11 +26,15 @@ abstract class Metadata implements Comparable, JSONifiable, TemplateReady {
                            QueryOnMetadata rightQuery,
                            IgnoreMetadataKeys ignoreMetadataKeys,
                            IdentifyMetadataValues identifyMetadataValues)
+    abstract boolean canBeIdentified(String key, IdentifyMetadataValues identifyMetadataValues)
+    abstract boolean canBePaired(QueryOnMetadata left, QueryOnMetadata right, String key)
     abstract boolean containsKey(String key)
     abstract String get(String key)
     abstract MetadataAttribute getMetadataAttribute(String key)
     abstract boolean isEmpty()
     abstract Set<String> keySet()
+    abstract boolean matchesByAster(QueryOnMetadata query, String key)
+    abstract boolean matchesIndividually(QueryOnMetadata query, String key)
     abstract int size()
     abstract String toURLAsString()
     abstract URL toURL()

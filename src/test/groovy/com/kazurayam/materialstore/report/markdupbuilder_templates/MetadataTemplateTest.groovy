@@ -12,22 +12,6 @@ import static org.junit.jupiter.api.Assertions.*
 
 class MetadataTemplateTest extends AbstractTemplateTest {
 
-    @Test
-    void test_canBeIdentified() {
-        IdentifyMetadataValues identifyMetadataValues =
-                new IdentifyMetadataValues.Builder()
-                        .putAllNameRegexPairs(["profile": "MyAdmin_ProductionEnv"])
-                        .build()
-        assertTrue(new MetadataTemplate(metadata0).canBeIdentified(
-                "profile", identifyMetadataValues))
-    }
-
-    @Test
-    void test_canBePaired() {
-        QueryOnMetadata query0 = QueryOnMetadata.builder(metadata0).build()
-        QueryOnMetadata query1 = QueryOnMetadata.builder(metadata1).build()
-        assertTrue(new MetadataTemplate(metadata0).canBePaired(query0, query1, "URL.host"))
-    }
 
     /**
      * This test never passes.
@@ -69,18 +53,8 @@ class MetadataTemplateTest extends AbstractTemplateTest {
     }
 
 
-    @Test
-    void test_matchesByAster() {
-        QueryOnMetadata query = QueryOnMetadata.builder().put("*", "MyAdmin_ProductionEnv").build()
-        assertTrue(new MetadataTemplate(metadata0).matchesByAster(query, "profile"))
-    }
 
 
-    @Test
-    void test_matchesIndividually() {
-        QueryOnMetadata query = QueryOnMetadata.builder(metadata0).build()
-        assertTrue(new MetadataTemplate(metadata0).matchesIndividually(query, "URL.host"))
-    }
 
     @Test
     void test_toSpanSequence_Metadata_dual_QueryOnMetadata() {

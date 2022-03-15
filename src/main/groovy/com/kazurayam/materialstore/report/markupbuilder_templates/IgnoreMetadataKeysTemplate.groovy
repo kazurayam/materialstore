@@ -6,7 +6,13 @@ import groovy.xml.MarkupBuilder
 
 class IgnoreMetadataKeysTemplate {
 
-    static void toSpanSequence(IgnoreMetadataKeys ignoreMetadataKeys, MarkupBuilder mb) {
+    private final IgnoreMetadataKeys ignoreMetadataKeys
+
+    IgnoreMetadataKeysTemplate(IgnoreMetadataKeys ignoreMetadataKeys) {
+        this.ignoreMetadataKeys = ignoreMetadataKeys
+    }
+
+    void toSpanSequence(MarkupBuilder mb) {
         List<String> list = new ArrayList<String>(ignoreMetadataKeys.keySet())
         Collections.sort(list)
         int count = 0

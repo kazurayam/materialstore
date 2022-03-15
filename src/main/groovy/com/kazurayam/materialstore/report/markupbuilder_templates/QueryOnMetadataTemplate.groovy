@@ -5,7 +5,13 @@ import groovy.xml.MarkupBuilder
 
 class QueryOnMetadataTemplate {
 
-    static void toSpanSequence(QueryOnMetadata query, MarkupBuilder mb) {
+    private final QueryOnMetadata query
+
+    QueryOnMetadataTemplate(QueryOnMetadata query) {
+        this.query = query
+    }
+
+    void toSpanSequence(MarkupBuilder mb) {
         List<String> keyList = new ArrayList(query.keySet())
         Collections.sort(keyList)
         int count = 0

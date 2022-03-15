@@ -9,6 +9,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.report.markupbuilder_templates.MetadataTemplate
+import com.kazurayam.materialstore.report.markupbuilder_templates.QueryOnMetadataTemplate
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -91,7 +92,8 @@ final class MaterialListBasicReporter extends MaterialListReporter {
                                     dd(materialList.getJobTimestamp().toString())
                                     dt("QueryOnMetadata :")
                                     dd() {
-                                        materialList.getQueryOnMetadata().toSpanSequence(mb)
+                                        new QueryOnMetadataTemplate(materialList.getQueryOnMetadata())
+                                                .toSpanSequence(mb)
                                     }
                                 }
                             }

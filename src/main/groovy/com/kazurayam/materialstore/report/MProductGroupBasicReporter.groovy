@@ -14,7 +14,9 @@ import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.reduce.MProduct
 import com.kazurayam.materialstore.reduce.MProductGroup
+import com.kazurayam.materialstore.report.markupbuilder_templates.IgnoreMetadataKeysTemplate
 import com.kazurayam.materialstore.report.markupbuilder_templates.MetadataTemplate
+import com.kazurayam.materialstore.report.markupbuilder_templates.QueryOnMetadataTemplate
 import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -105,7 +107,8 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                                         dd(left.getJobTimestamp().toString())
                                         dt("QueryOnMetadata :")
                                         dd() {
-                                            left.getQueryOnMetadata().toSpanSequence(mb)
+                                            new QueryOnMetadataTemplate(left.getQueryOnMetadata())
+                                                    .toSpanSequence(mb)
                                         }
                                     }
                                 }
@@ -122,7 +125,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                                         dd(right.getJobTimestamp().toString())
                                         dt("QueryOnMetadata :")
                                         dd() {
-                                            right.getQueryOnMetadata().toSpanSequence(mb)
+                                            new QueryOnMetadataTemplate(right.getQueryOnMetadata()).toSpanSequence(mb)
                                         }
                                     }
                                 }
@@ -133,7 +136,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                             dt("IgnoreMetadataKeys")
                             if (mProductGroup.getIgnoreMetadataKeys() != IgnoreMetadataKeys.NULL_OBJECT) {
                                 dd() {
-                                    mProductGroup.getIgnoreMetadataKeys().toSpanSequence(mb)
+                                    new IgnoreMetadataKeysTemplate(mProductGroup.getIgnoreMetadataKeys()).toSpanSequence(mb)
                                 }
                             } else {
                                 dd("not set")

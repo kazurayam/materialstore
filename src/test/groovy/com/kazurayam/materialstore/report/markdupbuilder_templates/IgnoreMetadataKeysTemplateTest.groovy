@@ -18,7 +18,7 @@ class IgnoreMetadataKeysTemplateTest extends AbstractTemplateTest {
                         .build()
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
-        IgnoreMetadataKeysTemplate.toSpanSequence(ignoreMetadataKeys, mb)
+        new IgnoreMetadataKeysTemplate(ignoreMetadataKeys).toSpanSequence(mb)
         String markup = sw.toString()
         /*
 <span>{</span>

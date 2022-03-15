@@ -18,24 +18,13 @@ class MetadataTemplate {
         this.metadata = metadata
     }
 
-    boolean canBeIdentified(String key, IdentifyMetadataValues identifyMetadataValues) {
-        return identifyMetadataValues.containsKey(key) &&
-                identifyMetadataValues.matches(metadata)
-    }
-
-    boolean canBePaired(QueryOnMetadata left, QueryOnMetadata right, String key) {
-        return left.containsKey("*")  && left.get("*").matches(metadata.get(key)) ||
-                left.containsKey(key)      && left.get(key).matches(metadata.get(key)) ||
-                right.containsKey("*") && right.get("*").matches(metadata.get(key)) ||
-                right.containsKey(key)     && right.get(key).matches(metadata.get(key))
-    }
 
     String getCSSClassName(QueryOnMetadata left,
                            QueryOnMetadata right,
                            String key,
                            IdentifyMetadataValues identifyMetadataValues) {
-        boolean canBePaired = new MetadataTemplate(metadata).canBePaired(left, right, key)
-        boolean canBeIdentified = new MetadataTemplate(metadata).canBeIdentified(key, identifyMetadataValues)
+        boolean canBePaired = metadata.canBePaired(left, right, key)
+        boolean canBeIdentified = metadata.canBeIdentified(key, identifyMetadataValues)
         if (canBePaired) {
             return "matched-value"
         } else if (canBeIdentified) {
@@ -46,23 +35,14 @@ class MetadataTemplate {
     }
 
     String getCSSClassNameSolo(QueryOnMetadata query, String key) {
-        if (matchesByAster(query, key) || matchesIndividually(query, key)) {
+        if (metadata.matchesByAster(query, key) || metadata.matchesIndividually(query, key)) {
             return "matched-value"
         } else {
             return null
         }
     }
 
-    boolean matchesByAster(QueryOnMetadata query, String key) {
-        return query.containsKey("*") &&
-                query.get("*").matches(metadata.get(key))
-    }
 
-    boolean matchesIndividually(QueryOnMetadata query, String key) {
-        return query.containsKey(key) &&
-                metadata.containsKey(key) &&
-                query.get(key).matches(metadata.get(key))
-    }
 
     void toSpanSequence(MarkupBuilder mb, QueryOnMetadata query) {
         Objects.requireNonNull(mb)

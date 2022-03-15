@@ -3,9 +3,7 @@ package com.kazurayam.materialstore.filesystem.metadata
 import com.google.gson.Gson
 import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
-import com.kazurayam.materialstore.report.markupbuilder_templates.MetadataTemplate
 import com.kazurayam.materialstore.util.JsonUtil
-import groovy.xml.MarkupBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -112,14 +110,28 @@ final class MetadataImpl extends Metadata {
     void annotate(QueryOnMetadata query) {
         Objects.requireNonNull(query)
         attributes.keySet().forEach { key ->
-            if (new MetadataTemplate(this).matchesByAster(query, key)) {
+            if (matchesByAster(query, key)) {
                 attributes.get(key).setMatchedByAster(true)
             }
-            if (new MetadataTemplate(this).matchesIndividually(query, key)) {
+            if (matchesIndividually(query, key)) {
                 attributes.get(key).setMatchedIndividually(true)
             }
         }
     }
+
+    @Override
+    boolean matchesByAster(QueryOnMetadata query, String key) {
+        return query.containsKey("*") &&
+                query.get("*").matches(this.get(key))
+    }
+
+    @Override
+    boolean matchesIndividually(QueryOnMetadata query, String key) {
+        return query.containsKey(key) &&
+                this.containsKey(key) &&
+                query.get(key).matches(this.get(key))
+    }
+
 
 
     @Override
@@ -137,10 +149,10 @@ final class MetadataImpl extends Metadata {
             if (ignoreMetadataKeys.contains(key)) {
                 attribute.setIgnoredByKey(true)
             }
-            if (new MetadataTemplate(this).canBePaired(leftQuery, rightQuery, key)) {
+            if (canBePaired(leftQuery, rightQuery, key)) {
                 attribute.setPaired(true)
             }
-            if (new MetadataTemplate(this).canBeIdentified(key, identifyMetadataValues)) {
+            if (canBeIdentified(key, identifyMetadataValues)) {
                 attribute.setIdentifiedByValue(true)
             }
             //
@@ -150,6 +162,21 @@ final class MetadataImpl extends Metadata {
             }
         }
     }
+
+    @Override
+    boolean canBeIdentified(String key, IdentifyMetadataValues identifyMetadataValues) {
+        return identifyMetadataValues.containsKey(key) &&
+                identifyMetadataValues.matches(this)
+    }
+
+    @Override
+    boolean canBePaired(QueryOnMetadata left, QueryOnMetadata right, String key) {
+        return left.containsKey("*")  && left.get("*").matches(this.get(key)) ||
+                left.containsKey(key)      && left.get(key).matches(this.get(key)) ||
+                right.containsKey("*") && right.get("*").matches(this.get(key)) ||
+                right.containsKey(key)     && right.get(key).matches(this.get(key))
+    }
+
 
     //--------JSONifiable----------------------------------------------
     @Override

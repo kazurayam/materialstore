@@ -8,6 +8,7 @@ import com.kazurayam.materialstore.net.data.DataURLEnabler
 import com.kazurayam.materialstore.util.JsonUtil
 import groovy.xml.MarkupBuilder
 import groovy.json.JsonOutput
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
 import static org.junit.jupiter.api.Assertions.*
@@ -16,6 +17,24 @@ import java.util.stream.Collectors
 import java.util.regex.Pattern
 
 class MetadataTest {
+
+    static String url0 = "https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.js?q=12345"
+    static String url1 = "https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.js?q=67890"
+    static String urlT = "http://myadmin.kazurayam.com/"
+    static Metadata metadata0
+    static Metadata metadata1
+    static Metadata metadataT
+
+    @BeforeAll
+    static void beforeAll() {
+        metadata0 = Metadata.builder(new URL(url0))
+                .put("profile", "MyAdmin_ProductionEnv").build()
+        metadata1 = Metadata.builder(new URL(url1))
+                .put("profile", "MyAdmin_DevelopmentEnv").build()
+        metadataT = Metadata.builder(new URL(urlT))
+                .put("profile", "MyAdmin_ProductionEnv").build()
+    }
+
 
     @Test
     void test_Builder_putAll() {
@@ -67,6 +86,23 @@ class MetadataTest {
         assertEquals("http", metadata.get("URL.protocol"))
         assertEquals("3000", metadata.get("URL.port"))
     }
+
+    @Test
+    void test_canBeIdentified() {
+        IdentifyMetadataValues identifyMetadataValues =
+                new IdentifyMetadataValues.Builder()
+                        .putAllNameRegexPairs(["profile": "MyAdmin_ProductionEnv"])
+                        .build()
+        assertTrue(metadata0.canBeIdentified("profile", identifyMetadataValues))
+    }
+
+    @Test
+    void test_canBePaired() {
+        QueryOnMetadata query0 = QueryOnMetadata.builder(metadata0).build()
+        QueryOnMetadata query1 = QueryOnMetadata.builder(metadata1).build()
+        assertTrue(metadata0.canBePaired(query0, query1, "URL.host"))
+    }
+
 
     @Test
     void test_compareTo_equals() {
@@ -142,6 +178,23 @@ class MetadataTest {
         assertEquals(1, keySet.size())
         assertTrue(keySet.contains("profile"))
     }
+
+    @Test
+    void test_matchesByAster() {
+        Metadata metadata = Metadata.builder(["profile":"ProductionEnv"]).build()
+        QueryOnMetadata query = QueryOnMetadata.builder(metadata)
+                .put("*", "ProductionEnv").build()
+        assertTrue(metadata.matchesByAster(query, "profile"))
+    }
+
+    @Test
+    void test_matchesIndividually() {
+        Metadata metadata = Metadata.builder(["profile":"ProductionEnv"]).build()
+        QueryOnMetadata query = QueryOnMetadata.builder(metadata).build()
+        assertTrue(metadata.matchesIndividually(query, "profile"))
+    }
+
+
 
     @Test
     void test_parseURLQuery() {
