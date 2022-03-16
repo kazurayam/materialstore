@@ -37,7 +37,7 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
     private final JobName jobName;
 
     private static final String TEMPLATE_PATH =
-            "com/kazurayam/materialstore/report/MaterialListBasicReporter/MainTemplate.ftl";
+            "com/kazurayam/materialstore/report/MaterialListBasicReporterTemplate.ftl";
     // ftlh is a short for FreeMarker Template Language for HTML
 
     private final Configuration cfg;

@@ -1,6 +1,5 @@
-<#-- report/MaterialListBasicReporter/MainTemplate.ftl -->
-<#import "../../filesystem/metadata/QueryOnMetadata/macros.ftl" as qom>
-<#import "macros.ftl" as macros>
+<#-- report/MaterialListBasicReporterTemplate.ftl -->
+<#import "../filesystem/metadata/QueryOnMetadataTemplate.ftl" as qom>
 
 <!doctype html>
 <html lang='en'>
@@ -47,7 +46,7 @@
               </h2>
               <div id='collapse${material?counter}' class='accordion-collapse collapse' aria-labelledby='heading${material?counter}' data-bs-parent='#accordionExample'>
                 <div class='accordion-body'>
-                  <@macros.makeAccordionBody material=material/>
+                  <@makeAccordionBody material=material/>
                 </div>
               </div>
             </div>
@@ -58,6 +57,22 @@
   </body>
 </html>
 
+
+
+<#macro makeAccordionBody material>
+  <div class='show-detail'>
+    <dl class='detail'>
+      <dt>Material URL</dt>
+      <dd>
+        <a href='${material.relativeUrl}' target='material'>${material.relativeUrl}</a>
+      </dd>
+      <dt>FileType</dt>
+      <dd>${material.fileType}</dd>
+      <dt>Metadata</dt>
+      <dd></dd>
+    </dl>
+  </div>
+</#macro>
 
 
 
