@@ -80,7 +80,7 @@ class Metadata_AnnotateTest {
         println JsonUtil.prettyPrint(metadata.toJson())
         MetadataAttribute pathAttr = metadata.getMetadataAttribute("URL.path")
         assertTrue(pathAttr.isPaired())
-        println JsonUtil.prettyPrint(pathAttr.toRichJson())
+        println JsonUtil.prettyPrint(pathAttr.toJson())
     }
 
     @Test

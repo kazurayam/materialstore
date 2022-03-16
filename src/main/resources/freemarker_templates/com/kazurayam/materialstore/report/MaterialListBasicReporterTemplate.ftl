@@ -47,7 +47,7 @@
               </h2>
               <div id='collapse${material?counter}' class='accordion-collapse collapse' aria-labelledby='heading${material?counter}' data-bs-parent='#accordionExample'>
                 <div class='accordion-body'>
-                  <@makeAccordionBody material=material />
+                  <@makeAccordionBody material=material query=model.queryOnMetadata />
                 </div>
               </div>
             </div>
@@ -60,7 +60,7 @@
 
 
 
-<#macro makeAccordionBody material>
+<#macro makeAccordionBody material query>
   <div class='show-detail'>
     <dl class='detail'>
       <dt>Material URL</dt>
@@ -71,7 +71,7 @@
       <dd>${material.fileType}</dd>
       <dt>Metadata</dt>
       <dd>
-        <@Metadata.toSpanSequence keyValuePairs=material.metadata />
+        <@Metadata.toSpanSequence metadata=material.metadata query=query/>
       </dd>
     </dl>
   </div>

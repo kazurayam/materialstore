@@ -235,24 +235,24 @@ class MetadataTest {
      * In the string representation, the keys should be sorted
      */
     @Test
-    void test_toJson() {
+    void test_toSimplifiedJson() {
         Metadata metadata = Metadata.builder(["b": "B", "a": "A"]).build()
-        String s = metadata.toJson()
+        String s = metadata.toSimplifiedJson()
         println s
         assertEquals(
                 '''{"a":"A", "b":"B"}''',
-                metadata.toJson())
+                metadata.toSimplifiedJson())
     }
 
     @Test
-    void test_toString_should_have_redundant_whitespaces() {
+    void test_toSimplifiedJson_should_have_redundant_whitespaces() {
         Metadata metadata = Metadata.builder(["a":"A", "b":"B", "c":"C"]).build()
-        String s = metadata.toString()
+        String s = metadata.toSimplifiedJson()
         println JsonOutput.prettyPrint(s)
         assertEquals(
                 '''{"a":"A", "b":"B", "c":"C"}''',
                 // white spaces here ^ and    ^
-                metadata.toString())
+                metadata.toSimplifiedJson())
     }
 
     @Test
@@ -261,12 +261,18 @@ class MetadataTest {
         Metadata metadata = Metadata.builder(url).build()
         println JsonUtil.prettyPrint(metadata.toJson())
         Map<String, Object> model = metadata.toTemplateModel()
-        assertEquals("https", model.get("URL.protocol"))
-        assertEquals("baeldung.com", model.get("URL.host"))
-        assertEquals("80", model.get("URL.port"))
-        assertEquals("/articles", model.get("URL.path"))
-        assertEquals("topic=java&version=8", model.get("URL.query"))
-        assertEquals("content", model.get("URL.fragment"))
+        assertEquals("https",
+                ((Map)model.get("URL.protocol")).get("value"))
+        assertEquals("baeldung.com",
+                ((Map)model.get("URL.host")).get("value"))
+        assertEquals("80",
+                ((Map)model.get("URL.port")).get("value"))
+        assertEquals("/articles",
+                ((Map)model.get("URL.path")).get("value"))
+        assertEquals("topic=java&version=8",
+                ((Map)model.get("URL.query")).get("value"))
+        assertEquals("content",
+                ((Map)model.get("URL.fragment")).get("value"))
         List<String> keyList = new ArrayList<>(model.keySet())
         Collections.sort(keyList)
         assertEquals(6, keyList.size())

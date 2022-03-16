@@ -45,11 +45,6 @@ class MetadataAttributeTest {
     }
 
     @Test
-    void test_toRichJson() {
-        println JsonUtil.prettyPrint(instance.toRichJson())
-    }
-
-    @Test
     void test_isIgnoredByKey() {
         assertTrue(instance.isIgnoredByKey())
     }

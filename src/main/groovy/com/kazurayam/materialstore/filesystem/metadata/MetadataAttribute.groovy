@@ -109,9 +109,10 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, T
 
     @Override
     String toString() {
-        return toJson()
+        return getValue()
     }
 
+    /*
     @Override
     String toJson() {
         StringBuilder sb = new StringBuilder()
@@ -122,6 +123,7 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, T
         sb.append("}")
         return sb.toString()
     }
+     */
 
     @Override
     String toJson(boolean prettyPrint) {
@@ -132,7 +134,8 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, T
         }
     }
 
-    String toRichJson() {
+    @Override
+    String toJson() {
         StringBuilder sb = new StringBuilder()
         sb.append("{")
         sb.append("\"key\":")
@@ -187,7 +190,7 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, T
     @Override
     Map<String, Object> toTemplateModel() {
         // convert JSON string to Java Map
-        Map<String, Object> map = new Gson().fromJson(toRichJson(), Map.class)
+        Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
         return map
     }
 

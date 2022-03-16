@@ -178,6 +178,31 @@ final class MetadataImpl extends Metadata {
                 right.containsKey(key)     && right.get(key).matches(this.get(key))
     }
 
+    @Override
+    String toSimplifiedJson() {
+        StringBuilder sb = new StringBuilder()
+        int entryCount = 0;
+        sb.append("{")
+        List<String> keys = getSortedKeys(attributes)
+        keys.each { key ->
+            if (entryCount > 0) {
+                sb.append(", ")    // comma followed by a white space
+            }
+            sb.append('"' + JsonUtil.escapeAsJsonString(key) + '"')
+            sb.append(':')
+            MetadataAttribute attribute = attributes.get(key)
+            sb.append('"' + attribute.getValue() + '"')
+            entryCount += 1
+        }
+        sb.append("}")
+        return sb.toString()
+    }
+
+    private static List<String> getSortedKeys(Map<String, MetadataAttribute> attributes) {
+        List<String> keys = new ArrayList<String>(attributes.keySet())
+        Collections.sort(keys)
+        return keys
+    }
 
     //--------Jsonifiable----------------------------------------------
     @Override
@@ -186,19 +211,14 @@ final class MetadataImpl extends Metadata {
         StringBuilder sb = new StringBuilder()
         int entryCount = 0
         sb.append("{")
-        assert attributes != null, "metadata_ is null before iterating over keys"
-        //println "keys: ${metadata_.keySet()}"
-        List<String> keys = new ArrayList<String>(attributes.keySet())
-        Map<String, MetadataAttribute> copy = new HashMap<>(attributes)
-        // sort by the key
-        Collections.sort(keys)
+        List<String> keys = getSortedKeys(attributes)
         keys.each { key ->
             if (entryCount > 0) {
                 sb.append(", ")    // comma followed by a white space
             }
             sb.append('"' + JsonUtil.escapeAsJsonString(key) + '"')
             sb.append(':')
-            sb.append('"' + copy.get(key).getValue() + '"')
+            sb.append(attributes.get(key).toJson())
             entryCount += 1
         }
         sb.append("}")

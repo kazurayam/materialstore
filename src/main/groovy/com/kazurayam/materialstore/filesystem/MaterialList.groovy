@@ -48,12 +48,13 @@ final class MaterialList implements Jsonifiable, TemplateReady {
     //--------------- List-like methods -----------
 
     void add(Material material) {
+        material.getMetadata().annotate(query)
         materialList.add(material)
     }
 
     void add(List<Material> list) {
         list.each {material ->
-            materialList.add(material)
+            this.add(material)
         }
     }
 
@@ -147,7 +148,7 @@ final class MaterialList implements Jsonifiable, TemplateReady {
             if (count > 0) {
                 sb.append(",")
             }
-            sb.append(material.toString())
+            sb.append(material.toJson())
             count += 1
         }
         sb.append("]")

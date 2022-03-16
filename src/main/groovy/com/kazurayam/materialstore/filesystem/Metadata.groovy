@@ -36,6 +36,7 @@ abstract class Metadata implements Comparable, Jsonifiable, TemplateReady {
     abstract boolean matchesByAster(QueryOnMetadata query, String key)
     abstract boolean matchesIndividually(QueryOnMetadata query, String key)
     abstract int size()
+    abstract String toSimplifiedJson()
     abstract String toURLAsString()
     abstract URL toURL()
 
