@@ -167,15 +167,24 @@ final class Material implements Comparable, Jsonifiable, TemplateReady {
         sb.append(",")
         sb.append("\"jobTimestamp\":\"" + this.getJobTimestamp() + "\"")
         sb.append(",")
-        sb.append("\"id\":\"" + this.getIndexEntry().getID().toString() + "\"")
+        sb.append("\"id\":\"" +
+                this.getIndexEntry().getID().toString() + "\"")
         sb.append(",")
-        sb.append("\"fileType\":\"" + this.getIndexEntry().getFileType().getExtension() + "\"")
+        sb.append("\"fileType\":\"" +
+                this.getIndexEntry().getFileType().getExtension() + "\"")
         sb.append(",")
         sb.append("\"metadata\":")
         sb.append(this.getIndexEntry().getMetadata().toJson())
         sb.append(",")
         sb.append("\"metadataText\":")
-        sb.append("\"" + JsonUtil.escapeAsJsonString(this.getIndexEntry().getMetadata().toSimplifiedJson()) + "\"")
+        sb.append("\"" + JsonUtil.escapeAsJsonString(
+                this.getIndexEntry().getMetadata().toSimplifiedJson()) + "\"")
+        if (this.getIndexEntry().getMetadata().toURL() != null) {
+            sb.append(",")
+            sb.append("\"metadataURL\":")
+            sb.append("\"" + JsonUtil.escapeAsJsonString(
+                    this.getIndexEntry().getMetadata().toURLAsString()) + "\"")
+        }
         sb.append(",")
         sb.append("\"relativeUrl\":")
         sb.append("\"" + JsonUtil.escapeAsJsonString(getRelativeURL()) + "\"")

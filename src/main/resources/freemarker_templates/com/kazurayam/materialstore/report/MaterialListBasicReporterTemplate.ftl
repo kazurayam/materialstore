@@ -73,6 +73,12 @@
       <dd>
         <@Metadata.toSpanSequence metadata=material.metadata query=query/>
       </dd>
+      <#if material.metadataURL??>
+        <dt>Source URL</dt>
+        <dd>
+          <a href='${material.metadataURL}' target='source'>${material.metadataURL}</a>
+        </dd>
+      </#if>
     </dl>
   </div>
 </#macro>

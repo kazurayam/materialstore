@@ -221,6 +221,14 @@ final class MetadataImpl extends Metadata {
             sb.append(attributes.get(key).toJson())
             entryCount += 1
         }
+        /*
+        if (toURL() != null) {
+            sb.append(",")
+            sb.append("\"URL\":")
+            sb.append('"' + toURL().toExternalForm() + '"')
+        }
+
+         */
         sb.append("}")
         // WARNING: should not pretty-print this. it will causes a lot of problems
         return sb.toString()
