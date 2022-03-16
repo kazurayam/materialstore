@@ -47,7 +47,7 @@
               </h2>
               <div id='collapse${material?counter}' class='accordion-collapse collapse' aria-labelledby='heading${material?counter}' data-bs-parent='#accordionExample'>
                 <div class='accordion-body'>
-                  <@macros.makeAccordionBody />
+                  <@macros.makeAccordionBody material=material/>
                 </div>
               </div>
             </div>

@@ -176,6 +176,9 @@ final class Material implements Comparable, JSONifiable, TemplateReady {
         sb.append(",")
         sb.append("\"metadataText\":")
         sb.append("\"" + JsonUtil.escapeAsJsonString(this.getIndexEntry().getMetadata().toJson()) + "\"")
+        sb.append(",")
+        sb.append("\"relativeUrl\":")
+        sb.append("\"" + JsonUtil.escapeAsJsonString(getRelativeURL()) + "\"")
         sb.append("}")
         return sb.toString()
     }
