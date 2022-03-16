@@ -42,7 +42,6 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
 
     private final Configuration cfg;
 
-    private boolean DEBUG = true;
 
     public MaterialListBasicReporterFM(Store store, JobName jobName) {
         Objects.requireNonNull(store);
@@ -68,6 +67,7 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
         cfg.setFallbackOnNullLoopVariable(false);
         return cfg;
     }
+
 
     /**
      * using Bootstrap 5

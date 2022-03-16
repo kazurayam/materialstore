@@ -8,7 +8,7 @@ import groovy.json.JsonSlurper
 import java.nio.file.Path
 import java.nio.file.Paths
 
-final class IndexEntry implements Comparable, JSONifiable, TemplateReady {
+final class IndexEntry implements Comparable, Jsonifiable, TemplateReady {
 
     public static final IndexEntry NULL_OBJECT =
             new IndexEntry(

@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
-final class ID implements Comparable, JSONifiable {
+final class ID implements Comparable, Jsonifiable {
 
     public static final ID NULL_OBJECT = new ID("0" * 40)
 

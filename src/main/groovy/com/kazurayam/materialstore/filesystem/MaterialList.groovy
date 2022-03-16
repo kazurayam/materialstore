@@ -6,7 +6,7 @@ import com.kazurayam.materialstore.util.JsonUtil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-final class MaterialList implements JSONifiable, TemplateReady {
+final class MaterialList implements Jsonifiable, TemplateReady {
 
     private static Logger logger = LoggerFactory.getLogger(MaterialList.class.getName())
 
@@ -128,7 +128,7 @@ final class MaterialList implements JSONifiable, TemplateReady {
         return toJson()
     }
 
-    //-------JSONifiable-----------------------------------------------
+    //-------Jsonifiable-----------------------------------------------
     @Override
     String toJson() {
         StringBuilder sb = new StringBuilder()

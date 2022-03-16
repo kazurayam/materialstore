@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
-final class JobName implements Comparable, JSONifiable {
+final class JobName implements Comparable, Jsonifiable {
 
     public static final JobName NULL_OBJECT = new JobName("_")
 

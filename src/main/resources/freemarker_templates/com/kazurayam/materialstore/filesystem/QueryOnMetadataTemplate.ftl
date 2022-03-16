@@ -1,4 +1,4 @@
-<#-- filesystem/metadata/QueryOnMetadataTemplate.ftl -->
+<#-- filesystem/QueryOnMetadataTemplate.ftl -->
 <#macro toSpanSequence keyValuePairs>
     <span>{</span>
     <#list keyValuePairs as key, value>

@@ -6,7 +6,7 @@ import com.kazurayam.materialstore.util.JsonUtil
 
 import java.util.stream.Collectors
 
-final enum FileType implements JSONifiable, TemplateReady {
+final enum FileType implements Jsonifiable, TemplateReady {
 
     BMP  ('bmp', FileTypeDiffability.AS_IMAGE, ['image/bmp']),
     CSS  ('css', FileTypeDiffability.AS_TEXT,  ['text/css']),

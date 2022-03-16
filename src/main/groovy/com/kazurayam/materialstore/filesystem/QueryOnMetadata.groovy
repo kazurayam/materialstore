@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
-abstract class QueryOnMetadata implements JSONifiable, TemplateReady {
+abstract class QueryOnMetadata implements Jsonifiable, TemplateReady {
 
     public static final QueryOnMetadata NULL_OBJECT =
             new Builder().build()

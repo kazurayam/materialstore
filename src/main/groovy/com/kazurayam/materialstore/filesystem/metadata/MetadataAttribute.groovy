@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.filesystem.metadata
 
 import com.google.gson.Gson
-import com.kazurayam.materialstore.filesystem.JSONifiable
+import com.kazurayam.materialstore.filesystem.Jsonifiable
 import com.kazurayam.materialstore.filesystem.TemplateReady
 import com.kazurayam.materialstore.util.GsonHelper
 import com.kazurayam.materialstore.util.JsonUtil
@@ -9,7 +9,7 @@ import com.kazurayam.materialstore.util.JsonUtil
 /**
  *
  */
-class MetadataAttribute implements Comparable<MetadataAttribute>, JSONifiable, TemplateReady {
+class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, TemplateReady {
 
     private String key = null
     private String value = null

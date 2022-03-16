@@ -70,6 +70,7 @@ public class MaterialListBasicReporterFMTest {
         //
         MaterialListReporter reporter =
                 new MaterialListBasicReporterFM(store, jobName);
+        reporter.setDebug(true);
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         MaterialList list = store.select(jobName, jobTimestamp,

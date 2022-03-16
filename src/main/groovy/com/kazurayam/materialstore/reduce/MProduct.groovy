@@ -156,7 +156,7 @@ final class MProduct implements Comparable, TemplateReady {
         return this.getDescription() <=> other.getDescription()
     }
 
-    //--------JSONifiable----------------------------------------------
+    //--------Jsonifiable----------------------------------------------
     @Override
     String toJson() {
         StringBuilder sb = new StringBuilder()

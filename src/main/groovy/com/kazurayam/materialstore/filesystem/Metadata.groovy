@@ -10,7 +10,7 @@ import org.apache.http.client.utils.URLEncodedUtils
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 
-abstract class Metadata implements Comparable, JSONifiable, TemplateReady {
+abstract class Metadata implements Comparable, Jsonifiable, TemplateReady {
 
     public static final Metadata NULL_OBJECT = new Builder().build()
 

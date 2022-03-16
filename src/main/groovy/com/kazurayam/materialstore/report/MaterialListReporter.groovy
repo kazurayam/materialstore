@@ -9,6 +9,12 @@ import java.nio.file.Path
 
 abstract class MaterialListReporter {
 
+    protected boolean DEBUG = false;
+
+    void setDebug(boolean debug) {
+        this.DEBUG = debug;
+    }
+
     abstract Path report(MaterialList materialList, String fileName) throws MaterialstoreException
 
     abstract void report(MaterialList materialList, Path filePath) throws MaterialstoreException

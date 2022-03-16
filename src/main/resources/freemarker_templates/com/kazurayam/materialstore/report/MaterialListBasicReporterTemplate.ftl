@@ -1,5 +1,6 @@
 <#-- report/MaterialListBasicReporterTemplate.ftl -->
-<#import "../filesystem/metadata/QueryOnMetadataTemplate.ftl" as qom>
+<#import "../filesystem/QueryOnMetadataTemplate.ftl" as QueryOnMetadata>
+<#import "../filesystem/MetadataTemplate.ftl" as Metadata>
 
 <!doctype html>
 <html lang='en'>
@@ -28,7 +29,7 @@
               <dd>${model.jobTimestamp}</dd>
               <dt>QueryOnMetadata :</dt>
               <dd>
-                <@qom.toSpanSequence keyValuePairs=model.queryOnMetadata />
+                <@QueryOnMetadata.toSpanSequence keyValuePairs=model.queryOnMetadata />
               </dd>
             </dl>
           </dd>
@@ -46,7 +47,7 @@
               </h2>
               <div id='collapse${material?counter}' class='accordion-collapse collapse' aria-labelledby='heading${material?counter}' data-bs-parent='#accordionExample'>
                 <div class='accordion-body'>
-                  <@makeAccordionBody material=material/>
+                  <@makeAccordionBody material=material />
                 </div>
               </div>
             </div>
@@ -69,7 +70,9 @@
       <dt>FileType</dt>
       <dd>${material.fileType}</dd>
       <dt>Metadata</dt>
-      <dd></dd>
+      <dd>
+        <@Metadata.toSpanSequence keyValuePairs=material.metadata />
+      </dd>
     </dl>
   </div>
 </#macro>

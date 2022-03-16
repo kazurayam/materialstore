@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.filesystem
 
 
-interface TemplateReady extends JSONifiable {
+interface TemplateReady extends Jsonifiable {
 
     Map<String, Object> toTemplateModel()
 

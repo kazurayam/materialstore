@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
-interface JSONifiable {
+interface Jsonifiable {
 
     String toJson()
 

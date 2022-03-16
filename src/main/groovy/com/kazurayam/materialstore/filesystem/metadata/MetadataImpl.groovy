@@ -179,7 +179,7 @@ final class MetadataImpl extends Metadata {
     }
 
 
-    //--------JSONifiable----------------------------------------------
+    //--------Jsonifiable----------------------------------------------
     @Override
     String toJson() {
         //return new JsonOutput().toJson(metadata)
