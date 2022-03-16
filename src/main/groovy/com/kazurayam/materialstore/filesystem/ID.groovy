@@ -36,6 +36,11 @@ final class ID implements Comparable, JSONifiable {
     }
 
     @Override
+    String toJson(boolean prettyPrint) {
+        return toJson()
+    }
+
+    @Override
     boolean equals(Object obj) {
         if (! obj instanceof ID) {
             return false

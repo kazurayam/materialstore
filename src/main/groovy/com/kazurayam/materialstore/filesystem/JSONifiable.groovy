@@ -4,4 +4,6 @@ interface JSONifiable {
 
     String toJson()
 
+    String toJson(boolean prettyPrint)
+
 }

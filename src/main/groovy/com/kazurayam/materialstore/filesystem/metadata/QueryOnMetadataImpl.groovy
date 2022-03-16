@@ -1,9 +1,10 @@
 package com.kazurayam.materialstore.filesystem.metadata
 
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
+import com.kazurayam.materialstore.util.GsonHelper
+import com.kazurayam.materialstore.util.JsonUtil
 
 final class QueryOnMetadataImpl extends QueryOnMetadata {
 
@@ -112,6 +113,15 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
     }
 
     @Override
+    String toJson(boolean prettyPrint) {
+        if (prettyPrint) {
+            return JsonUtil.prettyPrint(toJson())
+        } else {
+            return toJson()
+        }
+    }
+
+    @Override
     String getDescription(SortKeys sortKeys) {
         List<String> keyList = orderedKeyList(keyQValuePairs.keySet(), sortKeys)
         //
@@ -166,8 +176,13 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
     }
 
     @Override
-    String toTemplateModelAsJSON() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create()
+    String toTemplateModelAsJson() {
+        return toTemplateModelAsJson(false)
+    }
+
+    @Override
+    String toTemplateModelAsJson(boolean prettyPrint) {
+        Gson gson = GsonHelper.createGson(prettyPrint)
         Map<String, Object> model = toTemplateModel()
         return gson.toJson(model)
     }

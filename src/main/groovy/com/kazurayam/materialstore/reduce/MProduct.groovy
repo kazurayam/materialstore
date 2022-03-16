@@ -1,20 +1,23 @@
 package com.kazurayam.materialstore.reduce
 
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.kazurayam.materialstore.filesystem.JSONifiable
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.TemplateReady
 import com.kazurayam.materialstore.reduce.differ.DifferUtil
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys
+import com.kazurayam.materialstore.util.GsonHelper
 import com.kazurayam.materialstore.util.JsonUtil
 
 /**
- * Data Transfer Object
+ * "Material x Material" = "Materials Product"
+ *
+ * is used to carry data of a pair of "Material" objects,
+ * plus the "diff" of the two.
+ *
  */
-final class MProduct implements Comparable, JSONifiable, TemplateReady {
+final class MProduct implements Comparable, TemplateReady {
 
     public static final MProduct NULL_OBJECT =
             new Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
@@ -176,7 +179,16 @@ final class MProduct implements Comparable, JSONifiable, TemplateReady {
         sb.append("\"diff\":")
         sb.append(diff.toJson())
         sb.append("}")
-        return JsonUtil.prettyPrint(sb.toString())
+        return sb.toString()
+    }
+
+    @Override
+    String toJson(boolean prettyPrint) {
+        if (prettyPrint) {
+            return JsonUtil.prettyPrint(toJson())
+        } else {
+            return toJson()
+        }
     }
 
     //--------TemplateReady--------------------------------------------
@@ -188,8 +200,13 @@ final class MProduct implements Comparable, JSONifiable, TemplateReady {
     }
 
     @Override
-    String toTemplateModelAsJSON() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create()
+    String toTemplateModelAsJson() {
+        return toTemplateModelAsJson(false)
+    }
+
+    @Override
+    String toTemplateModelAsJson(boolean prettyPrint) {
+        Gson gson = GsonHelper.createGson(prettyPrint)
         Map<String, Object> model = toTemplateModel()
         return gson.toJson(model)
     }

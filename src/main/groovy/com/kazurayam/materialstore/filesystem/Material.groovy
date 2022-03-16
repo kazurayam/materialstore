@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.filesystem
 
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.kazurayam.materialstore.util.GsonHelper
 import com.kazurayam.materialstore.util.JsonUtil
 
 import java.nio.file.Files
@@ -174,7 +174,16 @@ final class Material implements Comparable, JSONifiable, TemplateReady {
         sb.append("\"metadata\":")
         sb.append(this.getIndexEntry().getMetadata().toString())
         sb.append("}")
-        return JsonUtil.prettyPrint(sb.toString())
+        return sb.toString()
+    }
+
+    @Override
+    String toJson(boolean prettyPrint) {
+        if (prettyPrint) {
+            return JsonUtil.prettyPrint(toJson())
+        } else {
+            return toJson()
+        }
     }
 
     @Override
@@ -185,8 +194,13 @@ final class Material implements Comparable, JSONifiable, TemplateReady {
     }
 
     @Override
-    String toTemplateModelAsJSON() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create()
+    String toTemplateModelAsJson() {
+        return toTemplateModelAsJson(false)
+    }
+
+    @Override
+    String toTemplateModelAsJson(boolean prettyPrint) {
+        Gson gson = GsonHelper.createGson(prettyPrint)
         Map<String, Object> model = toTemplateModel()
         return gson.toJson(model)
     }

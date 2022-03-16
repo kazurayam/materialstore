@@ -1,7 +1,8 @@
 package com.kazurayam.materialstore.filesystem
 
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+import com.kazurayam.materialstore.util.GsonHelper
+import com.kazurayam.materialstore.util.JsonUtil
 
 import java.util.stream.Collectors
 
@@ -109,6 +110,15 @@ final enum FileType implements JSONifiable, TemplateReady {
     }
 
     @Override
+    String toJson(boolean prettyPrint) {
+        if (prettyPrint) {
+            return JsonUtil.prettyPrint(toJson())
+        } else {
+            return toJson()
+        }
+    }
+
+    @Override
     Map<String, Object> toTemplateModel() {
         // convert JSON string to Java Map
         Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
@@ -116,12 +126,18 @@ final enum FileType implements JSONifiable, TemplateReady {
     }
 
     @Override
-    String toTemplateModelAsJSON() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create()
+    String toTemplateModelAsJson() {
+        return toTemplateModelAsJson(false)
+    }
+
+    @Override
+    String toTemplateModelAsJson(boolean prettyPrint) {
+        Gson gson = GsonHelper.createGson(prettyPrint)
         Map<String, Object> model = toTemplateModel()
         return gson.toJson(model)
     }
 
+    //-----------------------------------------------------------------
     static FileType getByExtension(String ext) {
         for (FileType v : values()) {
             if (v.getExtension().toLowerCase() == ext.toLowerCase()) {

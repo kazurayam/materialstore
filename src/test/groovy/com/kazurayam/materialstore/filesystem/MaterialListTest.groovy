@@ -50,7 +50,7 @@ class MaterialListTest {
     @Test
     void test_toTemplateModelAsJSON() {
         MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query)
-        String json = materialList.toTemplateModelAsJSON()
+        String json = materialList.toTemplateModelAsJson()
         Files.write(
                 outputDir.resolve("test_toTemplateModelAsJSON.json"),
                 json.getBytes("UTF-8")

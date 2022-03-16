@@ -1,9 +1,9 @@
 package com.kazurayam.materialstore.filesystem.metadata
 
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import com.kazurayam.materialstore.filesystem.JSONifiable
 import com.kazurayam.materialstore.filesystem.TemplateReady
+import com.kazurayam.materialstore.util.GsonHelper
 import com.kazurayam.materialstore.util.JsonUtil
 
 /**
@@ -123,6 +123,15 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, JSONifiable, T
         return sb.toString()
     }
 
+    @Override
+    String toJson(boolean prettyPrint) {
+        if (prettyPrint) {
+            return JsonUtil.prettyPrint(toJson())
+        } else {
+            return toJson()
+        }
+    }
+
     String toRichJson() {
         StringBuilder sb = new StringBuilder()
         sb.append("{")
@@ -183,8 +192,13 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, JSONifiable, T
     }
 
     @Override
-    String toTemplateModelAsJSON() {
-        Gson gson = new GsonBuilder().setPrettyPrinting().create()
+    String toTemplateModelAsJson() {
+        return toTemplateModelAsJson(false)
+    }
+
+    @Override
+    String toTemplateModelAsJson(boolean prettyPrint) {
+        Gson gson = GsonHelper.createGson(prettyPrint)
         Map<String, Object> model = toTemplateModel()
         return gson.toJson(model)
     }

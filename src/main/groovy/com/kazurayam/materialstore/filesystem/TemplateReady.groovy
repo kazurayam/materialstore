@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.filesystem
 
-interface TemplateReady {
+
+interface TemplateReady extends JSONifiable {
 
     Map<String, Object> toTemplateModel()
 
@@ -9,5 +10,8 @@ interface TemplateReady {
      *
      * turn the object returned by toTemplateModel() into a pretty-printed JSON text string
      */
-    String toTemplateModelAsJSON()
+    String toTemplateModelAsJson()
+
+    String toTemplateModelAsJson(boolean prettyPrint)
+
 }

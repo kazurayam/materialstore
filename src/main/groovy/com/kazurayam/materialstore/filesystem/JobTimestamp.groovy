@@ -163,6 +163,11 @@ final class JobTimestamp implements Comparable, JSONifiable {
         return "\"" + jobTimestamp_ + "\""
     }
 
+    @Override
+    String toJson(boolean prettyPrint) {
+        return toJson()
+    }
+
     LocalDateTime value() {
         if (jobTimestamp_ == EPOCH_NAME) {
             return LocalDateTime.ofEpochSecond(0L, 0, ZoneOffset.UTC)

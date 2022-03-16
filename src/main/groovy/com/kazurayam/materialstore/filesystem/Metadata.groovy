@@ -42,12 +42,6 @@ abstract class Metadata implements Comparable, JSONifiable, TemplateReady {
     //------------------Comparable-------------------------------------
     abstract int compareTo(Object obj)
 
-    //------------------JSONifiable-------------------------------------
-    abstract String toJson()
-
-    //------------------TemplateReady-------------------------------------
-    abstract Map<String, Object> toTemplateModel()
-
     // ---------------- factory method ---------------------
     static Builder builder() {
         return new Builder()

@@ -26,6 +26,11 @@ final class JobName implements Comparable, JSONifiable {
     }
 
     @Override
+    String toJson(boolean prettyPrint) {
+        return toJson()
+    }
+
+    @Override
     boolean equals(Object obj) {
         if (! obj instanceof JobName) {
             return false

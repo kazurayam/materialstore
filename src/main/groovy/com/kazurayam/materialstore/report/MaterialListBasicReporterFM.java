@@ -4,7 +4,6 @@ import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.Store;
-import com.kazurayam.materialstore.util.JsonUtil;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -19,7 +18,6 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
@@ -103,7 +101,7 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
         model.put("model", materialList.toTemplateModel());
 
         // for debug
-        writeModel(materialList.toTemplateModelAsJSON(), filePath.getParent());
+        writeModel(materialList.toTemplateModelAsJson(), filePath.getParent());
 
         /* Get the template */
         Template temp;
