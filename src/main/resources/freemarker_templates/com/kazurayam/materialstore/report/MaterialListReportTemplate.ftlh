@@ -1,4 +1,4 @@
-<#import "../filesystem/metadata/QueryOnMetadata_toJSONTextTokens.ftlh" as qom>
+<#import "../filesystem/metadata/QueryOnMetadata_toSpanSequence.ftlh" as qom>
 
 <!doctype html>
 <html lang='en'>
@@ -24,30 +24,28 @@
           <dd>
             <dl>
               <dt>JobTimestamp :</dt>
-              <dd>${materialList.jobTimestamp}</dd>
+              <dd>${model.jobTimestamp}</dd>
               <dt>QueryOnMetadata :</dt>
               <dd>
-                <@qom.renderQueryOnMetadata keyValuePairs=materialList.queryOnMetadata />
+                <@qom.renderQueryOnMetadata keyValuePairs=model.queryOnMetadata />
               </dd>
             </dl>
           </dd>
         </dl>
       </div>
       <div class='accordion' id='accordionExample'>
-        <#--
-      <#list materialList>
-        <#items as material>
-          <div class='accordion-item'>
-            <h2 class='accordion-header' id='heading${material?counter}'>
-              <button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#collapse${material?counter}' area-expanded='false' aria-controls='collapse${material?counter}'>
-                <span class='fileType'>${material.getIndexEntry().getFileType().getExtension()}</span>
-                <span class='metadata'>${material.getIndexEntry().getMetadata().toString()}</span>
-              </button>
-            </h2>
-          </div>
-        </#items>
-      </#list>
-      -->
+        <#list model.materialList>
+          <#items as material>
+            <div class='accordion-item'>
+              <h2 class='accordion-header' id='heading${material?counter}'>
+                <button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#collapse${material?counter}' area-expanded='false' aria-controls='collapse${material?counter}'>
+                  <span class='fileType'>${material.fileType}</span>
+                  <span class='metadata'></span>
+                </button>
+              </h2>
+            </div>
+          </#items>
+        </#list>
       </div>
     </div>
   </body>

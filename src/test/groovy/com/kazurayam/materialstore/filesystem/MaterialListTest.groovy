@@ -1,12 +1,18 @@
 package com.kazurayam.materialstore.filesystem
 
-
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.*
 
 class MaterialListTest {
+
+    private static Path outputDir
 
     private final String sampleLine = """6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{"profile":"DevelopmentEnv","URL":"http://demoaut-mimic.kazurayam.com/"}"""
 
@@ -14,6 +20,12 @@ class MaterialListTest {
     private QueryOnMetadata query = QueryOnMetadata.ANY
     private Material material
 
+    @BeforeAll
+    static void beforeAll() {
+        outputDir = Paths.get("build/tmp/testOutput/")
+                .resolve(MaterialListTest.class.getName())
+        Files.createDirectories(outputDir)
+    }
     @BeforeEach
     void beforeEach() {
         IndexEntry indexEntry = IndexEntry.parseLine(sampleLine)
@@ -31,10 +43,18 @@ class MaterialListTest {
     @Test
     void test_toTemplateModel() {
         MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query)
-        //println materialList.toJson()
         Map<String, Object> model = materialList.toTemplateModel()
-        //println model
         assertNotNull(model)
+    }
+
+    @Test
+    void test_toTemplateModelAsJSON() {
+        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query)
+        String json = materialList.toTemplateModelAsJSON()
+        Files.write(
+                outputDir.resolve("test_toTemplateModelAsJSON.json"),
+                json.getBytes("UTF-8")
+        )
     }
 
     @Test

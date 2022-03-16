@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.filesystem
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.kazurayam.materialstore.util.JsonUtil
 import groovy.json.JsonSlurper
 
@@ -122,6 +123,13 @@ final class IndexEntry implements Comparable, JSONifiable, TemplateReady {
         // convert JSON string to Java Map
         Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
         return map
+    }
+
+    @Override
+    String toTemplateModelAsJSON() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create()
+        Map<String, Object> model = toTemplateModel()
+        return gson.toJson(model)
     }
 
     @Override

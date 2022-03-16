@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.Store;
+import com.kazurayam.materialstore.util.JsonUtil;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -99,7 +100,10 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
         model.put("title", getTitle(filePath));
         model.put("filePath", filePath.toString());
         model.put("store", store);
-        model.put("materialList", materialList.toTemplateModel());
+        model.put("model", materialList.toTemplateModel());
+
+        // for debug
+        writeModel(materialList.toTemplateModelAsJSON(), filePath.getParent());
 
         /* Get the template */
         Template temp;
@@ -121,6 +125,15 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
             Files.write(filePath,
                     sw.toString().getBytes(StandardCharsets.UTF_8),
                     StandardOpenOption.CREATE);
+        } catch (IOException e) {
+            throw new MaterialstoreException(e);
+        }
+    }
+
+    void writeModel(String modelJson, Path dir) throws MaterialstoreException {
+        try {
+            Path file = dir.resolve("model.json");
+            Files.write(file, modelJson.getBytes(StandardCharsets.UTF_8));
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }

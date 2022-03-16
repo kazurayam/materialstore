@@ -40,13 +40,13 @@ public class MaterialListBasicReporterFMTest {
 
     private static final Logger logger = LoggerFactory.getLogger(MaterialListBasicReporterFMTest.class);
 
-    private static Path testOutput =
+    private static final Path testOutput =
             Paths.get(".").resolve("build/tmp/testOutput");
 
-    private static Path outputDir =
+    private static final Path outputDir =
             testOutput.resolve(MaterialListBasicReporterFMTest.class.getName());
 
-    private static Path resultsDir =
+    private static final Path resultsDir =
             Paths.get(".").resolve("src/test/fixture/sample_results");
 
     @BeforeAll
@@ -100,7 +100,7 @@ public class MaterialListBasicReporterFMTest {
 
         //compute the patch: this is the diffutils part
         Patch<String> patch = DiffUtils.diff(original, revised);
-        //assertEquals(0, patch.getDeltas().size());
+        assertEquals(0, patch.getDeltas().size());
     }
 
     List<String> trimLines(List<String> source) {

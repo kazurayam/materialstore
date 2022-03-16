@@ -163,4 +163,11 @@ final class MaterialList implements JSONifiable, TemplateReady {
         return map
     }
 
+    @Override
+    String toTemplateModelAsJSON() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create()
+        Map<String, Object> model = toTemplateModel()
+        return gson.toJson(model)
+    }
+
 }

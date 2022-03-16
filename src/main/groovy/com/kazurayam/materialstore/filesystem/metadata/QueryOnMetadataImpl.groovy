@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.filesystem.metadata
 
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 
@@ -162,5 +163,12 @@ final class QueryOnMetadataImpl extends QueryOnMetadata {
         // convert JSON string to Java Map
         Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
         return map
+    }
+
+    @Override
+    String toTemplateModelAsJSON() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create()
+        Map<String, Object> model = toTemplateModel()
+        return gson.toJson(model)
     }
 }
