@@ -37,10 +37,12 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
     private final JobName jobName;
 
     private static final String TEMPLATE_PATH =
-            "com/kazurayam/materialstore/report/MaterialListReportTemplate.ftlh";
+            "com/kazurayam/materialstore/report/MaterialListBasicReporter/MainTemplate.ftl";
     // ftlh is a short for FreeMarker Template Language for HTML
 
     private final Configuration cfg;
+
+    private boolean DEBUG = true;
 
     public MaterialListBasicReporterFM(Store store, JobName jobName) {
         Objects.requireNonNull(store);
@@ -101,7 +103,9 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
         model.put("model", materialList.toTemplateModel());
 
         // for debug
-        writeModel(materialList.toTemplateModelAsJson(), filePath.getParent());
+        if (DEBUG) {
+            writeModel(materialList.toTemplateModelAsJson(true), filePath.getParent());
+        }
 
         /* Get the template */
         Template temp;

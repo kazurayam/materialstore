@@ -1,4 +1,6 @@
-<#import "../filesystem/metadata/QueryOnMetadata_toSpanSequence.ftlh" as qom>
+<#-- report/MaterialListBasicReporter/MainTemplate.ftl -->
+<#import "../../filesystem/metadata/QueryOnMetadata/macros.ftl" as qom>
+<#import "macros.ftl" as macros>
 
 <!doctype html>
 <html lang='en'>
@@ -27,7 +29,7 @@
               <dd>${model.jobTimestamp}</dd>
               <dt>QueryOnMetadata :</dt>
               <dd>
-                <@qom.renderQueryOnMetadata keyValuePairs=model.queryOnMetadata />
+                <@qom.toSpanSequence keyValuePairs=model.queryOnMetadata />
               </dd>
             </dl>
           </dd>
@@ -40,9 +42,14 @@
               <h2 class='accordion-header' id='heading${material?counter}'>
                 <button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#collapse${material?counter}' area-expanded='false' aria-controls='collapse${material?counter}'>
                   <span class='fileType'>${material.fileType}</span>
-                  <span class='metadata'></span>
+                  <span class='metadata'>${material.metadataText}</span>
                 </button>
               </h2>
+              <div id='collapse${material?counter}' class='accordion-collapse collapse' aria-labelledby='heading${material?counter}' data-bs-parent='#accordionExample'>
+                <div class='accordion-body'>
+                  <@macros.makeAccordionBody />
+                </div>
+              </div>
             </div>
           </#items>
         </#list>
@@ -50,3 +57,7 @@
     </div>
   </body>
 </html>
+
+
+
+
