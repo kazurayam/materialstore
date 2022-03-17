@@ -36,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * MaterialListBasicReportFM uses Free Marker as the HTML template engine.
  *
  */
-public class MaterialListBasicReporterFMTest {
+public class MaterialListBasicReporterFMTest extends AbstractReporterTest {
 
     private static final Logger logger = LoggerFactory.getLogger(MaterialListBasicReporterFMTest.class);
 
@@ -101,14 +101,12 @@ public class MaterialListBasicReporterFMTest {
 
         //compute the patch: this is the diffutils part
         Patch<String> patch = DiffUtils.diff(original, revised);
-        //assertEquals(0, patch.getDeltas().size());
+        patch.getDeltas().forEach(System.out::println);
+        /*
+[ChangeDelta, position: 92, lines: [<h1 class='title'>test_report-list] to [<h1 class='title'>test_report-listFM]]
+[ChangeDelta, position: 98, lines: [<dd>build/tmp/testOutput/com.kazurayam.materialstore.report.MaterialListBasicReporterTest/store</dd>] to [<dd>build/tmp/testOutput/com.kazurayam.materialstore.report.MaterialListBasicReporterFMTest/store</dd>]]
+         */
+        assertEquals(2, patch.getDeltas().size());
     }
 
-    List<String> trimLines(List<String> source) {
-        List<String> trimmed = new ArrayList<>();
-        for (String line : source) {
-            trimmed.add(line.trim());
-        }
-        return trimmed;
-    }
 }
