@@ -55,7 +55,7 @@ class VoidDiffer implements Differ {
         dataModel.put("right", right.toString())
         // Get the template
         Template template = cfg.getTemplate(
-                "com/kazurayam/materialstore/differ/VoidDifferTemplate.ftl")
+                "com/kazurayam/materialstore/differ/VoidDifferTemplate.ftlh")
 
         // Merge data model with Template
         ByteArrayOutputStream baos = new ByteArrayOutputStream()

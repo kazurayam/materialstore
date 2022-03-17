@@ -1,4 +1,4 @@
-<#-- filesystem/MetadataTemplate.ftl -->
+<#-- filesystem/MetadataTemplate.ftlh -->
 <#macro toSpanSequence metadata query>
     <span>{</span>
     <#list metadata as key, attribute>

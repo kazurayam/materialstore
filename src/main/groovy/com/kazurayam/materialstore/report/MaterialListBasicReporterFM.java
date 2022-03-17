@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.report;
 
+import com.kazurayam.freemarker.ReadAllLinesDirective;
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.MaterialList;
@@ -9,6 +10,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
+import freemarker.template.TemplateModelException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,13 +39,13 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
     private final JobName jobName;
 
     private static final String TEMPLATE_PATH =
-            "com/kazurayam/materialstore/report/MaterialListBasicReporterTemplate.ftl";
-    // ftlh is a short for FreeMarker Template Language for HTML
+            "com/kazurayam/materialstore/report/MaterialListBasicReporterTemplate.ftlh";
+    // ftl is a short for "FreeMarker Template Language"
 
     private final Configuration cfg;
 
-
-    public MaterialListBasicReporterFM(Store store, JobName jobName) {
+    public MaterialListBasicReporterFM(Store store, JobName jobName)
+            throws MaterialstoreException {
         Objects.requireNonNull(store);
         Objects.requireNonNull(jobName);
         this.store = store;
@@ -51,7 +53,7 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
         this.cfg = configureFreeMarker();
     }
 
-    private Configuration configureFreeMarker() {
+    private Configuration configureFreeMarker() throws MaterialstoreException {
         // create and adjust the configuration singleton
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
         // we will load FreeMarker templates from CLASSPATH
@@ -65,6 +67,17 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
         cfg.setLogTemplateExceptions(false);
         cfg.setWrapUncheckedExceptions(true);
         cfg.setFallbackOnNullLoopVariable(false);
+
+        // user-defined directives
+        try {
+            cfg.setSharedVariable("readAllLines",
+                    new ReadAllLinesDirective());
+            cfg.setSharedVariable("store",
+                    store.getRoot().normalize().toAbsolutePath().toString());
+        } catch (TemplateModelException e) {
+            throw new MaterialstoreException(e);
+        }
+
         return cfg;
     }
 

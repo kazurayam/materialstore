@@ -1,6 +1,6 @@
-<#-- report/MaterialListBasicReporterTemplate.ftl -->
-<#import "../filesystem/QueryOnMetadataTemplate.ftl" as QueryOnMetadata>
-<#import "../filesystem/MetadataTemplate.ftl" as Metadata>
+<#-- report/MaterialListBasicReporterTemplate.ftlh -->
+<#import "../filesystem/QueryOnMetadataTemplate.ftlh" as QueryOnMetadata>
+<#import "../filesystem/MetadataTemplate.ftlh" as Metadata>
 
 <!doctype html>
 <html lang='en'>
@@ -54,7 +54,8 @@
           </#items>
         </#list>
       </div>
-    </div>
+    </div><!-- Bootstrap -->
+    <script src='https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js' integrity='sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj' crossorigin='anonymous'></script>
   </body>
 </html>
 
@@ -80,6 +81,36 @@
         </dd>
       </#if>
     </dl>
+    <#if material.diffability == "AS_IMAGE">
+      <img class='img-fluid d-block w-75 centered' alt='image-material' src='${material.relativeURL}' />
+    <#elseif material.diffability == "AS_TEXT">
+      <table id='text-content'>
+        <colgroup>
+          <col width='44' />
+          <col />
+        </colgroup>
+        <thead>
+        <tr>
+          <th>line#</th>
+          <th>content</th>
+        </tr>
+        </thead>
+        <tbody>
+        <#assign x = 1 >
+        <@readAllLines path="${material.relativeUrl}"; line>
+          <tr>
+            <th class='code-equal'>${x}</th>
+            <td class='code-equal'>
+              <span class='blob-code-inner'>${line}</span>
+            </td>
+          </tr>
+          <#assign x++>
+        </@readAllLines>
+        </tbody>
+      </table>
+    <#else>
+      <p>not a text, not an image.</p>
+    </#if>
   </div>
 </#macro>
 

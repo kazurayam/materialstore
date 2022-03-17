@@ -188,6 +188,9 @@ final class Material implements Comparable, Jsonifiable, TemplateReady {
         sb.append(",")
         sb.append("\"relativeUrl\":")
         sb.append("\"" + JsonUtil.escapeAsJsonString(getRelativeURL()) + "\"")
+        sb.append(",")
+        sb.append("\"diffability\":")
+        sb.append("\"" + JsonUtil.escapeAsJsonString(getDiffability().toString()) + "\"")
         sb.append("}")
         return sb.toString()
     }
