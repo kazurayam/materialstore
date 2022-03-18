@@ -1,18 +1,11 @@
 package com.kazurayam.materialstore.report
 
-import com.kazurayam.materialstore.filesystem.JobName
-import com.kazurayam.materialstore.filesystem.Metadata
-import com.kazurayam.materialstore.filesystem.QueryOnMetadata
-import com.kazurayam.materialstore.filesystem.Store
-import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
-import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
+import com.kazurayam.materialstore.MaterialstoreException
 import com.kazurayam.materialstore.reduce.MProductGroup
-import com.kazurayam.materialstore.util.JsonUtil
-import groovy.xml.MarkupBuilder
 
 import java.nio.file.Path
 
-abstract class MProductGroupReporter {
+abstract class MProductGroupReporter extends AbstractReporter {
 
     /**
      *
@@ -22,16 +15,8 @@ abstract class MProductGroupReporter {
      */
     abstract void setCriteria(Double criteria)
 
-    abstract Path report(MProductGroup mProductGroup, String fileName)
+    abstract Path report(MProductGroup mProductGroup, String fileName) throws MaterialstoreException
 
-    abstract void report(MProductGroup mProductGroup, Path filePath)
+    abstract void report(MProductGroup mProductGroup, Path filePath) throws MaterialstoreException
 
-    static final MProductGroupReporter newInstance(Store store, JobName jobName) {
-        return new MProductGroupBasicReporter(store, jobName)
-    }
-
-    static final String getTitle(Path file) {
-        String fileName = file.getFileName().toString()
-        return fileName.substring(0, fileName.indexOf(".html"))
-    }
 }

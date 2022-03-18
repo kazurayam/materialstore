@@ -489,6 +489,6 @@ final class StoreImpl implements Store {
 
     @Override
     String toString() {
-        return root_.toString()
+        return root_.normalize().toString()
     }
 }

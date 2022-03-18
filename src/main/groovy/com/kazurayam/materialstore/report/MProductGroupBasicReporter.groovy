@@ -4,7 +4,6 @@ import com.kazurayam.materialstore.MaterialstoreException
 import com.kazurayam.materialstore.filesystem.Store
 
 import com.kazurayam.materialstore.reduce.differ.DifferUtil
-import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.FileTypeDiffability
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.Material
@@ -77,7 +76,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                         rel: "stylesheet",
                         integrity: "sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We",
                         crossorigin: "anonymous")
-                style(ReporterHelper.loadStyleFromClasspath())
+                style(StyleHelper.loadStyleFromClasspath())
                 title(jobName_.toString())
             }
             body() {

@@ -15,7 +15,7 @@ class MetadataTemplateTest extends AbstractTemplateTest {
 
     /**
      * This test never passes.
-     * The ReporterHelper.getCSSClassName() could be wrongly designed or implemented.
+     * The StyleHelper.getCSSClassName() could be wrongly designed or implemented.
      * Let me study it later.
      */
     @Disabled

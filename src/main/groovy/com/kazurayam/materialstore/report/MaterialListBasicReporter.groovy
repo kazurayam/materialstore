@@ -1,13 +1,10 @@
 package com.kazurayam.materialstore.report
 
-
-import com.kazurayam.materialstore.filesystem.FileType
-import com.kazurayam.materialstore.filesystem.FileTypeDiffability
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
-import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
+import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.report.markupbuilder_templates.MetadataTemplate
 import com.kazurayam.materialstore.report.markupbuilder_templates.QueryOnMetadataTemplate
 import groovy.xml.MarkupBuilder
@@ -22,15 +19,15 @@ final class MaterialListBasicReporter extends MaterialListReporter {
 
     private static final Logger logger = LoggerFactory.getLogger(MaterialListBasicReporter.class)
 
-    private Store store_
+    private Store store
 
-    private JobName jobName_
+    private JobName jobName
 
     MaterialListBasicReporter(Store store, JobName jobName) {
         Objects.requireNonNull(store)
         Objects.requireNonNull(jobName)
-        this.store_ = store
-        this.jobName_ = jobName
+        this.store = store
+        this.jobName = jobName
     }
 
     /**
@@ -45,7 +42,7 @@ final class MaterialListBasicReporter extends MaterialListReporter {
         Objects.requireNonNull(materialList)
         Objects.requireNonNull(reportFileName)
         //
-        Path reportFile = store_.getRoot().resolve(reportFileName)
+        Path reportFile = store.getRoot().resolve(reportFileName)
         this.report(materialList, reportFile)
         return reportFile
     }
@@ -65,8 +62,8 @@ final class MaterialListBasicReporter extends MaterialListReporter {
                         rel: "stylesheet",
                         integrity: "sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We",
                         crossorigin: "anonymous")
-                style(ReporterHelper.loadStyleFromClasspath())
-                title(jobName_.toString())
+                style(StyleHelper.loadStyleFromClasspath())
+                title(jobName.toString())
             }
             body() {
                 div(class: "container") {
@@ -82,9 +79,9 @@ final class MaterialListBasicReporter extends MaterialListReporter {
                     div(id: "collapsingHeader", class: "collapse header") {
                         dl() {
                             dt("Root path :")
-                            dd(store_.getRoot().normalize().toString())
+                            dd(store.getRoot().normalize().toString())
                             dt("JobName :")
-                            dd(jobName_.toString())
+                            dd(jobName.toString())
                             dt("MaterialList specification")
                             dd() {
                                 dl() {
@@ -121,7 +118,7 @@ final class MaterialListBasicReporter extends MaterialListReporter {
                                         "aria-labelledby": "heading${index+1}",
                                         "data-bs-parent": "#accordionExample") {
                                     mb.div(class: "accordion-body") {
-                                        makeAccordionBody(store_.getRoot(), mb, material,
+                                        makeAccordionBody(store.getRoot(), mb, material,
                                                 materialList.getQueryOnMetadata())
                                     }
                                 }

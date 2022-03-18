@@ -1,9 +1,11 @@
 package com.kazurayam.materialstore.report;
 
+import com.kazurayam.materialstore.reduce.MProductGroup;
+
 import com.kazurayam.materialstore.MaterialstoreException;
-import com.kazurayam.materialstore.filesystem.JobName;
-import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.Store;
+
+import com.kazurayam.materialstore.filesystem.JobName;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -22,26 +24,25 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * MaterialListBasicReportFM class is coded in Java, not in Groovy.
- *
- * MaterialListBasicReportFM uses FreeMarker as the HTML template engine.
+ * MProductGroupBasicReporter re-implemented using FreeMarker.
  *
  */
-public class MaterialListBasicReporterFM extends MaterialListReporter {
+public class MProductGroupBasicReporterFM extends MProductGroupReporter {
 
-    private static final Logger logger = LoggerFactory.getLogger(MaterialListBasicReporterFM.class);
+    private static final Logger logger =
+            LoggerFactory.getLogger(MProductGroupBasicReporterFM.class);
 
-    private final Store store;
-    private final JobName jobName;
+    private Store store;
+    private JobName jobName;
+    private Double criteria = 0.0d;
 
     private static final String TEMPLATE_PATH =
-            "com/kazurayam/materialstore/report/MaterialListBasicReporterTemplate.ftlh";
+            "com/kazurayam/materialstore/report/MProductGroupBasicReporterFMTemplate.ftlh";
     // ftlh is a short for "FreeMarker Template Language for HTML"
 
     private final Configuration cfg;
 
-    public MaterialListBasicReporterFM(Store store, JobName jobName)
-            throws MaterialstoreException {
+    MProductGroupBasicReporterFM(Store store, JobName jobName) throws MaterialstoreException {
         Objects.requireNonNull(store);
         Objects.requireNonNull(jobName);
         this.store = store;
@@ -49,51 +50,53 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
         this.cfg = FreeMarkerConfigurator.configureFreeMarker(store);
     }
 
-
-
-    /**
-     * using Bootstrap 5
-     * using FreeMarker
-     *
-     * @param materialList List of MaterialList object to print
-     * @param reportFileName "list.html" as default
-     * @return Path object as the output
-     */
     @Override
-    public Path report(MaterialList materialList, String reportFileName)
-            throws MaterialstoreException {
-        Objects.requireNonNull(materialList);
-        /* write the resulting HTML into a file*/
-        String fileName = (reportFileName == null) ? "list.html" : reportFileName;
-        Path filePath = store.getRoot().resolve(fileName);
-        this.report(materialList, filePath);
-        return filePath;
+    public void setCriteria(Double criteria) {
+        if (criteria < 0.0 || 100.0 < criteria) {
+            throw new IllegalArgumentException(
+                    "criteria(${criteria}) must be in the range of [0,100)");
+        }
+        this.criteria = criteria;
     }
 
     @Override
-    public void report(MaterialList materialList, Path filePath)
+    public Path report(MProductGroup mProductGroup, String fileName)
             throws MaterialstoreException {
-        Objects.requireNonNull(materialList);
+        Path reportFile = store.getRoot().resolve(fileName);
+        this.report(mProductGroup, reportFile);
+        return reportFile;
+    }
+
+    @Override
+    public void report(MProductGroup mProductGroup, Path filePath)
+            throws MaterialstoreException {
+        Objects.requireNonNull(mProductGroup);
         Objects.requireNonNull(filePath);
-        /* Create a data-model */
-        Map<String, Object> model = new HashMap<>();
+        //
+        if (! mProductGroup.isReadyToReport()) {
+            throw new MaterialstoreException(
+                    "given MProductGroup is not ready to report. mProductGroup=" +
+                            mProductGroup.toString());
+        }
+        /* create a data-model */
+        Map<String, Object> model = new HashMap();
         model.put("style", StyleHelper.loadStyleFromClasspath());
         model.put("jobName", jobName);
         model.put("title", getTitle(filePath));
         model.put("filePath", filePath.toString());
         model.put("store", store);
-        model.put("model", materialList.toTemplateModel());
+        model.put("model", mProductGroup.toTemplateModel());
 
         // for debug
         if (isDebug()) {
-            writeModel(materialList.toTemplateModelAsJson(true),
+            writeModel(mProductGroup.toTemplateModelAsJson(true),
                     filePath.getParent());
         }
 
         /* Get the template */
         Template template;
         try {
-            template = cfg.getTemplate(TEMPLATE_PATH);
+           template = cfg.getTemplate(TEMPLATE_PATH);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }

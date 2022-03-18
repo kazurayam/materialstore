@@ -1,22 +1,10 @@
 package com.kazurayam.materialstore.report
 
-
-import com.kazurayam.materialstore.filesystem.Metadata
-import com.kazurayam.materialstore.filesystem.QueryOnMetadata
-import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
-import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
-import com.kazurayam.materialstore.filesystem.metadata.SemanticVersionAwareStringMatcher
-import com.kazurayam.materialstore.report.markupbuilder_templates.MetadataTemplate
-import com.kazurayam.materialstore.util.JsonUtil
-import groovy.xml.MarkupBuilder
-
-import java.util.regex.Matcher
-
-class ReporterHelper {
+class StyleHelper {
 
     static final String CSS_PATH = "/com/kazurayam/materialstore/report/style.css"
 
-    private ReporterHelper() {}
+    private StyleHelper() {}
 
     /**
      * The "style.css" file is generated from the "style.scss" file.
@@ -30,7 +18,7 @@ class ReporterHelper {
      * by MaterialListBasicReporter and MProductGroupBasicReporter
      */
     static String loadStyleFromClasspath() {
-        InputStream inputStream = ReporterHelper.class.getResourceAsStream(CSS_PATH)
+        InputStream inputStream = StyleHelper.class.getResourceAsStream(CSS_PATH)
         if (inputStream != null) {
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(inputStream, "UTF-8"))
