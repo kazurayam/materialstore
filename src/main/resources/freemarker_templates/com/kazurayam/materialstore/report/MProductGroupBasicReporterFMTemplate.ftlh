@@ -65,19 +65,24 @@
                 <div id='accordion${count}' class='accordion-item'>
                 <h2 id='heading${count}' class='accordion-header'>
                   <button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#collapse${count}' area-expanded='false' aria-controls='collapse${count}'>
-                      <#if mProduct.diffRatio??>
-                          <#assign ratio = mProduct.diffRatio>
-                          <#if ratio gt criteria >
-                              <#assign warningClass = 'warning'>
-                          <#else>
-                              <#assign warningClass = ''>
-                          </#if>
-                          <span class='ratio ${warningClass}'>${ratio}%</span>
+                    <#if mProduct.diffRatio??>
+                      <#assign ratio = mProduct.diffRatio>
+                      <#if ratio gt criteria >
+                        <#assign warningClass = 'warning'>
                       <#else>
-                          <h1>mProduct.diffRatio is NOT there</h1>
+                        <#assign warningClass = ''>
                       </#if>
+                      <span class='ratio ${warningClass}'>${ratio}%</span>
+                    <#else>
+                      <h1>mProduct.diffRatio is NOT there</h1>
+                    </#if>
+                    <span class='fileType'>${mProduct.fileTypeExtension}</span>
+                    <span class='description'>${mProduct.description}</span>
                   </button>
                 </h2>
+                  <div id='collapse${count}'>
+                    TODO
+                  </div>
               </div>
               <#assign count = count + 1>
             <#else>
