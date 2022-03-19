@@ -144,7 +144,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                     }
                     div(class: "accordion",
                             id: "diff-contents") {
-                        mProductGroup.eachWithIndex { MProduct da, int index ->
+                        mProductGroup.eachWithIndex { MProduct mProduct, int index ->
                             div(id: "accordion${index+1}",
                                     class: "accordion-item") {
                                 h2(id: "heading${index+1}",
@@ -156,16 +156,15 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                                             "area-expanded": "false",
                                             "aria-controls": "collapse${index+1}") {
 
-                                        Double diffRatio = da.getDiffRatio()
+                                        Double diffRatio = mProduct.getDiffRatio()
                                         Boolean toBeWarned = decideToBeWarned(diffRatio, criteria_)
-
                                         String warningClass = getWarningClass(toBeWarned)
                                         span(class: "ratio ${warningClass}",
                                                 "${DifferUtil.formatDiffRatioAsString(diffRatio)}")
                                         span(class: "fileType",
-                                                da.getFileTypeExtension())
+                                                mProduct.getFileTypeExtension())
                                         span(class: "description",
-                                                da.getDescription())
+                                                mProduct.getDescription())
                                     }
                                 }
                                 div(id: "collapse${index+1}",
@@ -173,7 +172,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                                         "aria-labelledby": "heading${index+1}",
                                         "data-bs-parent": "#diff-contents") {
                                     mb.div(class: "accordion-body") {
-                                        makeModalSubsection(mb, da, index+1)
+                                        makeModalSubsection(mb, mProduct, index+1)
                                         //
                                         Context context = new Context(
                                                 mProductGroup.getMaterialListLeft().getQueryOnMetadata(),
@@ -181,9 +180,9 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                                                 mProductGroup.getIgnoreMetadataKeys(),
                                                 mProductGroup.getIdentifyMetadataValues()
                                         )
-                                        makeMaterialSubsection(mb, "left", da.getLeft(), context)
-                                        makeMaterialSubsection(mb, "right", da.getRight(), context)
-                                        makeMaterialSubsection(mb, "diff", da.getDiff(), context)
+                                        makeMaterialSubsection(mb, "left", mProduct.getLeft(), context)
+                                        makeMaterialSubsection(mb, "right", mProduct.getRight(), context)
+                                        makeMaterialSubsection(mb, "diff", mProduct.getDiff(), context)
                                     }
                                 }
                             }

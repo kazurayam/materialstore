@@ -84,6 +84,7 @@ public class MProductGroupBasicReporterFM extends MProductGroupReporter {
         model.put("title", getTitle(filePath));
         model.put("store", store.getRoot().normalize().toString());
         model.put("model", mProductGroup.toTemplateModel());
+        model.put("criteria", criteria);
 
         // for debug
         if (isDebug()) {

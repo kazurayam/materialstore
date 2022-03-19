@@ -55,8 +55,36 @@
           </#if>
           <dt>IgnoreMetadataKeys</dt>
           <@IgnoreMetadataKeys.toSpanSequence keys=model.ignoreMetadataKeys />
-
         </dl>
+      </div>
+      <div class='accordion' id='diff-contents'>
+        <#assign count=1>
+        <#list model.mProductList>
+          <#items as mProduct>
+            <#if mProduct??>
+                <div id='accordion${count}' class='accordion-item'>
+                <h2 id='heading${count}' class='accordion-header'>
+                  <button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#collapse${count}' area-expanded='false' aria-controls='collapse${count}'>
+                      <#if mProduct.diffRatio??>
+                          <#assign ratio = mProduct.diffRatio>
+                          <#if ratio gt criteria >
+                              <#assign warningClass = 'warning'>
+                          <#else>
+                              <#assign warningClass = ''>
+                          </#if>
+                          <span class='ratio ${warningClass}'>${ratio}%</span>
+                      <#else>
+                          <h1>mProduct.diffRatio is NOT there</h1>
+                      </#if>
+                  </button>
+                </h2>
+              </div>
+              <#assign count = count + 1>
+            <#else>
+              <h1>mProduct is null!</h1>
+            </#if>
+          </#items>
+        </#list>
       </div>
     </div>
   </body>
