@@ -198,13 +198,13 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
         filePath.toFile().text = "<!doctype html>\n" + sw.toString()
     }
 
-    private static void makeModalSubsection(MarkupBuilder mb, MProduct da, Integer seq) {
-        Material right = da.getRight()
+    private static void makeModalSubsection(MarkupBuilder mb, MProduct mProduct, Integer count) {
+        Material right = mProduct.getRight()
         mb.div(class: "show-diff") {
             if (right.getDiffability() == FileTypeDiffability.AS_IMAGE) {
-                String imageModalId = "imageModal${seq}"
-                String imageModalTitleId = "imageModalLabel${seq}"
-                String carouselId = "carouselControl${seq}"
+                String imageModalId = "imageModal${count}"
+                String imageModalTitleId = "imageModalLabel${count}"
+                String carouselId = "carouselControl${count}"
                 // Show 3 images in a Modal
                 mkp.comment("Button trigger modal")
                 button(type: "button", class: "btn btn-primary",
@@ -221,7 +221,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                             div(class: "modal-header") {
                                 h5(class: "modal-title",
                                         id: "${imageModalTitleId}") {
-                                    span("${da.getQueryOnMetadata()} ${da.getFileTypeExtension()} ${da.getDiffRatioAsString()}%")
+                                    span("${mProduct.getQueryOnMetadata()} ${mProduct.getFileTypeExtension()} ${mProduct.getDiffRatioAsString()}%")
                                     button(type: "button",
                                             class: "btn-close",
                                             "data-bs-dismiss": "modal",
@@ -239,21 +239,21 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                                             h3(class: "centered","Left")
                                             img(class: "img-fluid d-block w-75 centered",
                                                     alt: "left",
-                                                    src: da.getLeft()
+                                                    src: mProduct.getLeft()
                                                             .getRelativeURL())
                                         }
                                         div(class: "carousel-item active") {
                                             h3(class: "centered","Diff")
                                             img(class: "img-fluid d-block w-75 centered",
                                                     alt: "diff",
-                                                    src: da.getDiff()
+                                                    src: mProduct.getDiff()
                                                             .getRelativeURL())
                                         }
                                         div(class: "carousel-item") {
                                             h3(class: "centered","Right")
                                             img(class: "img-fluid d-block w-75 centered",
                                                     alt: "right",
-                                                    src: da.getRight()
+                                                    src: mProduct.getRight()
                                                             .getRelativeURL())
                                         }
                                     }
@@ -285,8 +285,8 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                     }
                 }
             } else if (right.getDiffability() == FileTypeDiffability.AS_TEXT) {
-                String textModalId = "textModal${seq}"
-                String textModalTitleId = "textModalLabel${seq}"
+                String textModalId = "textModal${count}"
+                String textModalTitleId = "textModalLabel${count}"
                 mkp.comment("Button trigger modal")
                 button(type: "button", class: "btn btn-primary",
                         "data-bs-toggle": "modal",
@@ -302,7 +302,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                             div(class: "modal-header") {
                                 h5(class: "modal-title",
                                         id: "${textModalTitleId}") {
-                                    span("${da.getQueryOnMetadata()} ${da.getFileTypeExtension()} ${da.getDiffRatioAsString()}%")
+                                    span("${mProduct.getQueryOnMetadata()} ${mProduct.getFileTypeExtension()} ${mProduct.getDiffRatioAsString()}%")
                                     button(type: "button",
                                             class: "btn-close",
                                             "data-bs-dismiss": "modal",
@@ -312,7 +312,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                             }
                             div(class: "modal-body") {
                                 mkp.comment("body")
-                                iframe(src: da.getDiff().getRelativeURL(),
+                                iframe(src: mProduct.getDiff().getRelativeURL(),
                                         title: "TextDiff", "")
                             }
                             div(class: "modal-footer") {
@@ -413,6 +413,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
         IdentifyMetadataValues getIdentifyMetadataValues() {
             return this.identifyMetadataValues
         }
+
         IgnoreMetadataKeys getIgnoreMetadataKeys() {
             return this.ignoreMetadataKeys
         }

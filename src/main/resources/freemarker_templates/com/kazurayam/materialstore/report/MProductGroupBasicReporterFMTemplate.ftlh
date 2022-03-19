@@ -62,7 +62,7 @@
         <#list model.mProductList>
           <#items as mProduct>
             <#if mProduct??>
-                <div id='accordion${count}' class='accordion-item'>
+              <div id='accordion${count}' class='accordion-item'>
                 <h2 id='heading${count}' class='accordion-header'>
                   <button class='accordion-button' type='button' data-bs-toggle='collapse' data-bs-target='#collapse${count}' area-expanded='false' aria-controls='collapse${count}'>
                     <#if mProduct.diffRatio??>
@@ -80,9 +80,11 @@
                     <span class='description'>${mProduct.description}</span>
                   </button>
                 </h2>
-                  <div id='collapse${count}'>
-                    TODO
+                <div id='collapse${count}' class='according-collapse collapse' aria-labelledby='heading${count}' data-bs-parent='#diff-contents'>
+                  <div class='accordion-body'>
+                    <@makeModalSubsection mProduct count />
                   </div>
+                </div>
               </div>
               <#assign count = count + 1>
             <#else>
@@ -94,3 +96,22 @@
     </div>
   </body>
 </html>
+
+
+
+<#macro makeModalSubsection mProduct index>
+  <div class='show-diff'><!-- Button trigger modal -->
+    <#if mProduct.left.diffability == "AS_IMAGE">
+      <!-- Show 3 images in a Modal -->
+    <#elseif mProduct.left.diffability == "AS_TEXT">
+      <!-- Modal to show texts diff -->
+    <#else>
+      <!-- mProduct.left.diffeablity == ${mProduct.left.diffability} is not expected -->
+    </#if>
+  </div>
+</#macro>
+
+
+<#macro makeMaterialSubsection anchorTargetName material model>
+<h1>makeMaterialSubsection here</h1>
+</#macro>
