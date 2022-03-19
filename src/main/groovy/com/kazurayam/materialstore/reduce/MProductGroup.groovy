@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.reduce
 
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.kazurayam.materialstore.filesystem.FileType
 
 import com.kazurayam.materialstore.filesystem.JobName
@@ -331,17 +332,30 @@ final class MProductGroup implements TemplateReady {
         sb.append(",")
         sb.append("\"isReadyToReport\":" + this.isReadyToReport())
         sb.append(",")
+        sb.append("\"ignoreMetadataKeys\":")
+        sb.append(this.getIgnoreMetadataKeys().toJson())
+        sb.append(",")
         sb.append("\"materialList0\":{")
         sb.append("\"jobTimestamp\":\"")
         sb.append(materialList0.getJobTimestamp().toString())
-        sb.append("\",\"size\":")
+        sb.append("\"")
+        sb.append(",")
+        sb.append("\"queryOnMetadata\":")
+        sb.append(materialList0.getQueryOnMetadata().toJson())
+        sb.append(",")
+        sb.append("\"size\":")
         sb.append(materialList0.size())
         sb.append("}")
         sb.append(",")
         sb.append("\"materialList1\":{")
         sb.append("\"jobTimestamp\":\"")
         sb.append(materialList1.getJobTimestamp().toString())
-        sb.append("\",\"size\":")
+        sb.append("\"")
+        sb.append(",")
+        sb.append("\"queryOnMetadata\":")
+        sb.append(materialList1.getQueryOnMetadata().toJson())
+        sb.append(",")
+        sb.append("\"size\":")
         sb.append(materialList1.size())
         sb.append("}")
         if (fullContent) {
@@ -361,10 +375,20 @@ final class MProductGroup implements TemplateReady {
     }
 
     //--------TemplateReady--------------------------------------------
+    /**
+     * convert JSON string to a TemplateModel, which is actually a Java Map object
+     */
     @Override
     Map<String, Object> toTemplateModel() {
         // convert JSON string to Java Map
-        Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
+        String json = toJson()
+        Map<String, Object> map
+        try {
+            map = new Gson().fromJson(json, Map.class)
+        } catch (JsonSyntaxException e) {
+            JsonUtil.logJsonSyntaxException(json, e, logger)
+            throw e
+        }
         return map
     }
 

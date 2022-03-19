@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.filesystem
 
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 import com.kazurayam.materialstore.util.GsonHelper
 import com.kazurayam.materialstore.util.JsonUtil
 import org.slf4j.Logger
@@ -166,10 +167,20 @@ final class MaterialList implements Jsonifiable, TemplateReady {
     }
 
     //--------TemplateReady--------------------------------------------
+    /**
+     * convert JSON string to a TemplateModel, which is actually a Java Map object
+     */
     @Override
     Map<String, Object> toTemplateModel() {
         // convert JSON string to Java Map
-        Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
+        String json = toJson()
+        Map<String, Object> map
+        try {
+            map = new Gson().fromJson(json, Map.class)
+        } catch (JsonSyntaxException e) {
+            JsonUtil.logJsonSyntaxException(json, e, logger)
+            throw e
+        }
         return map
     }
 

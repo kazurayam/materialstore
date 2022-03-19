@@ -121,6 +121,8 @@ public class MProductGroupBasicReporterFMTest extends AbstractReporterTest{
         // compute the path
         Patch<String> patch = DiffUtils.diff(original, revised);
         patch.getDeltas().forEach(System.out::println);
+
+        // assert the number of different lines equals as executed
         assertEquals(2, patch.getDeltas().size());
 
         // test the report content

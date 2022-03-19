@@ -1,5 +1,7 @@
 package com.kazurayam.materialstore.filesystem.metadata
 
+import com.google.gson.Gson
+import com.kazurayam.materialstore.util.GsonHelper
 import com.kazurayam.materialstore.util.JsonUtil
 
 final class IgnoreMetadataKeysImpl extends IgnoreMetadataKeys {
@@ -34,11 +36,26 @@ final class IgnoreMetadataKeysImpl extends IgnoreMetadataKeys {
     //------------------------- override java.lang.Object ------------------
     @Override
     String toString() {
+        return toJson()
+    }
+
+    @Override
+    String toJson(boolean prettyPrint) {
+        if (prettyPrint) {
+            return JsonUtil.prettyPrint(toJson())
+        } else {
+            return toJson()
+        }
+    }
+
+
+    @Override
+    String toJson() {
         List<String> list = new ArrayList<String>(keySet)
         Collections.sort(list)
         StringBuilder sb = new StringBuilder()
         int count = 0
-        sb.append("{")
+        sb.append("[")
         list.each {
             if (count > 0) {
                 sb.append(", ")
@@ -48,7 +65,26 @@ final class IgnoreMetadataKeysImpl extends IgnoreMetadataKeys {
             sb.append("\"")
             count += 1
         }
-        sb.append("}")
+        sb.append("]")
         return sb.toString()
+    }
+
+    @Override
+    Map<String, Object> toTemplateModel() {
+        // convert JSON string to Java Map
+        Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
+        return map
+    }
+
+    @Override
+    String toTemplateModelAsJson() {
+        return toTemplateModelAsJson(false)
+    }
+
+    @Override
+    String toTemplateModelAsJson(boolean prettyPrint) {
+        Gson gson = GsonHelper.createGson(prettyPrint)
+        Map<String, Object> model = toTemplateModel()
+        return gson.toJson(model)
     }
 }

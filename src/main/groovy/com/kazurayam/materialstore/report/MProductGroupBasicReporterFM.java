@@ -81,10 +81,8 @@ public class MProductGroupBasicReporterFM extends MProductGroupReporter {
         /* create a data-model */
         Map<String, Object> model = new HashMap();
         model.put("style", StyleHelper.loadStyleFromClasspath());
-        model.put("jobName", jobName);
         model.put("title", getTitle(filePath));
-        model.put("filePath", filePath.toString());
-        model.put("store", store);
+        model.put("store", store.getRoot().normalize().toString());
         model.put("model", mProductGroup.toTemplateModel());
 
         // for debug

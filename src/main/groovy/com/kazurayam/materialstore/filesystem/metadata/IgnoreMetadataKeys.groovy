@@ -1,6 +1,9 @@
 package com.kazurayam.materialstore.filesystem.metadata
 
-abstract class IgnoreMetadataKeys {
+import com.kazurayam.materialstore.filesystem.Jsonifiable
+import com.kazurayam.materialstore.filesystem.TemplateReady
+
+abstract class IgnoreMetadataKeys implements Jsonifiable, TemplateReady {
 
     public static final IgnoreMetadataKeys NULL_OBJECT = new Builder().build()
 

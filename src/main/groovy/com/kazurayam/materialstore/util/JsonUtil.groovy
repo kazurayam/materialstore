@@ -2,6 +2,11 @@ package com.kazurayam.materialstore.util
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonSyntaxException
+import org.slf4j.Logger
+
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 final class JsonUtil {
 
@@ -51,5 +56,41 @@ final class JsonUtil {
         Object obj = gson.fromJson(sourceJson, clazz)
         // serialize the object back to a JSON text in pretty-print format
         String multiLineJson = gson.toJson(obj)
+    }
+
+    /**
+     * Given with an Exception:
+     * Caused by: com.google.gson.stream.MalformedJsonException: Expected ':' at line 1 column 8 path $..8
+     *
+     * log the following:
+     *
+     * line ---------1---------2--- ... --9---------0---------1--- ...
+     *    1 { "foo", "bar" }
+     *             ^
+     *
+     * @param json
+     * @param e
+     * @param logger
+     */
+    static Pattern LINE_COLUMN_PATTERN = Pattern.compile("at line (\\d+) column (\\d+)")
+    static void logJsonSyntaxException(String json, JsonSyntaxException e, Logger logger) {
+        String msg = e.getMessage()
+        Matcher matcher = LINE_COLUMN_PATTERN.matcher(msg)
+        if (matcher.find()) {
+            int atLine = Integer.parseInt(matcher.group(1))
+            int atColumn = Integer.parseInt(matcher.group(2))
+            logger.warn("JsonSyntaxException at line " + atLine + " column " + atColumn)
+            StringReader sr = new StringReader(json)
+            String line
+            int lineCount = 1
+            while ((line = sr.readLine()) != null) {
+                logger.info(String.format("%4d %s", lineCount, line))
+                if (atLine == lineCount) {
+                    String indent = String.join("", Collections.nCopies(atColumn - 1, " "))
+                    logger.info(String.format("^^^^ %s^", indent))
+                }
+                lineCount++
+            }
+        }
     }
 }

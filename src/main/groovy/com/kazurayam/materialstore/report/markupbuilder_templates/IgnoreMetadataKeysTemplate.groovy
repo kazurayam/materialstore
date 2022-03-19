@@ -16,7 +16,7 @@ class IgnoreMetadataKeysTemplate {
         List<String> list = new ArrayList<String>(ignoreMetadataKeys.keySet())
         Collections.sort(list)
         int count = 0
-        mb.span("{")
+        mb.span("[")
         list.each {
             if (count > 0) {
                 mb.span(", ")
@@ -25,6 +25,6 @@ class IgnoreMetadataKeysTemplate {
                     "\"" + JsonUtil.escapeAsJsonString(it) + "\"")
             count += 1
         }
-        mb.span("}")
+        mb.span("]")
     }
 }
