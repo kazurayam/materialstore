@@ -11,7 +11,9 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.parser.Parser;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -108,9 +110,12 @@ public class MProductGroupBasicReporterFM extends MProductGroupReporter {
             throw new MaterialstoreException(e);
         }
 
+        /* pretty print the HTML using jsoup */
+        Document doc = Jsoup.parse(sw.toString(), "", Parser.htmlParser());
+
         try {
             Files.write(filePath,
-                    sw.toString().getBytes(StandardCharsets.UTF_8),
+                    doc.toString().getBytes(StandardCharsets.UTF_8),
                     StandardOpenOption.CREATE);
         } catch (IOException e) {
             throw new MaterialstoreException(e);

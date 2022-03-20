@@ -54,7 +54,9 @@
             <dd>not set</dd>
           </#if>
           <dt>IgnoreMetadataKeys</dt>
-          <@IgnoreMetadataKeys.toSpanSequence keys=mProductGroup.ignoreMetadataKeys />
+          <dd>
+            <@IgnoreMetadataKeys.toSpanSequence keys=mProductGroup.ignoreMetadataKeys />
+          </dd>
         </dl>
       </div>
       <div class='accordion' id='diff-contents'>
@@ -110,9 +112,7 @@
       <#assign imageModalTitleId = "imageModalLabel" + count>
       <#assign carouselId = "carouselControl" + count>
       <#-- Show 3 images in a Modal -->
-      <!-- Button trigger modal -->
-      <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#${imageModalId}'>Show diff in Modal</button>
-      <!-- Modal to show 3 images: Left/Diff/Right -->
+      <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#${imageModalId}'>Show diff in Modal</button><!-- Modal to show 3 images: Left/Diff/Right -->
       <div class='modal fade' id='${imageModalId}' tabindex='-1' aria-labelledby='imageModalLabel' aria-hidden='true'>
         <div class='modal-dialog modal-fullscreen'>
           <div class='modal-content'>
@@ -158,9 +158,7 @@
     <#elseif mProduct.left.diffability == "AS_TEXT">
       <#assign textModalId = "textModal" + count>
       <#assign textModalTitleId = "textModalLabel" + count>
-      <!-- Button trigger modal -->
-      <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#${textModalId}'>Show diff in Modal</button>
-      <!-- Modal to show texts diff -->
+      <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#${textModalId}'>Show diff in Modal</button><!-- Modal to show texts diff -->
       <div class='modal fade' id='${textModalId}' tabindex='-1' aria-labelledby='textModalLabel' aria-hidden='true'>
         <div class='modal-dialog modal-fullscreen'>
           <div class='modal-content'>
@@ -195,7 +193,7 @@
   <dl class='detail'>
     <dt>Material URL</dt>
     <dd>
-      <a href='${material.relativeUrl}' target='name'>${material.relativeUrl}</a>
+      <a href='${material.relativeUrl}' target='${name}'>${material.relativeUrl}</a>
     </dd>
     <dt>fileType</dt>
     <dd>${material.fileType}</dd>
