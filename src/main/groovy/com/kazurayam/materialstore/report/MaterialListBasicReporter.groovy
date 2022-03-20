@@ -54,6 +54,7 @@ final class MaterialListBasicReporter extends MaterialListReporter {
         Objects.requireNonNull(filePath)
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
+        mb.setDoubleQuotes(true)
         mb.html(lang: "en") {
             head() {
                 meta(charset: "utf-8")
