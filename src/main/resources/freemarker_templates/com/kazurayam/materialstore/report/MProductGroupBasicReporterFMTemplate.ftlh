@@ -10,7 +10,7 @@
     <meta name='viewport' content='width=device-width, initial-scale=1' /><!-- Bootstrap -->
     <link href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We' crossorigin='anonymous' />
     <style>${style}</style>
-    <title>${model.jobName}</title>
+    <title>${mProductGroup.jobName}</title>
   </head>
   <body>
     <div class='container'>
@@ -22,16 +22,16 @@
           <dt>Root path :</dt>
           <dd>${store}</dd>
           <dt>JobName :</dt>
-          <dd>${model.jobName}</dd>
+          <dd>${mProductGroup.jobName}</dd>
           <dt>Left MaterialList specification</dt>
-          <#if model.materialList0?? >
+          <#if mProductGroup.materialList0?? >
             <dd>
               <dl>
                 <dt>JobTimestamp :</dt>
-                <dd>${model.materialList0.jobTimestamp}</dd>
+                <dd>${mProductGroup.materialList0.jobTimestamp}</dd>
                 <dt>QueryOnMetadata :</dt>
                 <dd>
-                  <@QueryOnMetadata.toSpanSequence keyValuePairs=model.materialList0.queryOnMetadata />
+                  <@QueryOnMetadata.toSpanSequence keyValuePairs=mProductGroup.materialList0.queryOnMetadata />
                 </dd>
               </dl>
             </dd>
@@ -39,14 +39,14 @@
             <dd>not set</dd>
           </#if>
           <dt>Right MaterialList specification</dt>
-          <#if model.materialList1?? >
+          <#if mProductGroup.materialList1?? >
             <dd>
               <dl>
                 <dt>JobTimestamp :</dt>
-                <dd>${model.materialList1.jobTimestamp}</dd>
+                <dd>${mProductGroup.materialList1.jobTimestamp}</dd>
                 <dt>QueryOnMetadata :</dt>
                 <dd>
-                  <@QueryOnMetadata.toSpanSequence keyValuePairs=model.materialList1.queryOnMetadata />
+                  <@QueryOnMetadata.toSpanSequence keyValuePairs=mProductGroup.materialList1.queryOnMetadata />
                 </dd>
               </dl>
             </dd>
@@ -54,12 +54,12 @@
             <dd>not set</dd>
           </#if>
           <dt>IgnoreMetadataKeys</dt>
-          <@IgnoreMetadataKeys.toSpanSequence keys=model.ignoreMetadataKeys />
+          <@IgnoreMetadataKeys.toSpanSequence keys=mProductGroup.ignoreMetadataKeys />
         </dl>
       </div>
       <div class='accordion' id='diff-contents'>
         <#assign count=1>
-        <#list model.mProductList>
+        <#list mProductGroup.mProductList>
           <#items as mProduct>
             <#if mProduct??>
               <div id='accordion${count}' class='accordion-item'>
@@ -83,6 +83,10 @@
                 <div id='collapse${count}' class='according-collapse collapse' aria-labelledby='heading${count}' data-bs-parent='#diff-contents'>
                   <div class='accordion-body'>
                     <@makeModalSubsection mProduct count />
+
+                    <@makeMaterialSubsection "left" mProduct.left mProductGroup />
+                    <@makeMaterialSubsection "right" mProduct.left mProductGroup />
+                    <@makeMaterialSubsection "diff" mProduct.left mProductGroup />
                   </div>
                 </div>
               </div>
@@ -99,12 +103,85 @@
 
 
 
-<#macro makeModalSubsection mProduct index>
+<#macro makeModalSubsection mProduct count>
   <div class='show-diff'><!-- Button trigger modal -->
     <#if mProduct.left.diffability == "AS_IMAGE">
-      <!-- Show 3 images in a Modal -->
+      <#assign imageModalId = "imageModal" + count >
+      <#assign imageModalTitleId = "imageModalLabel" + count>
+      <#assign carouselId = "carouselControl" + count>
+      <#-- Show 3 images in a Modal -->
+      <!-- Button trigger modal -->
+      <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#${imageModalId}'>Show diff in Modal</button>
+      <!-- Modal to show 3 images: Left/Diff/Right -->
+      <div class='modal fade' id='${imageModalId}' tabindex='-1' aria-labelledby='imageModalLabel' aria-hidden='true'>
+        <div class='modal-dialog modal-fullscreen'>
+          <div class='modal-content'>
+            <div class='modal-header'>
+              <h5 class='modal-title' id='${imageModalTitleId}'>
+                <span>${mProduct.diffRatio}% ${mProduct.fileTypeExtension} ${mProduct.description}</span>
+                <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+              </h5>
+            </div>
+            <div class='modal-body'>
+              <!-- body -->
+              <div id='${carouselId}' class='carousel slide' data-bs-ride='carousel'>
+                <div class='carousel-inner'>
+                  <div class='carousel-item'>
+                    <h3 class='centered'>Left</h3>
+                    <img class='img-fluid d-block w-75 centered' alt='left' src='${mProduct.left.relativeUrl}'>
+                  </div>
+                  <div class='carousel-item active'>
+                    <h3 class='centered'>Diff</h3>
+                    <img class='img-fluid d-block w-75 centered' alt='left' src='${mProduct.diff.relativeUrl}'>
+                  </div>
+                  <div class='carousel-item'>
+                    <h3 class='centered'>Right</h3>
+                    <img class='img-fluid d-block w-75 centered' alt='left' src='${mProduct.right.relativeUrl}'>
+                  </div>
+                </div>
+                <button class='carousel-control-prev' type='button' data-bs-target='#${carouselId}' data-bs-slide='prev'>
+                  <span class='carousel-control-prev-icon' aria-hidden='true'></span>
+                  <span class='visually-hidden'>Previous</span>
+                </button>
+                <button class='carousel-control-next' type='button' data-bs-target='#${carouselId}' data-bs-slide='next'>
+                  <span class='carousel-control-next-icon' aria-hidden='true'></span>
+                  <span class='visually-hidden'>Next</span>
+                </button>
+              </div>
+              <div class='modal-footer'>
+                <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     <#elseif mProduct.left.diffability == "AS_TEXT">
+      <#assign textModalId = "textModal" + count>
+      <#assign textModalTitleId = "textModalLabel" + count>
+      <!-- Button trigger modal -->
+      <button type='button' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#${textModalId}'>Show diff in Modal</button>
       <!-- Modal to show texts diff -->
+      <div class='modal fade' id='${textModalId}' tabindex='-1' aria-labelledby='textModalLabel' aria-hidden='true'>
+        <div class='modal-dialog modal-fullscreen'>
+          <div class='modal-content'>
+            <div class='modal-header'>
+              <h5 class='modal-title' id='${textModalTitleId}'>
+                <span>${mProduct.diffRatio}% ${mProduct.fileTypeExtension} ${mProduct.description}</span>
+                <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
+              </h5>
+            </div>
+            <div class='modal-body'><!-- body -->
+              <iframe src='${mProduct.diff.relativeUrl}' title='TextDiff'></iframe>
+            </div>
+            <div class='modal-footer'>
+              <button type='button' class='btn btn-secondary' data-bs-dismiss='modal'>Close</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+
     <#else>
       <!-- mProduct.left.diffeablity == ${mProduct.left.diffability} is not expected -->
     </#if>
@@ -112,6 +189,18 @@
 </#macro>
 
 
-<#macro makeMaterialSubsection anchorTargetName material model>
-<h1>makeMaterialSubsection here</h1>
+<#macro makeMaterialSubsection name material mProductGroup>
+<div class='show-detail'>
+  <h2>${name}</h2>
+  <dl class='detail'>
+    <dt>Material URL</dt>
+    <dd>
+      <a href='${material.relativeUrl}' target='name'>${material.relativeUrl}</a>
+    </dd>
+    <dt>fileType</dt>
+    <dd>${material.fileType}</dd>
+    <dt>metadata</dt>
+    <dd>Metadata span sequence comes here</dd>
+  </dl>
+</div>
 </#macro>

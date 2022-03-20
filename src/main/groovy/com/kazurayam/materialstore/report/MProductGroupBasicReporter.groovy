@@ -221,7 +221,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                             div(class: "modal-header") {
                                 h5(class: "modal-title",
                                         id: "${imageModalTitleId}") {
-                                    span("${mProduct.getQueryOnMetadata()} ${mProduct.getFileTypeExtension()} ${mProduct.getDiffRatioAsString()}%")
+                                    span("${mProduct.getDiffRatioAsString()} ${mProduct.getFileTypeExtension()} ${mProduct.getQueryOnMetadata()}")
                                     button(type: "button",
                                             class: "btn-close",
                                             "data-bs-dismiss": "modal",
@@ -302,7 +302,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                             div(class: "modal-header") {
                                 h5(class: "modal-title",
                                         id: "${textModalTitleId}") {
-                                    span("${mProduct.getQueryOnMetadata()} ${mProduct.getFileTypeExtension()} ${mProduct.getDiffRatioAsString()}%")
+                                    span("${mProduct.getDiffRatioAsString()} ${mProduct.getFileTypeExtension()} ${mProduct.getQueryOnMetadata()}")
                                     button(type: "button",
                                             class: "btn-close",
                                             "data-bs-dismiss": "modal",
@@ -335,7 +335,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
      * @param mb
      * @param name
      * @param material
-     * @param context ["leftQuery": xxx, "rightQuery": xxx, "ignoreMetadataKeys": xxx]
+     * @param context　
      */
     private static void makeMaterialSubsection(MarkupBuilder mb, String name, Material material,
                                                Context context) {

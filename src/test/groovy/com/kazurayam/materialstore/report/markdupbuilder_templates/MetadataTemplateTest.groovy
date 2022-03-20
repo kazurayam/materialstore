@@ -12,13 +12,11 @@ import static org.junit.jupiter.api.Assertions.*
 
 class MetadataTemplateTest extends AbstractTemplateTest {
 
-
     /**
      * This test never passes.
      * The StyleHelper.getCSSClassName() could be wrongly designed or implemented.
      * Let me study it later.
      */
-    @Disabled
     @Test
     void test_getCSSClassName_identified_value() {
         QueryOnMetadata query0 = QueryOnMetadata.builder(metadata0).build()
@@ -53,9 +51,6 @@ class MetadataTemplateTest extends AbstractTemplateTest {
     }
 
 
-
-
-
     @Test
     void test_toSpanSequence_Metadata_dual_QueryOnMetadata() {
         QueryOnMetadata query = QueryOnMetadata.builder(metadata0).build()
@@ -63,6 +58,7 @@ class MetadataTemplateTest extends AbstractTemplateTest {
         MarkupBuilder mb = new MarkupBuilder(sw)
         new MetadataTemplate(metadata0).toSpanSequence(mb, query)
         String markup = sw.toString()
+        //println markup
         /*
 <span>{</span>
 <span>"URL.host":</span>
@@ -81,7 +77,6 @@ class MetadataTemplateTest extends AbstractTemplateTest {
 <span class='matched-value'>"MyAdmin_ProductionEnv"</span>
 <span>}</span>
          */
-        println markup
     }
 
     @Test
@@ -99,6 +94,7 @@ class MetadataTemplateTest extends AbstractTemplateTest {
         new MetadataTemplate(metadata0).toSpanSequence(
                 mb, query0, query1, ignoreMetadataKeys, identifyMetadataValues)
         String markup = sw.toString()
+        //println markup
         /*
 <span>{</span>
 <span>"URL.host":</span>
@@ -120,7 +116,6 @@ class MetadataTemplateTest extends AbstractTemplateTest {
 <span class='matched-value'>"MyAdmin_ProductionEnv"</span>
 <span>}</span>
          */
-        println markup
     }
 
 }

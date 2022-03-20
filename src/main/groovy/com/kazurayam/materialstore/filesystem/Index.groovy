@@ -101,7 +101,7 @@ final class Index {
         sb.append("\t")
         sb.append(ft.getExtension())
         sb.append("\t")
-        sb.append(md.toString())
+        sb.append(md.toSimplifiedJson())
         return sb.toString()
     }
 

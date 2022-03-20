@@ -1,6 +1,10 @@
 package com.kazurayam.materialstore.filesystem
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.kazurayam.materialstore.TestFixtureUtil
+import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute
+import com.kazurayam.materialstore.util.JsonUtil
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -40,7 +44,7 @@ class MaterialTest {
         assertEquals("6141b40", material.getShortId())
         assertEquals(FileType.PNG, material.getIndexEntry().getFileType())
         assertEquals("""{"URL":"http://demoaut-mimic.kazurayam.com/", "profile":"DevelopmentEnv"}""",
-                material.getIndexEntry().getMetadata().toString())
+                material.getIndexEntry().getMetadata().toSimplifiedJson())
         //
         println material.toString()
         assertEquals(material, material)
@@ -101,18 +105,18 @@ class MaterialTest {
         Jobber jobber = new Jobber(root, jobName, jobTimestamp)
         Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"))
         //
-        println material.toJson()
         Map<String, Object> model = material.toTemplateModel()
+        println JsonUtil.prettyPrint(material.toJson())
         assertNotNull(model)
         assertEquals("test_toTemplateModel", model.get("jobName"))
         assertEquals("20210713_093357", model.get("jobTimestamp"))
         assertEquals("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490", model.get("id"))
         assertEquals("png", model.get("fileType"))
-        Map<String, String> metadata = (Map<String, String>)model.get("metadata")
-        assertEquals("demoaut.katalon.com", metadata.get("URL.host"))
-        assertEquals("/", metadata.get("URL.path"))
-        assertEquals("http", metadata.get("URL.protocol"))
-        assertEquals("screenshot", metadata.get("category"))
-        assertEquals("ProductionEnv", metadata.get("profile"))
+        Map<String, Map<String, String>> metadata = (Map<String, Map<String, String>>)model.get("metadata")
+        assertEquals("demoaut.katalon.com", metadata.get("URL.host").get("value"))
+        assertEquals("/", metadata.get("URL.path").get("value"))
+        assertEquals("http", metadata.get("URL.protocol").get("value"))
+        assertEquals("screenshot", metadata.get("category").get("value"))
+        assertEquals("ProductionEnv", metadata.get("profile").get("value"))
     }
 }

@@ -25,10 +25,10 @@ class MetadataTemplate {
                            IdentifyMetadataValues identifyMetadataValues) {
         boolean canBePaired = metadata.canBePaired(left, right, key)
         boolean canBeIdentified = metadata.canBeIdentified(key, identifyMetadataValues)
-        if (canBePaired) {
-            return "matched-value"
-        } else if (canBeIdentified) {
+        if (canBeIdentified) {
             return "identified-value"
+        } else if (canBePaired) {
+            return "matched-value"
         } else {
             return null
         }
@@ -59,7 +59,7 @@ class MetadataTemplate {
             mb.span("\"${JsonUtil.escapeAsJsonString(key)}\"" + ":")
 
             // make the <span> of the "value" part of an attribute of Metadata
-            String cssClassName = new MetadataTemplate(metadata).getCSSClassNameSolo(query, key)
+            String cssClassName = this.getCSSClassNameSolo(query, key)
             if (cssClassName != null) {
                 mb.span(class: "matched-value",
                         "\"${JsonUtil.escapeAsJsonString(metadata.get(key))}\"")
@@ -98,7 +98,7 @@ class MetadataTemplate {
             }
 
             // make the <span> of the "value" part of an attribute of Metadata
-            String cssClass = new MetadataTemplate(metadata).getCSSClassName(leftQuery, rightQuery,
+            String cssClass = this.getCSSClassName(leftQuery, rightQuery,
                     key, identifyMetadataValues)
             if (cssClass != null) {
                 mb.span(class: cssClass,

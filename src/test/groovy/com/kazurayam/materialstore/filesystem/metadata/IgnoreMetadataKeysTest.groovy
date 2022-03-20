@@ -27,7 +27,7 @@ class IgnoreMetadataKeysTest {
                         .build()
         String str = ignoreMetadataKeys.toString()
         assertNotNull(str)
-        assertEquals("""{"URL.hostname", "profile"}""", str)
+        assertEquals("""["URL.hostname", "profile"]""", str)
     }
 
 }
