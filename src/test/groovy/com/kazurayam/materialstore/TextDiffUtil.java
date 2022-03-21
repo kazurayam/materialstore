@@ -33,7 +33,7 @@ public class TextDiffUtil {
         DiffRowGenerator generator = DiffRowGenerator.create()
                 .showInlineDiffs(true)
                 .inlineDiffByWord(true)
-                .oldTag(f -> "~")
+                .oldTag(f -> "*")
                 .newTag(f -> "**")
                 .build();
         List<DiffRow> rows = generator.generateDiffRows(

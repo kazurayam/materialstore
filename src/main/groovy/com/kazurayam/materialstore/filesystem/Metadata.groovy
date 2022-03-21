@@ -22,12 +22,11 @@ abstract class Metadata implements Comparable, Jsonifiable, TemplateReady {
     public static final String KEY_URL_FRAGMENT = "URL.fragment"
 
     abstract void annotate(QueryOnMetadata query)
-    abstract void annotate(QueryOnMetadata leftQuery,
-                           QueryOnMetadata rightQuery,
+    abstract void annotate(QueryOnMetadata query,
                            IgnoreMetadataKeys ignoreMetadataKeys,
                            IdentifyMetadataValues identifyMetadataValues)
     abstract boolean canBeIdentified(String key, IdentifyMetadataValues identifyMetadataValues)
-    abstract boolean canBePaired(QueryOnMetadata left, QueryOnMetadata right, String key)
+    abstract boolean canBePaired(QueryOnMetadata query, String key)
     abstract boolean containsKey(String key)
     abstract String get(String key)
     abstract MetadataAttribute getMetadataAttribute(String key)

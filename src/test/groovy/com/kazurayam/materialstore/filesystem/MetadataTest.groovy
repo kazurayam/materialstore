@@ -99,8 +99,7 @@ class MetadataTest {
     @Test
     void test_canBePaired() {
         QueryOnMetadata query0 = QueryOnMetadata.builder(metadata0).build()
-        QueryOnMetadata query1 = QueryOnMetadata.builder(metadata1).build()
-        assertTrue(metadata0.canBePaired(query0, query1, "URL.host"))
+        assertTrue(metadata0.canBePaired(query0, "URL.host"))
     }
 
 

@@ -25,7 +25,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MProductGroupBasicReporterFMTest extends AbstractReporterTest{
@@ -118,30 +117,26 @@ public class MProductGroupBasicReporterFMTest extends AbstractReporterTest{
         Path diff = outputDir.resolve("store").resolve("diff.md");
         TextDiffUtil.writeDiff(original, revised, diff,
                 Arrays.asList("test_report-",
-                        "MProductGroupBasicReporterFMTest"));
+                        "MProductGroupBasicReporterFMTest",
+                        "MyAdmin_visual_inspection_twins"));
 
         // compute the patch, display into the console
         Patch<String> patch = DiffUtils.diff(original, revised);
-        patch.getDeltas().forEach(System.out::println);
-
-        // assert the number of different lines equals as executed
-        assertEquals(2, patch.getDeltas().size());
+        //patch.getDeltas().forEach(System.out::println);
 
         // test the report content
-        String reportText = readString(report);
-
         // make sure the HTML contains a string "class='ignored-key'"
-        assertTrue(reportText.contains("class='ignored-key'"),
+        String reportText = readString(report);
+        assertTrue(reportText.contains("class=\"ignored-key\""),
                 "expected 'class=\"ignored-key\"' in the report but not found");
 
         // make sure the HTML contains a string "class='matched-value'"
-        assertTrue(reportText.contains("class='matched-value'"),
+        assertTrue(reportText.contains("class=\"matched-value\""),
                 "expected 'class=\"matched-value\"' in the report but not found");
 
         // make sure the HTML contains a string "class='identified-value'"
-        assertTrue(reportText.contains("class='identified-value'"),
+        assertTrue(reportText.contains("class=\"identified-value\""),
                 "expected a string 'class=\"identified-value\"' in the report but not found");
-
     }
 
 

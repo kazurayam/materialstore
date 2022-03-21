@@ -18,26 +18,21 @@ import java.util.stream.Collectors
 
 import static org.junit.jupiter.api.Assertions.*
 
-class Metadata_AnnotateTest {
+class Metadata_annotateTest {
 
     private URL url
     private Metadata metadata
-    private QueryOnMetadata leftQuery
-    private QueryOnMetadata rightQuery
+    private QueryOnMetadata query
     private IgnoreMetadataKeys ignoreMetadataKeys
     private IdentifyMetadataValues identifyMetadataValues
 
     @BeforeEach
     void setup() {
-        url = new URL("https://baeldung.com/articles?topic=java&version=8#content")
+        url = new URL("https://baeldung.com/articles/1.0.0-beta?topic=java&version=8#content")
         metadata = Metadata.builder(url).put("profile", "ProductionEnv").build()
-        leftQuery = QueryOnMetadata.builder()
-                .put("profile", "ProductionEnv")
-                .put("URL.path", "/articles")
-                .build()
-        rightQuery = QueryOnMetadata.builder()
+        query = QueryOnMetadata.builder()
+                .put("*", Pattern.compile(".*Env"))
                 .put("URL.host", "baeldung.com")
-                .put("URL.path", "/articles")
                 .build()
         ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT
         identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
@@ -45,17 +40,45 @@ class Metadata_AnnotateTest {
 
 
     @Test
-    void test_annotate_single_QueryOnMetadata() {
-        QueryOnMetadata query =
-                QueryOnMetadata.builder()
-                        .put("*", Pattern.compile(".*Env"))
-                        .put("URL.host", "baeldung.com")
-                        .build()
+    void test_annotate_without_arguments() {
         metadata.annotate(query)
         MetadataAttribute profileAttr = metadata.getMetadataAttribute("profile")
         assertTrue(profileAttr.isMatchedByAster())
         MetadataAttribute hostAttr = metadata.getMetadataAttribute("URL.host")
         assertTrue(hostAttr.isMatchedIndividually())
+    }
+
+
+    @Test
+    void test_annotate_with_NULL_arguments() {
+        metadata.annotate(query, ignoreMetadataKeys, identifyMetadataValues)
+        //println JsonUtil.prettyPrint(metadata.toJson())
+        MetadataAttribute hostAttr = metadata.getMetadataAttribute("URL.host")
+        assertTrue(hostAttr.isPaired())
+        println "[test_annotate_with_NULL_arguments] metadata=" + metadata.toJson(true)
+    }
+
+
+    @Test
+    void test_annotate_with_IgnoreMetadataKeys() {
+        IgnoreMetadataKeys ignoreMetadataKeys =
+                new IgnoreMetadataKeys.Builder()
+                        .ignoreKey("URL.protocol").build()
+        metadata.annotate(query, ignoreMetadataKeys, identifyMetadataValues)
+        MetadataAttribute attr = metadata.getMetadataAttribute("URL.protocol")
+        assertTrue(attr.isIgnoredByKey())
+        println "[test_annotate_with_IgnoreMetadataKeys] metadata=" + metadata.toJson(true)
+    }
+
+    @Test
+    void test_annotate_with_IdentifyMetadataValues() {
+        IdentifyMetadataValues identifyMetadataValues =
+                new IdentifyMetadataValues.Builder()
+                        .putAllNameRegexPairs(["URL.query": "topic=java&version=8"]).build()
+        metadata.annotate(query, ignoreMetadataKeys, identifyMetadataValues)
+        MetadataAttribute queryAttr = metadata.getMetadataAttribute("URL.query")
+        assertTrue(queryAttr.isIdentifiedByValue())
+        println "[test_annotate_with_IdentifyMetadataValues] metadata=" + metadata.toJson(true)
     }
 
     @Disabled
@@ -69,29 +92,8 @@ class Metadata_AnnotateTest {
         new MetadataTemplate(metadata).toSpanSequence(mb, query)
         String str = sw.toString()
         assertNotNull(str)
-        println str
+        //println str
         assertTrue(str.contains("matched-value"))
-    }
-
-    @Test
-    void test_annotate_dual_QueryOnMetadata() {
-        metadata.annotate(leftQuery, rightQuery,
-                ignoreMetadataKeys, identifyMetadataValues)
-        println JsonUtil.prettyPrint(metadata.toJson())
-        MetadataAttribute pathAttr = metadata.getMetadataAttribute("URL.path")
-        assertTrue(pathAttr.isPaired())
-        println JsonUtil.prettyPrint(pathAttr.toJson())
-    }
-
-    @Test
-    void test_annotate_dual_QueryOnMetadata_with_IdentifyMetadataValues() {
-        IdentifyMetadataValues identifyMetadataValues =
-                new IdentifyMetadataValues.Builder()
-                        .putAllNameRegexPairs(["URL.query": "topic=java&version=8"]).build()
-        metadata.annotate(leftQuery, rightQuery,
-                ignoreMetadataKeys, identifyMetadataValues)
-        MetadataAttribute queryAttr = metadata.getMetadataAttribute("URL.query")
-        assertTrue(queryAttr.isIdentifiedByValue())
     }
 
     @Disabled
@@ -107,21 +109,11 @@ class Metadata_AnnotateTest {
                 ignoreMetadataKeys, identifyMetadataValues)
         String str = sw.toString()
         assertNotNull(str)
-        println str
+        //println str
         assertTrue(str.contains("matched-value"))
         assertTrue(str.contains("identified-value"))
     }
 
-    @Test
-    void test_annotate_dual_QueryOnMetadata_with_IgnoreMetadataKeys() {
-        IgnoreMetadataKeys ignoreMetadataKeys =
-                new IgnoreMetadataKeys.Builder()
-                        .ignoreKey("URL.protocol").build()
-        metadata.annotate(leftQuery, rightQuery,
-                ignoreMetadataKeys, identifyMetadataValues)
-        MetadataAttribute queryAttr = metadata.getMetadataAttribute("URL.protocol")
-        assertTrue(queryAttr.isIgnoredByKey())
-    }
 
     @Disabled
     @Test
@@ -136,10 +128,8 @@ class Metadata_AnnotateTest {
                 ignoreMetadataKeys, identifyMetadataValues)
         String str = sw.toString()
         assertNotNull(str)
-        println str
+        //println str
         assertTrue(str.contains("matched-value"))
         assertTrue(str.contains("ignored-key"))
     }
-
-
 }

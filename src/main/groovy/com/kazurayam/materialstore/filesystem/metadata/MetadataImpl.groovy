@@ -121,6 +121,34 @@ final class MetadataImpl extends Metadata {
     }
 
     @Override
+    void annotate(QueryOnMetadata query,
+                  IgnoreMetadataKeys ignoreMetadataKeys,
+                  IdentifyMetadataValues identifyMetadataValues) {
+        Objects.requireNonNull(query)
+        Objects.requireNonNull(ignoreMetadataKeys)
+        Objects.requireNonNull(identifyMetadataValues)
+        Set<String> keys = attributes.keySet()
+        keys.forEach { key ->
+            MetadataAttribute attribute = attributes.get(key)
+            if (ignoreMetadataKeys.contains(key)) {
+                attribute.setIgnoredByKey(true)
+            }
+            if (canBePaired(query, key)) {
+                attribute.setPaired(true)
+            }
+            if (canBeIdentified(key, identifyMetadataValues)) {
+                attribute.setIdentifiedByValue(true)
+            }
+            //
+            Matcher m = SemanticVersionPattern.straightMatcher(this.get(key))
+            if (m.matches()) {
+                SemanticVersionMatcherResult result = new SemanticVersionMatcherResult(m)
+                attribute.setSemanticVersionMatcherResult(result)
+            }
+        }
+    }
+
+    @Override
     boolean matchesByAster(QueryOnMetadata query, String key) {
         return query.containsKey("*") &&
                 query.get("*").matches(this.get(key))
@@ -133,37 +161,6 @@ final class MetadataImpl extends Metadata {
                 query.get(key).matches(this.get(key))
     }
 
-
-
-    @Override
-    void annotate(QueryOnMetadata leftQuery,
-                  QueryOnMetadata rightQuery,
-                  IgnoreMetadataKeys ignoreMetadataKeys,
-                  IdentifyMetadataValues identifyMetadataValues) {
-        Objects.requireNonNull(leftQuery)
-        Objects.requireNonNull(rightQuery)
-        Objects.requireNonNull(ignoreMetadataKeys)
-        Objects.requireNonNull(identifyMetadataValues)
-        Set<String> keys = attributes.keySet()
-        keys.forEach { key ->
-            MetadataAttribute attribute = attributes.get(key)
-            if (ignoreMetadataKeys.contains(key)) {
-                attribute.setIgnoredByKey(true)
-            }
-            if (canBePaired(leftQuery, rightQuery, key)) {
-                attribute.setPaired(true)
-            }
-            if (canBeIdentified(key, identifyMetadataValues)) {
-                attribute.setIdentifiedByValue(true)
-            }
-            //
-            Matcher m = SemanticVersionPattern.straightMatcher(this.get(key))
-            if (m.matches()) {
-                attribute.setSemanticVersion(m.group(2))
-            }
-        }
-    }
-
     @Override
     boolean canBeIdentified(String key, IdentifyMetadataValues identifyMetadataValues) {
         return identifyMetadataValues.containsKey(key) &&
@@ -171,11 +168,9 @@ final class MetadataImpl extends Metadata {
     }
 
     @Override
-    boolean canBePaired(QueryOnMetadata left, QueryOnMetadata right, String key) {
-        return left.containsKey("*")  && left.get("*").matches(this.get(key)) ||
-                left.containsKey(key)      && left.get(key).matches(this.get(key)) ||
-                right.containsKey("*") && right.get("*").matches(this.get(key)) ||
-                right.containsKey(key)     && right.get(key).matches(this.get(key))
+    boolean canBePaired(QueryOnMetadata query, String key) {
+        return query.containsKey("*")  && query.get("*").matches(this.get(key)) ||
+                query.containsKey(key)      && query.get(key).matches(this.get(key))
     }
 
     @Override

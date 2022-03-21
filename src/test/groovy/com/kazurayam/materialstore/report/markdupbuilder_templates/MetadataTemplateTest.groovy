@@ -19,34 +19,32 @@ class MetadataTemplateTest extends AbstractTemplateTest {
      */
     @Test
     void test_getCSSClassName_identified_value() {
-        QueryOnMetadata query0 = QueryOnMetadata.builder(metadata0).build()
-        QueryOnMetadata queryT = QueryOnMetadata.builder(metadataT).build()
+        QueryOnMetadata query = QueryOnMetadata.builder(metadata0).build()
         IdentifyMetadataValues identifyMetadataValues =
                 new IdentifyMetadataValues.Builder()
                         .putAllNameRegexPairs(["profile": "MyAdmin_ProductionEnv"])
                         .build()
         String cssClassName =
-                new MetadataTemplate(metadata0).getCSSClassName(query0, queryT,
-                        "profile",
-                        identifyMetadataValues)
+                new MetadataTemplate(metadata0)
+                        .getCSSClassName(query, "profile", identifyMetadataValues)
         assertEquals("identified-value", cssClassName)
     }
 
     @Test
     void test_getCSSClassName_matched_value() {
-        QueryOnMetadata query0 = QueryOnMetadata.builder(metadata0).build()
-        QueryOnMetadata query1 = QueryOnMetadata.builder(metadata1).build()
+        QueryOnMetadata query = QueryOnMetadata.builder(metadata0).build()
         IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT
         String cssClassName =
-                new MetadataTemplate(metadata0).getCSSClassName(query0, query1, "URL.host", identifyMetadataValues)
+                new MetadataTemplate(metadata0)
+                        .getCSSClassName(query, "URL.host", identifyMetadataValues)
         assertEquals("matched-value", cssClassName)
     }
 
     @Test
     void test_getCSSClassNameSolo() {
-        QueryOnMetadata query0 = QueryOnMetadata.builder(metadata0).build()
+        QueryOnMetadata query = QueryOnMetadata.builder(metadata0).build()
         String cssClassName =
-                new MetadataTemplate(metadata0).getCSSClassNameSolo(query0, "profile")
+                new MetadataTemplate(metadata0).getCSSClassNameSolo(query, "profile")
         assertEquals("matched-value", cssClassName)
     }
 
@@ -81,8 +79,7 @@ class MetadataTemplateTest extends AbstractTemplateTest {
 
     @Test
     void test_toSpanSequence_Metadata_single_QueryOnMetadata() {
-        QueryOnMetadata query0 = QueryOnMetadata.builder(metadata0).build()
-        QueryOnMetadata query1 = QueryOnMetadata.builder(metadata1).build()
+        QueryOnMetadata query = QueryOnMetadata.builder(metadata0).build()
         IgnoreMetadataKeys ignoreMetadataKeys =
                 new IgnoreMetadataKeys.Builder()
                         .ignoreKey("URL.protocol").build()
@@ -92,7 +89,7 @@ class MetadataTemplateTest extends AbstractTemplateTest {
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
         new MetadataTemplate(metadata0).toSpanSequence(
-                mb, query0, query1, ignoreMetadataKeys, identifyMetadataValues)
+                mb, query, ignoreMetadataKeys, identifyMetadataValues)
         String markup = sw.toString()
         //println markup
         /*

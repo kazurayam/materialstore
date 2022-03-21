@@ -19,11 +19,10 @@ class MetadataTemplate {
     }
 
 
-    String getCSSClassName(QueryOnMetadata left,
-                           QueryOnMetadata right,
+    String getCSSClassName(QueryOnMetadata query,
                            String key,
                            IdentifyMetadataValues identifyMetadataValues) {
-        boolean canBePaired = metadata.canBePaired(left, right, key)
+        boolean canBePaired = metadata.canBePaired(query, key)
         boolean canBeIdentified = metadata.canBeIdentified(key, identifyMetadataValues)
         if (canBeIdentified) {
             return "identified-value"
@@ -72,13 +71,11 @@ class MetadataTemplate {
     }
 
     void toSpanSequence(MarkupBuilder mb,
-                               QueryOnMetadata leftQuery,
-                               QueryOnMetadata rightQuery,
+                               QueryOnMetadata query,
                                IgnoreMetadataKeys ignoreMetadataKeys,
                                IdentifyMetadataValues identifyMetadataValues) {
         Objects.requireNonNull(mb)
-        Objects.requireNonNull(leftQuery)
-        Objects.requireNonNull(rightQuery)
+        Objects.requireNonNull(query)
         Objects.requireNonNull(ignoreMetadataKeys)
         Objects.requireNonNull(identifyMetadataValues)
         int count = 0
@@ -98,8 +95,7 @@ class MetadataTemplate {
             }
 
             // make the <span> of the "value" part of an attribute of Metadata
-            String cssClass = this.getCSSClassName(leftQuery, rightQuery,
-                    key, identifyMetadataValues)
+            String cssClass = this.getCSSClassName(query, key, identifyMetadataValues)
             if (cssClass != null) {
                 mb.span(class: cssClass,
                         "\"${JsonUtil.escapeAsJsonString(metadata.get(key))}\"")

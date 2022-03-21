@@ -4,6 +4,8 @@ import com.google.gson.Gson
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.TemplateReady
+import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
+import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.reduce.differ.DifferUtil
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys
@@ -57,6 +59,12 @@ final class MProduct implements Comparable, TemplateReady {
         this.reducedTimestamp = source.reducedTimestamp
         this.query = source.getQueryOnMetadata()
         this.sortKeys = source.getSortKeys()
+    }
+
+    void annotate(IgnoreMetadataKeys ignoreMetadataKeys,
+                  IdentifyMetadataValues identifyMetadataValues) {
+        this.left.getMetadata().annotate(query, ignoreMetadataKeys, identifyMetadataValues)
+        this.right.getMetadata().annotate(query, ignoreMetadataKeys, identifyMetadataValues)
     }
 
     void setDiff(Material diff) {

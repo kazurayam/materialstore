@@ -178,15 +178,17 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                                     mb.div(class: "accordion-body") {
                                         makeModalSubsection(mb, mProduct, index+1)
                                         //
-                                        Context context = new Context(
-                                                mProductGroup.getMaterialListLeft().getQueryOnMetadata(),
-                                                mProductGroup.getMaterialListRight().getQueryOnMetadata(),
-                                                mProductGroup.getIgnoreMetadataKeys(),
-                                                mProductGroup.getIdentifyMetadataValues()
-                                        )
-                                        makeMaterialSubsection(mb, "left", mProduct.getLeft(), context)
-                                        makeMaterialSubsection(mb, "right", mProduct.getRight(), context)
-                                        makeMaterialSubsection(mb, "diff", mProduct.getDiff(), context)
+                                        QueryOnMetadata leftQuery = mProductGroup.getMaterialListLeft().getQueryOnMetadata()
+                                        QueryOnMetadata rightQuery = mProductGroup.getMaterialListRight().getQueryOnMetadata()
+                                        IgnoreMetadataKeys imk = mProductGroup.getIgnoreMetadataKeys()
+                                        IdentifyMetadataValues imv = mProductGroup.getIdentifyMetadataValues()
+                                        //
+                                        makeMaterialSubsection(mb, "left", mProduct.getLeft(), leftQuery, imk, imv)
+                                        makeMaterialSubsection(mb, "right", mProduct.getRight(), rightQuery, imk, imv)
+                                        makeMaterialSubsection(mb, "diff", mProduct.getDiff(),
+                                                QueryOnMetadata.NULL_OBJECT,
+                                                IgnoreMetadataKeys.NULL_OBJECT ,
+                                                IdentifyMetadataValues.NULL_OBJECT)
                                     }
                                 }
                             }
@@ -348,8 +350,12 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
      * @param material
      * @param context　
      */
-    private static void makeMaterialSubsection(MarkupBuilder mb, String name, Material material,
-                                               Context context) {
+    private static void makeMaterialSubsection(MarkupBuilder mb,
+                                               String name,
+                                               Material material,
+                                               QueryOnMetadata query,
+                                               IgnoreMetadataKeys ignoreMetadataKeys,
+                                               IdentifyMetadataValues identifyMetadataValues) {
         mb.div(class: "show-detail") {
             h2(name)
             dl(class: "detail") {
@@ -367,12 +373,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                 //dd(material.getIndexEntry().getMetadata().toString())
                 dd() {
                     new MetadataTemplate(material.getIndexEntry().getMetadata()).toSpanSequence(
-                            mb,
-                            (QueryOnMetadata)context.getLeftQueryOnMetadata(),
-                            (QueryOnMetadata)context.getRightQueryOnMetadata(),
-                            (IgnoreMetadataKeys)context.getIgnoreMetadataKeys(),
-                            (IdentifyMetadataValues)context.getIdentifyMetadataValues()
-                    )
+                            mb, query, ignoreMetadataKeys, identifyMetadataValues)
                 }
                 if (material.getMetadata().toURL() != null) {
                     dt("Source URL")
@@ -395,38 +396,6 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
             return "warning"
         } else {
             return ""
-        }
-    }
-
-    /**
-     *
-     */
-    class Context {
-        private QueryOnMetadata left
-        private QueryOnMetadata right
-        private IgnoreMetadataKeys ignoreMetadataKeys
-        private IdentifyMetadataValues identifyMetadataValues
-        Context(QueryOnMetadata left, QueryOnMetadata right,
-                IgnoreMetadataKeys ignoreMetadataKeys,
-                IdentifyMetadataValues identifyMetadataValues) {
-            this.left = left
-            this.right = right
-            this.ignoreMetadataKeys = ignoreMetadataKeys
-            this.identifyMetadataValues = identifyMetadataValues
-        }
-        QueryOnMetadata getLeftQueryOnMetadata() {
-            return this.left
-        }
-        QueryOnMetadata getRightQueryOnMetadata() {
-            return this.right
-        }
-
-        IdentifyMetadataValues getIdentifyMetadataValues() {
-            return this.identifyMetadataValues
-        }
-
-        IgnoreMetadataKeys getIgnoreMetadataKeys() {
-            return this.ignoreMetadataKeys
         }
     }
 }

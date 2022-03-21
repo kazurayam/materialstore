@@ -72,13 +72,14 @@ final class MProductGroup implements TemplateReady {
         this.readyToReport = source.readyToReport
     }
 
-    void add(MProduct e) {
-        mProductList.add(e)
+    void add(MProduct mProduct) {
+        mProduct.annotate(ignoreMetadataKeys, identifyMetadataValues)
+        mProductList.add(mProduct)
     }
 
-    boolean update(MProduct e) {
-        boolean wasPresent = mProductList.remove(e)
-        mProductList.add(e)
+    boolean update(MProduct mProduct) {
+        boolean wasPresent = mProductList.remove(mProduct)
+        this.add(mProduct)
         return wasPresent
     }
 

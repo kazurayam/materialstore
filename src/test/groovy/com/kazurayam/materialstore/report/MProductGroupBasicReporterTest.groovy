@@ -67,16 +67,12 @@ class MProductGroupBasicReporterTest {
                 MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .build()
-
         MProductGroup reduced = inspector.reduce(prepared)
-
         // compile HTML report
         MProductGroupReporter reporter = inspector.newReporter(jobName)
         Path report = reporter.report(reduced, jobName.toString() + "-index.html")
         assertTrue(Files.exists(report))
     }
-
-
 
 
     @Test
