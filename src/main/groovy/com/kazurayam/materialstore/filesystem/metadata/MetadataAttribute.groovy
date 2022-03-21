@@ -11,26 +11,18 @@ import com.kazurayam.materialstore.util.JsonUtil
  */
 class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, TemplateReady {
 
-    private String key = null
-    private String values = null
+    private final String key
+    private final String value
     private boolean ignoredByKey = false
     private boolean identifiedByValue = false
     private boolean matchedByAster = false
     private boolean matchedIndividually = false
     private boolean paired = false
-    private SemanticVersionPattern semanticVersionMatcher = null
+    private SemanticVersionMatcherResult semanticVersionMatcherResult = null
 
-    MetadataAttribute(String key) {
-        this(key, null)
-    }
-
-    MetadataAttribute(String key, String value) {
-        this.key = key
-        this.value = value
-    }
-
-    void setValue(String value) {
-        this.value = value
+    MetadataAttribute(String k, String v) {
+        this.key = k
+        this.value = v
     }
 
     void setIgnoredByKey(boolean b) {
@@ -53,8 +45,8 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, T
         this.paired = b
     }
 
-    void setSemanticVersion( matcher) {
-        this.semanticVersionMatcher = matcher
+    void setSemanticVersionMatcherResult(result) {
+        this.semanticVersionMatcherResult = result
     }
 
     String getKey() {
@@ -62,7 +54,7 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, T
     }
 
     String getValue() {
-        return this.values[0]
+        return this.value
     }
 
     boolean isIgnoredByKey() {
@@ -85,8 +77,8 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, T
         return this.paired
     }
 
-    String getSemanticVersion() {
-        return this.semanticVersionMatcher
+    SemanticVersionMatcherResult getSemanticVersionMatcherResult() {
+        return this.semanticVersionMatcherResult
     }
 
     @Override
@@ -112,19 +104,6 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, T
         return getValue()
     }
 
-    /*
-    @Override
-    String toJson() {
-        StringBuilder sb = new StringBuilder()
-        sb.append("{")
-        sb.append("\"" + JsonUtil.escapeAsJsonString(this.getKey()) + "\"")
-        sb.append(": ")
-        sb.append("\"" + JsonUtil.escapeAsJsonString(this.getValue()) + "\"")
-        sb.append("}")
-        return sb.toString()
-    }
-     */
-
     @Override
     String toJson(boolean prettyPrint) {
         if (prettyPrint) {
@@ -143,7 +122,6 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, T
         sb.append(",")
         sb.append("\"value\":")
         sb.append("\"" + JsonUtil.escapeAsJsonString(value) + "\"")
-        sb.append(",")
         if (isIgnoredByKey()) {
             sb.append(",")
             sb.append("\"ignoredByKey\":")
@@ -169,10 +147,10 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, T
             sb.append("\"paired\":")
             sb.append("true")
         }
-        if (getSemanticVersion() != null) {
+        if (getSemanticVersionMatcherResult() != null) {
             sb.append(",")
-            sb.append("\"semanticVersion\":")
-            sb.append(getSemanticVersion().toJson())
+            sb.append("\"semanticVersionMatcherResult\":")
+            sb.append(getSemanticVersionMatcherResult().toJson())
         }
         sb.append("}")
         return sb.toString()
