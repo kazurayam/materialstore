@@ -17,6 +17,9 @@ import com.kazurayam.materialstore.report.markupbuilder_templates.IgnoreMetadata
 import com.kazurayam.materialstore.report.markupbuilder_templates.MetadataTemplate
 import com.kazurayam.materialstore.report.markupbuilder_templates.QueryOnMetadataTemplate
 import groovy.xml.MarkupBuilder
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.parser.Parser
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -196,7 +199,14 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                         crossorigin: "anonymous", "")
             }
         }
-        filePath.toFile().text = "<!doctype html>\n" + sw.toString()
+        String html = "<!doctype html>\n" + sw.toString()
+        if (isPrettyPrintingEnabled()) {
+            Document doc = Jsoup.parse(html, "", Parser.htmlParser());
+            doc.outputSettings().indentAmount(2);
+            html = doc.toString();
+        }
+        // write the HTML into file
+        filePath.toFile().text = html
     }
 
     private static void makeModalSubsection(MarkupBuilder mb, MProduct mProduct, Integer count) {

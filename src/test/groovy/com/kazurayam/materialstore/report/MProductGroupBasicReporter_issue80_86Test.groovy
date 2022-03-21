@@ -65,7 +65,7 @@ class MProductGroupBasicReporter_issue80_86Test {
      *
      */
     @Test
-    void test_reportDiffs() {
+    void test_report() {
         // pick up the materials that belongs to the 2 "profiles"
         String profile1 = "MyAdmin_ProductionEnv"
         MaterialList left = store.select(jobName, timestampP,
@@ -91,23 +91,25 @@ class MProductGroupBasicReporter_issue80_86Test {
 
         // compile HTML report
         MProductGroupReporter reporter = inspector.newReporter(jobName)
-        Path report = reporter.report(reduced, "index.html")
+        reporter.enablePrettyPrinting(true)
+
+        Path report = reporter.report(reduced, jobName.toString() + "-index.html")
         assertTrue(Files.exists(report))
 
         // test the report content
         String reportText = report.toFile().text
 
         // make sure the HTML contains a string "class='ignored-key'"
-        assertTrue(reportText.contains("class=\'ignored-key\'"),
-                "expected \'class=\"ignored-key\"\' in the report but not found")
+        assertTrue(reportText.contains("class=\"ignored-key\""),
+                "expected class=\"ignored-key\" in the report but not found")
 
         // make sure the HTML contains a string "class='matched-value'"
-        assertTrue(reportText.contains("class=\'matched-value\'"),
-                "expected \'class=\"matched-value\"\' in the report but not found")
+        assertTrue(reportText.contains("class=\"matched-value\""),
+                "expected class=\"matched-value\" in the report but not found")
 
         // make sure the HTML contains a string "class='identified-value'"
-        assertTrue(reportText.contains("class=\'identified-value\'"),
-                "expected a string \'class=\"identified-value\"\' in the report but not found")
+        assertTrue(reportText.contains("class=\"identified-value\""),
+                "expected a string class=\"identified-value\" in the report but not found")
 
         //  issue#86:
         // make sure the HTML contains
@@ -116,7 +118,7 @@ class MProductGroupBasicReporter_issue80_86Test {
         // a string "<span class='semantic-version'>1." and
         // a string ".0</span>"
 
-        String s1 = "<span class='semantic-version'>1."
+        String s1 = "<span class=\"semantic-version\">1."
         String s2 = ".0</span>"
         assertTrue(reportText.contains(s1) && reportText.contains(s2),
                 String.format("expected \"%s\" and \"%s\" in the report but not found", s1, s2))

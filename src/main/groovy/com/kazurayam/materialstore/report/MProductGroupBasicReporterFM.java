@@ -89,7 +89,7 @@ public class MProductGroupBasicReporterFM extends MProductGroupReporter {
         model.put("criteria", criteria);
 
         // for debug
-        if (isDebug()) {
+        if (isVerboseLoggingEnabled()) {
             writeModel(mProductGroup.toTemplateModelAsJson(true),
                     filePath.getParent());
         }
@@ -102,7 +102,7 @@ public class MProductGroupBasicReporterFM extends MProductGroupReporter {
             throw new MaterialstoreException(e);
         }
 
-        /* Merge data-model with template */
+        /* Merge data-model with template to generate a HTML document*/
         Writer sw = new StringWriter();
         try {
             template.process(model, sw);
@@ -110,12 +110,17 @@ public class MProductGroupBasicReporterFM extends MProductGroupReporter {
             throw new MaterialstoreException(e);
         }
 
-        /* pretty print the HTML using jsoup */
-        Document doc = Jsoup.parse(sw.toString(), "", Parser.htmlParser());
+        String html = sw.toString();
+
+        /* pretty print the HTML using jsoup if required */
+        if (isPrettyPrintingEnabled()) {
+            Document doc = Jsoup.parse(html, "", Parser.htmlParser());
+            doc.outputSettings().indentAmount(2);
+            html = doc.toString();
+        }
 
         try {
-            Files.write(filePath,
-                    doc.toString().getBytes(StandardCharsets.UTF_8),
+            Files.write(filePath, html.getBytes(StandardCharsets.UTF_8),
                     StandardOpenOption.CREATE);
         } catch (IOException e) {
             throw new MaterialstoreException(e);

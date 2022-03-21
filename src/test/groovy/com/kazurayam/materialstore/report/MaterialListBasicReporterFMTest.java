@@ -68,7 +68,7 @@ public class MaterialListBasicReporterFMTest extends AbstractReporterTest {
         //
         MaterialListReporter reporter =
                 new MaterialListBasicReporterFM(store, jobName);
-        reporter.setDebug(true);
+        reporter.enableVerboseLogging(true);
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         MaterialList list = store.select(jobName, jobTimestamp,

@@ -7,6 +7,9 @@ import com.kazurayam.materialstore.filesystem.Store;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.parser.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -84,7 +87,7 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
         model.put("model", materialList.toTemplateModel());
 
         // for debug
-        if (isDebug()) {
+        if (isVerboseLoggingEnabled()) {
             writeModel(materialList.toTemplateModelAsJson(true),
                     filePath.getParent());
         }
@@ -105,9 +108,16 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
             throw new MaterialstoreException(e);
         }
 
+        String html = sw.toString();
+        if (isPrettyPrintingEnabled()) {
+            Document doc = Jsoup.parse(html, "", Parser.htmlParser());
+            doc.outputSettings().indentAmount(2);
+            html = doc.toString();
+        }
+
         try {
             Files.write(filePath,
-                    sw.toString().getBytes(StandardCharsets.UTF_8),
+                    html.getBytes(StandardCharsets.UTF_8),
                     StandardOpenOption.CREATE);
         } catch (IOException e) {
             throw new MaterialstoreException(e);

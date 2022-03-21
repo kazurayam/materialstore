@@ -12,13 +12,13 @@ import com.kazurayam.materialstore.util.JsonUtil
 class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, TemplateReady {
 
     private String key = null
-    private String value = null
+    private String values = null
     private boolean ignoredByKey = false
     private boolean identifiedByValue = false
     private boolean matchedByAster = false
     private boolean matchedIndividually = false
     private boolean paired = false
-    private String semanticVersion = null
+    private SemanticVersionPattern semanticVersionMatcher = null
 
     MetadataAttribute(String key) {
         this(key, null)
@@ -53,8 +53,8 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, T
         this.paired = b
     }
 
-    void setSemanticVersion(String version) {
-        this.semanticVersion = version
+    void setSemanticVersion( matcher) {
+        this.semanticVersionMatcher = matcher
     }
 
     String getKey() {
@@ -62,7 +62,7 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, T
     }
 
     String getValue() {
-        return this.value
+        return this.values[0]
     }
 
     boolean isIgnoredByKey() {
@@ -86,7 +86,7 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, T
     }
 
     String getSemanticVersion() {
-        return this.semanticVersion
+        return this.semanticVersionMatcher
     }
 
     @Override
@@ -142,7 +142,8 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, T
         sb.append("\"" + JsonUtil.escapeAsJsonString(this.getKey()) + "\"")
         sb.append(",")
         sb.append("\"value\":")
-        sb.append("\"" + JsonUtil.escapeAsJsonString(this.getValue()) + "\"")
+        sb.append("\"" + JsonUtil.escapeAsJsonString(value) + "\"")
+        sb.append(",")
         if (isIgnoredByKey()) {
             sb.append(",")
             sb.append("\"ignoredByKey\":")
@@ -171,7 +172,7 @@ class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, T
         if (getSemanticVersion() != null) {
             sb.append(",")
             sb.append("\"semanticVersion\":")
-            sb.append("\"" + JsonUtil.escapeAsJsonString(this.getSemanticVersion()) + "\"")
+            sb.append(getSemanticVersion().toJson())
         }
         sb.append("}")
         return sb.toString()

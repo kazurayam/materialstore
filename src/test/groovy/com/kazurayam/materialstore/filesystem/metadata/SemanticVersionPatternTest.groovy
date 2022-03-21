@@ -10,23 +10,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertFalse
 import static org.junit.jupiter.api.Assertions.assertTrue
 
-class SemanticVersionAwareStringMatcherTest {
+class SemanticVersionPatternTest {
 
     private final String left  = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
     private final String right = "https://cdn.jsdelivr.net/npm/bootstrap@5.1.3-rc1/dist/js/bootstrap.bundle.min.js"
 
     @Test
     void test_escapeAsRegex() {
-        assert SemanticVersionAwareStringMatcher.escapeAsRegex(
+        assert SemanticVersionPattern.escapeAsRegex(
                 '/npm/bootstrap@') == '\\/npm\\/bootstrap@'
-        assert SemanticVersionAwareStringMatcher.escapeAsRegex(
+        assert SemanticVersionPattern.escapeAsRegex(
                 '/dist/js/bootstrap.bundle.min.js') == '\\/dist\\/js\\/bootstrap\\.bundle\\.min\\.js'
     }
 
     @Test
     void test_REGEX_VERSION_valid() {
         List<String> validVersions = [ '5.1.3', '5.1.5-rc', '50.11.38' ]
-        Pattern p = Pattern.compile('^' + SemanticVersionAwareStringMatcher.REGEX_VERSION + '$')
+        Pattern p = Pattern.compile('^' + SemanticVersionPattern.REGEX_VERSION + '$')
         validVersions.each { it ->
             Matcher m = p.matcher(it)
             assert m.matches() : "input = ${it}"
@@ -36,23 +36,28 @@ class SemanticVersionAwareStringMatcherTest {
     @Test
     void test_REGEX_VERSION_invalid() {
         List<String> invalidVersions = ['1.0', '1-2-3', '4_5_6', '1.0.0.2', '2.5X']
-        Pattern p = Pattern.compile('^' + SemanticVersionAwareStringMatcher.REGEX_VERSION + '$')
+        Pattern p = Pattern.compile('^' + SemanticVersionPattern.REGEX_VERSION + '$')
         invalidVersions.each { it ->
             Matcher m = p.matcher(it)
             assert ! m.matches(): "input = ${it}"
         }
     }
 
+    @Test
+    void test_pattern() {
+        Pattern p = new SemanticVersionPattern(right).pattern()
+        println p.toString()
+    }
 
     @Test
     void test_matcher() {
-        Matcher m = new SemanticVersionAwareStringMatcher(right).matcher(left)
+        Matcher m = new SemanticVersionPattern(right).matcher(left)
         assert m.matches()
     }
 
     @Test
     void test_straightMatcher_truthy() {
-        Matcher m = SemanticVersionAwareStringMatcher.straightMatcher("abcd/1.2.3-beta/xyz")
+        Matcher m = SemanticVersionPattern.straightMatcher("abcd/1.2.3-beta/xyz")
         assertTrue(m.matches())
         assertEquals("abcd/", m.group(1))
         assertEquals("1.2.3-beta", m.group(2))
@@ -62,7 +67,7 @@ class SemanticVersionAwareStringMatcherTest {
 
     @Test
     void test_straightMatcher_falsy() {
-        Matcher m = SemanticVersionAwareStringMatcher.straightMatcher("abcd/efg/xyz")
+        Matcher m = SemanticVersionPattern.straightMatcher("abcd/efg/xyz")
         assertFalse(m.matches())
     }
 
@@ -73,7 +78,7 @@ class SemanticVersionAwareStringMatcherTest {
     void test_similar_edge_case() {
         String strLeft = "//a[@id='btn-make-appointment']"
         String strRight = strLeft
-        Matcher m = new SemanticVersionAwareStringMatcher(strRight).matcher(strLeft)
+        Matcher m = new SemanticVersionPattern(strRight).matcher(strLeft)
         assert m.matches()
     }
 
@@ -90,7 +95,7 @@ class SemanticVersionAwareStringMatcherTest {
     @Test
     void test_translatePathToRegex() {
         pathFixtures.each { path ->
-            Pattern p = SemanticVersionAwareStringMatcher.translatePathToRegex(path)
+            Pattern p = SemanticVersionPattern.translateToBaseStrToPattern(path)
             Matcher m = p.matcher(path)
             assert m.matches()
         }
@@ -109,7 +114,7 @@ class SemanticVersionAwareStringMatcherTest {
     @Test
     void test_translatePathToRegex_and_apply(){
         URL rightUrl = new URL(right)
-        String regex = SemanticVersionAwareStringMatcher.translatePathToRegex(rightUrl.getPath())
+        String regex = SemanticVersionPattern.translateToBaseStrToPattern(rightUrl.getPath())
         Pattern p = Pattern.compile(regex)
         URL leftUrl = new URL(left)
         Matcher m = p.matcher(leftUrl.getPath())
@@ -120,7 +125,7 @@ class SemanticVersionAwareStringMatcherTest {
     void test_VERSIONED_PATH_PARSER() {
         URL url = new URL(right)
         String path = url.getPath()
-        Matcher m = SemanticVersionAwareStringMatcher.VERSIONED_PATH_PARSER.matcher(path)
+        Matcher m = SemanticVersionPattern.VERSIONED_PATH_PARSER.matcher(path)
         assert m.matches()
         assert m.groupCount() == 4
         assert m.group(1) == "/npm/bootstrap@"

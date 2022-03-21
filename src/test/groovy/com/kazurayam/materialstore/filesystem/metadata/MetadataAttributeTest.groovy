@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
 import static org.junit.jupiter.api.Assertions.assertEquals
+import static org.junit.jupiter.api.Assertions.assertNotNull
 import static org.junit.jupiter.api.Assertions.assertTrue
 
 class MetadataAttributeTest {
@@ -36,12 +37,12 @@ class MetadataAttributeTest {
 
     @Test
     void test_toString() {
-        println instance.toString()
+        assertNotNull(instance.toString())
     }
 
     @Test
     void test_toJson() {
-        println JsonUtil.prettyPrint(instance.toJson())
+        assertNotNull(JsonUtil.prettyPrint(instance.toJson()))
     }
 
     @Test
@@ -61,12 +62,13 @@ class MetadataAttributeTest {
 
     @Test
     void test_toTemplateModel() {
-        Map<String, Object> model = instance.toTemplateModel()
+        Map<String, Object> metadataAttribute = instance.toTemplateModel()
         println JsonUtil.prettyPrint(instance.toJson())
-        assertEquals("profile", model.get("key"))
-        assertEquals("DevEnv_1.2.3-beta", model.get("value"))
-        assertEquals(true, model.get("ignoredByKey"))
-        assertEquals(true, model.get("identifiedByValue"))
-        assertEquals("1.2.3-beta", model.get("semanticVersion"))
+        assertEquals("profile", metadataAttribute.get("key"))
+        assertEquals("DevEnv_1.2.3-beta", metadataAttribute.get("value"))
+        assertEquals(["DevEnv_", "1.2.3-beta"], metadataAttribute.getValues())
+        assertEquals(true, metadataAttribute.get("ignoredByKey"))
+        assertEquals(true, metadataAttribute.get("identifiedByValue"))
+        assertEquals("1.2.3-beta", metadataAttribute.get("semanticVersion"))
     }
 }

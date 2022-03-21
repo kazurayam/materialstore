@@ -157,7 +157,7 @@ final class MetadataImpl extends Metadata {
                 attribute.setIdentifiedByValue(true)
             }
             //
-            Matcher m = SemanticVersionAwareStringMatcher.straightMatcher(this.get(key))
+            Matcher m = SemanticVersionPattern.straightMatcher(this.get(key))
             if (m.matches()) {
                 attribute.setSemanticVersion(m.group(2))
             }

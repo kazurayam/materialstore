@@ -9,15 +9,22 @@ import java.nio.file.Path;
 
 public abstract class AbstractReporter {
 
-    protected boolean DEBUG = false;
+    protected boolean verboseLogging = false;
+    protected boolean prettyPrinting = false;
 
-    void setDebug(boolean debug) {
-        this.DEBUG = debug;
+    void enableVerboseLogging(boolean verboseLogging) {
+        this.verboseLogging = verboseLogging;
     }
 
-    boolean isDebug() {
-        return this.DEBUG;
+    void enablePrettyPrinting(boolean prettyPrinting) {
+        this.prettyPrinting = prettyPrinting;
     }
+
+    boolean isVerboseLoggingEnabled() {
+        return this.verboseLogging;
+    }
+
+    boolean isPrettyPrintingEnabled() { return this.prettyPrinting; }
 
     String getTitle(Path file) {
         String fileName = file.getFileName().toString();

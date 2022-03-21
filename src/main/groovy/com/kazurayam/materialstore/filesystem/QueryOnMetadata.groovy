@@ -3,7 +3,7 @@ package com.kazurayam.materialstore.filesystem
 
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.filesystem.metadata.QueryOnMetadataImpl
-import com.kazurayam.materialstore.filesystem.metadata.SemanticVersionAwareStringMatcher
+import com.kazurayam.materialstore.filesystem.metadata.SemanticVersionPattern
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -223,13 +223,13 @@ abstract class QueryOnMetadata implements Jsonifiable, TemplateReady {
                 //logger.info("subject                      : \"${subject}\"")
                 //logger.info("valueString                  : \"${valueString}\"")
                 //logger.info("subject == valueString       : \"${subject == valueString}\"")
-                //logger.info("SemanticVersionAware.similar : \"${SemanticVersionAwareStringMatcher.similar(subject, valueString)}\"")
+                //logger.info("SemanticVersionAware.similar : \"${SemanticVersionPattern.similar(subject, valueString)}\"")
                 //logger.info("--------------------------------------------")
 
                 if (subject == valueString) {
                     return true
                 } else {
-                    SemanticVersionAwareStringMatcher sm = new SemanticVersionAwareStringMatcher(valueString)
+                    SemanticVersionPattern sm = new SemanticVersionPattern(valueString)
                     Matcher m = sm.matcher(subject)
                     return m.matches()
                 }

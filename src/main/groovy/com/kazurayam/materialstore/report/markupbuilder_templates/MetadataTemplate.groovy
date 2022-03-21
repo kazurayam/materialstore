@@ -4,7 +4,7 @@ import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
-import com.kazurayam.materialstore.filesystem.metadata.SemanticVersionAwareStringMatcher
+import com.kazurayam.materialstore.filesystem.metadata.SemanticVersionPattern
 import com.kazurayam.materialstore.util.JsonUtil
 import groovy.xml.MarkupBuilder
 
@@ -104,7 +104,7 @@ class MetadataTemplate {
                 mb.span(class: cssClass,
                         "\"${JsonUtil.escapeAsJsonString(metadata.get(key))}\"")
             } else {
-                Matcher m = SemanticVersionAwareStringMatcher.straightMatcher(metadata.get(key))
+                Matcher m = SemanticVersionPattern.straightMatcher(metadata.get(key))
                 if (m.matches()) {
                     // <span>"/npm/bootstrap-icons@</span><span class='semantic-version'>1.5.0</span><span>/font/bootstrap-icons.css"</span>
                     mb.span("\"${JsonUtil.escapeAsJsonString(m.group(1))}")
