@@ -76,7 +76,7 @@
                       </#if>
                       <span class="ratio ${warningClass}">${ratio?string["0.00"]}%</span>
                     <#else>
-                      <h1>mProduct.diffRatio is NOT there</h1>
+                      <span class="ratio ">no diff</span>
                     </#if>
                     <span class="fileType">${mProduct.fileTypeExtension}</span>
                     <span class="description">${mProduct.description}</span>
@@ -179,7 +179,7 @@
         </div>
       </div>
     <#else>
-      <!-- mProduct.left.diffeablity == ${mProduct.left.diffability} is not expected -->
+      <#-- mProduct.left.diffeablity == ${mProduct.left.diffability}; no output to be generated -->
     </#if>
   </div>
 </#macro>
