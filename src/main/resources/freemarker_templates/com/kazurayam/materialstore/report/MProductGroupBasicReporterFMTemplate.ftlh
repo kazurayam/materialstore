@@ -107,7 +107,7 @@
 
 
 <#macro makeModalSubsection mProduct count>
-  <div class="show-diff"><!-- Button trigger modal -->
+  <div class="show-diff">
     <#if mProduct.left.diffability == "AS_IMAGE">
       <#assign imageModalId = "imageModal" + count >
       <#assign imageModalTitleId = "imageModalLabel" + count>
@@ -124,7 +124,6 @@
               </h5>
             </div>
             <div class="modal-body">
-              <!-- body -->
               <div id="${carouselId}" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item">
@@ -149,9 +148,9 @@
                   <span class="visually-hidden">Next</span>
                 </button>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
           </div>
         </div>
@@ -169,7 +168,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </h5>
             </div>
-            <div class="modal-body"><!-- body -->
+            <div class="modal-body">
               <iframe src="${mProduct.diff.relativeUrl}" title="TextDiff"></iframe>
             </div>
             <div class="modal-footer">
@@ -179,6 +178,7 @@
         </div>
       </div>
     <#else>
+      <span> </span>
       <#-- mProduct.left.diffeablity == ${mProduct.left.diffability}; no output to be generated -->
     </#if>
   </div>

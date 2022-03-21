@@ -22,6 +22,10 @@ def defaultEncoding = 'UTF-8'
 tasks.withType(AbstractCompile).each { it.options.encoding = defaultEncoding }
 tasks.withType(GroovyCompile).each {it.groovyOptions.encoding = defaultEncoding }
 
+compileJava {
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+}
+
 ext {
     groovyVersion = '2.4.20'   // same version as Katalon Studio 7.9.1
     seleniumjavaVersion = '3.141.59' // same version as Katalon Studio 7.9.1
@@ -74,12 +78,23 @@ dependencies {
     // https://mvnrepository.com/artifact/com.kazurayam/subprocessj
     implementation group: 'com.kazurayam', name: 'subprocessj', version: '0.1.0'
 
+    // https://mvnrepository.com/artifact/org.jsoup/jsoup
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.14.3'
+
     testImplementation group: 'com.kazurayam', name: 'ashotwrapper', version: '0.1.0-SNAPSHOT'
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
     testImplementation "org.junit.jupiter:junit-jupiter-api:${junitjupiterVersion}"
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:unchecked'
+}
+
+tasks.withType(GroovyCompile) {
+    options.compilerArgs << '-Xlint:unchecked'
 }
 
 test {

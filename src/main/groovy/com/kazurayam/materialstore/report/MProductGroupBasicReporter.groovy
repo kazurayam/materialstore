@@ -219,7 +219,6 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                 String imageModalTitleId = "imageModalLabel${count}"
                 String carouselId = "carouselControl${count}"
                 // Show 3 images in a Modal
-                mkp.comment("Button trigger modal")
                 button(type: "button", class: "btn btn-primary",
                         "data-bs-toggle": "modal",
                         "data-bs-target": "#${imageModalId}",
@@ -243,7 +242,6 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                                 }
                             }
                             div(class: "modal-body") {
-                                mkp.comment("body")
                                 div(id: "${carouselId}",
                                         class: "carousel slide",
                                         "data-bs-ride": "carousel") {
@@ -300,7 +298,6 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
             } else if (right.getDiffability() == FileTypeDiffability.AS_TEXT) {
                 String textModalId = "textModal${count}"
                 String textModalTitleId = "textModalLabel${count}"
-                mkp.comment("Button trigger modal")
                 button(type: "button", class: "btn btn-primary",
                         "data-bs-toggle": "modal",
                         "data-bs-target": "#${textModalId}",
@@ -324,7 +321,6 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                                 }
                             }
                             div(class: "modal-body") {
-                                mkp.comment("body")
                                 iframe(src: mProduct.getDiff().getRelativeURL(),
                                         title: "TextDiff", "")
                             }
@@ -338,6 +334,7 @@ final class MProductGroupBasicReporter extends MProductGroupReporter {
                     }
                 }
             } else {
+                span(" ")
                 //logger.warn("right.getDiffability() returned ${right.getDiffability()}. What to do with this? ${right.toString()}")
             }
         }

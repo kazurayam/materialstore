@@ -112,6 +112,8 @@ public class MProductGroupBasicReporterFM extends MProductGroupReporter {
 
         String html = sw.toString();
 
+        //assert html.contains("</html>s://cdn.");
+
         /* pretty print the HTML using jsoup if required */
         if (isPrettyPrintingEnabled()) {
             Document doc = Jsoup.parse(html, "", Parser.htmlParser());
