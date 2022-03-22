@@ -205,25 +205,6 @@ final class MProduct implements Comparable, TemplateReady {
         }
     }
 
-    //--------TemplateReady--------------------------------------------
-    @Override
-    Map<String, Object> toTemplateModel() {
-        // convert JSON string to Java Map
-        Map<String, Object> map = new Gson().fromJson(toJson(), Map.class)
-        return map
-    }
-
-    @Override
-    String toTemplateModelAsJson() {
-        return toTemplateModelAsJson(false)
-    }
-
-    @Override
-    String toTemplateModelAsJson(boolean prettyPrint) {
-        Gson gson = GsonHelper.createGson(prettyPrint)
-        Map<String, Object> model = toTemplateModel()
-        return gson.toJson(model)
-    }
 
     /**
      *

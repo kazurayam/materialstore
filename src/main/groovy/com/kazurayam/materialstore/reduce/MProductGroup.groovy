@@ -375,37 +375,6 @@ final class MProductGroup implements TemplateReady {
         return sb.toString()
     }
 
-    //--------TemplateReady--------------------------------------------
-    /**
-     * convert JSON string to a TemplateModel, which is actually a Java Map object
-     */
-    @Override
-    Map<String, Object> toTemplateModel() {
-        // convert JSON string to Java Map
-        String json = toJson()
-        Map<String, Object> map
-        try {
-            map = new Gson().fromJson(json, Map.class)
-        } catch (JsonSyntaxException e) {
-            JsonUtil.logJsonSyntaxException(json, e, logger)
-            throw e
-        }
-        return map
-    }
-
-    @Override
-    String toTemplateModelAsJson() {
-        return toTemplateModelAsJson(false)
-    }
-
-    @Override
-    String toTemplateModelAsJson(boolean prettyPrint) {
-        Gson gson = GsonHelper.createGson(prettyPrint)
-        Map<String, Object> model = toTemplateModel()
-        return gson.toJson(model)
-    }
-
-
 
     static Builder builder(MaterialList left, MaterialList right) {
         return new Builder(left, right)
