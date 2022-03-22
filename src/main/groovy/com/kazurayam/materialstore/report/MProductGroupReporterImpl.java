@@ -26,13 +26,13 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * MProductGroupBasicReporterMB re-implemented using FreeMarker.
+ * MProductGroupReporterImplMB re-implemented using FreeMarker.
  *
  */
-public class MProductGroupBasicReporter extends MProductGroupReporter {
+public class MProductGroupReporterImpl extends MProductGroupReporter {
 
     private static final Logger logger =
-            LoggerFactory.getLogger(MProductGroupBasicReporter.class);
+            LoggerFactory.getLogger(MProductGroupReporterImpl.class);
 
     private Store store;
     private JobName jobName;
@@ -44,7 +44,7 @@ public class MProductGroupBasicReporter extends MProductGroupReporter {
 
     private final Configuration cfg;
 
-    MProductGroupBasicReporter(Store store, JobName jobName) throws MaterialstoreException {
+    MProductGroupReporterImpl(Store store, JobName jobName) throws MaterialstoreException {
         Objects.requireNonNull(store);
         Objects.requireNonNull(jobName);
         this.store = store;

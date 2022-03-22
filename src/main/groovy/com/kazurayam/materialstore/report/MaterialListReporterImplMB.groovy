@@ -19,15 +19,15 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 
-final class MaterialListBasicReporterMB extends MaterialListReporter {
+final class MaterialListReporterImplMB extends MaterialListReporter {
 
-    private static final Logger logger = LoggerFactory.getLogger(MaterialListBasicReporterMB.class)
+    private static final Logger logger = LoggerFactory.getLogger(MaterialListReporterImplMB.class)
 
     private Store store
 
     private JobName jobName
 
-    MaterialListBasicReporterMB(Store store, JobName jobName) {
+    MaterialListReporterImplMB(Store store, JobName jobName) {
         Objects.requireNonNull(store)
         Objects.requireNonNull(jobName)
         this.store = store

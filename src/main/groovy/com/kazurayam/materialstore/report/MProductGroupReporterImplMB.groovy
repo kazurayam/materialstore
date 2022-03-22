@@ -25,9 +25,9 @@ import org.slf4j.LoggerFactory
 
 import java.nio.file.Path
 
-final class MProductGroupBasicReporterMB extends MProductGroupReporter {
+final class MProductGroupReporterImplMB extends MProductGroupReporter {
 
-    private static final Logger logger = LoggerFactory.getLogger(MProductGroupBasicReporterMB.class)
+    private static final Logger logger = LoggerFactory.getLogger(MProductGroupReporterImplMB.class)
 
     private Store store_
 
@@ -35,7 +35,7 @@ final class MProductGroupBasicReporterMB extends MProductGroupReporter {
 
     private Double criteria_ = 0.0d
 
-    MProductGroupBasicReporterMB(Store store, JobName jobName) {
+    MProductGroupReporterImplMB(Store store, JobName jobName) {
         Objects.requireNonNull(store)
         Objects.requireNonNull(jobName)
         this.store_ = store

@@ -15,7 +15,7 @@ class StyleHelper {
      * See https://www.jetbrains.com/help/idea/transpiling-sass-less-and-scss-to-css.html#less_sass_scss_compiling_to_css
      *
      * @return a css content which should be embedded in the HTML file generated
-     * by MaterialListBasicReporterMB and MProductGroupBasicReporterMB
+     * by MaterialListReporterImplMB and MProductGroupReporterImplMB
      */
     static String loadStyleFromClasspath() {
         InputStream inputStream = StyleHelper.class.getResourceAsStream(CSS_PATH)

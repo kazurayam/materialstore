@@ -3,14 +3,13 @@ package com.kazurayam.materialstore
 
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.MaterialList
-import com.kazurayam.materialstore.report.MProductGroupBasicReporter
-import com.kazurayam.materialstore.report.MProductGroupBasicReporterMB
+import com.kazurayam.materialstore.report.MProductGroupReporterImpl
 import com.kazurayam.materialstore.report.MProductGroupReporter
-import com.kazurayam.materialstore.report.MaterialListBasicReporterMB
 import com.kazurayam.materialstore.reduce.MProductGroup
 import com.kazurayam.materialstore.reduce.Reducer
 import com.kazurayam.materialstore.reduce.DifferDriverImpl
 import com.kazurayam.materialstore.filesystem.Store
+import com.kazurayam.materialstore.report.MaterialListReporterImplMB
 
 import java.nio.file.Path
 
@@ -26,7 +25,7 @@ class InspectorImpl extends Inspector {
 
     @Override
     MProductGroupReporter newReporter(JobName jobName) {
-        return new MProductGroupBasicReporter(store, jobName)
+        return new MProductGroupReporterImpl(store, jobName)
     }
 
     @Override
@@ -59,8 +58,8 @@ class InspectorImpl extends Inspector {
                          String fileName = "list.html") {
         Objects.requireNonNull(materialList)
         Objects.requireNonNull(fileName)
-        MaterialListBasicReporterMB reporter =
-                new MaterialListBasicReporterMB(store, materialList.getJobName())
+        MaterialListReporterImplMB reporter =
+                new MaterialListReporterImplMB(store, materialList.getJobName())
         return reporter.report(materialList, fileName)
     }
 
@@ -68,8 +67,8 @@ class InspectorImpl extends Inspector {
     void report(MaterialList materialList, Path filePath) {
         Objects.requireNonNull(materialList)
         Objects.requireNonNull(filePath)
-        MaterialListBasicReporterMB reporter =
-                new MaterialListBasicReporterMB(store, materialList.getJobName())
+        MaterialListReporterImplMB reporter =
+                new MaterialListReporterImplMB(store, materialList.getJobName())
         reporter.report(materialList, filePath)
     }
 

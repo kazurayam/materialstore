@@ -30,9 +30,9 @@ import java.util.Objects;
  * MaterialListBasicReportFM uses FreeMarker as the HTML template engine.
  *
  */
-public class MaterialListBasicReporter extends MaterialListReporter {
+public class MaterialListReporterImpl extends MaterialListReporter {
 
-    private static final Logger logger = LoggerFactory.getLogger(MaterialListBasicReporter.class);
+    private static final Logger logger = LoggerFactory.getLogger(MaterialListReporterImpl.class);
 
     private final Store store;
     private final JobName jobName;
@@ -43,7 +43,7 @@ public class MaterialListBasicReporter extends MaterialListReporter {
 
     private final Configuration cfg;
 
-    public MaterialListBasicReporter(Store store, JobName jobName)
+    public MaterialListReporterImpl(Store store, JobName jobName)
             throws MaterialstoreException {
         Objects.requireNonNull(store);
         Objects.requireNonNull(jobName);

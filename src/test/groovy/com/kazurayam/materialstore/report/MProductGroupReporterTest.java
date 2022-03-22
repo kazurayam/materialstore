@@ -58,17 +58,17 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
 
     @Test
     public void test_MProductGroupBasicReporter() throws IOException, MaterialstoreException {
-        runMProductGroupBasicReporterMB();
-        runMProductGroupBasicReporter();
+        runMProductGroupReporterImplMB();
+        runMProductGroupReporterImpl();
     }
 
 
-    void runMProductGroupBasicReporterMB() throws IOException, MaterialstoreException {
-        jobNameA = new JobName("runMProductGroupBasicReporterMB");
+    void runMProductGroupReporterImplMB() throws IOException, MaterialstoreException {
+        jobNameA = new JobName("runMProductGroupReporterImplMB");
         //
         MProductGroup reduced = prepareFixture(jobNameA);
         // compile HTML report
-        MProductGroupReporter reporter = new MProductGroupBasicReporterMB(store, jobNameA);
+        MProductGroupReporter reporter = new MProductGroupReporterImplMB(store, jobNameA);
         reporter.enableVerboseLogging(true);
         reporter.enablePrettyPrinting(true);
 
@@ -102,12 +102,12 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
                 String.format("expected \"%s\" and \"%s\" in the report but not found", s1, s2));
     }
 
-    void runMProductGroupBasicReporter() throws IOException, MaterialstoreException {
-        JobName jobNameB = new JobName("runMProductGroupBasicReporter");
+    void runMProductGroupReporterImpl() throws IOException, MaterialstoreException {
+        JobName jobNameB = new JobName("runMProductGroupReporterImpl");
         //
         MProductGroup reduced = prepareFixture(jobNameB);
         // compile HTML report
-        MProductGroupBasicReporter reporter = new MProductGroupBasicReporter(store, jobNameB);
+        MProductGroupReporterImpl reporter = new MProductGroupReporterImpl(store, jobNameB);
         reporter.enableVerboseLogging(true);
         reporter.enablePrettyPrinting(true);
         //
