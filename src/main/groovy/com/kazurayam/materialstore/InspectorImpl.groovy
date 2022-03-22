@@ -3,6 +3,7 @@ package com.kazurayam.materialstore
 
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.MaterialList
+import com.kazurayam.materialstore.report.MProductGroupBasicReporter
 import com.kazurayam.materialstore.report.MProductGroupBasicReporterMB
 import com.kazurayam.materialstore.report.MProductGroupReporter
 import com.kazurayam.materialstore.report.MaterialListBasicReporterMB
@@ -25,7 +26,7 @@ class InspectorImpl extends Inspector {
 
     @Override
     MProductGroupReporter newReporter(JobName jobName) {
-        return new MProductGroupBasicReporterMB(store, jobName)
+        return new MProductGroupBasicReporter(store, jobName)
     }
 
     @Override
