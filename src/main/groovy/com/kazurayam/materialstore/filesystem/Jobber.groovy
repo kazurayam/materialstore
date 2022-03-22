@@ -69,7 +69,7 @@ final class Jobber {
         Objects.requireNonNull(fileType)
         String fileName = "${id.toString()}.${fileType.getExtension()}"
         Path objectFile = this.getObjectsDir().resolve(fileName)
-        return MObject.deserialize(objectFile)
+        return MaterialIO.deserialize(objectFile)
     }
 
     byte[] read(IndexEntry indexEntry) {
@@ -117,7 +117,7 @@ final class Jobber {
         Objects.requireNonNull(id)
         Material result = null
         index.eachWithIndex { IndexEntry entry, x ->
-            if (entry.getMObject().getID() == id) {
+            if (entry.getMaterialIO().getID() == id) {
                 result = new Material(jobName, jobTimestamp, entry)
                 return
             }
@@ -134,19 +134,19 @@ final class Jobber {
      * The path of the file will be
      *     <root>/<JobName>/<JobTimestamp>/objects/<sha1 hash id>.<FileType.extension>
      *
-     * And the "index" file will records MObjects; 1 line per 1 single MObject.
+     * And the "index" file will records MaterialIO objects; 1 line per 1 single MaterialIO.
      * An entry of "index" will be like:
      *     <sha1 hash id>¥t<FileType.extension>¥t<Metadata>
      *
      * The "index" entries are identified uniquely by the combination of
      *     <FileType.extension> + <Metadata>
      *
-     * You can not write (create) 2 or more MObjects (=index entries) with the same
+     * You can not write (create) 2 or more IndexEntry objects with the same
      * <FileType.extension> + <Metadata> combination.
      *
      * If you try to do write it, a MaterialstoreException will be raised.
      *
-     * However, you can create 2 more more MObjects (=index entries)
+     * However, you can create 2 or more IndexEntry objects
      * with different key with the same `<sha1 hash id>.<FileType.extension>`.
      *
      * This means, you may possibly see such an index entries:
@@ -194,16 +194,16 @@ final class Jobber {
             }
         } else {
             // new metadata should be stored in the directory
-            // write the byte[] data into file if the MObject is not yet there.
-            ID id = new ID(MObject.hashJDK(data))
-            MObject mObject = new MObject(id, fileType)
-            if (!mObject.existsInDir(this.getObjectsDir())) {
+            // write the byte[] data into file if the MaterialIO is not yet there.
+            ID id = new ID(MaterialIO.hashJDK(data))
+            MaterialIO mio = new MaterialIO(id, fileType)
+            if (!mio.existsInDir(this.getObjectsDir())) {
                 // save the "byte[] data" into disk
-                Path objectFile = this.getObjectsDir().resolve(mObject.getFileName())
-                mObject.serialize(data, objectFile)
+                Path objectFile = this.getObjectsDir().resolve(mio.getFileName())
+                mio.serialize(data, objectFile)
             }
             // insert a line into the "index" content on memory
-            IndexEntry indexEntry = index.put(mObject.getID(), fileType, metadata)
+            IndexEntry indexEntry = index.put(mio.getID(), fileType, metadata)
             // save the content of the "index" into a file on disk
             index.serialize(Index.getIndexFile(jobResultDir))
             return new Material(this.getJobName(), this.getJobTimestamp(), indexEntry)

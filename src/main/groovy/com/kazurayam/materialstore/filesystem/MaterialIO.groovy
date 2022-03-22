@@ -5,7 +5,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.security.MessageDigest
 
-final class MObject {
+final class MaterialIO {
 
     private final ID id_
 
@@ -27,7 +27,7 @@ final class MObject {
         return sb.toString()
     }
 
-    MObject(ID id, FileType fileType) {
+    MaterialIO(ID id, FileType fileType) {
         Objects.requireNonNull(id)
         Objects.requireNonNull(fileType)
         this.id_ = id
@@ -86,10 +86,10 @@ final class MObject {
 
     @Override
     boolean equals(Object obj) {
-        if (! obj instanceof MObject) {
+        if (! obj instanceof MaterialIO) {
             return false
         }
-        MObject other = (MObject)obj
+        MaterialIO other = (MaterialIO)obj
         return this.getID() == other.getID() && this.getFileType() == other.getFileType()
     }
 

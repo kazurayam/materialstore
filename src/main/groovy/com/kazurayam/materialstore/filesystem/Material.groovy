@@ -45,7 +45,7 @@ final class Material implements Comparable, Jsonifiable, TemplateReady {
 
     /**
      *
-     * @return the relative path of the MObject file, relative to the root dir.
+     * @return the relative path of the MaterialIO file, relative to the root dir.
      * On Mac and Linux, the path separator will be '/',
      * On Windows, the path separator will be '\'
      *

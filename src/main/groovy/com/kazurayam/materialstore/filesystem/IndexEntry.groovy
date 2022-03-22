@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
-import com.google.gson.Gson
-import com.kazurayam.materialstore.util.GsonHelper
+
 import com.kazurayam.materialstore.util.JsonUtil
 import groovy.json.JsonSlurper
 
@@ -12,14 +11,14 @@ final class IndexEntry implements Comparable, Jsonifiable, TemplateReady {
 
     public static final IndexEntry NULL_OBJECT =
             new IndexEntry(
-                    new MObject(ID.NULL_OBJECT, FileType.NULL_OBJECT),
+                    new MaterialIO(ID.NULL_OBJECT, FileType.NULL_OBJECT),
                     Metadata.NULL_OBJECT)
 
-    private MObject mObject_
+    private MaterialIO mio_
     private Metadata metadata_
 
-    IndexEntry(MObject mObject, Metadata metadata) {
-        this.mObject_ = mObject
+    IndexEntry(MaterialIO mio, Metadata metadata) {
+        this.mio_ = mio
         this.metadata_ = metadata
     }
 
@@ -52,26 +51,26 @@ final class IndexEntry implements Comparable, Jsonifiable, TemplateReady {
             }
         }
         if (id != null && fileType != null && metadata != null) {
-            return new IndexEntry(new MObject(id, fileType), metadata)
+            return new IndexEntry(new MaterialIO(id, fileType), metadata)
         }
         return null   // blank line returns null
     }
 
-    private MObject getMObject() {
-        return mObject_
+    private MaterialIO getMaterialIO() {
+        return mio_
     }
 
     Path getFileName() {
-        MObject mObject = getMObject()
-        return Paths.get(mObject.getID().toString() + "." + mObject.getFileType().getExtension())
+        MaterialIO mio = getMaterialIO()
+        return Paths.get(mio.getID().toString() + "." + mio.getFileType().getExtension())
     }
 
     FileType getFileType() {
-        return getMObject().getFileType()
+        return getMaterialIO().getFileType()
     }
 
     ID getID() {
-        return getMObject().getID()
+        return getMaterialIO().getID()
     }
 
     String getShortId() {
@@ -95,7 +94,7 @@ final class IndexEntry implements Comparable, Jsonifiable, TemplateReady {
     @Override
     int hashCode() {
         int hash = 7
-        hash = 31 * hash + this.getMObject().hashCode()
+        hash = 31 * hash + this.getMaterialIO().hashCode()
         hash = 31 * hash + this.getMetadata().hashCode()
         return hash
     }
@@ -109,9 +108,9 @@ final class IndexEntry implements Comparable, Jsonifiable, TemplateReady {
     String toJson() {
         StringBuilder sb = new StringBuilder()
         sb.append("{")
-        sb.append("\"id\": " + this.getMObject().getID().toJson())
+        sb.append("\"id\": " + this.getMaterialIO().getID().toJson())
         sb.append(",")
-        sb.append("\"fileType\": " + this.getMObject().getFileType().toJson())
+        sb.append("\"fileType\": " + this.getMaterialIO().getFileType().toJson())
         sb.append(",")
         sb.append("\"metadata\": " + this.getMetadata().toString())
         sb.append("}")

@@ -38,7 +38,7 @@ class IndexTest {
                 "profile": "DevelopmentEnv",
                 "URL": "http://demoaut-mimic.kazurayam.com/"])
                 .build()
-        IndexEntry indexEntry = new IndexEntry(new MObject(id, fileType), metadata)
+        IndexEntry indexEntry = new IndexEntry(new MaterialIO(id, fileType), metadata)
         String line = Index.formatLine(indexEntry)
         assertEquals(sampleLine, line)
     }
