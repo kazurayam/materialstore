@@ -16,7 +16,7 @@ public class FreeMarkerConfigurator {
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
         // we will load FreeMarker templates from CLASSPATH
         cfg.setTemplateLoader(new ClassTemplateLoader(
-                MaterialListBasicReporterFM.class.getClassLoader(),
+                MaterialListBasicReporter.class.getClassLoader(),
                 "freemarker_templates"
         ));
         // Recommended settings for new projects:

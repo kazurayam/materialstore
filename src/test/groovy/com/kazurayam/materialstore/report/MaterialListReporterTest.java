@@ -28,8 +28,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test 2 classes in sequence.
+ * - MaterialListBasicReporterMB
  * - MaterialListBasicReporter
- * - MaterialListBasicReporterFM
  *
  * The MaterialListBasicReport is the original, which generates HTML using Groovy MarkupBuilder.
  * The MaterialListBasicReportFM is new, which generates HTML using Java FreeMarker.
@@ -63,28 +63,24 @@ public class MaterialListReporterTest extends AbstractReporterTest {
         reportByFreeMarker = null;
     }
 
-    @Test
-    public void test_MaterialListBasicReporter() throws IOException, MaterialstoreException {
-        runMaterialListBasicReport();
-    }
 
     @Test
-    public void test_MaterialListBasicReporterFM() throws IOException, MaterialstoreException {
-        runMaterialListBasicReport();
-        runMaterialListBasicReportFM();
+    public void test_MaterialListBasicReporter() throws IOException, MaterialstoreException {
+        runMaterialListBasicReporterMB();
+        runMaterialListBasicReporter();
     }
 
     /**
      *
      */
-    void runMaterialListBasicReport() throws IOException, MaterialstoreException {
-        JobName jobName = new JobName("runMaterialListBasicReport");
+    void runMaterialListBasicReporterMB() throws IOException, MaterialstoreException {
+        JobName jobName = new JobName("runMaterialListBasicReporterMB");
         // stuff the Job directory with a fixture
         Path jobNameDir = store.getRoot().resolve(jobName.toString());
         FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile());
         //
         MaterialListReporter reporter =
-                new MaterialListBasicReporter(store, jobName);
+                new MaterialListBasicReporterMB(store, jobName);
         reporter.enablePrettyPrinting(true);
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         MaterialList list = store.select(jobName, jobTimestamp,
@@ -103,13 +99,13 @@ public class MaterialListReporterTest extends AbstractReporterTest {
     /**
      *
      */
-    void runMaterialListBasicReportFM() throws IOException, MaterialstoreException {
-        JobName jobName = new JobName("runMaterialListBasicReportFM");
+    void runMaterialListBasicReporter() throws IOException, MaterialstoreException {
+        JobName jobName = new JobName("runMaterialListBasicReporter");
         // stuff the Job directory with a fixture
         Path jobNameDir = store.getRoot().resolve(jobName.toString());
         FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile());
         MaterialListReporter reporter =
-                new MaterialListBasicReporterFM(store, jobName);
+                new MaterialListBasicReporter(store, jobName);
         reporter.enablePrettyPrinting(true);
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");

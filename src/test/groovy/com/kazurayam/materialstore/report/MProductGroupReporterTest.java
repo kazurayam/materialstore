@@ -58,22 +58,17 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
 
     @Test
     public void test_MProductGroupBasicReporter() throws IOException, MaterialstoreException {
+        runMProductGroupBasicReporterMB();
         runMProductGroupBasicReporter();
     }
 
-    @Test
-    public void test_MProductGroupBasicReporterFM() throws IOException, MaterialstoreException {
-        runMProductGroupBasicReporter();
-        runMProductGroupBasicReporterFM();
-    }
 
-
-    void runMProductGroupBasicReporter() throws IOException, MaterialstoreException {
-        jobNameA = new JobName("runMProductGroupBasicReporter");
+    void runMProductGroupBasicReporterMB() throws IOException, MaterialstoreException {
+        jobNameA = new JobName("runMProductGroupBasicReporterMB");
         //
         MProductGroup reduced = prepareFixture(jobNameA);
         // compile HTML report
-        MProductGroupReporter reporter = new MProductGroupBasicReporterFM(store, jobNameA);
+        MProductGroupReporter reporter = new MProductGroupBasicReporterMB(store, jobNameA);
         reporter.enableVerboseLogging(true);
         reporter.enablePrettyPrinting(true);
 
@@ -107,12 +102,12 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
                 String.format("expected \"%s\" and \"%s\" in the report but not found", s1, s2));
     }
 
-    void runMProductGroupBasicReporterFM() throws IOException, MaterialstoreException {
-        JobName jobNameB = new JobName("runMProductGroupBasicReporterFM");
+    void runMProductGroupBasicReporter() throws IOException, MaterialstoreException {
+        JobName jobNameB = new JobName("runMProductGroupBasicReporter");
         //
         MProductGroup reduced = prepareFixture(jobNameB);
         // compile HTML report
-        MProductGroupBasicReporterFM reporter = new MProductGroupBasicReporterFM(store, jobNameB);
+        MProductGroupBasicReporter reporter = new MProductGroupBasicReporter(store, jobNameB);
         reporter.enableVerboseLogging(true);
         reporter.enablePrettyPrinting(true);
         //

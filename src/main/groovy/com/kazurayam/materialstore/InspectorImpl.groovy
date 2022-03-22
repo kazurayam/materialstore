@@ -3,9 +3,9 @@ package com.kazurayam.materialstore
 
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.MaterialList
-import com.kazurayam.materialstore.report.MProductGroupBasicReporter
+import com.kazurayam.materialstore.report.MProductGroupBasicReporterMB
 import com.kazurayam.materialstore.report.MProductGroupReporter
-import com.kazurayam.materialstore.report.MaterialListBasicReporter
+import com.kazurayam.materialstore.report.MaterialListBasicReporterMB
 import com.kazurayam.materialstore.reduce.MProductGroup
 import com.kazurayam.materialstore.reduce.Reducer
 import com.kazurayam.materialstore.reduce.DifferDriverImpl
@@ -25,7 +25,7 @@ class InspectorImpl extends Inspector {
 
     @Override
     MProductGroupReporter newReporter(JobName jobName) {
-        return new MProductGroupBasicReporter(store, jobName)
+        return new MProductGroupBasicReporterMB(store, jobName)
     }
 
     @Override
@@ -58,8 +58,8 @@ class InspectorImpl extends Inspector {
                          String fileName = "list.html") {
         Objects.requireNonNull(materialList)
         Objects.requireNonNull(fileName)
-        MaterialListBasicReporter reporter =
-                new MaterialListBasicReporter(store, materialList.getJobName())
+        MaterialListBasicReporterMB reporter =
+                new MaterialListBasicReporterMB(store, materialList.getJobName())
         return reporter.report(materialList, fileName)
     }
 
@@ -67,8 +67,8 @@ class InspectorImpl extends Inspector {
     void report(MaterialList materialList, Path filePath) {
         Objects.requireNonNull(materialList)
         Objects.requireNonNull(filePath)
-        MaterialListBasicReporter reporter =
-                new MaterialListBasicReporter(store, materialList.getJobName())
+        MaterialListBasicReporterMB reporter =
+                new MaterialListBasicReporterMB(store, materialList.getJobName())
         reporter.report(materialList, filePath)
     }
 

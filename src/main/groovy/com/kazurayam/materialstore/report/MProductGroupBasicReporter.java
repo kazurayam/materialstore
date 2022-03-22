@@ -1,18 +1,19 @@
 package com.kazurayam.materialstore.report;
 
+import com.kazurayam.materialstore.reduce.MProductGroup;
+
 import com.kazurayam.materialstore.MaterialstoreException;
-import com.kazurayam.materialstore.filesystem.JobName;
-import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.Store;
+
+import com.kazurayam.materialstore.filesystem.JobName;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
@@ -25,26 +26,25 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * MaterialListBasicReportFM class is coded in Java, not in Groovy.
- *
- * MaterialListBasicReportFM uses FreeMarker as the HTML template engine.
+ * MProductGroupBasicReporterMB re-implemented using FreeMarker.
  *
  */
-public class MaterialListBasicReporterFM extends MaterialListReporter {
+public class MProductGroupBasicReporter extends MProductGroupReporter {
 
-    private static final Logger logger = LoggerFactory.getLogger(MaterialListBasicReporterFM.class);
+    private static final Logger logger =
+            LoggerFactory.getLogger(MProductGroupBasicReporter.class);
 
-    private final Store store;
-    private final JobName jobName;
+    private Store store;
+    private JobName jobName;
+    private Double criteria = 0.0d;
 
     private static final String TEMPLATE_PATH =
-            "com/kazurayam/materialstore/report/MaterialListBasicReporterTemplate.ftlh";
+            "com/kazurayam/materialstore/report/MProductGroupBasicReporterFMTemplate.ftlh";
     // ftlh is a short for "FreeMarker Template Language for HTML"
 
     private final Configuration cfg;
 
-    public MaterialListBasicReporterFM(Store store, JobName jobName)
-            throws MaterialstoreException {
+    MProductGroupBasicReporter(Store store, JobName jobName) throws MaterialstoreException {
         Objects.requireNonNull(store);
         Objects.requireNonNull(jobName);
         this.store = store;
@@ -52,55 +52,57 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
         this.cfg = FreeMarkerConfigurator.configureFreeMarker(store);
     }
 
-
-
-    /**
-     * using Bootstrap 5
-     * using FreeMarker
-     *
-     * @param materialList List of MaterialList object to print
-     * @param reportFileName "list.html" as default
-     * @return Path object as the output
-     */
     @Override
-    public Path report(MaterialList materialList, String reportFileName)
-            throws MaterialstoreException {
-        Objects.requireNonNull(materialList);
-        /* write the resulting HTML into a file*/
-        String fileName = (reportFileName == null) ? "list.html" : reportFileName;
-        Path filePath = store.getRoot().resolve(fileName);
-        this.report(materialList, filePath);
-        return filePath;
+    public void setCriteria(Double criteria) {
+        if (criteria < 0.0 || 100.0 < criteria) {
+            throw new IllegalArgumentException(
+                    "criteria(${criteria}) must be in the range of [0,100)");
+        }
+        this.criteria = criteria;
     }
 
     @Override
-    public void report(MaterialList materialList, Path filePath)
+    public Path report(MProductGroup mProductGroup, String fileName)
             throws MaterialstoreException {
-        Objects.requireNonNull(materialList);
+        Path reportFile = store.getRoot().resolve(fileName);
+        this.report(mProductGroup, reportFile);
+        return reportFile;
+    }
+
+    @Override
+    public void report(MProductGroup mProductGroup, Path filePath)
+            throws MaterialstoreException {
+        Objects.requireNonNull(mProductGroup);
         Objects.requireNonNull(filePath);
-        /* Create a data-model */
+        //
+        if (! mProductGroup.isReadyToReport()) {
+            throw new MaterialstoreException(
+                    "given MProductGroup is not ready to report. mProductGroup=" +
+                            mProductGroup.toString());
+        }
+        /* create a data-model */
         Map<String, Object> model = new HashMap<>();
         model.put("style", StyleHelper.loadStyleFromClasspath());
         model.put("title", getTitle(filePath));
-        model.put("filePath", filePath.toString());
         model.put("store", store.getRoot().normalize().toString());
-        model.put("model", materialList.toTemplateModel());
+        model.put("mProductGroup", mProductGroup.toTemplateModel());
+        model.put("criteria", criteria);
 
         // for debug
         if (isVerboseLoggingEnabled()) {
-            writeModel(materialList.toTemplateModelAsJson(true),
+            writeModel(mProductGroup.toTemplateModelAsJson(true),
                     filePath.getParent());
         }
 
         /* Get the template */
         Template template;
         try {
-            template = cfg.getTemplate(TEMPLATE_PATH);
+           template = cfg.getTemplate(TEMPLATE_PATH);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
 
-        /* Merge data-model with template */
+        /* Merge data-model with template to generate a HTML document*/
         Writer sw = new StringWriter();
         try {
             template.process(model, sw);
@@ -109,6 +111,10 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
         }
 
         String html = sw.toString();
+
+        //assert html.contains("</html>s://cdn.");
+
+        /* pretty print the HTML using jsoup if required */
         if (isPrettyPrintingEnabled()) {
             Document doc = Jsoup.parse(html, "", Parser.htmlParser());
             doc.outputSettings().indentAmount(2);
@@ -116,8 +122,7 @@ public class MaterialListBasicReporterFM extends MaterialListReporter {
         }
 
         try {
-            Files.write(filePath,
-                    html.getBytes(StandardCharsets.UTF_8),
+            Files.write(filePath, html.getBytes(StandardCharsets.UTF_8),
                     StandardOpenOption.CREATE);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
