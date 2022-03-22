@@ -20,14 +20,14 @@ import java.nio.file.Paths
 
 import static org.junit.jupiter.api.Assertions.assertTrue
 
-class MProductGroupBasicReporter_issue80_86Test {
+class MProductGroupBasicReporterTest {
 
     static final Path fixtureDir = Paths.get(".")
             .resolve("src/test/fixture/issue#80")
 
     static final Path outputDir = Paths.get(".")
             .resolve("build/tmp/testOutput")
-            .resolve(MProductGroupBasicReporter_issue80_86Test.class.getName())
+            .resolve(MProductGroupBasicReporterTest.class.getName())
 
     static Store store
     static final JobName jobName = new JobName("MyAdmin_visual_inspection_twins")

@@ -76,7 +76,9 @@
       </dd>
       <#if material.metadataURL??>
         <dt>Source URL</dt>
-        <dd><a href="${material.metadataURL}" target="source">${material.metadataURL}</a></dd>
+        <dd>
+          <a href="${material.metadataURL}" target="source">${material.metadataURL}</a>
+        </dd>
       </#if>
     </dl>
     <#if material.diffability == "AS_IMAGE">

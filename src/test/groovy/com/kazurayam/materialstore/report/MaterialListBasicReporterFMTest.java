@@ -69,6 +69,7 @@ public class MaterialListBasicReporterFMTest extends AbstractReporterTest {
         MaterialListReporter reporter =
                 new MaterialListBasicReporterFM(store, jobName);
         reporter.enableVerboseLogging(true);
+        reporter.enablePrettyPrinting(true);
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         MaterialList list = store.select(jobName, jobTimestamp,
@@ -78,7 +79,7 @@ public class MaterialListBasicReporterFMTest extends AbstractReporterTest {
                         .build()
         );
         assertTrue(list.size() > 0, "list is empty");
-        String fileName = "test_report-listFM.html";
+        String fileName = jobName.toString() + "-listFM.html";
         Path report = reporter.report(list, fileName);
         //
         assertTrue(Files.exists(report));

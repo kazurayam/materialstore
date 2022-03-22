@@ -115,7 +115,7 @@ final class MaterialListBasicReporter extends MaterialListReporter {
                                         span(class: "fileType",
                                                 material.getIndexEntry().getFileType().getExtension())
                                         span(class: "metadata",
-                                                material.getIndexEntry().getMetadata().toString())
+                                                material.getIndexEntry().getMetadata().toSimplifiedJson())
                                     }
                                 }
                                 div(id: "collapse${index+1}",
