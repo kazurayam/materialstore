@@ -65,7 +65,7 @@ final class IndexEntry implements Comparable, Jsonifiable, TemplateReady {
         return Paths.get(mio.getID().toString() + "." + mio.getFileType().getExtension())
     }
 
-    public FileType getFileType() {
+    FileType getFileType() {
         return getMaterialIO().getFileType()
     }
 

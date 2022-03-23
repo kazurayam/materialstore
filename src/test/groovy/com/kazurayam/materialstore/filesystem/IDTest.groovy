@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.filesystem
 
-import com.google.gson.Gson
+
 import org.junit.jupiter.api.Test
 
 import static org.junit.jupiter.api.Assertions.assertEquals
