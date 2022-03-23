@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertTrue
 import static org.junit.jupiter.api.Assertions.assertNotEquals
 
-
 class JobTimestampTest {
 
     private static final Pattern pattern = Pattern.compile("\\d{8}_\\d{6}")
