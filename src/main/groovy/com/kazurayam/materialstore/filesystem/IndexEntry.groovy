@@ -56,7 +56,7 @@ final class IndexEntry implements Comparable, Jsonifiable, TemplateReady {
         return null   // blank line returns null
     }
 
-    private MaterialIO getMaterialIO() {
+    MaterialIO getMaterialIO() {
         return mio_
     }
 
@@ -65,7 +65,7 @@ final class IndexEntry implements Comparable, Jsonifiable, TemplateReady {
         return Paths.get(mio.getID().toString() + "." + mio.getFileType().getExtension())
     }
 
-    FileType getFileType() {
+    public FileType getFileType() {
         return getMaterialIO().getFileType()
     }
 

@@ -59,7 +59,7 @@ interface Store {
                         QueryOnMetadata query, FileType fileType)
 
     Material selectSingle(JobName jobName, JobTimestamp jobTimestamp,
-                    QueryOnMetadata query, FileType fileType)
+                          QueryOnMetadata query, FileType fileType)
 
     Material write(JobName jobName, JobTimestamp jobTimestamp,
                    FileType fileType, Metadata meta, BufferedImage input)

@@ -1,9 +1,6 @@
 package com.kazurayam.materialstore.reduce
 
-import com.google.gson.Gson
-import com.google.gson.JsonSyntaxException
 import com.kazurayam.materialstore.filesystem.FileType
-
 import com.kazurayam.materialstore.filesystem.JobName
 import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
@@ -14,7 +11,6 @@ import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys
-import com.kazurayam.materialstore.util.GsonHelper
 import com.kazurayam.materialstore.util.JsonUtil
 
 import java.util.stream.Collectors

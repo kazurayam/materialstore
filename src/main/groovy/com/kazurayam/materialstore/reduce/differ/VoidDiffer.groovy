@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.reduce.differ
 
-
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Jobber
 import com.kazurayam.materialstore.filesystem.Material

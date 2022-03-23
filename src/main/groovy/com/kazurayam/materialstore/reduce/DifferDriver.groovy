@@ -1,10 +1,7 @@
 package com.kazurayam.materialstore.reduce
 
-
-import com.kazurayam.materialstore.reduce.MProduct
-import com.kazurayam.materialstore.reduce.MProductGroup
-import com.kazurayam.materialstore.reduce.Reducer
 import com.kazurayam.materialstore.filesystem.FileType
+
 
 interface DifferDriver extends Reducer {
 

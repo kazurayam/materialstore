@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.reduce
 
-
 import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.Store
@@ -91,12 +90,12 @@ final class DifferDriverImpl implements DifferDriver {
             differs = new HashMap<FileType, Differ>()
             //
             Differ textDiffer = new TextDifferToHTML()
-            FileType.getFileTypesDiffableAsText().each {ft ->
+            FileType.getFileTypesDiffableAsText().each { ft ->
                 differs.put(ft, textDiffer)
             }
             //
             Differ imageDiffer = new ImageDifferToPNG()
-            FileType.getFileTypesDiffableAsImage().each {ft ->
+            FileType.getFileTypesDiffableAsImage().each { ft ->
                 differs.get(ft, imageDiffer)
             }
             //

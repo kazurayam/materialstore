@@ -1,9 +1,7 @@
 package com.kazurayam.materialstore.filesystem
 
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
+
 import com.kazurayam.materialstore.TestFixtureUtil
-import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute
 import com.kazurayam.materialstore.util.JsonUtil
 import org.apache.commons.io.FileUtils
 import org.junit.jupiter.api.BeforeAll

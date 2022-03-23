@@ -405,7 +405,7 @@ final class StoreImpl implements Store {
 
     @Override
     Material selectSingle(JobName jobName, JobTimestamp jobTimestamp,
-                    QueryOnMetadata query, FileType fileType) {
+                          QueryOnMetadata query, FileType fileType) {
         Jobber jobber = this.getJobber(jobName, jobTimestamp)
         MaterialList materials = jobber.selectMaterials(query, fileType)
         if (materials.size() > 0) {
