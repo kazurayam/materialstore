@@ -1,11 +1,10 @@
 package com.kazurayam.materialstore.filesystem
 
-import com.kazurayam.materialstore.filesystem.JobName
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Assertions
 
 class JobNameTest {
 
