@@ -209,5 +209,4 @@ final class Jobber {
             return new Material(this.getJobName(), this.getJobTimestamp(), indexEntry)
         }
     }
-
 }
