@@ -17,7 +17,7 @@ final class JobName implements Comparable, Jsonifiable {
         if (s == "_") {
             return true
         }
-        return Filename.isValid(s)
+        return Filename_.isValid(s)
     }
 
     @Override
