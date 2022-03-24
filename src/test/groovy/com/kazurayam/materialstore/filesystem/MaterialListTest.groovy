@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.*
 class MaterialListTest {
 
     private static Path outputDir
-
     private final String sampleLine = """6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{"profile":"DevelopmentEnv","URL":"http://demoaut-mimic.kazurayam.com/"}"""
 
     private JobName jobName = new JobName("MaterialListTest")
