@@ -59,7 +59,7 @@ public final class Jobber {
         return getJobResultDir().resolve(OBJECTS_DIR_NAME);
     }
 
-    public byte[] read(final ID id, final FileType fileType) {
+    public byte[] read(final ID id, final FileType fileType) throws MaterialstoreException {
         Objects.requireNonNull(id);
         Objects.requireNonNull(fileType);
         String fileName = id + "." + fileType.getExtension();
@@ -67,12 +67,12 @@ public final class Jobber {
         return MaterialIO.deserialize(objectFile);
     }
 
-    public byte[] read(IndexEntry indexEntry) {
+    public byte[] read(IndexEntry indexEntry) throws MaterialstoreException {
         Objects.requireNonNull(indexEntry);
         return this.read(indexEntry.getID(), indexEntry.getFileType());
     }
 
-    public byte[] read(Material material) {
+    public byte[] read(Material material) throws MaterialstoreException {
         Objects.requireNonNull(material);
         return this.read(material.getIndexEntry());
     }
@@ -141,8 +141,6 @@ public final class Jobber {
      * ac9be9a1053828f1e12e1cee4d66ff66adf60f9f	png	{"URL.file":"/", profile":"DevelopmentEnv"}
      * ac9be9a1053828f1e12e1cee4d66ff66adf60f9f	png	{"URL.file":"/", profile":"ProductionEnv"}
      * </pre>
-     *
-     *
      */
     public Material write(byte[] data, FileType fileType, Metadata metadata) throws MaterialstoreException {
         return write(data, fileType, metadata, DuplicationHandling.TERMINATE);
