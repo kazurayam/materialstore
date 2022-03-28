@@ -13,7 +13,6 @@ import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
-import java.nio.file.Paths
 import java.time.temporal.TemporalUnit
 import java.util.stream.Collectors
 
@@ -21,17 +20,13 @@ final class StoreImpl implements Store {
 
     private static final Logger logger = LoggerFactory.getLogger(StoreImpl.class)
 
+    public static final Store NULL_OBJECT = new StoreImpl(Files.createTempDirectory("TempDirectory"))
+
     private final Path root_
 
     private final Set<Jobber> jobberCache_
 
     private static final int BUFFER_SIZE = 8000
-
-    public static final String ROOT_DIRECTORY_NAME = "store"
-
-    StoreImpl() {
-        this(Paths.get(ROOT_DIRECTORY_NAME))
-    }
 
     StoreImpl(Path root) {
         Objects.requireNonNull(root)
@@ -341,7 +336,6 @@ final class StoreImpl implements Store {
         MaterialList collection =
                 new MaterialList(targetList.getJobName(), targetList.getJobTimestamp(),
                         targetList.getQueryOnMetadata())
-        int count = 0;
         for (Material base : baseList) {
             List<Material> found = targetList.findMaterialsSimilarTo(base)
             if (found.size() > 0) {
