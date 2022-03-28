@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.filesystem;
 
+import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.util.JsonUtil;
 
 import java.io.File;
@@ -169,14 +170,17 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         sb.append("\"");
         sb.append(JsonUtil.escapeAsJsonString(this.getIndexEntry().getMetadata().toSimplifiedJson()));
         sb.append("\"");
-        if (this.getIndexEntry().getMetadata().toURL() != null) {
-            sb.append(",");
-            sb.append("\"metadataURL\":");
-            sb.append("\"");
-            sb.append(JsonUtil.escapeAsJsonString(this.getIndexEntry().getMetadata().toURLAsString()));
-            sb.append("\"");
+        try {
+            if (this.getIndexEntry().getMetadata().toURL() != null) {
+                sb.append(",");
+                sb.append("\"metadataURL\":");
+                sb.append("\"");
+                sb.append(JsonUtil.escapeAsJsonString(this.getIndexEntry().getMetadata().toURLAsString()));
+                sb.append("\"");
+            }
+        } catch (MaterialstoreException e) {
+            throw new IllegalStateException(e);
         }
-
         sb.append(",");
         sb.append("\"relativeUrl\":");
         sb.append("\"");

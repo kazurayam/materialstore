@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.filesystem;
 
+import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute;
@@ -43,9 +44,9 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
 
     public abstract String toSimplifiedJson();
 
-    public abstract String toURLAsString();
+    public abstract String toURLAsString() throws MaterialstoreException;
 
-    public abstract URL toURL();
+    public abstract URL toURL() throws MaterialstoreException;
 
     public abstract int compareTo(Metadata other);
 
