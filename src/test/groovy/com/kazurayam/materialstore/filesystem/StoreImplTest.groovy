@@ -72,16 +72,17 @@ class StoreImplTest {
         TestFixtureUtil.setupFixture(store, jobName)
         //
         JobTimestamp latestTimestamp = new JobTimestamp("20210715_145922")
-        int deletedFiles = store.deleteMaterialsOlderThanExclusive(jobName,
+        int deletedJobTimestamps = store.deleteMaterialsOlderThanExclusive(jobName,
                 latestTimestamp, 0L, ChronoUnit.DAYS)
-        assertEquals(6, deletedFiles)
-        /* deleted 6 files include
+        assertEquals(1, deletedJobTimestamps)
+        /* 1 JobTimestamp directory is deleted
+         * - 20210713_093357/
+         * under which contained 3 files plus 1 directory
          * - 20210713_093357/objects/12a1a5e ...
          * - 20210713_093357/objects/6141b60 ...
          * - 20210713_093357/objects/ab56d30 ...
          * - 20210713_093357/objects/
          * - 20210713_093357/index
-         * - 20210713_093357/
          */
     }
 

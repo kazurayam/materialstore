@@ -24,7 +24,7 @@ public final class Jobber {
         TERMINATE, CONTINUE
     }
 
-    public Jobber(Path root, JobName jobName, JobTimestamp jobTimestamp) throws IOException, MaterialstoreException {
+    public Jobber(Path root, JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException {
         Objects.requireNonNull(root);
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(jobTimestamp);
@@ -32,8 +32,11 @@ public final class Jobber {
         this.jobName = jobName;
         this.jobTimestamp = jobTimestamp;
         jobResultDir = root.resolve(jobName.toString()).resolve(jobTimestamp.toString());
-        Files.createDirectories(getObjectsDir());
-
+        try {
+            Files.createDirectories(getObjectsDir());
+        } catch (IOException e) {
+            throw new MaterialstoreException(e);
+        }
         index = new Index();
         // load content of the "index" file
         Path indexFile = Index.getIndexFile(jobResultDir);

@@ -1,7 +1,11 @@
 package com.kazurayam.materialstore.filesystem;
 
+import com.kazurayam.materialstore.MaterialstoreException;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.time.temporal.TemporalUnit;
@@ -12,58 +16,67 @@ import java.util.List;
  */
 public interface Store {
 
-    int deleteMaterialsOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp, long amountToSubtract, TemporalUnit unit);
+    /**
+     *
+     * @param jobName
+     * @param jobTimestamp
+     * @param amountToSubtract
+     * @param unit
+     * @return number of JobTimestamp directories which were deleted
+     * @throws MaterialstoreException
+     */
+    int deleteMaterialsOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp, long amountToSubtract, TemporalUnit unit) throws MaterialstoreException;
 
-    int copyMaterials(JobName jobName, JobTimestamp source, JobTimestamp target);
+    int copyMaterials(JobName jobName, JobTimestamp source, JobTimestamp target) throws MaterialstoreException;
 
-    List<JobTimestamp> findAllJobTimestamps(JobName jobName);
+    List<JobTimestamp> findAllJobTimestamps(JobName jobName) throws IOException, MaterialstoreException;
 
-    List<JobTimestamp> findAllJobTimestampsPriorTo(JobName jobName, JobTimestamp jobTimestamp);
+    List<JobTimestamp> findAllJobTimestampsPriorTo(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
-    JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp);
+    JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
-    JobTimestamp findLatestJobTimestamp(JobName jobName);
+    JobTimestamp findLatestJobTimestamp(JobName jobName) throws MaterialstoreException;
 
-    List<JobTimestamp> queryAllJobTimestamps(JobName jobName, QueryOnMetadata query);
+    List<JobTimestamp> queryAllJobTimestamps(JobName jobName, QueryOnMetadata query) throws MaterialstoreException;
 
-    List<JobTimestamp> queryAllJobTimestampsPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp);
+    List<JobTimestamp> queryAllJobTimestampsPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
-    JobTimestamp queryJobTimestampPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp);
+    JobTimestamp queryJobTimestampPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
-    JobTimestamp queryLatestJobTimestamp(JobName jobName, QueryOnMetadata query);
+    JobTimestamp queryLatestJobTimestamp(JobName jobName, QueryOnMetadata query) throws MaterialstoreException;
 
-    MaterialList reflect(MaterialList baseMaterialList);
+    MaterialList reflect(MaterialList baseMaterialList) throws MaterialstoreException;
 
-    byte[] read(Material material);
+    byte[] read(Material material) throws MaterialstoreException;
 
     Jobber getCachedJobber(JobName jobName, JobTimestamp jobTimestamp);
 
-    Jobber getJobber(JobName jobName, JobTimestamp jobTimestamp);
+    Jobber getJobber(JobName jobName, JobTimestamp jobTimestamp) throws IOException, MaterialstoreException;
 
     Path getPathOf(Material material);
 
     Path getRoot();
 
-    MaterialList select(JobName jobName, JobTimestamp jobTimestamp);
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
-    MaterialList select(JobName jobName, JobTimestamp jobTimestamp, QueryOnMetadata query);
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp, QueryOnMetadata query) throws MaterialstoreException;
 
-    MaterialList select(JobName jobName, JobTimestamp jobTimestamp, FileType fileType);
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp, FileType fileType) throws MaterialstoreException;
 
-    MaterialList select(JobName jobName, JobTimestamp jobTimestamp, QueryOnMetadata query, FileType fileType);
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp, QueryOnMetadata query, FileType fileType) throws MaterialstoreException;
 
-    Material selectSingle(JobName jobName, JobTimestamp jobTimestamp, QueryOnMetadata query, FileType fileType);
+    Material selectSingle(JobName jobName, JobTimestamp jobTimestamp, QueryOnMetadata query, FileType fileType) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, BufferedImage input);
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, BufferedImage input) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, byte[] input);
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, byte[] input) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, File input);
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, File input) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, Path input);
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, Path input) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, String input);
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, String input) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, String input, Charset charset);
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, String input, Charset charset) throws MaterialstoreException;
 
 }
