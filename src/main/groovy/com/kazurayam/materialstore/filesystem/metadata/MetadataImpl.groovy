@@ -1,9 +1,7 @@
 package com.kazurayam.materialstore.filesystem.metadata
 
-import com.google.gson.Gson
 import com.kazurayam.materialstore.filesystem.Metadata
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
-import com.kazurayam.materialstore.util.GsonHelper
 import com.kazurayam.materialstore.util.JsonUtil
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -20,18 +18,10 @@ final class MetadataImpl extends Metadata {
 
     private final Map<String, MetadataAttribute> attributes
 
-    protected MetadataImpl(Map<String, MetadataAttribute> attributes) {
+    MetadataImpl(Map<String, MetadataAttribute> attributes) {
         this.attributes = attributes
     }
-    /*
-    protected MetadataImpl(Map<String, String> map) {
-        for (String key : map.keySet) {
-            MetadataAttribute attribute =
-                    new MetadataAttribute(key, map.get(key).getValue)
-            attributes.put(key, attribute)
-        }
-    }
-    */
+
     // ------------ implements Metadata -------------------
     @Override
     boolean containsKey(String key) {
@@ -176,7 +166,7 @@ final class MetadataImpl extends Metadata {
     @Override
     String toSimplifiedJson() {
         StringBuilder sb = new StringBuilder()
-        int entryCount = 0;
+        int entryCount = 0
         sb.append("{")
         List<String> keys = getSortedKeys(attributes)
         keys.each { key ->
@@ -270,10 +260,7 @@ final class MetadataImpl extends Metadata {
 
     // ------------ comparable ----------------
     @Override
-    int compareTo(Object obj) {
-        if (! obj instanceof MetadataImpl) {
-            throw new IllegalArgumentException("obj is not instance of Metadata")
-        }
+    int compareTo(Metadata obj) {
         MetadataImpl other = (MetadataImpl)(obj)
         return this.toString() <=> other.toString()
     }

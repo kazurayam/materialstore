@@ -13,4 +13,12 @@ class GsonHelper {
         }
     }
 
+    static Map<String, String> toStringStringMap(Map<?, ?> map) {
+        Map<String, String> result = new HashMap<>();
+        for (Map.Entry<?, ?> entry : map) {
+            result.put(entry.getKey().toString(), entry.getValue().toString());
+        }
+        return result;
+    }
+
 }

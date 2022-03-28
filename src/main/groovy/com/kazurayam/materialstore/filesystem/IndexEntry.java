@@ -1,6 +1,8 @@
 package com.kazurayam.materialstore.filesystem;
 
 
+import com.google.gson.Gson;
+import com.kazurayam.materialstore.util.GsonHelper;
 import com.kazurayam.materialstore.util.JsonUtil;
 import groovy.json.JsonSlurper;
 
@@ -45,9 +47,10 @@ final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, TemplateR
                 }
                 if (items.size() > 2) {
                     try {
-                        Object obj = new JsonSlurper().parseText(items.get(2));
-                        assert obj instanceof Map;
-                        metadata = Metadata.builder((Map)obj).build();
+                        Gson gson = new Gson();
+                        Map<String, String> map = GsonHelper.toStringStringMap(
+                                gson.fromJson(items.get(2), Map.class));
+                        metadata = Metadata.builder(map).build();
                     } catch (Exception e) {
                         throw new IllegalArgumentException("unable to parse metadata part");
                     }
