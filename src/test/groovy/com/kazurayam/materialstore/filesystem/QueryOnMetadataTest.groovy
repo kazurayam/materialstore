@@ -1,11 +1,7 @@
 package com.kazurayam.materialstore.filesystem
 
-import com.kazurayam.materialstore.filesystem.Metadata
-import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys
-import com.kazurayam.materialstore.report.markupbuilder_templates.QueryOnMetadataTemplate
-import groovy.xml.MarkupBuilder
 import groovy.json.JsonOutput
 import org.junit.jupiter.api.Test
 import java.util.regex.Pattern
@@ -176,20 +172,6 @@ class QueryOnMetadataTest {
         assertEquals("demoaut-mimic.kazurayam.com", model.get("URL.host"))
         assertEquals("DevEnv", model.get("profile"))
     }
-
-    @Test
-    void test_toSpanSequence_withMarkupBuilder() {
-        QueryOnMetadata query = getToSpanSequenceFixture()
-        StringWriter sw = new StringWriter()
-        MarkupBuilder mb = new MarkupBuilder(sw)
-        mb.div() {
-            new QueryOnMetadataTemplate(query).toSpanSequence(mb)
-        }
-        String markup = sw.toString()
-        assertNotNull(markup)
-        //println markup
-    }
-
 
     @Test
     void test_toString_keys_should_be_sorted() {

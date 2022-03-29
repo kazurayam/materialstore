@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test
 import java.util.regex.Pattern
 
 import static org.junit.jupiter.api.Assertions.*
-import com.kazurayam.materialstore.filesystem.QueryOnMetadata.QValue
 
 class QValueTest {
 
@@ -31,8 +30,8 @@ class QValueTest {
         QValue b = QValue.of("b")
         QValue A = QValue.of("A")
         assertEquals(0, a.compareTo(a))
-        assertEquals(-1, a.compareTo(b))
-        assertEquals(1, a.compareTo(A))
+        assertTrue(a.compareTo(b) < 0)
+        assertTrue(0 < a.compareTo(A))
     }
 
     @Test
@@ -41,8 +40,8 @@ class QValueTest {
         QValue b = QValue.of(Pattern.compile("b"))
         QValue A = QValue.of(Pattern.compile("A"))
         assertEquals(0, a.compareTo(a))
-        assertEquals(-1, a.compareTo(b))
-        assertEquals(1, a.compareTo(A))
+        assertTrue(a.compareTo(b) < 0)
+        assertTrue(0 < a.compareTo(A))
     }
 
     @Test
