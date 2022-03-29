@@ -101,7 +101,7 @@ public final class MaterialList implements Jsonifiable, TemplateReady {
         return materialList.size();
     }
 
-    Iterator<Material> iterator() {
+    public Iterator<Material> iterator() {
         return materialList.iterator();
     }
 

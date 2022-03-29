@@ -43,7 +43,7 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
         this.diff = builder.diff;
         this.reducedTimestamp = builder.reducedTimestamp;
         this.query = builder.query;
-        this.diffRatio = 0.0d;
+        this.diffRatio = builder.diffRatio;
         this.sortKeys = builder.sortKeys;
     }
 
@@ -59,6 +59,7 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
         this.diff = source.getDiff();
         this.reducedTimestamp = source.getReducedTimestamp();
         this.query = source.getQueryOnMetadata();
+        this.diffRatio = source.getDiffRatio();
         this.sortKeys = source.getSortKeys();
     }
 
@@ -101,9 +102,7 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
         return this.diff;
     }
 
-    public Double getDiffRatio() {
-        return this.diffRatio;
-    }
+    public Double getDiffRatio() { return this.diffRatio; }
 
     public String getDiffRatioAsString() {
         return DifferUtil.formatDiffRatioAsString(this.getDiffRatio());
@@ -204,6 +203,13 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
      *
      */
     public static class Builder {
+        private Material left;
+        private Material right;
+        private JobTimestamp reducedTimestamp;
+        private Material diff;
+        private QueryOnMetadata query;
+        private Double diffRatio;
+        private SortKeys sortKeys;
         public Builder(Material left, Material right, JobTimestamp reducedTimestamp) {
             Objects.requireNonNull(left);
             Objects.requireNonNull(right);
@@ -213,7 +219,7 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
             this.reducedTimestamp = reducedTimestamp;
             this.diff = Material.NULL_OBJECT;
             this.query = QueryOnMetadata.NULL_OBJECT;
-            this.diffRatio = -1.0d;
+            this.diffRatio = 0.0d;
             this.sortKeys = SortKeys.NULL_OBJECT;
         }
 
@@ -231,13 +237,5 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
         public MaterialProduct build() {
             return new MaterialProduct(this);
         }
-
-        private Material left;
-        private Material right;
-        private JobTimestamp reducedTimestamp;
-        private Material diff;
-        private QueryOnMetadata query;
-        private Double diffRatio;
-        private SortKeys sortKeys;
     }
 }

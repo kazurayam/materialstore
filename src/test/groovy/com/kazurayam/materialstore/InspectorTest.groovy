@@ -95,13 +95,14 @@ class InspectorTest {
                         .identifyWithRegex(["URL.query":"\\w{32}"])
                         .sort("URL.host")
                         .build()
-        MProductGroup reducedAG = inspector.reduce(preparedAG)
-        JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
+        MProductGroup reduced = inspector.reduce(preparedAG)
         double criteria = 0.0D
-        Path report = inspector.report(reducedAG, criteria,"test_report_MProductGroup.html")
+        assertTrue(reduced.countWarnings(criteria) > 0)
+
+        JobName jobName = new JobName("MyAdmin_visual_inspection_twins")
+        Path report = inspector.report(reduced, criteria,"test_report_MProductGroup.html")
         assertNotNull(report)
         assertTrue(Files.exists(report))
-        assertTrue(reducedAG.countWarnings(criteria) > 0)
     }
 
 }
