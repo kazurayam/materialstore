@@ -4,7 +4,7 @@ import com.kazurayam.materialstore.util.StringUtils;
 
 import java.util.Objects;
 
-final class ID implements Comparable, Jsonifiable {
+public final class ID implements Comparable<ID>, Jsonifiable {
 
     public static final ID NULL_OBJECT = new ID(StringUtils.repeat("0", 40));
 
@@ -64,11 +64,7 @@ final class ID implements Comparable, Jsonifiable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        if ( !(o instanceof ID) ) {
-            throw new IllegalArgumentException("not an instance of ID");
-        }
-        ID other = (ID)o;
+    public int compareTo(ID other) {
         return getSha1().compareTo(other.getSha1());
     }
 }

@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.reduce;
 
+import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.Store;
@@ -31,12 +32,12 @@ public final class DifferDriverImpl implements DifferDriver {
 
     // implements Reducer
     @Override
-    public MProductGroup reduce(MProductGroup input) {
+    public MProductGroup reduce(MProductGroup input) throws MaterialstoreException {
         return differentiate(input);
     }
 
     @Override
-    public MProductGroup differentiate(MProductGroup mProductGroup) {
+    public MProductGroup differentiate(MProductGroup mProductGroup) throws MaterialstoreException {
         Objects.requireNonNull(mProductGroup);
         final List<MaterialProduct> differentiated = new ArrayList<>();
         Iterator<MaterialProduct> iter = mProductGroup.iterator();
@@ -58,7 +59,7 @@ public final class DifferDriverImpl implements DifferDriver {
     }
 
     @Override
-    public MaterialProduct differentiate(final MaterialProduct mProduct) {
+    public MaterialProduct differentiate(final MaterialProduct mProduct) throws MaterialstoreException {
         FileType fileType;
         if (mProduct.getLeft().equals(Material.NULL_OBJECT)) {
             logger.warn("left Material was NULL_OBJECT. right=" + mProduct.getRight());
