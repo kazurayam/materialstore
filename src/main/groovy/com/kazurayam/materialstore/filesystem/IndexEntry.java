@@ -4,7 +4,6 @@ package com.kazurayam.materialstore.filesystem;
 import com.google.gson.Gson;
 import com.kazurayam.materialstore.util.GsonHelper;
 import com.kazurayam.materialstore.util.JsonUtil;
-import groovy.json.JsonSlurper;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, TemplateReady {
+final public class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, TemplateReady {
 
     public static final IndexEntry NULL_OBJECT =
             new IndexEntry(
@@ -23,7 +22,7 @@ final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, TemplateR
     private final MaterialIO mio_;
     private final Metadata metadata_;
 
-    IndexEntry(MaterialIO mio, Metadata metadata) {
+    public IndexEntry(MaterialIO mio, Metadata metadata) {
         this.mio_ = mio;
         this.metadata_ = metadata;
     }
@@ -63,28 +62,28 @@ final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, TemplateR
         return null;   // blank line returns null
     }
 
-    MaterialIO getMaterialIO() {
+    public MaterialIO getMaterialIO() {
         return mio_;
     }
 
-    Path getFileName() {
+    public Path getFileName() {
         MaterialIO mio = getMaterialIO();
         return Paths.get(mio.getID().toString() + "." + mio.getFileType().getExtension());
     }
 
-    FileType getFileType() {
+    public FileType getFileType() {
         return getMaterialIO().getFileType();
     }
 
-    ID getID() {
+    public ID getID() {
         return getMaterialIO().getID();
     }
 
-    String getShortId() {
+    public String getShortId() {
         return getID().getShortSha1();
     }
 
-    Metadata getMetadata() {
+    public Metadata getMetadata() {
         return metadata_;
     }
 
@@ -115,11 +114,14 @@ final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, TemplateR
     public String toJson() {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
-        sb.append("\"id\": " + this.getMaterialIO().getID().toJson());
+        sb.append("\"id\": ");
+        sb.append(this.getMaterialIO().getID().toJson());
         sb.append(",");
-        sb.append("\"fileType\": " + this.getMaterialIO().getFileType().toJson());
+        sb.append("\"fileType\": ");
+        sb.append(this.getMaterialIO().getFileType().toJson());
         sb.append(",");
-        sb.append("\"metadata\": " + this.getMetadata().toString());
+        sb.append("\"metadata\": ");
+        sb.append(this.getMetadata().toString());
         sb.append("}");
         return sb.toString();
     }

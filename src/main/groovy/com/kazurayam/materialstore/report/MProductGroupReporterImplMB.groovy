@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.report
 
 import com.kazurayam.materialstore.MaterialstoreException
 import com.kazurayam.materialstore.filesystem.Store
-
+import com.kazurayam.materialstore.reduce.MaterialProduct
 import com.kazurayam.materialstore.reduce.differ.DifferUtil
 import com.kazurayam.materialstore.filesystem.FileTypeDiffability
 import com.kazurayam.materialstore.filesystem.JobName
@@ -11,7 +11,6 @@ import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
-import com.kazurayam.materialstore.reduce.MProduct
 import com.kazurayam.materialstore.reduce.MProductGroup
 import com.kazurayam.materialstore.report.markupbuilder_templates.IgnoreMetadataKeysTemplate
 import com.kazurayam.materialstore.report.markupbuilder_templates.MetadataTemplate
@@ -148,7 +147,7 @@ final class MProductGroupReporterImplMB extends MProductGroupReporter {
                     }
                     div(class: "accordion",
                             id: "diff-contents") {
-                        mProductGroup.eachWithIndex { MProduct mProduct, int index ->
+                        mProductGroup.eachWithIndex { MaterialProduct mProduct, int index ->
                             div(id: "accordion${index+1}",
                                     class: "accordion-item") {
                                 h2(id: "heading${index+1}",
@@ -211,7 +210,7 @@ final class MProductGroupReporterImplMB extends MProductGroupReporter {
         filePath.toFile().text = html
     }
 
-    private static void makeModalSubsection(MarkupBuilder mb, MProduct mProduct, Integer count) {
+    private static void makeModalSubsection(MarkupBuilder mb, MaterialProduct mProduct, Integer count) {
         Material right = mProduct.getRight()
         mb.div(class: "show-diff") {
             if (right.getDiffability() == FileTypeDiffability.AS_IMAGE) {

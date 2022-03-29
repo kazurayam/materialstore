@@ -39,10 +39,10 @@ final class DifferDriverImpl implements DifferDriver {
     @Override
     MProductGroup differentiate(MProductGroup mProductGroup) {
         Objects.requireNonNull(mProductGroup)
-        List<MProduct> differentiated = new ArrayList<>()
+        List<MaterialProduct> differentiated = new ArrayList<>()
         mProductGroup.each { inputDA ->
             // make the diff info
-            MProduct stuffedDA = differentiate(inputDA)
+            MaterialProduct stuffedDA = differentiate(inputDA)
             differentiated.add(stuffedDA)
         }
         // clone the input to build the result
@@ -56,7 +56,7 @@ final class DifferDriverImpl implements DifferDriver {
     }
 
     @Override
-    MProduct differentiate(MProduct mProduct) {
+    MaterialProduct differentiate(MaterialProduct mProduct) {
         FileType fileType
         if (mProduct.getLeft() == Material.NULL_OBJECT) {
             logger.warn("left Material was NULL_OBJECT. right=${mProduct.getRight()}")
@@ -69,7 +69,7 @@ final class DifferDriverImpl implements DifferDriver {
         }
         Differ differ = differs_.get(fileType)
         differ.setRoot(root_)
-        MProduct stuffed = differ.makeMProduct(mProduct)
+        MaterialProduct stuffed = differ.makeMProduct(mProduct)
         return stuffed
     }
 

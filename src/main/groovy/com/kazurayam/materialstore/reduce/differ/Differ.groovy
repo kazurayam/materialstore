@@ -1,13 +1,13 @@
 package com.kazurayam.materialstore.reduce.differ
 
 
-import com.kazurayam.materialstore.reduce.MProduct
+import com.kazurayam.materialstore.reduce.MaterialProduct
 
 import java.nio.file.Path
 
 interface Differ {
 
-    MProduct makeMProduct(MProduct mProduct)
+    MaterialProduct makeMProduct(MaterialProduct mProduct)
 
     void setRoot(Path root)
 

@@ -3,8 +3,8 @@ package com.kazurayam.materialstore.reduce.differ
 
 import com.kazurayam.materialstore.TestFixtureUtil
 import com.kazurayam.materialstore.filesystem.*
-import com.kazurayam.materialstore.reduce.MProduct
 import com.kazurayam.materialstore.reduce.MProductGroup
+import com.kazurayam.materialstore.reduce.MaterialProduct
 import org.junit.jupiter.api.Test
 
 import java.nio.file.Path
@@ -51,7 +51,7 @@ class TextDifferToMarkdownTest {
         assertNotNull(mProductGroup)
         assertEquals(1, mProductGroup.size())
         //
-        MProduct stuffed = new TextDifferToMarkdown(root).makeMProduct(mProductGroup.get(0))
+        MaterialProduct stuffed = new TextDifferToMarkdown(root).makeMProduct(mProductGroup.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())

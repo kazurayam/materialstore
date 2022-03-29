@@ -2,9 +2,15 @@ package com.kazurayam.materialstore.reduce.differ
 
 
 import com.kazurayam.materialstore.TestFixtureUtil
-import com.kazurayam.materialstore.filesystem.*
-import com.kazurayam.materialstore.reduce.MProduct
+import com.kazurayam.materialstore.filesystem.FileType
+import com.kazurayam.materialstore.filesystem.JobName
+import com.kazurayam.materialstore.filesystem.JobTimestamp
+import com.kazurayam.materialstore.filesystem.Material
+import com.kazurayam.materialstore.filesystem.MaterialList
+import com.kazurayam.materialstore.filesystem.QueryOnMetadata
+import com.kazurayam.materialstore.filesystem.StoreImpl
 import com.kazurayam.materialstore.reduce.MProductGroup
+import com.kazurayam.materialstore.reduce.MaterialProduct
 import groovy.json.JsonOutput
 import org.junit.jupiter.api.Test
 
@@ -46,7 +52,7 @@ class ImageDifferToPNGTest {
         assertNotNull(mProductGroup)
         assertEquals(2, mProductGroup.size(), JsonOutput.prettyPrint(mProductGroup.toString()))
         //
-        MProduct stuffed = new ImageDifferToPNG(root).makeMProduct(mProductGroup.get(0))
+        MaterialProduct stuffed = new ImageDifferToPNG(root).makeMProduct(mProductGroup.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertTrue(stuffed.getDiffRatio() > 0)

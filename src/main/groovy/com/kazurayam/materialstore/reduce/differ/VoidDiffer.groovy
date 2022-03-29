@@ -4,7 +4,7 @@ import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Jobber
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.Metadata
-import com.kazurayam.materialstore.reduce.MProduct
+import com.kazurayam.materialstore.reduce.MaterialProduct
 import freemarker.cache.ClassTemplateLoader
 import freemarker.template.Configuration
 import freemarker.template.TemplateExceptionHandler
@@ -42,7 +42,7 @@ class VoidDiffer implements Differ {
     }
 
     @Override
-    MProduct makeMProduct(MProduct mProduct) {
+    MaterialProduct makeMProduct(MaterialProduct mProduct) {
         Objects.requireNonNull(mProduct)
         Objects.requireNonNull(mProduct.getLeft())
         Objects.requireNonNull(mProduct.getRight())
@@ -78,7 +78,7 @@ class VoidDiffer implements Differ {
                         diffMetadata,
                         Jobber.DuplicationHandling.CONTINUE)
         //
-        MProduct result = new MProduct(mProduct)
+        MaterialProduct result = new MaterialProduct(mProduct)
         result.setDiff(diffMaterial)
         return result
     }

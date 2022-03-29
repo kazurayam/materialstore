@@ -94,7 +94,7 @@
               </div>
               <#assign count = count + 1>
             <#else>
-              <h1>mProduct is null!</h1>
+              <h1>MaterialProduct is null!</h1>
             </#if>
           </#items>
         </#list>

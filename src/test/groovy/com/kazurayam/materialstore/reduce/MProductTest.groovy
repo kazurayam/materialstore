@@ -50,8 +50,8 @@ class MProductTest {
         ]).build()
         SortKeys sortKeys =
                 new SortKeys("step", "profile")
-        MProduct mProduct =
-                new MProduct.Builder(
+        MaterialProduct mProduct =
+                new MaterialProduct.Builder(
                         Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
                         .setQueryOnMetadata(mp)
                         .sortKeys(sortKeys)
@@ -67,8 +67,8 @@ class MProductTest {
                 "URL.host": "demoaut-mimic.kazurayam.com",
                 "URL.file": "/"
         ]).build()
-        MProduct mProduct =
-                new MProduct.Builder(
+        MaterialProduct mProduct =
+                new MaterialProduct.Builder(
                         Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
                         .setQueryOnMetadata(mp)
                         .build()
@@ -83,8 +83,8 @@ class MProductTest {
                 "URL.host": "demoaut-mimic.kazurayam.com",
                 "URL.file": "/"
         ]).build()
-        MProduct mProduct =
-                new MProduct.Builder(
+        MaterialProduct mProduct =
+                new MaterialProduct.Builder(
                         Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
                         .setQueryOnMetadata(mp)
                         .build()
@@ -99,8 +99,8 @@ class MProductTest {
                 "URL.host": "demoaut-mimic.kazurayam.com",
                 "URL.file": "/"
         ]).build()
-        MProduct mProduct =
-                new MProduct.Builder(
+        MaterialProduct mProduct =
+                new MaterialProduct.Builder(
                         Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
                         .setQueryOnMetadata(mp)
                         .build()

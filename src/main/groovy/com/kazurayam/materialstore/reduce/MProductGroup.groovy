@@ -22,7 +22,7 @@ final class MProductGroup implements TemplateReady {
     private static final Logger logger = LoggerFactory.getLogger(MProductGroup.class)
     private static final boolean verbose = true
 
-    private List<MProduct> mProductList
+    private List<MaterialProduct> mProductList
     private MaterialList materialList0
     private MaterialList materialList1
     private JobTimestamp resultTimestamp
@@ -59,21 +59,21 @@ final class MProductGroup implements TemplateReady {
         this.ignoreMetadataKeys = source.ignoreMetadataKeys    // IgnoreMetadataKeys is immutable
         this.identifyMetadataValues = source.identifyMetadataValues // IdentifyMetadataValues is immutable
         this.sortKeys = source.sortKeys                        // SortKeys is immutable
-        List<MProduct> tmp = new ArrayList<>()
+        List<MaterialProduct> tmp = new ArrayList<>()
         source.mProductList.each { sourceMProduct ->
-            tmp.add(new MProduct(sourceMProduct))
+            tmp.add(new MaterialProduct(sourceMProduct))
         }
         this.mProductList = tmp
         this.resultTimestamp = source.resultTimestamp
         this.readyToReport = source.readyToReport
     }
 
-    void add(MProduct mProduct) {
+    void add(MaterialProduct mProduct) {
         mProduct.annotate(ignoreMetadataKeys, identifyMetadataValues)
         mProductList.add(mProduct)
     }
 
-    boolean update(MProduct mProduct) {
+    boolean update(MaterialProduct mProduct) {
         boolean wasPresent = mProductList.remove(mProduct)
         this.add(mProduct)
         return wasPresent
@@ -81,14 +81,14 @@ final class MProductGroup implements TemplateReady {
 
     int countWarnings(Double criteria) {
         mProductList.stream()
-                .filter { MProduct da ->
+                .filter { MaterialProduct da ->
                     criteria < da.getDiffRatio()
                 }
                 .collect(Collectors.toList())
                 .size()
     }
 
-    MProduct get(int index) {
+    MaterialProduct get(int index) {
         return mProductList.get(index)
     }
 
@@ -148,7 +148,7 @@ final class MProductGroup implements TemplateReady {
         return this.readyToReport
     }
 
-    Iterator<MProduct> iterator() {
+    Iterator<MaterialProduct> iterator() {
         return mProductList.iterator()
     }
 
@@ -185,7 +185,7 @@ final class MProductGroup implements TemplateReady {
 
     List<QueryOnMetadata> getQueryOnMetadataList() {
         List<QueryOnMetadata> list = new ArrayList<>()
-        mProductList.each { MProduct mProduct ->
+        mProductList.each { MaterialProduct mProduct ->
             QueryOnMetadata query = mProduct.getQueryOnMetadata()
             QueryOnMetadata deepCopy = QueryOnMetadata.builder(query).build()
             list.add(deepCopy)
@@ -196,7 +196,7 @@ final class MProductGroup implements TemplateReady {
     /**
      *
      */
-    static List<MProduct> zipMaterials(MaterialList leftList,
+    static List<MaterialProduct> zipMaterials(MaterialList leftList,
                                        MaterialList rightList,
                                        JobTimestamp resultTimestamp,
                                        IgnoreMetadataKeys ignoreMetadataKeys,
@@ -210,7 +210,7 @@ final class MProductGroup implements TemplateReady {
         Objects.requireNonNull(sortKeys)
 
         // the result
-        List<MProduct> mProductList = new ArrayList<>()
+        List<MaterialProduct> mProductList = new ArrayList<>()
 
         //
         rightList.each { Material right->
@@ -229,8 +229,8 @@ final class MProductGroup implements TemplateReady {
                         ( rightPattern.matches(leftMetadata) ||
                                 identifyMetadataValues.matches(leftMetadata) )
                 ) {
-                    MProduct mp =
-                            new MProduct.Builder(left, right, resultTimestamp)
+                    MaterialProduct mp =
+                            new MaterialProduct.Builder(left, right, resultTimestamp)
                                     .setQueryOnMetadata(rightPattern)
                                     .sortKeys(sortKeys)
                                     .build()
@@ -242,8 +242,8 @@ final class MProductGroup implements TemplateReady {
                 }
             }
             if (foundLeftCount == 0) {
-                MProduct mp =
-                        new MProduct.Builder(Material.NULL_OBJECT, right, resultTimestamp)
+                MaterialProduct mp =
+                        new MaterialProduct.Builder(Material.NULL_OBJECT, right, resultTimestamp)
                                 .setQueryOnMetadata(rightPattern)
                                 .sortKeys(sortKeys)
                                 .build()
@@ -279,8 +279,8 @@ final class MProductGroup implements TemplateReady {
                 }
             }
             if (foundRightCount == 0) {
-                MProduct da =
-                        new MProduct.Builder(left, Material.NULL_OBJECT, resultTimestamp)
+                MaterialProduct da =
+                        new MaterialProduct.Builder(left, Material.NULL_OBJECT, resultTimestamp)
                                 .setQueryOnMetadata(leftPattern)
                                 .sortKeys(sortKeys)
                                 .build()
@@ -360,7 +360,7 @@ final class MProductGroup implements TemplateReady {
             int count = 0
             sb.append("\"mProductList\":")
             sb.append("[")
-            mProductList.each { MProduct da ->
+            mProductList.each { MaterialProduct da ->
                 if (count > 0) sb.append(",")
                 sb.append(da.toString())
                 count += 1
@@ -381,7 +381,7 @@ final class MProductGroup implements TemplateReady {
      */
     static class Builder {
         // required
-        private final List<MProduct> mProductList
+        private final List<MaterialProduct> mProductList
         private final MaterialList materialList0
         private final MaterialList materialList1
         private final JobTimestamp resultTimestamp

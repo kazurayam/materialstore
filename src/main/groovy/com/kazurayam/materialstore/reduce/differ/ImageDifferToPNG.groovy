@@ -5,7 +5,7 @@ import com.kazurayam.materialstore.filesystem.FileTypeDiffability
 import com.kazurayam.materialstore.filesystem.Jobber
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.Metadata
-import com.kazurayam.materialstore.reduce.MProduct
+import com.kazurayam.materialstore.reduce.MaterialProduct
 import ru.yandex.qatools.ashot.comparison.ImageDiff
 import ru.yandex.qatools.ashot.comparison.ImageDiffer
 
@@ -38,7 +38,7 @@ final class ImageDifferToPNG implements Differ {
     }
 
     @Override
-    MProduct makeMProduct(MProduct mProduct) {
+    MaterialProduct makeMProduct(MaterialProduct mProduct) {
         Objects.requireNonNull(root_)
         Objects.requireNonNull(mProduct)
         Objects.requireNonNull(mProduct.getLeft())
@@ -79,7 +79,7 @@ final class ImageDifferToPNG implements Differ {
                         diffMetadata, Jobber.DuplicationHandling.CONTINUE)
 
         //
-        MProduct result = new MProduct(mProduct)
+        MaterialProduct result = new MaterialProduct(mProduct)
         result.setDiff(diffMaterial)
         result.setDiffRatio(diffRatio)
         return result

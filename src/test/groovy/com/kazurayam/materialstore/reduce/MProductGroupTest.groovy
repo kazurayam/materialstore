@@ -60,15 +60,15 @@ class MProductGroupTest {
 
     @Test
     void test_add_size_get() {
-        mProductGroup.add(MProduct.NULL_OBJECT)
+        mProductGroup.add(MaterialProduct.NULL_OBJECT)
         assertEquals(1, mProductGroup.size())
-        assertEquals(MProduct.NULL_OBJECT, mProductGroup.get(0))
+        assertEquals(MaterialProduct.NULL_OBJECT, mProductGroup.get(0))
     }
 
     @Test
     void test_countWarnings() {
-        MProduct tmp =
-                new MProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
+        MaterialProduct tmp =
+                new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
                         JobTimestamp.now())
                         .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT)
                         .build()
@@ -103,9 +103,9 @@ class MProductGroupTest {
 
     @Test
     void test_iterator() {
-        mProductGroup.add(MProduct.NULL_OBJECT)
-        mProductGroup.each { MProduct it ->
-            assert it == MProduct.NULL_OBJECT
+        mProductGroup.add(MaterialProduct.NULL_OBJECT)
+        mProductGroup.each { MaterialProduct it ->
+            assert it == MaterialProduct.NULL_OBJECT
         }
     }
 
@@ -143,7 +143,7 @@ class MProductGroupTest {
 
     @Test
     void test_toString() {
-        mProductGroup.add(MProduct.NULL_OBJECT)
+        mProductGroup.add(MaterialProduct.NULL_OBJECT)
         String s = mProductGroup.toString()
         println JsonOutput.prettyPrint(s)
         assertTrue(s.contains("left"), s)
@@ -197,7 +197,7 @@ class MProductGroupTest {
         int theSize = mProductGroup.size()
         assertEquals(8, theSize)
         //
-        MProduct target = mProductGroup.get(0)
+        MaterialProduct target = mProductGroup.get(0)
         //println JsonOutput.prettyPrint(target.toString())
         /*
 {
@@ -243,7 +243,7 @@ class MProductGroupTest {
 }
          */
         // make a clone of the target
-        MProduct clone = new MProduct(target)
+        MaterialProduct clone = new MaterialProduct(target)
         // let's update it
         mProductGroup.update(clone)
         // now the head is not equal to the clone
@@ -257,7 +257,7 @@ class MProductGroupTest {
     @Test
     void test_zipMaterials() {
         specialFixture()
-        List<MProduct> mProductList =
+        List<MaterialProduct> mProductList =
                 MProductGroup.zipMaterials(
                         left, right, JobTimestamp.now(),
                         new IgnoreMetadataKeys.Builder().ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").build(),

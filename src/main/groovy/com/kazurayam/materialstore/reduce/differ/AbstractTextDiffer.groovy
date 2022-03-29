@@ -5,7 +5,7 @@ import com.kazurayam.materialstore.filesystem.FileTypeDiffability
 import com.kazurayam.materialstore.filesystem.Jobber
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.Metadata
-import com.kazurayam.materialstore.reduce.MProduct
+import com.kazurayam.materialstore.reduce.MaterialProduct
 
 import java.nio.charset.Charset
 import java.nio.charset.StandardCharsets
@@ -43,7 +43,7 @@ abstract class AbstractTextDiffer implements Differ {
     }
 
     @Override
-    MProduct makeMProduct(MProduct mProduct) {
+    MaterialProduct makeMProduct(MaterialProduct mProduct) {
         Objects.requireNonNull(root_)
         Objects.requireNonNull(mProduct)
         Objects.requireNonNull(mProduct.getLeft())
@@ -74,7 +74,7 @@ abstract class AbstractTextDiffer implements Differ {
         Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata, Jobber.DuplicationHandling.CONTINUE)
         //
         //
-        MProduct result = new MProduct(mProduct)
+        MaterialProduct result = new MaterialProduct(mProduct)
         result.setDiff(diffMaterial)
         result.setDiffRatio(diffRatio)
         return result

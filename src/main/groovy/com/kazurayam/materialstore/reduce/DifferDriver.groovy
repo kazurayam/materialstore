@@ -7,7 +7,7 @@ interface DifferDriver extends Reducer {
 
     MProductGroup differentiate(MProductGroup mProductGroup)
 
-    MProduct differentiate(MProduct mProduct)
+    MaterialProduct differentiate(MaterialProduct mProduct)
 
     boolean hasDiffer(FileType fileType)
 }
