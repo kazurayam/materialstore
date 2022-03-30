@@ -45,13 +45,15 @@ public interface Store {
 
     JobTimestamp queryLatestJobTimestamp(JobName jobName, QueryOnMetadata query) throws MaterialstoreException;
 
-    MaterialList reflect(MaterialList baseMaterialList) throws MaterialstoreException;
-
     byte[] read(Material material) throws MaterialstoreException;
 
     List<String> readAllLines(Material material) throws MaterialstoreException;
 
     List<String> readAllLines(Material material, Charset charset) throws MaterialstoreException;
+
+    MaterialList reflect(MaterialList baseMaterialList) throws MaterialstoreException;
+
+    long retrieve(Material material, Path out) throws MaterialstoreException;
 
     Jobber getCachedJobber(JobName jobName, JobTimestamp jobTimestamp);
 

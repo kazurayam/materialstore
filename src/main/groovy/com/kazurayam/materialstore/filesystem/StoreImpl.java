@@ -368,6 +368,22 @@ public final class StoreImpl implements Store {
         return MaterialList.NULL_OBJECT;
     }
 
+    @Override
+    public long retrieve(Material material, Path out) throws MaterialstoreException {
+        Objects.requireNonNull(material);
+        Objects.requireNonNull(out);
+        try {
+            if (!Files.exists(out.getParent())) {
+                Files.createDirectories(out.getParent());
+            }
+            byte[] bytes = read(material);
+            MaterialIO.serialize(bytes, out);
+        } catch (IOException e) {
+            throw new MaterialstoreException(e);
+        }
+        return out.toFile().length();
+    }
+
     private static boolean similar(MaterialList baseList, MaterialList targetList) {
         int count = 0;
         Iterator<Material> iter = baseList.iterator();

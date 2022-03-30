@@ -271,6 +271,23 @@ class StoreImplTest {
     }
 
     @Test
+    void test_retrieve() {
+        JobName jobName = new JobName("test_retrieve")
+        TestFixtureUtil.setupFixture(store, jobName)
+        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
+        Metadata metadata = Metadata.builder(new URL("http://demoaut.katalon.com/"))
+                .put("profile", "ProductionEnv")
+                .build();
+        MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY, FileType.PNG);
+        assertNotNull(materialList, "material is null")
+        assertTrue(materialList.size() > 0)
+        Path out = store.getRoot().resolve(jobName.toString()).resolve("screenshot.png")
+        // now do retrieve
+        store.retrieve(materialList.get(0), out);
+        assertTrue(Files.exists(out));
+    }
+
+    @Test
     void test_queryLatestJobTimestamp() {
         JobName jobName = new JobName("test_queryLatestJobTimestamp")
         TestFixtureUtil.setupFixture(store, jobName)
