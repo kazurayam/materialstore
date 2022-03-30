@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -17,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -226,7 +228,7 @@ public final class StoreImpl implements Store {
         if (jobber != null) {
             return jobber;
         } else {
-            Jobber newJob = new Jobber(root_, jobName, jobTimestamp);
+            Jobber newJob = new Jobber(this, jobName, jobTimestamp);
             // put the new Job object in the cache
             jobberCache_.add(newJob);
             return newJob;
@@ -423,6 +425,34 @@ public final class StoreImpl implements Store {
                         material.getJobTimestamp());
         return jobber.read(material);
     }
+
+    @Override
+    public List<String> readAllLines(Material material) throws MaterialstoreException {
+        return readAllLines(material, StandardCharsets.UTF_8);
+    }
+
+    @Override
+    public List<String> readAllLines(Material material, Charset charset) throws MaterialstoreException {
+        Objects.requireNonNull(material);
+        if (material.getDiffability() == FileTypeDiffability.AS_TEXT) {
+            List<String> lines = new ArrayList<>();
+            byte[] bytes = read(material);
+            String s = new String(bytes, charset);
+            BufferedReader br = new BufferedReader(new StringReader(s));
+            String line;
+            try {
+                while ((line = br.readLine()) != null) {
+                    lines.add(line);
+                }
+            } catch (IOException e) {
+                throw new MaterialstoreException(e);
+            }
+            return lines;
+        } else {
+            throw new MaterialstoreException("unable to read " + material.getRelativeURL() + " as text");
+        }
+    }
+
 
     @Override
     public MaterialList select(JobName jobName,

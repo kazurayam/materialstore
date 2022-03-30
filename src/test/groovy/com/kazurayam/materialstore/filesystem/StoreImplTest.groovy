@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test
 
 import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
+import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -288,8 +289,8 @@ class StoreImplTest {
     }
 
     @Test
-    void test_read_material() {
-        JobName jobName = new JobName("test_read_material")
+    void test_read() {
+        JobName jobName = new JobName("test_read")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = Metadata.builder([
                 "profile": "DevelopmentEnv",
@@ -300,6 +301,26 @@ class StoreImplTest {
         //
         byte[] bytes = store.read(material)
         assertTrue(bytes.length > 0)
+    }
+
+    @Test
+    void test_readAllLines() {
+        JobName jobName = new JobName("test_readAllLines")
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        Metadata metadata = Metadata.builder([
+                "profile": "DevelopmentEnv",
+                "URL": "http://devadmin.kazurayam.com/"])
+                .build()
+        Path input = htmlDir.resolve("development.html")
+        Material material = store.write(jobName, jobTimestamp, FileType.HTML, metadata, input)
+        //
+        List<String> allLines = store.readAllLines(material, StandardCharsets.UTF_8)
+        assertTrue(allLines.size() > 0)
+        /*
+        allLines.eachWithIndex({line, index ->
+            println(index + ":" + line)
+        })
+         */
     }
 
     @Test

@@ -49,6 +49,10 @@ public interface Store {
 
     byte[] read(Material material) throws MaterialstoreException;
 
+    List<String> readAllLines(Material material) throws MaterialstoreException;
+
+    List<String> readAllLines(Material material, Charset charset) throws MaterialstoreException;
+
     Jobber getCachedJobber(JobName jobName, JobTimestamp jobTimestamp);
 
     Jobber getJobber(JobName jobName, JobTimestamp jobTimestamp) throws IOException, MaterialstoreException;
