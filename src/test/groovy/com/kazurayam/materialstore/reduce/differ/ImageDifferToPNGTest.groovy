@@ -8,10 +8,12 @@ import com.kazurayam.materialstore.filesystem.JobTimestamp
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.MaterialList
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
+import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.filesystem.StoreImpl
 import com.kazurayam.materialstore.reduce.MProductGroup
 import com.kazurayam.materialstore.reduce.MaterialProduct
 import groovy.json.JsonOutput
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 
 import java.nio.file.Path
@@ -28,23 +30,25 @@ class ImageDifferToPNGTest {
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
 
+    private static Store store
+
+    @BeforeAll
+    static void beforeAll() {
+        Path root = outputDir.resolve("store")
+        store = new StoreImpl(root)
+    }
 
     @Test
-    void test_makeDiff() {
-        Path root = outputDir.resolve("store")
-        StoreImpl storeImpl = new StoreImpl(root)
+    void test_injectDiff() {
         JobName jobName = new JobName("test_makeDiff")
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
-        TestFixtureUtil.setupFixture(storeImpl, jobName)
-        //
-        MaterialList left = storeImpl.select(jobName, jobTimestamp,
+        TestFixtureUtil.setupFixture(store, jobName)
+        MaterialList left = store.select(jobName, jobTimestamp,
                 QueryOnMetadata.builder(["profile": "ProductionEnv"]).build(),
                 FileType.PNG)
-
-        MaterialList right = storeImpl.select(jobName, jobTimestamp,
+        MaterialList right = store.select(jobName, jobTimestamp,
                 QueryOnMetadata.builder(["profile": "DevelopmentEnv"]).build(),
                 FileType.PNG)
-
         MProductGroup mProductGroup =
                 MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
@@ -52,7 +56,7 @@ class ImageDifferToPNGTest {
         assertNotNull(mProductGroup)
         assertEquals(2, mProductGroup.size(), JsonOutput.prettyPrint(mProductGroup.toString()))
         //
-        MaterialProduct stuffed = new ImageDifferToPNG(root).injectDiff(mProductGroup.get(0))
+        MaterialProduct stuffed = new ImageDifferToPNG(store).injectDiff(mProductGroup.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertTrue(stuffed.getDiffRatio() > 0)

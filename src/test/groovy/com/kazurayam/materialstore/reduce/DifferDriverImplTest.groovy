@@ -22,7 +22,6 @@ class DifferDriverImplTest {
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
 
-    private static Path root
     private static Store store
 
     @BeforeAll
@@ -31,15 +30,14 @@ class DifferDriverImplTest {
             FileUtils.deleteDirectory(outputDir.toFile())
         }
         Files.createDirectories(outputDir)
-        root = outputDir.resolve("store")
+        Path root = outputDir.resolve("store")
         Files.createDirectories(root)
         store = new StoreImpl(root)
-        assert Files.exists(root)
     }
 
     @Test
     void test_Builder_differFor() {
-        DifferDriver differDriver = new DifferDriverImpl.Builder(root)
+        DifferDriver differDriver = new DifferDriverImpl.Builder(store)
                 .differFor(FileType.JPEG, new ImageDifferToPNG())
                 .build()
         assertTrue(differDriver.hasDiffer(FileType.JPEG))
@@ -76,7 +74,6 @@ class DifferDriverImplTest {
 
     @Test
     void test_ImageDiffer() {
-        assert Files.exists(root)
         JobName jobName = new JobName("test_ImageDiffer")
         TestFixtureUtil.setupFixture(store, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")

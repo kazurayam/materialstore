@@ -20,7 +20,7 @@ class InspectorImpl extends Inspector {
 
     InspectorImpl(Store store) {
         this.store = store
-        this.reducer = new DifferDriverImpl.Builder(store.getRoot()).build()
+        this.reducer = new DifferDriverImpl.Builder(store).build()
     }
 
     @Override

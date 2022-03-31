@@ -24,12 +24,16 @@ class MaterialTest {
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/resources/fixture/sample_results")
 
+    private static Store store
+
     @BeforeAll
     static void beforeAll() {
         if (Files.exists(outputDir)) {
             FileUtils.deleteDirectory(outputDir.toFile())
         }
         Files.createDirectories(outputDir)
+        Path root = outputDir.resolve("store")
+        store = new StoreImpl(root)
     }
 
     @Test
@@ -52,14 +56,12 @@ class MaterialTest {
 
     @Test
     void test_getRelativePath_getRelativeURL() {
-        Path root = outputDir.resolve("store")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_getRelativePath")
         // copy the fixture files to the output dir
         TestFixtureUtil.setupFixture(store, jobName)
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
-        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        Jobber jobber = new Jobber(store, jobName, jobTimestamp)
         Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"))
         assertNotNull(material)
         //
@@ -74,33 +76,29 @@ class MaterialTest {
 
     @Test
     void test_toFile_and_toURL() {
-        Path root = outputDir.resolve("store")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_toFile_and_toURL")
         // copy the fixture files to the output dir
         TestFixtureUtil.setupFixture(store, jobName)
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
-        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        Jobber jobber = new Jobber(store, jobName, jobTimestamp)
         Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"))
         assertNotNull(material)
         //
-        File f = material.toFile(root)
+        File f = material.toFile(store.getRoot())
         assertTrue(f.exists())
         //
-        URL url = material.toURL(root)
+        URL url = material.toURL(store.getRoot())
         assertTrue(url.toExternalForm().startsWith("file:/"), url.toString())
     }
 
     @Test
     void test_toTemplateModel() {
-        Path root = outputDir.resolve("store")
-        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_toTemplateModel")
         //
         TestFixtureUtil.setupFixture(store, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
-        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        Jobber jobber = new Jobber(store, jobName, jobTimestamp)
         Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"))
         //
         Map<String, Object> model = material.toTemplateModel()

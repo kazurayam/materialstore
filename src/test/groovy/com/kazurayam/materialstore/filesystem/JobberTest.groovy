@@ -29,7 +29,6 @@ class JobberTest {
     private static Path resultsDir =
             Paths.get(".").resolve("src/test/fixture/sample_results")
 
-    private Path root
     private Store store
 
     @BeforeAll
@@ -42,7 +41,7 @@ class JobberTest {
 
     @BeforeEach
     void beforeEach() {
-        root = outputDir.resolve("store")
+        Path root = outputDir.resolve("store")
         store = Stores.newInstance(root)
     }
 
@@ -64,7 +63,7 @@ class JobberTest {
         TestFixtureUtil.setupFixture(store, jobName)
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
-        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        Jobber jobber = new Jobber(store, jobName, jobTimestamp)
         ID id = new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490")
         byte[] data = jobber.read(id, FileType.PNG)
         assertNotNull(data)
@@ -75,7 +74,7 @@ class JobberTest {
         JobName jobName = new JobName("test_read_by_Material")
         TestFixtureUtil.setupFixture(store, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
-        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        Jobber jobber = new Jobber(store, jobName, jobTimestamp)
         Material material = jobber.selectMaterial(
                 new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"))
         assert material != null
@@ -91,7 +90,7 @@ class JobberTest {
         JobName jobName = new JobName("test_selectMaterial_byID")
         TestFixtureUtil.setupFixture(store, jobName)
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357")
-        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        Jobber jobber = new Jobber(store, jobName, jobTimestamp)
         Material material = jobber.selectMaterial(
                 new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"))
         assertNotNull(material)
@@ -126,7 +125,7 @@ class JobberTest {
         TestFixtureUtil.setupFixture(store, jobName)
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
-        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        Jobber jobber = new Jobber(store, jobName, jobTimestamp)
         QueryOnMetadata pattern = QueryOnMetadata.builder()
                 .put("profile", "DevelopmentEnv")
                 .put("URL.host", Pattern.compile(".*"))
@@ -143,7 +142,7 @@ class JobberTest {
         TestFixtureUtil.setupFixture(store, jobName)
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
-        Jobber jobber = new Jobber(root, jobName, jobTimestamp)
+        Jobber jobber = new Jobber(store, jobName, jobTimestamp)
         // select with QueryOnMetadata.ANY, which means all Materials in the job directory
         MaterialList materialList = jobber.selectMaterials(QueryOnMetadata.ANY)
         assertNotNull(materialList)
