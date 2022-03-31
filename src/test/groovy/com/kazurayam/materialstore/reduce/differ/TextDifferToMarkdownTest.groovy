@@ -23,21 +23,21 @@ class TextDifferToMarkdownTest {
 
 
     @Test
-    void test_makeDiff() {
+    void test_injectDiff() {
         Path root = outputDir.resolve("store")
-        StoreImpl storeImpl = new StoreImpl(root)
+        Store store = new StoreImpl(root)
         JobName jobName = new JobName("test_makeDiff")
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922")
-        TestFixtureUtil.setupFixture(storeImpl, jobName)
+        TestFixtureUtil.setupFixture(store, jobName)
         //
-        MaterialList left = storeImpl.select(jobName, jobTimestamp,
+        MaterialList left = store.select(jobName, jobTimestamp,
                 QueryOnMetadata.builder([
                         "category":"page source",
                         "profile": "ProductionEnv"])
                         .build(),
                 FileType.HTML)
 
-        MaterialList right = storeImpl.select(jobName, jobTimestamp,
+        MaterialList right = store.select(jobName, jobTimestamp,
                 QueryOnMetadata.builder([
                         "category":"page source",
                         "profile": "DevelopmentEnv"])
@@ -51,7 +51,7 @@ class TextDifferToMarkdownTest {
         assertNotNull(mProductGroup)
         assertEquals(1, mProductGroup.size())
         //
-        MaterialProduct stuffed = new TextDifferToMarkdown(root).injectDiff(mProductGroup.get(0))
+        MaterialProduct stuffed = new TextDifferToMarkdown(store).injectDiff(mProductGroup.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())
