@@ -6,12 +6,11 @@ import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.reduce.differ.Differ;
 import com.kazurayam.materialstore.reduce.differ.ImageDifferToPNG;
-import com.kazurayam.materialstore.reduce.differ.TextDifferToHTML;
+import com.kazurayam.materialstore.reduce.differ.TextDifferToHTMLMB;
 import com.kazurayam.materialstore.reduce.differ.VoidDiffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -22,12 +21,12 @@ import java.util.Objects;
 public final class DifferDriverImpl implements DifferDriver {
 
     private static final Logger logger = LoggerFactory.getLogger(DifferDriverImpl.class);
-    private final Path root_;
-    private final Map<FileType, Differ> differs_;
+    private final Store store;
+    private final Map<FileType, Differ> differs;
 
     private DifferDriverImpl(Builder builder) {
-        this.root_ = builder.root;
-        this.differs_ = builder.differs;
+        this.store = builder.store;
+        this.differs = builder.differs;
     }
 
     // implements Reducer
@@ -71,14 +70,14 @@ public final class DifferDriverImpl implements DifferDriver {
             fileType = mProduct.getRight().getIndexEntry().getFileType();
         }
 
-        Differ differ = differs_.get(fileType);
-        differ.setRoot(root_);
-        return differ.makeMProduct(mProduct);
+        Differ differ = differs.get(fileType);
+        differ.setStore(store);
+        return differ.injectDiff(mProduct);
     }
 
     @Override
     public boolean hasDiffer(FileType fileType) {
-        return differs_.containsKey(fileType);
+        return differs.containsKey(fileType);
     }
 
     /**
@@ -86,19 +85,15 @@ public final class DifferDriverImpl implements DifferDriver {
      */
     public static class Builder {
 
-        private final Path root;
+        private final Store store;
         private final Map<FileType, Differ> differs;
 
         public Builder(Store store) {
-            this(store.getRoot());
-        }
-
-        public Builder(Path root) {
-            Objects.requireNonNull(root);
-            this.root = root;
+            Objects.requireNonNull(store);
+            this.store = store;
             differs = new HashMap<>();
             //
-            final Differ textDiffer = new TextDifferToHTML();
+            final Differ textDiffer = new TextDifferToHTMLMB();
             for (FileType ft : FileType.getFileTypesDiffableAsText()) {
                 differs.put(ft, textDiffer);
             }

@@ -416,8 +416,8 @@ class StoreImplTest {
     }
 
     @Test
-    void test_selectSingle() {
-        JobName jobName = new JobName("test_selectSingle")
+    void test_selectSingle_generic() {
+        JobName jobName = new JobName("test_selectSingle_generic")
         JobTimestamp jobTimestamp = JobTimestamp.now()
         Metadata metadata = Metadata.builder([
                 "profile": "DevelopmentEnv",
@@ -427,12 +427,29 @@ class StoreImplTest {
         Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
         assertNotNull(material)
         //
-        QueryOnMetadata pattern = QueryOnMetadata.builder()
+        QueryOnMetadata query = QueryOnMetadata.builder()
                 .put("profile", Pattern.compile(".*"))
                 .put("URL", Pattern.compile(".*"))
                 .build()
         // select specifying FileType
-        Material mat = store.selectSingle(jobName, jobTimestamp, pattern, FileType.PNG)
+        Material mat = store.selectSingle(jobName, jobTimestamp, query, FileType.PNG)
+        assertNotNull(mat)
+        assertTrue(Files.exists(mat.toPath(store.getRoot())))
+    }
+
+    @Test
+    void test_selectSingle_specific() {
+        JobName jobName = new JobName("test_selectSingle_specific")
+        JobTimestamp jobTimestamp = JobTimestamp.now()
+        Metadata metadata = Metadata.builder(new URL("http://demoaut-mimic.kazurayam.com/"))
+                .put("profile", "DevelopmentEnv")
+                .build()
+        Path input = imagesDir.resolve("20210710_142631.development.png")
+        Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, input)
+        assertNotNull(material)
+        QueryOnMetadata query = QueryOnMetadata.builder(metadata).build()
+        // select
+        Material mat = store.selectSingle(jobName, jobTimestamp, query, FileType.PNG)
         assertNotNull(mat)
         assertTrue(Files.exists(mat.toPath(store.getRoot())))
     }

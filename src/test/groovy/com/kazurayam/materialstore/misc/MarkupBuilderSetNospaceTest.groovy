@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.misc
 
-import com.kazurayam.materialstore.reduce.differ.TextDifferToHTML
+import com.kazurayam.materialstore.reduce.differ.TextDifferToHTMLMB
 import groovy.xml.MarkupBuilder
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
@@ -95,7 +95,7 @@ class MarkupBuilderSetNospaceTest {
                 " Material)",
                 " {"
         ]
-        assertEquals(expected, TextDifferToHTML.splitStringWithOldNewTags(given))
+        assertEquals(expected, TextDifferToHTMLMB.splitStringWithOldNewTags(given))
     }
 
 

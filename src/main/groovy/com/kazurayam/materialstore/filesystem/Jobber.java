@@ -24,14 +24,14 @@ public final class Jobber {
         TERMINATE, CONTINUE
     }
 
-    public Jobber(Path root, JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException {
-        Objects.requireNonNull(root);
+    public Jobber(Store store, JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException {
+        Objects.requireNonNull(store);
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(jobTimestamp);
 
         this.jobName = jobName;
         this.jobTimestamp = jobTimestamp;
-        jobResultDir = root.resolve(jobName.toString()).resolve(jobTimestamp.toString());
+        jobResultDir = store.getRoot().resolve(jobName.toString()).resolve(jobTimestamp.toString());
         try {
             Files.createDirectories(getObjectsDir());
         } catch (IOException e) {

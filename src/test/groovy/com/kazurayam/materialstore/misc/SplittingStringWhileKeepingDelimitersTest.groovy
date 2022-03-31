@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.misc
 
-import com.kazurayam.materialstore.reduce.differ.TextDifferToHTML
+import com.kazurayam.materialstore.reduce.differ.TextDifferToHTMLMB
 import org.junit.jupiter.api.Test
 
 import static org.junit.jupiter.api.Assertions.assertEquals
@@ -98,8 +98,8 @@ class SplittingStringWhileKeepingDelimitersTest {
 
     @Test
     void test_smoke() {
-        String OT = TextDifferToHTML.OLD_TAG
-        String NT = TextDifferToHTML.NEW_TAG
+        String OT = TextDifferToHTMLMB.OLD_TAG
+        String NT = TextDifferToHTMLMB.NEW_TAG
         String given = "  if ${OT}foo${OT} is ${NT}bar${NT} {"
         List<String> actual = given.split("((?=${OT})|(?<=${OT})|(?=${NT})|(?<=${NT}))") as List
         List<String> expected = [

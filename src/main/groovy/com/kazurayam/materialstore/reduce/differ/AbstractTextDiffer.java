@@ -1,11 +1,13 @@
 package com.kazurayam.materialstore.reduce.differ;
 
+import com.github.difflib.text.DiffRow;
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.FileTypeDiffability;
 import com.kazurayam.materialstore.filesystem.Jobber;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.Metadata;
+import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.reduce.MaterialProduct;
 
 import java.io.BufferedReader;
@@ -13,38 +15,29 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public abstract class AbstractTextDiffer implements Differ {
 
-    private Path root_;
+    protected Store store;
+
     private Charset charset = StandardCharsets.UTF_8;
 
     public AbstractTextDiffer() {
     }
 
-    public AbstractTextDiffer(Path root) {
-        ensureRoot(root);
-        this.root_ = root;
+    public AbstractTextDiffer(Store store) {
+        this.store = store;
     }
 
     @Override
-    public void setRoot(Path root) {
-        ensureRoot(root);
-        this.root_ = root;
-    }
-
-    private static void ensureRoot(final Path root) {
-        Objects.requireNonNull(root);
-        if (!Files.exists(root)) {
-            throw new IllegalArgumentException(root + " is not present");
-        }
-
+    public void setStore(Store store) {
+        this.store = store;
     }
 
     public void setCharset(Charset chs) {
@@ -53,8 +46,8 @@ public abstract class AbstractTextDiffer implements Differ {
     }
 
     @Override
-    public MaterialProduct makeMProduct(MaterialProduct mProduct) throws MaterialstoreException {
-        Objects.requireNonNull(root_);
+    public MaterialProduct injectDiff(MaterialProduct mProduct) throws MaterialstoreException {
+        Objects.requireNonNull(store);
         Objects.requireNonNull(mProduct);
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());
@@ -69,9 +62,8 @@ public abstract class AbstractTextDiffer implements Differ {
             throw new IllegalArgumentException(right + " is not a text");
         }
 
-
         //
-        TextDiffContent textDiffContent = makeContent(root_, left, right, charset);
+        TextDiffContent textDiffContent = makeTextDiffContent(store, left, right, charset);
         Double diffRatio = textDiffContent.getDiffRatio();
 
         //
@@ -82,7 +74,7 @@ public abstract class AbstractTextDiffer implements Differ {
         map.put("right", right.getIndexEntry().getID().toString());
         map.put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio));
         Metadata diffMetadata = Metadata.builder(map).build();
-        Jobber jobber = new Jobber(root_, right.getJobName(), mProduct.getReducedTimestamp());
+        Jobber jobber = new Jobber(store, right.getJobName(), mProduct.getReducedTimestamp());
         Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata, Jobber.DuplicationHandling.CONTINUE);
         //
         MaterialProduct result = new MaterialProduct(mProduct);
@@ -91,7 +83,10 @@ public abstract class AbstractTextDiffer implements Differ {
         return result;
     }
 
-    public abstract TextDiffContent makeContent(Path root, Material original, Material revised, Charset charset);
+    public abstract TextDiffContent makeTextDiffContent(Store store,
+                                                        Material original, Material revised,
+                                                        Charset charset)
+            throws MaterialstoreException;
 
     public static List<String> readAllLines(String longText) throws MaterialstoreException {
         BufferedReader br = new BufferedReader(new StringReader(longText));
@@ -107,13 +102,13 @@ public abstract class AbstractTextDiffer implements Differ {
         return lines;
     }
 
-    public static String readMaterial(Path root, Material material, Charset charset)
+    public static String readMaterial(Store store, Material material, Charset charset)
             throws MaterialstoreException {
-        Objects.requireNonNull(root);
+        Objects.requireNonNull(store);
         Objects.requireNonNull(material);
         Objects.requireNonNull(charset);
         if (!material.equals(Material.NULL_OBJECT)) {
-            Jobber jobber = new Jobber(root, material.getJobName(), material.getJobTimestamp());
+            Jobber jobber = new Jobber(store, material.getJobName(), material.getJobTimestamp());
             byte[] data = jobber.read(material.getIndexEntry());
             return new String(data, charset);
         } else {
@@ -125,4 +120,45 @@ public abstract class AbstractTextDiffer implements Differ {
     private static byte[] toByteArray(String s) {
         return s.getBytes(StandardCharsets.UTF_8);
     }
+
+
+    static final String CLASS_TD_CHANGE = "code-change";
+    static final String CLASS_TD_DELETE = "code-delete";
+    static final String CLASS_TD_EQUAL  = "code-equal";
+    static final String CLASS_TD_INSERT = "code-insert";
+
+    static String getClassOfDiffRow(DiffRow row) {
+        switch (row.getTag()) {
+            case CHANGE:
+                return CLASS_TD_CHANGE;
+            case DELETE:
+                return CLASS_TD_DELETE;
+            case EQUAL:
+                return CLASS_TD_EQUAL;
+            case INSERT:
+                return CLASS_TD_INSERT;
+            default:
+                throw new IllegalArgumentException("unknown row.getTag()=${row.getTag()}");
+        }
+    }
+
+    /**
+     * "Java Split String and Keep Delimitiers"
+     * https://www.baeldung.com/java-split-string-keep-delimiters
+     * @param line
+     * @param clazz
+     * @return
+     */
+    public static final String OLD_TAG = "!_~_!";
+    public static final String NEW_TAG = "!#~#!";
+
+    private static final Pattern SPLITTER =
+            Pattern.compile(String.format("((?=%s)|(?<=%s)|(?=%s)|(?<=%s))",
+                            OLD_TAG, OLD_TAG, NEW_TAG, NEW_TAG));
+
+    public static List<String> splitStringWithOldNewTags(String line) {
+        List<String> segments = Arrays.asList(SPLITTER.split(line));
+        return segments;
+    }
+
 }

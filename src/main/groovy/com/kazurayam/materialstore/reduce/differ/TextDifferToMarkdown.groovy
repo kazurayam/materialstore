@@ -3,6 +3,7 @@ package com.kazurayam.materialstore.reduce.differ
 import com.github.difflib.text.DiffRow
 import com.github.difflib.text.DiffRowGenerator
 import com.kazurayam.materialstore.filesystem.Material
+import com.kazurayam.materialstore.filesystem.Store
 
 import java.nio.charset.Charset
 import java.nio.file.Path
@@ -16,14 +17,14 @@ import java.util.stream.Collectors
  */
 final class TextDifferToMarkdown extends AbstractTextDiffer implements Differ {
 
-    TextDifferToMarkdown(Path root) {
-        super(root)
+    TextDifferToMarkdown(Store store) {
+        super(store)
     }
 
     @Override
-    TextDiffContent makeContent(Path root, Material original, Material revised, Charset charset) {
-        String originalText = readMaterial(root, original, charset)
-        String revisedText = readMaterial(root, revised, charset)
+    TextDiffContent makeTextDiffContent(Store store, Material original, Material revised, Charset charset) {
+        String originalText = readMaterial(store, original, charset)
+        String revisedText = readMaterial(store, revised, charset)
 
         //build simple lists of the lines of the two text files
         List<String> originalLines = readAllLines(originalText)

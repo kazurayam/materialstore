@@ -51,7 +51,7 @@ class TextDifferToMarkdownTest {
         assertNotNull(mProductGroup)
         assertEquals(1, mProductGroup.size())
         //
-        MaterialProduct stuffed = new TextDifferToMarkdown(root).makeMProduct(mProductGroup.get(0))
+        MaterialProduct stuffed = new TextDifferToMarkdown(root).injectDiff(mProductGroup.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff())

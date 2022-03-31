@@ -8,9 +8,9 @@ import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.TemplateModelException;
 
-public class FreeMarkerConfigurator {
+final public class FreeMarkerConfigurator {
 
-    static Configuration configureFreeMarker(Store store)
+    public static Configuration configureFreeMarker(Store store)
             throws MaterialstoreException {
         // create and adjust the configuration singleton
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);

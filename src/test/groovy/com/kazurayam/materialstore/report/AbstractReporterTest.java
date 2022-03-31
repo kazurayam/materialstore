@@ -10,7 +10,7 @@ import java.util.List;
 
 public abstract class AbstractReporterTest {
 
-    List<String> trimLines(List<String> source) {
+    public List<String> trimLines(List<String> source) {
         List<String> trimmed = new ArrayList<>();
         for (String line : source) {
             String s = line.trim()

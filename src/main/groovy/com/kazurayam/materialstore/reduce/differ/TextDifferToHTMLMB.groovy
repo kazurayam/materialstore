@@ -3,10 +3,14 @@ package com.kazurayam.materialstore.reduce.differ
 import com.github.difflib.text.DiffRow
 import com.github.difflib.text.DiffRowGenerator
 import com.kazurayam.materialstore.filesystem.Material
+import com.kazurayam.materialstore.filesystem.Store
+import com.kazurayam.materialstore.report.HTMLPrettyPrintingCapable
 import groovy.xml.MarkupBuilder
+import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import org.jsoup.parser.Parser
 
 import java.nio.charset.Charset
-import java.nio.file.Path
 import java.util.function.Function
 import java.util.regex.Pattern
 import java.util.stream.Collectors
@@ -22,26 +26,38 @@ import java.util.stream.Collectors
 // A problem: how to deal with a long line without white spaces
 //  <script  src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/js/bootstrap-datepicker.min.js"></script>
 
-final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
+final class TextDifferToHTMLMB extends AbstractTextDiffer implements Differ, HTMLPrettyPrintingCapable {
 
-    public static final String OLD_TAG = "!_~_!"
-    public static final String NEW_TAG = "!#~#!"
+    private boolean prettyPrinting = false;
 
-    TextDifferToHTML() {}
+    TextDifferToHTMLMB() {}
 
-    TextDifferToHTML(Path root) {
-        super(root)
+    TextDifferToHTMLMB(Store store) {
+        super(store)
     }
 
     @Override
-    void setRoot(Path root) {
-        super.setRoot(root)
+    public void enablePrettyPrinting(boolean enabled) {
+        this.prettyPrinting = enabled;
     }
 
     @Override
-    TextDiffContent makeContent(Path root, Material left, Material right, Charset charset) {
-        String leftText = readMaterial(root, left, charset)
-        String rightText = readMaterial(root, right, charset)
+    public boolean isPrettyPrintingEnabled() {
+        return prettyPrinting;
+    }
+
+
+    @Override
+    void setStore(Store store) {
+        super.setStore(store)
+    }
+
+    @Override
+    TextDiffContent makeTextDiffContent(Store store,
+                                        Material left, Material right,
+                                        Charset charset) {
+        String leftText = readMaterial(store, left, charset)
+        String rightText = readMaterial(store, right, charset)
 
         //build simple lists of the lines of the two text files
         List<String> leftLines = readAllLines(leftText)
@@ -89,6 +105,7 @@ final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
 
         StringWriter sw = new StringWriter()
         MarkupBuilder mb = new MarkupBuilder(sw)
+        mb.setDoubleQuotes(true)
         mb.html(lang: "en") {
             head() {
                 meta(charset: "utf-8")
@@ -109,7 +126,7 @@ final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                         h3() {
                             if (equalRows.size() < rows.size()) {
                                 span("are DIFFERENT")
-                                span(style: "margin-left: 20px;", "${ratio}%")
+                                span(style: "margin-left: 20px;", "${ratio}")
                             } else {
                                 span("are EQUAL")
                             }
@@ -230,8 +247,16 @@ final class TextDifferToHTML extends AbstractTextDiffer implements Differ {
                 }
             }
         }
+
+        String html = sw.toString();
+        if (isPrettyPrintingEnabled()) {
+            Document doc = Jsoup.parse(html, "", Parser.htmlParser());
+            doc.outputSettings().indentAmount(2);
+            html = doc.toString();
+        }
+
         TextDiffContent textDiffContent =
-                new TextDiffContent.Builder(sw.toString())
+                new TextDiffContent.Builder(html)
                         .inserted(insertedRows.size())
                         .deleted(deletedRows.size())
                         .changed(changedRows.size())
@@ -273,6 +298,7 @@ td, th {
     font-size: 12px;
     border-right: 1px solid #ccc;
     display: table-cell;
+    overflow-wrap: break-word;
 }
 th {
     border-bottom: 1px solid #ccc;
@@ -303,48 +329,12 @@ th {
     }
 
 
-    /**
-     * "Java Split String and Keep Delimitiers"
-     * https://www.baeldung.com/java-split-string-keep-delimiters
-     * @param line
-     * @param clazz
-     * @return
-     */
-    private static final Pattern SPLITTER =
-            Pattern.compile("((?=${OLD_TAG})|(?<=${OLD_TAG})|(?=${NEW_TAG})|(?<=${NEW_TAG}))")
-
-    static List<String> splitStringWithOldNewTags(String line) {
-        List<String> segments = SPLITTER.split(line) as List
-        return segments
-    }
 
 
-    static final String CLASS_TD_CHANGE = "code-change"
-    static final String CLASS_TD_DELETE = "code-delete"
-    static final String CLASS_TD_EQUAL  = "code-equal"
-    static final String CLASS_TD_INSERT = "code-insert"
 
-    static String getClassOfDiffRow(DiffRow row) {
-        switch (row.getTag()) {
-            case DiffRow.Tag.CHANGE:
-                return CLASS_TD_CHANGE
-                break
-            case DiffRow.Tag.DELETE:
-                return CLASS_TD_DELETE
-                break
-            case DiffRow.Tag.EQUAL:
-                return CLASS_TD_EQUAL
-                break
-            case DiffRow.Tag.INSERT:
-                return CLASS_TD_INSERT
-                break
-            default:
-                throw new IllegalArgumentException("unknown row.getTag()=${row.getTag()}")
-        }
-    }
 
     static void markupSegments(MarkupBuilder mb, List<String> segments) {
-        nospace(mb)
+        //nospace(mb)
         mb.span(class: "blob-code-inner") {
             boolean inOldTag = false
             boolean inNewTag = false
@@ -358,13 +348,13 @@ th {
                         break
                     default:
                         if (inOldTag) {
-                            nospace(mb)
+                            //nospace(mb)
                             mb.span(class: "deletion", segment)
                         } else if (inNewTag) {
-                            nospace(mb)
+                            //nospace(mb)
                             mb.span(class: "insertion", segment)
                         } else {
-                            nospace(mb)
+                            //nospace(mb)
                             mb.span(class: "unchanged", segment)
                         }
                         break

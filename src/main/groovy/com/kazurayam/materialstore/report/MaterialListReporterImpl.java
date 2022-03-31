@@ -100,7 +100,7 @@ public class MaterialListReporterImpl extends MaterialListReporter {
             throw new MaterialstoreException(e);
         }
 
-        /* Merge data-model with template */
+        /* Merge data-model with the template */
         Writer sw = new StringWriter();
         try {
             template.process(model, sw);

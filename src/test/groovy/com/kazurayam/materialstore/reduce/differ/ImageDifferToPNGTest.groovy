@@ -52,7 +52,7 @@ class ImageDifferToPNGTest {
         assertNotNull(mProductGroup)
         assertEquals(2, mProductGroup.size(), JsonOutput.prettyPrint(mProductGroup.toString()))
         //
-        MaterialProduct stuffed = new ImageDifferToPNG(root).makeMProduct(mProductGroup.get(0))
+        MaterialProduct stuffed = new ImageDifferToPNG(root).injectDiff(mProductGroup.get(0))
         assertNotNull(stuffed)
         assertNotNull(stuffed.getDiff())
         assertTrue(stuffed.getDiffRatio() > 0)

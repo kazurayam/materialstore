@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.filesystem.FileType
 import com.kazurayam.materialstore.filesystem.Jobber
 import com.kazurayam.materialstore.filesystem.Material
 import com.kazurayam.materialstore.filesystem.Metadata
+import com.kazurayam.materialstore.filesystem.Store
 import com.kazurayam.materialstore.reduce.MaterialProduct
 import freemarker.cache.ClassTemplateLoader
 import freemarker.template.Configuration
@@ -17,7 +18,7 @@ import java.nio.file.Path
  */
 class VoidDiffer implements Differ {
 
-    private Path root
+    private Store store
     private Configuration cfg
 
     VoidDiffer() {
@@ -37,12 +38,12 @@ class VoidDiffer implements Differ {
     }
 
     @Override
-    void setRoot(Path root) {
-        this.root = root
+    void setStore(Store store) {
+        this.store = store
     }
 
     @Override
-    MaterialProduct makeMProduct(MaterialProduct mProduct) {
+    MaterialProduct injectDiff(MaterialProduct mProduct) {
         Objects.requireNonNull(mProduct)
         Objects.requireNonNull(mProduct.getLeft())
         Objects.requireNonNull(mProduct.getRight())
@@ -54,7 +55,7 @@ class VoidDiffer implements Differ {
         dataModel.put("right", right.toString())
         // Get the template
         Template template = cfg.getTemplate(
-                "com/kazurayam/materialstore/differ/VoidDifferTemplate.ftlh")
+                "com/kazurayam/materialstore/reduce/differ/VoidDifferTemplate.ftlh")
 
         // Merge data model with Template
         ByteArrayOutputStream baos = new ByteArrayOutputStream()
@@ -70,8 +71,8 @@ class VoidDiffer implements Differ {
                 "left": left.getIndexEntry().getID().toString(),
                 "right": right.getIndexEntry().getID().toString()])
                 .build()
-        assert root != null
-        Jobber jobber = new Jobber(root, right.getJobName(), mProduct.getReducedTimestamp())
+        assert store != null
+        Jobber jobber = new Jobber(store.getRoot(), right.getJobName(), mProduct.getReducedTimestamp())
         Material diffMaterial =
                 jobber.write(diffData,
                         FileType.HTML,

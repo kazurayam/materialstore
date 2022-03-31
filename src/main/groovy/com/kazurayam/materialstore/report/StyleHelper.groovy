@@ -17,8 +17,13 @@ class StyleHelper {
      * @return a css content which should be embedded in the HTML file generated
      * by MaterialListReporterImplMB and MProductGroupReporterImplMB
      */
-    static String loadStyleFromClasspath() {
-        InputStream inputStream = StyleHelper.class.getResourceAsStream(CSS_PATH)
+    public static String loadStyleFromClasspath() {
+        return loadStyleFromClasspath(CSS_PATH)
+    }
+
+    public static String loadStyleFromClasspath(String cssPath) {
+        Objects.requireNonNull(cssPath);
+        InputStream inputStream = StyleHelper.class.getResourceAsStream(cssPath)
         if (inputStream != null) {
             BufferedReader br = new BufferedReader(
                     new InputStreamReader(inputStream, "UTF-8"))
@@ -30,7 +35,7 @@ class StyleHelper {
             }
             return sb.toString()
         } else {
-            throw new IllegalArgumentException("unabled to load ${CSS_PATH}")
+            throw new IllegalArgumentException("unabled to load ${cssPath}")
         }
     }
 
