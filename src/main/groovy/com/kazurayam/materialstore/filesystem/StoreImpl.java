@@ -75,11 +75,7 @@ public final class StoreImpl implements Store {
         Iterator<Material> iter = sourceMaterialList.iterator();
         while (iter.hasNext()) {
             Material material = iter.next();
-            try {
-                identity.map(material);
-            } catch (IOException e) {
-                throw new MaterialstoreException(e);
-            }
+            identity.map(material);
             count += 1;
         }
 
