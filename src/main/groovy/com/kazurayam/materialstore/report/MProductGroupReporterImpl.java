@@ -44,7 +44,7 @@ public class MProductGroupReporterImpl extends MProductGroupReporter {
 
     private final Configuration cfg;
 
-    MProductGroupReporterImpl(Store store, JobName jobName) throws MaterialstoreException {
+    public MProductGroupReporterImpl(Store store, JobName jobName) throws MaterialstoreException {
         Objects.requireNonNull(store);
         Objects.requireNonNull(jobName);
         this.store = store;
