@@ -93,7 +93,7 @@ class RowTest {
         List<String> row1 = ["a", "b", "c"]
         Row r1 = new Row(row1, 0..1)
         println r1.toString()
-        assertEquals('''{"key":["a","b"],"values":["a", "b", "c"],"keyRange":[0, 1]}''', r1.toString())
+        assertEquals('''{"key":["a","b"],"values":["a", "b", "c"],"keyRange":[0,1]}''', r1.toString())
     }
 
 
