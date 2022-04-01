@@ -67,14 +67,29 @@ public abstract class TextGridDifferBuilder {
         return warnings;
     }
 
-    private final void jsonifyAndStore(Store store, JobName jobName, JobTimestamp jobTimestamp, List<List<String>> input, KeyRange keyRange, String inputId) {
+    private final void jsonifyAndStore(Store store,
+                                       JobName jobName,
+                                       JobTimestamp jobTimestamp,
+                                       List<List<String>> input,
+                                       KeyRange keyRange,
+                                       String inputId) throws MaterialstoreException {
         jsonifyAndStoreRows(store, jobName, jobTimestamp, input, keyRange, inputId);
         jsonifyAndStoreKeys(store, jobName, jobTimestamp, input, keyRange, inputId);
     }
 
-    public abstract void jsonifyAndStoreRows(Store store, JobName jobName, JobTimestamp jobTimestamp, List<List<String>> input, KeyRange keyRange, String inputId);
+    public abstract void jsonifyAndStoreRows(Store store,
+                                             JobName jobName,
+                                             JobTimestamp jobTimestamp,
+                                             List<List<String>> input,
+                                             KeyRange keyRange,
+                                             String inputId) throws MaterialstoreException;
 
-    public abstract void jsonifyAndStoreKeys(Store store, JobName jobName, JobTimestamp jobTimestamp, List<List<String>> input, KeyRange keyRange, String inputId);
+    public abstract void jsonifyAndStoreKeys(Store store,
+                                             JobName jobName,
+                                             JobTimestamp jobTimestamp,
+                                             List<List<String>> input,
+                                             KeyRange keyRange,
+                                             String inputId) throws MaterialstoreException;
 
     public Path getReportPath() {
         return reportFile.normalize().toAbsolutePath();
@@ -84,7 +99,7 @@ public abstract class TextGridDifferBuilder {
         return base.relativize(getReportPath());
     }
 
-    protected static final void writeLinesIntoFile(List<String> lines, File file) throws MaterialstoreException {
+    protected static void writeLinesIntoFile(List<String> lines, File file) throws MaterialstoreException {
         try {
             PrintWriter pw = new PrintWriter(new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), "UTF-8")));
             for (String line : lines) {
