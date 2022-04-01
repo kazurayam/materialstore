@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.facet.textgrid;
 
 import com.google.gson.Gson;
-import groovy.lang.Range;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,10 +11,10 @@ import java.util.Objects;
 public class Row implements Comparable<Row> {
 
     private final Values values;
-    private final Range<Integer> keyRange;
+    private final KeyRange keyRange;
     private final Key key;
 
-    public Row(List<String> row, Range<Integer> keyRange) {
+    public Row(List<String> row, KeyRange keyRange) {
         Objects.requireNonNull(row);
         Objects.requireNonNull(keyRange);
         validateKeyRange(row, keyRange);
@@ -24,7 +23,7 @@ public class Row implements Comparable<Row> {
         this.key = new Key(row, keyRange);
     }
 
-    private static void validateKeyRange(List<String> row, Range<Integer> keyRange) {
+    private static void validateKeyRange(List<String> row, KeyRange keyRange) {
         assert keyRange.getFrom() <= keyRange.getTo();
         assert 0 <= keyRange.getFrom();
         assert keyRange.getFrom() < row.size();
@@ -36,7 +35,7 @@ public class Row implements Comparable<Row> {
         return this.values;
     }
 
-    public Range<Integer> keyRange() {
+    public KeyRange keyRange() {
         return this.keyRange;
     }
 
@@ -84,7 +83,7 @@ public class Row implements Comparable<Row> {
         sb.append(",");
         sb.append(gson.toJson("keyRange"));
         sb.append(":");
-        sb.append(gson.toJson(this.keyRange()));
+        sb.append(keyRange().toJson());
         sb.append("}");
         return sb.toString();
     }

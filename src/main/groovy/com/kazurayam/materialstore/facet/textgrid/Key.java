@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.facet.textgrid;
 
 import com.google.gson.Gson;
-import groovy.lang.Range;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,9 +12,9 @@ import java.util.Objects;
 public class Key implements Comparable<Key> {
 
     private final List<String> keyElements = new ArrayList<>();
-    private final Range<Integer> keyRange;
+    private final KeyRange keyRange;
 
-    public Key(List<String> row, Range<Integer> keyRange) {
+    public Key(List<String> row, KeyRange keyRange) {
         Objects.requireNonNull(row);
         Objects.requireNonNull(keyRange);
         validateParams(row, keyRange);
@@ -23,13 +22,13 @@ public class Key implements Comparable<Key> {
         this.keyRange = keyRange;
     }
 
-    private static void validateParams(List<String> row, Range<Integer> keyRange) {
+    private static void validateParams(List<String> row, KeyRange keyRange) {
         assert 0 <= keyRange.getFrom();
         assert keyRange.getFrom() <= keyRange.getTo();
         assert keyRange.getTo() < row.size();
     }
 
-    private static List<String> getKeyElements(List<String> row, Range<Integer> keyRange) {
+    private static List<String> getKeyElements(List<String> row, KeyRange keyRange) {
         List<String> keyElements = new ArrayList<>();
         for (int i = keyRange.getFrom(); i <= keyRange.getTo() ; i++) {
             keyElements.add(row.get(i));
@@ -42,7 +41,7 @@ public class Key implements Comparable<Key> {
         return this.keyElements;
     }
 
-    public Range<Integer> keyRange() {
+    public KeyRange keyRange() {
         return this.keyRange;
     }
 
@@ -121,8 +120,5 @@ public class Key implements Comparable<Key> {
         } else {
             return +1;
         }
-
     }
-
-
 }

@@ -44,7 +44,7 @@ class DefaultTextGridDifferTest {
     @Test
     void test_diffTextGrids_typical() {
         DefaultTextGridDiffer differ = new DefaultTextGridDiffer(outputDir)
-        int warnings = differ.diffTextGrids(input1, input2, 0..1, "SampleCase")
+        int warnings = differ.diffTextGrids(input1, input2, new KeyRange(0,1), "SampleCase")
         Path report = differ.getReportPath()
         println "the report is found at " + differ.getReportPathRelativeTo(projectDir)
         assertTrue(warnings > 0)
