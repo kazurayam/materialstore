@@ -99,7 +99,7 @@ tasks.withType(GroovyCompile) {
 
 test {
     useJUnitPlatform()
-    //finalizedBy jacocoTestReport
+    finalizedBy jacocoTestReport
 }
 
 task groovydocJar(type: Jar) {
