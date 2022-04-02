@@ -11,10 +11,11 @@ public class SemanticVersionPattern {
 
     private static final Logger logger = LoggerFactory.getLogger(SemanticVersionPattern.class);
 
-    private static final String REGEX_HEADER = "(\\S+)";
-    private static final String REGEX_VERSION = "(\\d+\\.\\d+\\.\\d+(-[a-zA-Z][0-9a-zA-Z]*)?)";
-    private static final String REGEX_TRAILER = "(\\S*)";
-    private static final Pattern VERSIONED_PATH_PARSER = Pattern.compile(REGEX_HEADER + REGEX_VERSION + REGEX_TRAILER);
+    static final String REGEX_HEADER = "(\\S+)";
+    static final String REGEX_VERSION = "(\\d+\\.\\d+\\.\\d+(-[a-zA-Z][0-9a-zA-Z]*)?)";
+    static final String REGEX_TRAILER = "(\\S*)";
+    static final Pattern VERSIONED_PATH_PARSER = Pattern.compile(REGEX_HEADER + REGEX_VERSION + REGEX_TRAILER);
+
     private final Pattern pattern;
 
     public SemanticVersionPattern(String baseStr) {
