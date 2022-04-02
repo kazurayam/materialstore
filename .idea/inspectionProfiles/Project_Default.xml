@@ -39,6 +39,7 @@
           <option value="http://myadmin.kazurayam.com" />
           <option value="http://demoaut-mimic.katalon.com" />
           <option value="http://example.com" />
+          <option value="http://devadmin.kazurayam.com" />
         </list>
       </option>
     </inspection_tool>
