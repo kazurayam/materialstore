@@ -36,7 +36,7 @@ import java.util.stream.Collectors;
  * e.g,
  * 6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{"URL":"http://demoaut-mimic.kazurayam.com/","profile":"DevelopmentEnv"}
  */
-final class Index {
+final class Index implements Iterable<IndexEntry> {
 
     private static final Logger logger_ = LoggerFactory.getLogger(Index.class);
 

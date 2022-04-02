@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public final class MProductGroup implements TemplateReady {
+public final class MProductGroup implements Iterable<MaterialProduct>, TemplateReady {
 
     private static final Logger logger = LoggerFactory.getLogger(MProductGroup.class);
     private final List<MaterialProduct> mProductList;
@@ -57,9 +57,7 @@ public final class MProductGroup implements TemplateReady {
         this.identifyMetadataValues = source.getIdentifyMetadataValues();// IdentifyMetadataValues is immutable
         this.sortKeys = source.getSortKeys();                            // SortKeys is immutable
         final List<MaterialProduct> tmp = new ArrayList<>();
-        Iterator<MaterialProduct> iter = source.iterator();
-        while (iter.hasNext()) {
-            MaterialProduct sourceMProduct = iter.next();
+        for (MaterialProduct sourceMProduct : source) {
             tmp.add(new MaterialProduct(sourceMProduct));
         }
         this.mProductList = tmp;

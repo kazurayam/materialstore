@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public final class MaterialList implements Jsonifiable, TemplateReady {
+public final class MaterialList implements Iterable<Material>, Jsonifiable, TemplateReady {
 
     private static final Logger logger = LoggerFactory.getLogger(MaterialList.class.getName());
 

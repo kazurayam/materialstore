@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public abstract class IgnoreMetadataKeys implements Jsonifiable, TemplateReady {
+public abstract class IgnoreMetadataKeys implements Iterable<String>, Jsonifiable, TemplateReady {
 
     public static final IgnoreMetadataKeys NULL_OBJECT = new Builder().build();
 
