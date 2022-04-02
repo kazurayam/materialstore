@@ -5,8 +5,10 @@ import com.google.gson.Gson;
 import com.kazurayam.materialstore.util.GsonHelper;
 
 import java.lang.reflect.Type;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public interface TemplateReady extends Jsonifiable {
 
@@ -18,6 +20,7 @@ public interface TemplateReady extends Jsonifiable {
         Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
         return new Gson().fromJson(toJson(), mapType);
     }
+
 
     /**
      * @return one line json (non-pretty-printed)

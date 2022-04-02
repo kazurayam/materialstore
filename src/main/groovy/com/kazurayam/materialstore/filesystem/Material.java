@@ -5,6 +5,7 @@ import com.kazurayam.materialstore.util.JsonUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -52,21 +53,21 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return Paths.get(".").resolve(jobName_.toString()).resolve(jobTimestamp_.toString()).resolve(Jobber.getOBJECTS_DIR_NAME()).resolve(this.getIndexEntry().getFileName()).normalize();
     }
 
-    public File toFile(final Path root) throws IOException {
+    public File toFile(final Path root) throws MaterialstoreException {
         Objects.requireNonNull(root);
         if (!Files.exists(root)) {
-            throw new IOException(root + " is not found");
+            throw new MaterialstoreException(root + " is not found");
         }
 
         final Path p = root.resolve(getRelativePath());
         if (!Files.exists(p)) {
-            throw new IOException(p + " is not found");
+            throw new MaterialstoreException(p + " is not found");
         }
 
         return p.toFile();
     }
 
-    public Path toPath(Path root) throws IOException {
+    public Path toPath(Path root) throws MaterialstoreException {
         return this.toFile(root).toPath();
     }
 
@@ -74,8 +75,12 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
      * returns a URL in the form of "file:/". The path will be an absolute path.
      *
      */
-    public URL toURL(Path root) throws IOException {
-        return this.toFile(root).toURI().toURL();
+    public URL toURL(Path root) throws MaterialstoreException {
+        try {
+            return this.toFile(root).toURI().toURL();
+        } catch (MalformedURLException e) {
+            throw new MaterialstoreException(e);
+        }
     }
 
     /**
