@@ -14,8 +14,9 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MaterialTest {
 
@@ -38,7 +39,7 @@ public class MaterialTest {
         String sampleLine = "6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{\"profile\":\"DevelopmentEnv\",\"URL\":\"http://demoaut-mimic.kazurayam.com/\"}";
         IndexEntry indexEntry = IndexEntry.parseLine(sampleLine);
         Material material = new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, indexEntry);
-        Assertions.assertNotNull(material);
+        assertNotNull(material);
         Assertions.assertEquals("6141b40cfe9e7340a483a3097c4f6ff5d20e04ea",
                 material.getIndexEntry().getID().toString());
         Assertions.assertEquals("6141b40",
@@ -63,7 +64,7 @@ public class MaterialTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
         Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"));
-        Assertions.assertNotNull(material);
+        assertNotNull(material);
         //
         Path leftPath = Paths.get("test_getRelativePath/20210713_093357/objects/12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490.png");
         Path relativePath = material.getRelativePath();
@@ -83,7 +84,7 @@ public class MaterialTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
         Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"));
-        Assertions.assertNotNull(material);
+        assertNotNull(material);
         //
         File f = material.toFile(store.getRoot());
         Assertions.assertTrue(f.exists());
@@ -103,19 +104,18 @@ public class MaterialTest {
         //
         Map<String, Object> model = material.toTemplateModel();
         //System.out.println(JsonUtil.prettyPrint(material.toJson()));
-        Assertions.assertNotNull(model);
+        assertNotNull(model);
         Assertions.assertEquals("test_toTemplateModel", model.get("jobName"));
         Assertions.assertEquals("20210713_093357", model.get("jobTimestamp"));
         Assertions.assertEquals("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490", model.get("id"));
         Assertions.assertEquals("png", model.get("fileType"));
+        //
+        Map<String, Object> metadata = material.getMetadata().toTemplateModel();
+        Assertions.assertEquals("demoaut.katalon.com", ((Map)metadata.get("URL.host")).get("value"));
+        Assertions.assertEquals("/", ((Map)metadata.get("URL.path")).get("value"));
+        Assertions.assertEquals("http", ((Map)metadata.get("URL.protocol")).get("value"));
+        Assertions.assertEquals("screenshot", ((Map)metadata.get("category")).get("value"));
+        Assertions.assertEquals("ProductionEnv", ((Map)metadata.get("profile")).get("value"));
 
-        // the following statements does not compile in Java though once worked in Groovy
-        /*
-        Assertions.assertEquals("demoaut.katalon.com", metadata.get("URL.host").get("value"));
-        Assertions.assertEquals("/", metadata.get("URL.path").get("value"));
-        Assertions.assertEquals("http", metadata.get("URL.protocol").get("value"));
-        Assertions.assertEquals("screenshot", metadata.get("category").get("value"));
-        Assertions.assertEquals("ProductionEnv", metadata.get("profile").get("value"));
-         */
     }
 }
