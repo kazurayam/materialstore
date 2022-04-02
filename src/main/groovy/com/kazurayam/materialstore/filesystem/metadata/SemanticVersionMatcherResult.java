@@ -1,13 +1,14 @@
 package com.kazurayam.materialstore.filesystem.metadata;
 
 import com.kazurayam.materialstore.filesystem.Jsonifiable;
+import com.kazurayam.materialstore.filesystem.TemplateReady;
 import com.kazurayam.materialstore.util.JsonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
-public class SemanticVersionMatcherResult implements Jsonifiable {
+public class SemanticVersionMatcherResult implements Jsonifiable, TemplateReady {
 
     private boolean matched;
     private List<String> fragments;
