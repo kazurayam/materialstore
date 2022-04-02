@@ -215,6 +215,4 @@ public class JobberTest {
         // then there should be only one file in the objects directory
         Assertions.assertEquals(1, jobber.size());
     }
-
-
 }
