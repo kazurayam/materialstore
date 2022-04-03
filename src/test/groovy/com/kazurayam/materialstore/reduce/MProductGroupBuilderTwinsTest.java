@@ -21,11 +21,11 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.function.BiFunction;
 
-public class MProductGroupBuilderChronosTest {
+public class MProductGroupBuilderTwinsTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MProductGroupBuilderChronosTest.class.getName());
+
+    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MProductGroupBuilderTwinsTest.class.getName());
     private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixture/issue#80");
-    private static final boolean verbose = true;
     private static Store store;
     private MaterialList left;
     private MaterialList right;
@@ -40,49 +40,34 @@ public class MProductGroupBuilderChronosTest {
         Path storePath = outputDir.resolve("store");
         FileUtils.copyDirectory(fixtureDir.toFile(), storePath.toFile());
         store = Stores.newInstance(storePath);
-        //
-        if (verbose) {
-            System.setProperty("org.slf4j.simpleLogger.log.com.kazurayam.materialstore.reduce.MProductGroup", "DEBUG");
-        }
-
     }
 
     @BeforeEach
     public void setup() throws MaterialstoreException {
         JobName jobName = new JobName("MyAdmin_visual_inspection_twins");
+        JobTimestamp timestampP = new JobTimestamp("20220128_191320");
         JobTimestamp timestampD = new JobTimestamp("20220128_191342");
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
-        map.put("profile", "MyAdmin_DevelopmentEnv");
-        right = store.select(jobName, timestampD, QueryOnMetadata.builder(map).build());
-        assert right.size() == 8;
-        assert right.countMaterialsWithIdStartingWith("5d7e467") == 1;
-
-
-        // modify the test fixture to meet the requirement for Chronos mode test
-        // copy "20220128_191342" to "20220101_010101"; these 2 JobTimestamps makes a Chronos pair
-        JobTimestamp timestampW = new JobTimestamp("20220101_010101");
-        store.copyMaterials(jobName, timestampD, timestampW);
-
+        map.put("profile", "MyAdmin_ProductionEnv");
+        left = store.select(jobName, timestampP, QueryOnMetadata.builder(map).build());
+        assert left.size() == 8;
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
         map1.put("profile", "MyAdmin_DevelopmentEnv");
-        left = store.select(jobName, timestampW, QueryOnMetadata.builder(map1).build());
-        assert left.size() == 8;
-        assert left.countMaterialsWithIdStartingWith("5d7e467") == 1;
+        right = store.select(jobName, timestampD, QueryOnMetadata.builder(map1).build());
+        assert right.size() == 8;
     }
 
     @Test
-    public void test_chronos() throws MaterialstoreException {
+    public void test_twins() {
         BiFunction<MaterialList, MaterialList, MProductGroup> func =
                 (MaterialList left, MaterialList right) ->
-                        MProductGroup.builder(left,right)
+                        MProductGroup.builder(left, right)
                                 .ignoreKeys("profile", "URL.host")
-                                .identifyWithRegex(Collections.singletonMap("URL.query","\\w{32}"))
+                                .identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"))
                                 .build();
-        MProductGroup reduced = MProductGroupBuilder.chronos(store, right, func);
+        MProductGroup reduced = MProductGroupBuilder.twins(store, left, right, func);
         Assertions.assertNotNull(reduced);
-        Assertions.assertEquals(1, reduced.getMaterialListPrevious().countMaterialsWithIdStartingWith("5d7e467"));
-        Assertions.assertEquals(1, reduced.getMaterialListFollowing().countMaterialsWithIdStartingWith("5d7e467"));
         Assertions.assertEquals(8, reduced.size());
+        //println JsonOutput.prettyPrint(reduced.toString())
     }
-
 }
