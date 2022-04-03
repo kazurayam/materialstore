@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.misc
+package com.kazurayam.materialstore.report.markdupbuilder_templates
 
 import com.kazurayam.materialstore.reduce.differ.TextDifferToHTMLMB
 import groovy.xml.MarkupBuilder
