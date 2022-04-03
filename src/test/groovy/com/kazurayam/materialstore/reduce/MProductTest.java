@@ -61,7 +61,7 @@ public class MProductTest {
         map.put("URL.file", "/");
         QueryOnMetadata mp = QueryOnMetadata.builder(map).build();
         MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).build();
-        Assertions.assertEquals("{\"URL.file\":\"/\", \"URL.host\":\"demoaut - mimic.kazurayam.com\"}",
+        Assertions.assertEquals("{\"URL.file\":\"/\", \"URL.host\":\"demoaut-mimic.kazurayam.com\"}",
                 mProduct.getDescription());
     }
 

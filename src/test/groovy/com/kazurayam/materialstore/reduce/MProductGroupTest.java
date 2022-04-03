@@ -246,16 +246,10 @@ public class MProductGroupTest {
         map.put("URL.query", "\\w{32}");
         List<MaterialProduct> mProductList = MProductGroup.zipMaterials(left, right, JobTimestamp.now(), new IgnoreMetadataKeys.Builder().ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").build(), new IdentifyMetadataValues.Builder().putAllNameRegexPairs(map).build(), new SortKeys("URL.host"));
         Assertions.assertNotNull(mProductList);
-        DefaultGroovyMethods.each(mProductList, new Closure<Object>(this, this) {
-            public void doCall(Object mProduct) {
-                //println JsonOutput.prettyPrint(mProduct.toString())
-                Assertions.assertTrue(!((MaterialProduct) mProduct).getReducedTimestamp().equals(JobTimestamp.NULL_OBJECT));
-            }
-
-        });
+        for (MaterialProduct mProduct : mProductList) {
+            //println JsonOutput.prettyPrint(mProduct.toString())
+            Assertions.assertFalse(mProduct.getReducedTimestamp().equals(JobTimestamp.NULL_OBJECT));
+        }
         Assertions.assertEquals(8, mProductList.size());
-
     }
-
-
 }
