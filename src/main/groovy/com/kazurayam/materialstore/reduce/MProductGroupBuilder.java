@@ -3,8 +3,7 @@ package com.kazurayam.materialstore.reduce;
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.Store;
-import groovy.json.JsonOutput;
-import groovy.lang.Closure;
+import com.kazurayam.materialstore.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,20 +31,20 @@ public class MProductGroupBuilder {
 
         assert previousMaterialList.size() > 0;
 
-        logger.info("[chronos] jobName=" + String.valueOf(currentMaterialList.getJobName()) + ", store=" + String.valueOf(store));
-        logger.info("[chronos] previousMaterialList.getJobTimestamp()=" + String.valueOf(previousMaterialList.getJobTimestamp()));
-        logger.info("[chronos] previousMaterialList.size()=" + String.valueOf(previousMaterialList.size()));
-        logger.info("[chronos] currentMaterialList.getJobTimestamp()=" + String.valueOf(currentMaterialList.getJobTimestamp()));
-        logger.info("[chronos] currentMaterialList.size()=" + String.valueOf(currentMaterialList.size()));
+        logger.info("[chronos] jobName=" + currentMaterialList.getJobName() + ", store=" + store);
+        logger.info("[chronos] previousMaterialList.getJobTimestamp()=" + previousMaterialList.getJobTimestamp());
+        logger.info("[chronos] previousMaterialList.size()=" + previousMaterialList.size());
+        logger.info("[chronos] currentMaterialList.getJobTimestamp()=" + currentMaterialList.getJobTimestamp());
+        logger.info("[chronos] currentMaterialList.size()=" + currentMaterialList.size());
 
         // zip 2 MaterialLists to form a single MProductGroup
         MProductGroup prepared = func.apply(previousMaterialList, currentMaterialList);
         assert prepared.size() > 0;
 
-        logger.info("[chronos] prepared.size()=" + String.valueOf(prepared.size()));
+        logger.info("[chronos] prepared.size()=" + prepared.size());
         if (prepared.size() != currentMaterialList.size()) {
             logger.warn("[chronos] prepared.size() is not equal to currentMaterialList.size()");
-            logger.warn(JsonOutput.prettyPrint(prepared.toString()));
+            logger.warn(JsonUtil.prettyPrint(prepared.toString()));
         }
 
         return prepared;
@@ -59,9 +58,9 @@ public class MProductGroupBuilder {
         Objects.requireNonNull(store);
         Objects.requireNonNull(leftMaterialList);
         Objects.requireNonNull(rightMaterialList);
-        logger.info("[twins] store=" + String.valueOf(store));
-        logger.info("[twins] leftMaterialList=" + String.valueOf(leftMaterialList));
-        logger.info("[twins] rightMaterialList=" + String.valueOf(rightMaterialList));
+        logger.info("[twins] store=" + store);
+        logger.info("[twins] leftMaterialList=" + leftMaterialList);
+        logger.info("[twins] rightMaterialList=" + rightMaterialList);
         assert leftMaterialList.size() > 0;
         assert rightMaterialList.size() > 0;
 

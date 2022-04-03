@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.filesystem.metadata;
 
 import com.kazurayam.materialstore.filesystem.Metadata;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,7 +33,7 @@ public class IdentifyMetadataValuesTest {
     @Test
     public void test_keySet() {
         Set<String> keySet = imv.keySet();
-        Assertions.assertEquals("URL.query", DefaultGroovyMethods.getAt(keySet, 0));
+        Assertions.assertTrue(keySet.contains("URL.query"));
     }
 
     @Test

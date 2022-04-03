@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * MaterialListBasicReportFM class is coded in Java, not in Groovy.
+ * MaterialListBasicReportFM class is coded in Java.
  *
  * MaterialListBasicReportFM uses FreeMarker as the HTML template engine.
  *

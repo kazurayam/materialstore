@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 /**
  * An example of JUnit5 Test class based on https://www.baeldung.com/junit-5
- * modified to be runnable on Groovy 2.4.x
  */
 public class SampleJupiterTest {
 

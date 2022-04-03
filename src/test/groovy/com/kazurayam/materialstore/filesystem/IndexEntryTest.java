@@ -2,8 +2,7 @@ package com.kazurayam.materialstore.filesystem;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import groovy.json.JsonOutput;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
+import com.kazurayam.materialstore.util.JsonUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +23,7 @@ public class IndexEntryTest {
     public void test_toString() {
         IndexEntry indexEntry = IndexEntry.parseLine(sampleLine);
         String s = indexEntry.toString();
-        DefaultGroovyMethods.println(this, JsonOutput.prettyPrint(s));
+        System.out.println(JsonUtil.prettyPrint(s));
         assert !s.contains("\"{\"FileType");
         assert !s.contains("\"{\"URL");
     }

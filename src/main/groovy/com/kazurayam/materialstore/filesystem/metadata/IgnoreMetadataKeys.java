@@ -2,9 +2,8 @@ package com.kazurayam.materialstore.filesystem.metadata;
 
 import com.kazurayam.materialstore.filesystem.Jsonifiable;
 import com.kazurayam.materialstore.filesystem.TemplateReady;
-import groovy.lang.Closure;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -30,7 +29,7 @@ public abstract class IgnoreMetadataKeys implements Iterable<String>, Jsonifiabl
         private Set<String> keySet;
 
         public Builder() {
-            this.keySet = new HashSet<String>();
+            this.keySet = new HashSet<>();
         }
 
         public Builder ignoreKey(String key) {
@@ -39,16 +38,7 @@ public abstract class IgnoreMetadataKeys implements Iterable<String>, Jsonifiabl
         }
 
         public Builder ignoreKeys(String... keys) {
-            DefaultGroovyMethods.each(keys, new Closure<Boolean>(this, this) {
-                public Boolean doCall(String it) {
-                    return Builder.this.getKeySet().add(it);
-                }
-
-                public Boolean doCall() {
-                    return doCall(null);
-                }
-
-            });
+            this.keySet.addAll(Arrays.asList(keys));
             return this;
         }
 

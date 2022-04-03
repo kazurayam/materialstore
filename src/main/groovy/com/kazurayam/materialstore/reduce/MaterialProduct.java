@@ -11,7 +11,6 @@ import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.reduce.differ.DifferUtil;
 import com.kazurayam.materialstore.util.JsonUtil;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 
 import java.util.Objects;
 

@@ -11,9 +11,8 @@ import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
-import groovy.json.JsonOutput;
+import com.kazurayam.materialstore.util.JsonUtil;
 import org.apache.commons.io.FileUtils;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -23,7 +22,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -73,7 +71,7 @@ public class MaterialProductTest {
         map.put("URL.file", "/");
         QueryOnMetadata mp = QueryOnMetadata.builder(map).build();
         MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).build();
-        DefaultGroovyMethods.println(this, JsonOutput.prettyPrint(mProduct.toString()));
+        System.out.println(JsonUtil.prettyPrint(mProduct.toString()));
     }
 
     @Test
@@ -84,7 +82,7 @@ public class MaterialProductTest {
         QueryOnMetadata mp = QueryOnMetadata.builder(map).build();
         MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).build();
         String json = mProduct.toJson();
-        DefaultGroovyMethods.println(this, json);
+        System.out.println(json);
     }
 
     /**

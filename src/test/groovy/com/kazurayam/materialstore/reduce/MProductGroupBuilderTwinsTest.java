@@ -23,7 +23,6 @@ import java.util.function.BiFunction;
 
 public class MProductGroupBuilderTwinsTest {
 
-
     private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MProductGroupBuilderTwinsTest.class.getName());
     private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixture/issue#80");
     private static Store store;

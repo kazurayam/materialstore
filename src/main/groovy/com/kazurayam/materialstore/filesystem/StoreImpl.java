@@ -4,7 +4,6 @@ import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.map.IdentityMapper;
 import com.kazurayam.materialstore.map.MappedResultSerializer;
 import com.kazurayam.materialstore.map.Mapper;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,9 +71,7 @@ public final class StoreImpl implements Store {
         identity.setStore(this);
         identity.setMappingListener(serializer);
         int count = 0;
-        Iterator<Material> iter = sourceMaterialList.iterator();
-        while (iter.hasNext()) {
-            Material material = iter.next();
+        for (Material material : sourceMaterialList) {
             identity.map(material);
             count += 1;
         }
@@ -201,10 +198,9 @@ public final class StoreImpl implements Store {
 
     public Jobber getCachedJobber(JobName jobName, JobTimestamp jobTimestamp) {
         Jobber result = null;
-        for (int i = 0; i < jobberCache_.size() ; i++) {
-            Jobber cached = DefaultGroovyMethods.getAt(jobberCache_, i);
-            assert cached != null;
-            if (cached.getJobName().equals(jobName) && cached.getJobTimestamp().equals(jobTimestamp)) {
+        for (Jobber cached : jobberCache_) {
+            if (cached.getJobName().equals(jobName) &&
+                    cached.getJobTimestamp().equals(jobTimestamp)) {
                 result = cached;
                 break;
             }
@@ -382,9 +378,7 @@ public final class StoreImpl implements Store {
 
     private static boolean similar(MaterialList baseList, MaterialList targetList) {
         int count = 0;
-        Iterator<Material> iter = baseList.iterator();
-        while (iter.hasNext()) {
-            Material base = iter.next();
+        for (Material base : baseList) {
             if (targetList.containsMaterialsSimilarTo(base)) {
                 count += 1;
             }
@@ -404,9 +398,7 @@ public final class StoreImpl implements Store {
                 new MaterialList(targetList.getJobName(),
                         targetList.getJobTimestamp(),
                         targetList.getQueryOnMetadata());
-        Iterator<Material> iter = baseList.iterator();
-        while (iter.hasNext()) {
-            Material base = iter.next();
+        for (Material base : baseList) {
             List<Material> found = targetList.findMaterialsSimilarTo(base);
             if (found.size() > 0) {
                 collection.add(found);
