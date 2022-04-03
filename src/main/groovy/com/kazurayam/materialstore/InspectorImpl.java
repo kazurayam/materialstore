@@ -8,6 +8,7 @@ import com.kazurayam.materialstore.reduce.MProductGroup;
 import com.kazurayam.materialstore.reduce.Reducer;
 import com.kazurayam.materialstore.report.MProductGroupReporter;
 import com.kazurayam.materialstore.report.MProductGroupReporterImpl;
+import com.kazurayam.materialstore.report.MaterialListReporterImpl;
 import com.kazurayam.materialstore.report.MaterialListReporterImplMB;
 
 import java.nio.file.Path;
@@ -20,7 +21,7 @@ public class InspectorImpl extends Inspector {
     }
 
     @Override
-    public MProductGroupReporter newReporter(JobName jobName) throws MaterialstoreException {
+    public MProductGroupReporter newMProductGroupReporter(JobName jobName) throws MaterialstoreException {
         return new MProductGroupReporterImpl(store, jobName);
     }
 
@@ -35,7 +36,7 @@ public class InspectorImpl extends Inspector {
     @Override
     public Path report(MProductGroup mProductGroup, Double criteria, String fileName) throws MaterialstoreException {
         Objects.requireNonNull(mProductGroup);
-        MProductGroupReporter reporter = this.newReporter(mProductGroup.getJobName());
+        MProductGroupReporter reporter = this.newMProductGroupReporter(mProductGroup.getJobName());
         reporter.setCriteria(criteria);
         reporter.report(mProductGroup, fileName);
         return store.getRoot().resolve(fileName);
@@ -44,7 +45,7 @@ public class InspectorImpl extends Inspector {
     @Override
     public void report(MProductGroup mProductGroup, Double criteria, Path filePath) throws MaterialstoreException {
         Objects.requireNonNull(mProductGroup);
-        MProductGroupReporter reporter = this.newReporter(mProductGroup.getJobName());
+        MProductGroupReporter reporter = this.newMProductGroupReporter(mProductGroup.getJobName());
         reporter.setCriteria(criteria);
         reporter.report(mProductGroup, filePath);
     }
@@ -58,10 +59,11 @@ public class InspectorImpl extends Inspector {
     }
 
     @Override
-    public void report(MaterialList materialList, Path filePath) {
+    public void report(MaterialList materialList, Path filePath) throws MaterialstoreException {
         Objects.requireNonNull(materialList);
         Objects.requireNonNull(filePath);
-        MaterialListReporterImplMB reporter = new MaterialListReporterImplMB(store, materialList.getJobName());
+        //MaterialListReporterImplMB reporter = new MaterialListReporterImplMB(store, materialList.getJobName());
+        MaterialListReporterImpl reporter = new MaterialListReporterImpl(store, materialList.getJobName());
         reporter.report(materialList, filePath);
     }
 

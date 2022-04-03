@@ -23,11 +23,15 @@ table {
 thead tr {
     border-bottom: 1px solid #ccc;
 }
+/*
+thead tr td {
+    overflow-wrap: break-word;
+}
+ */
 td, th {
     font-size: 12px;
     border-right: 1px solid #ccc;
     display: table-cell;
-    overflow-wrap: break-word;
 }
 th {
     border-bottom: 1px solid #ccc;

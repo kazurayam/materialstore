@@ -16,7 +16,7 @@ public abstract class Inspector {
         return new InspectorImpl(store);
     }
 
-    public abstract MProductGroupReporter newReporter(JobName jobName) throws MaterialstoreException;
+    public abstract MProductGroupReporter newMProductGroupReporter(JobName jobName) throws MaterialstoreException;
 
     public abstract MProductGroup reduce(MProductGroup input) throws MaterialstoreException;
 
@@ -26,5 +26,5 @@ public abstract class Inspector {
 
     public abstract Path report(MaterialList materialList, String fileName);
 
-    public abstract void report(MaterialList materialList, Path filePath);
+    public abstract void report(MaterialList materialList, Path filePath) throws MaterialstoreException;
 }

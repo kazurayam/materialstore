@@ -34,8 +34,8 @@ public class MProductGroupReporterImpl extends MProductGroupReporter {
     private static final Logger logger =
             LoggerFactory.getLogger(MProductGroupReporterImpl.class);
 
-    private Store store;
-    private JobName jobName;
+    private final Store store;
+    private final JobName jobName;
     private Double criteria = 0.0d;
 
     private static final String TEMPLATE_PATH =

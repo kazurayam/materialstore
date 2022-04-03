@@ -6,6 +6,7 @@ import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.reduce.differ.Differ;
 import com.kazurayam.materialstore.reduce.differ.ImageDifferToPNG;
+import com.kazurayam.materialstore.reduce.differ.TextDifferToHTML;
 import com.kazurayam.materialstore.reduce.differ.TextDifferToHTMLMB;
 import com.kazurayam.materialstore.reduce.differ.VoidDiffer;
 import org.slf4j.Logger;
@@ -93,7 +94,8 @@ public final class DifferDriverImpl implements DifferDriver {
             this.store = store;
             differs = new HashMap<>();
             //
-            final Differ textDiffer = new TextDifferToHTMLMB();
+            //final Differ textDiffer = new TextDifferToHTMLMB();
+            final Differ textDiffer = new TextDifferToHTML(store);
             for (FileType ft : FileType.getFileTypesDiffableAsText()) {
                 differs.put(ft, textDiffer);
             }
