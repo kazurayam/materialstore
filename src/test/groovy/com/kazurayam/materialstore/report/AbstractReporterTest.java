@@ -1,5 +1,8 @@
 package com.kazurayam.materialstore.report;
 
+import com.kazurayam.materialstore.reduce.differ.AbstractTextDiffer;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -7,6 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public abstract class AbstractReporterTest {
 
@@ -34,4 +39,6 @@ public abstract class AbstractReporterTest {
         pw.close();
         return sw.toString();
     }
+
+
 }

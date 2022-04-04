@@ -1,3 +1,5 @@
+<#import "MarkupSegments.ftlh" as com>
+
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -106,8 +108,8 @@
           <#items as row>
             <tr>
               <th class="${row.class}">${row.index}</th>
-              <td class="${row.class}"><span class="blob-code-inner"><@markupSegments row.left_segments/></span></td>
-              <td class="${row.class}"><span class="blob-code-inner"><@markupSegments row.right_segments/></span></td>
+              <td class="${row.class}"><span class="blob-code-inner"><@com.markupSegments row.left_segments/></span></td>
+              <td class="${row.class}"><span class="blob-code-inner"><@com.markupSegments row.right_segments/></span></td>
             </tr>
           </#items>
       </#list>
@@ -116,27 +118,3 @@
 </div>
 </body>
 </html>
-
-
-<#macro markupSegments segments>
-    <#assign inOldTag = false>
-    <#assign inNewTag = false>
-    <#list segments>
-        <#items as segment>
-            <#if segment == OLD_TAG>
-                <#assign inOldTag = !inOldTag>
-            <#elseif segment == NEW_TAG>
-                <#assign inNewTag = !inNewTag>
-            <#else>
-                <#if inOldTag>
-                    <#assign clazz="deletion">
-                <#elseif inNewTag>
-                    <#assign clazz="insertion">
-                <#else>
-                    <#assign clazz="unchanged">
-                </#if>
-            </#if>
-<span class="blob-code-inner"><span class="${clazz}">${segment}</span></span>
-    </#items>
-  </#list>
-</#macro>
