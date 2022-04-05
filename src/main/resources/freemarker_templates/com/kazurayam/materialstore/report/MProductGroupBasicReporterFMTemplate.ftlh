@@ -31,7 +31,7 @@
                 <dd>${mProductGroup.materialList0.jobTimestamp}</dd>
                 <dt>QueryOnMetadata :</dt>
                 <dd>
-                  <@QueryOnMetadata.toSpanSequence keyValuePairs=mProductGroup.materialList0.queryOnMetadata />
+                    <@compressToSingleLine><@QueryOnMetadata.toSpanSequence keyValuePairs=mProductGroup.materialList0.queryOnMetadata /></@compressToSingleLine>
                 </dd>
               </dl>
             </dd>
@@ -46,7 +46,7 @@
                 <dd>${mProductGroup.materialList1.jobTimestamp}</dd>
                 <dt>QueryOnMetadata :</dt>
                 <dd>
-                  <@QueryOnMetadata.toSpanSequence keyValuePairs=mProductGroup.materialList1.queryOnMetadata />
+                  <@compressToSingleLine><@QueryOnMetadata.toSpanSequence keyValuePairs=mProductGroup.materialList1.queryOnMetadata /></@compressToSingleLine>
                 </dd>
               </dl>
             </dd>
@@ -55,7 +55,7 @@
           </#if>
           <dt>IgnoreMetadataKeys</dt>
           <dd>
-            <@IgnoreMetadataKeys.toSpanSequence keys=mProductGroup.ignoreMetadataKeys />
+            <@compressToSingleLine><@IgnoreMetadataKeys.toSpanSequence keys=mProductGroup.ignoreMetadataKeys /></@compressToSingleLine>
           </dd>
         </dl>
       </div>
@@ -197,7 +197,7 @@
     <dd>${material.fileType}</dd>
     <dt>metadata</dt>
     <dd>
-      <@Metadata.toSpanSequence material.metadata />
+      <@compressToSingleLine><@Metadata.toSpanSequence material.metadata /></@compressToSingleLine>
     </dd>
     <#if material.metadataURL??>
       <dt>Source URL</dt>

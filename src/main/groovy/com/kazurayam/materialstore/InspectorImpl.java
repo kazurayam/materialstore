@@ -15,6 +15,10 @@ import java.nio.file.Path;
 import java.util.Objects;
 
 public class InspectorImpl extends Inspector {
+
+    private final Store store;
+    private final Reducer reducer;
+
     public InspectorImpl(Store store) {
         this.store = store;
         this.reducer = new DifferDriverImpl.Builder(store).build();
@@ -22,7 +26,9 @@ public class InspectorImpl extends Inspector {
 
     @Override
     public MProductGroupReporter newMProductGroupReporter(JobName jobName) throws MaterialstoreException {
-        return new MProductGroupReporterImpl(store, jobName);
+        MProductGroupReporterImpl instance = new MProductGroupReporterImpl(store, jobName);
+        instance.enablePrettyPrinting(true);
+        return instance;
     }
 
     @Override
@@ -67,6 +73,4 @@ public class InspectorImpl extends Inspector {
         reporter.report(materialList, filePath);
     }
 
-    private final Store store;
-    private final Reducer reducer;
 }

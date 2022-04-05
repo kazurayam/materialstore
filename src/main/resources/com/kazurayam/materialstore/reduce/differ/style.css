@@ -27,6 +27,7 @@ thead tr td {
     overflow-wrap: break-word;
 }
 td, th {
+    padding: 4px;
     font-size: 12px;
     border-right: 1px solid #ccc;
     display: table-cell;

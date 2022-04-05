@@ -108,11 +108,13 @@ public class MaterialListReporterImpl extends MaterialListReporter {
             throw new MaterialstoreException(e);
         }
 
-        String html = sw.toString();
+        String html;
         if (isPrettyPrintingEnabled()) {
-            Document doc = Jsoup.parse(html, "", Parser.htmlParser());
+            Document doc = Jsoup.parse(sw.toString(), "", Parser.htmlParser());
             doc.outputSettings().indentAmount(2);
             html = doc.toString();
+        } else {
+            html = sw.toString();
         }
 
         try {

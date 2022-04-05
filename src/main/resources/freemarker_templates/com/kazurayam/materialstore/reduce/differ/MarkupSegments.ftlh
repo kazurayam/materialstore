@@ -1,4 +1,5 @@
 <#macro markupSegments segments>
+    <@compressToSingleLine>
     <#assign inOldTag = false>
     <#assign inNewTag = false>
     <#list segments>
@@ -21,4 +22,5 @@
         </#items>
         </span>
     </#list>
+    </@compressToSingleLine>
 </#macro>

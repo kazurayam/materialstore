@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.report;
 
+import com.kazurayam.freemarker.CompressToSingleLineDirective;
 import com.kazurayam.freemarker.ReadAllLinesDirective;
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
@@ -32,6 +33,9 @@ final public class FreeMarkerConfigurator {
                     new ReadAllLinesDirective());
             cfg.setSharedVariable("store",
                     store.getRoot().normalize().toAbsolutePath().toString());
+            cfg.setSharedVariable("baseDir", store.getRoot().normalize().toAbsolutePath().toString());
+            cfg.setSharedVariable("compressToSingleLine",
+                    new CompressToSingleLineDirective());
         } catch (TemplateModelException e) {
             throw new MaterialstoreException(e);
         }

@@ -57,10 +57,10 @@ public abstract class TextGridDifferBuilder {
 
         Inspector inspector = Inspector.newInstance(store);
 
-        MProductGroup preparedAG = MProductGroup.builder(left, right).ignoreKeys("input").build();
-        MProductGroup reducedAG = inspector.reduce(preparedAG);
-        int warnings = reducedAG.countWarnings(criteria);
-        reportFile = inspector.report(reducedAG, criteria, jobName.toString() + "-index.html");
+        MProductGroup prepared = MProductGroup.builder(left, right).ignoreKeys("input").build();
+        MProductGroup reduced = inspector.reduce(prepared);
+        int warnings = reduced.countWarnings(criteria);
+        reportFile = inspector.report(reduced, criteria, jobName.toString() + "-index.html");
         assert Files.exists(reportFile);
         logger.info("report is found at " + reportFile.normalize().toAbsolutePath());
 

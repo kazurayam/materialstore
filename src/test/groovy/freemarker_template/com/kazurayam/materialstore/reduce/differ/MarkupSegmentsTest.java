@@ -85,7 +85,7 @@ public class MarkupSegmentsTest {
                         "woff2?30af91bf14e37666a085fb8a161ff36d\"",
                         AbstractTextDiffer.NEW_TAG,
                         ") format(\"woff2\"),");
-        String expected = "<span class=\"blob-code-inner\"><span class=\"unchanged\">  src: url(&quot;./fonts/bootstrap-icons.</span><span class=\"insertion\">woff2?30af91bf14e37666a085fb8a161ff36d&quot;</span><span class=\"unchanged\">) format(\"woff2\"),</span></span>";
+        String expected = "<span class=\"blob-code-inner\"><span class=\"unchanged\">  src: url(&quot;./fonts/bootstrap-icons.</span><span class=\"insertion\">woff2?30af91bf14e37666a085fb8a161ff36d&quot;</span><span class=\"unchanged\">) format(&quot;woff2&quot;),</span></span>";
         String actual = process(segments);
         assertEquals(expected, actual);
     }

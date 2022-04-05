@@ -108,8 +108,12 @@
           <#items as row>
             <tr>
               <th class="${row.class}">${row.index}</th>
-              <td class="${row.class}"><span class="blob-code-inner"><@com.markupSegments row.left_segments/></span></td>
-              <td class="${row.class}"><span class="blob-code-inner"><@com.markupSegments row.right_segments/></span></td>
+              <td class="${row.class}">
+                <span class="blob-code-inner"><@com.markupSegments row.left_segments/></span>
+              </td>
+              <td class="${row.class}">
+                <span class="blob-code-inner"><@com.markupSegments row.right_segments/></span>
+              </td>
             </tr>
           </#items>
       </#list>
