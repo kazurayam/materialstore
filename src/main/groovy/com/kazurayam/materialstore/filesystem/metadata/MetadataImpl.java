@@ -104,7 +104,11 @@ public final class MetadataImpl extends Metadata {
                 throw new MaterialstoreException(e);
             }
         } else {
-            return null;
+            try {
+                return new URL("file://null_object");
+            } catch (MalformedURLException e) {
+                throw new MaterialstoreException(e);
+            }
         }
 
     }

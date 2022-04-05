@@ -73,4 +73,9 @@ public class URLTest {
         Assertions.assertEquals(8080, url.getPort());
     }
 
+    @Test
+    public void test_URL_as_NULL_OBJECT() throws MalformedURLException {
+        URL url = new URL("file://null_object");
+        Assertions.assertNotNull(url);
+    }
 }
