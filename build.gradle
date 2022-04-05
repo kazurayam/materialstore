@@ -1,12 +1,12 @@
 plugins {
-    id 'groovy'
+    id 'java'
     id 'jacoco'
     id 'maven-publish'
     id 'signing'
 }
 
 group 'com.kazurayam'
-version '0.5.1'
+version '0.6.0'
 
 ext.isReleaseVersion = ! version.endsWith("SNAPSHOT")
 
@@ -27,66 +27,34 @@ compileJava {
 }
 
 ext {
-    groovyVersion = '2.4.20'   // same version as Katalon Studio 7.9.1
-    seleniumjavaVersion = '3.141.59' // same version as Katalon Studio 7.9.1
-    junitjupiterVersion = '5.6.0'
-    slf4jVersion = '1.7.31'
-    commonscodecVersion = '1.15'
-    commonsioVersion = '2.8.0'
-    webdrivermanager = '4.4.3'
     ashotVersion = '1.5.4'
-    javadiffutilsVersion = '4.9'
-    gsonVersion = '2.8.9'
-    freemarkerVersion = '2.3.31'
-    kazurayamFreeMarkerDirectivesVersion = '0.2.0'
 }
 
 dependencies {
-    implementation "org.codehaus.groovy:groovy-all:${groovyVersion}"
 
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: "${slf4jVersion}"
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: "${slf4jVersion}"
-    // https://mvnrepository.com/artifact/org.slf4j/slf4j-simple
-    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: "${slf4jVersion}"
-
-    // https://mvnrepository.com/artifact/commons-io/commons-io
-    implementation group: 'commons-io', name: 'commons-io', version: "${commonsioVersion}"
-
-    // https://mvnrepository.com/artifact/io.github.java-diff-utils/java-diff-utils
-    implementation group: 'io.github.java-diff-utils', name: 'java-diff-utils', version: "${javadiffutilsVersion}"
-
-    implementation group: 'org.freemarker', name: 'freemarker', version: "${freemarkerVersion}"
-    implementation group: 'com.kazurayam', name: 'kazurayam_FreeMarker_directives',
-            version: "${kazurayamFreeMarkerDirectivesVersion}"
-
-    implementation "org.seleniumhq.selenium:selenium-java:${seleniumjavaVersion}"
-
-    // https://mvnrepository.com/artifact/com.google.code.gson/gson
-    implementation group: 'com.google.code.gson', name: 'gson', version: "${gsonVersion}"
-
-    // https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager
-    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: "${webdrivermanager}"
-
-    // https://mvnrepository.com/artifact/ru.yandex.qatools.ashot/ashot
     implementation group: 'ru.yandex.qatools.ashot', name: 'ashot', version: "${ashotVersion}"
-
-    // https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient
-    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.10'
-
-    // https://mvnrepository.com/artifact/com.kazurayam/subprocessj
+    implementation group: 'com.kazurayam', name: 'kazurayam_FreeMarker_directives', version: "0.2.0"
     implementation group: 'com.kazurayam', name: 'subprocessj', version: '0.1.0'
 
-    // https://mvnrepository.com/artifact/org.jsoup/jsoup
+    implementation group: 'commons-io', name: 'commons-io', version: "2.8.0"
+    implementation group: 'io.github.java-diff-utils', name: 'java-diff-utils', version: "4.9"
+    implementation group: 'org.freemarker', name: 'freemarker', version: "2.3.31"
+    implementation group: 'com.google.code.gson', name: 'gson', version: "2.8.9"
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.10'
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.14.3'
+    implementation group: 'com.google.guava', name: 'guava', version: '23.0'
 
-    testImplementation group: 'com.kazurayam', name: 'ashotwrapper', version: '0.1.0-SNAPSHOT'
+    // Selenium jar is NOT required for materialstore
+    //implementation "org.seleniumhq.selenium:selenium-java:3.141.59"
+    //implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: "4.4.3"
 
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.0'
-    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitjupiterVersion}"
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: "1.7.31"
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: "1.7.31"
 
+    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: "1.7.31"
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
 }
 
 tasks.withType(JavaCompile) {
@@ -102,10 +70,21 @@ test {
     finalizedBy jacocoTestReport
 }
 
-task groovydocJar(type: Jar) {
+task javadocJar(type: Jar) {
     archiveClassifier = 'javadoc'
-    from groovydoc
+    from javadoc
 }
+
+javadoc {
+    failOnError false
+}
+
+task copyJavadocToDocsDir(type: Copy) {
+    from 'build/docs/javadoc'
+    into 'docs/api'
+}
+javadoc.finalizedBy copyJavadocToDocsDir
+
 
 task sourcesJar(type: Jar) {
     archiveClassifier = 'sources'
@@ -116,7 +95,7 @@ publishing {
     publications {
         materialstore(MavenPublication) {
             artifact sourcesJar
-            artifact groovydocJar
+            artifact javadocJar
             pom {
                 groupId = project.group
                 name = project.rootProject.name
@@ -165,9 +144,3 @@ tasks.withType(Sign) {
     onlyIf { isReleaseVersion }
 }
 
-
-task copyGroovydocToDocsDir(type: Copy) {
-    from 'build/docs/groovydoc'
-    into 'docs/api'
-}
-groovydoc.finalizedBy copyGroovydocToDocsDir
