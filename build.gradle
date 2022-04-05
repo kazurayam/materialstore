@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.kazurayam'
-version '0.5.0-alpha-2'
+version '0.5.0'
 
 ext.isReleaseVersion = ! version.endsWith("SNAPSHOT")
 
@@ -38,7 +38,7 @@ ext {
     javadiffutilsVersion = '4.9'
     gsonVersion = '2.8.9'
     freemarkerVersion = '2.3.31'
-    kazurayamFMDirectivesVersion = '0.1.0'
+    kazurayamFreeMarkerDirectivesVersion = '0.2.0'
 }
 
 dependencies {
@@ -59,7 +59,7 @@ dependencies {
 
     implementation group: 'org.freemarker', name: 'freemarker', version: "${freemarkerVersion}"
     implementation group: 'com.kazurayam', name: 'kazurayam_FreeMarker_directives',
-            version: "${kazurayamFMDirectivesVersion}"
+            version: "${kazurayamFreeMarkerDirectivesVersion}"
 
     implementation "org.seleniumhq.selenium:selenium-java:${seleniumjavaVersion}"
 
