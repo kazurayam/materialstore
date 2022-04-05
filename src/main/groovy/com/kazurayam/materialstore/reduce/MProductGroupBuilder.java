@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.util.Objects;
 import java.util.function.BiFunction;
 
-public class MProductGroupBuilder {
+public final class MProductGroupBuilder {
 
     private static final Logger logger = LoggerFactory.getLogger(MProductGroupBuilder.class);
 

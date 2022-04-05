@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-final public class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, TemplateReady {
+public final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, TemplateReady {
 
     public static final IndexEntry NULL_OBJECT =
             new IndexEntry(

@@ -30,7 +30,7 @@ import java.util.Objects;
  * MaterialListBasicReportFM uses FreeMarker as the HTML template engine.
  *
  */
-public class MaterialListReporterImpl extends MaterialListReporter {
+public final class MaterialListReporterImpl extends MaterialListReporter {
 
     private static final Logger logger = LoggerFactory.getLogger(MaterialListReporterImpl.class);
 

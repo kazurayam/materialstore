@@ -19,7 +19,7 @@ import java.nio.charset.StandardCharsets
 import java.nio.file.Files
 import java.nio.file.Path
 
-final class MaterialListReporterImplMB extends MaterialListReporter {
+public final class MaterialListReporterImplMB extends MaterialListReporter {
 
     private static final Logger logger = LoggerFactory.getLogger(MaterialListReporterImplMB.class)
 

@@ -29,7 +29,7 @@ import java.util.Objects;
  * MProductGroupReporterImplMB re-implemented using FreeMarker.
  *
  */
-public class MProductGroupReporterImpl extends MProductGroupReporter {
+public final class MProductGroupReporterImpl extends MProductGroupReporter {
 
     private static final Logger logger =
             LoggerFactory.getLogger(MProductGroupReporterImpl.class);

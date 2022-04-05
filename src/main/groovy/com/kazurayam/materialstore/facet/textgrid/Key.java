@@ -9,7 +9,7 @@ import java.util.Objects;
 /**
  *
  */
-public class Key implements Comparable<Key> {
+public final class Key implements Comparable<Key> {
 
     private final List<String> keyElements = new ArrayList<>();
     private final KeyRange keyRange;

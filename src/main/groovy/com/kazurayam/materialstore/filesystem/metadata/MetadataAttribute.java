@@ -7,7 +7,7 @@ import com.kazurayam.materialstore.util.JsonUtil;
 /**
  *
  */
-public class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, TemplateReady {
+public final class MetadataAttribute implements Comparable<MetadataAttribute>, Jsonifiable, TemplateReady {
 
     private final String key;
     private final String value;

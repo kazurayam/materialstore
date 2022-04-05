@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.facet.textgrid;
 
-public class KeyRange {
+public final class KeyRange {
     private int from;
     private int to;
     public KeyRange(int from, int to) {

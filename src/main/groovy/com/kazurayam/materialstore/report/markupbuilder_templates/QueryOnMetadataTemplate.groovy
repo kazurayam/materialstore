@@ -3,7 +3,7 @@ package com.kazurayam.materialstore.report.markupbuilder_templates
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata
 import groovy.xml.MarkupBuilder
 
-class QueryOnMetadataTemplate {
+public final class QueryOnMetadataTemplate {
 
     private final QueryOnMetadata query
 

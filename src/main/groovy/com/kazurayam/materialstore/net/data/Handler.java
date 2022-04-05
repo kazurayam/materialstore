@@ -12,7 +12,7 @@ import java.net.URLStreamHandler;
  *
  * @author kazurayam
  */
-public class Handler extends URLStreamHandler {
+public final class Handler extends URLStreamHandler {
 
     /**
      * we need to implment openConnection() method here in order to make this Handler class instanciate-able.

@@ -10,7 +10,7 @@ import groovy.xml.MarkupBuilder
 
 import java.util.regex.Matcher
 
-class MetadataTemplate {
+public final class MetadataTemplate {
 
     private final Metadata metadata
 

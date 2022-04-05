@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class QValue implements Comparable<QValue> {
+public final class QValue implements Comparable<QValue> {
 
     private static final Logger logger = LoggerFactory.getLogger(QValue.class);
     private final String valueString;

@@ -9,7 +9,7 @@ import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.TemplateModelException;
 
-final public class FreeMarkerConfigurator {
+public final class FreeMarkerConfigurator {
 
     public static Configuration configureFreeMarker(Store store)
             throws MaterialstoreException {
