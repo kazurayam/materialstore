@@ -63,7 +63,7 @@ public class TextDiffUtil {
 
     static boolean shouldBeIgnored(String line, List<String> ignoreLinesContaining) {
         for (String pattern : ignoreLinesContaining) {
-            if (line.contains(pattern)) {
+            if (pattern.length() > 0 && line.contains(pattern)) {
                 return true;
             }
         }

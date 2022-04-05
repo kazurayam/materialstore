@@ -29,7 +29,7 @@
               <dd>${model.jobTimestamp}</dd>
               <dt>QueryOnMetadata :</dt>
               <dd>
-                <@QueryOnMetadata.toSpanSequence keyValuePairs=model.queryOnMetadata />
+                <@compressToSingleLine><@QueryOnMetadata.toSpanSequence keyValuePairs=model.queryOnMetadata /></@compressToSingleLine>
               </dd>
             </dl>
           </dd>
@@ -72,7 +72,7 @@
       <dd>${material.fileType}</dd>
       <dt>Metadata</dt>
       <dd>
-        <@Metadata.toSpanSequence metadata=material.metadata />
+        <@compressToSingleLine><@Metadata.toSpanSequence metadata=material.metadata /></@compressToSingleLine>
       </dd>
       <#if material.metadataURL??>
         <dt>Source URL</dt>

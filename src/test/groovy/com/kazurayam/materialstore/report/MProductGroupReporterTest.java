@@ -138,7 +138,7 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
                 "expected a string 'class=\"identified-value\"' in the report but not found");
     }
 
-    private MProductGroup prepareFixture(JobName jobName) throws IOException {
+    private MProductGroup prepareFixture(JobName jobName) throws IOException, MaterialstoreException {
         // stuff the Job directory with a fixture
         Path jobNameDir = store.getRoot().resolve(jobName.toString());
         FileUtils.copyDirectory(
@@ -161,7 +161,8 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
         return inspector.reduce(prepared);
     }
 
-    private MaterialList createMaterialList(JobName jobName, JobTimestamp timestamp, String profileName) {
+    private MaterialList createMaterialList(JobName jobName, JobTimestamp timestamp, String profileName)
+            throws MaterialstoreException {
         return store.select(jobName, timestamp,
                 QueryOnMetadata.builder(
                         Collections.singletonMap("profile", profileName))

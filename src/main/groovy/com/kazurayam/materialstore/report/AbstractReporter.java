@@ -7,7 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-public abstract class AbstractReporter {
+public abstract class AbstractReporter implements HTMLPrettyPrintingCapable {
 
     protected boolean verboseLogging = false;
     protected boolean prettyPrinting = false;
@@ -16,15 +16,17 @@ public abstract class AbstractReporter {
         this.verboseLogging = verboseLogging;
     }
 
-    void enablePrettyPrinting(boolean prettyPrinting) {
-        this.prettyPrinting = prettyPrinting;
-    }
-
     boolean isVerboseLoggingEnabled() {
         return this.verboseLogging;
     }
 
-    boolean isPrettyPrintingEnabled() { return this.prettyPrinting; }
+    @Override
+    public void enablePrettyPrinting(boolean prettyPrinting) {
+        this.prettyPrinting = prettyPrinting;
+    }
+
+    @Override
+    public boolean isPrettyPrintingEnabled() { return this.prettyPrinting; }
 
     String getTitle(Path file) {
         String fileName = file.getFileName().toString();

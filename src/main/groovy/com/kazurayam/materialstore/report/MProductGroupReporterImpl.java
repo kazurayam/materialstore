@@ -34,8 +34,8 @@ public class MProductGroupReporterImpl extends MProductGroupReporter {
     private static final Logger logger =
             LoggerFactory.getLogger(MProductGroupReporterImpl.class);
 
-    private Store store;
-    private JobName jobName;
+    private final Store store;
+    private final JobName jobName;
     private Double criteria = 0.0d;
 
     private static final String TEMPLATE_PATH =
@@ -44,7 +44,7 @@ public class MProductGroupReporterImpl extends MProductGroupReporter {
 
     private final Configuration cfg;
 
-    MProductGroupReporterImpl(Store store, JobName jobName) throws MaterialstoreException {
+    public MProductGroupReporterImpl(Store store, JobName jobName) throws MaterialstoreException {
         Objects.requireNonNull(store);
         Objects.requireNonNull(jobName);
         this.store = store;
@@ -110,15 +110,15 @@ public class MProductGroupReporterImpl extends MProductGroupReporter {
             throw new MaterialstoreException(e);
         }
 
-        String html = sw.toString();
-
-        //assert html.contains("</html>s://cdn.");
+        String html;
 
         /* pretty print the HTML using jsoup if required */
         if (isPrettyPrintingEnabled()) {
-            Document doc = Jsoup.parse(html, "", Parser.htmlParser());
+            Document doc = Jsoup.parse(sw.toString(), "", Parser.htmlParser());
             doc.outputSettings().indentAmount(2);
             html = doc.toString();
+        } else {
+            html = sw.toString();
         }
 
         try {

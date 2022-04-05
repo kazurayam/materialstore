@@ -41,7 +41,6 @@ final class MaterialListReporterImplMB extends MaterialListReporter {
      * @param reportFileName
      * @return
      */
-    @Override
     Path report(MaterialList materialList, String reportFileName = "list.html") {
         Objects.requireNonNull(materialList)
         Objects.requireNonNull(reportFileName)

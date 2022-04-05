@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.report;
 
+import com.kazurayam.freemarker.CompressToSingleLineDirective;
 import com.kazurayam.freemarker.ReadAllLinesDirective;
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
@@ -8,9 +9,9 @@ import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.TemplateModelException;
 
-public class FreeMarkerConfigurator {
+final public class FreeMarkerConfigurator {
 
-    static Configuration configureFreeMarker(Store store)
+    public static Configuration configureFreeMarker(Store store)
             throws MaterialstoreException {
         // create and adjust the configuration singleton
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_31);
@@ -32,6 +33,9 @@ public class FreeMarkerConfigurator {
                     new ReadAllLinesDirective());
             cfg.setSharedVariable("store",
                     store.getRoot().normalize().toAbsolutePath().toString());
+            cfg.setSharedVariable("baseDir", store.getRoot().normalize().toAbsolutePath().toString());
+            cfg.setSharedVariable("compressToSingleLine",
+                    new CompressToSingleLineDirective());
         } catch (TemplateModelException e) {
             throw new MaterialstoreException(e);
         }

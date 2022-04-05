@@ -117,6 +117,7 @@ public class MaterialListReporterTest extends AbstractReporterTest {
         );
         assertTrue(list.size() > 0, "list is empty");
         String fileName = jobName + "-list.html";
+        // generate a MaterialList report by FreeMarker
         reportByFreeMarker = reporter.report(list, fileName);
         assertTrue(Files.exists(reportByFreeMarker));
 
@@ -135,7 +136,7 @@ public class MaterialListReporterTest extends AbstractReporterTest {
         //compute the patch: this is the diffutils part
         Patch<String> patch = DiffUtils.diff(original, revised);
         patch.getDeltas().forEach(System.out::println);
-        assertEquals(5, patch.getDeltas().size());
+        assertEquals(8, patch.getDeltas().size());
     }
 
 

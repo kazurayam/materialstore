@@ -1,5 +1,8 @@
 package com.kazurayam.materialstore.report;
 
+import com.kazurayam.materialstore.reduce.differ.AbstractTextDiffer;
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -8,9 +11,11 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public abstract class AbstractReporterTest {
 
-    List<String> trimLines(List<String> source) {
+    public List<String> trimLines(List<String> source) {
         List<String> trimmed = new ArrayList<>();
         for (String line : source) {
             String s = line.trim()
@@ -34,4 +39,6 @@ public abstract class AbstractReporterTest {
         pw.close();
         return sw.toString();
     }
+
+
 }

@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * MaterialListBasicReportFM class is coded in Java, not in Groovy.
+ * MaterialListBasicReportFM class is coded in Java.
  *
  * MaterialListBasicReportFM uses FreeMarker as the HTML template engine.
  *
@@ -100,7 +100,7 @@ public class MaterialListReporterImpl extends MaterialListReporter {
             throw new MaterialstoreException(e);
         }
 
-        /* Merge data-model with template */
+        /* Merge data-model with the template */
         Writer sw = new StringWriter();
         try {
             template.process(model, sw);
@@ -108,11 +108,13 @@ public class MaterialListReporterImpl extends MaterialListReporter {
             throw new MaterialstoreException(e);
         }
 
-        String html = sw.toString();
+        String html;
         if (isPrettyPrintingEnabled()) {
-            Document doc = Jsoup.parse(html, "", Parser.htmlParser());
+            Document doc = Jsoup.parse(sw.toString(), "", Parser.htmlParser());
             doc.outputSettings().indentAmount(2);
             html = doc.toString();
+        } else {
+            html = sw.toString();
         }
 
         try {
