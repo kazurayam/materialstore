@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
-public class StyleHelper {
+public final class StyleHelper {
     private StyleHelper() {
     }
 

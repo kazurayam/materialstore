@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GsonHelper {
+public final class GsonHelper {
     public static Gson createGson(boolean prettyPrint) {
         if (prettyPrint) {
             return new GsonBuilder().setPrettyPrinting().create();

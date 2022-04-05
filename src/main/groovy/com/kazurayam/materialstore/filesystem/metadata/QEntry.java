@@ -7,7 +7,7 @@ import com.kazurayam.materialstore.filesystem.Metadata;
  * This class implements boolean matches(Metadata) method, which works
  * as a helper for QueryOnMetadataImpl#matches(Metadata) method.
  */
-public class QEntry implements Comparable<QEntry> {
+public final class QEntry implements Comparable<QEntry> {
 
     private final String key;
     private final QValue query;

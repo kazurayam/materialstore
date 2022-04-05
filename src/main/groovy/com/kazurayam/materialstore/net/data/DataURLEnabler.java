@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.net.data;
 
-public class DataURLEnabler {
+public final class DataURLEnabler {
 
     public static final String PROPNAME = "java.protocol.handler.pkgs";
 

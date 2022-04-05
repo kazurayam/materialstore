@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class SortKeys implements Iterable<String> {
+public final class SortKeys implements Iterable<String> {
 
     public static final SortKeys NULL_OBJECT = new SortKeys(new ArrayList<>());
 

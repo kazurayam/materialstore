@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.StoreImpl;
 
-public class MappedResultSerializer extends MappingListener {
+public final class MappedResultSerializer extends MappingListener {
 
     public static MappedResultSerializer NULL_OBJECT =
             new MappedResultSerializer(StoreImpl.NULL_OBJECT, JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT);

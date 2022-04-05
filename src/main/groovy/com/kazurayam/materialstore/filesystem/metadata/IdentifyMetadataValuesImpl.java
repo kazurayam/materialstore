@@ -10,7 +10,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class IdentifyMetadataValuesImpl extends IdentifyMetadataValues {
+public final class IdentifyMetadataValuesImpl extends IdentifyMetadataValues {
 
     private static final Logger logger = LoggerFactory.getLogger(IdentifyMetadataValuesImpl.class);
 

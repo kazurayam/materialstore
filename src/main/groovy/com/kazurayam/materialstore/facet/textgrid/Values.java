@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  *
  */
-public class Values implements Comparable<Values> {
+public final class Values implements Comparable<Values> {
     public Values(List<String> values) {
         Objects.requireNonNull(values);
         this.values = values;

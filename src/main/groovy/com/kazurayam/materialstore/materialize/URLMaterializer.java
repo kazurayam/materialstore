@@ -16,7 +16,7 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
-public class URLMaterializer {
+public final class URLMaterializer {
     public URLMaterializer(Store store) {
         this.store = store;
     }

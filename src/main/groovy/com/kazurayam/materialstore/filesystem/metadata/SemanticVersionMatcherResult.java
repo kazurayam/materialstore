@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 
-public class SemanticVersionMatcherResult implements Jsonifiable, TemplateReady {
+public final class SemanticVersionMatcherResult implements Jsonifiable, TemplateReady {
 
     private boolean matched;
     private List<String> fragments;

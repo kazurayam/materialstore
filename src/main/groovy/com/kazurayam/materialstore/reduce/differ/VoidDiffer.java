@@ -25,7 +25,7 @@ import java.util.Objects;
 /**
  * VoidDiffer does nothing
  */
-public class VoidDiffer implements Differ {
+public final class VoidDiffer implements Differ {
 
     private Store store;
     private final Configuration cfg;

@@ -4,7 +4,7 @@ import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys
 import com.kazurayam.materialstore.util.JsonUtil
 import groovy.xml.MarkupBuilder
 
-class IgnoreMetadataKeysTemplate {
+public final class IgnoreMetadataKeysTemplate {
 
     private final IgnoreMetadataKeys ignoreMetadataKeys
 

@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory
 
 import java.nio.file.Path
 
-final class MProductGroupReporterImplMB extends MProductGroupReporter {
+public final class MProductGroupReporterImplMB extends MProductGroupReporter {
 
     private static final Logger logger = LoggerFactory.getLogger(MProductGroupReporterImplMB.class)
 

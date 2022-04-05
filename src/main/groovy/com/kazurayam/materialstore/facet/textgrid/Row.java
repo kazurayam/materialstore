@@ -8,7 +8,7 @@ import java.util.Objects;
 /**
  *
  */
-public class Row implements Comparable<Row> {
+public final class Row implements Comparable<Row> {
 
     private final Values values;
     private final KeyRange keyRange;

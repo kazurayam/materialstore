@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class DefaultTextGridDiffer extends TextGridDifferBuilder {
+public final class DefaultTextGridDiffer extends TextGridDifferBuilder {
 
     public DefaultTextGridDiffer(Path projectDir) {
         super(projectDir);

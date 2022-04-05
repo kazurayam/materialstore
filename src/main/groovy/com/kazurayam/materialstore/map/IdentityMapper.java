@@ -9,7 +9,7 @@ import com.kazurayam.materialstore.filesystem.Store;
 
 import java.util.Objects;
 
-public class IdentityMapper implements Mapper {
+public final class IdentityMapper implements Mapper {
     public IdentityMapper() {
     }
 

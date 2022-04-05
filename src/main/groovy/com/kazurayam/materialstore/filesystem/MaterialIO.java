@@ -13,7 +13,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
-public final class MaterialIO {
+final class MaterialIO {
 
     private final ID id_;
     private final FileType fileType_;

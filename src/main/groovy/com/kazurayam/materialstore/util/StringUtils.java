@@ -4,7 +4,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.List;
 
-public class StringUtils {
+public final class StringUtils {
 
     private StringUtils() {}
 
