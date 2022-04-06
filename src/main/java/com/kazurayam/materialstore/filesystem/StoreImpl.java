@@ -380,6 +380,9 @@ public final class StoreImpl implements Store {
     }
 
     private static boolean similar(MaterialList baseList, MaterialList targetList) {
+        logger.debug(String.format("[similar] invoked with baseList=%s/%s, targetList=%s/%s",
+                baseList.getJobName().toString(), baseList.getJobTimestamp().toString(),
+                targetList.getJobName().toString(), targetList.getJobTimestamp().toString()));
         int count = 0;
         for (Material base : baseList) {
             if (targetList.containsMaterialsSimilarTo(base)) {
@@ -388,7 +391,7 @@ public final class StoreImpl implements Store {
         }
         boolean result = (count > 0);
         logger.debug(String.format(
-                "[similar] number of Materials contained in the targetList: %d", count));
+                "[similar] count=%d", count));
         return result;
     }
 

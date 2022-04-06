@@ -2,6 +2,8 @@ package com.kazurayam.materialstore.filesystem;
 
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.util.JsonUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,6 +15,15 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 public final class Material implements Comparable<Material>, Jsonifiable, TemplateReady {
+
+    private static final Logger logger = LoggerFactory.getLogger(Material.class.getName());
+
+    public static final Material NULL_OBJECT = new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, IndexEntry.NULL_OBJECT);
+
+    private final JobName jobName_;
+    private final JobTimestamp jobTimestamp_;
+    private final IndexEntry indexEntry_;
+
     public Material(JobName jobName, JobTimestamp jobTimestamp, IndexEntry indexEntry) {
         this.jobName_ = jobName;
         this.jobTimestamp_ = jobTimestamp;
@@ -22,6 +33,8 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
     public FileType getFileType() {
         return this.getIndexEntry().getFileType();
     }
+
+    public String getDescription() { return this.getIndexEntry().getDescription(); }
 
     public JobName getJobName() {
         return jobName_;
@@ -104,8 +117,11 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
      * checks if this has the same FileType and Metadata as the other.
      * JobName and JobTimestamp are disregarded.
      */
-    public boolean isSimilar(Material other) {
-        return this.getIndexEntry().equals(other.getIndexEntry());
+    public boolean isSimilarTo(Material other) {
+        boolean result = this.getIndexEntry().isSimilarTo(other.getIndexEntry());
+        logger.trace(String.format("[isSimilarTo] %b, this=%s, other=%s",
+                result, this.getDescription(), other.getDescription()));
+        return result;
     }
 
     @Override
@@ -212,8 +228,5 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
 
     }
 
-    public static final Material NULL_OBJECT = new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, IndexEntry.NULL_OBJECT);
-    private final JobName jobName_;
-    private final JobTimestamp jobTimestamp_;
-    private final IndexEntry indexEntry_;
+
 }

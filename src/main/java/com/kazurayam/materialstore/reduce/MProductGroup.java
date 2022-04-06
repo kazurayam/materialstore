@@ -205,7 +205,7 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
         Objects.requireNonNull(ignoreMetadataKeys);
         Objects.requireNonNull(identifyMetadataValues);
         Objects.requireNonNull(sortKeys);
-
+        String methodName = "[zipMaterials] ";
         // the result
         final List<MaterialProduct> mProductList = new ArrayList<>();
 
@@ -217,8 +217,8 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
             Metadata rightMetadata = right.getIndexEntry().getMetadata();
             final QueryOnMetadata rightPattern = QueryOnMetadata.builder(rightMetadata, ignoreMetadataKeys).build();
             //
-            logger.debug("--------");
-            logger.debug("right " + right.getShortId() + " " + rightFileType.getExtension() + " pattern: " + rightPattern);
+            logger.debug(methodName + "--------");
+            logger.debug(methodName + "right " + right.getShortId() + " " + rightFileType.getExtension() + " pattern: " + rightPattern);
             int foundLeftCount = 0;
 
             Iterator<Material> leftIter = leftList.iterator();
@@ -229,10 +229,10 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
                 if (leftFileType.equals(rightFileType) && (rightPattern.matches(leftMetadata) || identifyMetadataValues.matches(leftMetadata))) {
                     MaterialProduct mp = new MaterialProduct.Builder(left, right, resultTimestamp).setQueryOnMetadata(rightPattern).sortKeys(sortKeys).build();
                     mProductList.add(mp);
-                    logger.debug("left Y " + left.getShortId() + " " + leftFileType.getExtension() + " " + leftMetadata);
+                    logger.debug(methodName + "left Y " + left.getShortId() + " " + leftFileType.getExtension() + " " + leftMetadata);
                     foundLeftCount += 1;
                 } else {
-                    logger.debug("left N " + left.getShortId() + " " + leftFileType.getExtension() + " " + leftMetadata);
+                    logger.debug(methodName + "left N " + left.getShortId() + " " + leftFileType.getExtension() + " " + leftMetadata);
                 }
             }
             if (foundLeftCount == 0) {
@@ -244,9 +244,9 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
                 mProductList.add(mp);
             }
 
-            logger.debug("foundLeftCount=" + foundLeftCount);
+            logger.debug(methodName + "foundLeftCount=" + foundLeftCount);
             if (foundLeftCount == 0 || foundLeftCount >= 2) {
-                logger.info("foundLeftCount=" + foundLeftCount + " is unusual");
+                logger.info(methodName + "foundLeftCount=" + foundLeftCount + " is unusual");
             }
         }
 
@@ -258,8 +258,8 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
             Metadata leftMetadata = left.getIndexEntry().getMetadata();
             final QueryOnMetadata leftPattern =
                     QueryOnMetadata.builder(leftMetadata, ignoreMetadataKeys).build();
-            logger.debug("--------");
-            logger.debug("left " + left.getShortId() + " " + leftFileType.toString() + " pattern: " + leftPattern);
+            logger.debug(methodName + "--------");
+            logger.debug(methodName + "left " + left.getShortId() + " " + leftFileType.toString() + " pattern: " + leftPattern);
             int foundRightCount = 0;
             //
             Iterator<Material> rightIter2 = rightList.iterator();
@@ -270,11 +270,11 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
                 if (rightFileType.equals(leftFileType) &&
                         (leftPattern.matches(rightMetadata) || identifyMetadataValues.matches(rightMetadata))) {
                     // this must have been found matched already; no need to create a MProduct
-                    logger.debug("right Y " + right.getShortId() + " " +
+                    logger.debug(methodName + "right Y " + right.getShortId() + " " +
                             rightFileType.getExtension() + " " + rightMetadata);
                     foundRightCount += 1;
                 } else {
-                    logger.debug("right N " + right.getShortId() + " " +
+                    logger.debug(methodName + "right N " + right.getShortId() + " " +
                             rightFileType.getExtension() + " " + rightMetadata);
                 }
             }
@@ -286,9 +286,9 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
                         .build();
                 mProductList.add(mProduct);
             }
-            logger.debug("foundRightCount=" + foundRightCount);
+            logger.debug(methodName + "foundRightCount=" + foundRightCount);
             if (foundRightCount == 0 || foundRightCount >= 2) {
-                logger.info("foundRightCount=" + foundRightCount + " is unusual");
+                logger.info(methodName + "foundRightCount=" + foundRightCount + " is unusual");
             }
         }
         Collections.sort(mProductList);

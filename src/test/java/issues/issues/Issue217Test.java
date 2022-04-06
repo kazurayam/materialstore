@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.function.BiFunction;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
@@ -68,7 +69,9 @@ public class Issue217Test {
 
         MProductGroup prepared = MProductGroupBuilder.chronos(store, currentMaterialList, func);
         assertNotNull(prepared);
+        assertEquals(15, prepared.size());
     }
+
 
 
 }
