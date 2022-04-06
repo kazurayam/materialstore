@@ -72,15 +72,11 @@ public final class MaterialList implements Iterable<Material>, Jsonifiable, Temp
             boolean similar = targetMaterial.isSimilar(baseMaterial);
             if (similar) {
                 logger.debug(String.format("[findMaterialsSimilarTo] target=%s is similar to base=%s", targetMaterial.getShortId(), baseMaterial.getShortId()));
-
                 list.add(targetMaterial);
-
             } else {
                 logger.debug(String.format("[findMaterialsSimilarTo] target=%s is NOT similar to base=%s", targetMaterial.getShortId(), baseMaterial.getShortId()));
             }
-
         }
-
         logger.debug(String.format("[findMaterialsSimilarTo] list.size()=%d", list.size()));
         return list;
     }

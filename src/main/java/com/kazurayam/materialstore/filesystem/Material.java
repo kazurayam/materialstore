@@ -114,7 +114,9 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
             return false;
         }
         Material other = (Material) obj;
-        return this.getJobName().equals(other.getJobName()) && this.getJobTimestamp().equals(other.getJobTimestamp()) && this.getIndexEntry().equals(other.getIndexEntry());
+        return this.getJobName().equals(other.getJobName()) &&
+                this.getJobTimestamp().equals(other.getJobTimestamp()) &&
+                this.getIndexEntry().equals(other.getIndexEntry());
     }
 
     @Override

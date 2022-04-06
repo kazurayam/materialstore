@@ -340,23 +340,26 @@ public final class StoreImpl implements Store {
     @Override
     public MaterialList reflect(MaterialList base) throws MaterialstoreException {
         Objects.requireNonNull(base);
-        logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] base.size()=%d", base.size()));
-        assert base.size() > 0;
+        String methodName = "[reflect]";
+        logger.debug(String.format("%s base.size()=%d", methodName, base.size()));
+        if (base.size() == 0) {
+            throw new MaterialstoreException("base.size() == 0");
+        }
         List<JobTimestamp> allJobTimestamps = queryAllJobTimestampsPriorTo(base.getJobName(), base.getQueryOnMetadata(), base.getJobTimestamp());
-        logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] allJobTimestamps.size()=%d", allJobTimestamps.size()));
+        logger.debug(String.format("%s allJobTimestamps.size()=%d", methodName, allJobTimestamps.size()));
         for (JobTimestamp previous : allJobTimestamps) {
-            logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] previous=%s", previous));
-
+            logger.debug(String.format("%s previous=%s", methodName, previous));
             MaterialList candidate = select(base.getJobName(), previous, base.getQueryOnMetadata());
             if (similar(base, candidate)) {
-                logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] previous=%s is similar to base=%s", previous.toString(), base.getJobTimestamp()));
+                logger.debug(String.format("%s previous=%s is similar to base=%s", methodName, previous.toString(), base.getJobTimestamp()));
                 MaterialList collected = collect(base, candidate);
-                logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] collected.size()=%d", collected.size()));
+                logger.debug(String.format("%s collected.size()=%d", methodName, collected.size()));
                 return collected;
             } else {
-                logger.debug(String.format("[queryMaterialListWithSimilarContentPriorTo] previous=%s is not similar to base=%s", previous.toString(), base.getJobTimestamp()));
+                logger.debug(String.format("%s previous=%s is not similar to base=%s", methodName, previous.toString(), base.getJobTimestamp()));
             }
         }
+        logger.debug(String.format("%s returning MaterialList.NULL_OBJECT", methodName));
         return MaterialList.NULL_OBJECT;
     }
 
@@ -383,7 +386,10 @@ public final class StoreImpl implements Store {
                 count += 1;
             }
         }
-        return count == baseList.size();
+        boolean result = (count > 0);
+        logger.debug(String.format(
+                "[similar] number of Materials contained in the targetList: %d", count));
+        return result;
     }
 
     /**

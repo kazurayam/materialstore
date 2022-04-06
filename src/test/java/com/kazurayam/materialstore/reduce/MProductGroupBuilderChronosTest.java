@@ -83,6 +83,15 @@ public class MProductGroupBuilderChronosTest {
         Assertions.assertEquals(1, reduced.getMaterialListPrevious().countMaterialsWithIdStartingWith("5d7e467"));
         Assertions.assertEquals(1, reduced.getMaterialListFollowing().countMaterialsWithIdStartingWith("5d7e467"));
         Assertions.assertEquals(8, reduced.size());
+
+        // check how the MProductGroup is created:
+        // the left Material and the right Material should be a valid Material
+        // while the diff Material should be initial state
+        Assertions.assertNotEquals(JobName.NULL_OBJECT, reduced.get(0).getLeft().getJobName());
+        Assertions.assertNotEquals(JobName.NULL_OBJECT, reduced.get(0).getRight().getJobName());
+        Assertions.assertEquals(JobName.NULL_OBJECT, reduced.get(0).getDiff().getJobName());
+        // System.out.println("reduce.get(0)=" + reduced.get(0).toJson(true));
+
     }
 
 }

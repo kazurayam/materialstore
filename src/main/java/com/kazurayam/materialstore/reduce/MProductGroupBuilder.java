@@ -29,13 +29,15 @@ public final class MProductGroupBuilder {
         // infer the previous MaterialList to compare the MaterialList of the current JobTimestamp against
         MaterialList previousMaterialList = store.reflect(currentMaterialList);
 
-        assert previousMaterialList.size() > 0;
-
         logger.info("[chronos] jobName=" + currentMaterialList.getJobName() + ", store=" + store);
         logger.info("[chronos] previousMaterialList.getJobTimestamp()=" + previousMaterialList.getJobTimestamp());
         logger.info("[chronos] previousMaterialList.size()=" + previousMaterialList.size());
         logger.info("[chronos] currentMaterialList.getJobTimestamp()=" + currentMaterialList.getJobTimestamp());
         logger.info("[chronos] currentMaterialList.size()=" + currentMaterialList.size());
+
+        if (previousMaterialList.size() == 0) {
+            throw new MaterialstoreException("previousMaterialize.size() == 0");
+        }
 
         // zip 2 MaterialLists to form a single MProductGroup
         MProductGroup prepared = func.apply(previousMaterialList, currentMaterialList);
