@@ -67,22 +67,15 @@ public final class MaterialList implements Iterable<Material>, Jsonifiable, Temp
     }
 
     public List<Material> findMaterialsSimilarTo(Material baseMaterial) {
-        List<Material> list = new ArrayList<>();
+        List<Material> similarMaterials = new ArrayList<>();
         for (Material targetMaterial : materialList) {
-            boolean similar = targetMaterial.isSimilar(baseMaterial);
-            if (similar) {
-                logger.debug(String.format("[findMaterialsSimilarTo] target=%s is similar to base=%s", targetMaterial.getShortId(), baseMaterial.getShortId()));
-
-                list.add(targetMaterial);
-
-            } else {
-                logger.debug(String.format("[findMaterialsSimilarTo] target=%s is NOT similar to base=%s", targetMaterial.getShortId(), baseMaterial.getShortId()));
+            if (targetMaterial.isSimilarTo(baseMaterial)) {
+                similarMaterials.add(targetMaterial);
             }
-
         }
-
-        logger.debug(String.format("[findMaterialsSimilarTo] list.size()=%d", list.size()));
-        return list;
+        logger.debug(String.format("[findMaterialsSimilarTo] baseMaterial=%s, similarMaterials.size()=%d",
+                baseMaterial.getDescription(), similarMaterials.size()));
+        return similarMaterials;
     }
 
     public int countMaterialsWithIdStartingWith(String idStarter) {

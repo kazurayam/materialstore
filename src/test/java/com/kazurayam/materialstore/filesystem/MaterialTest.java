@@ -17,6 +17,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MaterialTest {
 
@@ -87,10 +88,10 @@ public class MaterialTest {
         assertNotNull(material);
         //
         File f = material.toFile(store.getRoot());
-        Assertions.assertTrue(f.exists());
+        assertTrue(f.exists());
         //
         URL url = material.toURL(store.getRoot());
-        Assertions.assertTrue(url.toExternalForm().startsWith("file:/"), url.toString());
+        assertTrue(url.toExternalForm().startsWith("file:/"), url.toString());
     }
 
     @Test
@@ -117,5 +118,15 @@ public class MaterialTest {
         Assertions.assertEquals("screenshot", ((Map)metadata.get("category")).get("value"));
         Assertions.assertEquals("ProductionEnv", ((Map)metadata.get("profile")).get("value"));
 
+    }
+
+    @Test
+    public void test_isSimilarTo() {
+        String sampleLine = "6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{\"profile\":\"DevelopmentEnv\",\"URL\":\"http://demoaut-mimic.kazurayam.com/\"}";
+        IndexEntry indexEntry1 = IndexEntry.parseLine(sampleLine);
+        Material material1 = new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, indexEntry1);
+        IndexEntry indexEntry2 = IndexEntry.parseLine(sampleLine.replace("6141b40", "1020304"));
+        Material material2 = new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, indexEntry2);
+        assertTrue(material1.isSimilarTo(material2));
     }
 }

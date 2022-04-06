@@ -54,12 +54,14 @@ public abstract class AbstractTextDiffer implements Differ {
         //
         final Material left = mProduct.getLeft();
         if (!left.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
-            throw new IllegalArgumentException(left + " is not a text");
+            throw new IllegalArgumentException(left + " is not a text.\n" +
+                    "mProduct=" + mProduct.toJson(true));
         }
 
         final Material right = mProduct.getRight();
         if (!right.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
-            throw new IllegalArgumentException(right + " is not a text");
+            throw new IllegalArgumentException(right + " is not a text.\n" +
+                    "mProduct=" + mProduct.toJson(true));
         }
 
         //

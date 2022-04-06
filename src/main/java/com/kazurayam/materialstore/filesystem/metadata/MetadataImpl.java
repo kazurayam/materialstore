@@ -241,13 +241,18 @@ public final class MetadataImpl extends Metadata {
         return toJson();
     }
 
+    /**
+     * compares this.toSimplifiedJson() with other.toSimplifiedJson()
+     * @param obj
+     * @return
+     */
     @Override
     public boolean equals(Object obj) {
-        if ( !(obj instanceof MetadataImpl)) {
+        if ( !(obj instanceof MetadataImpl) ) {
             return false;
         }
         MetadataImpl other = (MetadataImpl) obj;
-        return this.toString().equals(other.toString());
+        return this.toSimplifiedJson().equals(other.toSimplifiedJson());
     }
 
     @Override
