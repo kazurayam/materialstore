@@ -9,6 +9,8 @@ import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.reduce.MaterialProduct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,6 +25,8 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public abstract class AbstractTextDiffer implements Differ {
+
+    private Logger logger = LoggerFactory.getLogger(AbstractTextDiffer.class.getName());
 
     protected Store store;
 
@@ -52,15 +56,15 @@ public abstract class AbstractTextDiffer implements Differ {
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());
         //
-        final Material left = mProduct.getLeft();
+        Material left = mProduct.getLeft();
         if (!left.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
-            throw new IllegalArgumentException(left + " is not a text.\n" +
+            logger.warn(left + " is not a text.\n" +
                     "mProduct=" + mProduct.toJson(true));
         }
 
-        final Material right = mProduct.getRight();
+        Material right = mProduct.getRight();
         if (!right.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
-            throw new IllegalArgumentException(right + " is not a text.\n" +
+            logger.warn(right + " is not a text.\n" +
                     "mProduct=" + mProduct.toJson(true));
         }
 
