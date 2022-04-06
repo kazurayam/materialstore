@@ -71,6 +71,10 @@ public final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, Te
         return Paths.get(mio.getID().toString() + "." + mio.getFileType().getExtension());
     }
 
+    public String getDescription() {
+        return this.getFileType().getExtension() + " " + this.getMetadata().toSimplifiedJson();
+    }
+
     public FileType getFileType() {
         return getMaterialIO().getFileType();
     }
@@ -87,13 +91,19 @@ public final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, Te
         return metadata_;
     }
 
+    public boolean isSimilarTo(IndexEntry other) {
+        return this.getFileType().equals(other.getFileType()) &&
+                this.getMetadata().equals(other.getMetadata());
+    }
+
     @Override
     public boolean equals(Object obj) {
         if ( !(obj instanceof IndexEntry)) {
             return false;
         }
         IndexEntry other = (IndexEntry)obj;
-        return this.getFileType().equals(other.getFileType()) &&
+        return this.getID().equals(other.getID()) &&
+                this.getFileType().equals(other.getFileType()) &&
                 this.getMetadata().equals(other.getMetadata());
     }
 

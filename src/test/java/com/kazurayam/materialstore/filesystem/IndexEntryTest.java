@@ -8,6 +8,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class IndexEntryTest {
 
     private final String sampleLine = "6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{\"URL\":\"http://demoaut-mimic.kazurayam.com/\", \"profile\":\"DevelopmentEnv\"}";
@@ -17,6 +20,14 @@ public class IndexEntryTest {
         IndexEntry indexEntry = IndexEntry.parseLine(sampleLine);
         Assertions.assertEquals("6141b40", indexEntry.getShortId());
         Assertions.assertNotNull(indexEntry);
+    }
+
+    @Test
+    public void test_isSimilarTo() {
+        IndexEntry indexEntry1 = IndexEntry.parseLine(sampleLine);
+        IndexEntry indexEntry2 = IndexEntry.parseLine(sampleLine.replace("6141b40", "1020304"));
+        assertTrue(indexEntry1.isSimilarTo(indexEntry2));
+        assertFalse(indexEntry1.equals(indexEntry2));
     }
 
     @Test
@@ -35,9 +46,9 @@ public class IndexEntryTest {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         System.out.println(gson.toJson(map));
         //
-        Assertions.assertTrue(((String) map.get("id")).startsWith("6141"));
-        Assertions.assertTrue(map.get("fileType") instanceof Map);
-        Assertions.assertTrue(map.get("metadata") instanceof Map);
+        assertTrue(((String) map.get("id")).startsWith("6141"));
+        assertTrue(map.get("fileType") instanceof Map);
+        assertTrue(map.get("metadata") instanceof Map);
     }
 
 }
