@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.filesystem;
 
+import com.kazurayam.materialstore.DuplicatingMaterialException;
 import com.kazurayam.materialstore.MaterialstoreException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -151,7 +152,7 @@ public final class Jobber {
 
     public Material write(byte[] data, final FileType fileType, final Metadata metadata,
                           final DuplicationHandling duplicationHandling)
-            throws MaterialstoreException {
+            throws DuplicatingMaterialException, MaterialstoreException {
         Objects.requireNonNull(metadata);
         if (data.length == 0) throw new IllegalArgumentException("length of the data is 0");
         Objects.requireNonNull(fileType);
@@ -161,7 +162,7 @@ public final class Jobber {
             String msg1 = "The combination of " + "fileType=" + fileType.getExtension() + " and metadata=" + metadata + " is already there in the index";
             if (duplicationHandling.equals(DuplicationHandling.TERMINATE)) {
                 // will stop the process entirely
-                throw new MaterialstoreException(msg1 + ".");
+                throw new DuplicatingMaterialException(msg1 + ".");
 
             } else if (duplicationHandling.equals(DuplicationHandling.CONTINUE)) {
                 logger_.info(msg1 + "; process skips one write and continue ...");
