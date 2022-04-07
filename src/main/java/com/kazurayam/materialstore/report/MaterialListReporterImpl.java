@@ -104,6 +104,8 @@ public final class MaterialListReporterImpl extends MaterialListReporter {
         Writer sw = new StringWriter();
         try {
             template.process(model, sw);
+            sw.flush();
+            sw.close();
         } catch (IOException | TemplateException e) {
             throw new MaterialstoreException(e);
         }

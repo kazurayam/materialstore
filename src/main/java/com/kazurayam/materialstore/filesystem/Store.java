@@ -53,6 +53,8 @@ public interface Store {
 
     MaterialList reflect(MaterialList baseMaterialList) throws MaterialstoreException;
 
+    MaterialList reflect(MaterialList baseMaterialList, JobTimestamp priorTo) throws MaterialstoreException;
+
     long retrieve(Material material, Path out) throws MaterialstoreException;
 
     Jobber getCachedJobber(JobName jobName, JobTimestamp jobTimestamp);

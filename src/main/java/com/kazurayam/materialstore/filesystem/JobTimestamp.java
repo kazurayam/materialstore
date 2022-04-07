@@ -1,13 +1,22 @@
 package com.kazurayam.materialstore.filesystem;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.time.temporal.TemporalUnit;
 
 public final class JobTimestamp implements Comparable<JobTimestamp>, Jsonifiable {
+
+    public static final String EPOCH_NAME = "_";
+    public static final JobTimestamp NULL_OBJECT = new JobTimestamp(EPOCH_NAME);
+    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("uuuuMMdd_HHmmss");
+    private final String jobTimestamp_;
+
     public static boolean isValid(String s) {
         if (s.equals(EPOCH_NAME)) {
             return true;
@@ -25,6 +34,10 @@ public final class JobTimestamp implements Comparable<JobTimestamp>, Jsonifiable
     public static JobTimestamp now() {
         LocalDateTime now = LocalDateTime.now();
         return new JobTimestamp(FORMATTER.format(now));
+    }
+
+    public static JobTimestamp create(LocalDateTime theTimestamp) {
+        return new JobTimestamp(FORMATTER.format(theTimestamp));
     }
 
     public static JobTimestamp epoch() {
@@ -137,6 +150,21 @@ public final class JobTimestamp implements Comparable<JobTimestamp>, Jsonifiable
         return plus(weeks, ChronoUnit.WEEKS);
     }
 
+    public JobTimestamp beginningOfTheMonth() {
+        LocalDate thisDay = this.value().toLocalDate();
+        LocalDate theFirstDayOfTheMonth = thisDay.with(TemporalAdjusters.firstDayOfMonth());
+        LocalDateTime beginningOfTheMonth = LocalDateTime.of(theFirstDayOfTheMonth, LocalTime.MIDNIGHT);
+        return JobTimestamp.create(beginningOfTheMonth);
+    }
+
+    public JobTimestamp endOfTheMonth() {
+        LocalDate thisDay = this.value().toLocalDate();
+        LocalDate theLastDayOfTheMonth = thisDay.with(TemporalAdjusters.lastDayOfMonth());
+        LocalTime lt235959 = LocalTime.MIDNIGHT.minusSeconds(1);
+        LocalDateTime endOfTheMonth = LocalDateTime.of(theLastDayOfTheMonth, lt235959);
+        return JobTimestamp.create(endOfTheMonth);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if ( !(obj instanceof JobTimestamp)) {
@@ -180,9 +208,5 @@ public final class JobTimestamp implements Comparable<JobTimestamp>, Jsonifiable
         return this.value().compareTo(other.value());
     }
 
-    public static final String EPOCH_NAME = "_";
-    public static final JobTimestamp NULL_OBJECT = new JobTimestamp(EPOCH_NAME);
-    public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("uuuuMMdd_HHmmss");
-    private final String jobTimestamp_;
 
 }

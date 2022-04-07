@@ -339,13 +339,28 @@ public final class StoreImpl implements Store {
 
     @Override
     public MaterialList reflect(MaterialList base) throws MaterialstoreException {
+        return reflect(base, base.getJobTimestamp());
+    }
+
+    @Override
+    public MaterialList reflect(MaterialList base, JobTimestamp priorTo) throws MaterialstoreException {
         Objects.requireNonNull(base);
+        Objects.requireNonNull(priorTo);
         String methodName = "[reflect]";
         logger.debug(String.format("%s base.size()=%d", methodName, base.size()));
         if (base.size() == 0) {
             throw new MaterialstoreException("base.size() == 0");
         }
-        List<JobTimestamp> allJobTimestamps = queryAllJobTimestampsPriorTo(base.getJobName(), base.getQueryOnMetadata(), base.getJobTimestamp());
+        //
+        List<JobTimestamp> allJobTimestamps =
+                queryAllJobTimestampsPriorTo(base.getJobName(),
+                        base.getQueryOnMetadata(),
+                        priorTo);
+        logger.info(String.format("%s priorTo=%s", methodName, priorTo.toString()));
+        for (JobTimestamp jt : allJobTimestamps) {
+            logger.info(String.format("%s jt=%s", methodName, jt.toString()));
+        }
+        //
         logger.debug(String.format("%s allJobTimestamps.size()=%d", methodName, allJobTimestamps.size()));
         for (JobTimestamp previous : allJobTimestamps) {
             logger.debug(String.format("%s previous=%s", methodName, previous));
