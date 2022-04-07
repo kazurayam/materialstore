@@ -24,6 +24,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class StoreImplTest {
 
     private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(StoreImplTest.class.getName());
@@ -73,7 +75,7 @@ public class StoreImplTest {
         //
         JobTimestamp latestTimestamp = new JobTimestamp("20210715_145922");
         int deletedJobTimestamps = store.deleteMaterialsOlderThanExclusive(jobName, latestTimestamp, 0L, ChronoUnit.DAYS);
-        Assertions.assertEquals(1, deletedJobTimestamps);
+        assertEquals(1, deletedJobTimestamps);
         /* 1 JobTimestamp directory is deleted
          * - 20210713_093357/
          * under which contained 3 files plus 1 directory
@@ -92,10 +94,10 @@ public class StoreImplTest {
         //
         List<JobTimestamp> jobTimestamps = store.findAllJobTimestamps(jobName);
         Assertions.assertNotNull(jobTimestamps);
-        Assertions.assertEquals(3, jobTimestamps.size());
-        Assertions.assertEquals(new JobTimestamp("20210715_150000"), jobTimestamps.get(0));
-        Assertions.assertEquals(new JobTimestamp("20210715_145922"), jobTimestamps.get(1));
-        Assertions.assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(2));
+        assertEquals(3, jobTimestamps.size());
+        assertEquals(new JobTimestamp("20210715_150000"), jobTimestamps.get(0));
+        assertEquals(new JobTimestamp("20210715_145922"), jobTimestamps.get(1));
+        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(2));
     }
 
     @Test
@@ -106,9 +108,9 @@ public class StoreImplTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_150000");
         List<JobTimestamp> jobTimestamps = store.findAllJobTimestampsPriorTo(jobName, jobTimestamp);
         Assertions.assertNotNull(jobTimestamps);
-        Assertions.assertEquals(2, jobTimestamps.size());
-        Assertions.assertEquals(new JobTimestamp("20210715_145922"), jobTimestamps.get(0));
-        Assertions.assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(1));
+        assertEquals(2, jobTimestamps.size());
+        assertEquals(new JobTimestamp("20210715_145922"), jobTimestamps.get(0));
+        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(1));
     }
 
     @Test
@@ -120,7 +122,7 @@ public class StoreImplTest {
         JobTimestamp second = store.findJobTimestampPriorTo(jobName, latest);// 20210715_145922
         Assertions.assertNotNull(second);
         Assertions.assertNotEquals(JobTimestamp.NULL_OBJECT, second);
-        Assertions.assertEquals(new JobTimestamp("20210715_145922"), second);
+        assertEquals(new JobTimestamp("20210715_145922"), second);
     }
 
     @Test
@@ -131,7 +133,7 @@ public class StoreImplTest {
         JobTimestamp jobTimestamp = store.findLatestJobTimestamp(jobName);
         Assertions.assertNotNull(jobTimestamp);
         Assertions.assertNotEquals(JobTimestamp.NULL_OBJECT, jobTimestamp);
-        Assertions.assertEquals(new JobTimestamp("20210715_150000"), jobTimestamp);
+        assertEquals(new JobTimestamp("20210715_150000"), jobTimestamp);
     }
 
     /**
@@ -163,7 +165,7 @@ public class StoreImplTest {
         JobTimestamp jobTimestamp = JobTimestamp.now();
         Jobber job = store.getJobber(jobName, jobTimestamp);
         Assertions.assertNotNull(job);
-        Assertions.assertEquals("test_getJob", job.getJobName().toString());
+        assertEquals("test_getJob", job.getJobName().toString());
     }
 
     @Test
@@ -180,7 +182,7 @@ public class StoreImplTest {
     @Test
     public void test_getRoot() {
         Assertions.assertTrue(Files.exists(store.getRoot()), getRoot() + " is not present");
-        Assertions.assertEquals("store", store.getRoot().getFileName().toString());
+        assertEquals("store", store.getRoot().getFileName().toString());
     }
 
     @Test
@@ -195,10 +197,10 @@ public class StoreImplTest {
         QueryOnMetadata query = new QueryOnMetadata.Builder(metadata).build();
         List<JobTimestamp> jobTimestamps = store.queryAllJobTimestamps(jobName, query);
         Assertions.assertNotNull(jobTimestamps);
-        Assertions.assertEquals(3, jobTimestamps.size());
-        Assertions.assertEquals(new JobTimestamp("20210715_150000"), jobTimestamps.get(0));
-        Assertions.assertEquals(new JobTimestamp("20210715_145922"), jobTimestamps.get(1));
-        Assertions.assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(2));
+        assertEquals(3, jobTimestamps.size());
+        assertEquals(new JobTimestamp("20210715_150000"), jobTimestamps.get(0));
+        assertEquals(new JobTimestamp("20210715_145922"), jobTimestamps.get(1));
+        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(2));
     }
 
     @Test
@@ -211,12 +213,11 @@ public class StoreImplTest {
         map.put("profile", "DevelopmentEnv");
         Metadata metadata = new Metadata.Builder().putAll(map).build();
         QueryOnMetadata query = new QueryOnMetadata.Builder(metadata).build();
-        JobTimestamp jobTimestamp = new JobTimestamp("20210715_150000");
+        JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         List<JobTimestamp> jobTimestamps = store.queryAllJobTimestampsPriorTo(jobName, query, jobTimestamp);
         Assertions.assertNotNull(jobTimestamps);
-        Assertions.assertEquals(2, jobTimestamps.size());
-        Assertions.assertEquals(new JobTimestamp("20210715_145922"), jobTimestamps.get(0));
-        Assertions.assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(1));
+        assertEquals(1, jobTimestamps.size());
+        assertEquals(new JobTimestamp("20210713_093357"), jobTimestamps.get(0));
     }
 
     @Test
@@ -233,12 +234,12 @@ public class StoreImplTest {
         JobTimestamp found = store.queryJobTimestampPriorTo(jobName, query, jobTimestamp);
         Assertions.assertNotNull(found);
         Assertions.assertNotEquals(JobTimestamp.NULL_OBJECT, found);
-        Assertions.assertEquals(new JobTimestamp("20210715_145922"), found);
+        assertEquals(new JobTimestamp("20210715_145922"), found);
     }
 
     @Test
-    public void test_reflect() throws MaterialstoreException {
-        JobName jobName = new JobName("test_reflect");
+    public void test_reflect_without_JobTimestamp() throws MaterialstoreException {
+        JobName jobName = new JobName("test_reflect_without_JobTimestamp");
         TestFixtureUtil.setupFixture(store, jobName);
         // add one more JobTimestamp directory to mee the test requirement
         store.copyMaterials(jobName, new JobTimestamp("20210713_093357"), new JobTimestamp("20210715_145947"));
@@ -250,13 +251,33 @@ public class StoreImplTest {
         // out of some previous JobTimestamp directory
         MaterialList target = store.reflect(base);
 
-        Assertions.assertEquals(new JobTimestamp("20210715_145922"), target.getJobTimestamp());
-        Assertions.assertEquals(2, target.size());
-        Assertions.assertEquals(FileType.HTML, target.get(0).getFileType());
-        Assertions.assertEquals(FileType.HTML, target.get(1).getFileType());
+        assertEquals(new JobTimestamp("20210715_145922"), target.getJobTimestamp());
+        assertEquals(2, target.size());
+        assertEquals(FileType.HTML, target.get(0).getFileType());
+        assertEquals(FileType.HTML, target.get(1).getFileType());
     }
 
     @Test
+    public void test_reflect_with_JobTimestamp() throws MaterialstoreException {
+        JobName jobName = new JobName("test_reflect_with_JobTimestamp");
+        TestFixtureUtil.setupFixture(store, jobName);
+        // add one more JobTimestamp directory to mee the test requirement
+        store.copyMaterials(jobName, new JobTimestamp("20210715_145922"), new JobTimestamp("20210613_150000"));
+        //
+        JobTimestamp beginningOfTheMonth = new JobTimestamp("20210715_150000").beginningOfTheMonth();
+        assertEquals(new JobTimestamp("20210701_000000"), beginningOfTheMonth);
+
+        // create the base MaterialList of FileType.HTML
+        MaterialList base = store.select(jobName, new JobTimestamp("20210715_150000"), QueryOnMetadata.ANY, FileType.HTML);
+
+        // now reflect the base to find a target MaterialList of FileType.HTML
+        // out of some JobTimestamp directory prior to the end of the last month
+        MaterialList target = store.reflect(base, beginningOfTheMonth);
+
+        assertEquals(new JobTimestamp("20210613_150000"), target.getJobTimestamp());
+    }
+
+        @Test
     public void test_retrieve() throws MaterialstoreException {
         JobName jobName = new JobName("test_retrieve");
         TestFixtureUtil.setupFixture(store, jobName);
@@ -283,7 +304,7 @@ public class StoreImplTest {
         JobTimestamp found = store.queryLatestJobTimestamp(jobName, query);
         Assertions.assertNotNull(found);
         Assertions.assertNotEquals(JobTimestamp.NULL_OBJECT, found);
-        Assertions.assertEquals(new JobTimestamp("20210715_150000"), found);
+        assertEquals(new JobTimestamp("20210715_150000"), found);
     }
 
     @Test
@@ -361,7 +382,7 @@ public class StoreImplTest {
                 QueryOnMetadata.builder()
                         .put("city", Pattern.compile("To.*"))
                         .build());
-        Assertions.assertEquals(2, selected.size());
+        assertEquals(2, selected.size());
     }
 
     @Test
@@ -386,7 +407,7 @@ public class StoreImplTest {
         // select specifying FileType.PNG excluding FileType.HTML and others
         MaterialList materials = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY, FileType.PNG);
         Assertions.assertNotNull(materials);
-        Assertions.assertEquals(1, materials.size());
+        assertEquals(1, materials.size());
     }
 
     @Test
@@ -412,7 +433,7 @@ public class StoreImplTest {
         // select all
         MaterialList materials = store.select(jobName, jobTimestamp);
         Assertions.assertNotNull(materials);
-        Assertions.assertEquals(2, materials.size());
+        assertEquals(2, materials.size());
     }
 
     @Test

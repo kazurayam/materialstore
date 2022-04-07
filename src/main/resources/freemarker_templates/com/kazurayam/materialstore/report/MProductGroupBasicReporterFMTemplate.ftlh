@@ -108,7 +108,7 @@
 
 <#macro makeModalSubsection mProduct count>
   <div class="show-diff">
-    <#if mProduct.left.diffability == "AS_IMAGE">
+    <#if mProduct.left.diffability == "AS_IMAGE"  || mProduct.right.diffability == "AS_IMAGE">
       <#assign imageModalId = "imageModal" + count >
       <#assign imageModalTitleId = "imageModalLabel" + count>
       <#assign carouselId = "carouselControl" + count>
@@ -155,7 +155,7 @@
           </div>
         </div>
       </div>
-    <#elseif mProduct.left.diffability == "AS_TEXT">
+    <#elseif mProduct.left.diffability == "AS_TEXT" || mProduct.right.diffability == "AS_TEXT">
       <#assign textModalId = "textModal" + count>
       <#assign textModalTitleId = "textModalLabel" + count>
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#${textModalId}">Show diff in Modal</button><!-- Modal to show texts diff -->

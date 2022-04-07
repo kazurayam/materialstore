@@ -32,9 +32,6 @@ public abstract class AbstractTextDiffer implements Differ {
 
     private Charset charset = StandardCharsets.UTF_8;
 
-    public AbstractTextDiffer() {
-    }
-
     public AbstractTextDiffer(Store store) {
         this.store = store;
     }

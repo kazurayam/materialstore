@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore;
 
-public final class MaterialstoreException extends Exception {
+public class MaterialstoreException extends Exception {
+
     public MaterialstoreException(String message) {
         super(message);
     }

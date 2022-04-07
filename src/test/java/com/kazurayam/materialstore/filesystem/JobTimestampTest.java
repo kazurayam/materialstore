@@ -21,6 +21,26 @@ public class JobTimestampTest {
         Assertions.assertTrue((epoch.compareTo(epoch)) == 0);
     }
 
+    /**
+     * 2022 April 8th, 8h 23m 16secs
+     * should yield
+     * 2022 March 31st, 23h 59m 59secs
+     */
+    @Test
+    public void test_beginningOfTheMonth() {
+        JobTimestamp currentTimestamp = new JobTimestamp("20220408_082316");
+        JobTimestamp beginningOfTheMonth = currentTimestamp.beginningOfTheMonth();
+        Assertions.assertEquals("20220401_000000", beginningOfTheMonth.toString());
+    }
+
+    @Test
+    public void test_endOfTheMonth() {
+        JobTimestamp currentTimestamp = new JobTimestamp("20220408_082316");
+        JobTimestamp endOfTheMonth = currentTimestamp.endOfTheMonth();
+        Assertions.assertEquals("20220430_235959", endOfTheMonth.toString());
+    }
+
+
     @Test
     public void test_value_usual_case() {
         JobTimestamp now = JobTimestamp.now();

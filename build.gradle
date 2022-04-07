@@ -6,7 +6,11 @@ plugins {
 }
 
 group 'com.kazurayam'
+<<<<<<< HEAD
 version '0.6.2-SNAPSHOT'
+=======
+version '0.6.2'
+>>>>>>> develop
 
 ext.isReleaseVersion = ! version.endsWith("SNAPSHOT")
 

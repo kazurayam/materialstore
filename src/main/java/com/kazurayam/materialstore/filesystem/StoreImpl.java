@@ -1,6 +1,8 @@
 package com.kazurayam.materialstore.filesystem;
 
+import com.kazurayam.materialstore.DuplicatingMaterialException;
 import com.kazurayam.materialstore.MaterialstoreException;
+import com.kazurayam.materialstore.filesystem.Jobber.DuplicationHandling;
 import com.kazurayam.materialstore.map.IdentityMapper;
 import com.kazurayam.materialstore.map.MappedResultSerializer;
 import com.kazurayam.materialstore.map.Mapper;
@@ -339,13 +341,28 @@ public final class StoreImpl implements Store {
 
     @Override
     public MaterialList reflect(MaterialList base) throws MaterialstoreException {
+        return reflect(base, base.getJobTimestamp());
+    }
+
+    @Override
+    public MaterialList reflect(MaterialList base, JobTimestamp priorTo) throws MaterialstoreException {
         Objects.requireNonNull(base);
+        Objects.requireNonNull(priorTo);
         String methodName = "[reflect]";
         logger.debug(String.format("%s base.size()=%d", methodName, base.size()));
         if (base.size() == 0) {
             throw new MaterialstoreException("base.size() == 0");
         }
-        List<JobTimestamp> allJobTimestamps = queryAllJobTimestampsPriorTo(base.getJobName(), base.getQueryOnMetadata(), base.getJobTimestamp());
+        //
+        List<JobTimestamp> allJobTimestamps =
+                queryAllJobTimestampsPriorTo(base.getJobName(),
+                        base.getQueryOnMetadata(),
+                        priorTo);
+        logger.info(String.format("%s priorTo=%s", methodName, priorTo.toString()));
+        for (JobTimestamp jt : allJobTimestamps) {
+            logger.info(String.format("%s jt=%s", methodName, jt.toString()));
+        }
+        //
         logger.debug(String.format("%s allJobTimestamps.size()=%d", methodName, allJobTimestamps.size()));
         for (JobTimestamp previous : allJobTimestamps) {
             logger.debug(String.format("%s previous=%s", methodName, previous));
@@ -537,13 +554,24 @@ public final class StoreImpl implements Store {
                           Metadata meta,
                           BufferedImage input)
             throws MaterialstoreException {
+        return this.write(jobName, jobTimestamp, fileType, meta, input, DuplicationHandling.TERMINATE);
+    }
+
+    @Override
+    public Material write(JobName jobName,
+                          JobTimestamp jobTimestamp,
+                          FileType fileType,
+                          Metadata meta,
+                          BufferedImage input,
+                          DuplicationHandling flowControl)
+            throws MaterialstoreException {
         Objects.requireNonNull(input);
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(input, fileType.getExtension(), baos);
             byte[] data = baos.toByteArray();
             baos.close();
-            return this.write(jobName, jobTimestamp, fileType, meta, data);
+            return this.write(jobName, jobTimestamp, fileType, meta, data, flowControl);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
@@ -554,49 +582,123 @@ public final class StoreImpl implements Store {
                           JobTimestamp jobTimestamp,
                           FileType fileType,
                           Metadata meta,
-                          byte[] input) throws MaterialstoreException {
+                          byte[] input) throws MaterialstoreException, DuplicatingMaterialException {
+        return this.write(jobName, jobTimestamp, fileType, meta, input, DuplicationHandling.TERMINATE);
+    }
+
+    @Override
+    public Material write(JobName jobName,
+                          JobTimestamp jobTimestamp,
+                          FileType fileType,
+                          Metadata meta,
+                          byte[] input,
+                          DuplicationHandling flowControl) throws MaterialstoreException {
         Objects.requireNonNull(root_);
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(jobTimestamp);
         Objects.requireNonNull(meta);
         Objects.requireNonNull(fileType);
         Jobber jobber = this.getJobber(jobName, jobTimestamp);
-        return jobber.write(input, fileType, meta);
+        return jobber.write(input, fileType, meta, flowControl);
     }
 
     @Override
-    public Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+    public Material write(JobName jobName,
+                          JobTimestamp jobTimestamp,
+                          FileType fileType,
+                          Metadata meta,
                           File input) throws MaterialstoreException {
+        return this.write(jobName, jobTimestamp, fileType, meta, input, DuplicationHandling.TERMINATE);
+    }
+
+    @Override
+    public Material write(JobName jobName,
+                          JobTimestamp jobTimestamp,
+                          FileType fileType,
+                          Metadata meta,
+                          File input,
+                          DuplicationHandling flowControl) throws MaterialstoreException {
         Objects.requireNonNull(input);
         assert input.exists();
         try {
             FileInputStream fis = new FileInputStream(input);
             byte[] data = toByteArray(fis);
             fis.close();
-            return this.write(jobName, jobTimestamp, fileType, meta, data);
+            return this.write(jobName, jobTimestamp, fileType, meta, data, flowControl);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
     }
 
     @Override
-    public Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+    public Material write(JobName jobName,
+                          JobTimestamp jobTimestamp,
+                          FileType fileType,
+                          Metadata meta,
                           Path input) throws MaterialstoreException {
+        return this.write(jobName, jobTimestamp, fileType, meta, input, DuplicationHandling.TERMINATE);
+    }
+
+    @Override
+    public Material write(JobName jobName,
+                          JobTimestamp jobTimestamp,
+                          FileType fileType,
+                          Metadata meta,
+                          Path input,
+                          DuplicationHandling flowControl) throws MaterialstoreException {
         Objects.requireNonNull(input);
         assert Files.exists(input);
         try {
             FileInputStream fis = new FileInputStream(input.toFile());
             byte[] data = toByteArray(fis);
             fis.close();
-            return this.write(jobName, jobTimestamp, fileType, meta, data);
+            return this.write(jobName, jobTimestamp, fileType, meta, data, flowControl);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
     }
 
     @Override
-    public Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
-                          String input, Charset charset) throws MaterialstoreException {
+    public Material write(JobName jobName,
+                          JobTimestamp jobTimestamp,
+                          FileType fileType,
+                          Metadata meta,
+                          String input) throws MaterialstoreException {
+        return write(jobName, jobTimestamp, fileType, meta, input,
+                StandardCharsets.UTF_8, DuplicationHandling.TERMINATE);
+    }
+
+    @Override
+    public Material write(JobName jobName,
+                          JobTimestamp jobTimestamp,
+                          FileType fileType,
+                          Metadata meta,
+                          String input,
+                          Charset charset) throws MaterialstoreException {
+        return write(jobName, jobTimestamp, fileType, meta, input, charset,
+                DuplicationHandling.TERMINATE);
+    }
+
+    @Override
+    public Material write(JobName jobName,
+                          JobTimestamp jobTimestamp,
+                          FileType fileType,
+                          Metadata meta,
+                          String input,
+                          DuplicationHandling flowControl) throws MaterialstoreException {
+        return write(jobName, jobTimestamp, fileType, meta, input,
+                StandardCharsets.UTF_8, flowControl);
+    }
+
+
+    @Override
+    public Material write(JobName jobName,
+                          JobTimestamp jobTimestamp,
+                          FileType fileType,
+                          Metadata meta,
+                          String input,
+                          Charset charset,
+                          DuplicationHandling flowControl) throws MaterialstoreException {
         Objects.requireNonNull(input);
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -605,17 +707,12 @@ public final class StoreImpl implements Store {
             wrt.flush();
             byte[] data = baos.toByteArray();
             wrt.close();
-            return this.write(jobName, jobTimestamp, fileType, meta, data);
+            return this.write(jobName, jobTimestamp, fileType, meta, data, flowControl);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
     }
 
-    @Override
-    public Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
-                          String input) throws MaterialstoreException {
-        return write(jobName, jobTimestamp, fileType, meta, input, StandardCharsets.UTF_8);
-    }
 
     @Override
     public String toString() {

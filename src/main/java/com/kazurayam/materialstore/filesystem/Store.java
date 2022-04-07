@@ -53,6 +53,8 @@ public interface Store {
 
     MaterialList reflect(MaterialList baseMaterialList) throws MaterialstoreException;
 
+    MaterialList reflect(MaterialList baseMaterialList, JobTimestamp priorTo) throws MaterialstoreException;
+
     long retrieve(Material material, Path out) throws MaterialstoreException;
 
     Jobber getCachedJobber(JobName jobName, JobTimestamp jobTimestamp);
@@ -73,16 +75,41 @@ public interface Store {
 
     Material selectSingle(JobName jobName, JobTimestamp jobTimestamp, QueryOnMetadata query, FileType fileType) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, BufferedImage input) throws MaterialstoreException;
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+                   BufferedImage input) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, byte[] input) throws MaterialstoreException;
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+                   BufferedImage input, Jobber.DuplicationHandling flowControl) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, File input) throws MaterialstoreException;
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+                   byte[] input) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, Path input) throws MaterialstoreException;
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+                   byte[] input, Jobber.DuplicationHandling flowControl) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, String input) throws MaterialstoreException;
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+                   File input) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta, String input, Charset charset) throws MaterialstoreException;
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+                   File input, Jobber.DuplicationHandling flowControl) throws MaterialstoreException;
+
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+                   Path input) throws MaterialstoreException;
+
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+                   Path input, Jobber.DuplicationHandling flowControl) throws MaterialstoreException;
+
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+                   String input) throws MaterialstoreException;
+
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+                   String input, Jobber.DuplicationHandling flowControl) throws MaterialstoreException;
+
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+                   String input, Charset charset) throws MaterialstoreException;
+
+    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+                   String input, Charset charset, Jobber.DuplicationHandling flowControl)
+            throws MaterialstoreException;
 
 }
