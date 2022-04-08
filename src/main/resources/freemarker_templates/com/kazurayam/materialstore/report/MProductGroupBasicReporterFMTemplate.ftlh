@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" /><!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
     <style>${style}</style>
+    <style>${accordionCustom}</style>
     <title>${mProductGroup.jobName}</title>
   </head>
   <body>
@@ -59,13 +60,14 @@
           </dd>
         </dl>
       </div>
-      <div class="accordion" id="diff-contents">
+      <div class="accordion accordion--custom" id="diff-contents">
         <#assign count=1>
         <#list mProductGroup.mProductList>
           <#items as mProduct>
             <#if mProduct??>
               <div id="accordion${count}" class="accordion-item">
                 <h2 id="heading${count}" class="accordion-header">
+                  <input class="form-check-input" type="checkbox" id="ignorable${count}" value="" aria-label="ignorable${count}">
                   <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${count}" area-expanded="false" aria-controls="collapse${count}">
                     <#if mProduct.diffRatio??>
                       <#assign ratio = mProduct.diffRatio>

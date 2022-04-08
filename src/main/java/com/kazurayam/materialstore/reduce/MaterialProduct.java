@@ -33,6 +33,7 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
     private final JobTimestamp reducedTimestamp;
     private final QueryOnMetadata query;
     private final SortKeys sortKeys;
+    private final Boolean ignorable;
     private Material diff;
     private Double diffRatio;
 
@@ -44,6 +45,7 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
         this.query = builder.query;
         this.diffRatio = builder.diffRatio;
         this.sortKeys = builder.sortKeys;
+        this.ignorable = builder.ignorable;
     }
 
     /**
@@ -60,6 +62,7 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
         this.query = source.getQueryOnMetadata();
         this.diffRatio = source.getDiffRatio();
         this.sortKeys = source.getSortKeys();
+        this.ignorable = source.isIgnorable();
     }
 
     public void annotate(IgnoreMetadataKeys ignoreMetadataKeys, IdentifyMetadataValues identifyMetadataValues) {
@@ -102,6 +105,8 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
     }
 
     public Double getDiffRatio() { return this.diffRatio; }
+
+    public Boolean isIgnorable() { return this.ignorable; }
 
     public String getDiffRatioAsString() {
         return DifferUtil.formatDiffRatioAsString(this.getDiffRatio());
@@ -163,6 +168,9 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
         sb.append("\"reducedTimestamp\":\"");
         sb.append(reducedTimestamp.toString());
         sb.append("\",");
+        sb.append("\"ignorable\":");
+        sb.append(ignorable);
+        sb.append(",");
         sb.append("\"diffRatio\":");
         sb.append(diffRatio);
         sb.append(",");
@@ -209,6 +217,7 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
         private QueryOnMetadata query;
         private Double diffRatio;
         private SortKeys sortKeys;
+        private Boolean ignorable;
         public Builder(Material left, Material right, JobTimestamp reducedTimestamp) {
             Objects.requireNonNull(left);
             Objects.requireNonNull(right);
@@ -220,6 +229,7 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
             this.query = QueryOnMetadata.NULL_OBJECT;
             this.diffRatio = 0.0d;
             this.sortKeys = SortKeys.NULL_OBJECT;
+            this.ignorable = false;
         }
 
         public Builder setQueryOnMetadata(QueryOnMetadata query) {

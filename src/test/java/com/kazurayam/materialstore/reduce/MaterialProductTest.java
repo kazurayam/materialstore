@@ -81,7 +81,7 @@ public class MaterialProductTest {
         map.put("URL.file", "/");
         QueryOnMetadata mp = QueryOnMetadata.builder(map).build();
         MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).build();
-        String json = mProduct.toJson();
+        String json = mProduct.toJson(true);
         System.out.println(json);
     }
 

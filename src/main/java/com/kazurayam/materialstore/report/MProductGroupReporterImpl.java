@@ -83,6 +83,8 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
         /* create a data-model */
         Map<String, Object> model = new HashMap<>();
         model.put("style", StyleHelper.loadStyleFromClasspath());
+        model.put("accordionCustom",
+                StyleHelper.loadStyleFromClasspath("/com/kazurayam/materialstore/report/bootstrap-5-accordion-with-an-inline-checkbox.css"));
         model.put("title", getTitle(filePath));
         model.put("store", store.getRoot().normalize().toString());
         model.put("mProductGroup", mProductGroup.toTemplateModel());

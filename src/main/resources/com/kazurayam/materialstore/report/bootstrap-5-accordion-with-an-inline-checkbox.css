@@ -1,0 +1,7 @@
+/* https://stackoverflow.com/questions/71480478/bootstrap-5-accordion-with-an-inline-checkbox */
+.accordion--custom .accordion-header {
+    display: flex; /* make flex element */
+    align-items: center; /* aligning child items */
+    column-gap: 0.6rem; /* adding gap between items in row */
+    padding-left: 0.5rem;
+}
