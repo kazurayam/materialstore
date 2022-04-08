@@ -86,6 +86,8 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
         model.put("style", StyleHelper.loadStyleFromClasspath());
         model.put("accordionCustom",
                 StyleHelper.loadStyleFromClasspath("/com/kazurayam/materialstore/report/bootstrap-5-accordion-with-an-inline-checkbox.css"));
+        model.put("js",
+                StyleHelper.loadStyleFromClasspath("/com/kazurayam/materialstore/report/model-manager.js"));
         model.put("title", getTitle(filePath));
         model.put("store", store.getRoot().normalize().toString());
         model.put("mProductGroup", mProductGroup.toTemplateModel());

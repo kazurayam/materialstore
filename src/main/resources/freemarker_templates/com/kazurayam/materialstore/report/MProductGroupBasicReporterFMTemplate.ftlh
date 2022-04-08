@@ -72,9 +72,11 @@
               <div id="accordion${count}" class="accordion-item">
                 <h2 id="heading${count}" class="accordion-header">
                   <#if mProduct.diffRatio?? && mProduct.diffRatio gt mProductGroup.criteria>
-                    <input class="form-check-input" type="checkbox" id="ignorable${count}" value="" aria-label="ignorable${count}">
+                    <input class="form-check-input" type="checkbox" id="ignorable${count}" value=""
+                           name="ignorable">
                   <#else>
-                    <input class="form-check-input" type="checkbox" id="ignorable${count}" value="" aria-label="ignorable${count}" disabled>
+                    <input class="form-check-input" type="checkbox" id="ignorable${count}" value=""
+                           name="ignorable" disabled>
                   </#if>
                   <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${count}" area-expanded="false" aria-controls="collapse${count}">
                     <#if mProduct.diffRatio??>
@@ -111,6 +113,8 @@
       </div>
     </div><!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.js"></script>
+    <script type="text/javascript">${js?no_esc}</script>
   </body>
 </html>
 
