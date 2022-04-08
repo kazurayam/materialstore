@@ -58,6 +58,10 @@
           <dd>
             <@compressToSingleLine><@IgnoreMetadataKeys.toSpanSequence keys=mProductGroup.ignoreMetadataKeys /></@compressToSingleLine>
           </dd>
+          <dt>criteria</dt>
+          <dd>
+            ${mProductGroup.criteria}
+          </dd>
         </dl>
       </div>
       <div class="accordion accordion--custom" id="diff-contents">
@@ -67,7 +71,11 @@
             <#if mProduct??>
               <div id="accordion${count}" class="accordion-item">
                 <h2 id="heading${count}" class="accordion-header">
-                  <input class="form-check-input" type="checkbox" id="ignorable${count}" value="" aria-label="ignorable${count}">
+                  <#if mProduct.diffRatio?? && mProduct.diffRatio gt mProductGroup.criteria>
+                    <input class="form-check-input" type="checkbox" id="ignorable${count}" value="" aria-label="ignorable${count}">
+                  <#else>
+                    <input class="form-check-input" type="checkbox" id="ignorable${count}" value="" aria-label="ignorable${count}" disabled>
+                  </#if>
                   <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${count}" area-expanded="false" aria-controls="collapse${count}">
                     <#if mProduct.diffRatio??>
                       <#assign ratio = mProduct.diffRatio>

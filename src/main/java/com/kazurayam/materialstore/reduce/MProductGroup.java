@@ -32,6 +32,7 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
     private IgnoreMetadataKeys ignoreMetadataKeys;
     private IdentifyMetadataValues identifyMetadataValues;
     private final SortKeys sortKeys;
+    private Double criteria;
     private boolean readyToReport;
 
     private MProductGroup(Builder builder) {
@@ -40,6 +41,7 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
         this.ignoreMetadataKeys = builder.ignoreMetadataKeys;
         this.identifyMetadataValues = builder.identifyMetadataValues;
         this.sortKeys = builder.sortKeys;
+        this.criteria = builder.criteria;
         this.resultTimestamp = builder.resultTimestamp;
         // this is the most mysterious part of the materialstore library
         this.mProductList = zipMaterials(materialList0, materialList1, this.resultTimestamp, ignoreMetadataKeys, identifyMetadataValues, sortKeys);
@@ -146,6 +148,8 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
         return this.sortKeys;
     }
 
+    public Double getCriteria() { return this.criteria; }
+
     public boolean isReadyToReport() {
         return this.readyToReport;
     }
@@ -168,6 +172,10 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
 
     public void setMaterialListRight(MaterialList materialList) {
         this.materialList1 = materialList;
+    }
+
+    public void setCriteria(Double criteria) {
+        this.criteria = criteria;
     }
 
     /**
@@ -326,6 +334,9 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
         sb.append(this.resultTimestamp.toString());
         sb.append("\"");
         sb.append(",");
+        sb.append("\"criteria\":");
+        sb.append(this.getCriteria());
+        sb.append(",");
         sb.append("\"isReadyToReport\":");
         sb.append(this.isReadyToReport());
         sb.append(",");
@@ -393,6 +404,7 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
         private IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT;
         private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT;
         private SortKeys sortKeys = SortKeys.NULL_OBJECT;
+        private Double criteria;
 
         public Builder(final MaterialList materialList0, final MaterialList materialList1) {
             this.materialList0 = materialList0;
@@ -404,6 +416,7 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
                 throw new IllegalArgumentException("left=" + materialList0.getJobTimestamp() + ", right=" +
                         materialList1.getJobTimestamp() + ". expected left < right.");
             }
+            this.criteria = 0.0d;
         }
 
         public Builder ignoreKeys(String... keys) {

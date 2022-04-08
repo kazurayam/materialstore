@@ -64,6 +64,7 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
     @Override
     public Path report(MProductGroup mProductGroup, String fileName)
             throws MaterialstoreException {
+        mProductGroup.setCriteria(this.criteria);
         Path reportFile = store.getRoot().resolve(fileName);
         this.report(mProductGroup, reportFile);
         return reportFile;

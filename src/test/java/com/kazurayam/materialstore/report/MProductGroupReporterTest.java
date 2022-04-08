@@ -68,6 +68,7 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
         MProductGroupReporterImpl reporter = new MProductGroupReporterImpl(store, jobNameB);
         reporter.enableVerboseLogging(true);
         reporter.enablePrettyPrinting(true);
+        reporter.setCriteria(15.0d);
         //
         report1 = reporter.report(reduced, jobNameB + "-index.html");
         assertTrue(Files.exists(report1));
