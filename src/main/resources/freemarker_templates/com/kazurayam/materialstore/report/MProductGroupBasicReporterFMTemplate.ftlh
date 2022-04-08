@@ -65,20 +65,21 @@
         </dl>
       </div>
       <div class="accordion accordion--custom" id="diff-contents">
-        <#assign count=1>
+        <#assign index=0>
         <#list mProductGroup.mProductList>
           <#items as mProduct>
             <#if mProduct??>
-              <div id="accordion${count}" class="accordion-item">
-                <h2 id="heading${count}" class="accordion-header">
+              <div id="accordion${index}" class="accordion-item">
+                <h2 id="heading${index}" class="accordion-header">
                   <#if mProduct.diffRatio?? && mProduct.diffRatio gt mProductGroup.criteria>
-                    <input class="form-check-input" type="checkbox" id="ignorable${count}" value=""
-                           name="ignorable">
+                    <input class="form-check-input" type="checkbox" id="ignorable${index}" value=""
+                           data-index="${index}">
                   <#else>
-                    <input class="form-check-input" type="checkbox" id="ignorable${count}" value=""
-                           name="ignorable" disabled>
+                    <input class="form-check-input" type="checkbox" id="ignorable${index}" value=""
+                           data-index="${index}" disabled>
                   </#if>
-                  <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${count}" area-expanded="false" aria-controls="collapse${count}">
+                  <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                          data-bs-target="#collapse${index}" area-expanded="false" aria-controls="collapse${index}">
                     <#if mProduct.diffRatio??>
                       <#assign ratio = mProduct.diffRatio>
                       <#if ratio gt criteria >
@@ -94,9 +95,10 @@
                     <span class="description">${mProduct.description}</span>
                   </button>
                 </h2>
-                <div id="collapse${count}" class="according-collapse collapse" aria-labelledby="heading${count}" data-bs-parent="#diff-contents">
+                <div id="collapse${index}" class="according-collapse collapse" aria-labelledby="heading${index}"
+                     data-bs-parent="#diff-contents">
                   <div class="accordion-body">
-                    <@makeModalSubsection mProduct count />
+                    <@makeModalSubsection mProduct index />
 
                     <@makeMaterialSubsection "left" mProduct.left mProductGroup />
                     <@makeMaterialSubsection "right" mProduct.right mProductGroup />
@@ -104,7 +106,7 @@
                   </div>
                 </div>
               </div>
-              <#assign count = count + 1>
+              <#assign index = index + 1>
             <#else>
               <h1>MaterialProduct is null!</h1>
             </#if>
@@ -115,17 +117,20 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.js"></script>
     <script type="text/javascript">${js?no_esc}</script>
+    <script type="text/javascript">
+const model = ${model?no_esc};
+    </script>
   </body>
 </html>
 
 
 
-<#macro makeModalSubsection mProduct count>
+<#macro makeModalSubsection mProduct index>
   <div class="show-diff">
     <#if mProduct.left.diffability == "AS_IMAGE"  || mProduct.right.diffability == "AS_IMAGE">
-      <#assign imageModalId = "imageModal" + count >
-      <#assign imageModalTitleId = "imageModalLabel" + count>
-      <#assign carouselId = "carouselControl" + count>
+      <#assign imageModalId = "imageModal" + index >
+      <#assign imageModalTitleId = "imageModalLabel" + index>
+      <#assign carouselId = "carouselControl" + index>
       <#-- Show 3 images in a Modal -->
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#${imageModalId}">Show diff in Modal</button><!-- Modal to show 3 images: Left/Diff/Right -->
       <div class="modal fade" id="${imageModalId}" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
@@ -170,8 +175,8 @@
         </div>
       </div>
     <#elseif mProduct.left.diffability == "AS_TEXT" || mProduct.right.diffability == "AS_TEXT">
-      <#assign textModalId = "textModal" + count>
-      <#assign textModalTitleId = "textModalLabel" + count>
+      <#assign textModalId = "textModal" + index>
+      <#assign textModalTitleId = "textModalLabel" + index>
       <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#${textModalId}">Show diff in Modal</button><!-- Modal to show texts diff -->
       <div class="modal fade" id="${textModalId}" tabindex="-1" aria-labelledby="textModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">

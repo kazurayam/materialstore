@@ -91,6 +91,7 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
         model.put("title", getTitle(filePath));
         model.put("store", store.getRoot().normalize().toString());
         model.put("mProductGroup", mProductGroup.toTemplateModel());
+        model.put("model", mProductGroup.toJson(true));
         model.put("criteria", criteria);
 
         // for debug

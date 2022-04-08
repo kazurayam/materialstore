@@ -57,6 +57,10 @@
 .container .accordion .accordion-header button .warning {
   background-color: #e0ae00;
 }
+.container .accordion .accordion-header button .ignored {
+  background-color: #ffffff;
+  border: #e0ae00 solid;
+}
 .container .accordion .accordion-body .show-diff .modal .modal-body iframe {
   position: absolute;
   border: none;
