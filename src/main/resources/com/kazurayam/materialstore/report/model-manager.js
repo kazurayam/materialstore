@@ -1,13 +1,14 @@
 
 /* onLoad driven by jQuery */
 $(document).ready(function() {
+
     /* try to restore the model from localStorage */
     let loaded = loadModel();
     if (loaded === null || loaded.mProductList === undefined ||
             !('mProductList' in loaded)) {
         console.log("The model was not restored from localStorage. Use the given model as is.");
     } else {
-        // restore the "checked" status of MaterialProducts in the current model with the loaded one.
+        // restore the MaterialProducts as "model" with the loaded one.
         loaded.mProductList.forEach(storedMProduct => {
             model.mProductList.forEach(currentMProduct => {
                 if (currentMProduct.fileTypeExtension === storedMProduct.fileTypeExtension &&
@@ -36,6 +37,9 @@ $(document).ready(function() {
         classifyRatioSpan($(this), index, id, checked, diffRatio);
     });
 
+    //
+    updateCountDisplay(model);
+
     /* Register onclick event handler to the <input id="ignorableX"> elements */
     $("input[id^='ignorable']").on("click", function () {
         const index = $(this).attr("data-index");
@@ -44,7 +48,10 @@ $(document).ready(function() {
         const diffRatio = model.mProductList[index].diffRatio;
         console.log(id + " with data-index=" + index + " with checked="  + checked);
         classifyRatioSpan($(this), index, id, checked, diffRatio);
+        //
         storeModel(model);
+        //
+        updateCountDisplay(model);
     });
 });
 
@@ -85,6 +92,7 @@ function classifyRatioSpan(input, index, id, checked, diffRatio) {
             ratioSpan.removeClass("warning");
             ratioSpan.addClass("ignored");
             setChecked(model, index, true);
+            updateCountDisplay(model);
         } else {
             console.log(id + " is warned. The diffRatio(" +
                 diffRatio + ") is larger than the criteria(" +
@@ -92,12 +100,27 @@ function classifyRatioSpan(input, index, id, checked, diffRatio) {
             ratioSpan.removeClass("ignored");
             ratioSpan.addClass("warning");
             setChecked(model, index, false);
+            updateCountDisplay(model);
         }
     } else {
         console.log(id + " is no problem The diffRatio(" +
             diffRatio + ") is smaller than or equal to the criteria(" +
             model.criteria + ").");
     }
+}
+
+function updateCountDisplay(mdl) {
+    console.log("updating the display of count");
+    //
+    model.countWarning =
+        model.mProductList
+            .filter(mp => mp.diffRatio > model.criteria && ! mp.checked).length;
+    model.countIgnorable =
+        model.mProductList
+            .filter(mp => mp.diffRatio > model.criteria && mp.checked).length;
+    //
+    $(document).find("#count .warnings").text(mdl.countWarning.toFixed());
+    $(document).find("#count .ignorable").text(mdl.countIgnorable.toFixed());
 }
 
 /**
