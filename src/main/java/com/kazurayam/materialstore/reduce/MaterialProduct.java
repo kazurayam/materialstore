@@ -1,7 +1,5 @@
 package com.kazurayam.materialstore.reduce;
 
-import com.kazurayam.materialstore.filesystem.FileType;
-import com.kazurayam.materialstore.filesystem.IndexEntry;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
@@ -33,7 +31,7 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
     private final JobTimestamp reducedTimestamp;
     private final QueryOnMetadata query;
     private final SortKeys sortKeys;
-    private final Boolean ignorable;
+    private Boolean checked;
     private Material diff;
     private Double diffRatio;
 
@@ -45,7 +43,7 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
         this.query = builder.query;
         this.diffRatio = builder.diffRatio;
         this.sortKeys = builder.sortKeys;
-        this.ignorable = builder.ignorable;
+        this.checked = builder.checked;
     }
 
     /**
@@ -62,7 +60,7 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
         this.query = source.getQueryOnMetadata();
         this.diffRatio = source.getDiffRatio();
         this.sortKeys = source.getSortKeys();
-        this.ignorable = source.isIgnorable();
+        this.checked = source.isChecked();
     }
 
     public void annotate(IgnoreMetadataKeys ignoreMetadataKeys, IdentifyMetadataValues identifyMetadataValues) {
@@ -106,7 +104,11 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
 
     public Double getDiffRatio() { return this.diffRatio; }
 
-    public Boolean isIgnorable() { return this.ignorable; }
+    public Boolean isChecked() { return this.checked; }
+
+    public void setChecked(Boolean checked) {
+        this.checked = checked;
+    }
 
     public String getDiffRatioAsString() {
         return DifferUtil.formatDiffRatioAsString(this.getDiffRatio());
@@ -168,8 +170,8 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
         sb.append("\"reducedTimestamp\":\"");
         sb.append(reducedTimestamp.toString());
         sb.append("\",");
-        sb.append("\"ignorable\":");
-        sb.append(ignorable);
+        sb.append("\"checked\":");
+        sb.append(checked);
         sb.append(",");
         sb.append("\"diffRatio\":");
         sb.append(diffRatio);
@@ -217,7 +219,7 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
         private QueryOnMetadata query;
         private Double diffRatio;
         private SortKeys sortKeys;
-        private Boolean ignorable;
+        private Boolean checked;
         public Builder(Material left, Material right, JobTimestamp reducedTimestamp) {
             Objects.requireNonNull(left);
             Objects.requireNonNull(right);
@@ -229,7 +231,7 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
             this.query = QueryOnMetadata.NULL_OBJECT;
             this.diffRatio = 0.0d;
             this.sortKeys = SortKeys.NULL_OBJECT;
-            this.ignorable = false;
+            this.checked = false;
         }
 
         public Builder setQueryOnMetadata(QueryOnMetadata query) {

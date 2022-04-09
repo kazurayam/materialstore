@@ -115,6 +115,7 @@ public class MaterialProductTest {
 {
   "jobName": "test_MProductGroup_toTemplateModel",
   "resultTimestamp": "20220314_101804",
+  "checked": false,
   "isReadyToReport": false,
   "materialList0": {
     "jobTimestamp": "20210715_145922",
@@ -218,7 +219,6 @@ public class MaterialProductTest {
          */
         Map<String, Object> model = mProductGroup.toTemplateModel();
         Assertions.assertNotNull(model);
-
 
     }
 
