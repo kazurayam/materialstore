@@ -32,8 +32,8 @@ $(document).ready(function() {
         const checked = model.mProductList[index].checked;
         const diffRatio = model.mProductList[index].diffRatio;   // NOTE THIS!
         console.log("* " + id + " with data-index=" + index + " with checked="  + checked);
-        const ratioSpan = $(this).next("button").find("span.ratio")
-        classifyRatioSpan(ratioSpan, index, id, checked, diffRatio);
+        $(this).prop("checked", checked);
+        classifyRatioSpan($(this), index, id, checked, diffRatio);
     });
 
     /* Register onclick event handler to the <input id="ignorableX"> elements */
@@ -43,8 +43,7 @@ $(document).ready(function() {
         const checked = $(this).prop("checked");
         const diffRatio = model.mProductList[index].diffRatio;
         console.log(id + " with data-index=" + index + " with checked="  + checked);
-        const ratioSpan = $(this).next("button").find("span.ratio")
-        classifyRatioSpan(ratioSpan, index, id, checked, diffRatio);
+        classifyRatioSpan($(this), index, id, checked, diffRatio);
         storeModel(model);
     });
 });
@@ -76,7 +75,8 @@ function setChecked(model, index, checked) {
     console.log("set model.mProductList[" + index + "].checked to be " + checked);
 }
 
-function classifyRatioSpan(ratioSpan, index, id, checked, diffRatio) {
+function classifyRatioSpan(input, index, id, checked, diffRatio) {
+    const ratioSpan = input.next("button").find("span.ratio")
     if (diffRatio > model.criteria) {
         if (checked) {
             console.log(id + " is ignored. The diffRatio(" +
