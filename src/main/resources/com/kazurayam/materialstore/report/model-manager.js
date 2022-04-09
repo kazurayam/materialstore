@@ -2,13 +2,13 @@
 /* onLoad driven by jQuery */
 $(document).ready(function() {
     /* try to restore the model from localStorage */
-    let loadedModel = loadModel();
-    if (loadedModel === null || loadModel.mProductList === undefined ||
-            !('mProductList' in loadModel)) {
+    let loaded = loadModel();
+    if (loaded === null || loaded.mProductList === undefined ||
+            !('mProductList' in loaded)) {
         console.log("The model was not restored from localStorage. Use the given model as is.");
     } else {
         // restore the "checked" status of MaterialProducts in the current model with the loaded one.
-        loadedModel.mProductList.forEach(storedMProduct => {
+        loaded.mProductList.forEach(storedMProduct => {
             model.mProductList.forEach(currentMProduct => {
                 if (currentMProduct.fileTypeExtension === storedMProduct.fileTypeExtension &&
                     currentMProduct.description === storedMProduct.description) {
@@ -29,9 +29,9 @@ $(document).ready(function() {
      */
     $("input[id^='ignorable']").each(function(index, value) {
         const id = $(this).prop("id");
-        const checked = $(this).prop("checked");
-        const diffRatio = model.mProductList[index].diffRatio;
-        console.log(id + " with data-index=" + index + " with checked="  + checked);
+        const checked = model.mProductList[index].checked;
+        const diffRatio = model.mProductList[index].diffRatio;   // NOTE THIS!
+        console.log("* " + id + " with data-index=" + index + " with checked="  + checked);
         const ratioSpan = $(this).next("button").find("span.ratio")
         classifyRatioSpan(ratioSpan, index, id, checked, diffRatio);
     });
