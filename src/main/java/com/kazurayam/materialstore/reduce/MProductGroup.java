@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public final class MProductGroup implements Iterable<MaterialProduct>, TemplateReady {
 
@@ -58,6 +59,7 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
         this.ignoreMetadataKeys = source.getIgnoreMetadataKeys();        // IgnoreMetadataKeys is immutable
         this.identifyMetadataValues = source.getIdentifyMetadataValues();// IdentifyMetadataValues is immutable
         this.sortKeys = source.getSortKeys();                            // SortKeys is immutable
+        this.criteria = source.getCriteria();
         final List<MaterialProduct> tmp = new ArrayList<>();
         for (MaterialProduct sourceMProduct : source) {
             tmp.add(new MaterialProduct(sourceMProduct));
@@ -82,7 +84,6 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
         Objects.requireNonNull(criteria);
         int count = 0;
         for (MaterialProduct mProduct : mProductList) {
-            assert criteria != null;
             assert mProduct != null;
             assert mProduct.getDiffRatio() != null;
             if (criteria < mProduct.getDiffRatio()) {
@@ -150,19 +151,21 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
 
     public Double getCriteria() { return this.criteria; }
 
-    public long getCountWarning() {
-        return this.mProductList.stream()
-                .filter(mp -> {
-                    return (mp.getDiffRatio() > this.getCriteria() &&
-                            ! mp.isChecked());
-                })
-                .count();
+    public int getCountWarning() {
+        List<MaterialProduct> filtered = new ArrayList<>();
+        for (MaterialProduct mp : this) {
+            if (mp.getDiffRatio() > this.getCriteria() && !mp.isChecked()) {
+                filtered.add(mp);
+            }
+        }
+        return filtered.size();
     }
 
-    public long getCountIgnorable() {
-        return this.mProductList.stream()
+    public int getCountIgnorable() {
+        List<MaterialProduct> filtered = this.mProductList.stream()
                 .filter(MaterialProduct::isChecked)
-                .count();
+                .collect(Collectors.toList());
+        return filtered.size();
     }
 
     public long getCountTotal() { return this.mProductList.size(); }
@@ -192,6 +195,7 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
     }
 
     public void setCriteria(Double criteria) {
+        Objects.requireNonNull(criteria);
         this.criteria = criteria;
     }
 
@@ -431,7 +435,7 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
         private IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT;
         private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT;
         private SortKeys sortKeys = SortKeys.NULL_OBJECT;
-        private Double criteria;
+        private final Double criteria;
 
         public Builder(final MaterialList materialList0, final MaterialList materialList1) {
             this.materialList0 = materialList0;

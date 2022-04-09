@@ -107,6 +107,7 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
     public Boolean isChecked() { return this.checked; }
 
     public void setChecked(Boolean checked) {
+        Objects.requireNonNull(checked);
         this.checked = checked;
     }
 
@@ -212,14 +213,14 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
      *
      */
     public static class Builder {
-        private Material left;
-        private Material right;
-        private JobTimestamp reducedTimestamp;
-        private Material diff;
+        private final Material left;
+        private final Material right;
+        private final JobTimestamp reducedTimestamp;
+        private final Material diff;
         private QueryOnMetadata query;
-        private Double diffRatio;
+        private final Double diffRatio;
         private SortKeys sortKeys;
-        private Boolean checked;
+        private final Boolean checked;
         public Builder(Material left, Material right, JobTimestamp reducedTimestamp) {
             Objects.requireNonNull(left);
             Objects.requireNonNull(right);

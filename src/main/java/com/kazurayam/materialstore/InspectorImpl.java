@@ -41,6 +41,9 @@ public class InspectorImpl extends Inspector {
     @Override
     public Path report(MProductGroup mProductGroup, Double criteria, String fileName) throws MaterialstoreException {
         Objects.requireNonNull(mProductGroup);
+        Objects.requireNonNull(criteria);
+        Objects.requireNonNull(fileName);
+        //
         MProductGroupReporter reporter = this.newMProductGroupReporter(mProductGroup.getJobName());
         reporter.setCriteria(criteria);
         reporter.report(mProductGroup, fileName);
@@ -50,6 +53,9 @@ public class InspectorImpl extends Inspector {
     @Override
     public void report(MProductGroup mProductGroup, Double criteria, Path filePath) throws MaterialstoreException {
         Objects.requireNonNull(mProductGroup);
+        Objects.requireNonNull(criteria);
+        Objects.requireNonNull(filePath);
+        //
         MProductGroupReporter reporter = this.newMProductGroupReporter(mProductGroup.getJobName());
         reporter.setCriteria(criteria);
         reporter.report(mProductGroup, filePath);

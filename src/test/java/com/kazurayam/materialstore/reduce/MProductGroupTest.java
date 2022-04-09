@@ -86,6 +86,27 @@ public class MProductGroupTest {
     }
 
     @Test
+    public void test_getCountWarning() {
+        MaterialProduct tmp = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT).build();
+        mProductGroup.add(tmp);
+        Assertions.assertEquals(0, mProductGroup.getCountWarning());
+    }
+
+    @Test
+    public void test_getCountIgnorable() {
+        MaterialProduct tmp = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT).build();
+        mProductGroup.add(tmp);
+        Assertions.assertEquals(0, mProductGroup.getCountIgnorable());
+    }
+
+    @Test
+    public void test_getCountTotal() {
+        MaterialProduct tmp = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT).build();
+        mProductGroup.add(tmp);
+        Assertions.assertEquals(1, mProductGroup.getCountTotal());
+    }
+
+    @Test
     public void test_getResultTimestamp() {
         JobTimestamp resultTimestamp = mProductGroup.getResultTimestamp();
         //println "resultTimestamp=${resultTimestamp.toString()}"
