@@ -150,6 +150,23 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
 
     public Double getCriteria() { return this.criteria; }
 
+    public long getCountWarning() {
+        return this.mProductList.stream()
+                .filter(mp -> {
+                    return (mp.getDiffRatio() > this.getCriteria() &&
+                            ! mp.isChecked());
+                })
+                .count();
+    }
+
+    public long getCountIgnorable() {
+        return this.mProductList.stream()
+                .filter(MaterialProduct::isChecked)
+                .count();
+    }
+
+    public long getCountTotal() { return this.mProductList.size(); }
+
     public boolean isReadyToReport() {
         return this.readyToReport;
     }
@@ -380,6 +397,16 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
             }
             sb.append("]");
         }
+        sb.append(",");
+        sb.append("\"countWarning\":");
+        sb.append(getCountWarning());
+        sb.append(",");
+        sb.append("\"countIgnorable\":");
+        sb.append(getCountIgnorable());
+        sb.append(",");
+        sb.append("\"countTotal\":");
+        sb.append(getCountTotal());
+
         sb.append("}");
         return sb.toString();
     }

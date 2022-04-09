@@ -15,10 +15,33 @@
     margin-left: 40px;
   }
 
+  .title {
+    margin-left: 54px;
+  }
+
   .title button {
     float: right;
     margin-top: 6px;
   }
+
+  #count {
+    position: fixed;
+    top: 16px;
+    left: 10px;
+  }
+  #count .warnings {
+    font-size: x-large;
+    color: #e0ae00;
+  }
+  #count .ignorable {
+    font-size: large;
+    color: #00c0c0;
+  }
+  #count .total {
+    font-size: large;
+  }
+
+
 
   .header {
     padding: 16px 20px;
