@@ -63,7 +63,7 @@
           </dd>
           <dt>criteria</dt>
           <dd>
-            ${mProductGroup.criteria}
+            ${mProductGroup.criteria?string["0.00"]}
           </dd>
         </dl>
       </div>

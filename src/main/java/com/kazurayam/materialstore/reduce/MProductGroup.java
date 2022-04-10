@@ -81,12 +81,23 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
     }
 
     public int countWarnings(final Double criteria) {
+        return this.countExceeding(criteria);
+    }
+
+    /**
+     * count the number of MaterialProduct objects that have diffRatio
+     * greater than the criteria given.
+     *
+     * @param criteria
+     * @return
+     */
+    public int countExceeding(final Double criteria) {
         Objects.requireNonNull(criteria);
         int count = 0;
         for (MaterialProduct mProduct : mProductList) {
             assert mProduct != null;
             assert mProduct.getDiffRatio() != null;
-            if (criteria < mProduct.getDiffRatio()) {
+            if (mProduct.getDiffRatio() > criteria) {
                 count += 1;
             }
         }
