@@ -1,11 +1,8 @@
-
 /* onLoad driven by jQuery */
 $(document).ready(function() {
-
     /* try to restore the model from localStorage */
     let loaded = loadModel();
-    if (loaded === null || loaded.mProductList === undefined ||
-            !('mProductList' in loaded)) {
+    if (loaded === null || !('mProductList' in loaded)) {
         console.log("The model was not restored from localStorage. Use the given model as is.");
     } else {
         // restore the MaterialProducts as "model" with the loaded one.
@@ -57,7 +54,8 @@ $(document).ready(function() {
 
 /* store the model into the localStorage as a JSON string */
 function storeModel(mdl) {
-    localStorage.setItem('model', JSON.stringify(mdl));
+    const ttl = 24 * 60 * 60 * 1000; // 24 hours in millisecond
+    setWithExpiry('model', mdl, ttl);
     console.log("stored the model into localStorage");
 }
 
@@ -67,12 +65,17 @@ function storeModel(mdl) {
  */
 function loadModel() {
     console.log("loading the model from localStorage");
-    const json = localStorage.getItem('model');
-    if (json !== null) {
-        console.log("localStorage.getItem('model') returned something non-null; will parse into an object");
-        return JSON.parse(json);
+    const model = getWithExpiry('model');
+    if (model !== null) {
+        if ('mProductList' in model) {
+            console.log("getWithExpiry('model') returned a valid model");
+            return model;
+        } else {
+            console.log("getWithEntry('model') returned something non-null but not a valid model")
+            return null;
+        }
     } else {
-        console.log("localStorage.getItem('model') returned null. ");
+        console.log("getWithExpiry('model') returned null. ");
         return null;
     }
 }
@@ -121,6 +124,37 @@ function updateCountDisplay(mdl) {
     //
     $(document).find("#count .warnings").text(mdl.countWarning.toFixed());
     $(document).find("#count .ignorable").text(mdl.countIgnorable.toFixed());
+}
+
+/**
+ * https://www.sohamkamani.com/blog/javascript-localstorage-with-ttl-expiry/
+ */
+function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    // `item` is an object which contains the original value
+    // as well as the time when it's supposed to expire
+    const item = {
+        value: value,
+        expiry: now.getTime() + ttl,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+}
+function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+    // if the item doesn't exist, return null
+    if (!itemStr) {
+        return null
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+    // compare the expiry time of the item with the current time
+    if (!item.expiry || now.getTime() > item.expiry) {
+        // If the item is expired, delete the item from storage
+        // and return null
+        localStorage.removeItem(key)
+        return null
+    }
+    return item.value
 }
 
 /**
