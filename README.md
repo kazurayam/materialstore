@@ -1,6 +1,6 @@
 # materialstore
 
-See https://kazurayam.github.io/materialstore-examples/ for examples how to use the materialstore library.
+See https://kazurayam.github.io/materialstore-tutorial/ for description of this library with samples how to use it.
 
 ## API documents
 
