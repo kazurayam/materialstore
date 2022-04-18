@@ -1,4 +1,4 @@
-package issues.issues;
+package issues;
 
 import com.kazurayam.materialstore.Inspector;
 import com.kazurayam.materialstore.MaterialstoreException;

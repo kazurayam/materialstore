@@ -52,13 +52,13 @@ public class DifferDriverImplTest {
         JobTimestamp timestamp1 = new JobTimestamp("20210715_145922");
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("profile", "ProductionEnv");
-        MaterialList left = store.select(jobName, timestamp1, QueryOnMetadata.builder(map).build(), FileType.HTML);
+        MaterialList left = store.select(jobName, timestamp1,  FileType.HTML, QueryOnMetadata.builder(map).build());
         Assertions.assertEquals(1, left.size());
 
         JobTimestamp timestamp2 = new JobTimestamp("20210715_145922");
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
         map1.put("profile", "DevelopmentEnv");
-        MaterialList right = store.select(jobName, timestamp2, QueryOnMetadata.builder(map1).build(), FileType.HTML);
+        MaterialList right = store.select(jobName, timestamp2, FileType.HTML, QueryOnMetadata.builder(map1).build());
         Assertions.assertEquals(1, right.size());
 
         MProductGroup mProductGroup = MProductGroup.builder(left, right).ignoreKeys("profile", "URL", "URL.host").build();
@@ -78,11 +78,11 @@ public class DifferDriverImplTest {
         //
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("profile", "ProductionEnv");
-        MaterialList left = store.select(jobName, jobTimestamp, QueryOnMetadata.builder(map).build(), FileType.PNG);
+        MaterialList left = store.select(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.builder(map).build());
 
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
         map1.put("profile", "DevelopmentEnv");
-        MaterialList right = store.select(jobName, jobTimestamp, QueryOnMetadata.builder(map1).build(), FileType.PNG);
+        MaterialList right = store.select(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.builder(map1).build());
 
         MProductGroup mProductGroup = MProductGroup.builder(left, right).ignoreKeys("profile", "URL", "URL.host").build();
         Assertions.assertNotNull(mProductGroup);

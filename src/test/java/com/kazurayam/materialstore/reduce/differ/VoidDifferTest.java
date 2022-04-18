@@ -57,10 +57,10 @@ public class VoidDifferTest {
         JobTimestamp timestamp2 = new JobTimestamp("20220128_191342");
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("URL.path", "/npm/bootstrap-icons@1.5.0/font/fonts/bootstrap-icons.woff2");
-        MaterialList left = store.select(jobName, timestamp1, QueryOnMetadata.builder(map).build(), FileType.WOFF2);
+        MaterialList left = store.select(jobName, timestamp1, FileType.WOFF2, QueryOnMetadata.builder(map).build());
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
         map1.put("URL.path", "/npm/bootstrap-icons@1.7.2/font/fonts/bootstrap-icons.woff2");
-        MaterialList right = store.select(jobName, timestamp2, QueryOnMetadata.builder(map1).build(), FileType.WOFF2);
+        MaterialList right = store.select(jobName, timestamp2, FileType.WOFF2, QueryOnMetadata.builder(map1).build());
         prepared = MProductGroup.builder(left, right).ignoreKeys("profile", "URL.query").build();
 
         Assertions.assertNotNull(prepared);

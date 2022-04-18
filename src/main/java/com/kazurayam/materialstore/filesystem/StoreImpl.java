@@ -487,8 +487,8 @@ public final class StoreImpl implements Store {
     @Override
     public MaterialList select(JobName jobName,
                                JobTimestamp jobTimestamp,
-                               QueryOnMetadata query,
-                               FileType fileType)
+                               FileType fileType,
+                               QueryOnMetadata query)
             throws MaterialstoreException {
         Jobber jobber = this.getJobber(jobName, jobTimestamp);
         return jobber.selectMaterials(query, fileType);
@@ -522,8 +522,8 @@ public final class StoreImpl implements Store {
     @Override
     public Material selectSingle(JobName jobName,
                                  JobTimestamp jobTimestamp,
-                                 QueryOnMetadata query,
-                                 FileType fileType)
+                                 FileType fileType,
+                                 QueryOnMetadata query)
             throws MaterialstoreException {
         Jobber jobber = this.getJobber(jobName, jobTimestamp);
         MaterialList materials = jobber.selectMaterials(query, fileType);

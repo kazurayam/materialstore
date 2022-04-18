@@ -1,10 +1,9 @@
-package issues.issues;
+package issues;
 
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.MaterialList;
-import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 
@@ -63,7 +62,8 @@ public class Issue217Test {
         MaterialList currentMaterialList =
                 store.select(jobName,
                         new JobTimestamp("20220406_134203"),
-                        QueryOnMetadata.ANY, FileType.CSV);
+                        FileType.CSV,
+                        QueryOnMetadata.ANY);
         BiFunction<MaterialList, MaterialList, MProductGroup> func =
                 (left, right) -> MProductGroup.builder(left, right).build();
 

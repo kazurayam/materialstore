@@ -77,13 +77,13 @@ public class TextDifferToHTMLTest extends AbstractReporterTest {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(2);
         map.put("category", "page source");
         map.put("profile", "ProductionEnv");
-        MaterialList expected = store.select(jobName, jobTimestamp, QueryOnMetadata.builder(map).build(), FileType.HTML);
+        MaterialList expected = store.select(jobName, jobTimestamp, FileType.HTML, QueryOnMetadata.builder(map).build());
         Assertions.assertEquals(1, expected.size());
 
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(2);
         map1.put("category", "page source");
         map1.put("profile", "DevelopmentEnv");
-        MaterialList actual = store.select(jobName, jobTimestamp, QueryOnMetadata.builder(map1).build(), FileType.HTML);
+        MaterialList actual = store.select(jobName, jobTimestamp, FileType.HTML, QueryOnMetadata.builder(map1).build());
         Assertions.assertEquals(1, actual.size());
 
         MProductGroup prepared = MProductGroup.builder(expected, actual).ignoreKeys("profile", "URL.host").build();

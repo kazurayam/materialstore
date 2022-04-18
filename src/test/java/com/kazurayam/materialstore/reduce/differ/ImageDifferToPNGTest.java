@@ -39,10 +39,10 @@ public class ImageDifferToPNGTest {
         TestFixtureUtil.setupFixture(store, jobName);
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("profile", "ProductionEnv");
-        MaterialList left = store.select(jobName, jobTimestamp, QueryOnMetadata.builder(map).build(), FileType.PNG);
+        MaterialList left = store.select(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.builder(map).build());
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
         map1.put("profile", "DevelopmentEnv");
-        MaterialList right = store.select(jobName, jobTimestamp, QueryOnMetadata.builder(map1).build(), FileType.PNG);
+        MaterialList right = store.select(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.builder(map1).build());
         MProductGroup mProductGroup = MProductGroup.builder(left, right).ignoreKeys("profile", "URL", "URL.host").build();
         Assertions.assertNotNull(mProductGroup);
         Assertions.assertEquals(2, mProductGroup.size(), JsonUtil.prettyPrint(mProductGroup.toString()));

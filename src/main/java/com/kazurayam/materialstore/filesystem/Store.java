@@ -71,9 +71,9 @@ public interface Store {
 
     MaterialList select(JobName jobName, JobTimestamp jobTimestamp, FileType fileType) throws MaterialstoreException;
 
-    MaterialList select(JobName jobName, JobTimestamp jobTimestamp, QueryOnMetadata query, FileType fileType) throws MaterialstoreException;
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, QueryOnMetadata query) throws MaterialstoreException;
 
-    Material selectSingle(JobName jobName, JobTimestamp jobTimestamp, QueryOnMetadata query, FileType fileType) throws MaterialstoreException;
+    Material selectSingle(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, QueryOnMetadata query) throws MaterialstoreException;
 
     Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
                    BufferedImage input) throws MaterialstoreException;

@@ -245,7 +245,7 @@ public class StoreImplTest {
         store.copyMaterials(jobName, new JobTimestamp("20210713_093357"), new JobTimestamp("20210715_145947"));
 
         // create the base MaterialList of FileType.HTML
-        MaterialList base = store.select(jobName, new JobTimestamp("20210715_150000"), QueryOnMetadata.ANY, FileType.HTML);
+        MaterialList base = store.select(jobName, new JobTimestamp("20210715_150000"), FileType.HTML, QueryOnMetadata.ANY);
 
         // now reflect the base to find a target MaterialList of FileType.HTML
         // out of some previous JobTimestamp directory
@@ -268,7 +268,7 @@ public class StoreImplTest {
         assertEquals(new JobTimestamp("20210701_000000"), beginningOfTheMonth);
 
         // create the base MaterialList of FileType.HTML
-        MaterialList base = store.select(jobName, new JobTimestamp("20210715_150000"), QueryOnMetadata.ANY, FileType.HTML);
+        MaterialList base = store.select(jobName, new JobTimestamp("20210715_150000"), FileType.HTML, QueryOnMetadata.ANY);
 
         // now reflect the base to find a target MaterialList of FileType.HTML
         // out of some JobTimestamp directory prior to the end of the last month
@@ -282,7 +282,7 @@ public class StoreImplTest {
         JobName jobName = new JobName("test_retrieve");
         TestFixtureUtil.setupFixture(store, jobName);
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
-        MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY, FileType.PNG);
+        MaterialList materialList = store.select(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.ANY);
         Assertions.assertNotNull(materialList, "material is null");
         Assertions.assertTrue(materialList.size() > 0);
         Path out = store.getRoot().resolve(jobName.toString()).resolve("screenshot.png");
@@ -405,7 +405,7 @@ public class StoreImplTest {
         Material materialMore = store.write(jobName, jobTimestamp, FileType.HTML, metadataMore, inputMore);
         Assertions.assertNotNull(materialMore);
         // select specifying FileType.PNG excluding FileType.HTML and others
-        MaterialList materials = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY, FileType.PNG);
+        MaterialList materials = store.select(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.ANY);
         Assertions.assertNotNull(materials);
         assertEquals(1, materials.size());
     }
@@ -450,7 +450,7 @@ public class StoreImplTest {
         //
         QueryOnMetadata query = QueryOnMetadata.builder().put("profile", Pattern.compile(".*")).put("URL", Pattern.compile(".*")).build();
         // select specifying FileType
-        Material mat = store.selectSingle(jobName, jobTimestamp, query, FileType.PNG);
+        Material mat = store.selectSingle(jobName, jobTimestamp, FileType.PNG, query);
         Assertions.assertNotNull(mat);
         Assertions.assertTrue(Files.exists(mat.toPath(store.getRoot())));
     }
@@ -465,7 +465,7 @@ public class StoreImplTest {
         Assertions.assertNotNull(material);
         QueryOnMetadata query = QueryOnMetadata.builder(metadata).build();
         // select
-        Material mat = store.selectSingle(jobName, jobTimestamp, query, FileType.PNG);
+        Material mat = store.selectSingle(jobName, jobTimestamp, FileType.PNG, query);
         Assertions.assertNotNull(mat);
         Assertions.assertTrue(Files.exists(mat.toPath(store.getRoot())));
     }

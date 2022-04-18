@@ -34,12 +34,12 @@ public class TextDifferToMarkdownTest {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(2);
         map.put("category", "page source");
         map.put("profile", "ProductionEnv");
-        MaterialList left = store.select(jobName, jobTimestamp, QueryOnMetadata.builder(map).build(), FileType.HTML);
+        MaterialList left = store.select(jobName, jobTimestamp, FileType.HTML, QueryOnMetadata.builder(map).build());
 
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(2);
         map1.put("category", "page source");
         map1.put("profile", "DevelopmentEnv");
-        MaterialList right = store.select(jobName, jobTimestamp, QueryOnMetadata.builder(map1).build(), FileType.HTML);
+        MaterialList right = store.select(jobName, jobTimestamp, FileType.HTML, QueryOnMetadata.builder(map1).build());
 
         MProductGroup mProductGroup = MProductGroup.builder(left, right).ignoreKeys("profile", "URL", "URL.host").build();
         Assertions.assertNotNull(mProductGroup);
