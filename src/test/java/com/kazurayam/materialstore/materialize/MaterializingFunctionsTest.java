@@ -14,6 +14,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -49,23 +50,43 @@ public class MaterializingFunctionsTest {
     @BeforeEach
     public void beforeEach() {
         driver = new ChromeDriver();
+        driver.manage().window().setSize(new Dimension(1024, 768));
     }
 
-
     @Test
-    void test_saveHTMLSource() throws MaterialstoreException {
-        TargetURL targetURL = new TargetURL.Builder("https://www.google.com")
+    void test_storeHTMLSource() throws MaterialstoreException {
+        Target target = new Target.Builder("https://www.google.com")
                 .locatorType(LocatorType.CSS_SELECTOR)
                 .locator("input[name=\"q\"]")
                 .build();
-        JobName jobName = new JobName("test_saveHTMLSource");
+        JobName jobName = new JobName("test_storeHTMLSource");
         JobTimestamp jobTimestamp = JobTimestamp.now();
         StorageDirectory storageDirectory = new StorageDirectory(store, jobName, jobTimestamp);
-        MaterializingFunctions.saveHTMLSource.accept(targetURL, driver, storageDirectory);
+        // get HTML source of the page, save it into the store
+        MaterializingFunctions.storeHTMLSource.accept(target, driver, storageDirectory);
+        // assert that a material has been created
         Material material = store.selectSingle(jobName, jobTimestamp, FileType.HTML, QueryOnMetadata.ANY);
         assertNotNull(material);
         assertTrue(Files.exists(material.toPath(store.getRoot())));
     }
+
+    @Test
+    void test_storeEntirePageScreenshot() throws MaterialstoreException {
+        Target target = new Target.Builder("https://github.com/kazurayam")
+                .locatorType(LocatorType.CSS_SELECTOR)
+                .locator("main#js-pjax-container")
+                .build();
+        JobName jobName = new JobName("test_storeEntirePageScreenshot");
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        StorageDirectory storageDirectory = new StorageDirectory(store, jobName, jobTimestamp);
+        // take an entire page screenshot, write the image into the store
+        MaterializingFunctions.storeEntirePageScreenshot.accept(target, driver, storageDirectory);
+        // assert that a material has been created
+        Material material = store.selectSingle(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.ANY);
+        assertNotNull(material);
+        assertTrue(Files.exists(material.toPath(store.getRoot())));
+    }
+
 
     @AfterEach
     public void afterEach() {
