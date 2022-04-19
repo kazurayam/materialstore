@@ -49,4 +49,29 @@ public class MaterializeWebResourceFunctionsTest {
         Material material = store.selectSingle(jobName, jobTimestamp, FileType.JPG, QueryOnMetadata.ANY);
         assertNotNull(Files.exists(material.toPath(store.getRoot())));
     }
+
+    @Test
+    public void test_storeWebResource_js() throws MaterialstoreException {
+        Target target = new Target.Builder("https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.js").build();
+        JobName jobName = new JobName("test_storeWebResource_js");
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        StorageDirectory storageDirectory = new StorageDirectory(store, jobName, jobTimestamp);
+        MaterializingWebResourceFunctions.storeWebResource.accept(target, storageDirectory);
+        //
+        Material material = store.selectSingle(jobName, jobTimestamp, FileType.JS, QueryOnMetadata.ANY);
+        assertNotNull(Files.exists(material.toPath(store.getRoot())));
+    }
+
+    @Test
+    public void test_storeWebResource_css() throws MaterialstoreException {
+        Target target = new Target.Builder("https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css").build();
+        JobName jobName = new JobName("test_storeWebResource_css");
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        StorageDirectory storageDirectory = new StorageDirectory(store, jobName, jobTimestamp);
+        MaterializingWebResourceFunctions.storeWebResource.accept(target, storageDirectory);
+        //
+        Material material = store.selectSingle(jobName, jobTimestamp, FileType.CSS, QueryOnMetadata.ANY);
+        assertNotNull(Files.exists(material.toPath(store.getRoot())));
+    }
+
 }
