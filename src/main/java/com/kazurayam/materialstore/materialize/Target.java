@@ -11,28 +11,17 @@ import java.util.Map;
 public class Target {
 
     private final URL url;
-    private final LocatorType locatorType;
-    private final String locator;
+    private final By by;
     private final Map<String, String> parameters;
     private Target(Builder builder) {
         this.url = builder.url;
-        this.locatorType = builder.locatorType;
-        this.locator = builder.locator;
+        this.by = builder.by;
         this.parameters = builder.parameters;
     }
     public URL getUrl() {
         return this.url;
     }
-    public LocatorType getLocatorType() {
-        return this.locatorType;
-    }
-    public String getLocator() {
-        return this.locator;
-    }
-    public By getBy() {
-        return (this.getLocatorType().equals(LocatorType.XPATH)) ?
-            By.xpath(this.getLocator()) : By.cssSelector(this.getLocator());
-    }
+    public By getBy() { return this.by; }
     public Map<String, String> getParameters() { return this.parameters; }
     public Object get(String key) { return this.parameters.get(key); }
 
@@ -41,8 +30,7 @@ public class Target {
      */
     public static class Builder {
         private final URL url;
-        private LocatorType locatorType = LocatorType.XPATH;
-        private String locator = "/html/body";
+        private By by = By.xpath("/html/body");
         private Map<String, String> parameters = new LinkedHashMap<>();
         public Builder(String urlString) throws MaterialstoreException {
             try {
@@ -54,12 +42,8 @@ public class Target {
         public Builder(URL url) {
             this.url = url;
         }
-        Builder locatorType(LocatorType locatorType) {
-            this.locatorType = locatorType;
-            return this;
-        }
-        Builder locator(String locator) {
-            this.locator = locator;
+        Builder by(By by) {
+            this.by = by;
             return this;
         }
         Builder put(String key, String value) {

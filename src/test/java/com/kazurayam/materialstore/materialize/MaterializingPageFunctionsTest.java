@@ -14,6 +14,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -56,8 +57,7 @@ public class MaterializingPageFunctionsTest {
     @Test
     void test_storeHTMLSource() throws MaterialstoreException {
         Target target = new Target.Builder("https://www.google.com")
-                .locatorType(LocatorType.CSS_SELECTOR)
-                .locator("input[name=\"q\"]")
+                .by(By.cssSelector("input[name=\"q\"]"))
                 .build();
         JobName jobName = new JobName("test_storeHTMLSource");
         JobTimestamp jobTimestamp = JobTimestamp.now();
@@ -73,8 +73,7 @@ public class MaterializingPageFunctionsTest {
     @Test
     void test_storeEntirePageScreenshot() throws MaterialstoreException {
         Target target = new Target.Builder("https://github.com/kazurayam")
-                .locatorType(LocatorType.CSS_SELECTOR)
-                .locator("main#js-pjax-container")
+                .by(By.cssSelector("main#js-pjax-container"))
                 .build();
         JobName jobName = new JobName("test_storeEntirePageScreenshot");
         JobTimestamp jobTimestamp = JobTimestamp.now();
