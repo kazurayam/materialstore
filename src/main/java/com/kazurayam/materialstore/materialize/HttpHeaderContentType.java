@@ -7,16 +7,16 @@ import org.slf4j.LoggerFactory;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class HttpContentTypeHeader {
+public final class HttpHeaderContentType {
 
-    private static Logger logger = LoggerFactory.getLogger(HttpContentTypeHeader.class);
+    private static Logger logger = LoggerFactory.getLogger(HttpHeaderContentType.class);
 
     public static Pattern CONTENT_TYPE_PATTERN =
             Pattern.compile("\\s*([^;]+)(;\\s*(charset=(.+)|boundary=(.*)))?");
 
     private Header header;
 
-    public HttpContentTypeHeader(Header header) {
+    public HttpHeaderContentType(Header header) {
         this.header = header;
     }
 

@@ -532,7 +532,33 @@ public final class StoreImpl implements Store {
         } else {
             return null;
         }
+    }
 
+    @Override
+    public Material selectSingle(JobName jobName,
+                                 JobTimestamp jobTimestamp,
+                                 QueryOnMetadata query)
+            throws MaterialstoreException {
+        Jobber jobber = this.getJobber(jobName, jobTimestamp);
+        MaterialList materials = jobber.selectMaterials(query);
+        if (materials.size() > 0) {
+            return materials.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public Material selectSingle(JobName jobName,
+                                 JobTimestamp jobTimestamp)
+        throws MaterialstoreException {
+        Jobber jobber = this.getJobber(jobName, jobTimestamp);
+        MaterialList materials = jobber.selectMaterials(QueryOnMetadata.ANY);
+        if (materials.size() > 0) {
+            return materials.get(0);
+        } else {
+            return null;
+        }
     }
 
     public static byte[] toByteArray(InputStream inputStream) throws IOException {

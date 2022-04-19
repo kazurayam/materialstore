@@ -10,11 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class HttpContentTypeHeaderTest {
+public class HttpHeaderContentTypeTest {
 
     @Test
     void test_CONTENT_TYPE_PATTERN_text() {
-        Matcher m = HttpContentTypeHeader.CONTENT_TYPE_PATTERN.matcher("text/html; charset=UTF-8");
+        Matcher m = HttpHeaderContentType.CONTENT_TYPE_PATTERN.matcher("text/html; charset=UTF-8");
         assertTrue(m.matches());
         assertEquals(5, m.groupCount());
         assertEquals("text/html", m.group(1));
@@ -26,7 +26,7 @@ public class HttpContentTypeHeaderTest {
 
     @Test
     void test_CONTENT_TYPE_PATTERN_multipart() {
-        Matcher m = HttpContentTypeHeader.CONTENT_TYPE_PATTERN.matcher("multipart/form-data; boundary=something");
+        Matcher m = HttpHeaderContentType.CONTENT_TYPE_PATTERN.matcher("multipart/form-data; boundary=something");
         assertTrue(m.matches());
         assertEquals(5, m.groupCount());
         assertEquals("multipart/form-data", m.group(1));
@@ -38,14 +38,14 @@ public class HttpContentTypeHeaderTest {
     @Test
     public void test_getMediaType() {
         Header contentType = new BasicHeader("ContentType", "application/javascript; charset=UTF-8");
-        HttpContentTypeHeader header = new HttpContentTypeHeader(contentType);
+        HttpHeaderContentType header = new HttpHeaderContentType(contentType);
         assertEquals("application/javascript", header.getMediaType());
     }
 
     @Test
     public void test_getCharset() {
         Header contentType = new BasicHeader("ContentType", "application/javascript; charset=UTF-8");
-        HttpContentTypeHeader header = new HttpContentTypeHeader(contentType);
+        HttpHeaderContentType header = new HttpHeaderContentType(contentType);
         assertEquals("UTF-8", header.getCharset());
     }
 

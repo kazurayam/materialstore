@@ -43,16 +43,16 @@ public class MaterializingWebResourceFunctions {
             logger.debug("[storeHttpResource] " + "Executing request " +
                     httpget.getMethod() + " " + httpget.getUri());
             // Create a custom response handler
-            final HttpClientResponseHandler<MyResponse> responseHandler =
+            final HttpClientResponseHandler<ResponseDTO> responseHandler =
                     response -> {
                         final int status = response.getCode();
                         if (status >= HttpStatus.SC_SUCCESS && status < HttpStatus.SC_REDIRECTION) {
                             final HttpEntity entity = response.getEntity();
                             if (entity != null) {
-                                MyResponse result = new MyResponse(EntityUtils.toByteArray(entity));
+                                ResponseDTO result = new ResponseDTO(EntityUtils.toByteArray(entity));
                                 Header contentType = response.getHeader("Content-Type");
                                 if (contentType != null) {
-                                    HttpContentTypeHeader header = new HttpContentTypeHeader(contentType);
+                                    HttpHeaderContentType header = new HttpHeaderContentType(contentType);
                                     result.setMediaType(header.getMediaType());
                                     result.setCharset(header.getCharset());
                                 }
@@ -64,7 +64,7 @@ public class MaterializingWebResourceFunctions {
                             throw new ClientProtocolException("Unexpected response status: " + status);
                         }
                     };
-            final MyResponse myResponse = httpclient.execute(httpget, responseHandler);
+            final ResponseDTO myResponse = httpclient.execute(httpget, responseHandler);
             Store store = storageDirectory.getStore();
             JobName jobName = storageDirectory.getJobName();
             JobTimestamp jobTimestamp = storageDirectory.getJobTimestamp();
@@ -80,11 +80,14 @@ public class MaterializingWebResourceFunctions {
 
     private MaterializingWebResourceFunctions() {}
 
-    private static class MyResponse {
+    /**
+     * Data Transfer Object
+     */
+    private static class ResponseDTO {
         private byte[] content;
         private String mediaType;
         private String charset;
-        MyResponse(byte[] content) {
+        ResponseDTO(byte[] content) {
             this.content = content;
             this.mediaType = null;
             this.charset = null;
