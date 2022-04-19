@@ -26,12 +26,12 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MaterializingFunctionsTest {
+public class MaterializingPageFunctionsTest {
 
     private static Path outputDir =
             Paths.get(System.getProperty("user.dir"))
                     .resolve("build/tmp/testOutput")
-                    .resolve(MaterializingFunctionsTest.class.getName());
+                    .resolve(MaterializingPageFunctionsTest.class.getName());
 
     private static Store store;
     private WebDriver driver;
@@ -63,7 +63,7 @@ public class MaterializingFunctionsTest {
         JobTimestamp jobTimestamp = JobTimestamp.now();
         StorageDirectory storageDirectory = new StorageDirectory(store, jobName, jobTimestamp);
         // get HTML source of the page, save it into the store
-        MaterializingFunctions.storeHTMLSource.accept(target, driver, storageDirectory);
+        MaterializingPageFunctions.storeHTMLSource.accept(target, driver, storageDirectory);
         // assert that a material has been created
         Material material = store.selectSingle(jobName, jobTimestamp, FileType.HTML, QueryOnMetadata.ANY);
         assertNotNull(material);
@@ -80,7 +80,7 @@ public class MaterializingFunctionsTest {
         JobTimestamp jobTimestamp = JobTimestamp.now();
         StorageDirectory storageDirectory = new StorageDirectory(store, jobName, jobTimestamp);
         // take an entire page screenshot, write the image into the store
-        MaterializingFunctions.storeEntirePageScreenshot.accept(target, driver, storageDirectory);
+        MaterializingPageFunctions.storeEntirePageScreenshot.accept(target, driver, storageDirectory);
         // assert that a material has been created
         Material material = store.selectSingle(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.ANY);
         assertNotNull(material);

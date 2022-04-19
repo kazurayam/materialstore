@@ -21,13 +21,13 @@ import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 
-public class MaterializingFunctions {
+public class MaterializingPageFunctions {
 
     /**
      * get HTML source of the target web page, pretty-print it, save it into
      * the store
      */
-    public static MaterializingFunction<Target, WebDriver, StorageDirectory>
+    public static MaterializingPageFunction<Target, WebDriver, StorageDirectory>
             storeHTMLSource = (target, driver, storageDirectory) -> {
         Objects.requireNonNull(target);
         Objects.requireNonNull(driver);
@@ -60,7 +60,7 @@ public class MaterializingFunctions {
     /**
      *
      */
-    public static MaterializingFunction<Target, WebDriver, StorageDirectory>
+    public static MaterializingPageFunction<Target, WebDriver, StorageDirectory>
             storeEntirePageScreenshot = (target, driver, storageDirectory) -> {
         Objects.requireNonNull(target);
         Objects.requireNonNull(driver);
@@ -95,4 +95,7 @@ public class MaterializingFunctions {
         JobTimestamp jobTimestamp = storageDirectory.getJobTimestamp();
         store.write(jobName, jobTimestamp, FileType.PNG, metadata, bufferedImage);
     };
+
+    private MaterializingPageFunctions() {}
+
 }

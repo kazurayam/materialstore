@@ -140,10 +140,10 @@ public enum FileType implements Jsonifiable, TemplateReady {
         return UNSUPPORTED;
     }
 
-    public static FileType ofMimeType(String mimeType) {
+    public static FileType ofMediaType(String mediaType) {
         for (FileType v : values()) {
             List<String> mimeTypes = v.getMimeTypes();
-            if (mimeTypes.contains(mimeType)) {
+            if (mimeTypes.contains(mediaType)) {
                 return v;
             }
         }

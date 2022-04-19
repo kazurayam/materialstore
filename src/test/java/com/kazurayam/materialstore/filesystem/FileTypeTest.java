@@ -2,12 +2,16 @@ package com.kazurayam.materialstore.filesystem;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.apache.hc.core5.http.Header;
+import org.apache.hc.core5.http.message.BasicHeader;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class FileTypeTest {
@@ -20,31 +24,35 @@ public class FileTypeTest {
 
     @Test
     public void test_CSS() {
-        FileType ft = FileType.ofMimeType("text/css");
+        FileType ft = FileType.ofMediaType("text/css");
         assertEquals(FileType.CSS, ft);
         assertEquals(FileTypeDiffability.AS_TEXT, ft.getDiffability());
     }
 
     @Test
     public void test_JS() {
-        FileType ft = FileType.ofMimeType("application/javascript");
+        FileType ft = FileType.ofMediaType("application/javascript");
         assertEquals(FileType.JS, ft);
         assertEquals(FileTypeDiffability.AS_TEXT, ft.getDiffability());
     }
 
     @Test
     public void test_HTML() {
-        FileType ft = FileType.ofMimeType("text/html");
+        FileType ft = FileType.ofMediaType("text/html");
         assertEquals(FileType.HTML, ft);
         assertEquals(FileTypeDiffability.AS_TEXT, ft.getDiffability());
     }
 
     @Test
     public void test_WOFF2() {
-        FileType ft = FileType.ofMimeType("font/woff2");
+        FileType ft = FileType.ofMediaType("font/woff2");
         assertEquals(FileType.WOFF2, ft);
         assertEquals(FileTypeDiffability.UNABLE, ft.getDiffability());
     }
+
+
+
+
 
     @Test
     public void test_toString() {
