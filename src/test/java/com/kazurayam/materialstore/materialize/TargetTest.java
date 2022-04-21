@@ -17,6 +17,7 @@ public class TargetTest {
                 new Target.Builder("http://example.com").build();
         assertEquals(new URL("http://example.com"), target.getUrl());
         assertEquals("By.xpath: /html/body", target.getBy().toString());
+        System.out.println(target.toJson(true));
     }
 
     @Test
@@ -27,5 +28,7 @@ public class TargetTest {
                         .build();
         assertEquals(new URL("https://www.google.com"), target.getUrl());
         assertEquals("By.cssSelector: input[name=\"q\"]", target.getBy().toString());
+
     }
+
 }

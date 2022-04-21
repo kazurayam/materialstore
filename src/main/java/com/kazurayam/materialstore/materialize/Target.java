@@ -1,6 +1,8 @@
 package com.kazurayam.materialstore.materialize;
 
 import com.kazurayam.materialstore.MaterialstoreException;
+import com.kazurayam.materialstore.filesystem.Jsonifiable;
+import com.kazurayam.materialstore.util.JsonUtil;
 import org.openqa.selenium.By;
 
 import java.net.MalformedURLException;
@@ -8,7 +10,7 @@ import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Target {
+public class Target implements Jsonifiable {
 
     private final URL url;
     private final By by;
@@ -24,7 +26,26 @@ public class Target {
     public By getBy() { return this.by; }
     public Map<String, String> getParameters() { return this.parameters; }
     public Object get(String key) { return this.parameters.get(key); }
+    public String toJson() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append("\"url\":\"");
+        sb.append(JsonUtil.escapeAsJsonString(url.toExternalForm()));
+        sb.append("\",");
+        sb.append("\"by\":\"");
+        sb.append(JsonUtil.escapeAsJsonString(by.toString()));
+        sb.append("\"");
+        sb.append("}");
+        return sb.toString();
+    }
 
+    public String toJson(boolean prettyPrint) {
+        if (prettyPrint) {
+            return JsonUtil.prettyPrint(toJson(), Map.class);
+        } else {
+            return toJson();
+        }
+    }
     /**
      *
      */

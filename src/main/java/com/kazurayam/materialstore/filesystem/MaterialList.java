@@ -152,6 +152,5 @@ public final class MaterialList implements Iterable<Material>, Jsonifiable, Temp
         } else {
             return toJson();
         }
-
     }
 }
