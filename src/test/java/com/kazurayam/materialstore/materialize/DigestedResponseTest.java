@@ -14,7 +14,9 @@ public class DigestedResponseTest {
 
     @Test
     void test_CONTENT_TYPE_PATTERN_text() {
-        Matcher m = DigestedResponse.CONTENT_TYPE_PATTERN.matcher("text/html; charset=UTF-8");
+        Matcher m = MaterializingWebResourceFunctions
+                .DigestedResponse.CONTENT_TYPE_PATTERN
+                .matcher("text/html; charset=UTF-8");
         assertTrue(m.matches());
         assertEquals(5, m.groupCount());
         assertEquals("text/html", m.group(1));
@@ -26,7 +28,9 @@ public class DigestedResponseTest {
 
     @Test
     void test_CONTENT_TYPE_PATTERN_multipart() {
-        Matcher m = DigestedResponse.CONTENT_TYPE_PATTERN.matcher("multipart/form-data; boundary=something");
+        Matcher m = MaterializingWebResourceFunctions
+                .DigestedResponse.CONTENT_TYPE_PATTERN
+                .matcher("multipart/form-data; boundary=something");
         assertTrue(m.matches());
         assertEquals(5, m.groupCount());
         assertEquals("multipart/form-data", m.group(1));
@@ -37,16 +41,22 @@ public class DigestedResponseTest {
 
     @Test
     public void test_getMediaType() {
-        DigestedResponse response = new DigestedResponse("console.log(\"Hello\");".getBytes());
-        Header contentType = new BasicHeader("ContentType", "application/javascript; charset=UTF-8");
+        MaterializingWebResourceFunctions.DigestedResponse response =
+                new MaterializingWebResourceFunctions
+                        .DigestedResponse("console.log(\"Hello\");".getBytes());
+        Header contentType = new BasicHeader("ContentType",
+                "application/javascript; charset=UTF-8");
         response.setContentType(contentType);
         assertEquals("application/javascript", response.getMediaType());
     }
 
     @Test
     public void test_getCharset() {
-        DigestedResponse response = new DigestedResponse("console.log(\"Hello\");".getBytes());
-        Header contentType = new BasicHeader("ContentType", "application/javascript; charset=UTF-8");
+        MaterializingWebResourceFunctions.DigestedResponse response =
+                new MaterializingWebResourceFunctions
+                        .DigestedResponse("console.log(\"Hello\");".getBytes());
+        Header contentType = new BasicHeader("ContentType",
+                "application/javascript; charset=UTF-8");
         response.setContentType(contentType);
         assertEquals("UTF-8", response.getCharset());
     }

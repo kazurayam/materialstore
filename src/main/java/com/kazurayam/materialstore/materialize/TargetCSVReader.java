@@ -17,7 +17,10 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Accepts a CSV text like
@@ -36,26 +39,49 @@ public class TargetCSVReader {
     private static Logger logger = LoggerFactory.getLogger(TargetCSVReader.class);
 
     public static List<Target> parse(String csvText) throws MaterialstoreException {
-        return parse(new StringReader(csvText));
+        Map<String, String> attributes = new LinkedHashMap<>();
+        return parse(csvText, attributes);
+    }
+
+    public static List<Target> parse(String csvText, Map<String, String> attributes)
+            throws MaterialstoreException {
+        return parse(new StringReader(csvText), attributes);
     }
 
     public static List<Target> parse(Path csvPath) throws MaterialstoreException {
-        return parse(csvPath.toFile());
+        Map<String, String> attributes = new LinkedHashMap<>();
+        return parse(csvPath, attributes);
+    }
+
+    public static List<Target> parse(Path csvPath, Map<String, String> attributes)
+            throws MaterialstoreException {
+        return parse(csvPath.toFile(), attributes);
     }
 
     public static List<Target> parse(File csvPath) throws MaterialstoreException {
+        Map<String, String> attributes = new LinkedHashMap<>();
+        return parse(csvPath, attributes);
+    }
+    public static List<Target> parse(File csvPath, Map<String, String> attributes)
+            throws MaterialstoreException {
         try {
             Reader reader = new InputStreamReader(
                     new FileInputStream(csvPath), StandardCharsets.UTF_8);
-            return parse(reader);
+            return parse(reader, attributes);
         } catch (FileNotFoundException e) {
             throw new MaterialstoreException(e);
         }
     }
 
-    public static List<Target> parse(Reader csvReader) throws MaterialstoreException {
-        List<Target> result = new ArrayList<>();
-        BufferedReader br = new BufferedReader(csvReader);
+    public static List<Target> parse(Reader reader) throws MaterialstoreException {
+        Map<String, String> attributes = new LinkedHashMap<>();
+        return parse(reader, attributes);
+    }
+
+    public static List<Target> parse(Reader reader, Map<String, String> attributes)
+            throws MaterialstoreException {
+        List<Target> targetList = new ArrayList<>();
+        BufferedReader br = new BufferedReader(reader);
         String line;
         try {
             while ((line = br.readLine()) != null) {
@@ -70,14 +96,19 @@ public class TargetCSVReader {
                         By by = (locator.startsWith("/")) ?
                                 By.xpath(locator) :
                                 By.cssSelector(locator);
-                        result.add(new Target.Builder(url).by(by).build());
+                        Target target =
+                                Target.builder(url)
+                                        .by(by)
+                                        .putAll(attributes)
+                                        .build();
+                        targetList.add(target);
                     }
                 }
             }
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
-        return result;
+        return targetList;
     }
 
     private TargetCSVReader() {}

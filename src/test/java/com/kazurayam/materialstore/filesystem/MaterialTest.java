@@ -36,7 +36,7 @@ public class MaterialTest {
     }
 
     @Test
-    public void test_smoke() {
+    public void test_smoke() throws MaterialstoreException {
         String sampleLine = "6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{\"profile\":\"DevelopmentEnv\",\"URL\":\"http://demoaut-mimic.kazurayam.com/\"}";
         IndexEntry indexEntry = IndexEntry.parseLine(sampleLine);
         Material material = new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, indexEntry);
@@ -52,7 +52,6 @@ public class MaterialTest {
         //
         //System.out.println(material.toString());
         Assertions.assertEquals(material, material);
-        //
 
     }
 
@@ -128,5 +127,18 @@ public class MaterialTest {
         IndexEntry indexEntry2 = IndexEntry.parseLine(sampleLine.replace("6141b40", "1020304"));
         Material material2 = new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, indexEntry2);
         assertTrue(material1.isSimilarTo(material2));
+    }
+
+    @Test
+    public void test_toPath() throws MaterialstoreException {
+        JobName jobName = new JobName("test_toPath");
+        //
+        TestFixtureUtil.setupFixture(store, jobName);
+        JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
+        Jobber jobber = new Jobber(store, jobName, jobTimestamp);
+        Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"));
+        //
+        Assertions.assertTrue(Files.exists(material.toPath(store.getRoot())));
+        Assertions.assertTrue(Files.exists(material.toPath(store)));
     }
 }

@@ -10,22 +10,46 @@ import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class Target implements Jsonifiable {
+public final class Target implements Jsonifiable {
 
     private final URL url;
     private final By by;
-    private final Map<String, String> parameters;
+    private final Map<String, String> attributes;
+
+    public static Builder builder(URL url) {
+        return new Target.Builder(url);
+    }
+
+    public static Builder builder(String urlString) throws MaterialstoreException {
+        return new Target.Builder(urlString);
+    }
+
     private Target(Builder builder) {
         this.url = builder.url;
         this.by = builder.by;
-        this.parameters = builder.parameters;
+        this.attributes = builder.attributes;
     }
+
+    public Target(Target source) {
+        this.url = source.getUrl();
+        this.by = source.getBy();
+        this.attributes = new LinkedHashMap<>(source.getAttributes());
+    }
+
     public URL getUrl() {
         return this.url;
     }
     public By getBy() { return this.by; }
-    public Map<String, String> getParameters() { return this.parameters; }
-    public Object get(String key) { return this.parameters.get(key); }
+    public Target put(String key, String value) {
+        this.attributes.put(key, value);
+        return this;
+    }
+    public Target putAll(Map<String, String> attributes) {
+        this.attributes.putAll(attributes);
+        return this;
+    }
+    public Map<String, String> getAttributes() { return this.attributes; }
+    public Object get(String key) { return this.attributes.get(key); }
     public String toJson() {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
@@ -34,11 +58,27 @@ public class Target implements Jsonifiable {
         sb.append("\",");
         sb.append("\"by\":\"");
         sb.append(JsonUtil.escapeAsJsonString(by.toString()));
-        sb.append("\"");
+        sb.append("\",");
+        sb.append("\"attributes\":");
+        sb.append("{");
+        StringBuilder sbAttr = new StringBuilder();
+        for (Map.Entry<String, String> entry : attributes.entrySet()) {
+            if (sbAttr.length() > 0) {
+                sbAttr.append(",");
+            }
+            sbAttr.append("\"");
+            sbAttr.append(JsonUtil.escapeAsJsonString(entry.getKey()));
+            sbAttr.append("\"");
+            sbAttr.append(":");
+            sbAttr.append("\"");
+            sbAttr.append(JsonUtil.escapeAsJsonString(entry.getValue()));
+            sbAttr.append("\"");
+        }
+        sb.append(sbAttr);
+        sb.append("}");
         sb.append("}");
         return sb.toString();
     }
-
     public String toJson(boolean prettyPrint) {
         if (prettyPrint) {
             return JsonUtil.prettyPrint(toJson(), Map.class);
@@ -52,7 +92,7 @@ public class Target implements Jsonifiable {
     public static class Builder {
         private final URL url;
         private By by = By.xpath("/html/body");
-        private Map<String, String> parameters = new LinkedHashMap<>();
+        private final Map<String, String> attributes = new LinkedHashMap<>();
         public Builder(String urlString) throws MaterialstoreException {
             try {
                 this.url = new URL(urlString);
@@ -68,7 +108,11 @@ public class Target implements Jsonifiable {
             return this;
         }
         Builder put(String key, String value) {
-            this.parameters.put(key, value);
+            this.attributes.put(key, value);
+            return this;
+        }
+        Builder putAll(Map<String, String> attrs) {
+            this.attributes.putAll(attrs);
             return this;
         }
         Target build() {

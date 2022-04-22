@@ -2,8 +2,8 @@ package com.kazurayam.materialstore.materialize;
 
 import com.kazurayam.materialstore.MaterialstoreException;
 
-public interface MaterializingWebResourceFunction<Target, StorageDirectory> {
+public interface MaterializingWebResourceFunction<Target, StorageDirectory, Material> {
 
-    void accept(Target target, StorageDirectory storageDirectory)
+    Material accept(Target target, StorageDirectory storageDirectory)
             throws MaterialstoreException;
 }

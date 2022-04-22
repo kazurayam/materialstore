@@ -84,6 +84,10 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return this.toFile(root).toPath();
     }
 
+    public Path toPath(Store store) throws MaterialstoreException {
+        return this.toFile(store.getRoot()).toPath();
+    }
+
     /**
      * returns a URL in the form of "file:/". The path will be an absolute path.
      *

@@ -17,13 +17,17 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -62,12 +66,20 @@ public class MaterializingPageFunctionsTest {
         JobName jobName = new JobName("test_storeHTMLSource");
         JobTimestamp jobTimestamp = JobTimestamp.now();
         StorageDirectory storageDirectory = new StorageDirectory(store, jobName, jobTimestamp);
+        // open the page in browser
+        driver.navigate().to(target.getUrl());
+        // wait for the page to load completely
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+        WebElement handle =
+                wait.until(ExpectedConditions.visibilityOfElementLocated(
+                        target.getBy()));
         // get HTML source of the page, save it into the store
-        MaterializingPageFunctions.storeHTMLSource.accept(target, driver, storageDirectory);
+        Material createdMaterial  = MaterializingPageFunctions.storeHTMLSource.accept(target, driver, storageDirectory);
+        assertNotNull(createdMaterial);
         // assert that a material has been created
-        Material material = store.selectSingle(jobName, jobTimestamp, FileType.HTML, QueryOnMetadata.ANY);
-        assertNotNull(material);
-        assertTrue(Files.exists(material.toPath(store.getRoot())));
+        Material selectedMaterial = store.selectSingle(jobName, jobTimestamp, FileType.HTML, QueryOnMetadata.ANY);
+        assertTrue(Files.exists(selectedMaterial.toPath(store.getRoot())));
+        assertEquals(createdMaterial, selectedMaterial);
     }
 
     @Test
@@ -78,12 +90,20 @@ public class MaterializingPageFunctionsTest {
         JobName jobName = new JobName("test_storeEntirePageScreenshot");
         JobTimestamp jobTimestamp = JobTimestamp.now();
         StorageDirectory storageDirectory = new StorageDirectory(store, jobName, jobTimestamp);
+        // open the page in browser
+        driver.navigate().to(target.getUrl());
+        // wait for the page to load completely
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+        WebElement handle =
+                wait.until(ExpectedConditions.visibilityOfElementLocated(
+                        target.getBy()));
         // take an entire page screenshot, write the image into the store
-        MaterializingPageFunctions.storeEntirePageScreenshot.accept(target, driver, storageDirectory);
+        Material createdMaterial = MaterializingPageFunctions.storeEntirePageScreenshot.accept(target, driver, storageDirectory);
+        assertNotNull(createdMaterial);
         // assert that a material has been created
-        Material material = store.selectSingle(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.ANY);
-        assertNotNull(material);
-        assertTrue(Files.exists(material.toPath(store.getRoot())));
+        Material selectedMaterial = store.selectSingle(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.ANY);
+        assertTrue(Files.exists(selectedMaterial.toPath(store.getRoot())));
+        assertEquals(createdMaterial, selectedMaterial);
     }
 
 

@@ -1,11 +1,12 @@
 package com.kazurayam.materialstore.materialize;
 
 import com.kazurayam.materialstore.MaterialstoreException;
+import com.kazurayam.materialstore.filesystem.Material;
 
 @FunctionalInterface
-public interface MaterializingPageFunction<Target, WebDriver, StorageDirectory> {
+public interface MaterializingPageFunction<Target, WebDriver, StorageDirectory, Material> {
 
-    void accept(Target target, WebDriver driver, StorageDirectory storageDirectory)
+    Material accept(Target target, WebDriver driver, StorageDirectory storageDirectory)
             throws MaterialstoreException;
 
 }

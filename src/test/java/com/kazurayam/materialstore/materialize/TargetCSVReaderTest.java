@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -30,6 +32,19 @@ public class TargetCSVReaderTest {
         assertEquals(2, targetList.size());
         targetList.stream()
                 .map(t -> t.toJson())
+                .forEach(System.out::println);
+    }
+
+    @Test
+    public void test_parse_with_attributes() throws MaterialstoreException {
+        Reader reader = new StringReader(csvLines);
+        Map<String, String> attributes = new LinkedHashMap<String, String>() {{
+            put("profile", "Development");
+        }};
+        List<Target> targetList = TargetCSVReader.parse(reader, attributes);
+        assertEquals(2, targetList.size());
+        targetList.stream()
+                .map(t -> t.toJson(true))
                 .forEach(System.out::println);
     }
 }

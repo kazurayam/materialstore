@@ -3,6 +3,7 @@ package com.kazurayam.materialstore.materialize;
 import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
+import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import org.jsoup.Jsoup;
@@ -10,9 +11,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.coordinates.WebDriverCoordsProvider;
@@ -27,18 +25,11 @@ public class MaterializingPageFunctions {
      * get HTML source of the target web page, pretty-print it, save it into
      * the store
      */
-    public static MaterializingPageFunction<Target, WebDriver, StorageDirectory>
+    public static MaterializingPageFunction<Target, WebDriver, StorageDirectory, Material>
             storeHTMLSource = (target, driver, storageDirectory) -> {
         Objects.requireNonNull(target);
         Objects.requireNonNull(driver);
         Objects.requireNonNull(storageDirectory);
-        // open the page in browser
-        driver.navigate().to(target.getUrl());
-        // wait for the page to load completely
-        WebDriverWait wait = new WebDriverWait(driver, 20);
-        WebElement handle =
-                wait.until(ExpectedConditions.visibilityOfElementLocated(
-                        target.getBy()));
         //-------------------------------------------------------------
         // get the HTML source from browser
         String rawHtmlSource = driver.getPageSource();
@@ -49,29 +40,23 @@ public class MaterializingPageFunctions {
         //-------------------------------------------------------------
         // write the HTML source into the store
         Metadata metadata = Metadata.builder(target.getUrl())
-                .putAll(target.getParameters())
+                .putAll(target.getAttributes())
                 .build();
         Store store = storageDirectory.getStore();
         JobName jobName = storageDirectory.getJobName();
         JobTimestamp jobTimestamp = storageDirectory.getJobTimestamp();
-        store.write(jobName, jobTimestamp, FileType.HTML, metadata, ppHtml);
+        Material material = store.write(jobName, jobTimestamp, FileType.HTML, metadata, ppHtml);
+        return material;
     };
 
     /**
      *
      */
-    public static MaterializingPageFunction<Target, WebDriver, StorageDirectory>
+    public static MaterializingPageFunction<Target, WebDriver, StorageDirectory, Material>
             storeEntirePageScreenshot = (target, driver, storageDirectory) -> {
         Objects.requireNonNull(target);
         Objects.requireNonNull(driver);
         Objects.requireNonNull(storageDirectory);
-        // open the page in browser
-        driver.navigate().to(target.getUrl());
-        // wait for the page to load completely
-        WebDriverWait wait = new WebDriverWait(driver, 20);
-        WebElement handle =
-                wait.until(ExpectedConditions.visibilityOfElementLocated(
-                        target.getBy()));
         //-------------------------------------------------------------
         int timeout = 500;  // milli-seconds
         // look up the device-pixel-ratio of the current machine
@@ -85,15 +70,18 @@ public class MaterializingPageFunctions {
         // take a screenshot of entire view of the page
         Screenshot screenshot = aShot.takeScreenshot(driver);
         BufferedImage bufferedImage = screenshot.getImage();
+        // scroll the view to the top of the page
+        js.executeScript("window.scrollTo(0, 0);");
         //-------------------------------------------------------------
-        // write the HTML source into the store
+        // write the PNG image into the store
         Metadata metadata = Metadata.builder(target.getUrl())
-                .putAll(target.getParameters())
+                .putAll(target.getAttributes())
                 .build();
         Store store = storageDirectory.getStore();
         JobName jobName = storageDirectory.getJobName();
         JobTimestamp jobTimestamp = storageDirectory.getJobTimestamp();
-        store.write(jobName, jobTimestamp, FileType.PNG, metadata, bufferedImage);
+        Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, bufferedImage);
+        return material;
     };
 
     private MaterializingPageFunctions() {}
