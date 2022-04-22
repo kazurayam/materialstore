@@ -69,7 +69,7 @@ public class MaterializingWebResourceFunctions {
             Store store = storageDirectory.getStore();
             JobName jobName = storageDirectory.getJobName();
             JobTimestamp jobTimestamp = storageDirectory.getJobTimestamp();
-            FileType fileType = FileType.ofMediaType(myResponse.getMediaType());
+            FileType fileType = FileType.ofMimeType(myResponse.getMediaType());
             Metadata metadata = Metadata.builder(target.getUrl())
                     .putAll(target.getAttributes()).build();
             byte[] bytes = myResponse.getContent();

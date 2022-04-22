@@ -11,6 +11,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.coordinates.WebDriverCoordsProvider;
@@ -30,6 +33,11 @@ public class MaterializingPageFunctions {
         Objects.requireNonNull(target);
         Objects.requireNonNull(driver);
         Objects.requireNonNull(storageDirectory);
+        // make sure the page is loaded completely
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+        WebElement handle =
+                wait.until(ExpectedConditions.visibilityOfElementLocated(
+                        target.getBy()));
         //-------------------------------------------------------------
         // get the HTML source from browser
         String rawHtmlSource = driver.getPageSource();
@@ -57,6 +65,11 @@ public class MaterializingPageFunctions {
         Objects.requireNonNull(target);
         Objects.requireNonNull(driver);
         Objects.requireNonNull(storageDirectory);
+        // make sure the page is loaded completely
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+        WebElement handle =
+                wait.until(ExpectedConditions.visibilityOfElementLocated(
+                        target.getBy()));
         //-------------------------------------------------------------
         int timeout = 500;  // milli-seconds
         // look up the device-pixel-ratio of the current machine

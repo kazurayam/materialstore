@@ -68,11 +68,6 @@ public class MaterializingPageFunctionsTest {
         StorageDirectory storageDirectory = new StorageDirectory(store, jobName, jobTimestamp);
         // open the page in browser
         driver.navigate().to(target.getUrl());
-        // wait for the page to load completely
-        WebDriverWait wait = new WebDriverWait(driver, 20);
-        WebElement handle =
-                wait.until(ExpectedConditions.visibilityOfElementLocated(
-                        target.getBy()));
         // get HTML source of the page, save it into the store
         Material createdMaterial  = MaterializingPageFunctions.storeHTMLSource.accept(target, driver, storageDirectory);
         assertNotNull(createdMaterial);
@@ -92,11 +87,6 @@ public class MaterializingPageFunctionsTest {
         StorageDirectory storageDirectory = new StorageDirectory(store, jobName, jobTimestamp);
         // open the page in browser
         driver.navigate().to(target.getUrl());
-        // wait for the page to load completely
-        WebDriverWait wait = new WebDriverWait(driver, 20);
-        WebElement handle =
-                wait.until(ExpectedConditions.visibilityOfElementLocated(
-                        target.getBy()));
         // take an entire page screenshot, write the image into the store
         Material createdMaterial = MaterializingPageFunctions.storeEntirePageScreenshot.accept(target, driver, storageDirectory);
         assertNotNull(createdMaterial);
