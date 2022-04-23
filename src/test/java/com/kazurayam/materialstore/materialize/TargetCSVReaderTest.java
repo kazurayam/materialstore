@@ -3,12 +3,14 @@ package com.kazurayam.materialstore.materialize;
 import com.kazurayam.materialstore.MaterialstoreException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
 
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -26,7 +28,14 @@ public class TargetCSVReaderTest {
     }
 
     @Test
-    public void test_parse() throws MaterialstoreException {
+    public void test_parse_string() throws MaterialstoreException {
+        String csv = "http://example.com/";
+        List<Target> targetList = TargetCSVReader.parse(csv);
+        assertEquals(1, targetList.size());
+    }
+
+    @Test
+    public void test_parse_reader() throws MaterialstoreException {
         Reader reader = new StringReader(csvLines);
         List<Target> targetList = TargetCSVReader.parse(reader);
         assertEquals(2, targetList.size());
@@ -38,13 +47,32 @@ public class TargetCSVReaderTest {
     @Test
     public void test_parse_with_attributes() throws MaterialstoreException {
         Reader reader = new StringReader(csvLines);
-        Map<String, String> attributes = new LinkedHashMap<String, String>() {{
+        final Map<String, String> attributes = new LinkedHashMap<String, String>() {{
             put("profile", "Development");
         }};
-        List<Target> targetList = TargetCSVReader.parse(reader, attributes);
+        List<Target> targetList =
+                TargetCSVReader.parse(reader).stream()
+                        .map(t -> {
+                            return t.copyWith(attributes);
+                        })
+                        .collect(Collectors.toList());
         assertEquals(2, targetList.size());
         targetList.stream()
                 .map(t -> t.toJson(true))
                 .forEach(System.out::println);
+    }
+
+    @Test
+    public void test_assigning_By_later() throws MaterialstoreException {
+        String csv = "http://example.com/";
+        List<Target> targetList =
+                TargetCSVReader.parse(csv).stream()
+                        .map(t -> {
+                            return t.copyWith(By.xpath("//h1[text()=\"Example Domain\"]"));
+                        })
+                        .collect(Collectors.toList());
+        assertEquals(1, targetList.size());
+        assertEquals("By.xpath: //h1[text()=\"Example Domain\"]",
+                targetList.get(0).getBy().toString());
     }
 }

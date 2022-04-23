@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
@@ -38,48 +39,25 @@ public class TargetCSVReader {
 
     private static Logger logger = LoggerFactory.getLogger(TargetCSVReader.class);
 
-    public static List<Target> parse(String csvText) throws MaterialstoreException {
-        Map<String, String> attributes = new LinkedHashMap<>();
-        return parse(csvText, attributes);
-    }
 
-    public static List<Target> parse(String csvText, Map<String, String> attributes)
-            throws MaterialstoreException {
-        return parse(new StringReader(csvText), attributes);
+    public static List<Target> parse(String csvText) throws MaterialstoreException {
+        return parse(new StringReader(csvText));
     }
 
     public static List<Target> parse(Path csvPath) throws MaterialstoreException {
-        Map<String, String> attributes = new LinkedHashMap<>();
-        return parse(csvPath, attributes);
+        return parse(csvPath.toFile());
     }
 
-    public static List<Target> parse(Path csvPath, Map<String, String> attributes)
-            throws MaterialstoreException {
-        return parse(csvPath.toFile(), attributes);
-    }
-
-    public static List<Target> parse(File csvPath) throws MaterialstoreException {
-        Map<String, String> attributes = new LinkedHashMap<>();
-        return parse(csvPath, attributes);
-    }
-    public static List<Target> parse(File csvPath, Map<String, String> attributes)
-            throws MaterialstoreException {
+    public static List<Target> parse(File csvFile) throws MaterialstoreException {
         try {
-            Reader reader = new InputStreamReader(
-                    new FileInputStream(csvPath), StandardCharsets.UTF_8);
-            return parse(reader, attributes);
-        } catch (FileNotFoundException e) {
+            Reader reader = new InputStreamReader(new FileInputStream(csvFile), StandardCharsets.UTF_8);
+            return parse(reader);
+        }  catch (FileNotFoundException e) {
             throw new MaterialstoreException(e);
         }
     }
 
     public static List<Target> parse(Reader reader) throws MaterialstoreException {
-        Map<String, String> attributes = new LinkedHashMap<>();
-        return parse(reader, attributes);
-    }
-
-    public static List<Target> parse(Reader reader, Map<String, String> attributes)
-            throws MaterialstoreException {
         List<Target> targetList = new ArrayList<>();
         BufferedReader br = new BufferedReader(reader);
         String line;
@@ -87,22 +65,22 @@ public class TargetCSVReader {
             while ((line = br.readLine()) != null) {
                 if (line.trim().length() > 0) {
                     String[] items = line.split(",");
+                    URL url = new URL(items[0].trim());
+                    Target target;
                     if (items.length >= 2) {
-                        // URL
-                        URL url = new URL(items[0].trim());
                         String locator = items[1].trim();
                         // if the locator string starts with "/" then it must be a XPath
                         // otherwise a CSS Selector
                         By by = (locator.startsWith("/")) ?
                                 By.xpath(locator) :
                                 By.cssSelector(locator);
-                        Target target =
-                                Target.builder(url)
-                                        .by(by)
-                                        .putAll(attributes)
-                                        .build();
-                        targetList.add(target);
+                        target = Target.builder(url)
+                                .by(by)
+                                .build();
+                    } else {
+                        target = Target.builder(url).build();
                     }
+                    targetList.add(target);
                 }
             }
         } catch (IOException e) {

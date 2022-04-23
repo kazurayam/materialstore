@@ -11,7 +11,6 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TargetTest {
 
@@ -35,24 +34,33 @@ public class TargetTest {
     }
 
     @Test
-    public void test_put() throws MaterialstoreException {
+    public void test_copyWithBy() throws MaterialstoreException {
+        Target target =
+                new Target.Builder("https://www.google.com")
+                        .build();
+        Target newTarget = target.copyWith(By.cssSelector("/html/body/section"));
+        assertEquals("By.cssSelector: /html/body/section", newTarget.getBy().toString());
+    }
+
+    @Test
+    public void test_copyWithAttribute() throws MaterialstoreException {
         Target target =
                 new Target.Builder("https://www.google.com")
                         .by(By.cssSelector("input[name=\"q\"]"))
                         .build();
-        target.put("profile", "Development");
-        assertEquals("Development", target.get("profile"));
+        Target newTarget = target.copyWith("profile", "Development");
+        assertEquals("Development", newTarget.get("profile"));
     }
 
     @Test
-    public void test_putAll() throws MaterialstoreException {
+    public void test_copyWithAttributes() throws MaterialstoreException {
         Target target =
                 new Target.Builder("https://www.google.com")
                         .by(By.cssSelector("input[name=\"q\"]"))
                         .build();
         Map<String, String> attributes = Collections.singletonMap("profile", "Development");
-        target.putAll(attributes);
-        assertEquals("Development", target.get("profile"));
+        Target newTarget = target.copyWith(attributes);
+        assertEquals("Development", newTarget.get("profile"));
     }
 
     @Test
@@ -60,15 +68,11 @@ public class TargetTest {
         Target target =
                 new Target.Builder("https://www.google.com")
                         .by(By.cssSelector("input[name=\"q\"]"))
+                        .put("foo", "bar")
                         .build();
-        Map<String, String> attributes = Collections.singletonMap("profile", "Development");
-        target.putAll(attributes);
-        assertNull(target.get("foo"));
+        assertEquals("bar", target.get("foo"));
         Target copied = new Target(target);
-        copied.put("foo", "bar");
-        assertEquals("Development", copied.get("profile"));
         assertEquals("bar", copied.get("foo"));
-        assertNull(target.get("foo"));
     }
 
     @Test
