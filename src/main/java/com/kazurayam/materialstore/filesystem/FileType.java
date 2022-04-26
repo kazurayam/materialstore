@@ -27,6 +27,7 @@ public enum FileType implements Jsonifiable, TemplateReady {
     POM  ("pom", FileTypeDiffability.AS_TEXT,  Arrays.asList("application/xml"), "Maven Project Object Model XML"),
     PPT  ("ppt", FileTypeDiffability.UNABLE,   Arrays.asList("application/vnd.ms-powerpoint")),
     PPTX ("pptx",FileTypeDiffability.UNABLE,   Arrays.asList("application/vnd.openxmlformats-officedocument.presentationml.presentation")),
+    PUML ("puml",FileTypeDiffability.AS_TEXT,  Arrays.asList("text/plain")),
     SVG  ("svg", FileTypeDiffability.AS_TEXT,  Arrays.asList("image/svg+xml")),
     TAR  ("tar", FileTypeDiffability.UNABLE,   Arrays.asList("application/x-tar")),
     TGZ  ("tgz", FileTypeDiffability.UNABLE,   Arrays.asList(

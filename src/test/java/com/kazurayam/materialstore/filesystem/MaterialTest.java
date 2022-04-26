@@ -141,4 +141,19 @@ public class MaterialTest {
         Assertions.assertTrue(Files.exists(material.toPath(store.getRoot())));
         Assertions.assertTrue(Files.exists(material.toPath(store)));
     }
+
+    @Test
+    public void test_toPuml() throws MaterialstoreException {
+        JobName jobName = new JobName("test_toPuml");
+        TestFixtureUtil.setupFixture(store, jobName);
+        JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
+        Jobber jobber = new Jobber(store, jobName, jobTimestamp);
+        Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"));
+        String puml = material.toPuml(true);
+        System.out.println(puml);
+        // serialize the PUML text into a storage directory
+        JobTimestamp jobTimestamp2 = JobTimestamp.now();
+        Metadata metadata2 = Metadata.builder().put("ID", material.getShortId()).build();
+        store.write(jobName, jobTimestamp2, FileType.PUML, metadata2, puml);
+    }
 }

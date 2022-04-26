@@ -2,11 +2,14 @@ package com.kazurayam.materialstore.filesystem;
 
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.util.JsonUtil;
+import com.kazurayam.materialstore.util.PlantUMLUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -86,6 +89,27 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
 
     public Path toPath(Store store) throws MaterialstoreException {
         return this.toFile(store.getRoot()).toPath();
+    }
+
+    public String toPuml() {
+        return this.toPuml(false);
+    }
+
+    public String toPuml(boolean standalone) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        pw.print("artifact ");
+        pw.print("Material_" + this.getShortId());
+        pw.println(" [");
+        pw.println(this.getDescription());
+        pw.println("]");
+        pw.flush();
+        pw.close();
+        if (standalone) {
+            return PlantUMLUtil.standalone(sw.toString());
+        } else {
+            return sw.toString();
+        }
     }
 
     /**
