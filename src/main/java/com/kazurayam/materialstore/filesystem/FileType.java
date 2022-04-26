@@ -13,6 +13,7 @@ public enum FileType implements Jsonifiable, TemplateReady {
     CSV  ("csv", FileTypeDiffability.AS_TEXT,  Arrays.asList("text/csv", "text/plain")),
     DOC  ("doc", FileTypeDiffability.UNABLE,   Arrays.asList("application/msword")),
     DOCX ("docx",FileTypeDiffability.UNABLE,   Arrays.asList("application/vnd.openxmlformats-officedocument.wordprocessingml.document")),
+    DOT  ("dot", FileTypeDiffability.AS_TEXT,  Arrays.asList("text/plain")),
     GIF  ("gif", FileTypeDiffability.AS_IMAGE, Arrays.asList("image/gif")),
     HTML ("html",FileTypeDiffability.AS_TEXT,  Arrays.asList("text/html")),
     JAR  ("jar", FileTypeDiffability.UNABLE,   Arrays.asList("application/java-archive")),
@@ -27,7 +28,6 @@ public enum FileType implements Jsonifiable, TemplateReady {
     POM  ("pom", FileTypeDiffability.AS_TEXT,  Arrays.asList("application/xml"), "Maven Project Object Model XML"),
     PPT  ("ppt", FileTypeDiffability.UNABLE,   Arrays.asList("application/vnd.ms-powerpoint")),
     PPTX ("pptx",FileTypeDiffability.UNABLE,   Arrays.asList("application/vnd.openxmlformats-officedocument.presentationml.presentation")),
-    PUML ("puml",FileTypeDiffability.AS_TEXT,  Arrays.asList("text/plain")),
     SVG  ("svg", FileTypeDiffability.AS_TEXT,  Arrays.asList("image/svg+xml")),
     TAR  ("tar", FileTypeDiffability.UNABLE,   Arrays.asList("application/x-tar")),
     TGZ  ("tgz", FileTypeDiffability.UNABLE,   Arrays.asList(

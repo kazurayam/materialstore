@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.filesystem;
 
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.TestFixtureUtil;
-import com.kazurayam.materialstore.util.JsonUtil;
+import com.kazurayam.materialstore.util.DotUtil;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,7 +30,6 @@ public class MaterialTest {
         if (Files.exists(outputDir)) {
             FileUtils.deleteDirectory(outputDir.toFile());
         }
-
         Files.createDirectories(outputDir);
         Path root = outputDir.resolve("store");
         store = new StoreImpl(root);
@@ -143,17 +143,21 @@ public class MaterialTest {
     }
 
     @Test
-    public void test_toPuml() throws MaterialstoreException {
-        JobName jobName = new JobName("test_toPuml");
+    public void test_toDot() throws MaterialstoreException, IOException, InterruptedException {
+        JobName jobName = new JobName("test_toDot");
         TestFixtureUtil.setupFixture(store, jobName);
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
         Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"));
-        String puml = material.toPuml(true);
-        System.out.println(puml);
-        // serialize the PUML text into a storage directory
+        String dot = material.toDot(true);
+        System.out.println(dot);
+
+        // serialize the DOT text into a storage directory
         JobTimestamp jobTimestamp2 = JobTimestamp.now();
         Metadata metadata2 = Metadata.builder().put("ID", material.getShortId()).build();
-        store.write(jobName, jobTimestamp2, FileType.PUML, metadata2, puml);
+        store.write(jobName, jobTimestamp2, FileType.DOT, metadata2, dot);
+
+        // compile the DOT into a PNG file, store it into the storage directory
+        DotUtil.storeGraph(store, jobName, jobTimestamp2, metadata2, dot);
     }
 }

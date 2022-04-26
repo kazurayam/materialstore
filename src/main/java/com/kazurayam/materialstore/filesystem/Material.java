@@ -2,12 +2,11 @@ package com.kazurayam.materialstore.filesystem;
 
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.util.JsonUtil;
-import com.kazurayam.materialstore.util.PlantUMLUtil;
+import com.kazurayam.materialstore.util.DotUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
@@ -91,22 +90,23 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return this.toFile(store.getRoot()).toPath();
     }
 
-    public String toPuml() {
-        return this.toPuml(false);
+    public String toDot() {
+        return this.toDot(true);
     }
 
-    public String toPuml(boolean standalone) {
+    public String toDot(boolean standalone) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-        pw.print("artifact ");
-        pw.print("Material_" + this.getShortId());
-        pw.println(" [");
-        pw.println(this.getDescription());
-        pw.println("]");
+        pw.print("M_" + this.getShortId());
+        pw.print(" [label=\"");
+        pw.print(this.getFileType().getExtension());
+        pw.print("|");
+        pw.print(DotUtil.escape(this.getMetadata().toSimplifiedJson()));
+        pw.print("\"];");
         pw.flush();
         pw.close();
         if (standalone) {
-            return PlantUMLUtil.standalone(sw.toString());
+            return DotUtil.standalone(sw.toString());
         } else {
             return sw.toString();
         }

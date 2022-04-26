@@ -56,6 +56,11 @@ dependencies {
     // https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml
     testImplementation group: 'net.sourceforge.plantuml', name: 'plantuml', version: '8059'
 
+    // Subprocessj is used to run "dot" of Graphviz
+    // by com.kazurayam.materialstore.util.DotUtil class
+    // https://mvnrepository.com/artifact/com.kazurayam/subprocessj
+    implementation group: 'com.kazurayam', name: 'subprocessj', version: '0.3.4'
+
 }
 
 sourceCompatibility = '1.8'

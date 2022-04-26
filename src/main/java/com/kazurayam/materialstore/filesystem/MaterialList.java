@@ -1,9 +1,12 @@
 package com.kazurayam.materialstore.filesystem;
 
 import com.kazurayam.materialstore.util.JsonUtil;
+import com.kazurayam.materialstore.util.DotUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -94,6 +97,7 @@ public final class MaterialList implements Iterable<Material>, Jsonifiable, Temp
         return materialList.size();
     }
 
+    @Override
     public Iterator<Material> iterator() {
         return materialList.iterator();
     }
@@ -151,6 +155,31 @@ public final class MaterialList implements Iterable<Material>, Jsonifiable, Temp
             return JsonUtil.prettyPrint(toJson(), Map.class);
         } else {
             return toJson();
+        }
+    }
+
+    public String toDot() {
+        return this.toDot(true);
+    }
+
+    public String toDot(boolean standalone) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        for (Material material : this) {
+            pw.println(material.toDot(false));
+        }
+        String prevId = this.get(0).getShortId();
+        for (int i = 1; i < this.size(); i++) {
+            String currId = this.get(i).getShortId();
+            pw.println("M_" + prevId + " -> " + "M_" + currId + " [style=invis];");
+            prevId = currId;
+        }
+        pw.flush();
+        pw.close();
+        if (standalone) {
+            return DotUtil.standalone(sw.toString());
+        } else {
+            return sw.toString();
         }
     }
 }
