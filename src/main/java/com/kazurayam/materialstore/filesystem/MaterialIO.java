@@ -13,7 +13,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Objects;
 
-final class MaterialIO {
+public final class MaterialIO {
 
     private final ID id_;
     private final FileType fileType_;
@@ -22,20 +22,19 @@ final class MaterialIO {
     /**
      * calculate SHA1 message digest of the given data
      */
-    public static String hashJDK(byte[] data) throws MaterialstoreException {
+    public static String hashJDK(byte[] data) {
         MessageDigest md;
         try {
             md = MessageDigest.getInstance("SHA1");
             md.update(data);
         } catch (NoSuchAlgorithmException e) {
-            throw new MaterialstoreException(e);
+            throw new IllegalStateException(e);
         }
         byte[] digest = md.digest();
         StringBuilder sb = new StringBuilder();
         for (byte b : digest) {
             sb.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));
         }
-
         return sb.toString();
     }
 

@@ -1,9 +1,12 @@
 package com.kazurayam.materialstore.reduce;
 
 import com.kazurayam.materialstore.filesystem.FileType;
+import com.kazurayam.materialstore.filesystem.GraphvizReady;
+import com.kazurayam.materialstore.filesystem.Identifiable;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.Material;
+import com.kazurayam.materialstore.filesystem.MaterialIO;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
@@ -11,10 +14,14 @@ import com.kazurayam.materialstore.filesystem.TemplateReady;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
+import com.kazurayam.materialstore.util.DotUtil;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -23,7 +30,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public final class MProductGroup implements Iterable<MaterialProduct>, TemplateReady {
+public final class MProductGroup implements Iterable<MaterialProduct>, TemplateReady,
+        Identifiable, GraphvizReady {
 
     private static final Logger logger = LoggerFactory.getLogger(MProductGroup.class);
     private final List<MaterialProduct> mProductList;
@@ -355,6 +363,23 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
 
     }
 
+    @Override
+    public String getId() {
+        String json = this.toJson();
+        return MaterialIO.hashJDK(json.getBytes(StandardCharsets.UTF_8));
+    }
+
+    @Override
+    public String getShortId() {
+        String id = this.getId();
+        return id.substring(0, 7);
+    }
+
+    @Override
+    public String getDotId() {
+        return "MPG" + this.getShortId();
+    }
+
     public String getDescription(boolean fullContent) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
@@ -428,6 +453,25 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
 
     public String getDescription() {
         return getDescription(false);
+    }
+
+    @Override
+    public String toDot() {
+        return this.toDot(true);
+    }
+
+    @Override
+    public String toDot(boolean standalone) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        pw.print(this.getDotId());
+        pw.flush();
+        pw.close();
+        if (standalone) {
+            return DotUtil.standalone(sw.toString());
+        } else {
+            return sw.toString();
+        }
     }
 
     public static Builder builder(MaterialList left, MaterialList right) {

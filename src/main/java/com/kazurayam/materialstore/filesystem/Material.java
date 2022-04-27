@@ -16,7 +16,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-public final class Material implements Comparable<Material>, Jsonifiable, TemplateReady {
+public final class Material implements Comparable<Material>, Jsonifiable, TemplateReady,
+        Identifiable, GraphvizReady {
 
     private static final Logger logger = LoggerFactory.getLogger(Material.class.getName());
 
@@ -90,18 +91,22 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return this.toFile(store.getRoot()).toPath();
     }
 
+    @Override
     public String toDot() {
         return this.toDot(true);
     }
 
+    @Override
     public String toDot(boolean standalone) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-        pw.print("M_" + this.getShortId());
+        pw.print(this.getDotId());
         pw.print(" [label=\"");
-        pw.print(this.getFileType().getExtension());
+        pw.print(this.getShortId());
         pw.print("|");
-        pw.print(DotUtil.escape(this.getMetadata().toSimplifiedJson()));
+        pw.print(this.getFileType().getExtension());
+        pw.print(" ");
+        pw.print(DotUtil.escape(this.getMetadata().toSimplifiedJson()).replace(",",",\\n"));
         pw.print("\"];");
         pw.flush();
         pw.close();
@@ -133,8 +138,16 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return s.replace("\\", "/");
     }
 
+    @Override
+    public String getId() { return getIndexEntry().getID().toString(); }
+
+    @Override
     public String getShortId() {
         return getIndexEntry().getShortId();
+    }
+
+    public String getDotId() {
+        return "M" + this.getShortId();
     }
 
     public FileTypeDiffability getDiffability() {

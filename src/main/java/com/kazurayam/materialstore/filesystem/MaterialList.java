@@ -7,13 +7,15 @@ import org.slf4j.LoggerFactory;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public final class MaterialList implements Iterable<Material>, Jsonifiable, TemplateReady {
+public final class MaterialList implements Iterable<Material>, Jsonifiable, TemplateReady,
+        Identifiable, GraphvizReady {
 
     private static final Logger logger = LoggerFactory.getLogger(MaterialList.class.getName());
 
@@ -58,6 +60,23 @@ public final class MaterialList implements Iterable<Material>, Jsonifiable, Temp
 
     public Material get(int index) {
         return materialList.get(index);
+    }
+
+    @Override
+    public String getId() {
+        String json = this.toJson();
+        return MaterialIO.hashJDK(json.getBytes(StandardCharsets.UTF_8));
+    }
+
+    @Override
+    public String getShortId() {
+        String id = this.getId();
+        return id.substring(0, 7);
+    }
+
+    @Override
+    public String getDotId() {
+        return "ML" + this.getShortId();
     }
 
     public boolean contains(Material material) {
@@ -158,22 +177,56 @@ public final class MaterialList implements Iterable<Material>, Jsonifiable, Temp
         }
     }
 
+    @Override
     public String toDot() {
         return this.toDot(true);
     }
 
+    /**
+     * <PRE>
+     *   subgraph cluster_0 {
+     *       color=lightgrey;
+     *       node [style=filled,color=white];
+     *       label="process #2";
+     *       color=blue;
+     *   M_1865ddd [label="css|{\"URL.host\":\"cdn.jsdelivr.net\", \"URL.path\":\"/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"profile\":\"MyAdmin_DevelopmentEnv\"}"];
+     *   M_4649877 [label="woff2|{\"URL.host\":\"cdn.jsdelivr.net\", \"URL.path\":\"/npm/bootstrap-icons@1.5.0/font/fonts/bootstrap-icons.woff2\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"URL.query\":\"856008caa5eb66df68595e734e59580d\", \"profile\":\"MyAdmin_DevelopmentEnv\"}"];
+     *   M_396f51b [label="css|{\"URL.host\":\"cdn.jsdelivr.net\", \"URL.path\":\"/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"profile\":\"MyAdmin_DevelopmentEnv\"}"];
+     *   M_f522103 [label="js|{\"URL.host\":\"cdn.jsdelivr.net\", \"URL.path\":\"/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"profile\":\"MyAdmin_DevelopmentEnv\"}"];
+     *   M_5a9dcfb [label="js|{\"URL.host\":\"cdnjs.cloudflare.com\", \"URL.path\":\"/ajax/libs/jquery/1.12.4/jquery.min.js\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"profile\":\"MyAdmin_DevelopmentEnv\"}"];
+     *   M_3a27333 [label="html|{\"URL.host\":\"devadmin.kazurayam.com\", \"URL.path\":\"/\", \"URL.port\":\"80\", \"URL.protocol\":\"http\", \"profile\":\"MyAdmin_DevelopmentEnv\"}"];
+     *   M_62bb8a3 [label="png|{\"URL.host\":\"devadmin.kazurayam.com\", \"URL.path\":\"/\", \"URL.port\":\"80\", \"URL.protocol\":\"http\", \"profile\":\"MyAdmin_DevelopmentEnv\"}"];
+     *   M_d0ecc09 [label="jpg|{\"URL.host\":\"devadmin.kazurayam.com\", \"URL.path\":\"/umineko-1960x1960.jpg\", \"URL.port\":\"80\", \"URL.protocol\":\"http\", \"profile\":\"MyAdmin_DevelopmentEnv\"}"];
+     *   M_1865ddd -> M_4649877 [style=invis];
+     *   M_4649877 -> M_396f51b [style=invis];
+     *   M_396f51b -> M_f522103 [style=invis];
+     *   M_f522103 -> M_5a9dcfb [style=invis];
+     *   M_5a9dcfb -> M_3a27333 [style=invis];
+     *   M_3a27333 -> M_62bb8a3 [style=invis];
+     *   M_62bb8a3 -> M_d0ecc09 [style=invis];
+     *   }
+     * </PRE>
+     */
+    @Override
     public String toDot(boolean standalone) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
+        pw.println("subgraph cluster_0 {");
+        pw.println("  color=lightgrey;");
+        pw.println("  node [style=filled];");
+        pw.println("  label=\"" + this.getJobName()
+                + "/" + this.getJobTimestamp() + "/\"");
+        pw.println("  color=blue;");
         for (Material material : this) {
-            pw.println(material.toDot(false));
+            pw.println("  " + material.toDot(false));
         }
-        String prevId = this.get(0).getShortId();
+        String prevId = this.get(0).getDotId();
         for (int i = 1; i < this.size(); i++) {
-            String currId = this.get(i).getShortId();
-            pw.println("M_" + prevId + " -> " + "M_" + currId + " [style=invis];");
+            String currId = this.get(i).getDotId();
+            pw.println("  " + prevId + " -> " + currId + " [style=invis];");
             prevId = currId;
         }
+        pw.println("}");
         pw.flush();
         pw.close();
         if (standalone) {

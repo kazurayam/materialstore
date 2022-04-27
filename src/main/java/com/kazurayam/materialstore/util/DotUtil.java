@@ -64,7 +64,9 @@ public class DotUtil {
     }
 
     public static final String escape(String str) {
-        return JsonUtil.escapeAsJsonString(str);
+        return JsonUtil.escapeAsJsonString(str)
+                .replace("{", "\\{")
+                .replace("}", "\\}");
     }
 
     public static final int runDot(Path dotFile, Path outFile) throws IOException, InterruptedException {

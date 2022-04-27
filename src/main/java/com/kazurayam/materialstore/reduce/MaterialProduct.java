@@ -1,15 +1,22 @@
 package com.kazurayam.materialstore.reduce;
 
+import com.kazurayam.materialstore.filesystem.GraphvizReady;
+import com.kazurayam.materialstore.filesystem.Identifiable;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.Material;
+import com.kazurayam.materialstore.filesystem.MaterialIO;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.TemplateReady;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.reduce.differ.DifferUtil;
+import com.kazurayam.materialstore.util.DotUtil;
 import com.kazurayam.materialstore.util.JsonUtil;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 /**
@@ -18,7 +25,8 @@ import java.util.Objects;
  * is used to carry data of a pair of "Material" objects,
  * plus the "diff" of the two.
  */
-public final class MaterialProduct implements Comparable<MaterialProduct>, TemplateReady {
+public final class MaterialProduct implements Comparable<MaterialProduct>, TemplateReady,
+        Identifiable, GraphvizReady {
 
     public static final MaterialProduct NULL_OBJECT =
             new Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
@@ -133,6 +141,23 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
     }
 
     @Override
+    public String getId() {
+        String json = this.toJson();
+        return MaterialIO.hashJDK(json.getBytes(StandardCharsets.UTF_8));
+    }
+
+    @Override
+    public String getShortId() {
+        String id = this.getId();
+        return id.substring(0, 7);
+    }
+
+    @Override
+    public String getDotId() {
+        return "MP" + left.getShortId() + "_" + right.getShortId();
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof MaterialProduct)) {
             return false;
@@ -208,6 +233,24 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
 
     }
 
+    @Override
+    public String toDot() {
+        return this.toDot(true);
+    }
+
+    @Override
+    public String toDot(boolean standalone) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        pw.print(this.getDotId());
+        pw.flush();
+        pw.close();
+        if (standalone) {
+            return DotUtil.standalone(sw.toString());
+        } else {
+            return sw.toString();
+        }
+    }
 
     /**
      *
