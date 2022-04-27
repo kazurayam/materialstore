@@ -133,8 +133,8 @@ public class MaterialListTest {
         store.write(jobName, outJobTimestamp, FileType.DOT, rightMetadata, rightDot);
 
         // generate PNG images of MaterialList objects
-        Material leftPng = DotUtil.storeGraph(store, jobName, outJobTimestamp, leftMetadata, leftDot);
-        Material rightPng = DotUtil.storeGraph(store, jobName, outJobTimestamp, rightMetadata, rightDot);
+        Material leftPng = DotUtil.storeDiagram(store, jobName, outJobTimestamp, leftMetadata, leftDot);
+        Material rightPng = DotUtil.storeDiagram(store, jobName, outJobTimestamp, rightMetadata, rightDot);
     }
 
 

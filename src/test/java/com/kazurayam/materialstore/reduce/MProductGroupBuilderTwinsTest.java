@@ -1,12 +1,16 @@
 package com.kazurayam.materialstore.reduce;
 
 import com.kazurayam.materialstore.MaterialstoreException;
+import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.MaterialList;
+import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
+import com.kazurayam.materialstore.reduce.MProductGroup.Builder;
+import com.kazurayam.materialstore.util.DotUtil;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -26,6 +30,7 @@ public class MProductGroupBuilderTwinsTest {
     private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MProductGroupBuilderTwinsTest.class.getName());
     private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixture/issue#80");
     private static Store store;
+    private JobName jobName;
     private MaterialList left;
     private MaterialList right;
 
@@ -34,7 +39,6 @@ public class MProductGroupBuilderTwinsTest {
         if (Files.exists(outputDir)) {
             FileUtils.deleteDirectory(outputDir.toFile());
         }
-
         Files.createDirectories(outputDir);
         Path storePath = outputDir.resolve("store");
         FileUtils.copyDirectory(fixtureDir.toFile(), storePath.toFile());
@@ -43,7 +47,7 @@ public class MProductGroupBuilderTwinsTest {
 
     @BeforeEach
     public void setup() throws MaterialstoreException {
-        JobName jobName = new JobName("MyAdmin_visual_inspection_twins");
+        jobName = new JobName("MyAdmin_visual_inspection_twins");
         JobTimestamp timestampP = new JobTimestamp("20220128_191320");
         JobTimestamp timestampD = new JobTimestamp("20220128_191342");
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
@@ -68,5 +72,17 @@ public class MProductGroupBuilderTwinsTest {
         Assertions.assertNotNull(reduced);
         Assertions.assertEquals(8, reduced.size());
         //println JsonOutput.prettyPrint(reduced.toString())
+    }
+
+    @Test
+    public void test_toDot() throws MaterialstoreException, IOException, InterruptedException {
+        MProductGroup.Builder builder =
+                MProductGroup.builder(left, right)
+                        .ignoreKeys("profile", "URL.host")
+                        .identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"));
+        String dot = builder.toDot();
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        store.write(jobName, jobTimestamp, FileType.DOT, Metadata.NULL_OBJECT, dot);
+        DotUtil.storeDiagram(store, jobName, jobTimestamp, Metadata.NULL_OBJECT, dot);
     }
 }

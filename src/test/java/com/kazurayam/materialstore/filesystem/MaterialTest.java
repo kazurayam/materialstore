@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -158,6 +157,6 @@ public class MaterialTest {
         store.write(jobName, jobTimestamp2, FileType.DOT, metadata2, dot);
 
         // compile the DOT into a PNG file, store it into the storage directory
-        DotUtil.storeGraph(store, jobName, jobTimestamp2, metadata2, dot);
+        DotUtil.storeDiagram(store, jobName, jobTimestamp2, metadata2, dot);
     }
 }

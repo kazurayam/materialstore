@@ -16,6 +16,7 @@ import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.util.DotUtil;
 import com.kazurayam.materialstore.util.JsonUtil;
+import com.kazurayam.materialstore.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,9 +53,17 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
         this.sortKeys = builder.sortKeys;
         this.criteria = builder.criteria;
         this.resultTimestamp = builder.resultTimestamp;
+
         // this is the most mysterious part of the materialstore library
-        this.mProductList = zipMaterials(materialList0, materialList1, this.resultTimestamp, ignoreMetadataKeys, identifyMetadataValues, sortKeys);
-        // at this timing the MProducts are not yet filled with the diff information, they are still vacant.
+        this.mProductList =
+                zipMaterials(materialList0, materialList1,
+                        resultTimestamp,
+                        ignoreMetadataKeys,
+                        identifyMetadataValues,
+                        sortKeys);
+
+        // at this timing the MProducts are not yet filled with the diff information.
+        // the diff information is still vacant.
     }
 
     /**
@@ -457,14 +466,42 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
 
     @Override
     public String toDot() {
-        return this.toDot(true);
+        Map<String, String> options = Collections.singletonMap("seq", "0");
+        return this.toDot(options,true);
+    }
+
+    @Override
+    public String toDot(Map<String, String> options) {
+        return this.toDot(options, true);
     }
 
     @Override
     public String toDot(boolean standalone) {
+        Map<String, String> options = Collections.singletonMap("seq", "0");
+        return this.toDot(options, standalone);
+    }
+    @Override
+    public String toDot(Map<String, String> options, boolean standalone) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-        pw.print(this.getDotId());
+        String seq = options.getOrDefault("seq", "0");
+        pw.println("subgraph cluster_MPG" + seq + "{");
+        pw.println("  label=\"MProductGroup " + this.getDotId() + "\"");
+        pw.println("  color=red;");
+        for (int i = 0; i < this.size(); i++) {
+            MaterialProduct mp = this.get(i);
+            Map<String, String> opt = Collections.singletonMap("seq", String.valueOf(i));
+            pw.println(StringUtils.indentLines(
+                    mp.toDot(opt,false), 2));
+        }
+        String prevId = this.get(0).getDotId();
+        for (int i = 1; i < this.size(); i++) {
+            String currId = this.get(i).getDotId();
+            pw.println(StringUtils.indentLines(
+                    prevId + " -> " + currId + " [style=invis];", 2));
+            prevId = currId;
+        }
+        pw.println("}");
         pw.flush();
         pw.close();
         if (standalone) {
@@ -482,7 +519,7 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
     /**
      *
      */
-    public static class Builder {
+    public static class Builder implements GraphvizReady {
 
         private final MaterialList materialList0;
         private final MaterialList materialList1;
@@ -537,6 +574,43 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
 
         public MProductGroup build() {
             return new MProductGroup(this);
+        }
+
+        @Override
+        public String toDot() {
+            Map<String, String> options = Collections.singletonMap("seq", "0");
+            return this.toDot(options,true);
+        }
+
+        @Override
+        public String toDot(boolean standalone) {
+            Map<String, String> options = Collections.singletonMap("seq", "0");
+            return this.toDot(options, standalone);
+        }
+
+        @Override
+        public String toDot(Map<String, String> options) {
+            return this.toDot(options, true);
+        }
+
+        @Override
+        public String toDot(Map<String, String> options, boolean standalone) {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            pw.print(this.materialList0.toDot(Collections.singletonMap("seq","0"),false));
+            pw.print(this.materialList1.toDot(Collections.singletonMap("seq","1"),false));
+            pw.flush();
+            pw.close();
+            if (standalone) {
+                return DotUtil.standaloneLR(sw.toString());
+            } else {
+                return sw.toString();
+            }
+        }
+
+        @Override
+        public String getDotId() {
+            return "MPGB";
         }
     }
 

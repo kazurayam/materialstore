@@ -27,24 +27,42 @@ import java.util.List;
  */
 public class DotUtil {
 
-    private static String IND = "  ";
+    public static final String IND = "  ";
 
     public static String standalone(String content) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        pw.println("digraph G {");
-        pw.println(IND + "fontname=\"Helvetica,Arial,sans-serif\"");
-        pw.println(IND + "node [fontname=\"Helvetica,Arial,Sans-serif\"]");
-        pw.println(IND + "edge [fontname=\"Helvetica,Arial,Sans-serif\"]");
-        pw.println(IND + "concentrate=True;");
-        pw.println(IND + "rankdir=TB;");
-        pw.println(IND + "node [shape=record];");
-        List<String> lines = toList(content);
-        lines.stream().forEach(s -> pw.println(IND + s));
-        pw.println("}");
-        pw.flush();
-        pw.close();
-        return sw.toString();
+        return encloseWithDiagram(content, "TB");
+    }
+
+    public static String standaloneLR(String content) {
+        return encloseWithDiagram(content, "LR");
+    }
+
+    private static String encloseWithDiagram(String content, String rankdir) {
+        if (rankdir.equals("TB") || rankdir.equals("LR")) {
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            pw.println("digraph G {");
+            pw.println(IND + "graph [");
+            //pw.println(IND + "rankdir=" + rankdir + ",");
+            pw.println(IND + "concentrate=True,");
+            pw.println(IND + "fontname=\"Helvetica,Arial,sans-serif\"");
+            pw.println(IND + "];");
+            pw.println(IND + "node [");
+            pw.println(IND + "fontname=\"Helvetica,Arial,Sans-serif\",");
+            pw.println(IND + "shape=record");
+            pw.println(IND + "];");
+            pw.println(IND + "edge [");
+            pw.println(IND + "fontname=\"Helvetica,Arial,Sans-serif\"");
+            pw.println(IND + "];");
+            List<String> lines = toList(content);
+            lines.stream().forEach(s -> pw.println(IND + s));
+            pw.println("}");
+            pw.flush();
+            pw.close();
+            return sw.toString();
+        } else {
+            throw new IllegalArgumentException("rankdir=" + rankdir + " is invalid");
+        }
     }
 
     public static final List<String> toList(String content) {
@@ -82,11 +100,11 @@ public class DotUtil {
         return cp.returncode();
     }
 
-    public static final Material storeGraph(Store store,
-                                            JobName jobName,
-                                            JobTimestamp jobTimestamp,
-                                            Metadata metadata,
-                                            String dot)
+    public static final Material storeDiagram(Store store,
+                                              JobName jobName,
+                                              JobTimestamp jobTimestamp,
+                                              Metadata metadata,
+                                              String dot)
             throws IOException, InterruptedException, MaterialstoreException {
         Path dotFile = Files.createTempFile(null, null);
         Files.write(dotFile, dot.getBytes(StandardCharsets.UTF_8));

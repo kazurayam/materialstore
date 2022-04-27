@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -179,12 +180,24 @@ public final class MaterialList implements Iterable<Material>, Jsonifiable, Temp
 
     @Override
     public String toDot() {
-        return this.toDot(true);
+        Map<String, String> options = Collections.singletonMap("seq", "0");
+        return this.toDot(options, true);
+    }
+
+    @Override
+    public String toDot(Map<String, String> options) {
+        return this.toDot(options, true);
+    }
+
+    @Override
+    public String toDot(boolean standalone) {
+        Map<String, String> options = Collections.singletonMap("seq", "0");
+        return this.toDot(options, standalone);
     }
 
     /**
      * <PRE>
-     *   subgraph cluster_0 {
+     *   subgraph cluster_ML0 {
      *       color=lightgrey;
      *       node [style=filled,color=white];
      *       label="process #2";
@@ -208,10 +221,11 @@ public final class MaterialList implements Iterable<Material>, Jsonifiable, Temp
      * </PRE>
      */
     @Override
-    public String toDot(boolean standalone) {
+    public String toDot(Map<String, String> options, boolean standalone) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-        pw.println("subgraph cluster_0 {");
+        String seq = options.getOrDefault("seq", "0");
+        pw.println("subgraph cluster_ML" + seq + " {");
         pw.println("  color=lightgrey;");
         pw.println("  node [style=filled];");
         pw.println("  label=\"" + this.getJobName()

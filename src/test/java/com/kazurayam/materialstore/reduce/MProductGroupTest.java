@@ -1,11 +1,11 @@
 package com.kazurayam.materialstore.reduce;
 
+import com.kazurayam.materialstore.Inspector;
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.ID;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
-import com.kazurayam.materialstore.filesystem.Jobber;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.Metadata;
@@ -15,6 +15,7 @@ import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
+import com.kazurayam.materialstore.util.DotUtil;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
@@ -30,7 +31,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -65,10 +65,12 @@ public class MProductGroupTest {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(1);
         map.put("profile", "MyAdmin_ProductionEnv");
         left = store.select(jobName, timestampP, QueryOnMetadata.builder(map).build());
+        assert left.size() > 0;
         JobTimestamp timestampD = new JobTimestamp("20220128_191342");
         LinkedHashMap<String, String> map1 = new LinkedHashMap<String, String>(1);
         map1.put("profile", "MyAdmin_DevelopmentEnv");
         right = store.select(jobName, timestampD, QueryOnMetadata.builder(map1).build());
+        assert right.size() > 0;
     }
 
     @BeforeEach
@@ -255,11 +257,29 @@ public class MProductGroupTest {
         JobName jobName = new JobName("test_toTemplateModel");
         // save json for debug
         JobTimestamp jobTimestamp = JobTimestamp.now();
+        Metadata metadata = Metadata.builder().build();
         store.write(jobName, jobTimestamp, FileType.JSON,
-                Metadata.builder().build(), mProductGroup.toJson(true));
+                metadata, mProductGroup.toJson(true));
         // call toTemplateModel()
         Map<String, Object> model = mProductGroup.toTemplateModel();
         Assertions.assertNotNull(model);
     }
 
+    @Test
+    public void test_toDot() throws MaterialstoreException, IOException, InterruptedException {
+        MProductGroup prepared =
+                new MProductGroup.Builder(left, right)
+                        .ignoreKeys("URL.host", "URL.port", "URL.scheme", "profile")
+                        .build();
+        Inspector inspector = Inspector.newInstance(store);
+        MProductGroup reduced = inspector.reduce(prepared);
+        JobName jobName = new JobName("test_toDot");
+        // save dot for debug
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        String dot = reduced.toDot(true);
+        store.write(jobName, jobTimestamp, FileType.DOT,
+                Metadata.builder().build(), dot);
+        // generate diagram and save it
+        DotUtil.storeDiagram(store, jobName, jobTimestamp, Metadata.builder().build(), dot);
+    }
 }

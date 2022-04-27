@@ -11,9 +11,12 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Objects;
 
 public final class Material implements Comparable<Material>, Jsonifiable, TemplateReady,
@@ -93,11 +96,23 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
 
     @Override
     public String toDot() {
-        return this.toDot(true);
+        Map<String, String> options = Collections.singletonMap("seq", "0");
+        return this.toDot(options, true);
+    }
+
+    @Override
+    public String toDot(Map<String, String> options) {
+        return this.toDot(options, true);
     }
 
     @Override
     public String toDot(boolean standalone) {
+        Map<String, String> options = Collections.singletonMap("seq", "0");
+        return this.toDot(options, standalone);
+    }
+
+    @Override
+    public String toDot(Map<String, String> options, boolean standalone) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         pw.print(this.getDotId());
@@ -107,7 +122,13 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         pw.print(this.getFileType().getExtension());
         pw.print(" ");
         pw.print(DotUtil.escape(this.getMetadata().toSimplifiedJson()).replace(",",",\\n"));
-        pw.print("\"];");
+        pw.print("\"");
+        if (options.containsKey("xlabel")) {
+            pw.print(",xlabel=\"");
+            pw.print(options.get("xlabel"));
+            pw.print("\"");
+        }
+        pw.print("];");
         pw.flush();
         pw.close();
         if (standalone) {
@@ -146,8 +167,10 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return getIndexEntry().getShortId();
     }
 
+    @Override
     public String getDotId() {
-        return "M" + this.getShortId();
+        return "M" + MaterialIO.hashJDK(
+                this.getDescription().getBytes(StandardCharsets.UTF_8)).substring(0,7);
     }
 
     public FileTypeDiffability getDiffability() {

@@ -12,6 +12,7 @@ import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
+import com.kazurayam.materialstore.util.DotUtil;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
@@ -26,10 +27,18 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class MaterialProductTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MaterialProductTest.class.getName());
-    private static final Path resultsDir = Paths.get(".").resolve("src/test/fixture/sample_results");
+    private static final Path outputDir = Paths.get(".")
+            .resolve("build/tmp/testOutput")
+            .resolve(MaterialProductTest.class.getName());
+
+    private static final Path fixtureDir = Paths.get(".")
+            .resolve("src/test/fixture/issue#73/MyAdmin_visual_inspection_twins");
+
+    private static Store store;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
@@ -37,6 +46,10 @@ public class MaterialProductTest {
             FileUtils.deleteDirectory(outputDir.toFile());
         }
         Files.createDirectories(outputDir);
+        Path root = outputDir.resolve("store");
+        store = Stores.newInstance(root);
+        //
+
     }
 
     @Test
@@ -49,7 +62,7 @@ public class MaterialProductTest {
         SortKeys sortKeys = new SortKeys("step", "profile");
         MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).sortKeys(sortKeys).build();
         String description = mProduct.getDescription();
-        Assertions.assertEquals("{\"step\":\"6\", \"profile\":\"Flaskr_ProductionEnv\", \"URL.path\":\"/\"}", description);
+        assertEquals("{\"step\":\"6\", \"profile\":\"Flaskr_ProductionEnv\", \"URL.path\":\"/\"}", description);
     }
 
     @Test
@@ -59,7 +72,7 @@ public class MaterialProductTest {
         map.put("URL.file", "/");
         QueryOnMetadata mp = QueryOnMetadata.builder(map).build();
         MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).build();
-        Assertions.assertEquals(
+        assertEquals(
                 "{\"URL.file\":\"/\", \"URL.host\":\"demoaut-mimic.kazurayam.com\"}",
                 mProduct.getDescription());
     }
@@ -86,21 +99,27 @@ public class MaterialProductTest {
     }
 
     @Test
-    public void test_toDot() throws IOException, MaterialstoreException {
-        Path root = outputDir.resolve("store");
-        Store store = Stores.newInstance(root);
+    public void test_toDot() throws IOException, MaterialstoreException, InterruptedException {
         JobName jobName = new JobName("test_toDot");
         // stuff the Job directory with a fixture
-        Path jobNameDir = root.resolve(jobName.toString());
-        FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile());
+        Path jobNameDir = store.getRoot().resolve(jobName.toString());
+        FileUtils.copyDirectory(fixtureDir.toFile(), jobNameDir.toFile());
         //
-        Jobber jobberOfLeft = store.getJobber(jobName, new JobTimestamp("20210715_145922"));
-        MaterialList leftList = jobberOfLeft.selectMaterials(QueryOnMetadata.builder().put("profile", "ProductionEnv").put("URL.path", Pattern.compile(".*")).build(), FileType.PNG);
-        assert 2 == leftList.size();
+        Jobber jobberOfLeft = store.getJobber(jobName, new JobTimestamp("20220125_140449"));
+        MaterialList leftList = jobberOfLeft.selectMaterials(
+                QueryOnMetadata.builder()
+                        .put("profile", "MyAdmin_ProductionEnv")
+                        .put("URL.path", Pattern.compile(".*")).build(),
+                FileType.JS);
+        assertEquals(2, leftList.size());
         //
-        Jobber jobberOfRight = store.getJobber(jobName, new JobTimestamp("20210715_145922"));
-        MaterialList rightList = jobberOfRight.selectMaterials(QueryOnMetadata.builder().put("profile", "DevelopmentEnv").put("URL.path", Pattern.compile(".*")).build(), FileType.PNG);
-        assert 2 == rightList.size();
+        Jobber jobberOfRight = store.getJobber(jobName, new JobTimestamp("20220125_140509"));
+        MaterialList rightList = jobberOfRight.selectMaterials(
+                QueryOnMetadata.builder()
+                        .put("profile", "MyAdmin_DevelopmentEnv")
+                        .put("URL.path", Pattern.compile(".*")).build(),
+                FileType.JS);
+        assertEquals(2, rightList.size());
 
         // create a MProductGroup object
         MProductGroup mProductGroup =
@@ -108,12 +127,24 @@ public class MaterialProductTest {
                         .ignoreKeys("profile", "URL", "URL.host", "category")
                         .build();
         Assertions.assertNotNull(mProductGroup);
-        Assertions.assertEquals(2, mProductGroup.size());
+        assertEquals(2, mProductGroup.size());
 
         JobTimestamp jobTimestamp = JobTimestamp.now();
         // check the 1st MProduct object
         MaterialProduct mp1 = mProductGroup.get(0);
-        //String dot1 = mp1.toDot();
+        String dot1 = mp1.toDot();
+        Metadata metadata1 = Metadata.builder().put("seq", "1").build();
+        store.write(jobName, jobTimestamp, FileType.DOT, metadata1, dot1);
+        DotUtil.storeDiagram(store, jobName, jobTimestamp, metadata1, dot1);
     }
 
+    @Test
+    public void test_toDot_NULL_OBJECT() throws IOException, MaterialstoreException, InterruptedException {
+        String dot = MaterialProduct.NULL_OBJECT.toDot();
+        JobName jobName = new JobName("test_toDot_NULL_OBJECT");
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        Metadata metadata = Metadata.builder().build();
+        store.write(jobName, jobTimestamp, FileType.DOT, metadata, dot);
+        DotUtil.storeDiagram(store, jobName, jobTimestamp, metadata, dot);
+    }
 }
