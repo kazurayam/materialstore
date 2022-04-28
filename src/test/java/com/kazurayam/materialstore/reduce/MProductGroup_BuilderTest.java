@@ -1,28 +1,21 @@
 package com.kazurayam.materialstore.reduce;
 
 import com.kazurayam.materialstore.MaterialstoreException;
-import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.MaterialList;
-import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
-import com.kazurayam.materialstore.util.DotUtil;
 import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.function.BiFunction;
 
 public class MProductGroup_BuilderTest {
 
@@ -59,16 +52,4 @@ public class MProductGroup_BuilderTest {
         assert right.size() == 8;
     }
 
-
-    @Test
-    public void test_Builder_toDot() throws MaterialstoreException, IOException, InterruptedException {
-        MProductGroup.Builder builder =
-                MProductGroup.builder(left, right)
-                        .ignoreKeys("profile", "URL.host")
-                        .identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"));
-        String dot = builder.toDot();
-        JobTimestamp jobTimestamp = JobTimestamp.now();
-        store.write(jobName, jobTimestamp, FileType.DOT, Metadata.NULL_OBJECT, dot);
-        DotUtil.storeDiagram(store, jobName, jobTimestamp, Metadata.NULL_OBJECT, dot);
-    }
 }

@@ -2,25 +2,19 @@ package com.kazurayam.materialstore.filesystem;
 
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.util.JsonUtil;
-import com.kazurayam.materialstore.util.DotUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.Map;
 import java.util.Objects;
 
 public final class Material implements Comparable<Material>, Jsonifiable, TemplateReady,
-        Identifiable, GraphvizReady {
+        Identifiable {
 
     private static final Logger logger = LoggerFactory.getLogger(Material.class.getName());
 
@@ -72,17 +66,19 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return Paths.get(".").resolve(jobName_.toString()).resolve(jobTimestamp_.toString()).resolve(Jobber.getOBJECTS_DIR_NAME()).resolve(this.getIndexEntry().getFileName()).normalize();
     }
 
+    public File toFile(final Store store) throws MaterialstoreException {
+        return this.toFile(store.getRoot());
+    }
+
     public File toFile(final Path root) throws MaterialstoreException {
         Objects.requireNonNull(root);
         if (!Files.exists(root)) {
             throw new MaterialstoreException(root + " is not found");
         }
-
         final Path p = root.resolve(getRelativePath());
         if (!Files.exists(p)) {
             throw new MaterialstoreException(p + " is not found");
         }
-
         return p.toFile();
     }
 
@@ -92,50 +88,6 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
 
     public Path toPath(Store store) throws MaterialstoreException {
         return this.toFile(store.getRoot()).toPath();
-    }
-
-    @Override
-    public String toDot() {
-        Map<String, String> options = Collections.singletonMap("seq", "0");
-        return this.toDot(options, true);
-    }
-
-    @Override
-    public String toDot(Map<String, String> options) {
-        return this.toDot(options, true);
-    }
-
-    @Override
-    public String toDot(boolean standalone) {
-        Map<String, String> options = Collections.singletonMap("seq", "0");
-        return this.toDot(options, standalone);
-    }
-
-    @Override
-    public String toDot(Map<String, String> options, boolean standalone) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        pw.print(this.getId());
-        pw.print(" [label=\"");
-        pw.print(this.getShortId());
-        pw.print("|");
-        pw.print(this.getFileType().getExtension());
-        pw.print(" ");
-        pw.print(DotUtil.escape(this.getMetadata().toSimplifiedJson()).replace(",",",\\n"));
-        pw.print("\"");
-        if (options.containsKey("xlabel")) {
-            pw.print(",xlabel=\"");
-            pw.print(options.get("xlabel"));
-            pw.print("\"");
-        }
-        pw.print("];");
-        pw.flush();
-        pw.close();
-        if (standalone) {
-            return DotUtil.standalone(sw.toString());
-        } else {
-            return sw.toString();
-        }
     }
 
     /**

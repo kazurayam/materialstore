@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.reduce;
 
 import com.kazurayam.materialstore.filesystem.FileType;
-import com.kazurayam.materialstore.filesystem.GraphvizReady;
 import com.kazurayam.materialstore.filesystem.Identifiable;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
@@ -14,14 +13,10 @@ import com.kazurayam.materialstore.filesystem.TemplateReady;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
-import com.kazurayam.materialstore.util.DotUtil;
 import com.kazurayam.materialstore.util.JsonUtil;
-import com.kazurayam.materialstore.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,8 +26,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public final class MProductGroup implements Iterable<MaterialProduct>, TemplateReady,
-        Identifiable, GraphvizReady {
+public final class MProductGroup
+        implements Iterable<MaterialProduct>, TemplateReady, Identifiable {
 
     private static final Logger logger = LoggerFactory.getLogger(MProductGroup.class);
     private final List<MaterialProduct> mProductList;
@@ -459,53 +454,6 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
         return getDescription(false);
     }
 
-    @Override
-    public String toDot() {
-        Map<String, String> options = Collections.singletonMap("seq", "0");
-        return this.toDot(options,true);
-    }
-
-    @Override
-    public String toDot(Map<String, String> options) {
-        return this.toDot(options, true);
-    }
-
-    @Override
-    public String toDot(boolean standalone) {
-        Map<String, String> options = Collections.singletonMap("seq", "0");
-        return this.toDot(options, standalone);
-    }
-    @Override
-    public String toDot(Map<String, String> options, boolean standalone) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        String seq = options.getOrDefault("seq", "0");
-        pw.println("subgraph cluster_MPG" + seq + "{");
-        pw.println("  label=\"MProductGroup " + this.getDotId() + "\"");
-        pw.println("  color=red;");
-        for (int i = 0; i < this.size(); i++) {
-            MaterialProduct mp = this.get(i);
-            Map<String, String> opt = Collections.singletonMap("seq", String.valueOf(i));
-            pw.println(StringUtils.indentLines(
-                    mp.toDot(opt,false), 2));
-        }
-        String prevId = this.get(0).getDotId();
-        for (int i = 1; i < this.size(); i++) {
-            String currId = this.get(i).getDotId();
-            pw.println(StringUtils.indentLines(
-                    prevId + " -> " + currId + " [style=invis];", 2));
-            prevId = currId;
-        }
-        pw.println("}");
-        pw.flush();
-        pw.close();
-        if (standalone) {
-            return DotUtil.standalone(sw.toString());
-        } else {
-            return sw.toString();
-        }
-    }
-
     public static Builder builder(MaterialList left, MaterialList right) {
         return new Builder(left, right);
     }
@@ -514,7 +462,7 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
     /**
      *
      */
-    public static class Builder implements GraphvizReady {
+    public static class Builder {
 
         private final MaterialList materialList0;
         private final MaterialList materialList1;
@@ -567,46 +515,23 @@ public final class MProductGroup implements Iterable<MaterialProduct>, TemplateR
             return this;
         }
 
+        /**
+         * @return a clone of materialList0
+         */
+        public MaterialList getMaterialList0() {
+            return new MaterialList(materialList0);
+        }
+
+        /**
+         * @return a clone of materialList1
+         */
+        public MaterialList getMaterialList1() {
+            return new MaterialList(materialList1);
+        }
+
         public MProductGroup build() {
             return new MProductGroup(this);
         }
 
-        @Override
-        public String toDot() {
-            Map<String, String> options = Collections.singletonMap("seq", "0");
-            return this.toDot(options,true);
-        }
-
-        @Override
-        public String toDot(boolean standalone) {
-            Map<String, String> options = Collections.singletonMap("seq", "0");
-            return this.toDot(options, standalone);
-        }
-
-        @Override
-        public String toDot(Map<String, String> options) {
-            return this.toDot(options, true);
-        }
-
-        @Override
-        public String toDot(Map<String, String> options, boolean standalone) {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            pw.print(this.materialList0.toDot(Collections.singletonMap("seq","0"),false));
-            pw.print(this.materialList1.toDot(Collections.singletonMap("seq","1"),false));
-            pw.flush();
-            pw.close();
-            if (standalone) {
-                return DotUtil.standaloneLR(sw.toString());
-            } else {
-                return sw.toString();
-            }
-        }
-
-        @Override
-        public String getDotId() {
-            return "MPGB";
-        }
     }
-
 }

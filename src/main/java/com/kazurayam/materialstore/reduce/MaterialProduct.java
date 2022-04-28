@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.reduce;
 
-import com.kazurayam.materialstore.filesystem.GraphvizReady;
 import com.kazurayam.materialstore.filesystem.Identifiable;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.Material;
@@ -11,15 +10,9 @@ import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.reduce.differ.DifferUtil;
-import com.kazurayam.materialstore.util.DotUtil;
 import com.kazurayam.materialstore.util.JsonUtil;
-import com.kazurayam.materialstore.util.StringUtils;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -28,8 +21,8 @@ import java.util.Objects;
  * is used to carry data of a pair of "Material" objects,
  * plus the "diff" of the two.
  */
-public final class MaterialProduct implements Comparable<MaterialProduct>, TemplateReady,
-        Identifiable, GraphvizReady {
+public final class MaterialProduct
+        implements Comparable<MaterialProduct>, TemplateReady, Identifiable {
 
     public static final MaterialProduct NULL_OBJECT =
             new Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
@@ -231,57 +224,6 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
 
     }
 
-    @Override
-    public String toDot() {
-        Map<String, String> options = Collections.singletonMap("seq", "0");
-        return this.toDot(options, true);
-    }
-
-    @Override
-    public String toDot(Map<String, String> options) { return this.toDot(options, true); }
-
-    @Override
-    public String toDot(boolean standalone) {
-        Map<String, String> options = Collections.singletonMap("seq", "0");
-        return this.toDot(options, standalone);
-    }
-
-    @Override
-    public String toDot(Map<String, String> options, boolean standalone) {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        String seq = options.getOrDefault("seq", "0");
-        pw.println("subgraph cluster_MP" + seq + " {");
-        pw.println("  label=\"MaterialProduct " + this.getDotId() + "\"");
-        pw.println("  color=green;");
-        // left node
-        if (this.getLeft() != Material.NULL_OBJECT) {
-            pw.print(StringUtils.indentLines(
-                    this.getLeft().toDot(Collections.singletonMap("xlabel", "Left"), false),
-                    2));
-        }
-        // right node
-        if (this.getRight() != Material.NULL_OBJECT) {
-            pw.print(StringUtils.indentLines(
-                    this.getRight().toDot(Collections.singletonMap("xlabel", "Right"), false),
-                    2));
-        }
-        // edge
-        if (this.getLeft() != Material.NULL_OBJECT &&
-                this.getRight() != Material.NULL_OBJECT) {
-            pw.print(StringUtils.indentLines(
-                    this.getLeft().getDotId() + " -> " + this.getRight().getDotId() + ";",
-                    2));
-        }
-        pw.println("}");
-        pw.flush();
-        pw.close();
-        if (standalone) {
-            return DotUtil.standalone(sw.toString());
-        } else {
-            return sw.toString();
-        }
-    }
 
     /**
      *

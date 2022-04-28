@@ -1,7 +1,5 @@
 package com.kazurayam.materialstore.filesystem;
 
-import com.kazurayam.materialstore.MaterialstoreException;
-import com.kazurayam.materialstore.util.DotUtil;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -107,35 +105,5 @@ public class MaterialListTest {
         Assertions.assertNotNull(json);
         //System.out.println(json);
     }
-
-    @Test
-    public void test_toDot() throws IOException, MaterialstoreException, InterruptedException {
-        Path fixtureDir = Paths.get("src/test/fixture/issue#73");
-        Path root = outputDir.resolve("store");
-        FileUtils.copyDirectory(fixtureDir.toFile(),
-                root.toFile());
-        Store store = Stores.newInstance(root);
-        JobName jobName = new JobName("MyAdmin_visual_inspection_twins");
-        JobTimestamp leftJobTimestamp = new JobTimestamp("20220125_140449");
-        JobTimestamp rightJobTimestamp = new JobTimestamp("20220125_140509");
-        MaterialList leftML = store.select(
-                jobName, leftJobTimestamp, QueryOnMetadata.ANY);
-        MaterialList rightML = store.select(
-                jobName, rightJobTimestamp, QueryOnMetadata.ANY);
-
-        // generate *.dot files of MaterialList objects
-        JobTimestamp outJobTimestamp = JobTimestamp.now();
-        Metadata leftMetadata = Metadata.builder().put("side", "left").build();
-        String leftDot = leftML.toDot();
-        store.write(jobName, outJobTimestamp, FileType.DOT, leftMetadata, leftDot);
-        Metadata rightMetadata = Metadata.builder().put("side", "right").build();
-        String rightDot = rightML.toDot();
-        store.write(jobName, outJobTimestamp, FileType.DOT, rightMetadata, rightDot);
-
-        // generate PNG images of MaterialList objects
-        Material leftPng = DotUtil.storeDiagram(store, jobName, outJobTimestamp, leftMetadata, leftDot);
-        Material rightPng = DotUtil.storeDiagram(store, jobName, outJobTimestamp, rightMetadata, rightDot);
-    }
-
 
 }

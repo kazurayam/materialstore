@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.reduce;
 
-import com.kazurayam.materialstore.Inspector;
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.ID;
@@ -15,7 +14,6 @@ import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
-import com.kazurayam.materialstore.util.DotUtil;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
@@ -27,7 +25,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -215,18 +212,6 @@ public class MProductGroupTest {
     }
 
     @Test
-    public void test_Builder_toDot() throws MaterialstoreException, IOException, InterruptedException {
-        MProductGroup.Builder builder =
-                MProductGroup.builder(left, right)
-                        .ignoreKeys("profile", "URL.host")
-                        .identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"));
-        String dot = builder.toDot();
-        JobTimestamp jobTimestamp = JobTimestamp.now();
-        store.write(jobName, jobTimestamp, FileType.DOT, Metadata.NULL_OBJECT, dot);
-        DotUtil.storeDiagram(store, jobName, jobTimestamp, Metadata.NULL_OBJECT, dot);
-    }
-
-    @Test
     public void test_update() throws MaterialstoreException {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(1);
         map.put("URL.query", "\\w{32}");
@@ -279,21 +264,4 @@ public class MProductGroupTest {
         Assertions.assertNotNull(model);
     }
 
-    @Test
-    public void test_toDot() throws MaterialstoreException, IOException, InterruptedException {
-        MProductGroup prepared =
-                new MProductGroup.Builder(left, right)
-                        .ignoreKeys("URL.host", "URL.port", "URL.scheme", "profile")
-                        .build();
-        Inspector inspector = Inspector.newInstance(store);
-        MProductGroup reduced = inspector.reduce(prepared);
-        JobName jobName = new JobName("test_toDot");
-        // save dot for debug
-        JobTimestamp jobTimestamp = JobTimestamp.now();
-        String dot = reduced.toDot(true);
-        store.write(jobName, jobTimestamp, FileType.DOT,
-                Metadata.builder().build(), dot);
-        // generate diagram and save it
-        DotUtil.storeDiagram(store, jobName, jobTimestamp, Metadata.builder().build(), dot);
-    }
 }

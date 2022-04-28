@@ -75,6 +75,8 @@ public interface Store {
 
     Material selectSingle(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
+    Material selectSingle(JobName jobName, JobTimestamp jobTimestamp, FileType fileType) throws MaterialstoreException;
+
     Material selectSingle(JobName jobName, JobTimestamp jobTimestamp, QueryOnMetadata query) throws MaterialstoreException;
 
     Material selectSingle(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, QueryOnMetadata query) throws MaterialstoreException;

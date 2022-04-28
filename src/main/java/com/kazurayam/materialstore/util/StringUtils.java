@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -54,4 +55,25 @@ public final class StringUtils {
         pw.close();
         return sw.toString();
     }
+
+    /**
+     * accept a string, split it into multiple lines by NEW LINES char,
+     * return a List of String.
+     */
+    public static List<String> toList(String content) {
+        StringReader sr = new StringReader(content);
+        BufferedReader br = new BufferedReader(sr);
+        List<String> lines = new ArrayList<>();
+        String line;
+        try {
+            while ((line = br.readLine()) != null) {
+                lines.add(line);
+            }
+        } catch (IOException e) {
+            // will never fall down into here
+            e.printStackTrace();
+        }
+        return lines;
+    }
+
 }

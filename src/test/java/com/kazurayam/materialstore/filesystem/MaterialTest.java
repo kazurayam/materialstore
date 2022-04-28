@@ -2,7 +2,6 @@ package com.kazurayam.materialstore.filesystem;
 
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.TestFixtureUtil;
-import com.kazurayam.materialstore.util.DotUtil;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -141,22 +140,4 @@ public class MaterialTest {
         Assertions.assertTrue(Files.exists(material.toPath(store)));
     }
 
-    @Test
-    public void test_toDot() throws MaterialstoreException, IOException, InterruptedException {
-        JobName jobName = new JobName("test_toDot");
-        TestFixtureUtil.setupFixture(store, jobName);
-        JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
-        Jobber jobber = new Jobber(store, jobName, jobTimestamp);
-        Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"));
-        String dot = material.toDot(true);
-        System.out.println(dot);
-
-        // serialize the DOT text into a storage directory
-        JobTimestamp jobTimestamp2 = JobTimestamp.now();
-        Metadata metadata2 = Metadata.builder().put("ID", material.getShortId()).build();
-        store.write(jobName, jobTimestamp2, FileType.DOT, metadata2, dot);
-
-        // compile the DOT into a PNG file, store it into the storage directory
-        DotUtil.storeDiagram(store, jobName, jobTimestamp2, metadata2, dot);
-    }
 }

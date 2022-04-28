@@ -537,6 +537,20 @@ public final class StoreImpl implements Store {
     @Override
     public Material selectSingle(JobName jobName,
                                  JobTimestamp jobTimestamp,
+                                 FileType fileType)
+            throws MaterialstoreException {
+        Jobber jobber = this.getJobber(jobName, jobTimestamp);
+        MaterialList materials = jobber.selectMaterials(QueryOnMetadata.ANY, fileType);
+        if (materials.size() > 0) {
+            return materials.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public Material selectSingle(JobName jobName,
+                                 JobTimestamp jobTimestamp,
                                  QueryOnMetadata query)
             throws MaterialstoreException {
         Jobber jobber = this.getJobber(jobName, jobTimestamp);
@@ -591,7 +605,7 @@ public final class StoreImpl implements Store {
                           BufferedImage input,
                           DuplicationHandling flowControl)
             throws MaterialstoreException {
-        Objects.requireNonNull(input);
+        Objects.requireNonNull(input, "BufferedImage input is null");
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(input, fileType.getExtension(), baos);
