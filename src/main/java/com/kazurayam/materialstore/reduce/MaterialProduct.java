@@ -156,11 +156,6 @@ public final class MaterialProduct implements Comparable<MaterialProduct>, Templ
     }
 
     @Override
-    public String getDotId() {
-        return "MP" + left.getShortId() + "_" + right.getShortId();
-    }
-
-    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof MaterialProduct)) {
             return false;

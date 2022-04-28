@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -46,6 +47,7 @@ public class MProductGroupTest {
                     .resolve(MProductGroupTest.class.getName());
 
     private static Store store;
+    private static JobName jobName;
     private static MaterialList left;
     private static MaterialList right;
     private MProductGroup baseMProductGroup;    // constructed with MaterialList.NULL_OBJECTs
@@ -60,7 +62,7 @@ public class MProductGroupTest {
         Files.createDirectories(outputDir);
         FileUtils.copyDirectory(issue80Dir.toFile(), store.getRoot().toFile());
         //
-        JobName jobName = new JobName("MyAdmin_visual_inspection_twins");
+        jobName = new JobName("MyAdmin_visual_inspection_twins");
         JobTimestamp timestampP = new JobTimestamp("20220128_191320");
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(1);
         map.put("profile", "MyAdmin_ProductionEnv");
@@ -210,6 +212,18 @@ public class MProductGroupTest {
             Assertions.assertNotEquals(ID.NULL_OBJECT, ((MaterialProduct) mProduct).getRight().getIndexEntry().getID());
         });
         assertEquals(8, mProductGroup.size());
+    }
+
+    @Test
+    public void test_Builder_toDot() throws MaterialstoreException, IOException, InterruptedException {
+        MProductGroup.Builder builder =
+                MProductGroup.builder(left, right)
+                        .ignoreKeys("profile", "URL.host")
+                        .identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"));
+        String dot = builder.toDot();
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        store.write(jobName, jobTimestamp, FileType.DOT, Metadata.NULL_OBJECT, dot);
+        DotUtil.storeDiagram(store, jobName, jobTimestamp, Metadata.NULL_OBJECT, dot);
     }
 
     @Test

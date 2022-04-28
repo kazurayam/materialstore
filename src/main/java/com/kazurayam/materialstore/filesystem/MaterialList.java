@@ -75,11 +75,6 @@ public final class MaterialList implements Iterable<Material>, Jsonifiable, Temp
         return id.substring(0, 7);
     }
 
-    @Override
-    public String getDotId() {
-        return "ML" + this.getShortId();
-    }
-
     public boolean contains(Material material) {
         return materialList.contains(material);
     }

@@ -115,7 +115,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
     public String toDot(Map<String, String> options, boolean standalone) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-        pw.print(this.getDotId());
+        pw.print(this.getId());
         pw.print(" [label=\"");
         pw.print(this.getShortId());
         pw.print("|");
@@ -165,12 +165,6 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
     @Override
     public String getShortId() {
         return getIndexEntry().getShortId();
-    }
-
-    @Override
-    public String getDotId() {
-        return "M" + MaterialIO.hashJDK(
-                this.getDescription().getBytes(StandardCharsets.UTF_8)).substring(0,7);
     }
 
     public FileTypeDiffability getDiffability() {

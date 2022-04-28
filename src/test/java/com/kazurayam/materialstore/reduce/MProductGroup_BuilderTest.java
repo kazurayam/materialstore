@@ -24,9 +24,9 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.function.BiFunction;
 
-public class MProductGroupBuilderTwinsTest {
+public class MProductGroup_BuilderTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MProductGroupBuilderTwinsTest.class.getName());
+    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MProductGroup_BuilderTest.class.getName());
     private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixture/issue#80");
     private static Store store;
     private JobName jobName;
@@ -59,17 +59,16 @@ public class MProductGroupBuilderTwinsTest {
         assert right.size() == 8;
     }
 
+
     @Test
-    public void test_twins() {
-        BiFunction<MaterialList, MaterialList, MProductGroup> func =
-                (MaterialList left, MaterialList right) ->
-                        MProductGroup.builder(left, right)
-                                .ignoreKeys("profile", "URL.host")
-                                .identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"))
-                                .build();
-        MProductGroup reduced = MProductGroupBuilder.twins(store, left, right, func);
-        Assertions.assertNotNull(reduced);
-        Assertions.assertEquals(8, reduced.size());
-        //println JsonOutput.prettyPrint(reduced.toString())
+    public void test_Builder_toDot() throws MaterialstoreException, IOException, InterruptedException {
+        MProductGroup.Builder builder =
+                MProductGroup.builder(left, right)
+                        .ignoreKeys("profile", "URL.host")
+                        .identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"));
+        String dot = builder.toDot();
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        store.write(jobName, jobTimestamp, FileType.DOT, Metadata.NULL_OBJECT, dot);
+        DotUtil.storeDiagram(store, jobName, jobTimestamp, Metadata.NULL_OBJECT, dot);
     }
 }

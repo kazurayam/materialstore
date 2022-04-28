@@ -12,6 +12,4 @@ public interface GraphvizReady {
 
     String toDot(Map<String, String> options, boolean standalone);
 
-    String getDotId();
-
 }
