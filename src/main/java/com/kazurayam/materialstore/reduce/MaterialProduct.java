@@ -9,7 +9,6 @@ import com.kazurayam.materialstore.filesystem.TemplateReady;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
-import com.kazurayam.materialstore.reduce.differ.DifferUtil;
 import com.kazurayam.materialstore.util.JsonUtil;
 
 import java.nio.charset.StandardCharsets;
@@ -53,7 +52,6 @@ public final class MaterialProduct
     /**
      * copy constructor
      *
-     * @param source
      */
     public MaterialProduct(MaterialProduct source) {
         Objects.requireNonNull(source);
@@ -115,10 +113,6 @@ public final class MaterialProduct
         this.checked = checked;
     }
 
-    public String getDiffRatioAsString() {
-        return DifferUtil.formatDiffRatioAsString(this.getDiffRatio());
-    }
-
     public JobTimestamp getReducedTimestamp() {
         return this.reducedTimestamp;
     }
@@ -129,8 +123,6 @@ public final class MaterialProduct
 
     /**
      * String representation of this MaterialProduct instance
-     *
-     * @return
      */
     public String getDescription() {
         return this.query.getDescription(sortKeys);

@@ -116,7 +116,7 @@ public class DotGenerator {
             pw.println("  " + prevId + " -> " + currId + " [style=invis];");
             prevId = currId;
         }
-        pw.println(INDENT + "}");
+        pw.println("}");
 
         pw.flush();
         pw.close();
@@ -137,7 +137,6 @@ public class DotGenerator {
     }
 
 
-
     /**
      *
      */
@@ -145,7 +144,27 @@ public class DotGenerator {
                                Map<String, String> options, boolean standalone) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
-
+        String sequenceNumber = options.getOrDefault("sequenceNumber", "0");
+        pw.println("subgraph cluster_MP" + sequenceNumber + " {");
+        pw.println(INDENT + "graph [");
+        pw.println(INDENT + INDENT + "label=\"" + materialProduct.getReducedTimestamp().toString()
+                + "/" + materialProduct.getFileTypeExtension()
+                + "/" + JsonUtil.escapeAsJsonString(materialProduct.getQueryOnMetadata().toJson())
+                .replace("{", "\\{")
+                .replace("}", "\\}")
+                + "\",");
+        pw.println(INDENT + INDENT + "color=red");
+        pw.println(INDENT + "];");
+        pw.println(INDENT + "node [");
+        pw.println(INDENT + INDENT + "style=filled");
+        pw.println(INDENT + "];");
+        // left Material
+        pw.println(INDENT + toDot(materialProduct.getLeft(),false));
+        // right Material
+        pw.println(INDENT + toDot(materialProduct.getRight(), false));
+        // horizontal edge
+        // TODO
+        pw.println("}");
         pw.flush();
         pw.close();
         if (standalone) {
@@ -153,6 +172,15 @@ public class DotGenerator {
         } else {
             return sw.toString();
         }
+    }
+    public static String toDot(MaterialProduct materialProduct) {
+        return toDot(materialProduct, Collections.emptyMap(), true);
+    }
+    public static String toDot(MaterialProduct materialProduct, Map<String, String> options) {
+        return toDot(materialProduct, options, true);
+    }
+    public static String toDot(MaterialProduct materialProduct, boolean standalone) {
+        return toDot(materialProduct, Collections.emptyMap(), standalone);
     }
 
 
@@ -192,6 +220,15 @@ public class DotGenerator {
         } else {
             return sw.toString();
         }
+    }
+    public static String toDot(MProductGroup mProductGroup) {
+        return toDot(mProductGroup, Collections.emptyMap(), true);
+    }
+    public static String toDot(MProductGroup mProductGroup, Map<String, String> options) {
+        return toDot(mProductGroup, options, true);
+    }
+    public static String toDot(MProductGroup mProductGroup, boolean standalone) {
+        return toDot(mProductGroup, Collections.emptyMap(), standalone);
     }
 
     //-----------------------------------------------------------------

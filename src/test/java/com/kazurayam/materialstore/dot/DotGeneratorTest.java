@@ -9,6 +9,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
+import com.kazurayam.materialstore.reduce.MaterialProduct;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -56,17 +57,18 @@ public class DotGeneratorTest {
         JobTimestamp fixtureTimestamp = new JobTimestamp("20220128_191320");
         Material material = store.selectSingle(jobName, fixtureTimestamp, FileType.PNG);
         Map<String, String> options = Collections.emptyMap();
+        //
         String dotText = DotGenerator.toDot(material, options, true);
         BufferedImage bufferedImage = DotGenerator.toDiagram(dotText);
         //
         JobName outJobName = new JobName("test_generateDOT_Material");
         JobTimestamp outJobTimestamp = JobTimestamp.now();
         Material dotMat =
-                store.write(jobName, outJobTimestamp, FileType.DOT,
+                store.write(outJobName, outJobTimestamp, FileType.DOT,
                         Metadata.NULL_OBJECT, dotText);
         assertTrue(dotMat.toFile(store).length() > 0);
         Material pngMat =
-                store.write(jobName, outJobTimestamp, FileType.PNG,
+                store.write(outJobName, outJobTimestamp, FileType.PNG,
                         Metadata.NULL_OBJECT, bufferedImage);
         assertTrue(pngMat.toFile(store).length() > 0);
     }
@@ -76,26 +78,49 @@ public class DotGeneratorTest {
     public void test_generateDOT_MaterialList() throws MaterialstoreException {
         JobTimestamp fixtureTimestamp = new JobTimestamp("20220128_191320");
         MaterialList materialList = store.select(jobName, fixtureTimestamp);
+        //
         String dotText = DotGenerator.toDot(materialList);
         BufferedImage bufferedImage = DotGenerator.toDiagram(dotText);
         //
         JobName outJobName = new JobName("test_generateDOT_MaterialList");
         JobTimestamp outJobTimestamp = JobTimestamp.now();
         Material dotMat =
-                store.write(jobName, outJobTimestamp, FileType.DOT,
+                store.write(outJobName, outJobTimestamp, FileType.DOT,
                         Metadata.NULL_OBJECT, dotText);
         assertTrue(dotMat.toFile(store).length() > 0);
         Material pngMat =
-                store.write(jobName, outJobTimestamp, FileType.PNG,
+                store.write(outJobName, outJobTimestamp, FileType.PNG,
                         Metadata.NULL_OBJECT, bufferedImage);
         assertTrue(pngMat.toFile(store).length() > 0);
     }
 
 
-    @Disabled
     @Test
-    public void test_generateDOT_MaterialProduct() {
-        throw new RuntimeException("TODO");
+    public void test_generateDOT_MaterialProduct() throws MaterialstoreException {
+        JobTimestamp leftTimestamp = new JobTimestamp("20220128_191320");
+        JobTimestamp rightTimestamp = new JobTimestamp("20220128_191342");
+        MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
+        MaterialList rightMaterialList = store.select(jobName, rightTimestamp);
+        JobTimestamp reducedTimestamp = JobTimestamp.now();
+        MaterialProduct mp =
+                new MaterialProduct.Builder(
+                        leftMaterialList.get(0),
+                        rightMaterialList.get(0),
+                        reducedTimestamp).build();
+        //
+        String dotText = DotGenerator.toDot(mp);
+        BufferedImage bufferedImage = DotGenerator.toDiagram(dotText);
+        //
+        JobName outJobName = new JobName("test_generateDOT_MaterialProduct");
+        JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
+        Material dotMat =
+                store.write(outJobName, outJobTimestamp, FileType.DOT,
+                        Metadata.NULL_OBJECT, dotText);
+        assertTrue(dotMat.toFile(store).length() > 0);
+        Material pngMat =
+                store.write(outJobName, outJobTimestamp, FileType.PNG,
+                        Metadata.NULL_OBJECT, bufferedImage);
+        assertTrue(pngMat.toFile(store).length() > 0);
     }
 
     @Disabled
