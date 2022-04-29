@@ -184,6 +184,20 @@ public class DotGenerator {
     }
 
 
+    public static String toDot(MProductGroup.Builder mpgb,
+                               Map<String, String> options, boolean standalone) {
+        throw new RuntimeException("TODO");
+    }
+    public static String toDot(MProductGroup.Builder mpgb) {
+        return toDot(mpgb, Collections.emptyMap(), true);
+    }
+    public static String toDot(MProductGroup.Builder mpgb,
+                               Map<String, String> options) {
+        return toDot(mpgb, options, true);
+    }
+    public static String toDot(MProductGroup.Builder mpgb, boolean standalone) {
+        return toDot(mpgb, Collections.emptyMap(), standalone);
+    }
 
     public static String toDot(MProductGroup mProductGroup,
                                Map<String, String> options, boolean standalone) {

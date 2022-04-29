@@ -172,6 +172,24 @@ public final class MaterialProduct
         return this.getDescription().compareTo(other.getDescription());
     }
 
+    public boolean contains(Material material) {
+        if (this.containsMaterialAt(material) == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public int containsMaterialAt(Material material) {
+        if (this.left == material) {
+            return -1;
+        } else if (this.right == material) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     @Override
     public String toJson() {
         StringBuilder sb = new StringBuilder();

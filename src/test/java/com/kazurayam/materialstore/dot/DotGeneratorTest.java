@@ -9,6 +9,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
+import com.kazurayam.materialstore.reduce.MProductGroup;
 import com.kazurayam.materialstore.reduce.MaterialProduct;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
@@ -38,6 +39,8 @@ public class DotGeneratorTest {
 
     private static Store store;
     private static JobName jobName;
+    JobTimestamp leftTimestamp = new JobTimestamp("20220128_191320");
+    JobTimestamp rightTimestamp = new JobTimestamp("20220128_191342");
 
     @BeforeAll
     public static void beforeAll() throws IOException {
@@ -97,8 +100,6 @@ public class DotGeneratorTest {
 
     @Test
     public void test_generateDOT_MaterialProduct() throws MaterialstoreException {
-        JobTimestamp leftTimestamp = new JobTimestamp("20220128_191320");
-        JobTimestamp rightTimestamp = new JobTimestamp("20220128_191342");
         MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
         MaterialList rightMaterialList = store.select(jobName, rightTimestamp);
         JobTimestamp reducedTimestamp = JobTimestamp.now();
@@ -123,15 +124,37 @@ public class DotGeneratorTest {
         assertTrue(pngMat.toFile(store).length() > 0);
     }
 
-    @Disabled
+
     @Test
-    public void test_generateDOT_MProductGroupBuilder() {
-        throw new RuntimeException("TODO");
+    public void test_generateDOT_MProductGroupBuilder() throws MaterialstoreException {
+        MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
+        MaterialList rightMaterialList = store.select(jobName, rightTimestamp);
+        JobTimestamp reducedTimestamp = JobTimestamp.now();
+        MProductGroup.Builder mpgb =
+                new MProductGroup.Builder(
+                        leftMaterialList,
+                        rightMaterialList);
+        //
+        String dotText = DotGenerator.toDot(mpgb);
+        BufferedImage bufferedImage = DotGenerator.toDiagram(dotText);
+        //
+        JobName outJobName = new JobName("test_generateDOT_MaterialProduct");
+        JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
+        Material dotMat =
+                store.write(outJobName, outJobTimestamp, FileType.DOT,
+                        Metadata.NULL_OBJECT, dotText);
+        assertTrue(dotMat.toFile(store).length() > 0);
+        Material pngMat =
+                store.write(outJobName, outJobTimestamp, FileType.PNG,
+                        Metadata.NULL_OBJECT, bufferedImage);
+        assertTrue(pngMat.toFile(store).length() > 0);
     }
+
 
     @Disabled
     @Test
-    public void test_generateDOT_MProductGroup() {
+    public void
+    test_generateDOT_MProductGroup() {
         throw new RuntimeException("TODO");
     }
 }
