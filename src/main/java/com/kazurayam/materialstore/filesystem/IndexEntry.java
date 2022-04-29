@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.kazurayam.materialstore.util.GsonHelper;
 import com.kazurayam.materialstore.util.JsonUtil;
 
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -73,6 +74,12 @@ public final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, Te
 
     public String getDescription() {
         return this.getFileType().getExtension() + " " + this.getMetadata().toSimplifiedJson();
+    }
+
+    public String getDescriptionSignature() {
+        String descriptionSignature =
+                MaterialIO.hashJDK(this.getDescription().getBytes(StandardCharsets.UTF_8));
+        return descriptionSignature.substring(0, 7);
     }
 
     public FileType getFileType() {

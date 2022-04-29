@@ -1,21 +1,29 @@
 package com.kazurayam.materialstore.reduce;
 
 import com.kazurayam.materialstore.MaterialstoreException;
+import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
+import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.MaterialList;
+import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MProductGroup_BuilderTest {
 
@@ -51,5 +59,19 @@ public class MProductGroup_BuilderTest {
         right = store.select(jobName, timestampD, QueryOnMetadata.builder(map1).build());
         assert right.size() == 8;
     }
+
+    @Test
+    public void test_toJson_getId_getShortId() throws MaterialstoreException {
+        MProductGroup.Builder builder = new MProductGroup.Builder(left, right);
+        String json = builder.toJson(true);
+        JobName jobName = new JobName("test_toJson");
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        Material material = store.write(jobName, jobTimestamp, FileType.JSON, Metadata.NULL_OBJECT, json);
+        assertTrue(material.toFile(store).length() > 0);
+        //
+        assertNotNull(builder.getId());
+        assertEquals(7, builder.getShortId().length());
+    }
+
 
 }

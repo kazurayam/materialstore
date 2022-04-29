@@ -9,6 +9,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
+import com.kazurayam.materialstore.reduce.MProductGroup;
 import com.kazurayam.materialstore.reduce.MaterialProduct;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
@@ -59,7 +60,7 @@ public class MaterialAsNodeTest {
     public void test_MaterialSolo() throws MaterialstoreException {
         Material material = store.selectSingle(jobName, leftJobTimestamp, FileType.PNG, QueryOnMetadata.ANY);
         MaterialSolo solo = new MaterialSolo(material);
-        assertEquals("Mc776e59", solo.getNodeId());
+        assertEquals("Md5931b2", solo.getNodeId());
     }
 
     @Test
@@ -82,7 +83,7 @@ public class MaterialAsNodeTest {
         assert leftList.size() > 0;
         Material material = leftList.get(0);
         MaterialInMaterialList miml = new MaterialInMaterialList(leftList, material);
-        assertEquals("ML561b663M1865ddd", miml.getNodeId());
+        assertEquals("ML561b663M5bd4611", miml.getNodeId());
     }
 
     @Test
@@ -93,18 +94,19 @@ public class MaterialAsNodeTest {
         MaterialProduct mp =
                 new MaterialProduct.Builder(left, right, resultJobTimestamp).build();
         MaterialInMaterialProduct mimp = new MaterialInMaterialProduct(mp, left);
-        assertEquals("MP30a04c0Mc776e59L", mimp.getNodeId());
+        assertEquals("MP30a04c0Md5931b2L", mimp.getNodeId());
     }
 
     @Test
     public void test_MaterialInMProductGroupBuilder() throws MaterialstoreException {
-        Material left = store.selectSingle(jobName, leftJobTimestamp, FileType.PNG);
-        Material right = store.selectSingle(jobName, rightJobTimestamp, FileType.PNG);
+        MaterialList leftMaterialList = store.select(jobName, leftJobTimestamp);
+        MaterialList rightMaterialList = store.select(jobName, rightJobTimestamp);
         JobTimestamp resultJobTimestamp = new JobTimestamp("20220429_173000");
-        MaterialProduct.Builder mpBuilder =
-                new MaterialProduct.Builder(left, right, resultJobTimestamp);
-        //MaterialInMProductGroupBuilder mimpb = new MaterialInMProductGroupBuilder(mpBuilder, left);
-        //assertEquals("MP30a04c0Mc776e59L", mimpb.getNodeId());
+        MProductGroup.Builder mpgBuilder =
+                new MProductGroup.Builder(leftMaterialList, rightMaterialList);
+        MaterialInMProductGroupBuilder mimpgb =
+                new MaterialInMProductGroupBuilder(mpgBuilder, leftMaterialList.get(0));
+        assertEquals("MPGBf30e116ML561b663M5bd4611L", mimpgb.getNodeId());
     }
 
     @Disabled

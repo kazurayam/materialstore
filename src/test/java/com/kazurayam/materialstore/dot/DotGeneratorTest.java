@@ -125,7 +125,7 @@ public class DotGeneratorTest {
 
     @Disabled
     @Test
-    public void test_generateDOT_MProductBuilder() {
+    public void test_generateDOT_MProductGroupBuilder() {
         throw new RuntimeException("TODO");
     }
 

@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.Identifiable;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
+import com.kazurayam.materialstore.filesystem.Jsonifiable;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.MaterialIO;
 import com.kazurayam.materialstore.filesystem.MaterialList;
@@ -462,7 +463,7 @@ public final class MProductGroup
     /**
      *
      */
-    public static class Builder {
+    public static class Builder implements Jsonifiable, Identifiable {
 
         private final MaterialList materialList0;
         private final MaterialList materialList1;
@@ -527,6 +528,47 @@ public final class MProductGroup
          */
         public MaterialList getMaterialList1() {
             return new MaterialList(materialList1);
+        }
+
+        @Override
+        public String toJson() {
+            final StringBuilder sb = new StringBuilder();
+            sb.append("{");
+            sb.append("\"materialList0\":");
+            sb.append(materialList0.toJson());
+            sb.append(",");
+            sb.append("\"materialList1\":");
+            sb.append(materialList1.toJson());
+
+            // TODO should include the following properties in the JSON
+            //private IgnoreMetadataKeys ignoreMetadataKeys;
+            //private IdentifyMetadataValues identifyMetadataValues;
+            //private final SortKeys sortKeys;
+            //private Double criteria;
+
+            sb.append("}");
+            return sb.toString();
+        }
+
+        @Override
+        public String toJson(boolean prettyPrint) {
+            if (prettyPrint) {
+                return JsonUtil.prettyPrint(toJson(), Map.class);
+            } else {
+                return toJson();
+            }
+        }
+
+        @Override
+        public String getId() {
+            String json = this.toJson();
+            return MaterialIO.hashJDK(json.getBytes(StandardCharsets.UTF_8));
+        }
+
+        @Override
+        public String getShortId() {
+            String id = this.getId();
+            return id.substring(0, 7);
         }
 
         public MProductGroup build() {
