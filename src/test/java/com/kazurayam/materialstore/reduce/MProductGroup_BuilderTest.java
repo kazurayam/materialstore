@@ -60,18 +60,4 @@ public class MProductGroup_BuilderTest {
         assert right.size() == 8;
     }
 
-    @Test
-    public void test_toJson_getId_getShortId() throws MaterialstoreException {
-        MProductGroup.Builder builder = new MProductGroup.Builder(left, right);
-        String json = builder.toJson(true);
-        JobName jobName = new JobName("test_toJson");
-        JobTimestamp jobTimestamp = JobTimestamp.now();
-        Material material = store.write(jobName, jobTimestamp, FileType.JSON, Metadata.NULL_OBJECT, json);
-        assertTrue(material.toFile(store).length() > 0);
-        //
-        assertNotNull(builder.getId());
-        assertEquals(7, builder.getShortId().length());
-    }
-
-
 }

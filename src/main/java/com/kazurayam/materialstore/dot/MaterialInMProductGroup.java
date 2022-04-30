@@ -5,7 +5,7 @@ import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.reduce.MProductGroup;
 import com.kazurayam.materialstore.reduce.MaterialProduct;
 
-public class MaterialInMProductGroup implements MaterialNode {
+public class MaterialInMProductGroup implements MNode {
 
     private final Material material;
     private final MProductGroup mProductGroup;
@@ -28,9 +28,9 @@ public class MaterialInMProductGroup implements MaterialNode {
     }
 
     @Override
-    public NodeId getNodeId() throws MaterialstoreException {
-        return new NodeId("MPG"
+    public MNodeId getMNodeId() throws MaterialstoreException {
+        return new MNodeId("MPG"
                 + mProductGroup.getShortId()
-                + new MaterialInMaterialProduct(materialProduct, material).getNodeId());
+                + new MaterialInMaterialProduct(materialProduct, material).getMNodeId());
     }
 }

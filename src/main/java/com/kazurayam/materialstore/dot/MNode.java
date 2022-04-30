@@ -2,8 +2,8 @@ package com.kazurayam.materialstore.dot;
 
 import com.kazurayam.materialstore.MaterialstoreException;
 
-public interface MaterialNode {
+public interface MNode {
 
-    NodeId getNodeId() throws MaterialstoreException;
+    MNodeId getMNodeId() throws MaterialstoreException;
 
 }

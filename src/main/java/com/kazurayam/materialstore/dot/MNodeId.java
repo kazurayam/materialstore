@@ -3,13 +3,13 @@ package com.kazurayam.materialstore.dot;
 /**
  * the id of a graphviz node
  */
-public class NodeId {
+public class MNodeId {
 
-    public static final NodeId NULL_OBJECT = new NodeId("");
+    public static final MNodeId NULL_OBJECT = new MNodeId("");
 
-    private String value;
+    private final String value;
 
-    public NodeId(String value) {
+    public MNodeId(String value) {
         this.value = value;
     }
 
@@ -19,10 +19,10 @@ public class NodeId {
 
     @Override
     public boolean equals(Object obj) {
-        if (!(obj instanceof NodeId)) {
+        if (!(obj instanceof MNodeId)) {
             return false;
         }
-        NodeId other = (NodeId)obj;
+        MNodeId other = (MNodeId)obj;
         return other.getValue().equals(this.getValue());
     }
 
