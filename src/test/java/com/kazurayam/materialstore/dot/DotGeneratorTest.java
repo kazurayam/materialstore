@@ -151,10 +151,29 @@ public class DotGeneratorTest {
     }
 
 
-    @Disabled
     @Test
     public void
-    test_generateDOT_MProductGroup() {
-        throw new RuntimeException("TODO");
+    test_generateDOT_MProductGroup() throws MaterialstoreException {
+        MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
+        MaterialList rightMaterialList = store.select(jobName, rightTimestamp);
+        JobTimestamp reducedTimestamp = JobTimestamp.now();
+        MProductGroup mProductGroup =
+                new MProductGroup.Builder(
+                        leftMaterialList,
+                        rightMaterialList).ignoreKeys("profile", "URL.host").build();
+        //
+        String dotText = DotGenerator.toDot(mProductGroup);
+        BufferedImage bufferedImage = DotGenerator.toDiagram(dotText);
+        //
+        JobName outJobName = new JobName("test_generateDOT_MProductGroup");
+        JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
+        Material dotMat =
+                store.write(outJobName, outJobTimestamp, FileType.DOT,
+                        Metadata.NULL_OBJECT, dotText);
+        assertTrue(dotMat.toFile(store).length() > 0);
+        Material pngMat =
+                store.write(outJobName, outJobTimestamp, FileType.PNG,
+                        Metadata.NULL_OBJECT, bufferedImage);
+        assertTrue(pngMat.toFile(store).length() > 0);
     }
 }

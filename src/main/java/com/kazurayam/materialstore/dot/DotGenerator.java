@@ -21,7 +21,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiFunction;
 
 /**
  * generates a DOT script with which you can draw diagrams
@@ -96,8 +95,8 @@ public class DotGenerator {
         // nodes
         for (Material material : materialList) {
             NodeId nodeId = new MaterialInMaterialList(materialList, material).getNodeId();
-            String materialNodeStmt = toNodeStmt(nodeId, material);
-            pw.println(INDENT + materialNodeStmt);
+            String nodeStmt = toNodeStmt(nodeId, material);
+            pw.println(INDENT + nodeStmt);
         }
         // edges
         NodeId precedingNodeId =
@@ -114,7 +113,7 @@ public class DotGenerator {
         pw.flush();
         pw.close();
         if (standalone) {
-            return digraphTB(sw.toString());
+            return digraphLR(sw.toString());
         } else {
             return sw.toString();
         }
@@ -134,7 +133,7 @@ public class DotGenerator {
      *
      */
     public static String toDot(MaterialProduct materialProduct,
-                               Map<String, String> options, boolean standalone) {
+                               Map<String, String> options, boolean standalone) throws MaterialstoreException {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         String sequenceNumber = options.getOrDefault("sequenceNumber", "0");
@@ -152,27 +151,35 @@ public class DotGenerator {
         pw.println(INDENT + INDENT + "style=filled");
         pw.println(INDENT + "];");
         // left Material
-        pw.println(INDENT + toDot(materialProduct.getLeft(),false));
+        NodeId leftNodeId =
+                new MaterialInMaterialProduct(materialProduct, materialProduct.getLeft()).getNodeId();
+        String leftNodeStmt = toNodeStmt(leftNodeId, materialProduct.getLeft());
+        pw.println(INDENT + leftNodeStmt);
         // right Material
-        pw.println(INDENT + toDot(materialProduct.getRight(), false));
+        NodeId rightNodeId =
+                new MaterialInMaterialProduct(materialProduct, materialProduct.getRight()).getNodeId();
+        String rightNodeStmt = toNodeStmt(rightNodeId, materialProduct.getRight());
+        pw.println(INDENT + rightNodeStmt);
+
         // horizontal edge
-        // TODO
+        pw.println(INDENT + leftNodeId + " -> " + rightNodeId + " [arrowhead=none];");
+
         pw.println("}");
         pw.flush();
         pw.close();
         if (standalone) {
-            return digraphTB(sw.toString());
+            return digraphLR(sw.toString());
         } else {
             return sw.toString();
         }
     }
-    public static String toDot(MaterialProduct materialProduct) {
+    public static String toDot(MaterialProduct materialProduct) throws MaterialstoreException {
         return toDot(materialProduct, Collections.emptyMap(), true);
     }
-    public static String toDot(MaterialProduct materialProduct, Map<String, String> options) {
+    public static String toDot(MaterialProduct materialProduct, Map<String, String> options) throws MaterialstoreException {
         return toDot(materialProduct, options, true);
     }
-    public static String toDot(MaterialProduct materialProduct, boolean standalone) {
+    public static String toDot(MaterialProduct materialProduct, boolean standalone) throws MaterialstoreException {
         return toDot(materialProduct, Collections.emptyMap(), standalone);
     }
 
@@ -223,7 +230,7 @@ public class DotGenerator {
         pw.flush();
         pw.close();
         if (standalone) {
-            return digraphTB(sw.toString());
+            return digraphLR(sw.toString());
         } else {
             return sw.toString();
         }
@@ -254,7 +261,7 @@ public class DotGenerator {
             PrintWriter pw = new PrintWriter(sw);
             pw.println("digraph G {");
             pw.println(INDENT + "graph [");
-            //pw.println(IND + "rankdir=" + rankdir + ",");
+            pw.println(INDENT + "rankdir=" + rankdir + ",");
             pw.println(INDENT + INDENT + "concentrate=True,");
             pw.println(INDENT + INDENT + "fontname=\"Helvetica,Arial,sans-serif\"");
             pw.println(INDENT + "];");
