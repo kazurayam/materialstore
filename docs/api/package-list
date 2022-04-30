@@ -1,4 +1,5 @@
 com.kazurayam.materialstore
+com.kazurayam.materialstore.dot
 com.kazurayam.materialstore.facet.textgrid
 com.kazurayam.materialstore.filesystem
 com.kazurayam.materialstore.filesystem.metadata
