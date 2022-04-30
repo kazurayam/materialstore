@@ -31,7 +31,7 @@ public class DotGenerator {
 
     public static final String INDENT = "  ";
 
-    public static String toNodeStmt(MNodeId nodeId,
+    public static String toNodeStmt(GraphNodeId nodeId,
                                     Material material) {
         StringBuilder sb = new StringBuilder();
         sb.append(nodeId.toString());
@@ -59,7 +59,7 @@ public class DotGenerator {
                                      Map<String, String> options, boolean standalone) {
         StringWriter sw = new StringWriter();
         MaterialSolo solo = new MaterialSolo(material);
-        MNodeId nodeId = solo.getMNodeId();
+        GraphNodeId nodeId = solo.getGraphNodeId();
         sw.append(toNodeStmt(nodeId, material));
         if (standalone) {
             return digraphTB(sw.toString());
@@ -67,10 +67,6 @@ public class DotGenerator {
             return sw.toString();
         }
     }
-    public static String generateDot(Material material) {
-        return generateDot(material, Collections.emptyMap(), true);
-    }
-
 
     /**
      * generate DOT of a MaterialList object
@@ -91,18 +87,18 @@ public class DotGenerator {
         pw.println(INDENT + "];");
         // nodes
         for (Material material : materialList) {
-            MNodeId nodeId = new MaterialInMaterialList(materialList, material).getMNodeId();
+            GraphNodeId nodeId = new MaterialInMaterialList(materialList, material).getGraphNodeId();
             String nodeStmt = toNodeStmt(nodeId, material);
             pw.println(INDENT + nodeStmt);
         }
         // edges
-        MNodeId precedingNodeId =
+        GraphNodeId precedingNodeId =
                 new MaterialInMaterialList(materialList, materialList.get(0))
-                        .getMNodeId();
+                        .getGraphNodeId();
         for (int i = 1; i < materialList.size(); i++) {
-            MNodeId currentNodeId =
+            GraphNodeId currentNodeId =
                     new MaterialInMaterialList(materialList, materialList.get(i))
-                            .getMNodeId();
+                            .getGraphNodeId();
             pw.println(INDENT + precedingNodeId + " -> " + currentNodeId + " [style=invis];");
             precedingNodeId = currentNodeId;
         }
@@ -142,13 +138,13 @@ public class DotGenerator {
         pw.println(INDENT + INDENT + "style=filled");
         pw.println(INDENT + "];");
         // left Material
-        MNodeId leftNodeId =
-                new MaterialInMaterialProduct(materialProduct, materialProduct.getLeft()).getMNodeId();
+        GraphNodeId leftNodeId =
+                new MaterialInMaterialProduct(materialProduct, materialProduct.getLeft()).getGraphNodeId();
         String leftNodeStmt = toNodeStmt(leftNodeId, materialProduct.getLeft());
         pw.println(INDENT + leftNodeStmt);
         // right Material
-        MNodeId rightNodeId =
-                new MaterialInMaterialProduct(materialProduct, materialProduct.getRight()).getMNodeId();
+        GraphNodeId rightNodeId =
+                new MaterialInMaterialProduct(materialProduct, materialProduct.getRight()).getGraphNodeId();
         String rightNodeStmt = toNodeStmt(rightNodeId, materialProduct.getRight());
         pw.println(INDENT + rightNodeStmt);
 
@@ -197,7 +193,6 @@ public class DotGenerator {
         // horizontal edge
 
         pw.println("}");
-
         pw.flush();
         pw.close();
         if (standalone) {
@@ -240,20 +235,20 @@ public class DotGenerator {
         // nodes
         int index = 0;
         for (MProductSubgraph nodeIdPair: nodeIdGrid) {
-            MNodeId leftId = nodeIdPair.getLeft();
-            MNodeId rightId = nodeIdPair.getRight();
+            GraphNodeId leftId = nodeIdPair.getLeft();
+            GraphNodeId rightId = nodeIdPair.getRight();
             MaterialProduct mp = nodeIdPair.getMaterialProduct();
             Map<String, String> opt = Collections.singletonMap("sequenceNumber", String.valueOf(index));
             pw.println(INDENT + generateDot(mp, opt, false));
             index += 1;
         }
         // edges
-        MNodeId previousLeftMNodeId = nodeIdGrid.get(0).getLeft();
-        MNodeId previousRightMNodeId = nodeIdGrid.get(0).getRight();
+        GraphNodeId previousLeftMNodeId = nodeIdGrid.get(0).getLeft();
+        GraphNodeId previousRightMNodeId = nodeIdGrid.get(0).getRight();
         pw.println(previousLeftMNodeId + " -> " + previousRightMNodeId + " [arrowhead=none];");
         for (int i = 1; i < nodeIdGrid.size(); i++) {
-            MNodeId currentLeftMNodeId = nodeIdGrid.get(i).getLeft();
-            MNodeId currentRightMNodeId = nodeIdGrid.get(i).getRight();
+            GraphNodeId currentLeftMNodeId = nodeIdGrid.get(i).getLeft();
+            GraphNodeId currentRightMNodeId = nodeIdGrid.get(i).getRight();
             pw.println(currentLeftMNodeId + " -> " + currentRightMNodeId + " [arrowhead=none];");
             pw.println(previousLeftMNodeId + " -> " + currentLeftMNodeId + " [style=invis];");
             pw.println(previousRightMNodeId + " -> " + currentRightMNodeId + " [style=invis];");
@@ -270,6 +265,30 @@ public class DotGenerator {
     public static String generateDot(MProductGroup mProductGroup) throws MaterialstoreException {
         return generateDot(mProductGroup, Collections.emptyMap(), true);
     }
+
+    private static class MProductSubgraph {
+        private MaterialProduct materialProduct;
+        private GraphNodeId left;
+        private GraphNodeId right;
+        public MProductSubgraph(MaterialProduct mp) throws MaterialstoreException {
+            this.materialProduct = mp;
+            this.left = new MaterialInMaterialProduct(mp, mp.getLeft()).getGraphNodeId();
+            this.right = new MaterialInMaterialProduct(mp, mp.getRight()).getGraphNodeId();
+        }
+        public GraphNodeId getLeft() {
+            return left;
+        }
+        public GraphNodeId getRight() {
+            return right;
+        }
+        public MaterialProduct getMaterialProduct() {
+            return materialProduct;
+        }
+    }
+
+
+
+
 
     //-----------------------------------------------------------------
 
@@ -313,12 +332,12 @@ public class DotGenerator {
     /**
      * generate a PNG image from the given DOT text, return a BufferedImage
      */
-    public static BufferedImage toDiagram(String dot) throws MaterialstoreException {
+    public static BufferedImage toImage(String dot) throws MaterialstoreException {
         try {
             Path dotFile = Files.createTempFile(null, null);
             Files.write(dotFile, dot.getBytes(StandardCharsets.UTF_8));
             Path pngFile = Files.createTempFile(null, null);
-            runDot(dotFile, pngFile);
+            runDotCommand(dotFile, pngFile);
             return ImageIO.read(pngFile.toFile());
         } catch (IOException e) {
             throw new MaterialstoreException(e);
@@ -329,7 +348,7 @@ public class DotGenerator {
     /**
      * run the dot command of Graphviz in command line
      */
-    public static int runDot(Path dotFile, Path outFile) throws MaterialstoreException {
+    public static int runDotCommand(Path dotFile, Path outFile) throws MaterialstoreException {
         try {
             Subprocess.CompletedProcess cp =
                     new Subprocess()

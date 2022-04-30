@@ -5,13 +5,13 @@ import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.reduce.MProductGroup;
 
-public class MaterialInMProductGroupBeforeZip implements MNode {
+public class MaterialInMProductGroupBeforeZip implements GraphNode {
 
     private final MProductGroup mProductGroup;
     private final Material material;
 
-    private MaterialList materialList;
-    private Side side;
+    private final MaterialList materialList;
+    private final Side side;
 
     public MaterialInMProductGroupBeforeZip(MProductGroup mProductGroup,
                                             Material material)
@@ -33,9 +33,9 @@ public class MaterialInMProductGroupBeforeZip implements MNode {
     }
 
     @Override
-    public MNodeId getMNodeId() {
-        return new MNodeId("MPGBZ" + mProductGroup.getShortId()
-                + new MaterialInMaterialList(materialList, material).getMNodeId()
+    public GraphNodeId getGraphNodeId() {
+        return new GraphNodeId("MPGBZ" + mProductGroup.getShortId()
+                + new MaterialInMaterialList(materialList, material).getGraphNodeId()
                 + side.toString());
     }
 }

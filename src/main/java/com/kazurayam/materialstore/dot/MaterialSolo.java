@@ -4,7 +4,7 @@ import com.kazurayam.materialstore.filesystem.Material;
 
 import java.util.Random;
 
-public class MaterialSolo implements MNode {
+public class MaterialSolo implements GraphNode {
 
     private final Material material;
     private final String randomId;
@@ -15,11 +15,11 @@ public class MaterialSolo implements MNode {
     }
 
     @Override
-    public MNodeId getMNodeId() {
+    public GraphNodeId getGraphNodeId() {
         if (material != Material.NULL_OBJECT) {
-            return new MNodeId("M" + material.getDescriptionSignature());
+            return new GraphNodeId("M" + material.getDescriptionSignature());
         } else {
-            return new MNodeId("M" + randomId);
+            return new GraphNodeId("M" + randomId);
         }
     }
 

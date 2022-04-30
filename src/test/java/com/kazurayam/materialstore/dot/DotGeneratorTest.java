@@ -61,7 +61,7 @@ public class DotGeneratorTest {
         Map<String, String> options = Collections.emptyMap();
         //
         String dotText = DotGenerator.generateDot(material, options, true);
-        BufferedImage bufferedImage = DotGenerator.toDiagram(dotText);
+        BufferedImage bufferedImage = DotGenerator.toImage(dotText);
         //
         JobName outJobName = new JobName("test_generateDot_Material");
         JobTimestamp outJobTimestamp = JobTimestamp.now();
@@ -82,7 +82,7 @@ public class DotGeneratorTest {
         MaterialList materialList = store.select(jobName, fixtureTimestamp);
         //
         String dotText = DotGenerator.generateDot(materialList);
-        BufferedImage bufferedImage = DotGenerator.toDiagram(dotText);
+        BufferedImage bufferedImage = DotGenerator.toImage(dotText);
         //
         JobName outJobName = new JobName("test_generateDot_MaterialList");
         JobTimestamp outJobTimestamp = JobTimestamp.now();
@@ -109,7 +109,7 @@ public class DotGeneratorTest {
                         reducedTimestamp).build();
         //
         String dotText = DotGenerator.generateDot(mp);
-        BufferedImage bufferedImage = DotGenerator.toDiagram(dotText);
+        BufferedImage bufferedImage = DotGenerator.toImage(dotText);
         //
         JobName outJobName = new JobName("test_generateDot_MaterialProduct");
         JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
@@ -135,7 +135,7 @@ public class DotGeneratorTest {
                         rightMaterialList).ignoreKeys("profile", "URL.host").build();
         //
         String dotText = DotGenerator.generateDotOfMPGBeforeZip(mProductGroup);
-        BufferedImage bufferedImage = DotGenerator.toDiagram(dotText);
+        BufferedImage bufferedImage = DotGenerator.toImage(dotText);
         //
         JobName outJobName = new JobName("test_generateDotOfMPGBeforeZip");
         JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
@@ -162,7 +162,7 @@ public class DotGeneratorTest {
                         rightMaterialList).ignoreKeys("profile", "URL.host").build();
         //
         String dotText = DotGenerator.generateDot(mProductGroup);
-        BufferedImage bufferedImage = DotGenerator.toDiagram(dotText);
+        BufferedImage bufferedImage = DotGenerator.toImage(dotText);
         //
         JobName outJobName = new JobName("test_generateDot_MProductGroup");
         JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);

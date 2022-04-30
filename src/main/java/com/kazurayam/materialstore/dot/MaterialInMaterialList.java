@@ -3,7 +3,7 @@ package com.kazurayam.materialstore.dot;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 
-public class MaterialInMaterialList implements MNode {
+public class MaterialInMaterialList implements GraphNode {
 
     private final Material material;
     private final MaterialList materialList;
@@ -14,9 +14,9 @@ public class MaterialInMaterialList implements MNode {
     }
 
     @Override
-    public MNodeId getMNodeId() {
+    public GraphNodeId getGraphNodeId() {
         MaterialSolo materialSolo = new MaterialSolo(material);
-        return new MNodeId("ML" + materialList.getShortId()
-                + materialSolo.getMNodeId());
+        return new GraphNodeId("ML" + materialList.getShortId()
+                + materialSolo.getGraphNodeId());
     }
 }
