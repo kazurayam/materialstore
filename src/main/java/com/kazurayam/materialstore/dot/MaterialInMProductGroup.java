@@ -5,26 +5,20 @@ import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.reduce.MProductGroup;
 import com.kazurayam.materialstore.reduce.MaterialProduct;
 
-public class MaterialInMProductGroup implements MaterialAsNode {
+public class MaterialInMProductGroup implements MaterialNode {
 
     private final Material material;
     private final MProductGroup mProductGroup;
 
     private MaterialProduct materialProduct = null;
-    private Side side = null;
 
-    public MaterialInMProductGroup(MProductGroup mProductGroup,
-                                   Material material)
+    public MaterialInMProductGroup(MProductGroup mProductGroup, Material material)
             throws MaterialstoreException {
         this.material = material;
         this.mProductGroup = mProductGroup;
-        //
         for (MaterialProduct mp : mProductGroup) {
             if (mp.contains(material)) {
                 this.materialProduct = mp;
-                this.side =
-                        (mp.containsMaterialAt(material) == -1) ?
-                                Side.L : Side.R;
             }
         }
         if (this.materialProduct == null) {
@@ -34,9 +28,9 @@ public class MaterialInMProductGroup implements MaterialAsNode {
     }
 
     @Override
-    public String getNodeId() throws MaterialstoreException {
-        return "MPG" + mProductGroup.getShortId()
-                + new MaterialInMaterialProduct(materialProduct, material).getNodeId()
-                + side.toString();
+    public NodeId getNodeId() throws MaterialstoreException {
+        return new NodeId("MPG"
+                + mProductGroup.getShortId()
+                + new MaterialInMaterialProduct(materialProduct, material).getNodeId());
     }
 }

@@ -4,11 +4,11 @@ import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.reduce.MaterialProduct;
 
-public class MaterialInMaterialProduct implements MaterialAsNode {
+public class MaterialInMaterialProduct implements MaterialNode {
 
-    private final Material material;
     private final MaterialProduct materialProduct;
     private final Side side;
+    private final Material material;
 
     public MaterialInMaterialProduct(MaterialProduct materialProduct,
                                      Material material)
@@ -26,9 +26,9 @@ public class MaterialInMaterialProduct implements MaterialAsNode {
     }
 
     @Override
-    public String getNodeId() {
-        return "MP" + materialProduct.getShortId()
+    public NodeId getNodeId() {
+        return new NodeId("MP" + materialProduct.getShortId()
                 + new MaterialSolo(material).getNodeId()
-                + side.toString();
+                + side.toString());
     }
 }

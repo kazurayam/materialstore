@@ -13,7 +13,6 @@ import com.kazurayam.materialstore.reduce.MProductGroup;
 import com.kazurayam.materialstore.reduce.MaterialProduct;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -24,12 +23,12 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class MaterialAsNodeTest {
+public class MaterialNodeTest {
 
     private static final Path outputDir =
             Paths.get(System.getProperty("user.dir"))
                     .resolve("build/tmp/testOutput")
-                    .resolve(MaterialAsNodeTest.class.getName());
+                    .resolve(MaterialNodeTest.class.getName());
 
     private static final Path issue80Dir =
             Paths.get(".")
@@ -94,7 +93,7 @@ public class MaterialAsNodeTest {
         MaterialProduct mp =
                 new MaterialProduct.Builder(left, right, resultJobTimestamp).build();
         MaterialInMaterialProduct materialInMP = new MaterialInMaterialProduct(mp, left);
-        assertEquals(new NodeId("MP30a04c0Md5931b2L"), materialInMP.getNodeId());
+        assertEquals(new NodeId("MP24665ccMd5931b2L"), materialInMP.getNodeId());
     }
 
     @Test
@@ -118,6 +117,6 @@ public class MaterialAsNodeTest {
                         .build();
         MaterialInMProductGroup materialInMPG =
                 new MaterialInMProductGroup(mpg, leftMaterialList.get(0));
-        assertEquals(new NodeId("MPGfd84dbfMP28b3984M5bd4611L"), materialInMPG.getNodeId());
+        assertEquals(new NodeId("MPG90d197dMP32ab516M5bd4611L"), materialInMPG.getNodeId());
     }
 }

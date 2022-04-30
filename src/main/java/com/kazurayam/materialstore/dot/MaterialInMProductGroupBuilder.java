@@ -4,9 +4,8 @@ import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.reduce.MProductGroup;
-import com.kazurayam.materialstore.reduce.MProductGroupBuilder;
 
-public class MaterialInMProductGroupBuilder implements MaterialAsNode {
+public class MaterialInMProductGroupBuilder implements MaterialNode {
 
     private final MProductGroup.Builder mpgBuilder;
     private final Material material;
@@ -34,9 +33,9 @@ public class MaterialInMProductGroupBuilder implements MaterialAsNode {
     }
 
     @Override
-    public String getNodeId() {
-        return "MPGB" + mpgBuilder.getShortId()
+    public NodeId getNodeId() {
+        return new NodeId("MPGB" + mpgBuilder.getShortId()
                 + new MaterialInMaterialList(materialList, material).getNodeId()
-                + side.toString();
+                + side.toString());
     }
 }

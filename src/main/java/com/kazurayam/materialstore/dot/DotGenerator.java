@@ -31,6 +31,26 @@ public class DotGenerator {
 
     public static final String INDENT = "  ";
 
+    public static String toNodeStmt(NodeId nodeId,
+                                Material material) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(nodeId.toString());
+        sb.append(" ");
+        sb.append("[label=\"");
+        sb.append(material.getShortId());
+        sb.append("|");
+        sb.append(material.getFileType().getExtension());
+        sb.append("|");
+        String json = material.getMetadata().toSimplifiedJson();
+        String escaped = JsonUtil.escapeAsJsonString(json)
+                        .replace("{", "\\{")
+                        .replace("}", "\\}")
+                        .replace(",",",\\n");
+        sb.append(escaped);
+        sb.append("\"");
+        sb.append("];");
+        return sb.toString();
+    }
 
     /**
      * generate DOT of a Material object
@@ -38,33 +58,7 @@ public class DotGenerator {
     public static String toDot(Material material,
                                Map<String, String> options, boolean standalone) {
         StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        pw.print("M");
-        if (options.containsKey("MaterialListId")) {
-            pw.print(options.get("MaterialListId") + "_");
-        }
-        pw.print(material.getShortId());
-        pw.print(" [label=\"");
-        pw.print(material.getShortId());
-        pw.print("|");
-        pw.print(material.getFileType().getExtension());
-        pw.print("|");
-        String json = material.getMetadata().toSimplifiedJson();
-        String escaped =
-                JsonUtil.escapeAsJsonString(json)
-                        .replace("{", "\\{")
-                        .replace("}", "\\}")
-                        .replace(",",",\\n");
-        pw.print(escaped);
-        pw.print("\"");
-        if (options.containsKey("xlabel")) {
-            pw.print(",xlabel=\"");
-            pw.print(options.get("xlabel"));
-            pw.print("\"");
-        }
-        pw.print("];");
-        pw.flush();
-        pw.close();
+        sw.append(toNodeStmt(NodeId.NULL_OBJECT, material));
         if (standalone) {
             return digraphTB(sw.toString());
         } else {
@@ -99,25 +93,24 @@ public class DotGenerator {
         pw.println(INDENT + "node [");
         pw.println(INDENT + INDENT + "style=filled");
         pw.println(INDENT + "];");
+        // nodes
         for (Material material : materialList) {
-            Map<String, String> materialOptions =
-                    Collections.singletonMap("MaterialListId", materialList.getShortId());
-            pw.println(INDENT + toDot(material, materialOptions,false));
+            NodeId nodeId = new MaterialInMaterialList(materialList, material).getNodeId();
+            String materialNodeStmt = toNodeStmt(nodeId, material);
+            pw.println(INDENT + materialNodeStmt);
         }
-
-        // a lambda function that generates the ID of Material
-        // "M" + the id of this MaterialList + "_" + the id of Material
-        BiFunction<String, Material, String> getMaterialDotId =
-                (materialListId, material) -> "M" + materialListId + "_" + material.getShortId();
-
-        String prevId = getMaterialDotId.apply(materialList.getShortId(), materialList.get(0));
+        // edges
+        NodeId precedingNodeId =
+                new MaterialInMaterialList(materialList, materialList.get(0))
+                        .getNodeId();
         for (int i = 1; i < materialList.size(); i++) {
-            String currId = getMaterialDotId.apply(materialList.getShortId(), materialList.get(i));
-            pw.println("  " + prevId + " -> " + currId + " [style=invis];");
-            prevId = currId;
+            NodeId currentNodeId =
+                    new MaterialInMaterialList(materialList, materialList.get(i))
+                            .getNodeId();
+            pw.println(INDENT + precedingNodeId + " -> " + currentNodeId + " [style=invis];");
+            precedingNodeId = currentNodeId;
         }
         pw.println("}");
-
         pw.flush();
         pw.close();
         if (standalone) {

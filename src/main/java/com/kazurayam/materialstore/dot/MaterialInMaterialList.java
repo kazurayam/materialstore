@@ -3,7 +3,7 @@ package com.kazurayam.materialstore.dot;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 
-public class MaterialInMaterialList implements MaterialAsNode {
+public class MaterialInMaterialList implements MaterialNode {
 
     private final Material material;
     private final MaterialList materialList;
@@ -14,9 +14,9 @@ public class MaterialInMaterialList implements MaterialAsNode {
     }
 
     @Override
-    public String getNodeId() {
+    public NodeId getNodeId() {
         MaterialSolo materialSolo = new MaterialSolo(material);
-        return "ML" + materialList.getShortId()
-                + materialSolo.getNodeId();
+        return new NodeId("ML" + materialList.getShortId()
+                + materialSolo.getNodeId());
     }
 }

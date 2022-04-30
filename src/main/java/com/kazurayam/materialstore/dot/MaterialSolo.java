@@ -2,11 +2,9 @@ package com.kazurayam.materialstore.dot;
 
 import com.kazurayam.materialstore.filesystem.Material;
 
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
-public class MaterialSolo implements MaterialAsNode {
+public class MaterialSolo implements MaterialNode {
 
     private final Material material;
     private final String randomId;
@@ -17,11 +15,11 @@ public class MaterialSolo implements MaterialAsNode {
     }
 
     @Override
-    public String getNodeId() {
+    public NodeId getNodeId() {
         if (material != Material.NULL_OBJECT) {
-            return "M" + material.getDescriptionSignature();
+            return new NodeId("M" + material.getDescriptionSignature());
         } else {
-            return "M" + randomId;
+            return new NodeId("M" + randomId);
         }
     }
 
