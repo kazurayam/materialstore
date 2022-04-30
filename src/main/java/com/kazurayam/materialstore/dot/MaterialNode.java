@@ -4,6 +4,6 @@ import com.kazurayam.materialstore.MaterialstoreException;
 
 public interface MaterialAsNode {
 
-    String getNodeId() throws MaterialstoreException;
+    NodeId getNodeId() throws MaterialstoreException;
 
 }

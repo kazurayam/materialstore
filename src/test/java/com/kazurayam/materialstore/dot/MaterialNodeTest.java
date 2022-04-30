@@ -60,15 +60,15 @@ public class MaterialAsNodeTest {
     public void test_MaterialSolo() throws MaterialstoreException {
         Material material = store.selectSingle(jobName, leftJobTimestamp, FileType.PNG, QueryOnMetadata.ANY);
         MaterialSolo solo = new MaterialSolo(material);
-        assertEquals("Md5931b2", solo.getNodeId());
+        assertEquals(new NodeId("Md5931b2"), solo.getNodeId());
     }
 
     @Test
     public void test_MaterialSolo_derived_from_NULL_OBJECT() throws MaterialstoreException {
         MaterialSolo solo1 = new MaterialSolo(Material.NULL_OBJECT);
-        String node1Id1 = solo1.getNodeId();
-        assertEquals(8, node1Id1.length());
-        String node1Id2 = solo1.getNodeId();
+        NodeId node1Id1 = solo1.getNodeId();
+        assertEquals(8, node1Id1.getValue().length());
+        NodeId node1Id2 = solo1.getNodeId();
         // an instance of MaterialSolo has its own node id
         assertEquals(node1Id1, node1Id2);
         MaterialSolo solo2 = new MaterialSolo(Material.NULL_OBJECT);
@@ -82,8 +82,8 @@ public class MaterialAsNodeTest {
         MaterialList leftList = store.select(jobName, leftJobTimestamp);
         assert leftList.size() > 0;
         Material material = leftList.get(0);
-        MaterialInMaterialList miml = new MaterialInMaterialList(leftList, material);
-        assertEquals("ML561b663M5bd4611", miml.getNodeId());
+        MaterialInMaterialList materialInML = new MaterialInMaterialList(leftList, material);
+        assertEquals(new NodeId("ML561b663M5bd4611"), materialInML.getNodeId());
     }
 
     @Test
@@ -93,25 +93,31 @@ public class MaterialAsNodeTest {
         JobTimestamp resultJobTimestamp = new JobTimestamp("20220429_173000");
         MaterialProduct mp =
                 new MaterialProduct.Builder(left, right, resultJobTimestamp).build();
-        MaterialInMaterialProduct mimp = new MaterialInMaterialProduct(mp, left);
-        assertEquals("MP30a04c0Md5931b2L", mimp.getNodeId());
+        MaterialInMaterialProduct materialInMP = new MaterialInMaterialProduct(mp, left);
+        assertEquals(new NodeId("MP30a04c0Md5931b2L"), materialInMP.getNodeId());
     }
 
     @Test
     public void test_MaterialInMProductGroupBuilder() throws MaterialstoreException {
         MaterialList leftMaterialList = store.select(jobName, leftJobTimestamp);
         MaterialList rightMaterialList = store.select(jobName, rightJobTimestamp);
-        JobTimestamp resultJobTimestamp = new JobTimestamp("20220429_173000");
         MProductGroup.Builder mpgBuilder =
                 new MProductGroup.Builder(leftMaterialList, rightMaterialList);
-        MaterialInMProductGroupBuilder mimpgb =
+        MaterialInMProductGroupBuilder materialInMPGB =
                 new MaterialInMProductGroupBuilder(mpgBuilder, leftMaterialList.get(0));
-        assertEquals("MPGBf30e116ML561b663M5bd4611L", mimpgb.getNodeId());
+        assertEquals(new NodeId("MPGBf30e116ML561b663M5bd4611L"), materialInMPGB.getNodeId());
     }
 
-    @Disabled
     @Test
     public void test_MaterialInMProductGroup() throws MaterialstoreException {
-        throw new RuntimeException("TODO");
+        MaterialList leftMaterialList = store.select(jobName, leftJobTimestamp);
+        MaterialList rightMaterialList = store.select(jobName, rightJobTimestamp);
+        MProductGroup mpg =
+                new MProductGroup.Builder(leftMaterialList, rightMaterialList)
+                        .ignoreKeys("profile", "URL.host")
+                        .build();
+        MaterialInMProductGroup materialInMPG =
+                new MaterialInMProductGroup(mpg, leftMaterialList.get(0));
+        assertEquals(new NodeId("MPGfd84dbfMP28b3984M5bd4611L"), materialInMPG.getNodeId());
     }
 }

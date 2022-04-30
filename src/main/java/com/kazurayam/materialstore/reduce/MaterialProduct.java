@@ -194,9 +194,9 @@ public final class MaterialProduct
     public String toJson() {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
-        sb.append("\"reducedTimestamp\":\"");
-        sb.append(reducedTimestamp.toString());
-        sb.append("\",");
+        //sb.append("\"reducedTimestamp\":\"");
+        //sb.append(reducedTimestamp.toString());
+        //sb.append("\",");
         sb.append("\"checked\":");
         sb.append(checked);
         sb.append(",");

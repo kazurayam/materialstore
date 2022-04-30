@@ -387,10 +387,10 @@ public final class MProductGroup
         sb.append(this.getJobName().toString());
         sb.append("\"");
         sb.append(",");
-        sb.append("\"resultTimestamp\":\"");
-        sb.append(this.resultTimestamp.toString());
-        sb.append("\"");
-        sb.append(",");
+        //sb.append("\"resultTimestamp\":\"");
+        //sb.append(this.resultTimestamp.toString());
+        //sb.append("\"");
+        //sb.append(",");
         sb.append("\"criteria\":");
         sb.append(this.getCriteria());
         sb.append(",");
