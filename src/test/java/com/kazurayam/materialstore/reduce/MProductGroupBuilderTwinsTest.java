@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.reduce;
 
 import com.kazurayam.materialstore.MaterialstoreException;
+import com.kazurayam.materialstore.dot.MPGVisualizer;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.MaterialList;
@@ -23,8 +24,13 @@ import java.util.function.BiFunction;
 
 public class MProductGroupBuilderTwinsTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MProductGroupBuilderTwinsTest.class.getName());
-    private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixture/issue#80");
+    private static final Path outputDir =
+            Paths.get(".")
+                    .resolve("build/tmp/testOutput")
+                    .resolve(MProductGroupBuilderTwinsTest.class.getName());
+    private static final Path fixtureDir =
+            Paths.get(".")
+                    .resolve("src/test/fixture/issue#80");
     private static Store store;
     private JobName jobName;
     private MaterialList left;
@@ -67,6 +73,27 @@ public class MProductGroupBuilderTwinsTest {
         MProductGroup reduced = MProductGroupBuilder.twins(store, left, right, func);
         Assertions.assertNotNull(reduced);
         Assertions.assertEquals(8, reduced.size());
+        Assertions.assertEquals(0, reduced.getNumberOfBachelors());
         //println JsonOutput.prettyPrint(reduced.toString())
     }
+
+    @Test
+    public void test_Bachelors() throws MaterialstoreException {
+        BiFunction<MaterialList, MaterialList, MProductGroup> func =
+                (MaterialList left, MaterialList right) ->
+                        MProductGroup.builder(left, right)
+                                .ignoreKeys("profile", "URL.host")
+                                //.identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"))
+                                .build();
+        MProductGroup reduced = MProductGroupBuilder.twins(store, left, right, func);
+        Assertions.assertNotNull(reduced);
+        Assertions.assertEquals(9, reduced.size());
+        Assertions.assertEquals(2, reduced.getNumberOfBachelors());
+        //
+        MPGVisualizer visualizer = new MPGVisualizer(store);
+        JobName jobName = new JobName("test_Bachelors");
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        visualizer.visualize(jobName, jobTimestamp, reduced);
+    }
+
 }

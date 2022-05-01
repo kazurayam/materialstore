@@ -34,7 +34,6 @@ public final class MaterialProduct
     private final JobTimestamp reducedTimestamp;
     private final QueryOnMetadata query;
     private final SortKeys sortKeys;
-    private Boolean checked;
     private Material diff;
     private Double diffRatio;
 
@@ -46,7 +45,6 @@ public final class MaterialProduct
         this.query = builder.query;
         this.diffRatio = builder.diffRatio;
         this.sortKeys = builder.sortKeys;
-        this.checked = builder.checked;
     }
 
     /**
@@ -62,10 +60,10 @@ public final class MaterialProduct
         this.query = source.getQueryOnMetadata();
         this.diffRatio = source.getDiffRatio();
         this.sortKeys = source.getSortKeys();
-        this.checked = source.isChecked();
     }
 
-    public void annotate(IgnoreMetadataKeys ignoreMetadataKeys, IdentifyMetadataValues identifyMetadataValues) {
+    public void annotate(IgnoreMetadataKeys ignoreMetadataKeys,
+                         IdentifyMetadataValues identifyMetadataValues) {
         this.left.getMetadata().annotate(query, ignoreMetadataKeys, identifyMetadataValues);
         this.right.getMetadata().annotate(query, ignoreMetadataKeys, identifyMetadataValues);
     }
@@ -106,11 +104,17 @@ public final class MaterialProduct
 
     public Double getDiffRatio() { return this.diffRatio; }
 
-    public Boolean isChecked() { return this.checked; }
-
-    public void setChecked(Boolean checked) {
-        Objects.requireNonNull(checked);
-        this.checked = checked;
+    /**
+     * return true if either of the left Material or the right Material is
+     * Material.NULL_OBJECT object. In other words, return true if this
+     * MaterialProduct object has single Material object contained;
+     * return false if both of the left and right is stuffed Material.
+     *
+     * @return true if either of the left Material or the right Material is NULL object
+     */
+    public Boolean isBachelor() {
+        return (getLeft() == Material.NULL_OBJECT ||
+                getRight() == Material.NULL_OBJECT  );
     }
 
     public JobTimestamp getReducedTimestamp() {
@@ -173,11 +177,7 @@ public final class MaterialProduct
     }
 
     public boolean contains(Material material) {
-        if (this.containsMaterialAt(material) == 0) {
-            return false;
-        } else {
-            return true;
-        }
+        return this.containsMaterialAt(material) != 0;
     }
 
     public int containsMaterialAt(Material material) {
@@ -197,8 +197,8 @@ public final class MaterialProduct
         //sb.append("\"reducedTimestamp\":\"");
         //sb.append(reducedTimestamp.toString());
         //sb.append("\",");
-        sb.append("\"checked\":");
-        sb.append(checked);
+        sb.append("\"isBachelor\":");
+        sb.append(this.isBachelor());
         sb.append(",");
         sb.append("\"diffRatio\":");
         sb.append(diffRatio);
@@ -246,7 +246,6 @@ public final class MaterialProduct
         private QueryOnMetadata query;
         private final Double diffRatio;
         private SortKeys sortKeys;
-        private final Boolean checked;
         public Builder(Material left, Material right, JobTimestamp reducedTimestamp) {
             Objects.requireNonNull(left);
             Objects.requireNonNull(right);
@@ -258,7 +257,6 @@ public final class MaterialProduct
             this.query = QueryOnMetadata.NULL_OBJECT;
             this.diffRatio = 0.0d;
             this.sortKeys = SortKeys.NULL_OBJECT;
-            this.checked = false;
         }
 
         public Builder setQueryOnMetadata(QueryOnMetadata query) {

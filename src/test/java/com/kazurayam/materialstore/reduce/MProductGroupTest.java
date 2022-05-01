@@ -109,10 +109,10 @@ public class MProductGroupTest {
     }
 
     @Test
-    public void test_getCountIgnorable() {
+    public void test_getNumberOfBachelors() {
         MaterialProduct tmp = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT).build();
         baseMProductGroup.add(tmp);
-        assertEquals(0, baseMProductGroup.getCountIgnorable());
+        assertEquals(1, baseMProductGroup.getNumberOfBachelors());
     }
 
     @Test

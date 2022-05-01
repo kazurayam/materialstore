@@ -177,17 +177,18 @@ public final class MProductGroup
     public int getCountWarning() {
         List<MaterialProduct> filtered = new ArrayList<>();
         for (MaterialProduct mp : this) {
-            if (mp.getDiffRatio() > this.getCriteria() && !mp.isChecked()) {
+            if (mp.getDiffRatio() > this.getCriteria() && !mp.isBachelor()) {
                 filtered.add(mp);
             }
         }
         return filtered.size();
     }
 
-    public int getCountIgnorable() {
-        List<MaterialProduct> filtered = this.materialProductList.stream()
-                .filter(MaterialProduct::isChecked)
-                .collect(Collectors.toList());
+    public int getNumberOfBachelors() {
+        List<MaterialProduct> filtered =
+                this.materialProductList.stream()
+                        .filter(MaterialProduct::isBachelor)
+                        .collect(Collectors.toList());
         return filtered.size();
     }
 
@@ -440,8 +441,8 @@ public final class MProductGroup
         sb.append("\"countWarning\":");
         sb.append(getCountWarning());
         sb.append(",");
-        sb.append("\"countIgnorable\":");
-        sb.append(getCountIgnorable());
+        sb.append("\"numberOfBachelors\":");
+        sb.append(getNumberOfBachelors());
         sb.append(",");
         sb.append("\"countTotal\":");
         sb.append(getCountTotal());

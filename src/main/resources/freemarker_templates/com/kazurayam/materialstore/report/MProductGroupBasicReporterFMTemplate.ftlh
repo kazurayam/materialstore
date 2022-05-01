@@ -16,7 +16,7 @@
   <body>
     <div class="container">
       <p id="count"><span class="warnings">${mProductGroup.countWarning?string("0")}</span>w
-        <span class="ignorable">${mProductGroup.countIgnorable?string("0")}</span>i
+        <span class="bachelors">${mProductGroup.numberOfBachelors?string("0")}</span>i
         <span class="total">${mProductGroup.countTotal?string("0")}</span>t</p>
       <h1 class="title">${title}
         <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsingHeader" aria-expanded="false" aria-controls="collapsingHeader">About</button>
