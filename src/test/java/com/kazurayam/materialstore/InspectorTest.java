@@ -87,7 +87,11 @@ public class InspectorTest {
     public void test_report_MProductGroup() throws MaterialstoreException {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("URL.query", "\\w{32}");
-        MProductGroup preparedAG = MProductGroup.builder(left, right).ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.host").build();
+        MProductGroup preparedAG = MProductGroup.builder(left, right)
+                .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
+                .identifyWithRegex(map)
+                .sort("URL.host")
+                .build();
         MProductGroup reduced = inspector.reduce(preparedAG);
         double criteria = 0.0D;
         Assertions.assertTrue(reduced.countWarnings(criteria) > 0);

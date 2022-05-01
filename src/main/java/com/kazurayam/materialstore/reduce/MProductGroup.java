@@ -4,7 +4,6 @@ import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.Identifiable;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
-import com.kazurayam.materialstore.filesystem.Jsonifiable;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.MaterialIO;
 import com.kazurayam.materialstore.filesystem.MaterialList;
@@ -31,7 +30,7 @@ public final class MProductGroup
         implements Iterable<MaterialProduct>, TemplateReady, Identifiable {
 
     private static final Logger logger = LoggerFactory.getLogger(MProductGroup.class);
-    private final List<MaterialProduct> mProductList;
+    private final List<MaterialProduct> materialProductList;
     private final JobTimestamp resultTimestamp;
     private MaterialList materialList0;
     private MaterialList materialList1;
@@ -51,7 +50,7 @@ public final class MProductGroup
         this.resultTimestamp = builder.resultTimestamp;
 
         // this is the most mysterious part of the materialstore library
-        this.mProductList =
+        this.materialProductList =
                 zipMaterials(materialList0, materialList1,
                         resultTimestamp,
                         ignoreMetadataKeys,
@@ -77,18 +76,18 @@ public final class MProductGroup
         for (MaterialProduct sourceMProduct : source) {
             tmp.add(new MaterialProduct(sourceMProduct));
         }
-        this.mProductList = tmp;
+        this.materialProductList = tmp;
         this.resultTimestamp = source.getResultTimestamp();
         this.readyToReport = source.isReadyToReport();
     }
 
     public void add(MaterialProduct mProduct) {
         mProduct.annotate(ignoreMetadataKeys, identifyMetadataValues);
-        mProductList.add(mProduct);
+        materialProductList.add(mProduct);
     }
 
     public boolean update(MaterialProduct mProduct) {
-        boolean wasPresent = mProductList.remove(mProduct);
+        boolean wasPresent = materialProductList.remove(mProduct);
         this.add(mProduct);
         return wasPresent;
     }
@@ -107,7 +106,7 @@ public final class MProductGroup
     public int countExceeding(final Double criteria) {
         Objects.requireNonNull(criteria);
         int count = 0;
-        for (MaterialProduct mProduct : mProductList) {
+        for (MaterialProduct mProduct : materialProductList) {
             assert mProduct != null;
             assert mProduct.getDiffRatio() != null;
             if (mProduct.getDiffRatio() > criteria) {
@@ -118,7 +117,7 @@ public final class MProductGroup
     }
 
     public MaterialProduct get(int index) {
-        return mProductList.get(index);
+        return materialProductList.get(index);
     }
 
     public JobTimestamp getResultTimestamp() {
@@ -186,20 +185,20 @@ public final class MProductGroup
     }
 
     public int getCountIgnorable() {
-        List<MaterialProduct> filtered = this.mProductList.stream()
+        List<MaterialProduct> filtered = this.materialProductList.stream()
                 .filter(MaterialProduct::isChecked)
                 .collect(Collectors.toList());
         return filtered.size();
     }
 
-    public long getCountTotal() { return this.mProductList.size(); }
+    public long getCountTotal() { return this.materialProductList.size(); }
 
     public boolean isReadyToReport() {
         return this.readyToReport;
     }
 
     public Iterator<MaterialProduct> iterator() {
-        return mProductList.iterator();
+        return materialProductList.iterator();
     }
 
     public void setIdentifyMetadataValues(IdentifyMetadataValues identifyMetadataValues) {
@@ -231,16 +230,16 @@ public final class MProductGroup
     }
 
     public int size() {
-        return mProductList.size();
+        return materialProductList.size();
     }
 
     public void sort() {
-        Collections.sort(mProductList);
+        Collections.sort(materialProductList);
     }
 
     public List<QueryOnMetadata> getQueryOnMetadataList() {
         final List<QueryOnMetadata> list = new ArrayList<>();
-        for (MaterialProduct mProduct : mProductList) {
+        for (MaterialProduct mProduct : materialProductList) {
             QueryOnMetadata query = mProduct.getQueryOnMetadata();
             QueryOnMetadata deepCopy = QueryOnMetadata.builder(query).build();
             list.add(deepCopy);
@@ -426,9 +425,9 @@ public final class MProductGroup
         if (fullContent) {
             sb.append(",");
             int count = 0;
-            sb.append("\"mProductList\":");
+            sb.append("\"materialProductList\":");
             sb.append("[");
-            for (MaterialProduct mProduct : mProductList) {
+            for (MaterialProduct mProduct : materialProductList) {
                 if (count > 0) {
                     sb.append(",");
                 }

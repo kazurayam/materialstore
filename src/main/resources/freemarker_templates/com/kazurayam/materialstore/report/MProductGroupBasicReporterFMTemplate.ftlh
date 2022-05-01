@@ -69,7 +69,7 @@
       </div>
       <div class="accordion accordion--custom" id="diff-contents">
         <#assign index=0>
-        <#list mProductGroup.mProductList>
+        <#list mProductGroup.materialProductList>
           <#items as mProduct>
             <#if mProduct??>
               <div id="accordion${index}" class="accordion-item">

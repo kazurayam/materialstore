@@ -107,7 +107,8 @@ public class MaterialNodeTest {
                         .build();
         MaterialInMProductGroup materialInMPG =
                 new MaterialInMProductGroup(mpg, leftMaterialList.get(0));
-        assertEquals(new GraphNodeId("MPG90d197dMP32ab516M5bd4611L"), materialInMPG.getGraphNodeId());
+        assertEquals(new GraphNodeId("MPG6f6ed8bMP32ab516M5bd4611L"),
+                materialInMPG.getGraphNodeId());
     }
 
     @Test
@@ -120,6 +121,7 @@ public class MaterialNodeTest {
                         .build();
         MaterialInMProductGroupBeforeZip materialInMPG =
                 new MaterialInMProductGroupBeforeZip(mpg, leftMaterialList.get(0));
-        assertEquals(new GraphNodeId("MPGBZ90d197dML561b663M5bd4611L"), materialInMPG.getGraphNodeId());
+        assertEquals(new GraphNodeId("MPGBZ6f6ed8bML561b663M5bd4611L"),
+                materialInMPG.getGraphNodeId());
     }
 }
