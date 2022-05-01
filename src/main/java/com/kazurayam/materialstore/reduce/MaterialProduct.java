@@ -197,6 +197,15 @@ public final class MaterialProduct
         //sb.append("\"reducedTimestamp\":\"");
         //sb.append(reducedTimestamp.toString());
         //sb.append("\",");
+
+        // The "checked" property is used by the JavaScript in the report HTML
+        // for rendering "WIT".
+        // see https://github.com/kazurayam/materialstore/issues/224 to know
+        // what "WIT" is.
+        sb.append("\"checked\":");
+        sb.append("false");
+        sb.append(",");
+
         sb.append("\"isBachelor\":");
         sb.append(this.isBachelor());
         sb.append(",");

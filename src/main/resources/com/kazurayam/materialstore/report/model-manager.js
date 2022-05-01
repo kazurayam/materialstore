@@ -2,12 +2,12 @@
 $(document).ready(function() {
     /* try to restore the model from localStorage */
     let loaded = loadModel();
-    if (loaded === null || !('mProductList' in loaded)) {
+    if (loaded === null || !('materialProductList' in loaded)) {
         console.log("The model was not restored from localStorage. Use the given model as is.");
     } else {
         // restore the MaterialProducts as "model" with the loaded one.
-        loaded.mProductList.forEach(storedMProduct => {
-            model.mProductList.forEach(currentMProduct => {
+        loaded.materialProductList.forEach(storedMProduct => {
+            model.materialProductList.forEach(currentMProduct => {
                 if (currentMProduct.fileTypeExtension === storedMProduct.fileTypeExtension &&
                     currentMProduct.description === storedMProduct.description) {
                     // restore the status
@@ -27,9 +27,9 @@ $(document).ready(function() {
      */
     $("input[id^='ignorable']").each(function(index, value) {
         const id = $(this).prop("id");
-        const checked = model.mProductList[index].checked;
-        const diffRatio = model.mProductList[index].diffRatio;   // NOTE THIS!
-        console.log("* " + id + " with data-index=" + index + " with checked="  + checked);
+        const checked   = model.materialProductList[index].checked;
+        const diffRatio = model.materialProductList[index].diffRatio;   // NOTE THIS!
+        console.log("* " + id + " with data-index=" + index + " with checked=" + checked);
         $(this).prop("checked", checked);
         classifyRatioSpan($(this), index, id, checked, diffRatio);
     });
@@ -42,7 +42,7 @@ $(document).ready(function() {
         const index = $(this).attr("data-index");
         const id = $(this).prop("id");
         const checked = $(this).prop("checked");
-        const diffRatio = model.mProductList[index].diffRatio;
+        const diffRatio = model.materialProductList[index].diffRatio;
         console.log(id + " with data-index=" + index + " with checked="  + checked);
         classifyRatioSpan($(this), index, id, checked, diffRatio);
         //
@@ -67,7 +67,7 @@ function loadModel() {
     console.log("loading the model from localStorage");
     const model = getWithExpiry('model');
     if (model !== null) {
-        if ('mProductList' in model) {
+        if ('materialProductList' in model) {
             console.log("getWithExpiry('model') returned a valid model");
             return model;
         } else {
@@ -81,8 +81,8 @@ function loadModel() {
 }
 
 function setChecked(model, index, checked) {
-    model.mProductList[index].checked = checked;
-    console.log("set model.mProductList[" + index + "].checked to be " + checked);
+    model.materialProductList[index].checked = checked;
+    console.log("set model.materialProductList[" + index + "].checked to be " + checked);
 }
 
 function classifyRatioSpan(input, index, id, checked, diffRatio) {
@@ -116,10 +116,10 @@ function updateCountDisplay(mdl) {
     console.log("updating the display of count");
     //
     model.countWarning =
-        model.mProductList
+        model.materialProductList
             .filter(mp => mp.diffRatio > model.criteria && ! mp.checked).length;
     model.countIgnorable =
-        model.mProductList
+        model.materialProductList
             .filter(mp => mp.diffRatio > model.criteria && mp.checked).length;
     //
     $(document).find("#count .warnings").text(mdl.countWarning.toFixed());
@@ -184,7 +184,7 @@ function getWithExpiry(key) {
     },
     "size": 2.0
   },
-  "mProductList": [
+  "materialProductList": [
     {
       "reducedTimestamp": "20220409_101751",
       "checked": false,

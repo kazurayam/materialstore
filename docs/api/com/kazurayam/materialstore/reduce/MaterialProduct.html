@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10,"i23":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10,"i6":10,"i7":10,"i8":10,"i9":10,"i10":10,"i11":10,"i12":10,"i13":10,"i14":10,"i15":10,"i16":10,"i17":10,"i18":10,"i19":10,"i20":10,"i21":10,"i22":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -266,29 +266,28 @@ implements java.lang.Comparable&lt;<a href="../../../../com/kazurayam/materialst
 </tr>
 <tr id="i17" class="rowColor">
 <td class="colFirst"><code>java.lang.Boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProduct.html#isChecked--">isChecked</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProduct.html#isBachelor--">isBachelor</a></span>()</code>
+<div class="block">return true if either of the left Material or the right Material is
+ Material.NULL_OBJECT object.</div>
+</td>
 </tr>
 <tr id="i18" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProduct.html#setChecked-java.lang.Boolean-">setChecked</a></span>(java.lang.Boolean&nbsp;checked)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProduct.html#setDiff-com.kazurayam.materialstore.filesystem.Material-">setDiff</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a>&nbsp;diff)</code>&nbsp;</td>
 </tr>
 <tr id="i19" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProduct.html#setDiff-com.kazurayam.materialstore.filesystem.Material-">setDiff</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a>&nbsp;diff)</code>&nbsp;</td>
-</tr>
-<tr id="i20" class="altColor">
-<td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProduct.html#setDiffRatio-java.lang.Double-">setDiffRatio</a></span>(java.lang.Double&nbsp;diffRatio)</code>&nbsp;</td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProduct.html#toJson--">toJson</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i21" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProduct.html#toJson-boolean-">toJson</a></span>(boolean&nbsp;prettyPrint)</code>&nbsp;</td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProduct.html#toString--">toString</a></span>()</code>&nbsp;</td>
 </tr>
@@ -438,22 +437,21 @@ implements java.lang.Comparable&lt;<a href="../../../../com/kazurayam/materialst
 <pre>public&nbsp;java.lang.Double&nbsp;getDiffRatio()</pre>
 </li>
 </ul>
-<a name="isChecked--">
+<a name="isBachelor--">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>isChecked</h4>
-<pre>public&nbsp;java.lang.Boolean&nbsp;isChecked()</pre>
-</li>
-</ul>
-<a name="setChecked-java.lang.Boolean-">
-<!--   -->
-</a>
-<ul class="blockList">
-<li class="blockList">
-<h4>setChecked</h4>
-<pre>public&nbsp;void&nbsp;setChecked(java.lang.Boolean&nbsp;checked)</pre>
+<h4>isBachelor</h4>
+<pre>public&nbsp;java.lang.Boolean&nbsp;isBachelor()</pre>
+<div class="block">return true if either of the left Material or the right Material is
+ Material.NULL_OBJECT object. In other words, return true if this
+ MaterialProduct object has single Material object contained;
+ return false if both of the left and right is stuffed Material.</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if either of the left Material or the right Material is NULL object</dd>
+</dl>
 </li>
 </ul>
 <a name="getReducedTimestamp--">
