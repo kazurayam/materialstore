@@ -11,7 +11,7 @@ import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.StoreImpl;
 import com.kazurayam.materialstore.reduce.MProductGroup;
-import com.kazurayam.materialstore.zip.MaterialProduct;
+import com.kazurayam.materialstore.reduce.zip.zip.MaterialProduct;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -47,7 +47,7 @@ public class ImageDifferToPNGTest {
         Assertions.assertNotNull(mProductGroup);
         Assertions.assertEquals(2, mProductGroup.size(), JsonUtil.prettyPrint(mProductGroup.toString()));
         //
-        MaterialProduct stuffed = new ImageDifferToPNG(store).injectDiff(mProductGroup.get(0));
+        MaterialProduct stuffed = new ImageDifferToPNG(store).stuffDiff(mProductGroup.get(0));
         Assertions.assertNotNull(stuffed);
         Assertions.assertNotNull(stuffed.getDiff());
         Assertions.assertTrue(stuffed.getDiffRatio() > 0);

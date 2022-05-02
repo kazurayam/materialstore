@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.Jobber;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.Store;
-import com.kazurayam.materialstore.zip.MaterialProduct;
+import com.kazurayam.materialstore.reduce.zip.zip.MaterialProduct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +42,7 @@ public abstract class AbstractTextDiffer implements Differ {
     }
 
     @Override
-    public MaterialProduct injectDiff(MaterialProduct mProduct) throws MaterialstoreException {
+    public MaterialProduct stuffDiff(MaterialProduct mProduct) throws MaterialstoreException {
         Objects.requireNonNull(store);
         Objects.requireNonNull(mProduct);
         Objects.requireNonNull(mProduct.getLeft());

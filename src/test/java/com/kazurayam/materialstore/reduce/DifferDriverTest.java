@@ -21,9 +21,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 
-public class DifferDriverImplTest {
+public class DifferDriverTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(DifferDriverImplTest.class.getName());
+    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(DifferDriverTest.class.getName());
     private static Store store;
 
     @BeforeAll
@@ -42,7 +42,7 @@ public class DifferDriverImplTest {
     public void test_Builder_differFor() {
         DifferDriver differDriver =
 
-                new DifferDriverImpl.Builder(store)
+                new DifferDriver.Builder(store)
                         .differFor(FileType.JPEG, new ImageDifferToPNG(store))
                         .build();
         Assertions.assertTrue(differDriver.hasDiffer(FileType.JPEG));
@@ -69,7 +69,7 @@ public class DifferDriverImplTest {
         Assertions.assertNotNull(mProductGroup);
         Assertions.assertEquals(1, mProductGroup.size());
         //
-        DifferDriver differDriver = new DifferDriverImpl.Builder(store).build();
+        DifferDriver differDriver = new DifferDriver.Builder(store).build();
         MProductGroup resolved = differDriver.reduce(mProductGroup);
         Assertions.assertEquals(1, resolved.size());
     }
@@ -92,7 +92,7 @@ public class DifferDriverImplTest {
         Assertions.assertNotNull(mProductGroup);
         Assertions.assertEquals(2, mProductGroup.size());
         //
-        DifferDriver differDriver = new DifferDriverImpl.Builder(store).build();
+        DifferDriver differDriver = new DifferDriver.Builder(store).build();
         MProductGroup resolved = differDriver.reduce(mProductGroup);
         Assertions.assertNotNull(resolved);
         Assertions.assertEquals(2, resolved.size());

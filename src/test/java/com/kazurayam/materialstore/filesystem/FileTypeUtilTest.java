@@ -18,19 +18,19 @@ public class FileTypeUtilTest {
 
     @Test
     public void test_getFileTypesDiffableAsImage() {
-        List<FileType> fileTypes = FileTypeUtil.getFileTypesDiffableAsImage();
+        List<IFileType> fileTypes = FileTypeUtil.getFileTypesDiffableAsImage();
         assertTrue(fileTypes.contains(FileType.PNG));
     }
 
     @Test
     public void test_getFileTypesDiffableAsText() {
-        List<FileType> fileTypes = FileTypeUtil.getFileTypesDiffableAsText();
+        List<IFileType> fileTypes = FileTypeUtil.getFileTypesDiffableAsText();
         assertTrue(fileTypes.contains(FileType.HTML));
     }
 
     @Test
     public void test_getFileTypesUnableToDiff() {
-        List<FileType> fileTypes = FileTypeUtil.getFileTypesUnableToDiff();
+        List<IFileType> fileTypes = FileTypeUtil.getFileTypesUnableToDiff();
         assertTrue(fileTypes.contains(FileType.ZIP));
     }
 

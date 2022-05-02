@@ -11,8 +11,8 @@ import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.util.JsonUtil;
-import com.kazurayam.materialstore.zip.MaterialProduct;
-import com.kazurayam.materialstore.zip.Zipper;
+import com.kazurayam.materialstore.reduce.zip.zip.MaterialProduct;
+import com.kazurayam.materialstore.reduce.zip.zip.Zipper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

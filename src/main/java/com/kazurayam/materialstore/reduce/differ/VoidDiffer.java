@@ -6,7 +6,7 @@ import com.kazurayam.materialstore.filesystem.Jobber;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.Store;
-import com.kazurayam.materialstore.zip.MaterialProduct;
+import com.kazurayam.materialstore.reduce.zip.zip.MaterialProduct;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -45,7 +45,7 @@ public final class VoidDiffer implements Differ {
     }
 
     @Override
-    public MaterialProduct injectDiff(MaterialProduct mProduct) throws MaterialstoreException {
+    public MaterialProduct stuffDiff(MaterialProduct mProduct) throws MaterialstoreException {
         Objects.requireNonNull(mProduct);
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());

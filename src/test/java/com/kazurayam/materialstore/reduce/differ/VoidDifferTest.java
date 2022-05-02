@@ -10,7 +10,6 @@ import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.reduce.DifferDriver;
-import com.kazurayam.materialstore.reduce.DifferDriverImpl;
 import com.kazurayam.materialstore.reduce.MProductGroup;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
@@ -70,8 +69,8 @@ public class VoidDifferTest {
     @Test
     public void test_smoke() throws MaterialstoreException {
         VoidDiffer voidDiffer = new VoidDiffer(store);
-        DifferDriver differDriver = new DifferDriverImpl.Builder(store).differFor(FileType.WOFF2, voidDiffer).build();
-        differDriver.differentiate(prepared);
+        DifferDriver differDriver = new DifferDriver.Builder(store).differFor(FileType.WOFF2, voidDiffer).build();
+        differDriver.reduce(prepared);
         //
         JobTimestamp latestTimestamp = store.findLatestJobTimestamp(jobName);
         MaterialList materialList = store.select(jobName, latestTimestamp, QueryOnMetadata.ANY);

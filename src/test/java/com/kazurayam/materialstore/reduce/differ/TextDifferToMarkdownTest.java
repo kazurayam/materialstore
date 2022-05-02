@@ -11,7 +11,7 @@ import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.StoreImpl;
 import com.kazurayam.materialstore.reduce.MProductGroup;
-import com.kazurayam.materialstore.zip.MaterialProduct;
+import com.kazurayam.materialstore.reduce.zip.zip.MaterialProduct;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -45,7 +45,7 @@ public class TextDifferToMarkdownTest {
         Assertions.assertNotNull(mProductGroup);
         Assertions.assertEquals(1, mProductGroup.size());
         //
-        MaterialProduct stuffed = new TextDifferToMarkdown(store).injectDiff(mProductGroup.get(0));
+        MaterialProduct stuffed = new TextDifferToMarkdown(store).stuffDiff(mProductGroup.get(0));
         Assertions.assertNotNull(stuffed);
         Assertions.assertNotNull(stuffed.getDiff());
         Assertions.assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff());

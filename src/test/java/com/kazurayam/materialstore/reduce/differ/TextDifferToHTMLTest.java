@@ -10,7 +10,7 @@ import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.StoreImpl;
 import com.kazurayam.materialstore.reduce.MProductGroup;
-import com.kazurayam.materialstore.zip.MaterialProduct;
+import com.kazurayam.materialstore.reduce.zip.zip.MaterialProduct;
 import com.kazurayam.materialstore.report.AbstractReporterTest;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
@@ -60,7 +60,7 @@ public class TextDifferToHTMLTest extends AbstractReporterTest {
         MProductGroup prepared = prepareMProductGroup(store, jobName);
         TextDifferToHTML instance = new TextDifferToHTML(store);
         instance.enablePrettyPrinting(false);
-        return instance.injectDiff(prepared.get(0));
+        return instance.stuffDiff(prepared.get(0));
     }
 
     /**
