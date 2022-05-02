@@ -20,13 +20,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public final class DifferDriver implements Reducer {
+public final class DiffingReducer implements Reducer {
 
-    private static final Logger logger = LoggerFactory.getLogger(DifferDriver.class);
+    private static final Logger logger = LoggerFactory.getLogger(DiffingReducer.class);
     private final Store store;
     private final Map<IFileType, Differ> differs;
 
-    private DifferDriver(Builder builder) {
+    private DiffingReducer(Builder builder) {
         this.store = builder.store;
         this.differs = builder.differs;
     }
@@ -106,8 +106,8 @@ public final class DifferDriver implements Reducer {
             return this;
         }
 
-        public DifferDriver build() {
-            return new DifferDriver(this);
+        public DiffingReducer build() {
+            return new DiffingReducer(this);
         }
     }
 }
