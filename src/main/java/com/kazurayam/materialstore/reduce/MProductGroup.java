@@ -11,8 +11,8 @@ import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.util.JsonUtil;
-import com.kazurayam.materialstore.reduce.zip.zip.MaterialProduct;
-import com.kazurayam.materialstore.reduce.zip.zip.Zipper;
+import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
+import com.kazurayam.materialstore.reduce.zipper.Zipper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +25,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * A group of MaterialProduct objects.
+ *
+ */
 public final class MProductGroup
         implements Iterable<MaterialProduct>, TemplateReady, Identifiable {
 

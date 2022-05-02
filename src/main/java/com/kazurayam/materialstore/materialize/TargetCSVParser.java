@@ -7,10 +7,10 @@ import java.io.Reader;
 import java.nio.file.Path;
 import java.util.List;
 
-public abstract class TargetCSVReader {
+public abstract class TargetCSVParser {
 
-    static TargetCSVReader newSimpleReader() {
-        return new SimpleTargetCSVReader();
+    static TargetCSVParser newSimpleParser() {
+        return new SimpleTargetCSVParser();
     }
 
     public abstract List<Target> parse(File file) throws MaterialstoreException;

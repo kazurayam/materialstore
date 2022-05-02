@@ -11,7 +11,7 @@ import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.StoreImpl;
 import com.kazurayam.materialstore.reduce.MProductGroup;
-import com.kazurayam.materialstore.reduce.zip.zip.MaterialProduct;
+import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

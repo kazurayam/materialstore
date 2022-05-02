@@ -32,11 +32,11 @@ import java.util.List;
  * The 2nd column is interpreted as an XPath string to a web element in a web page.
  * The system will wait for the web element to be visible after the URL is loaded into browser.
  */
-public final class SimpleTargetCSVReader extends TargetCSVReader {
+public final class SimpleTargetCSVParser extends TargetCSVParser {
 
-    private static Logger logger = LoggerFactory.getLogger(SimpleTargetCSVReader.class);
+    private static Logger logger = LoggerFactory.getLogger(SimpleTargetCSVParser.class);
 
-    SimpleTargetCSVReader() {}
+    SimpleTargetCSVParser() {}
 
     @Override
     public List<Target> parse(String csvText) throws MaterialstoreException {

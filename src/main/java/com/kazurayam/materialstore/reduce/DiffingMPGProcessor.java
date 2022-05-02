@@ -10,7 +10,7 @@ import com.kazurayam.materialstore.reduce.differ.Differ;
 import com.kazurayam.materialstore.reduce.differ.ImageDifferToPNG;
 import com.kazurayam.materialstore.reduce.differ.TextDifferToHTML;
 import com.kazurayam.materialstore.reduce.differ.VoidDiffer;
-import com.kazurayam.materialstore.reduce.zip.zip.MaterialProduct;
+import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

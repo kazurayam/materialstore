@@ -14,7 +14,7 @@ import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.util.JsonUtil;
-import com.kazurayam.materialstore.reduce.zip.zip.MaterialProduct;
+import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

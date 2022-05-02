@@ -4,7 +4,7 @@ import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.reduce.MProductGroup;
-import com.kazurayam.materialstore.reduce.zip.zip.MaterialProduct;
+import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.util.JsonUtil;
 import com.kazurayam.materialstore.util.StringUtils;
 import com.kazurayam.subprocessj.Subprocess;

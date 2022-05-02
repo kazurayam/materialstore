@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.reduce.zip.zip;
+package com.kazurayam.materialstore.reduce.zipper;
 
 import com.kazurayam.materialstore.filesystem.IFileType;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
@@ -18,6 +18,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * contains the "zipMaterials" method that takes 2 MaterialList objects (left, right)
+ * together with some parameters, create a List of MaterialProduct objects.
+ * 2 Lists are converted into 1 List.
+ * It is the reason why this method and this class is named "zipper".
+ */
 public final class Zipper {
 
     private static Logger logger = LoggerFactory.getLogger(Zipper.class);
@@ -25,7 +31,13 @@ public final class Zipper {
     /**
      *
      */
-    public static List<MaterialProduct> zipMaterials(final MaterialList leftList, final MaterialList rightList, final JobTimestamp resultTimestamp, final IgnoreMetadataKeys ignoreMetadataKeys, final IdentifyMetadataValues identifyMetadataValues, final SortKeys sortKeys) {
+    public static List<MaterialProduct> zipMaterials(
+            final MaterialList leftList,
+            final MaterialList rightList,
+            final JobTimestamp resultTimestamp,
+            final IgnoreMetadataKeys ignoreMetadataKeys,
+            final IdentifyMetadataValues identifyMetadataValues,
+            final SortKeys sortKeys) {
         Objects.requireNonNull(leftList);
         Objects.requireNonNull(rightList);
         Objects.requireNonNull(resultTimestamp);

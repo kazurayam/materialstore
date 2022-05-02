@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.reduce.differ;
 
 import com.kazurayam.materialstore.MaterialstoreException;
-import com.kazurayam.materialstore.reduce.zip.zip.MaterialProduct;
+import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 
 public interface Differ {
 

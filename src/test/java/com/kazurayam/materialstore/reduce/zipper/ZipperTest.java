@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.reduce.zip.zip;
+package com.kazurayam.materialstore.reduce.zipper;
 
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.JobName;
