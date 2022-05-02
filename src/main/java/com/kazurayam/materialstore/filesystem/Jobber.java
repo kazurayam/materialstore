@@ -63,7 +63,7 @@ public final class Jobber {
         return getJobResultDir().resolve(OBJECTS_DIR_NAME);
     }
 
-    public byte[] read(final ID id, final FileType fileType) throws MaterialstoreException {
+    public byte[] read(final ID id, final IFileType fileType) throws MaterialstoreException {
         Objects.requireNonNull(id);
         Objects.requireNonNull(fileType);
         String fileName = id + "." + fileType.getExtension();
@@ -81,7 +81,7 @@ public final class Jobber {
         return this.read(material.getIndexEntry());
     }
 
-    public MaterialList selectMaterials(final QueryOnMetadata query, final FileType fileType) {
+    public MaterialList selectMaterials(final QueryOnMetadata query, final IFileType fileType) {
         Objects.requireNonNull(query);
         Objects.requireNonNull(fileType);
         final MaterialList result = new MaterialList(jobName, jobTimestamp, query);
@@ -98,6 +98,7 @@ public final class Jobber {
     }
 
     public MaterialList selectMaterials(QueryOnMetadata query) {
+        //
         return selectMaterials(query, FileType.NULL_OBJECT);
     }
 
@@ -146,11 +147,11 @@ public final class Jobber {
      * ac9be9a1053828f1e12e1cee4d66ff66adf60f9f	png	{"URL.file":"/", profile":"ProductionEnv"}
      * </pre>
      */
-    public Material write(byte[] data, FileType fileType, Metadata metadata) throws MaterialstoreException {
+    public Material write(byte[] data, IFileType fileType, Metadata metadata) throws MaterialstoreException {
         return write(data, fileType, metadata, DuplicationHandling.TERMINATE);
     }
 
-    public Material write(byte[] data, final FileType fileType, final Metadata metadata,
+    public Material write(byte[] data, final IFileType fileType, final Metadata metadata,
                           final DuplicationHandling duplicationHandling)
             throws DuplicatingMaterialException, MaterialstoreException {
         Objects.requireNonNull(metadata);

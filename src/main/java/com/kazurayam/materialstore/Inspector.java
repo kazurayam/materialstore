@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore;
 
+import com.kazurayam.materialstore.filesystem.FileTypeDiffability;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.Store;
@@ -7,6 +8,7 @@ import com.kazurayam.materialstore.reduce.MProductGroup;
 import com.kazurayam.materialstore.report.MProductGroupReporter;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public abstract class Inspector {
     /**
@@ -27,4 +29,5 @@ public abstract class Inspector {
     public abstract Path report(MaterialList materialList, String fileName) throws MaterialstoreException;
 
     public abstract void report(MaterialList materialList, Path filePath) throws MaterialstoreException;
+
 }

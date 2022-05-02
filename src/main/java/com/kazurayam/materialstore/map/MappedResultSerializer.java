@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.map;
 
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.FileType;
+import com.kazurayam.materialstore.filesystem.IFileType;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.Metadata;
@@ -24,7 +25,7 @@ public final class MappedResultSerializer extends MappingListener {
     }
 
     @Override
-    public void onMapped(byte[] data, FileType fileType, Metadata metadata) throws MaterialstoreException {
+    public void onMapped(byte[] data, IFileType fileType, Metadata metadata) throws MaterialstoreException {
         store.write(jobName, jobTimestamp, fileType, metadata, data);
     }
 

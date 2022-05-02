@@ -487,7 +487,7 @@ public final class StoreImpl implements Store {
     @Override
     public MaterialList select(JobName jobName,
                                JobTimestamp jobTimestamp,
-                               FileType fileType,
+                               IFileType fileType,
                                QueryOnMetadata query)
             throws MaterialstoreException {
         Jobber jobber = this.getJobber(jobName, jobTimestamp);
@@ -506,7 +506,7 @@ public final class StoreImpl implements Store {
     @Override
     public MaterialList select(JobName jobName,
                                JobTimestamp jobTimestamp,
-                               FileType fileType)
+                               IFileType fileType)
             throws MaterialstoreException {
         Jobber jobber = this.getJobber(jobName, jobTimestamp);
         return jobber.selectMaterials(QueryOnMetadata.ANY, fileType);
@@ -522,7 +522,7 @@ public final class StoreImpl implements Store {
     @Override
     public Material selectSingle(JobName jobName,
                                  JobTimestamp jobTimestamp,
-                                 FileType fileType,
+                                 IFileType fileType,
                                  QueryOnMetadata query)
             throws MaterialstoreException {
         Jobber jobber = this.getJobber(jobName, jobTimestamp);
@@ -537,7 +537,7 @@ public final class StoreImpl implements Store {
     @Override
     public Material selectSingle(JobName jobName,
                                  JobTimestamp jobTimestamp,
-                                 FileType fileType)
+                                 IFileType fileType)
             throws MaterialstoreException {
         Jobber jobber = this.getJobber(jobName, jobTimestamp);
         MaterialList materials = jobber.selectMaterials(QueryOnMetadata.ANY, fileType);
@@ -590,7 +590,7 @@ public final class StoreImpl implements Store {
     @Override
     public Material write(JobName jobName,
                           JobTimestamp jobTimestamp,
-                          FileType fileType,
+                          IFileType fileType,
                           Metadata meta,
                           BufferedImage input)
             throws MaterialstoreException {
@@ -600,7 +600,7 @@ public final class StoreImpl implements Store {
     @Override
     public Material write(JobName jobName,
                           JobTimestamp jobTimestamp,
-                          FileType fileType,
+                          IFileType fileType,
                           Metadata meta,
                           BufferedImage input,
                           DuplicationHandling flowControl)
@@ -620,7 +620,7 @@ public final class StoreImpl implements Store {
     @Override
     public Material write(JobName jobName,
                           JobTimestamp jobTimestamp,
-                          FileType fileType,
+                          IFileType fileType,
                           Metadata meta,
                           byte[] input) throws MaterialstoreException, DuplicatingMaterialException {
         return this.write(jobName, jobTimestamp, fileType, meta, input, DuplicationHandling.TERMINATE);
@@ -629,7 +629,7 @@ public final class StoreImpl implements Store {
     @Override
     public Material write(JobName jobName,
                           JobTimestamp jobTimestamp,
-                          FileType fileType,
+                          IFileType fileType,
                           Metadata meta,
                           byte[] input,
                           DuplicationHandling flowControl) throws MaterialstoreException {
@@ -645,7 +645,7 @@ public final class StoreImpl implements Store {
     @Override
     public Material write(JobName jobName,
                           JobTimestamp jobTimestamp,
-                          FileType fileType,
+                          IFileType fileType,
                           Metadata meta,
                           File input) throws MaterialstoreException {
         return this.write(jobName, jobTimestamp, fileType, meta, input, DuplicationHandling.TERMINATE);
@@ -654,7 +654,7 @@ public final class StoreImpl implements Store {
     @Override
     public Material write(JobName jobName,
                           JobTimestamp jobTimestamp,
-                          FileType fileType,
+                          IFileType fileType,
                           Metadata meta,
                           File input,
                           DuplicationHandling flowControl) throws MaterialstoreException {
@@ -673,7 +673,7 @@ public final class StoreImpl implements Store {
     @Override
     public Material write(JobName jobName,
                           JobTimestamp jobTimestamp,
-                          FileType fileType,
+                          IFileType fileType,
                           Metadata meta,
                           Path input) throws MaterialstoreException {
         return this.write(jobName, jobTimestamp, fileType, meta, input, DuplicationHandling.TERMINATE);
@@ -682,7 +682,7 @@ public final class StoreImpl implements Store {
     @Override
     public Material write(JobName jobName,
                           JobTimestamp jobTimestamp,
-                          FileType fileType,
+                          IFileType fileType,
                           Metadata meta,
                           Path input,
                           DuplicationHandling flowControl) throws MaterialstoreException {
@@ -701,7 +701,7 @@ public final class StoreImpl implements Store {
     @Override
     public Material write(JobName jobName,
                           JobTimestamp jobTimestamp,
-                          FileType fileType,
+                          IFileType fileType,
                           Metadata meta,
                           String input) throws MaterialstoreException {
         return write(jobName, jobTimestamp, fileType, meta, input,
@@ -711,7 +711,7 @@ public final class StoreImpl implements Store {
     @Override
     public Material write(JobName jobName,
                           JobTimestamp jobTimestamp,
-                          FileType fileType,
+                          IFileType fileType,
                           Metadata meta,
                           String input,
                           Charset charset) throws MaterialstoreException {
@@ -722,7 +722,7 @@ public final class StoreImpl implements Store {
     @Override
     public Material write(JobName jobName,
                           JobTimestamp jobTimestamp,
-                          FileType fileType,
+                          IFileType fileType,
                           Metadata meta,
                           String input,
                           DuplicationHandling flowControl) throws MaterialstoreException {
@@ -734,7 +734,7 @@ public final class StoreImpl implements Store {
     @Override
     public Material write(JobName jobName,
                           JobTimestamp jobTimestamp,
-                          FileType fileType,
+                          IFileType fileType,
                           Metadata meta,
                           String input,
                           Charset charset,

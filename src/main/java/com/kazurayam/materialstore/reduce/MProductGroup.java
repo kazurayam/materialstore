@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.reduce;
 
 import com.kazurayam.materialstore.filesystem.FileType;
+import com.kazurayam.materialstore.filesystem.IFileType;
 import com.kazurayam.materialstore.filesystem.Identifiable;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
@@ -266,7 +267,7 @@ public final class MProductGroup
         Iterator<Material> rightIter = rightList.iterator();
         while (rightIter.hasNext()) {
             Material right = rightIter.next();
-            final FileType rightFileType = right.getIndexEntry().getFileType();
+            final IFileType rightFileType = right.getIndexEntry().getFileType();
             Metadata rightMetadata = right.getIndexEntry().getMetadata();
             final QueryOnMetadata rightPattern = QueryOnMetadata.builder(rightMetadata, ignoreMetadataKeys).build();
             //
@@ -277,7 +278,7 @@ public final class MProductGroup
             Iterator<Material> leftIter = leftList.iterator();
             while (leftIter.hasNext()) {
                 Material left = leftIter.next();
-                final FileType leftFileType = left.getIndexEntry().getFileType();
+                final IFileType leftFileType = left.getIndexEntry().getFileType();
                 final Metadata leftMetadata = left.getIndexEntry().getMetadata();
                 if (leftFileType.equals(rightFileType) && (rightPattern.matches(leftMetadata) || identifyMetadataValues.matches(leftMetadata))) {
                     MaterialProduct mp = new MaterialProduct.Builder(left, right, resultTimestamp).setQueryOnMetadata(rightPattern).sortKeys(sortKeys).build();
@@ -307,7 +308,7 @@ public final class MProductGroup
         Iterator<Material> leftIter2 = leftList.iterator();
         while (leftIter2.hasNext()) {
             Material left = leftIter2.next();
-            final FileType leftFileType = left.getIndexEntry().getFileType();
+            final IFileType leftFileType = left.getIndexEntry().getFileType();
             Metadata leftMetadata = left.getIndexEntry().getMetadata();
             final QueryOnMetadata leftPattern =
                     QueryOnMetadata.builder(leftMetadata, ignoreMetadataKeys).build();
@@ -318,7 +319,7 @@ public final class MProductGroup
             Iterator<Material> rightIter2 = rightList.iterator();
             while (rightIter2.hasNext()) {
                 Material right = rightIter2.next();
-                final FileType rightFileType = right.getIndexEntry().getFileType();
+                final IFileType rightFileType = right.getIndexEntry().getFileType();
                 final Metadata rightMetadata = right.getIndexEntry().getMetadata();
                 if (rightFileType.equals(leftFileType) &&
                         (leftPattern.matches(rightMetadata) || identifyMetadataValues.matches(rightMetadata))) {

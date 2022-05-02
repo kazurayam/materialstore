@@ -51,19 +51,19 @@ final class Index implements Iterable<IndexEntry> {
         return jobDir.resolve("index");
     }
 
-    public List<IndexEntry> indexEntriesOf(FileType fileType, Metadata metadata) {
+    public List<IndexEntry> indexEntriesOf(IFileType fileType, Metadata metadata) {
         return lines_.stream()
                         .filter(ie ->
                                 ie.getFileType() == fileType && ie.getMetadata() == metadata)
                         .collect(Collectors.toList());
     }
 
-    public boolean containsKey(FileType fileType, Metadata metadata) {
+    public boolean containsKey(IFileType fileType, Metadata metadata) {
         List<IndexEntry> filtered = this.indexEntriesOf(fileType, metadata);
         return (filtered.size() > 0);
     }
 
-    public IndexEntry put(ID id, FileType fileType, Metadata metadata)
+    public IndexEntry put(ID id, IFileType fileType, Metadata metadata)
             throws MaterialstoreException {
         if (this.containsKey(fileType, metadata)) {
             throw new MaterialstoreException("the combination of " +
@@ -108,7 +108,7 @@ final class Index implements Iterable<IndexEntry> {
     public static String formatLine(IndexEntry indexEntry) {
         Objects.requireNonNull(indexEntry);
         ID id = indexEntry.getID();
-        FileType ft = indexEntry.getFileType();
+        IFileType ft = indexEntry.getFileType();
         Metadata md = indexEntry.getMetadata();
         StringBuilder sb = new StringBuilder();
         sb.append(id.toString());

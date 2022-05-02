@@ -41,7 +41,7 @@ public final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, Te
             }
             id = new ID(item1);
             if (items.size() > 1) {
-                fileType = FileType.getByExtension(items.get(1));
+                fileType = FileTypeUtil.getByExtension(items.get(1));
                 if (fileType == FileType.UNSUPPORTED) {
                     throw new IllegalArgumentException("unsupported file extension");
                 }
@@ -82,7 +82,7 @@ public final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, Te
         return descriptionSignature.substring(0, 7);
     }
 
-    public FileType getFileType() {
+    public IFileType getFileType() {
         return getMaterialIO().getFileType();
     }
 
@@ -158,7 +158,7 @@ public final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, Te
         Objects.requireNonNull(other);
         int comparisonByMetadata = this.getMetadata().compareTo(other.getMetadata());
         if (comparisonByMetadata == 0) {
-            int comparisonByFileType = this.getFileType().compareTo(other.getFileType());
+            int comparisonByFileType = compareIFileTypes(this.getFileType(), other.getFileType());
             if (comparisonByFileType == 0) {
                 return this.getID().compareTo(other.getID());
             } else {
@@ -167,5 +167,11 @@ public final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, Te
         } else {
             return comparisonByMetadata;
         }
+    }
+
+    private int compareIFileTypes(IFileType left, IFileType right) {
+        String leftExtension = left.getExtension();
+        String rightExtension = right.getExtension();
+        return leftExtension.compareTo(rightExtension);
     }
 }

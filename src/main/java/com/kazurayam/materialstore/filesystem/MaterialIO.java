@@ -16,7 +16,7 @@ import java.util.Objects;
 public final class MaterialIO {
 
     private final ID id_;
-    private final FileType fileType_;
+    private final IFileType fileType_;
     private static final int BUFFER_SIZE = 8000;
 
     /**
@@ -38,7 +38,7 @@ public final class MaterialIO {
         return sb.toString();
     }
 
-    public MaterialIO(ID id, FileType fileType) {
+    public MaterialIO(ID id, IFileType fileType) {
         Objects.requireNonNull(id);
         Objects.requireNonNull(fileType);
         this.id_ = id;
@@ -49,7 +49,7 @@ public final class MaterialIO {
         return id_;
     }
 
-    public FileType getFileType() {
+    public IFileType getFileType() {
         return this.fileType_;
     }
 

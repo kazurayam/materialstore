@@ -30,7 +30,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         this.indexEntry_ = indexEntry;
     }
 
-    public FileType getFileType() {
+    public IFileType getFileType() {
         return this.getIndexEntry().getFileType();
     }
 

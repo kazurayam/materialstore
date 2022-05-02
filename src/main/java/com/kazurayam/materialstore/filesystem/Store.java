@@ -69,52 +69,52 @@ public interface Store {
 
     MaterialList select(JobName jobName, JobTimestamp jobTimestamp, QueryOnMetadata query) throws MaterialstoreException;
 
-    MaterialList select(JobName jobName, JobTimestamp jobTimestamp, FileType fileType) throws MaterialstoreException;
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType) throws MaterialstoreException;
 
-    MaterialList select(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, QueryOnMetadata query) throws MaterialstoreException;
+    MaterialList select(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, QueryOnMetadata query) throws MaterialstoreException;
 
     Material selectSingle(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
-    Material selectSingle(JobName jobName, JobTimestamp jobTimestamp, FileType fileType) throws MaterialstoreException;
+    Material selectSingle(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType) throws MaterialstoreException;
 
     Material selectSingle(JobName jobName, JobTimestamp jobTimestamp, QueryOnMetadata query) throws MaterialstoreException;
 
-    Material selectSingle(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, QueryOnMetadata query) throws MaterialstoreException;
+    Material selectSingle(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, QueryOnMetadata query) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+    Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    BufferedImage input) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+    Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    BufferedImage input, Jobber.DuplicationHandling flowControl) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+    Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    byte[] input) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+    Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    byte[] input, Jobber.DuplicationHandling flowControl) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+    Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    File input) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+    Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    File input, Jobber.DuplicationHandling flowControl) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+    Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    Path input) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+    Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    Path input, Jobber.DuplicationHandling flowControl) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+    Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    String input) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+    Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    String input, Jobber.DuplicationHandling flowControl) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+    Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    String input, Charset charset) throws MaterialstoreException;
 
-    Material write(JobName jobName, JobTimestamp jobTimestamp, FileType fileType, Metadata meta,
+    Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    String input, Charset charset, Jobber.DuplicationHandling flowControl)
             throws MaterialstoreException;
 

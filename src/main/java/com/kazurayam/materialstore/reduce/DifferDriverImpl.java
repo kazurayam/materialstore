@@ -2,6 +2,8 @@ package com.kazurayam.materialstore.reduce;
 
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.FileType;
+import com.kazurayam.materialstore.filesystem.FileTypeUtil;
+import com.kazurayam.materialstore.filesystem.IFileType;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.reduce.differ.Differ;
@@ -59,7 +61,7 @@ public final class DifferDriverImpl implements DifferDriver {
 
     @Override
     public MaterialProduct differentiate(final MaterialProduct mProduct) throws MaterialstoreException {
-        FileType fileType;
+        IFileType fileType;
         if (mProduct.getLeft().equals(Material.NULL_OBJECT)) {
             logger.warn("left Material was NULL_OBJECT. right=" + mProduct.getRight());
             fileType = mProduct.getRight().getIndexEntry().getFileType();
@@ -95,17 +97,17 @@ public final class DifferDriverImpl implements DifferDriver {
             //
             //final Differ textDiffer = new TextDifferToHTMLMB();
             final Differ textDiffer = new TextDifferToHTML(store);
-            for (FileType ft : FileType.getFileTypesDiffableAsText()) {
+            for (FileType ft : FileTypeUtil.getFileTypesDiffableAsText()) {
                 differs.put(ft, textDiffer);
             }
             //
             final Differ imageDiffer = new ImageDifferToPNG();
-            for (FileType ft : FileType.getFileTypesDiffableAsImage()) {
+            for (FileType ft : FileTypeUtil.getFileTypesDiffableAsImage()) {
                 differs.put(ft, imageDiffer);
             }
             //
             final Differ voidDiffer = new VoidDiffer();
-            for (FileType ft : FileType.getFileTypesUnableToDiff()) {
+            for (FileType ft : FileTypeUtil.getFileTypesUnableToDiff()) {
                 differs.put(ft, voidDiffer);
             }
         }
