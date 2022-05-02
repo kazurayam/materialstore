@@ -1,20 +1,16 @@
 package com.kazurayam.materialstore.reduce.differ;
 
-import com.github.difflib.DiffUtils;
-import com.github.difflib.patch.Patch;
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.TestFixtureUtil;
-import com.kazurayam.materialstore.TextDiffUtil;
 import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
-import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.StoreImpl;
 import com.kazurayam.materialstore.reduce.MProductGroup;
-import com.kazurayam.materialstore.reduce.MaterialProduct;
+import com.kazurayam.materialstore.zip.MaterialProduct;
 import com.kazurayam.materialstore.report.AbstractReporterTest;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
@@ -26,9 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Objects;
 
 public class TextDifferToHTMLTest extends AbstractReporterTest {

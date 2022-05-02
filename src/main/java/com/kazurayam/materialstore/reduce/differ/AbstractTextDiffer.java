@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.Jobber;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.Store;
-import com.kazurayam.materialstore.reduce.MaterialProduct;
+import com.kazurayam.materialstore.zip.MaterialProduct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.reduce;
+package com.kazurayam.materialstore.zip;
 
 import com.kazurayam.materialstore.filesystem.Identifiable;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;

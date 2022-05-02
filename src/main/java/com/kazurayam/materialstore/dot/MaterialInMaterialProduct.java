@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.dot;
 
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Material;
-import com.kazurayam.materialstore.reduce.MaterialProduct;
+import com.kazurayam.materialstore.zip.MaterialProduct;
 
 public class MaterialInMaterialProduct implements GraphNode {
 

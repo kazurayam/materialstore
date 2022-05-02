@@ -13,8 +13,8 @@ import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
-import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.util.JsonUtil;
+import com.kazurayam.materialstore.zip.MaterialProduct;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,7 +27,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -232,18 +231,6 @@ public class MProductGroupTest {
         //println JsonOutput.prettyPrint(mProductGroup.get(theSize - 1).toString())
     }
 
-    @Test
-    public void test_zipMaterials() throws MaterialstoreException {
-        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(1);
-        map.put("URL.query", "\\w{32}");
-        List<MaterialProduct> mProductList = MProductGroup.zipMaterials(left, right, JobTimestamp.now(), new IgnoreMetadataKeys.Builder().ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").build(), new IdentifyMetadataValues.Builder().putAllNameRegexPairs(map).build(), new SortKeys("URL.host"));
-        Assertions.assertNotNull(mProductList);
-        for (MaterialProduct mProduct : mProductList) {
-            //println JsonOutput.prettyPrint(mProduct.toString())
-            Assertions.assertFalse(mProduct.getReducedTimestamp().equals(JobTimestamp.NULL_OBJECT));
-        }
-        assertEquals(8, mProductList.size());
-    }
 
     /**
      * FIXME:

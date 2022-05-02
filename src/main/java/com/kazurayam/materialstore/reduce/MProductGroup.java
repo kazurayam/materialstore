@@ -1,20 +1,18 @@
 package com.kazurayam.materialstore.reduce;
 
-import com.kazurayam.materialstore.filesystem.FileType;
-import com.kazurayam.materialstore.filesystem.IFileType;
 import com.kazurayam.materialstore.filesystem.Identifiable;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
-import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.MaterialIO;
 import com.kazurayam.materialstore.filesystem.MaterialList;
-import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.TemplateReady;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.util.JsonUtil;
+import com.kazurayam.materialstore.zip.MaterialProduct;
+import com.kazurayam.materialstore.zip.Zipper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +50,7 @@ public final class MProductGroup
 
         // this is the most mysterious part of the materialstore library
         this.materialProductList =
-                zipMaterials(materialList0, materialList1,
+                Zipper.zipMaterials(materialList0, materialList1,
                         resultTimestamp,
                         ignoreMetadataKeys,
                         identifyMetadataValues,
@@ -247,106 +245,6 @@ public final class MProductGroup
             list.add(deepCopy);
         }
         return list;
-    }
-
-    /**
-     *
-     */
-    public static List<MaterialProduct> zipMaterials(final MaterialList leftList, final MaterialList rightList, final JobTimestamp resultTimestamp, final IgnoreMetadataKeys ignoreMetadataKeys, final IdentifyMetadataValues identifyMetadataValues, final SortKeys sortKeys) {
-        Objects.requireNonNull(leftList);
-        Objects.requireNonNull(rightList);
-        Objects.requireNonNull(resultTimestamp);
-        Objects.requireNonNull(ignoreMetadataKeys);
-        Objects.requireNonNull(identifyMetadataValues);
-        Objects.requireNonNull(sortKeys);
-        String methodName = "[zipMaterials] ";
-        // the result
-        final List<MaterialProduct> mProductList = new ArrayList<>();
-
-        //
-        Iterator<Material> rightIter = rightList.iterator();
-        while (rightIter.hasNext()) {
-            Material right = rightIter.next();
-            final IFileType rightFileType = right.getIndexEntry().getFileType();
-            Metadata rightMetadata = right.getIndexEntry().getMetadata();
-            final QueryOnMetadata rightPattern = QueryOnMetadata.builder(rightMetadata, ignoreMetadataKeys).build();
-            //
-            logger.debug(methodName + "--------");
-            logger.debug(methodName + "right " + right.getShortId() + " " + rightFileType.getExtension() + " pattern: " + rightPattern);
-            int foundLeftCount = 0;
-
-            Iterator<Material> leftIter = leftList.iterator();
-            while (leftIter.hasNext()) {
-                Material left = leftIter.next();
-                final IFileType leftFileType = left.getIndexEntry().getFileType();
-                final Metadata leftMetadata = left.getIndexEntry().getMetadata();
-                if (leftFileType.equals(rightFileType) && (rightPattern.matches(leftMetadata) || identifyMetadataValues.matches(leftMetadata))) {
-                    MaterialProduct mp = new MaterialProduct.Builder(left, right, resultTimestamp).setQueryOnMetadata(rightPattern).sortKeys(sortKeys).build();
-                    mProductList.add(mp);
-                    logger.debug(methodName + "left Y " + left.getShortId() + " " + leftFileType.getExtension() + " " + leftMetadata);
-                    foundLeftCount += 1;
-                } else {
-                    logger.debug(methodName + "left N " + left.getShortId() + " " + leftFileType.getExtension() + " " + leftMetadata);
-                }
-            }
-            if (foundLeftCount == 0) {
-                MaterialProduct mp =
-                        new MaterialProduct.Builder(Material.NULL_OBJECT, right, resultTimestamp)
-                                .setQueryOnMetadata(rightPattern)
-                                .sortKeys(sortKeys)
-                                .build();
-                mProductList.add(mp);
-            }
-
-            logger.debug(methodName + "foundLeftCount=" + foundLeftCount);
-            if (foundLeftCount == 0 || foundLeftCount >= 2) {
-                logger.info(methodName + "foundLeftCount=" + foundLeftCount + " is unusual");
-            }
-        }
-
-        //
-        Iterator<Material> leftIter2 = leftList.iterator();
-        while (leftIter2.hasNext()) {
-            Material left = leftIter2.next();
-            final IFileType leftFileType = left.getIndexEntry().getFileType();
-            Metadata leftMetadata = left.getIndexEntry().getMetadata();
-            final QueryOnMetadata leftPattern =
-                    QueryOnMetadata.builder(leftMetadata, ignoreMetadataKeys).build();
-            logger.debug(methodName + "--------");
-            logger.debug(methodName + "left " + left.getShortId() + " " + leftFileType.toString() + " pattern: " + leftPattern);
-            int foundRightCount = 0;
-            //
-            Iterator<Material> rightIter2 = rightList.iterator();
-            while (rightIter2.hasNext()) {
-                Material right = rightIter2.next();
-                final IFileType rightFileType = right.getIndexEntry().getFileType();
-                final Metadata rightMetadata = right.getIndexEntry().getMetadata();
-                if (rightFileType.equals(leftFileType) &&
-                        (leftPattern.matches(rightMetadata) || identifyMetadataValues.matches(rightMetadata))) {
-                    // this must have been found matched already; no need to create a MProduct
-                    logger.debug(methodName + "right Y " + right.getShortId() + " " +
-                            rightFileType.getExtension() + " " + rightMetadata);
-                    foundRightCount += 1;
-                } else {
-                    logger.debug(methodName + "right N " + right.getShortId() + " " +
-                            rightFileType.getExtension() + " " + rightMetadata);
-                }
-            }
-            if (foundRightCount == 0) {
-                MaterialProduct mProduct =
-                        new MaterialProduct.Builder(left, Material.NULL_OBJECT, resultTimestamp)
-                        .setQueryOnMetadata(leftPattern)
-                        .sortKeys(sortKeys)
-                        .build();
-                mProductList.add(mProduct);
-            }
-            logger.debug(methodName + "foundRightCount=" + foundRightCount);
-            if (foundRightCount == 0 || foundRightCount >= 2) {
-                logger.info(methodName + "foundRightCount=" + foundRightCount + " is unusual");
-            }
-        }
-        Collections.sort(mProductList);
-        return mProductList;
     }
 
     @Override
