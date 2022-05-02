@@ -59,8 +59,7 @@ public final class DifferDriverImpl implements DifferDriver {
         return result;
     }
 
-    @Override
-    public MaterialProduct differentiate(final MaterialProduct mProduct) throws MaterialstoreException {
+    private MaterialProduct differentiate(final MaterialProduct mProduct) throws MaterialstoreException {
         IFileType fileType;
         if (mProduct.getLeft().equals(Material.NULL_OBJECT)) {
             logger.warn("left Material was NULL_OBJECT. right=" + mProduct.getRight());

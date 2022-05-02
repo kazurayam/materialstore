@@ -4,9 +4,8 @@ import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.FileType;
 
 public interface DifferDriver extends Reducer {
-    MProductGroup differentiate(MProductGroup mProductGroup) throws MaterialstoreException;
 
-    MaterialProduct differentiate(MaterialProduct mProduct) throws MaterialstoreException;
+    MProductGroup differentiate(MProductGroup mProductGroup) throws MaterialstoreException;
 
     boolean hasDiffer(FileType fileType);
 }
