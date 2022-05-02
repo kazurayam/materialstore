@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.filesystem;
 
-import com.kazurayam.materialstore.DuplicatingMaterialException;
 import com.kazurayam.materialstore.MaterialstoreException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
