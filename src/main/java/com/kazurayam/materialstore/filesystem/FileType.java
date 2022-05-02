@@ -3,10 +3,11 @@ package com.kazurayam.materialstore.filesystem;
 import com.kazurayam.materialstore.util.JsonUtil;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public enum FileType implements Jsonifiable, TemplateReady {
+public enum FileType implements IFileType {
 
     BMP  ("bmp", FileTypeDiffability.AS_IMAGE, Arrays.asList("image/bmp")),
     CSS  ("css", FileTypeDiffability.AS_TEXT,  Arrays.asList("text/css")),
@@ -77,58 +78,26 @@ public enum FileType implements Jsonifiable, TemplateReady {
         this(extension, diffability, mimeTypes, "");
     }
 
+    @Override
     public String getExtension() {
         return this.extension_;
     }
 
-    public List<String> getMimeTypes() {
-        return this.mimeTypes_;
-    }
-
+    @Override
     public FileTypeDiffability getDiffability() {
         return this.diffability_;
     }
 
     @Override
+    public List<String> getMimeTypes() {
+        return this.mimeTypes_;
+    }
+
+    @Override
     public String toString() {
-        return toJson(); //this.getExtension()
+        return toJson(); // wondered if "this.getExtension()" might be better suitable
     }
 
-    @Override
-    public String toJson() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{");
-        sb.append("\"extension\":\"");
-        sb.append(this.getExtension());
-        sb.append("\"");
-        sb.append(",");
-        sb.append("\"mimeTypes\":[");
-        int count = 0;
-        for (String mimetype: this.getMimeTypes()) {
-            if (count > 0) {
-                sb.append(",");
-            }
-            count += 1;
-            sb.append("\"");
-            sb.append(mimetype);
-            sb.append("\"");
-        }
-        sb.append("]");
-        sb.append(",\"diffability\":\"");
-        sb.append(this.getDiffability());
-        sb.append("\"");
-        sb.append("}");
-        return sb.toString();
-    }
-
-    @Override
-    public String toJson(boolean prettyPrint) {
-        if (prettyPrint) {
-            return JsonUtil.prettyPrint(toJson());
-        } else {
-            return toJson();
-        }
-    }
-
+    // toJson() method is implemented in the IFileType interface
 
 }

@@ -48,8 +48,6 @@ public class FileTypeTest {
         assertEquals(FileTypeDiffability.UNABLE, ft.getDiffability());
     }
 
-
-
     @Test
     public void test_toString() {
         String s = FileType.PNG.toString();
