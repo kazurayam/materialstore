@@ -22,28 +22,28 @@ public class FileTypeTest {
 
     @Test
     public void test_CSS() {
-        FileType ft = FileType.ofMimeType("text/css");
+        FileType ft = FileTypeUtil.ofMimeType("text/css");
         assertEquals(FileType.CSS, ft);
         assertEquals(FileTypeDiffability.AS_TEXT, ft.getDiffability());
     }
 
     @Test
     public void test_JS() {
-        FileType ft = FileType.ofMimeType("application/javascript");
+        FileType ft = FileTypeUtil.ofMimeType("application/javascript");
         assertEquals(FileType.JS, ft);
         assertEquals(FileTypeDiffability.AS_TEXT, ft.getDiffability());
     }
 
     @Test
     public void test_HTML() {
-        FileType ft = FileType.ofMimeType("text/html");
+        FileType ft = FileTypeUtil.ofMimeType("text/html");
         assertEquals(FileType.HTML, ft);
         assertEquals(FileTypeDiffability.AS_TEXT, ft.getDiffability());
     }
 
     @Test
     public void test_WOFF2() {
-        FileType ft = FileType.ofMimeType("font/woff2");
+        FileType ft = FileTypeUtil.ofMimeType("font/woff2");
         assertEquals(FileType.WOFF2, ft);
         assertEquals(FileTypeDiffability.UNABLE, ft.getDiffability());
     }
@@ -70,7 +70,7 @@ public class FileTypeTest {
 
     @Test
     public void test_ofMimeType() {
-        FileType ft = FileType.ofMimeType("text/html");
+        FileType ft = FileTypeUtil.ofMimeType("text/html");
         assertEquals(FileType.HTML, ft);
     }
 

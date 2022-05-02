@@ -131,44 +131,4 @@ public enum FileType implements Jsonifiable, TemplateReady {
     }
 
 
-    //-----------------------------------------------------------------
-    public static FileType getByExtension(String ext) {
-        for (FileType v : values()) {
-            if (v.getExtension().equalsIgnoreCase(ext)) {
-                return v;
-            }
-        }
-        return UNSUPPORTED;
-    }
-
-    public static FileType ofMimeType(String mimeType) {
-        for (FileType v : values()) {
-            List<String> mimeTypes = v.getMimeTypes();
-            if (mimeTypes.contains(mimeType)) {
-                return v;
-            }
-        }
-        return NULL_OBJECT;
-    }
-
-    public static List<FileType> getFileTypesDiffableAsText() {
-        List<FileType> values = Arrays.asList(values());
-        return values.stream()
-                .filter(ft -> ft.getDiffability() == FileTypeDiffability.AS_TEXT)
-                .collect(Collectors.toList());
-    }
-
-    public static List<FileType> getFileTypesDiffableAsImage() {
-        List<FileType> values = Arrays.asList(values());
-        return values.stream()
-                .filter(ft -> ft.getDiffability() == FileTypeDiffability.AS_IMAGE)
-                .collect(Collectors.toList());
-    }
-
-    public static List<FileType> getFileTypesUnableToDiff() {
-        List<FileType> values = Arrays.asList(values());
-        return values.stream()
-                .filter(ft -> ft.getDiffability() == FileTypeDiffability.UNABLE)
-                .collect(Collectors.toList());
-    }
 }
