@@ -28,16 +28,11 @@ public abstract class AbstractTextDiffer implements Differ {
 
     private Logger logger = LoggerFactory.getLogger(AbstractTextDiffer.class.getName());
 
-    protected Store store;
+    protected final Store store;
 
     private Charset charset = StandardCharsets.UTF_8;
 
     public AbstractTextDiffer(Store store) {
-        this.store = store;
-    }
-
-    @Override
-    public void setStore(Store store) {
         this.store = store;
     }
 

@@ -23,16 +23,9 @@ import java.util.Objects;
 
 public final class ImageDifferToPNG implements Differ {
 
-    private Store store;
-
-    public ImageDifferToPNG() {
-    }
+    private final Store store;
 
     public ImageDifferToPNG(Store store) {
-        this.store = store;
-    }
-
-    public void setStore(Store store) {
         this.store = store;
     }
 

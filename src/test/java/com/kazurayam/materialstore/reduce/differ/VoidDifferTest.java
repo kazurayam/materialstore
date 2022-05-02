@@ -69,7 +69,7 @@ public class VoidDifferTest {
 
     @Test
     public void test_smoke() throws MaterialstoreException {
-        VoidDiffer voidDiffer = new VoidDiffer();
+        VoidDiffer voidDiffer = new VoidDiffer(store);
         DifferDriver differDriver = new DifferDriverImpl.Builder(store).differFor(FileType.WOFF2, voidDiffer).build();
         differDriver.differentiate(prepared);
         //

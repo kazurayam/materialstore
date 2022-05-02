@@ -30,7 +30,8 @@ public final class VoidDiffer implements Differ {
     private Store store;
     private final Configuration cfg;
 
-    public VoidDiffer() {
+    public VoidDiffer(Store store) {
+        this.store = store;
         // FreeMarker Configuration
         cfg = new Configuration(Configuration.VERSION_2_3_31);
         // we will load FreeMarker templates from CLASSPATH
@@ -41,11 +42,6 @@ public final class VoidDiffer implements Differ {
         cfg.setLogTemplateExceptions(false);
         cfg.setWrapUncheckedExceptions(true);
         cfg.setFallbackOnNullLoopVariable(false);
-    }
-
-    @Override
-    public void setStore(Store store) {
-        this.store = store;
     }
 
     @Override
