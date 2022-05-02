@@ -56,11 +56,6 @@ public final class TextDifferToHTML extends AbstractTextDiffer implements Differ
     }
 
     @Override
-    public void setStore(Store store) {
-        super.setStore(store);
-    }
-
-    @Override
     public TextDiffContent makeTextDiffContent(Store store,
                                                final Material left,
                                                final Material right,

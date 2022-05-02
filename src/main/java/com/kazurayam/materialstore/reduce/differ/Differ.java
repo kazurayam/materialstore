@@ -8,6 +8,4 @@ public interface Differ {
 
     MaterialProduct injectDiff(MaterialProduct mProduct) throws MaterialstoreException;
 
-    void setStore(Store store);
-
 }

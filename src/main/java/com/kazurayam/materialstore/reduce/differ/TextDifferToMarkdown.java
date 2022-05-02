@@ -17,6 +17,7 @@ import java.util.stream.IntStream;
  * to make diff of 2 texts
  */
 public final class TextDifferToMarkdown extends AbstractTextDiffer implements Differ {
+
     public TextDifferToMarkdown(Store store) {
         super(store);
     }

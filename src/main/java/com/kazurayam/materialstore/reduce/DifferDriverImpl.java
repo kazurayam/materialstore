@@ -71,9 +71,7 @@ public final class DifferDriverImpl implements DifferDriver {
         } else {
             fileType = mProduct.getRight().getIndexEntry().getFileType();
         }
-
         Differ differ = differs.get(fileType);
-        differ.setStore(store);
         return differ.injectDiff(mProduct);
     }
 
@@ -101,12 +99,12 @@ public final class DifferDriverImpl implements DifferDriver {
                 differs.put(ft, textDiffer);
             }
             //
-            final Differ imageDiffer = new ImageDifferToPNG();
+            final Differ imageDiffer = new ImageDifferToPNG(this.store);
             for (FileType ft : FileTypeUtil.getFileTypesDiffableAsImage()) {
                 differs.put(ft, imageDiffer);
             }
             //
-            final Differ voidDiffer = new VoidDiffer();
+            final Differ voidDiffer = new VoidDiffer(this.store);
             for (FileType ft : FileTypeUtil.getFileTypesUnableToDiff()) {
                 differs.put(ft, voidDiffer);
             }

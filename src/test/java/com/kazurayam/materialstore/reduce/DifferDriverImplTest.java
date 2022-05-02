@@ -40,7 +40,10 @@ public class DifferDriverImplTest {
 
     @Test
     public void test_Builder_differFor() {
-        DifferDriver differDriver = new DifferDriverImpl.Builder(store).differFor(FileType.JPEG, new ImageDifferToPNG()).build();
+        DifferDriver differDriver =
+                new DifferDriverImpl.Builder(store)
+                        .differFor(FileType.JPEG, new ImageDifferToPNG(store))
+                        .build();
         Assertions.assertTrue(differDriver.hasDiffer(FileType.JPEG));
     }
 
