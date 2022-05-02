@@ -80,7 +80,7 @@ public final class Jobber {
         return this.read(material.getIndexEntry());
     }
 
-    public MaterialList selectMaterials(final QueryOnMetadata query, final IFileType fileType) {
+    public MaterialList selectMaterials(final IFileType fileType, final QueryOnMetadata query) {
         Objects.requireNonNull(query);
         Objects.requireNonNull(fileType);
         final MaterialList result = new MaterialList(jobName, jobTimestamp, query);
@@ -98,7 +98,7 @@ public final class Jobber {
 
     public MaterialList selectMaterials(QueryOnMetadata query) {
         //
-        return selectMaterials(query, FileType.NULL_OBJECT);
+        return selectMaterials(FileType.NULL_OBJECT, query);
     }
 
     /**

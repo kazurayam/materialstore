@@ -100,7 +100,7 @@ public class JobberTest {
         Material material = jobber.write(data, FileType.PNG, metadata);
         //
         QueryOnMetadata pattern = QueryOnMetadata.builder().put("profile", Pattern.compile(".*")).build();
-        MaterialList materialList = jobber.selectMaterials(pattern, FileType.PNG);
+        MaterialList materialList = jobber.selectMaterials(FileType.PNG, pattern);
         Assertions.assertNotNull(materialList);
         Assertions.assertEquals(1, materialList.size());
     }

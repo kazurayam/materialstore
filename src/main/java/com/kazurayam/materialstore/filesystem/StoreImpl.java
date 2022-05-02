@@ -490,7 +490,7 @@ public final class StoreImpl implements Store {
                                QueryOnMetadata query)
             throws MaterialstoreException {
         Jobber jobber = this.getJobber(jobName, jobTimestamp);
-        return jobber.selectMaterials(query, fileType);
+        return jobber.selectMaterials(fileType, query);
     }
 
     @Override
@@ -508,7 +508,7 @@ public final class StoreImpl implements Store {
                                IFileType fileType)
             throws MaterialstoreException {
         Jobber jobber = this.getJobber(jobName, jobTimestamp);
-        return jobber.selectMaterials(QueryOnMetadata.ANY, fileType);
+        return jobber.selectMaterials(fileType, QueryOnMetadata.ANY);
     }
 
     @Override
@@ -525,7 +525,7 @@ public final class StoreImpl implements Store {
                                  QueryOnMetadata query)
             throws MaterialstoreException {
         Jobber jobber = this.getJobber(jobName, jobTimestamp);
-        MaterialList materials = jobber.selectMaterials(query, fileType);
+        MaterialList materials = jobber.selectMaterials(fileType, query);
         if (materials.size() > 0) {
             return materials.get(0);
         } else {
@@ -539,7 +539,7 @@ public final class StoreImpl implements Store {
                                  IFileType fileType)
             throws MaterialstoreException {
         Jobber jobber = this.getJobber(jobName, jobTimestamp);
-        MaterialList materials = jobber.selectMaterials(QueryOnMetadata.ANY, fileType);
+        MaterialList materials = jobber.selectMaterials(fileType, QueryOnMetadata.ANY);
         if (materials.size() > 0) {
             return materials.get(0);
         } else {
