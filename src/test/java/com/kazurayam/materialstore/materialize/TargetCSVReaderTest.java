@@ -30,14 +30,14 @@ public class TargetCSVReaderTest {
     @Test
     public void test_parse_string() throws MaterialstoreException {
         String csv = "http://example.com/";
-        List<Target> targetList = new TargetCSVReader().parse(csv);
+        List<Target> targetList = new SimpleTargetCSVReader().parse(csv);
         assertEquals(1, targetList.size());
     }
 
     @Test
     public void test_parse_reader() throws MaterialstoreException {
         Reader reader = new StringReader(csvLines);
-        List<Target> targetList = new TargetCSVReader().parse(reader);
+        List<Target> targetList = new SimpleTargetCSVReader().parse(reader);
         assertEquals(2, targetList.size());
         targetList.stream()
                 .map(t -> t.toJson())
@@ -51,7 +51,7 @@ public class TargetCSVReaderTest {
             put("profile", "Development");
         }};
         List<Target> targetList =
-                new TargetCSVReader().parse(reader).stream()
+                new SimpleTargetCSVReader().parse(reader).stream()
                         .map(t -> {
                             return t.copyWith(attributes);
                         })
@@ -66,7 +66,7 @@ public class TargetCSVReaderTest {
     public void test_assigning_By_later() throws MaterialstoreException {
         String csv = "http://example.com/";
         List<Target> targetList =
-                new TargetCSVReader().parse(csv).stream()
+                new SimpleTargetCSVReader().parse(csv).stream()
                         .map(t -> {
                             return t.copyWith(By.xpath("//h1[text()=\"Example Domain\"]"));
                         })
