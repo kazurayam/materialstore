@@ -21,9 +21,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 
-public class DiffingReducerTest {
+public class DiffingMPGProcessorTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(DiffingReducerTest.class.getName());
+    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(DiffingMPGProcessorTest.class.getName());
     private static Store store;
 
     @BeforeAll
@@ -40,9 +40,8 @@ public class DiffingReducerTest {
 
     @Test
     public void test_Builder_differFor() {
-        DiffingReducer differDriver =
-
-                new DiffingReducer.Builder(store)
+        DiffingMPGProcessor differDriver =
+                new DiffingMPGProcessor.Builder(store)
                         .differFor(FileType.JPEG, new ImageDifferToPNG(store))
                         .build();
         Assertions.assertTrue(differDriver.hasDiffer(FileType.JPEG));
@@ -69,8 +68,8 @@ public class DiffingReducerTest {
         Assertions.assertNotNull(mProductGroup);
         Assertions.assertEquals(1, mProductGroup.size());
         //
-        DiffingReducer differDriver = new DiffingReducer.Builder(store).build();
-        MProductGroup resolved = differDriver.reduce(mProductGroup);
+        DiffingMPGProcessor differDriver = new DiffingMPGProcessor.Builder(store).build();
+        MProductGroup resolved = differDriver.process(mProductGroup);
         Assertions.assertEquals(1, resolved.size());
     }
 
@@ -92,8 +91,8 @@ public class DiffingReducerTest {
         Assertions.assertNotNull(mProductGroup);
         Assertions.assertEquals(2, mProductGroup.size());
         //
-        DiffingReducer differDriver = new DiffingReducer.Builder(store).build();
-        MProductGroup resolved = differDriver.reduce(mProductGroup);
+        DiffingMPGProcessor differDriver = new DiffingMPGProcessor.Builder(store).build();
+        MProductGroup resolved = differDriver.process(mProductGroup);
         Assertions.assertNotNull(resolved);
         Assertions.assertEquals(2, resolved.size());
     }

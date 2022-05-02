@@ -2,8 +2,8 @@ package com.kazurayam.materialstore.reduce;
 
 import com.kazurayam.materialstore.MaterialstoreException;
 
-public interface Reducer {
+public interface MPGProcessor {
 
-    MProductGroup reduce(MProductGroup mProductGroup) throws MaterialstoreException;
+    MProductGroup process(MProductGroup mProductGroup) throws MaterialstoreException;
 
 }

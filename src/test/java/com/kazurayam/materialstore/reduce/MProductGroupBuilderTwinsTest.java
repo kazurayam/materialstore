@@ -70,7 +70,7 @@ public class MProductGroupBuilderTwinsTest {
                                 .ignoreKeys("profile", "URL.host")
                                 .identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"))
                                 .build();
-        MProductGroup reduced = MProductGroupBuilder.twins(store, left, right, func);
+        MProductGroup reduced = Reducer.twins(store, left, right, func);
         Assertions.assertNotNull(reduced);
         Assertions.assertEquals(8, reduced.size());
         Assertions.assertEquals(0, reduced.getNumberOfBachelors());
@@ -85,7 +85,7 @@ public class MProductGroupBuilderTwinsTest {
                                 .ignoreKeys("profile", "URL.host")
                                 //.identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"))
                                 .build();
-        MProductGroup reduced = MProductGroupBuilder.twins(store, left, right, func);
+        MProductGroup reduced = Reducer.twins(store, left, right, func);
         Assertions.assertNotNull(reduced);
         Assertions.assertEquals(9, reduced.size());
         Assertions.assertEquals(2, reduced.getNumberOfBachelors());

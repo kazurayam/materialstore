@@ -10,7 +10,7 @@ import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.reduce.MProductGroup;
-import com.kazurayam.materialstore.reduce.MProductGroupBuilder;
+import com.kazurayam.materialstore.reduce.Reducer;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -67,7 +67,7 @@ public class Issue217Test {
         BiFunction<MaterialList, MaterialList, MProductGroup> func =
                 (left, right) -> MProductGroup.builder(left, right).build();
 
-        MProductGroup prepared = MProductGroupBuilder.chronos(store, currentMaterialList, func);
+        MProductGroup prepared = Reducer.chronos(store, currentMaterialList, func);
         assertNotNull(prepared);
         assertEquals(15, prepared.size());
     }

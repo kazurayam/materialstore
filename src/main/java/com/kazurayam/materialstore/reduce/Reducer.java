@@ -11,11 +11,11 @@ import org.slf4j.LoggerFactory;
 import java.util.Objects;
 import java.util.function.BiFunction;
 
-public final class MProductGroupBuilder {
+public final class Reducer {
 
-    private static final Logger logger = LoggerFactory.getLogger(MProductGroupBuilder.class);
+    private static final Logger logger = LoggerFactory.getLogger(Reducer.class);
 
-    private MProductGroupBuilder() {}
+    private Reducer() {}
 
     public static MProductGroup chronos(Store store,
                                         MaterialList currentMaterialList)

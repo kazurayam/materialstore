@@ -3,9 +3,9 @@ package com.kazurayam.materialstore;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.Store;
-import com.kazurayam.materialstore.reduce.DifferDriver;
+import com.kazurayam.materialstore.reduce.DiffingMPGProcessor;
 import com.kazurayam.materialstore.reduce.MProductGroup;
-import com.kazurayam.materialstore.reduce.Reducer;
+import com.kazurayam.materialstore.reduce.MPGProcessor;
 import com.kazurayam.materialstore.report.MProductGroupReporter;
 import com.kazurayam.materialstore.report.MProductGroupReporterImpl;
 import com.kazurayam.materialstore.report.MaterialListReporterImpl;
@@ -16,11 +16,11 @@ import java.util.Objects;
 public class InspectorImpl extends Inspector {
 
     private final Store store;
-    private final Reducer reducer;
+    private final MPGProcessor reducer;
 
     public InspectorImpl(Store store) {
         this.store = store;
-        this.reducer = new DifferDriver.Builder(store).build();
+        this.reducer = new DiffingMPGProcessor.Builder(store).build();
     }
 
     @Override
@@ -33,7 +33,7 @@ public class InspectorImpl extends Inspector {
     @Override
     public MProductGroup reduce(MProductGroup input) throws MaterialstoreException {
         MProductGroup tmp = new MProductGroup(input);
-        tmp = reducer.reduce(tmp);
+        tmp = reducer.process(tmp);
         tmp.sort();
         return tmp;
     }

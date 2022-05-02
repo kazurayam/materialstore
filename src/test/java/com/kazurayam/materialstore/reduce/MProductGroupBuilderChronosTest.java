@@ -74,7 +74,7 @@ public class MProductGroupBuilderChronosTest {
                                 .ignoreKeys("profile", "URL.host")
                                 .identifyWithRegex(Collections.singletonMap("URL.query","\\w{32}"))
                                 .build();
-        MProductGroup reduced = MProductGroupBuilder.chronos(store, right, func);
+        MProductGroup reduced = Reducer.chronos(store, right, func);
         Assertions.assertNotNull(reduced);
         assertEquals(1, reduced.getMaterialListPrevious().countMaterialsWithIdStartingWith("5d7e467"));
         assertEquals(1, reduced.getMaterialListFollowing().countMaterialsWithIdStartingWith("5d7e467"));
@@ -91,7 +91,7 @@ public class MProductGroupBuilderChronosTest {
 
     @Test
     public void test_chronos_without_func() throws MaterialstoreException {
-        MProductGroup reduced = MProductGroupBuilder.chronos(store, right);
+        MProductGroup reduced = Reducer.chronos(store, right);
         Assertions.assertNotNull(reduced);
         assertEquals(1, reduced.getMaterialListPrevious().countMaterialsWithIdStartingWith("5d7e467"));
         assertEquals(1, reduced.getMaterialListFollowing().countMaterialsWithIdStartingWith("5d7e467"));
@@ -102,7 +102,7 @@ public class MProductGroupBuilderChronosTest {
     public void test_chronos_priorTo_endOfLastMonth() throws MaterialstoreException {
         JobTimestamp priorTo = right.getJobTimestamp().beginningOfTheMonth();
         assertEquals(new JobTimestamp("20220101_000000"), priorTo);
-        MProductGroup reduced = MProductGroupBuilder.chronos(store, right, priorTo);
+        MProductGroup reduced = Reducer.chronos(store, right, priorTo);
         Assertions.assertNotNull(reduced);
         assertEquals(new JobTimestamp("20211231_010101"), reduced.getJobTimestampLeft());
     }

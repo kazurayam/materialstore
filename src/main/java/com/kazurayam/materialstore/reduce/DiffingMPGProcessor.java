@@ -20,20 +20,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public final class DiffingReducer implements Reducer {
+public final class DiffingMPGProcessor implements MPGProcessor {
 
-    private static final Logger logger = LoggerFactory.getLogger(DiffingReducer.class);
+    private static final Logger logger = LoggerFactory.getLogger(DiffingMPGProcessor.class);
     private final Store store;
     private final Map<IFileType, Differ> differs;
 
-    private DiffingReducer(Builder builder) {
+    private DiffingMPGProcessor(Builder builder) {
         this.store = builder.store;
         this.differs = builder.differs;
     }
 
     // implements Reducer
     @Override
-    public MProductGroup reduce(MProductGroup mProductGroup) throws MaterialstoreException {
+    public MProductGroup process(MProductGroup mProductGroup) throws MaterialstoreException {
         Objects.requireNonNull(mProductGroup);
         final List<MaterialProduct> stuffedMaterialProducts = new ArrayList<>();
         for (MaterialProduct input : mProductGroup) {
@@ -106,8 +106,8 @@ public final class DiffingReducer implements Reducer {
             return this;
         }
 
-        public DiffingReducer build() {
-            return new DiffingReducer(this);
+        public DiffingMPGProcessor build() {
+            return new DiffingMPGProcessor(this);
         }
     }
 }
