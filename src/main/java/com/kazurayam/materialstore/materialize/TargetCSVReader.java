@@ -39,16 +39,17 @@ public class TargetCSVReader {
 
     private static Logger logger = LoggerFactory.getLogger(TargetCSVReader.class);
 
+    TargetCSVReader() {}
 
-    public static List<Target> parse(String csvText) throws MaterialstoreException {
+    public List<Target> parse(String csvText) throws MaterialstoreException {
         return parse(new StringReader(csvText));
     }
 
-    public static List<Target> parse(Path csvPath) throws MaterialstoreException {
+    public List<Target> parse(Path csvPath) throws MaterialstoreException {
         return parse(csvPath.toFile());
     }
 
-    public static List<Target> parse(File csvFile) throws MaterialstoreException {
+    public List<Target> parse(File csvFile) throws MaterialstoreException {
         try {
             Reader reader = new InputStreamReader(new FileInputStream(csvFile), StandardCharsets.UTF_8);
             return parse(reader);
@@ -57,7 +58,7 @@ public class TargetCSVReader {
         }
     }
 
-    public static List<Target> parse(Reader reader) throws MaterialstoreException {
+    public List<Target> parse(Reader reader) throws MaterialstoreException {
         List<Target> targetList = new ArrayList<>();
         BufferedReader br = new BufferedReader(reader);
         String line;
@@ -89,5 +90,4 @@ public class TargetCSVReader {
         return targetList;
     }
 
-    private TargetCSVReader() {}
 }
