@@ -60,15 +60,15 @@ public class InspectorTest {
     public void test_apply() throws MaterialstoreException {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("URL.query", "\\w{32}");
-        MProductGroup prepared = MProductGroup.builder(left, right).ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.host").build();
-        Assertions.assertNotNull(prepared);
+        MProductGroup reducedMPG = MProductGroup.builder(left, right).ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.host").build();
+        Assertions.assertNotNull(reducedMPG);
 
-        MProductGroup stuffed = inspector.reduce(prepared);
-        Assertions.assertNotNull(stuffed);
+        MProductGroup processedMPG = inspector.process(reducedMPG);
+        Assertions.assertNotNull(processedMPG);
 
-        stuffed.forEach(mProduct -> Assertions.assertNotEquals(ID.NULL_OBJECT,
+        processedMPG.forEach(mProduct -> Assertions.assertNotEquals(ID.NULL_OBJECT,
                 mProduct.getDiff().getIndexEntry().getID()));
-        Assertions.assertEquals(8, stuffed.size());
+        Assertions.assertEquals(8, processedMPG.size());
     }
 
     @Test
@@ -87,16 +87,16 @@ public class InspectorTest {
     public void test_report_MProductGroup() throws MaterialstoreException {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("URL.query", "\\w{32}");
-        MProductGroup preparedAG = MProductGroup.builder(left, right)
+        MProductGroup reducedMPG = MProductGroup.builder(left, right)
                 .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
                 .identifyWithRegex(map)
                 .sort("URL.host")
                 .build();
-        MProductGroup reduced = inspector.reduce(preparedAG);
+        MProductGroup processedMPG = inspector.process(reducedMPG);
         double criteria = 0.0D;
-        Assertions.assertTrue(reduced.countWarnings(criteria) > 0);
+        Assertions.assertTrue(processedMPG.countWarnings(criteria) > 0);
 
-        Path report = inspector.report(reduced, criteria, "test_report_MProductGroup.html");
+        Path report = inspector.report(processedMPG, criteria, "test_report_MProductGroup.html");
         Assertions.assertNotNull(report);
         Assertions.assertTrue(Files.exists(report));
     }

@@ -8,6 +8,6 @@ com.kazurayam.materialstore.materialize
 com.kazurayam.materialstore.net.data
 com.kazurayam.materialstore.reduce
 com.kazurayam.materialstore.reduce.differ
-com.kazurayam.materialstore.reduce.zip.zip
+com.kazurayam.materialstore.reduce.zipper
 com.kazurayam.materialstore.report
 com.kazurayam.materialstore.util

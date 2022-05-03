@@ -65,13 +65,13 @@ public class Issue73Test {
     @Test
     public void test_smoke() throws MaterialstoreException {
         Inspector inspector = Inspector.newInstance(store);
-        MProductGroup preparedAG = MProductGroup.builder(left, right).ignoreKeys("profile", "URL.host").build();
-        MProductGroup reducedAG = inspector.reduce(preparedAG);
+        MProductGroup reducedMPG = MProductGroup.builder(left, right).ignoreKeys("profile", "URL.host").build();
+        MProductGroup processedMPG = inspector.process(reducedMPG);
         Double criteria = 0.0d;
-        int warnings = reducedAG.countWarnings(criteria);
+        int warnings = processedMPG.countWarnings(criteria);
         // compile the report
-        Path reportFile = inspector.report(reducedAG, criteria,
+        Path reportFile = inspector.report(processedMPG, criteria,
                 jobName.toString() + "-index.html");
-        assert reducedAG.size() == 8;
+        assert processedMPG.size() == 8;
     }
 }

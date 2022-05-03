@@ -28,6 +28,7 @@ import java.util.Objects;
  * The "Builder" pattern of GOF is employed
  */
 public abstract class TextGridDifferBuilder {
+
     public TextGridDifferBuilder() {
         this(Paths.get(System.getProperty("user.dir")));
     }
@@ -57,10 +58,10 @@ public abstract class TextGridDifferBuilder {
 
         Inspector inspector = Inspector.newInstance(store);
 
-        MProductGroup prepared = MProductGroup.builder(left, right).ignoreKeys("input").build();
-        MProductGroup reduced = inspector.reduce(prepared);
-        int warnings = reduced.countWarnings(criteria);
-        reportFile = inspector.report(reduced, criteria, jobName.toString() + "-index.html");
+        MProductGroup reduced = MProductGroup.builder(left, right).ignoreKeys("input").build();
+        MProductGroup processed = inspector.process(reduced);
+        int warnings = processed.countWarnings(criteria);
+        reportFile = inspector.report(processed, criteria, jobName.toString() + "-index.html");
         assert Files.exists(reportFile);
         logger.info("report is found at " + reportFile.normalize().toAbsolutePath());
 

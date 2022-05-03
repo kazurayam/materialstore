@@ -57,10 +57,10 @@ public class TextDifferToHTMLTest extends AbstractReporterTest {
      *
      */
     private static MaterialProduct injectDiffAsMaterialProductFM(Store store, JobName jobName) throws MaterialstoreException {
-        MProductGroup prepared = prepareMProductGroup(store, jobName);
+        MProductGroup reducedMPG = prepareMProductGroup(store, jobName);
         TextDifferToHTML instance = new TextDifferToHTML(store);
         instance.enablePrettyPrinting(false);
-        return instance.stuffDiff(prepared.get(0));
+        return instance.stuffDiff(reducedMPG.get(0));
     }
 
     /**
@@ -80,10 +80,10 @@ public class TextDifferToHTMLTest extends AbstractReporterTest {
         MaterialList actual = store.select(jobName, jobTimestamp, FileType.HTML, QueryOnMetadata.builder(map1).build());
         Assertions.assertEquals(1, actual.size());
 
-        MProductGroup prepared = MProductGroup.builder(expected, actual).ignoreKeys("profile", "URL.host").build();
-        Assertions.assertNotNull(prepared);
-        Assertions.assertEquals(1, prepared.size());
-        return prepared;
+        MProductGroup reducedMPG = MProductGroup.builder(expected, actual).ignoreKeys("profile", "URL.host").build();
+        Assertions.assertNotNull(reducedMPG);
+        Assertions.assertEquals(1, reducedMPG.size());
+        return reducedMPG;
     }
 
 

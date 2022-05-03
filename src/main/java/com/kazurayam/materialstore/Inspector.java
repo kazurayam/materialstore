@@ -20,7 +20,7 @@ public abstract class Inspector {
 
     public abstract MProductGroupReporter newMProductGroupReporter(JobName jobName) throws MaterialstoreException;
 
-    public abstract MProductGroup reduce(MProductGroup input) throws MaterialstoreException;
+    public abstract MProductGroup process(MProductGroup input) throws MaterialstoreException;
 
     public abstract Path report(MProductGroup mProductGroup, Double criteria, String fileName) throws MaterialstoreException;
 

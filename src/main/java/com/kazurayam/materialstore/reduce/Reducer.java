@@ -74,16 +74,16 @@ public final class Reducer {
         }
 
         // zip 2 MaterialLists to form a single MProductGroup
-        MProductGroup prepared = func.apply(previousMaterialList, currentMaterialList);
-        assert prepared.size() > 0;
+        MProductGroup reducedMPG = func.apply(previousMaterialList, currentMaterialList);
+        assert reducedMPG.size() > 0;
 
-        logger.info("[chronos] prepared.size()=" + prepared.size());
-        if (prepared.size() != currentMaterialList.size()) {
-            logger.warn("[chronos] prepared.size() is not equal to currentMaterialList.size()");
-            logger.warn(JsonUtil.prettyPrint(prepared.toString()));
+        logger.info("[chronos] reducedMPG.size()=" + reducedMPG.size());
+        if (reducedMPG.size() != currentMaterialList.size()) {
+            logger.warn("[chronos] reducedMPG.size() is not equal to currentMaterialList.size()");
+            logger.warn(JsonUtil.prettyPrint(reducedMPG.toString()));
         }
 
-        return prepared;
+        return reducedMPG;
     }
 
 
@@ -101,10 +101,10 @@ public final class Reducer {
         assert rightMaterialList.size() > 0;
 
         // zip 2 Materials to form a single Artifact
-        MProductGroup prepared = func.apply(leftMaterialList, rightMaterialList);
-        assert prepared.size() > 0;
+        MProductGroup reducedMPG = func.apply(leftMaterialList, rightMaterialList);
+        assert reducedMPG.size() > 0;
 
-        return prepared;
+        return reducedMPG;
     }
 
 }

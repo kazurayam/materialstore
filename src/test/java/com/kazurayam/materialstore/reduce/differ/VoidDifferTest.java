@@ -29,7 +29,7 @@ public class VoidDifferTest {
 
     private static Store store;
     private JobName jobName;
-    private MProductGroup prepared;
+    private MProductGroup reducedMPG;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
@@ -60,17 +60,18 @@ public class VoidDifferTest {
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
         map1.put("URL.path", "/npm/bootstrap-icons@1.7.2/font/fonts/bootstrap-icons.woff2");
         MaterialList right = store.select(jobName, timestamp2, FileType.WOFF2, QueryOnMetadata.builder(map1).build());
-        prepared = MProductGroup.builder(left, right).ignoreKeys("profile", "URL.query").build();
+        reducedMPG = MProductGroup.builder(left, right).ignoreKeys("profile", "URL.query").build();
 
-        Assertions.assertNotNull(prepared);
-        Assertions.assertEquals(1, prepared.size());
+        Assertions.assertNotNull(reducedMPG);
+        Assertions.assertEquals(1, reducedMPG.size());
     }
 
     @Test
     public void test_smoke() throws MaterialstoreException {
+
         VoidDiffer voidDiffer = new VoidDiffer(store);
         DiffingMPGProcessor differDriver = new DiffingMPGProcessor.Builder(store).differFor(FileType.WOFF2, voidDiffer).build();
-        differDriver.process(prepared);
+        differDriver.process(reducedMPG);
         //
         JobTimestamp latestTimestamp = store.findLatestJobTimestamp(jobName);
         MaterialList materialList = store.select(jobName, latestTimestamp, QueryOnMetadata.ANY);

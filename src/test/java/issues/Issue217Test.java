@@ -67,9 +67,9 @@ public class Issue217Test {
         BiFunction<MaterialList, MaterialList, MProductGroup> func =
                 (left, right) -> MProductGroup.builder(left, right).build();
 
-        MProductGroup prepared = Reducer.chronos(store, currentMaterialList, func);
-        assertNotNull(prepared);
-        assertEquals(15, prepared.size());
+        MProductGroup reducedMPG = Reducer.chronos(store, currentMaterialList, func);
+        assertNotNull(reducedMPG);
+        assertEquals(15, reducedMPG.size());
     }
 
 

@@ -31,7 +31,7 @@ public class InspectorImpl extends Inspector {
     }
 
     @Override
-    public MProductGroup reduce(MProductGroup input) throws MaterialstoreException {
+    public MProductGroup process(MProductGroup input) throws MaterialstoreException {
         MProductGroup tmp = new MProductGroup(input);
         tmp = reducer.process(tmp);
         tmp.sort();

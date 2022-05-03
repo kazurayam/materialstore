@@ -35,17 +35,17 @@ public final class DiffingMPGProcessor implements MPGProcessor {
     @Override
     public MProductGroup process(MProductGroup mProductGroup) throws MaterialstoreException {
         Objects.requireNonNull(mProductGroup);
-        final List<MaterialProduct> stuffedMaterialProducts = new ArrayList<>();
+        final List<MaterialProduct> stuffedMPs = new ArrayList<>();
         for (MaterialProduct input : mProductGroup) {
             // do make difference
             MaterialProduct stuffed = stuffDiffByDiffer(input);
             // memorize the diff
-            stuffedMaterialProducts.add(stuffed);
+            stuffedMPs.add(stuffed);
         }
         // clone the input to build the result
         final MProductGroup result = new MProductGroup(mProductGroup);
         // and engrave the diff
-        for (MaterialProduct stuffed : stuffedMaterialProducts) {
+        for (MaterialProduct stuffed : stuffedMPs) {
             result.update(stuffed);
         }
         result.setReadyToReport(true);

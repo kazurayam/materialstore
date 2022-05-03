@@ -37,7 +37,8 @@ public class DefaultTextGridDifferTest {
     @BeforeEach
     public void setup() {
         projectDir = Paths.get(System.getProperty("user.dir"));
-        outputDir = projectDir.resolve("build/tmp/testOutput").resolve(this.getClass().getSimpleName());
+        outputDir = projectDir.resolve("build/tmp/testOutput")
+                .resolve(this.getClass().getName());
     }
 
     @Test

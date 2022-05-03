@@ -102,14 +102,14 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
         MaterialList right = createMaterialList(jobName, timestamp1, "MyAdmin_DevelopmentEnv");
         Inspector inspector = Inspector.newInstance(store);
         // make diff of the 2 MaterialList objects
-        MProductGroup prepared =
+        MProductGroup reducedMPG =
                 MProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL", "URL.host")
                         .identifyWithRegex(
                                 Collections.singletonMap(
                                         "URL.query", "\\w{32}"))
                         .build();
-        return inspector.reduce(prepared);
+        return inspector.process(reducedMPG);
     }
 
     private MaterialList createMaterialList(JobName jobName, JobTimestamp timestamp, String profileName)
