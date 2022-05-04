@@ -23,12 +23,12 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class MaterialNodeTest {
+public class MaterialSoloTest {
 
     private static final Path outputDir =
             Paths.get(System.getProperty("user.dir"))
                     .resolve("build/tmp/testOutput")
-                    .resolve(MaterialNodeTest.class.getName());
+                    .resolve(MaterialSoloTest.class.getName());
 
     private static final Path issue80Dir =
             Paths.get(".")
@@ -63,14 +63,15 @@ public class MaterialNodeTest {
     }
 
     @Test
-    public void test_MaterialSolo_derived_from_NULL_OBJECT() throws MaterialstoreException {
-        MaterialSolo solo1 = new MaterialSolo(Material.NULL_OBJECT);
+    public void test_MaterialSolo_derived_from_emptyMaterial() throws MaterialstoreException {
+        MaterialSolo solo1 = new MaterialSolo(Material.newEmptyMaterial());
         GraphNodeId node1Id1 = solo1.getGraphNodeId();
         assertEquals(8, node1Id1.getValue().length());
         GraphNodeId node1Id2 = solo1.getGraphNodeId();
         // an instance of MaterialSolo has its own node id
         assertEquals(node1Id1, node1Id2);
-        MaterialSolo solo2 = new MaterialSolo(Material.NULL_OBJECT);
+
+        MaterialSolo solo2 = new MaterialSolo(Material.newEmptyMaterial());
         // 2 instances of MaterialSolo, both are derived from Materials.NULL_OBJECT, have their own unique node id
         assertNotEquals(node1Id1, solo2.getGraphNodeId());
     }

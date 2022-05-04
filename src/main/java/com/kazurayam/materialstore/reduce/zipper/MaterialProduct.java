@@ -113,8 +113,7 @@ public final class MaterialProduct
      * @return true if either of the left Material or the right Material is NULL object
      */
     public Boolean isBachelor() {
-        return (getLeft() == Material.NULL_OBJECT ||
-                getRight() == Material.NULL_OBJECT  );
+        return (getLeft().isEmpty() || getRight().isEmpty());
     }
 
     public JobTimestamp getReducedTimestamp() {

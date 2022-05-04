@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.filesystem;
 
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.util.JsonUtil;
+import com.kazurayam.materialstore.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,16 +19,35 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
 
     private static final Logger logger = LoggerFactory.getLogger(Material.class.getName());
 
-    public static final Material NULL_OBJECT = new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, IndexEntry.NULL_OBJECT);
+    public static final Material NULL_OBJECT =
+            new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, IndexEntry.NULL_OBJECT);
+
+    /**
+     * empty Material is used as an element of a bachelor MaterialProduct
+     */
+    public static Material newEmptyMaterial() {
+        return new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, IndexEntry.NULL_OBJECT,
+                        StringUtils.generateRandomAlphaNumericString(7));
+    }
 
     private final JobName jobName_;
     private final JobTimestamp jobTimestamp_;
     private final IndexEntry indexEntry_;
+    private final String randomId;
 
     public Material(JobName jobName, JobTimestamp jobTimestamp, IndexEntry indexEntry) {
+        this(jobName, jobTimestamp, indexEntry, null);
+    }
+
+    public Material(JobName jobName, JobTimestamp jobTimestamp, IndexEntry indexEntry, String randomId) {
+        Objects.requireNonNull(jobName);
+        Objects.requireNonNull(jobTimestamp);
+        Objects.requireNonNull(indexEntry);
+        // randomId may be null
         this.jobName_ = jobName;
         this.jobTimestamp_ = jobTimestamp;
         this.indexEntry_ = indexEntry;
+        this.randomId = randomId;
     }
 
     public IFileType getFileType() {
@@ -36,7 +56,17 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
 
     public String getDescription() { return this.getIndexEntry().getDescription(); }
 
-    public String getDescriptionSignature() { return this.getIndexEntry().getDescriptionSignature(); }
+    public boolean isEmpty() {
+        return this.randomId != null;
+    }
+
+    public String getDescriptionSignature() {
+        if (this.isEmpty()) {
+            return this.randomId;
+        } else {
+            return this.getIndexEntry().getDescriptionSignature();
+        }
+    }
 
     public JobName getJobName() {
         return jobName_;

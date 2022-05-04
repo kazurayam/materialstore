@@ -76,7 +76,7 @@ public final class Zipper {
             }
             if (foundLeftCount == 0) {
                 MaterialProduct mp =
-                        new MaterialProduct.Builder(Material.NULL_OBJECT, right, resultTimestamp)
+                        new MaterialProduct.Builder(Material.newEmptyMaterial(), right, resultTimestamp)
                                 .setQueryOnMetadata(rightPattern)
                                 .sortKeys(sortKeys)
                                 .build();
@@ -119,7 +119,7 @@ public final class Zipper {
             }
             if (foundRightCount == 0) {
                 MaterialProduct mProduct =
-                        new MaterialProduct.Builder(left, Material.NULL_OBJECT, resultTimestamp)
+                        new MaterialProduct.Builder(left, Material.newEmptyMaterial(), resultTimestamp)
                         .setQueryOnMetadata(leftPattern)
                         .sortKeys(sortKeys)
                         .build();

@@ -239,19 +239,21 @@ public class DotGenerator {
             GraphNodeId rightId = nodeIdPair.getRight();
             MaterialProduct mp = nodeIdPair.getMaterialProduct();
             Map<String, String> opt = Collections.singletonMap("sequenceNumber", String.valueOf(index));
-            pw.println(INDENT + generateDot(mp, opt, false));
+            pw.println(StringUtils.indentLines(generateDot(mp, opt, false)));
             index += 1;
         }
         // edges
         GraphNodeId previousLeftMNodeId = nodeIdGrid.get(0).getLeft();
         GraphNodeId previousRightMNodeId = nodeIdGrid.get(0).getRight();
-        pw.println(previousLeftMNodeId + " -> " + previousRightMNodeId + " [arrowhead=none];");
+        pw.println(previousLeftMNodeId + " -> " + previousRightMNodeId + " [arrowhead=normal];");
         for (int i = 1; i < nodeIdGrid.size(); i++) {
             GraphNodeId currentLeftMNodeId = nodeIdGrid.get(i).getLeft();
             GraphNodeId currentRightMNodeId = nodeIdGrid.get(i).getRight();
-            pw.println(currentLeftMNodeId + " -> " + currentRightMNodeId + " [arrowhead=none];");
-            pw.println(previousLeftMNodeId + " -> " + currentLeftMNodeId + " [style=invis];");
-            pw.println(previousRightMNodeId + " -> " + currentRightMNodeId + " [style=invis];");
+            pw.println(currentLeftMNodeId + " -> " + currentRightMNodeId + " [arrowhead=normal];");
+            pw.println(previousLeftMNodeId + " -> " + currentLeftMNodeId + " [arrowhead=box];");   // [style="invis"]
+            pw.println(previousRightMNodeId + " -> " + currentRightMNodeId + " [arrowhead=box];"); // [style=invis]
+            previousLeftMNodeId = currentLeftMNodeId;
+            previousRightMNodeId = currentRightMNodeId;
         }
         pw.println("}");
         pw.flush();

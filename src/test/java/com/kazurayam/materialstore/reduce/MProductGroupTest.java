@@ -73,7 +73,9 @@ public class MProductGroupTest {
 
     @BeforeEach
     public void beforeEach() {
-        baseMProductGroup = MProductGroup.builder(MaterialList.NULL_OBJECT, MaterialList.NULL_OBJECT).build();
+        baseMProductGroup =
+                MProductGroup.builder(
+                        MaterialList.NULL_OBJECT, MaterialList.NULL_OBJECT).build();
     }
 
     @Test
@@ -85,8 +87,8 @@ public class MProductGroupTest {
     @Test
     public void test_countWarnings() {
         MaterialProduct tmp = new MaterialProduct.Builder(
-                Material.NULL_OBJECT,
-                Material.NULL_OBJECT,
+                Material.newEmptyMaterial(),
+                Material.newEmptyMaterial(),
                 JobTimestamp.now())
                 .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT)
                 .build();
@@ -101,7 +103,7 @@ public class MProductGroupTest {
     public void test_getCountWarning() {
         MaterialProduct tmp =
                 new MaterialProduct
-                        .Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now())
+                        .Builder(Material.newEmptyMaterial(), Material.newEmptyMaterial(), JobTimestamp.now())
                         .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT).build();
         baseMProductGroup.add(tmp);
         assertEquals(0, baseMProductGroup.getCountWarning());
@@ -109,14 +111,21 @@ public class MProductGroupTest {
 
     @Test
     public void test_getNumberOfBachelors() {
-        MaterialProduct tmp = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT).build();
+        MaterialProduct tmp =
+                new MaterialProduct.Builder(Material.newEmptyMaterial(), Material.newEmptyMaterial(),
+                        JobTimestamp.now())
+                        .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT)
+                        .build();
         baseMProductGroup.add(tmp);
         assertEquals(1, baseMProductGroup.getNumberOfBachelors());
     }
 
     @Test
     public void test_getCountTotal() {
-        MaterialProduct tmp = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT).build();
+        MaterialProduct tmp =
+                new MaterialProduct.Builder(Material.newEmptyMaterial(), Material.newEmptyMaterial(), JobTimestamp.now())
+                        .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT)
+                        .build();
         baseMProductGroup.add(tmp);
         assertEquals(1, baseMProductGroup.getCountTotal());
     }
