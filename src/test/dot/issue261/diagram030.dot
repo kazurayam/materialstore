@@ -1,0 +1,17 @@
+digraph G {
+    graph [
+        rankdir=TB
+    ];
+    A1 [shape=record];
+    A2 [shape=record];
+    A1 -> B1;
+    B1 -> C1;
+    A2 -> B2;
+    B2 -> C2;
+    A1 -> A2;
+    B1 -> B2;
+    C1 -> C2;
+    {rankdir=LR; rank=same; A1, A2;}
+    {rankdir=LR; rank=same; B1, B2;}
+    {rankdir=LR; rank=same; C1, C2;}
+}

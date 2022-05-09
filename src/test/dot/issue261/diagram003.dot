@@ -1,0 +1,6 @@
+digraph G {
+    graph [
+        rankdir=LR
+    ];
+    A1 -> A2;
+}

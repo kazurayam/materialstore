@@ -1,0 +1,24 @@
+digraph G {
+    graph [
+        rankdir=TB
+    ];
+    node [
+        shape=plaintext
+    ]
+    A1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR>
+        <TD PORT="f0">a1</TD><TD PORT="f1">A1</TD>
+        </TR></TABLE>>];
+    A2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0"><TR>
+        <TD PORT="f0">a2</TD><TD PORT="f1">A2</TD>
+        </TR></TABLE>>];
+    A1:f0 -> B1;
+    B1 -> C1;
+    A2 -> B2;
+    B2 -> C2;
+    A1:f1 -> A2:f0 [arrowhead=none];
+    B1 -> B2;
+    C1 -> C2;
+    {rankdir=LR; rank=same; A1, A2;}
+    {rankdir=LR; rank=same; B1, B2;}
+    {rankdir=LR; rank=same; C1, C2;}
+}
