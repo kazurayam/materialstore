@@ -249,9 +249,9 @@ public class DotGenerator {
         for (int i = 1; i < nodeIdGrid.size(); i++) {
             GraphNodeId currentLeftMNodeId = nodeIdGrid.get(i).getLeft();
             GraphNodeId currentRightMNodeId = nodeIdGrid.get(i).getRight();
-            pw.println(currentLeftMNodeId + " -> " + currentRightMNodeId + " [arrowhead=normal];");
-            pw.println(previousLeftMNodeId + " -> " + currentLeftMNodeId + " [arrowhead=box];");   // [style="invis"]
-            pw.println(previousRightMNodeId + " -> " + currentRightMNodeId + " [arrowhead=box];"); // [style=invis]
+            pw.println(INDENT + currentLeftMNodeId + " -> " + currentRightMNodeId + " [arrowhead=normal];");
+            pw.println(INDENT + previousLeftMNodeId + " -> " + currentLeftMNodeId + " [arrowhead=box];");   // [style="invis"]
+            pw.println(INDENT + previousRightMNodeId + " -> " + currentRightMNodeId + " [arrowhead=box];"); // [style=invis]
             previousLeftMNodeId = currentLeftMNodeId;
             previousRightMNodeId = currentRightMNodeId;
         }
