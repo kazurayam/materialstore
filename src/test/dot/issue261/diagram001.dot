@@ -1,3 +1,4 @@
 digraph G {
+    graph [ label="diagram001" ];
     A1 -> A2;
 }

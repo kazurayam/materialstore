@@ -1,0 +1,6 @@
+== 003
+[source,dot]
+----
+include::diagram003.dot[]
+----
+image::../../../../build/tmp/testOutput/issues.Issue216Test/diagram003.png[]

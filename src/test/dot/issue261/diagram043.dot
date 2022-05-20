@@ -1,7 +1,7 @@
 digraph G {
     graph [
-        rankdir=TB
-        label="Sample"
+        rankdir=TB,
+        label="diagram43"
     ];
     node [
         shape=plaintext

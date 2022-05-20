@@ -1,5 +1,6 @@
 digraph G {
     graph [
+        label="diagram024",
         rankdir=TB
     ];
     A1 -> B1; B1 -> C1;
