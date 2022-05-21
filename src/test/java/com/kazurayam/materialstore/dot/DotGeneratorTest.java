@@ -13,6 +13,7 @@ import com.kazurayam.materialstore.reduce.MProductGroup;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.awt.image.BufferedImage;
@@ -20,8 +21,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -54,13 +53,13 @@ public class DotGeneratorTest {
         jobName = new JobName("MyAdmin_visual_inspection_twins");
     }
 
+    @Disabled
     @Test
     public void test_generateDOT_Material() throws MaterialstoreException {
         JobTimestamp fixtureTimestamp = new JobTimestamp("20220128_191320");
         Material material = store.selectSingle(jobName, fixtureTimestamp, FileType.PNG);
-        Map<String, String> options = Collections.emptyMap();
         //
-        String dotText = DotGenerator.generateDot(material, options, true);
+        String dotText = DotGenerator.generateDot(material, true);
         BufferedImage bufferedImage = DotGenerator.toImage(dotText);
         //
         JobName outJobName = new JobName("test_generateDot_Material");
@@ -75,7 +74,7 @@ public class DotGeneratorTest {
         assertTrue(pngMat.toFile(store).length() > 0);
     }
 
-
+    @Disabled
     @Test
     public void test_generateDOT_MaterialList() throws MaterialstoreException {
         JobTimestamp fixtureTimestamp = new JobTimestamp("20220128_191320");
@@ -96,7 +95,7 @@ public class DotGeneratorTest {
         assertTrue(pngMat.toFile(store).length() > 0);
     }
 
-
+    @Disabled
     @Test
     public void test_generateDOT_MaterialProduct() throws MaterialstoreException {
         MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
@@ -123,7 +122,7 @@ public class DotGeneratorTest {
         assertTrue(pngMat.toFile(store).length() > 0);
     }
 
-
+    @Disabled
     @Test
     public void test_generateDotOfMPGBeforeZip() throws MaterialstoreException {
         MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
@@ -151,8 +150,7 @@ public class DotGeneratorTest {
 
 
     @Test
-    public void
-    test_generateDOT_MProductGroup() throws MaterialstoreException {
+    public void test_generateDOT_MProductGroup() throws MaterialstoreException {
         MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
         MaterialList rightMaterialList = store.select(jobName, rightTimestamp);
         JobTimestamp reducedTimestamp = JobTimestamp.now();
@@ -160,10 +158,11 @@ public class DotGeneratorTest {
                 new MProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList).ignoreKeys("profile", "URL.host").build();
-        //
+        // generate a dot file
         String dotText = DotGenerator.generateDot(mProductGroup);
+        // generate the image of the MProductGroup object by Graphviz
         BufferedImage bufferedImage = DotGenerator.toImage(dotText);
-        //
+        // save the dot file and the PNG image into the store directory
         JobName outJobName = new JobName("test_generateDot_MProductGroup");
         JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
         Material dotMat =

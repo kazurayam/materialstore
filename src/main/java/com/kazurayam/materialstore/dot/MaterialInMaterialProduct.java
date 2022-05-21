@@ -27,8 +27,11 @@ public class MaterialInMaterialProduct implements GraphNode {
 
     @Override
     public GraphNodeId getGraphNodeId() {
-        return new GraphNodeId("MP" + materialProduct.getShortId()
+        return new GraphNodeId("MP"
+                + materialProduct.getShortId()
+                + "_"
                 + new MaterialSolo(material).getGraphNodeId()
+                + "_"
                 + side.toString());
     }
 }

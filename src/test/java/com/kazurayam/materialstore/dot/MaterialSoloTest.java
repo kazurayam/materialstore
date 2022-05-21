@@ -94,7 +94,7 @@ public class MaterialSoloTest {
         MaterialProduct mp =
                 new MaterialProduct.Builder(left, right, resultJobTimestamp).build();
         MaterialInMaterialProduct materialInMP = new MaterialInMaterialProduct(mp, left);
-        assertEquals(new GraphNodeId("MP618de9dMd5931b2L"), materialInMP.getGraphNodeId());
+        assertEquals(new GraphNodeId("MP618de9d_Md5931b2_L"), materialInMP.getGraphNodeId());
     }
 
 
@@ -108,7 +108,7 @@ public class MaterialSoloTest {
                         .build();
         MaterialInMProductGroup materialInMPG =
                 new MaterialInMProductGroup(mpg, leftMaterialList.get(0));
-        assertEquals(new GraphNodeId("MPGdc3370dMP7180a3fM5bd4611L"),
+        assertEquals(new GraphNodeId("MPGdc3370dMP7180a3f_M5bd4611_L"),
                 materialInMPG.getGraphNodeId());
     }
 

@@ -29,45 +29,26 @@ import java.util.Map;
  */
 public class DotGenerator {
 
-    public static final String INDENT = "  ";
+    public static final String INDENT = "    ";
 
-    public static String toNodeStmt(GraphNodeId nodeId,
-                                    Material material) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(nodeId.toString());
-        sb.append(" ");
-        sb.append("[label=\"");
-        sb.append(material.getShortId());
-        sb.append("|");
-        sb.append(material.getFileType().getExtension());
-        sb.append("|");
-        String json = material.getMetadata().toSimplifiedJson();
-        String escaped = JsonUtil.escapeAsJsonString(json)
-                        .replace("{", "\\{")
-                        .replace("}", "\\}")
-                        .replace(",",",\\n");
-        sb.append(escaped);
-        sb.append("\"");
-        sb.append("];");
-        return sb.toString();
-    }
-
+    //-----------------------------------------------------------------
     /**
      * generate DOT of a Material object
      */
     public static String generateDot(Material material,
-                                     Map<String, String> options, boolean standalone) {
+                                     boolean standalone) {
         StringWriter sw = new StringWriter();
         MaterialSolo solo = new MaterialSolo(material);
         GraphNodeId nodeId = solo.getGraphNodeId();
-        sw.append(toNodeStmt(nodeId, material));
+        sw.append(new MaterialAsGraphNode(material, nodeId).toGraphNode());
         if (standalone) {
-            return digraphTB(sw.toString());
+            return digraph(sw.toString(), "Material");
         } else {
             return sw.toString();
         }
     }
 
+    //-----------------------------------------------------------------
     /**
      * generate DOT of a MaterialList object
      */
@@ -82,13 +63,10 @@ public class DotGenerator {
                 + "/" + materialList.getJobTimestamp() + "/\",");
         pw.println(INDENT + INDENT + "color=blue");
         pw.println(INDENT + "];");
-        pw.println(INDENT + "node [");
-        pw.println(INDENT + INDENT + "style=filled");
-        pw.println(INDENT + "];");
         // nodes
         for (Material material : materialList) {
             GraphNodeId nodeId = new MaterialInMaterialList(materialList, material).getGraphNodeId();
-            String nodeStmt = toNodeStmt(nodeId, material);
+            String nodeStmt = new MaterialAsGraphNode(material, nodeId).toGraphNode();
             pw.println(INDENT + nodeStmt);
         }
         // edges
@@ -99,14 +77,14 @@ public class DotGenerator {
             GraphNodeId currentNodeId =
                     new MaterialInMaterialList(materialList, materialList.get(i))
                             .getGraphNodeId();
-            pw.println(INDENT + precedingNodeId + " -> " + currentNodeId + " [style=invis];");
+            pw.println(INDENT + precedingNodeId + ":f0" + " -> " + currentNodeId + ":f0" +  " [style=invis];");
             precedingNodeId = currentNodeId;
         }
         pw.println("}");
         pw.flush();
         pw.close();
         if (standalone) {
-            return digraphTB(sw.toString());
+            return digraph(sw.toString(), "MaterialList");
         } else {
             return sw.toString();
         }
@@ -115,7 +93,7 @@ public class DotGenerator {
         return generateDot(materialList, Collections.emptyMap(), true);
     }
 
-
+    //-----------------------------------------------------------------
     /**
      *
      */
@@ -134,28 +112,27 @@ public class DotGenerator {
                 + "\",");
         pw.println(INDENT + INDENT + "color=red");
         pw.println(INDENT + "];");
-        pw.println(INDENT + "node [");
-        pw.println(INDENT + INDENT + "style=filled");
-        pw.println(INDENT + "];");
         // left Material
-        GraphNodeId leftNodeId =
+        GraphNodeId leftGraphNodeId =
                 new MaterialInMaterialProduct(materialProduct, materialProduct.getLeft()).getGraphNodeId();
-        String leftNodeStmt = toNodeStmt(leftNodeId, materialProduct.getLeft());
-        pw.println(INDENT + leftNodeStmt);
+        String leftGraphNodeStatement = new MaterialAsGraphNode(materialProduct.getLeft(), leftGraphNodeId).toGraphNode();
+        pw.println(INDENT + leftGraphNodeStatement);
         // right Material
-        GraphNodeId rightNodeId =
+        GraphNodeId rightGraphNodeId =
                 new MaterialInMaterialProduct(materialProduct, materialProduct.getRight()).getGraphNodeId();
-        String rightNodeStmt = toNodeStmt(rightNodeId, materialProduct.getRight());
-        pw.println(INDENT + rightNodeStmt);
+        String rightGraphNodeStatement = new MaterialAsGraphNode(materialProduct.getRight(), rightGraphNodeId).toGraphNode();
+        pw.println(INDENT + rightGraphNodeStatement);
 
         // horizontal edge
-        pw.println(INDENT + leftNodeId + " -> " + rightNodeId + " [arrowhead=none];");
-        pw.println("}");
+        pw.println(INDENT + leftGraphNodeId + ":f2" + " -> " + rightGraphNodeId + ":f0" + " [arrowhead=none];");
 
+        // rank
+        pw.println(INDENT + "{rankdir=LR; rank=same; " + leftGraphNodeId + ", " + rightGraphNodeId + ";}");
+        pw.println("}");
         pw.flush();
         pw.close();
         if (standalone) {
-            return digraphLR(sw.toString());
+            return digraph(sw.toString(), "MaterialProduct");
         } else {
             return sw.toString();
         }
@@ -165,20 +142,18 @@ public class DotGenerator {
     }
 
 
+
+    //-----------------------------------------------------------------
     public static String generateDotOfMPGBeforeZip(MProductGroup mProductGroup,
-                                                             Map<String, String> options,
-                                                             boolean standalone)
-            throws MaterialstoreException {
+                                                   Map<String, String> options,
+                                                   boolean standalone) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         String sequenceNumber = options.getOrDefault("sequenceNumber", "0");
         pw.println("subgraph cluster_MPGBZ" + sequenceNumber + " {");
         pw.println(INDENT + "graph [");
-        pw.println(INDENT + INDENT + "label=\"MProductGroup " + mProductGroup.getId() + "\",");
+        pw.println(INDENT + INDENT + "label=\"MProductGroup " + mProductGroup.getShortId() + "\",");
         pw.println(INDENT + INDENT + "color=green");
-        pw.println(INDENT + "];");
-        pw.println(INDENT + "node [");
-        pw.println(INDENT + INDENT + "style=filled");
         pw.println(INDENT + "];");
         // left Material
         String dotLeft =
@@ -196,29 +171,29 @@ public class DotGenerator {
         pw.flush();
         pw.close();
         if (standalone) {
-            return digraphTB(sw.toString());
+            return digraph(sw.toString(), "MProductGroup before zip");
         } else {
             return sw.toString();
         }
     }
 
-    public static String generateDotOfMPGBeforeZip(MProductGroup mProductGroup)
-            throws MaterialstoreException {
+    public static String generateDotOfMPGBeforeZip(MProductGroup mProductGroup) {
         return generateDotOfMPGBeforeZip(mProductGroup, Collections.emptyMap(), true);
     }
 
 
+    //-----------------------------------------------------------------
     /**
      *
      */
     public static String generateDot(MProductGroup mProductGroup,
                                      Map<String, String> options, boolean standalone)
             throws MaterialstoreException {
-        // make a grid of NodeIds
-        List<MProductSubgraph> nodeIdGrid = new ArrayList<>();
+        //
+        List<MProductSubgraph> mProductSubgraphList = new ArrayList<>();
         for (MaterialProduct mp : mProductGroup) {
             MProductSubgraph nodeIdPair = new MProductSubgraph(mp);
-            nodeIdGrid.add(nodeIdPair);
+            mProductSubgraphList.add(nodeIdPair);
         }
         //
         StringWriter sw = new StringWriter();
@@ -226,32 +201,25 @@ public class DotGenerator {
         String sequenceNumber = options.getOrDefault("sequenceNumber", "0");
         pw.println("subgraph cluster_MPG" + sequenceNumber + " {");
         pw.println(INDENT + "graph [");
-        pw.println(INDENT + INDENT + "label=\"MProductGroup " + mProductGroup.getId() + "\",");
+        pw.println(INDENT + INDENT + "label=\"MProductGroup " + mProductGroup.getShortId() + "\",");
         pw.println(INDENT + INDENT + "color=green");
-        pw.println(INDENT + "];");
-        pw.println(INDENT + "node [");
-        pw.println(INDENT + INDENT + "style=filled");
         pw.println(INDENT + "];");
         // nodes
         int index = 0;
-        for (MProductSubgraph nodeIdPair: nodeIdGrid) {
-            GraphNodeId leftId = nodeIdPair.getLeft();
-            GraphNodeId rightId = nodeIdPair.getRight();
+        for (MProductSubgraph nodeIdPair: mProductSubgraphList) {
             MaterialProduct mp = nodeIdPair.getMaterialProduct();
             Map<String, String> opt = Collections.singletonMap("sequenceNumber", String.valueOf(index));
             pw.println(StringUtils.indentLines(generateDot(mp, opt, false)));
             index += 1;
         }
         // edges
-        GraphNodeId previousLeftMNodeId = nodeIdGrid.get(0).getLeft();
-        GraphNodeId previousRightMNodeId = nodeIdGrid.get(0).getRight();
-        pw.println(previousLeftMNodeId + " -> " + previousRightMNodeId + " [arrowhead=normal];");
-        for (int i = 1; i < nodeIdGrid.size(); i++) {
-            GraphNodeId currentLeftMNodeId = nodeIdGrid.get(i).getLeft();
-            GraphNodeId currentRightMNodeId = nodeIdGrid.get(i).getRight();
-            pw.println(INDENT + currentLeftMNodeId + " -> " + currentRightMNodeId + " [arrowhead=normal];");
-            pw.println(INDENT + previousLeftMNodeId + " -> " + currentLeftMNodeId + " [arrowhead=box];");   // [style="invis"]
-            pw.println(INDENT + previousRightMNodeId + " -> " + currentRightMNodeId + " [arrowhead=box];"); // [style=invis]
+        GraphNodeId previousLeftMNodeId = mProductSubgraphList.get(0).getLeft();
+        GraphNodeId previousRightMNodeId = mProductSubgraphList.get(0).getRight();
+        for (int i = 1; i < mProductSubgraphList.size(); i++) {
+            GraphNodeId currentLeftMNodeId = mProductSubgraphList.get(i).getLeft();
+            GraphNodeId currentRightMNodeId = mProductSubgraphList.get(i).getRight();
+            pw.println(INDENT + previousLeftMNodeId + ":f2" + " -> " + currentLeftMNodeId + ":f2" + " [arrowhead=normal];");   // [style="invis"]
+            pw.println(INDENT + previousRightMNodeId + ":f2" + " -> " + currentRightMNodeId + ":f2" + " [arrowhead=normal];"); // [style=invis]
             previousLeftMNodeId = currentLeftMNodeId;
             previousRightMNodeId = currentRightMNodeId;
         }
@@ -259,7 +227,7 @@ public class DotGenerator {
         pw.flush();
         pw.close();
         if (standalone) {
-            return digraphLR(sw.toString());
+            return digraph(sw.toString(), "MProductGroup after zip");
         } else {
             return sw.toString();
         }
@@ -268,10 +236,12 @@ public class DotGenerator {
         return generateDot(mProductGroup, Collections.emptyMap(), true);
     }
 
+
+    //-----------------------------------------------------------------
     private static class MProductSubgraph {
-        private MaterialProduct materialProduct;
-        private GraphNodeId left;
-        private GraphNodeId right;
+        private final MaterialProduct materialProduct;
+        private final GraphNodeId left;
+        private final GraphNodeId right;
         public MProductSubgraph(MaterialProduct mp) throws MaterialstoreException {
             this.materialProduct = mp;
             this.left = new MaterialInMaterialProduct(mp, mp.getLeft()).getGraphNodeId();
@@ -293,41 +263,28 @@ public class DotGenerator {
 
 
     //-----------------------------------------------------------------
-
-    public static String digraphTB(String content) {
-        return digraph(content, "TB");
-    }
-
-    public static String digraphLR(String content) {
-        return digraph(content, "LR");
-    }
-
-    private static String digraph(String content, String rankdir) {
-        if (rankdir.equals("TB") || rankdir.equals("LR")) {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            pw.println("digraph G {");
-            pw.println(INDENT + "graph [");
-            pw.println(INDENT + "rankdir=" + rankdir + ",");
-            pw.println(INDENT + INDENT + "concentrate=True,");
-            pw.println(INDENT + INDENT + "fontname=\"Helvetica,Arial,sans-serif\"");
-            pw.println(INDENT + "];");
-            pw.println(INDENT + "node [");
-            pw.println(INDENT + INDENT + "fontname=\"Helvetica,Arial,Sans-serif\",");
-            pw.println(INDENT + INDENT + "shape=record");
-            pw.println(INDENT + "];");
-            pw.println(INDENT + "edge [");
-            pw.println(INDENT + INDENT + "fontname=\"Helvetica,Arial,Sans-serif\"");
-            pw.println(INDENT + "];");
-            List<String> lines = StringUtils.toList(content);
-            lines.stream().forEach(s -> pw.println(INDENT + s));
-            pw.println("}");
-            pw.flush();
-            pw.close();
-            return sw.toString();
-        } else {
-            throw new IllegalArgumentException("rankdir=" + rankdir + " is invalid");
-        }
+    private static String digraph(String content, String label) {
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        pw.println("digraph G {");
+        pw.println(INDENT + "graph [");
+        pw.println(INDENT + INDENT + "label=\"" + label + "\"");
+        pw.println(INDENT + INDENT + "rankdir=TB,");
+        pw.println(INDENT + INDENT + "fontname=\"Helvetica,Arial,sans-serif\"");
+        pw.println(INDENT + "];");
+        pw.println(INDENT + "node [");
+        pw.println(INDENT + INDENT + "fontname=\"Helvetica,Arial,Sans-serif\",");
+        pw.println(INDENT + INDENT + "shape=plaintext");
+        pw.println(INDENT + "];");
+        pw.println(INDENT + "edge [");
+        pw.println(INDENT + INDENT + "fontname=\"Helvetica,Arial,Sans-serif\"");
+        pw.println(INDENT + "];");
+        List<String> lines = StringUtils.toList(content);
+        lines.forEach(s -> pw.println(INDENT + s));
+        pw.println("}");
+        pw.flush();
+        pw.close();
+        return sw.toString();
     }
 
 
@@ -339,8 +296,12 @@ public class DotGenerator {
             Path dotFile = Files.createTempFile(null, null);
             Files.write(dotFile, dot.getBytes(StandardCharsets.UTF_8));
             Path pngFile = Files.createTempFile(null, null);
-            runDotCommand(dotFile, pngFile);
-            return ImageIO.read(pngFile.toFile());
+            int rc = runDotCommand(dotFile, pngFile);
+            if (rc == 0) {
+                return ImageIO.read(pngFile.toFile());
+            } else {
+                throw new MaterialstoreException("dot command failed to generate a PNG file");
+            }
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
@@ -355,10 +316,10 @@ public class DotGenerator {
             Subprocess.CompletedProcess cp =
                     new Subprocess()
                             .run(Arrays.asList(
-                                            "/usr/local/bin/dot",
-                                            "-Tpng",
-                                            "-o" + outFile.toString(),
-                                            dotFile.toString()
+                                    "/usr/local/bin/dot",
+                                    "-Tpng",
+                                    "-o" + outFile.toString(),
+                                    dotFile.toString()
                                     )
                             );
             if (cp.returncode() != 0) {
