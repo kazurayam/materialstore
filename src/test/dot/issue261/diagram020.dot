@@ -1,8 +1,0 @@
-digraph G {
-    graph [
-        label="diagram020",
-        rankdir=TB
-    ];
-    A1 -> B1; B1 -> C1;
-    A2 -> B2; B2 -> C2;
-}

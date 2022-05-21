@@ -1,7 +1,0 @@
-digraph G {
-    graph [
-        label="diagram003",
-        rankdir=LR
-    ];
-    A1 -> A2;
-}

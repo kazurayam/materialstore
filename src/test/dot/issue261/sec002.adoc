@@ -1,6 +1,0 @@
-== 002
-[source,dot]
-----
-include::diagram002.dot[]
-----
-image::../../../../build/tmp/testOutput/issues.Issue216Test/diagram002.png[]
