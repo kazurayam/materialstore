@@ -101,6 +101,8 @@ public class DotGeneratorTest {
         MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
         MaterialList rightMaterialList = store.select(jobName, rightTimestamp);
         JobTimestamp reducedTimestamp = JobTimestamp.now();
+        JobName outJobName = new JobName("test_generateDot_MaterialProduct");
+        JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
         MaterialProduct mp =
                 new MaterialProduct.Builder(
                         leftMaterialList.get(0),
@@ -108,14 +110,12 @@ public class DotGeneratorTest {
                         reducedTimestamp).build();
         //
         String dotText = DotGenerator.generateDot(mp);
-        BufferedImage bufferedImage = DotGenerator.toImage(dotText);
-        //
-        JobName outJobName = new JobName("test_generateDot_MaterialProduct");
-        JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
         Material dotMat =
                 store.write(outJobName, outJobTimestamp, FileType.DOT,
                         Metadata.NULL_OBJECT, dotText);
         assertTrue(dotMat.toFile(store).length() > 0);
+        //
+        BufferedImage bufferedImage = DotGenerator.toImage(dotText);
         Material pngMat =
                 store.write(outJobName, outJobTimestamp, FileType.PNG,
                         Metadata.NULL_OBJECT, bufferedImage);
@@ -128,20 +128,20 @@ public class DotGeneratorTest {
         MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
         MaterialList rightMaterialList = store.select(jobName, rightTimestamp);
         JobTimestamp reducedTimestamp = JobTimestamp.now();
+        JobName outJobName = new JobName("test_generateDotOfMPGBeforeZip");
+        JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
         MProductGroup mProductGroup =
                 new MProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList).ignoreKeys("profile", "URL.host").build();
         //
         String dotText = DotGenerator.generateDotOfMPGBeforeZip(mProductGroup);
-        BufferedImage bufferedImage = DotGenerator.toImage(dotText);
-        //
-        JobName outJobName = new JobName("test_generateDotOfMPGBeforeZip");
-        JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
         Material dotMat =
                 store.write(outJobName, outJobTimestamp, FileType.DOT,
                         Metadata.NULL_OBJECT, dotText);
         assertTrue(dotMat.toFile(store).length() > 0);
+        //
+        BufferedImage bufferedImage = DotGenerator.toImage(dotText);
         Material pngMat =
                 store.write(outJobName, outJobTimestamp, FileType.PNG,
                         Metadata.NULL_OBJECT, bufferedImage);
@@ -154,6 +154,9 @@ public class DotGeneratorTest {
         MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
         MaterialList rightMaterialList = store.select(jobName, rightTimestamp);
         JobTimestamp reducedTimestamp = JobTimestamp.now();
+        // save the dot file and the PNG image into the store directory
+        JobName outJobName = new JobName("test_generateDot_MProductGroup");
+        JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
         MProductGroup mProductGroup =
                 new MProductGroup.Builder(
                         leftMaterialList,
@@ -161,15 +164,12 @@ public class DotGeneratorTest {
         assert mProductGroup.size() > 0;
         // generate a dot file
         String dotText = DotGenerator.generateDot(mProductGroup);
-        // generate the image of the MProductGroup object by Graphviz
-        BufferedImage bufferedImage = DotGenerator.toImage(dotText);
-        // save the dot file and the PNG image into the store directory
-        JobName outJobName = new JobName("test_generateDot_MProductGroup");
-        JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
         Material dotMat =
                 store.write(outJobName, outJobTimestamp, FileType.DOT,
                         Metadata.NULL_OBJECT, dotText);
         assertTrue(dotMat.toFile(store).length() > 0);
+        // generate the image of the MProductGroup object by Graphviz
+        BufferedImage bufferedImage = DotGenerator.toImage(dotText);
         Material pngMat =
                 store.write(outJobName, outJobTimestamp, FileType.PNG,
                         Metadata.NULL_OBJECT, bufferedImage);

@@ -118,11 +118,14 @@ public class DotGenerator {
         String sequenceNumber = options.getOrDefault("sequenceNumber", "0");
         pw.println("subgraph cluster_MP" + sequenceNumber + " {");
         pw.println(INDENT + "graph [");
-        pw.println(INDENT + INDENT + "label=\"" + materialProduct.getReducedTimestamp().toString()
-                + "/" + materialProduct.getFileTypeExtension()
-                + "/" + JsonUtil.escapeAsJsonString(materialProduct.getQueryOnMetadata().toJson())
-                .replace("{", "\\{")
-                .replace("}", "\\}")
+        pw.println(INDENT + INDENT + "label=\""
+                + materialProduct.getLeft().getJobName()
+                + "/"
+                + materialProduct.getLeft().getJobTimestamp()
+                + " X "
+                + materialProduct.getRight().getJobName()
+                + "/"
+                + materialProduct.getRight().getJobTimestamp()
                 + "\",");
         pw.println(INDENT + INDENT + "style=\"dashed\",");
         pw.println(INDENT + INDENT + "color=black");
@@ -139,7 +142,16 @@ public class DotGenerator {
         pw.println(INDENT + rightGraphNodeStatement);
 
         // horizontal edge
-        pw.println(INDENT + leftGraphNodeId + ":f2" + " -> " + rightGraphNodeId + ":f0" + " [arrowhead=none];");
+        pw.println(INDENT + leftGraphNodeId + ":f2" + " -> " + rightGraphNodeId + ":f0"
+                + " ["
+                + "arrowhead=none,"
+                + "label=\""
+                + materialProduct.getFileTypeExtension()
+                + " "
+                + JsonUtil.escapeAsJsonString(materialProduct.getQueryOnMetadata().toJson()).replace("{", "\\{").replace("}", "\\}")
+                + "\""
+                + "];"
+        );
 
         // rank
         pw.println(INDENT + "{rankdir=LR; rank=same; " + leftGraphNodeId + ", " + rightGraphNodeId + ";}");
