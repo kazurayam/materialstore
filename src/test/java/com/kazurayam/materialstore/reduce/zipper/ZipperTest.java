@@ -75,11 +75,15 @@ public class ZipperTest {
     public void test_zipMaterials() throws MaterialstoreException {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(1);
         map.put("URL.query", "\\w{32}");
-        List<MaterialProduct> mProductList =
-                Zipper.zipMaterials(left, right, JobTimestamp.now(),
+
+        Zipper zipper =
+                new Zipper(
                         new IgnoreMetadataKeys.Builder().ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").build(),
                         new IdentifyMetadataValues.Builder().putAllNameRegexPairs(map).build(),
                         new SortKeys("URL.host"));
+        List<MaterialProduct> mProductList =
+                zipper.zipMaterials(left, right, JobTimestamp.now());
+
         Assertions.assertNotNull(mProductList);
         for (MaterialProduct mProduct : mProductList) {
             //println JsonOutput.prettyPrint(mProduct.toString())

@@ -28,22 +28,31 @@ public final class Zipper {
 
     private static Logger logger = LoggerFactory.getLogger(Zipper.class);
 
-    /**
-     *
-     */
-    public static List<MaterialProduct> zipMaterials(
-            final MaterialList leftList,
-            final MaterialList rightList,
-            final JobTimestamp resultTimestamp,
-            final IgnoreMetadataKeys ignoreMetadataKeys,
-            final IdentifyMetadataValues identifyMetadataValues,
-            final SortKeys sortKeys) {
-        Objects.requireNonNull(leftList);
-        Objects.requireNonNull(rightList);
-        Objects.requireNonNull(resultTimestamp);
+    private final IgnoreMetadataKeys ignoreMetadataKeys;
+    private final IdentifyMetadataValues identifyMetadataValues;
+    private final SortKeys sortKeys;
+
+    public Zipper(final IgnoreMetadataKeys ignoreMetadataKeys,
+                  final IdentifyMetadataValues identifyMetadataValues,
+                  final SortKeys sortKeys) {
         Objects.requireNonNull(ignoreMetadataKeys);
         Objects.requireNonNull(identifyMetadataValues);
         Objects.requireNonNull(sortKeys);
+        this.ignoreMetadataKeys = ignoreMetadataKeys;
+        this.identifyMetadataValues = identifyMetadataValues;
+        this.sortKeys = sortKeys;
+    }
+
+    /**
+     *
+     */
+    public List<MaterialProduct> zipMaterials(
+            final MaterialList leftList,
+            final MaterialList rightList,
+            final JobTimestamp resultTimestamp) {
+        Objects.requireNonNull(leftList);
+        Objects.requireNonNull(rightList);
+        Objects.requireNonNull(resultTimestamp);
         String methodName = "[zipMaterials] ";
         // the result
         final List<MaterialProduct> mProductList = new ArrayList<>();
@@ -54,10 +63,12 @@ public final class Zipper {
             Material right = rightIter.next();
             final IFileType rightFileType = right.getIndexEntry().getFileType();
             Metadata rightMetadata = right.getIndexEntry().getMetadata();
-            final QueryOnMetadata rightPattern = QueryOnMetadata.builder(rightMetadata, ignoreMetadataKeys).build();
+            final QueryOnMetadata rightPattern =
+                    QueryOnMetadata.builder(rightMetadata, ignoreMetadataKeys).build();
             //
             logger.debug(methodName + "--------");
-            logger.debug(methodName + "right " + right.getShortId() + " " + rightFileType.getExtension() + " pattern: " + rightPattern);
+            logger.debug(methodName + "right " + right.getShortId() + " "
+                    + rightFileType.getExtension() + " pattern: " + rightPattern);
             int foundLeftCount = 0;
 
             Iterator<Material> leftIter = leftList.iterator();
@@ -65,13 +76,20 @@ public final class Zipper {
                 Material left = leftIter.next();
                 final IFileType leftFileType = left.getIndexEntry().getFileType();
                 final Metadata leftMetadata = left.getIndexEntry().getMetadata();
-                if (leftFileType.equals(rightFileType) && (rightPattern.matches(leftMetadata) || identifyMetadataValues.matches(leftMetadata))) {
-                    MaterialProduct mp = new MaterialProduct.Builder(left, right, resultTimestamp).setQueryOnMetadata(rightPattern).sortKeys(sortKeys).build();
+                if (leftFileType.equals(rightFileType) && (rightPattern.matches(leftMetadata)
+                        || identifyMetadataValues.matches(leftMetadata))) {
+                    MaterialProduct mp =
+                            new MaterialProduct.Builder(left, right, resultTimestamp)
+                                    .setQueryOnMetadata(rightPattern)
+                                    .sortKeys(sortKeys)
+                                    .build();
                     mProductList.add(mp);
-                    logger.debug(methodName + "left Y " + left.getShortId() + " " + leftFileType.getExtension() + " " + leftMetadata);
+                    logger.debug(methodName + "left Y " + left.getShortId() + " "
+                            + leftFileType.getExtension() + " " + leftMetadata);
                     foundLeftCount += 1;
                 } else {
-                    logger.debug(methodName + "left N " + left.getShortId() + " " + leftFileType.getExtension() + " " + leftMetadata);
+                    logger.debug(methodName + "left N " + left.getShortId() + " "
+                            + leftFileType.getExtension() + " " + leftMetadata);
                 }
             }
             if (foundLeftCount == 0) {
@@ -98,7 +116,8 @@ public final class Zipper {
             final QueryOnMetadata leftPattern =
                     QueryOnMetadata.builder(leftMetadata, ignoreMetadataKeys).build();
             logger.debug(methodName + "--------");
-            logger.debug(methodName + "left " + left.getShortId() + " " + leftFileType.toString() + " pattern: " + leftPattern);
+            logger.debug(methodName + "left " + left.getShortId() + " "
+                    + leftFileType.toString() + " pattern: " + leftPattern);
             int foundRightCount = 0;
             //
             Iterator<Material> rightIter2 = rightList.iterator();
@@ -106,8 +125,8 @@ public final class Zipper {
                 Material right = rightIter2.next();
                 final IFileType rightFileType = right.getIndexEntry().getFileType();
                 final Metadata rightMetadata = right.getIndexEntry().getMetadata();
-                if (rightFileType.equals(leftFileType) &&
-                        (leftPattern.matches(rightMetadata) || identifyMetadataValues.matches(rightMetadata))) {
+                if (rightFileType.equals(leftFileType) && (leftPattern.matches(rightMetadata)
+                                || identifyMetadataValues.matches(rightMetadata))) {
                     // this must have been found matched already; no need to create a MProduct
                     logger.debug(methodName + "right Y " + right.getShortId() + " " +
                             rightFileType.getExtension() + " " + rightMetadata);

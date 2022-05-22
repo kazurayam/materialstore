@@ -12,6 +12,11 @@ import java.awt.image.BufferedImage;
 import java.nio.file.Path;
 import java.util.Collections;
 
+/**
+ * MPGVisualizer generates diagram of an instance of MProductGroup.
+ * MPGVisualizer is supposed to be used as a helper class for Selenium test suites.
+ * MPGVisualizer internally uses the com.kazurayam.materialstore.dot.DotGenerator class.
+ */
 public class MPGVisualizer {
 
     private final Store store;
