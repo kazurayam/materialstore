@@ -18,10 +18,9 @@ public class GraphNodeIdResolver {
     public static GraphNodeId getGraphNodeId(MaterialList materialList, Material material) {
         Objects.requireNonNull(materialList);
         Objects.requireNonNull(material);
-        MaterialSolo materialSolo = new MaterialSolo(material);
         return new GraphNodeId("ML" + materialList.getShortId()
                 + "_"
-                + materialSolo.getGraphNodeId());
+                + getGraphNodeId(material));
     }
 
     public static GraphNodeId getGraphNodeId(MaterialProduct materialProduct, Material material)
@@ -40,7 +39,7 @@ public class GraphNodeIdResolver {
         return new GraphNodeId("MP"
                 + materialProduct.getShortId()
                 + "_"
-                + new MaterialSolo(material).getGraphNodeId()
+                + getGraphNodeId(material)
                 + "_"
                 + side.toString());
     }
@@ -84,7 +83,7 @@ public class GraphNodeIdResolver {
         }
         return new GraphNodeId("MPGBZ" + mProductGroup.getShortId()
                 + "_"
-                + new MaterialInMaterialList(materialList, material).getGraphNodeId()
+                + GraphNodeIdResolver.getGraphNodeId(materialList, material)
                 + "_"
                 + side.toString());
     }

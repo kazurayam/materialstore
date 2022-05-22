@@ -47,8 +47,7 @@ public class DotGenerator {
         pw.println(INDENT + INDENT + "color=black");
         pw.println(INDENT + "]");
         // node
-        MaterialSolo solo = new MaterialSolo(material);
-        GraphNodeId nodeId = solo.getGraphNodeId();
+        GraphNodeId nodeId = GraphNodeIdResolver.getGraphNodeId(material);
         pw.println(new MaterialAsGraphNode(material, nodeId).toGraphNode());
         // no edge
         pw.println("}");
@@ -79,18 +78,17 @@ public class DotGenerator {
         pw.println(INDENT + "];");
         // nodes
         for (Material material : materialList) {
-            GraphNodeId nodeId = new MaterialInMaterialList(materialList, material).getGraphNodeId();
+            GraphNodeId nodeId =
+                    GraphNodeIdResolver.getGraphNodeId(materialList, material);
             String nodeStmt = new MaterialAsGraphNode(material, nodeId).toGraphNode();
             pw.println(INDENT + nodeStmt);
         }
         // edges
         GraphNodeId precedingNodeId =
-                new MaterialInMaterialList(materialList, materialList.get(0))
-                        .getGraphNodeId();
+                GraphNodeIdResolver.getGraphNodeId(materialList, materialList.get(0));
         for (int i = 1; i < materialList.size(); i++) {
             GraphNodeId currentNodeId =
-                    new MaterialInMaterialList(materialList, materialList.get(i))
-                            .getGraphNodeId();
+                    GraphNodeIdResolver.getGraphNodeId(materialList, materialList.get(i));
             pw.println(INDENT + precedingNodeId + ":f0" + " -> " + currentNodeId + ":f0" +  " [style=invis];");
             precedingNodeId = currentNodeId;
         }
@@ -132,15 +130,16 @@ public class DotGenerator {
         pw.println(INDENT + "];");
         // left Material
         GraphNodeId leftGraphNodeId =
-                new MaterialInMaterialProduct(materialProduct, materialProduct.getLeft()).getGraphNodeId();
-        String leftGraphNodeStatement = new MaterialAsGraphNode(materialProduct.getLeft(), leftGraphNodeId).toGraphNode();
+                GraphNodeIdResolver.getGraphNodeId(materialProduct, materialProduct.getLeft());
+        String leftGraphNodeStatement =
+                new MaterialAsGraphNode(materialProduct.getLeft(), leftGraphNodeId).toGraphNode();
         pw.println(INDENT + leftGraphNodeStatement);
         // right Material
         GraphNodeId rightGraphNodeId =
-                new MaterialInMaterialProduct(materialProduct, materialProduct.getRight()).getGraphNodeId();
-        String rightGraphNodeStatement = new MaterialAsGraphNode(materialProduct.getRight(), rightGraphNodeId).toGraphNode();
+                GraphNodeIdResolver.getGraphNodeId(materialProduct, materialProduct.getRight());
+        String rightGraphNodeStatement =
+                new MaterialAsGraphNode(materialProduct.getRight(), rightGraphNodeId).toGraphNode();
         pw.println(INDENT + rightGraphNodeStatement);
-
         // horizontal edge
         pw.println(INDENT + leftGraphNodeId + ":f2" + " -> " + rightGraphNodeId + ":f0"
                 + " ["
@@ -152,7 +151,6 @@ public class DotGenerator {
                 + "\""
                 + "];"
         );
-
         // rank
         pw.println(INDENT + "{rankdir=LR; rank=same; " + leftGraphNodeId + ", " + rightGraphNodeId + ";}");
         pw.println("}");
@@ -194,7 +192,6 @@ public class DotGenerator {
                         Collections.singletonMap("sequenceNumber", "1"), false);
         pw.println(INDENT + dotRight);
         // horizontal edge
-
         pw.println("}");
         pw.flush();
         pw.close();
@@ -273,8 +270,8 @@ public class DotGenerator {
         private final GraphNodeId right;
         public MProductSubgraph(MaterialProduct mp) throws MaterialstoreException {
             this.materialProduct = mp;
-            this.left = new MaterialInMaterialProduct(mp, mp.getLeft()).getGraphNodeId();
-            this.right = new MaterialInMaterialProduct(mp, mp.getRight()).getGraphNodeId();
+            this.left = GraphNodeIdResolver.getGraphNodeId(mp, mp.getLeft());
+            this.right = GraphNodeIdResolver.getGraphNodeId(mp, mp.getRight());
         }
         public GraphNodeId getLeft() {
             return left;

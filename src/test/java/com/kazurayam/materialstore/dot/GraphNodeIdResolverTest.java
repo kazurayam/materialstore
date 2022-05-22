@@ -102,13 +102,12 @@ public class GraphNodeIdResolverTest {
     public void test_getGraphNodeId_Material_in_MProductGroup_before_Zip() throws MaterialstoreException {
         MaterialList leftMaterialList = store.select(jobName, leftJobTimestamp, FileType.PNG);
         MaterialList rightMaterialList = store.select(jobName, rightJobTimestamp, FileType.PNG);
-        JobTimestamp reducedTimestamp = JobTimestamp.now();
         MProductGroup mProductGroup =
                 new MProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList).ignoreKeys("profile", "URL.host").build();
         Material material = leftMaterialList.get(0);
         GraphNodeId graphNodeId = GraphNodeIdResolver.getGraphNodeIdBeforeZIP(mProductGroup, material);
-        assertEquals(new GraphNodeId("MPGBZ2810bee_MLa98d469Md5931b2_L"), graphNodeId);
+        assertEquals(new GraphNodeId("MPGBZ2810bee_MLa98d469_Md5931b2_L"), graphNodeId);
     }
 }
