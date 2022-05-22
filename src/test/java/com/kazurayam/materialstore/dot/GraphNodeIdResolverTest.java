@@ -9,6 +9,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
+import com.kazurayam.materialstore.reduce.MProductGroup;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
@@ -75,11 +76,39 @@ public class GraphNodeIdResolverTest {
         JobTimestamp reducedTimestamp = JobTimestamp.now();
         JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
         MaterialProduct mProduct =
-            new MaterialProduct.Builder(
-                    leftMaterialList.get(0),
-                    rightMaterialList.get(0),
-                    reducedTimestamp).build();
+                new MaterialProduct.Builder(
+                        leftMaterialList.get(0),
+                        rightMaterialList.get(0),
+                        reducedTimestamp).build();
         GraphNodeId graphNodeId = GraphNodeIdResolver.getGraphNodeId(mProduct, leftMaterialList.get(0));
         assertEquals(new GraphNodeId("MP57d34be_Md5931b2_L"), graphNodeId);
+    }
+
+    @Test
+    public void test_getGraphNodeId_Material_in_MProductGroup() throws MaterialstoreException {
+        MaterialList leftMaterialList = store.select(jobName, leftJobTimestamp);
+        MaterialList rightMaterialList = store.select(jobName, rightJobTimestamp);
+        MProductGroup mProductGroup =
+                new MProductGroup.Builder(leftMaterialList, rightMaterialList)
+                        .ignoreKeys("profile", "URL.host")
+                        .build();
+        assert mProductGroup.size() > 0;
+        Material material = leftMaterialList.get(0);
+        GraphNodeId graphNodeId = GraphNodeIdResolver.getGraphNodeId(mProductGroup, material);
+        assertEquals(new GraphNodeId("MPG3db42ca_MP0e22891_M5bd4611_L"), graphNodeId);
+    }
+
+    @Test
+    public void test_getGraphNodeId_Material_in_MProductGroup_before_Zip() throws MaterialstoreException {
+        MaterialList leftMaterialList = store.select(jobName, leftJobTimestamp, FileType.PNG);
+        MaterialList rightMaterialList = store.select(jobName, rightJobTimestamp, FileType.PNG);
+        JobTimestamp reducedTimestamp = JobTimestamp.now();
+        MProductGroup mProductGroup =
+                new MProductGroup.Builder(
+                        leftMaterialList,
+                        rightMaterialList).ignoreKeys("profile", "URL.host").build();
+        Material material = leftMaterialList.get(0);
+        GraphNodeId graphNodeId = GraphNodeIdResolver.getGraphNodeIdBeforeZIP(mProductGroup, material);
+        assertEquals(new GraphNodeId("MPGBZ2810bee_MLa98d469Md5931b2_L"), graphNodeId);
     }
 }

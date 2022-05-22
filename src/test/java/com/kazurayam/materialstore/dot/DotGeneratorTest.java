@@ -55,7 +55,7 @@ public class DotGeneratorTest {
 
     //@Disabled
     @Test
-    public void test_generateDOT_Material() throws MaterialstoreException {
+    public void test_generateDot_Material() throws MaterialstoreException {
         JobTimestamp fixtureTimestamp = new JobTimestamp("20220522_094639");
         Material material = store.selectSingle(jobName, fixtureTimestamp, FileType.PNG);
         //
@@ -76,7 +76,7 @@ public class DotGeneratorTest {
 
     //@Disabled
     @Test
-    public void test_generateDOT_MaterialList() throws MaterialstoreException {
+    public void test_generateDot_MaterialList() throws MaterialstoreException {
         JobTimestamp fixtureTimestamp = new JobTimestamp("20220522_094639");
         MaterialList materialList = store.select(jobName, fixtureTimestamp);
         //
@@ -97,7 +97,7 @@ public class DotGeneratorTest {
 
     //@Disabled
     @Test
-    public void test_generateDOT_MaterialProduct() throws MaterialstoreException {
+    public void test_generateDot_MaterialProduct() throws MaterialstoreException {
         MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
         MaterialList rightMaterialList = store.select(jobName, rightTimestamp);
         JobTimestamp reducedTimestamp = JobTimestamp.now();
@@ -150,7 +150,7 @@ public class DotGeneratorTest {
 
     //@Disabled
     @Test
-    public void test_generateDOT_MProductGroup() throws MaterialstoreException {
+    public void test_generateDot_MProductGroup() throws MaterialstoreException {
         MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
         MaterialList rightMaterialList = store.select(jobName, rightTimestamp);
         JobTimestamp reducedTimestamp = JobTimestamp.now();

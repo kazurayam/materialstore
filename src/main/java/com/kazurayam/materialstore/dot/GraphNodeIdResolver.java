@@ -45,12 +45,48 @@ public class GraphNodeIdResolver {
                 + side.toString());
     }
 
-    public static GraphNodeId getGraphNodeId(MProductGroup mProductGroup, Material material) {
-        throw new RuntimeException("TODO");
+    public static GraphNodeId getGraphNodeId(MProductGroup mProductGroup, Material material)
+            throws MaterialstoreException {
+        MaterialProduct materialProduct = null;
+        for (MaterialProduct mp : mProductGroup) {
+            if (mp.contains(material)) {
+                materialProduct = mp;
+            }
+        }
+        if (materialProduct == null) {
+            throw new MaterialstoreException("material("
+                    + material.getDescription() + ") is not contained");
+        }
+        return new GraphNodeId("MPG"
+                + mProductGroup.getShortId()
+                + "_"
+                + getGraphNodeId(materialProduct, material)
+        );
     }
 
-    public static GraphNodeId getGraphNodeIdBeforeZIP(MProductGroup mProductGroup, Material material) {
-        throw new RuntimeException("TODO");
+    public static GraphNodeId getGraphNodeIdBeforeZIP(MProductGroup mProductGroup, Material material)
+            throws MaterialstoreException {
+        Objects.requireNonNull(mProductGroup);
+        Objects.requireNonNull(material);
+        MaterialList materialList = null;
+        Side side = null;
+        // look up the material inside the MProductGroup.Builder instance
+        // to identify in which materialList the material is contained
+        if (mProductGroup.getMaterialListLeft().contains(material)) {
+            materialList = mProductGroup.getMaterialListLeft();
+            side = Side.L;
+        } else if (mProductGroup.getMaterialListRight().contains(material)) {
+            materialList = mProductGroup.getMaterialListRight();
+            side = Side.R;
+        } else {
+            throw new MaterialstoreException("material("
+                    + material.getDescription() + ") if not found in the MProductGroup instance");
+        }
+        return new GraphNodeId("MPGBZ" + mProductGroup.getShortId()
+                + "_"
+                + new MaterialInMaterialList(materialList, material).getGraphNodeId()
+                + "_"
+                + side.toString());
     }
 
     /**
