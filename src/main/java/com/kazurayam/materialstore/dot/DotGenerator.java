@@ -38,9 +38,22 @@ public class DotGenerator {
     public static String generateDot(Material material,
                                      boolean standalone) {
         StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        pw.println("subgraph cluster_M" + 0 + " {");
+        pw.println(INDENT + "graph [");
+        pw.println(INDENT + INDENT + "label=\"" + material.getJobName()
+                + "/" + material.getJobTimestamp() + "/\",");
+        pw.println(INDENT + INDENT + "style=\"dashed\",");
+        pw.println(INDENT + INDENT + "color=black");
+        pw.println(INDENT + "]");
+        // node
         MaterialSolo solo = new MaterialSolo(material);
         GraphNodeId nodeId = solo.getGraphNodeId();
-        sw.append(new MaterialAsGraphNode(material, nodeId).toGraphNode());
+        pw.println(new MaterialAsGraphNode(material, nodeId).toGraphNode());
+        // no edge
+        pw.println("}");
+        pw.flush();
+        pw.close();
         if (standalone) {
             return digraph(sw.toString(), "Material");
         } else {
@@ -61,7 +74,8 @@ public class DotGenerator {
         pw.println(INDENT + "graph [");
         pw.println(INDENT + INDENT + "label=\"" + materialList.getJobName()
                 + "/" + materialList.getJobTimestamp() + "/\",");
-        pw.println(INDENT + INDENT + "color=blue");
+        pw.println(INDENT + INDENT + "style=\"dashed\",");
+        pw.println(INDENT + INDENT + "color=black");
         pw.println(INDENT + "];");
         // nodes
         for (Material material : materialList) {
@@ -110,7 +124,8 @@ public class DotGenerator {
                 .replace("{", "\\{")
                 .replace("}", "\\}")
                 + "\",");
-        pw.println(INDENT + INDENT + "color=red");
+        pw.println(INDENT + INDENT + "style=\"dashed\",");
+        pw.println(INDENT + INDENT + "color=black");
         pw.println(INDENT + "];");
         // left Material
         GraphNodeId leftGraphNodeId =
@@ -153,7 +168,8 @@ public class DotGenerator {
         pw.println("subgraph cluster_MPGBZ" + sequenceNumber + " {");
         pw.println(INDENT + "graph [");
         pw.println(INDENT + INDENT + "label=\"MProductGroup " + mProductGroup.getShortId() + "\",");
-        pw.println(INDENT + INDENT + "color=green");
+        pw.println(INDENT + INDENT + "style=\"dashed\",");
+        pw.println(INDENT + INDENT + "color=black");
         pw.println(INDENT + "];");
         // left Material
         String dotLeft =
@@ -202,7 +218,8 @@ public class DotGenerator {
         pw.println("subgraph cluster_MPG" + sequenceNumber + " {");
         pw.println(INDENT + "graph [");
         pw.println(INDENT + INDENT + "label=\"MProductGroup " + mProductGroup.getShortId() + "\",");
-        pw.println(INDENT + INDENT + "color=green");
+        pw.println(INDENT + INDENT + "style=\"dashed\",");
+        pw.println(INDENT + INDENT + "color=black");
         pw.println(INDENT + "];");
         // nodes
         int index = 0;

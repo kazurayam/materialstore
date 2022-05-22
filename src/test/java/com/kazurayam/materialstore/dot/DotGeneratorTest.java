@@ -31,14 +31,14 @@ public class DotGeneratorTest {
                     .resolve("build/tmp/testOutput")
                     .resolve(DotGeneratorTest.class.getName());
 
-    private static final Path issue80Dir =
+    private static final Path issue259Dir =
             Paths.get(".")
-                    .resolve("src/test/fixture/issue#80");
+                    .resolve("src/test/fixture/issue#259");
 
     private static Store store;
     private static JobName jobName;
-    JobTimestamp leftTimestamp = new JobTimestamp("20220128_191320");
-    JobTimestamp rightTimestamp = new JobTimestamp("20220128_191342");
+    JobTimestamp leftTimestamp = new JobTimestamp("20220522_094639");
+    JobTimestamp rightTimestamp = new JobTimestamp("20220522_094706");
 
     @BeforeAll
     public static void beforeAll() throws IOException {
@@ -49,14 +49,14 @@ public class DotGeneratorTest {
         Path root = outputDir.resolve("store");
         store = Stores.newInstance(root);
         // copy a fixture into the store
-        FileUtils.copyDirectory(issue80Dir.toFile(), store.getRoot().toFile());
-        jobName = new JobName("MyAdmin_visual_inspection_twins");
+        FileUtils.copyDirectory(issue259Dir.resolve("store").toFile(), store.getRoot().toFile());
+        jobName = new JobName("Main_Twins");
     }
 
-    @Disabled
+    //@Disabled
     @Test
     public void test_generateDOT_Material() throws MaterialstoreException {
-        JobTimestamp fixtureTimestamp = new JobTimestamp("20220128_191320");
+        JobTimestamp fixtureTimestamp = new JobTimestamp("20220522_094639");
         Material material = store.selectSingle(jobName, fixtureTimestamp, FileType.PNG);
         //
         String dotText = DotGenerator.generateDot(material, true);
@@ -74,10 +74,10 @@ public class DotGeneratorTest {
         assertTrue(pngMat.toFile(store).length() > 0);
     }
 
-    @Disabled
+    //@Disabled
     @Test
     public void test_generateDOT_MaterialList() throws MaterialstoreException {
-        JobTimestamp fixtureTimestamp = new JobTimestamp("20220128_191320");
+        JobTimestamp fixtureTimestamp = new JobTimestamp("20220522_094639");
         MaterialList materialList = store.select(jobName, fixtureTimestamp);
         //
         String dotText = DotGenerator.generateDot(materialList);
@@ -95,7 +95,7 @@ public class DotGeneratorTest {
         assertTrue(pngMat.toFile(store).length() > 0);
     }
 
-    @Disabled
+    //@Disabled
     @Test
     public void test_generateDOT_MaterialProduct() throws MaterialstoreException {
         MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
@@ -122,7 +122,7 @@ public class DotGeneratorTest {
         assertTrue(pngMat.toFile(store).length() > 0);
     }
 
-    @Disabled
+    //@Disabled
     @Test
     public void test_generateDotOfMPGBeforeZip() throws MaterialstoreException {
         MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
@@ -148,7 +148,7 @@ public class DotGeneratorTest {
         assertTrue(pngMat.toFile(store).length() > 0);
     }
 
-
+    //@Disabled
     @Test
     public void test_generateDOT_MProductGroup() throws MaterialstoreException {
         MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
@@ -158,6 +158,7 @@ public class DotGeneratorTest {
                 new MProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList).ignoreKeys("profile", "URL.host").build();
+        assert mProductGroup.size() > 0;
         // generate a dot file
         String dotText = DotGenerator.generateDot(mProductGroup);
         // generate the image of the MProductGroup object by Graphviz
