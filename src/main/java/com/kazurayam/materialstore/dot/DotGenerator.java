@@ -10,6 +10,7 @@ import com.kazurayam.materialstore.util.StringUtils;
 import com.kazurayam.subprocessj.Subprocess;
 
 import javax.imageio.ImageIO;
+import javax.management.Query;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -120,7 +121,7 @@ public class DotGenerator {
                 + materialProduct.getLeft().getJobName()
                 + "/"
                 + materialProduct.getLeft().getJobTimestamp()
-                + " X "
+                + " || "
                 + materialProduct.getRight().getJobName()
                 + "/"
                 + materialProduct.getRight().getJobTimestamp()
@@ -128,31 +129,37 @@ public class DotGenerator {
         pw.println(INDENT + INDENT + "style=\"dashed\",");
         pw.println(INDENT + INDENT + "color=black");
         pw.println(INDENT + "];");
-        // left Material
         GraphNodeId leftGraphNodeId =
                 GraphNodeIdResolver.getGraphNodeId(materialProduct, materialProduct.getLeft());
+        GraphNodeId rightGraphNodeId =
+                GraphNodeIdResolver.getGraphNodeId(materialProduct, materialProduct.getRight());
+        // left Material
         String leftGraphNodeStatement =
                 new MaterialAsGraphNode(materialProduct.getLeft(), leftGraphNodeId).toGraphNode();
         pw.println(INDENT + leftGraphNodeStatement);
+        // query that connects the left and the right
+        QueryOnMetadataAsGraphNode queryNode =
+                new QueryOnMetadataAsGraphNode(
+                        materialProduct.getQueryOnMetadata(),
+                        leftGraphNodeId,
+                        rightGraphNodeId);
+        GraphNodeId queryNodeId = queryNode.getGraphNodeId();
+        String queryNodeStatement = queryNode.toGraphNode();
+        pw.println(INDENT + queryNodeStatement);
         // right Material
-        GraphNodeId rightGraphNodeId =
-                GraphNodeIdResolver.getGraphNodeId(materialProduct, materialProduct.getRight());
         String rightGraphNodeStatement =
                 new MaterialAsGraphNode(materialProduct.getRight(), rightGraphNodeId).toGraphNode();
         pw.println(INDENT + rightGraphNodeStatement);
         // horizontal edge
-        pw.println(INDENT + leftGraphNodeId + ":f2" + " -> " + rightGraphNodeId + ":f0"
-                + " ["
-                + "arrowhead=none,"
-                + "label=\""
-                + materialProduct.getFileTypeExtension()
-                + " "
-                + JsonUtil.escapeAsJsonString(materialProduct.getQueryOnMetadata().toJson()).replace("{", "\\{").replace("}", "\\}")
-                + "\""
-                + "];"
-        );
+        pw.println(INDENT + leftGraphNodeId + ":f2" + " -> "
+                + queryNodeId + ":q0" + " [arrowhead=none];");
+        pw.println(INDENT + queryNodeId + ":q0" + " -> "
+                + rightGraphNodeId + ":f0" + " [arrowhead=none];");
         // rank
-        pw.println(INDENT + "{rankdir=LR; rank=same; " + leftGraphNodeId + ", " + rightGraphNodeId + ";}");
+        pw.println(INDENT + "{rankdir=LR; rank=same; "
+                + leftGraphNodeId + ", "
+                + queryNodeId + ", "
+                + rightGraphNodeId + ";}");
         pw.println("}");
         pw.flush();
         pw.close();

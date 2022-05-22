@@ -40,7 +40,6 @@ public class GraphNodeIdResolver {
                 + materialProduct.getShortId()
                 + "_"
                 + getGraphNodeId(material)
-                + "_"
                 + side.toString());
     }
 
