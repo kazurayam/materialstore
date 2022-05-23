@@ -58,6 +58,10 @@ public final class MProductGroup
 
         // at this timing the MProducts are not yet filled with the diff information.
         // the diff information is still vacant.
+        // The following code processes the MProductGroup object and fill with the diff information:
+
+        // Inspector inspector = Inspector.newInstance(store)
+        // MProductGroup processed = inspector.process(reduced)
     }
 
     /**

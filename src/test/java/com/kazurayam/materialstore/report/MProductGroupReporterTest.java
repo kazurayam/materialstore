@@ -104,7 +104,7 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
         // make diff of the 2 MaterialList objects
         MProductGroup reducedMPG =
                 MProductGroup.builder(left, right)
-                        .ignoreKeys("profile", "URL", "URL.host")
+                        .ignoreKeys("profile", "URL.host")
                         .identifyWithRegex(
                                 Collections.singletonMap(
                                         "URL.query", "\\w{32}"))

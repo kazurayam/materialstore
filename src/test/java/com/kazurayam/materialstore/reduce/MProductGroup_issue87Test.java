@@ -65,13 +65,13 @@ public class MProductGroup_issue87Test {
     @Test
     public void test_getDescription_short() {
         String desc = mProductGroup.getDescription(false);
-        System.out.println(JsonUtil.prettyPrint(desc));
+        System.out.println("[test_getDescription_short]\n" + JsonUtil.prettyPrint(desc));
     }
 
     @Test
     public void test_getDescription_full() {
         String desc = mProductGroup.getDescription(true);
-        System.out.println(JsonUtil.prettyPrint(desc));
+        System.out.println("[test_getDescription_full]\n" + JsonUtil.prettyPrint(desc));
     }
 
     @Test
@@ -100,6 +100,7 @@ public class MProductGroup_issue87Test {
         List<QueryOnMetadata> queryList = mProductGroup.getQueryOnMetadataList();
         Assertions.assertEquals(8, queryList.size());
         //
+        System.out.println("[test_getQueryOnMetadataList]");
         queryList.forEach(
                 System.out::println
         );

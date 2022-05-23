@@ -1,24 +1,32 @@
 package com.kazurayam.materialstore.dot;
 
+import com.kazurayam.materialstore.Inspector;
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.Material;
+import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
+import com.kazurayam.materialstore.reduce.MProductGroup;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MaterialAsGraphNodeTest {
+
+    private static Logger logger_ = LoggerFactory.getLogger(MaterialAsGraphNodeTest.class);
 
     private static final Path outputDir =
             Paths.get(System.getProperty("user.dir"))
@@ -55,5 +63,29 @@ public class MaterialAsGraphNodeTest {
         GraphNodeId graphNodeId = new GraphNodeId("M0123456");
         MaterialAsGraphNode materialNode = new MaterialAsGraphNode(material, graphNodeId);
         assertTrue(materialNode.toGraphNode().startsWith(graphNodeId.getValue()));
+    }
+
+    @Test
+    public void test_look_at_Material_inside_MProductGroup_after_zipping() throws MaterialstoreException {
+        MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
+        MaterialList rightMaterialList = store.select(jobName, rightTimestamp);
+        JobTimestamp reducedTimestamp = JobTimestamp.now();
+        JobName outJobName = new JobName("test_look_at_Material_inside_MProductGroup_after_zipping");
+        JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
+        MProductGroup reduced =
+                new MProductGroup.Builder(
+                        leftMaterialList,
+                        rightMaterialList)
+                        .ignoreKeys("profile", "URL.host")
+                        .identifyWithRegex(
+                                Collections.singletonMap("URL.query","\\w{32}")
+                        )
+                        .build();
+        assert reduced.size() > 0;
+        //
+        Inspector inspector = Inspector.newInstance(store);
+        MProductGroup inspected = inspector.process(reduced);
+        //
+        logger_.info("[test_look_at_Material_inside_MProductGroup_after_zipping]\n" + inspected.toJson(true));
     }
 }

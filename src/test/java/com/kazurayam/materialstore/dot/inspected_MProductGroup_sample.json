@@ -1,0 +1,1120 @@
+{
+  "jobName": "Main_Twins",
+  "criteria": 0.0,
+  "isReadyToReport": true,
+  "ignoreMetadataKeys": [
+    "URL.host",
+    "profile"
+  ],
+  "materialList0": {
+    "jobTimestamp": "20220522_094639",
+    "queryOnMetadata": {
+      "*": "re:.*"
+    },
+    "size": 8.0
+  },
+  "materialList1": {
+    "jobTimestamp": "20220522_094706",
+    "queryOnMetadata": {
+      "*": "re:.*"
+    },
+    "size": 8.0
+  },
+  "materialProductList": [
+    {
+      "checked": false,
+      "isBachelor": false,
+      "diffRatio": 25.32,
+      "fileTypeExtension": "html",
+      "queryOnMetadata": {
+        "URL.path": "/",
+        "URL.port": "80",
+        "URL.protocol": "http"
+      },
+      "description": "{\"URL.path\":\"/\", \"URL.port\":\"80\", \"URL.protocol\":\"http\"}",
+      "left": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094639",
+        "id": "75f6fc61a4a7beced95470f5ae881e533c3a2d8f",
+        "fileType": "html",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "myadmin.kazurayam.com",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "http",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_ProductionEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"myadmin.kazurayam.com\", \"URL.path\":\"/\", \"URL.port\":\"80\", \"URL.protocol\":\"http\", \"profile\":\"MyAdmin_ProductionEnv\"}",
+        "metadataURL": "http://myadmin.kazurayam.com/",
+        "relativeUrl": "Main_Twins/20220522_094639/objects/75f6fc61a4a7beced95470f5ae881e533c3a2d8f.html",
+        "diffability": "AS_TEXT"
+      },
+      "right": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094706",
+        "id": "5d7e467a45a85329612d1f0694f9d726bc14226d",
+        "fileType": "html",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "devadmin.kazurayam.com",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "http",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_DevelopmentEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"devadmin.kazurayam.com\", \"URL.path\":\"/\", \"URL.port\":\"80\", \"URL.protocol\":\"http\", \"profile\":\"MyAdmin_DevelopmentEnv\"}",
+        "metadataURL": "http://devadmin.kazurayam.com/",
+        "relativeUrl": "Main_Twins/20220522_094706/objects/5d7e467a45a85329612d1f0694f9d726bc14226d.html",
+        "diffability": "AS_TEXT"
+      },
+      "diff": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220523_105336",
+        "id": "cc731484376bf599c9d1d7d5e3dbced415faf0f5",
+        "fileType": "html",
+        "metadata": {
+          "category": {
+            "key": "category",
+            "value": "diff"
+          },
+          "left": {
+            "key": "left",
+            "value": "75f6fc61a4a7beced95470f5ae881e533c3a2d8f"
+          },
+          "ratio": {
+            "key": "ratio",
+            "value": "25.32%"
+          },
+          "right": {
+            "key": "right",
+            "value": "5d7e467a45a85329612d1f0694f9d726bc14226d"
+          }
+        },
+        "metadataText": "{\"category\":\"diff\", \"left\":\"75f6fc61a4a7beced95470f5ae881e533c3a2d8f\", \"ratio\":\"25.32%\", \"right\":\"5d7e467a45a85329612d1f0694f9d726bc14226d\"}",
+        "metadataURL": "file://null_object",
+        "relativeUrl": "Main_Twins/20220523_105336/objects/cc731484376bf599c9d1d7d5e3dbced415faf0f5.html",
+        "diffability": "AS_TEXT"
+      }
+    },
+    {
+      "checked": false,
+      "isBachelor": false,
+      "diffRatio": 14.64,
+      "fileTypeExtension": "png",
+      "queryOnMetadata": {
+        "URL.path": "/",
+        "URL.port": "80",
+        "URL.protocol": "http"
+      },
+      "description": "{\"URL.path\":\"/\", \"URL.port\":\"80\", \"URL.protocol\":\"http\"}",
+      "left": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094639",
+        "id": "e1c1b77efcf423eed1cfdd540c831328a102d764",
+        "fileType": "png",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "myadmin.kazurayam.com",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "http",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_ProductionEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"myadmin.kazurayam.com\", \"URL.path\":\"/\", \"URL.port\":\"80\", \"URL.protocol\":\"http\", \"profile\":\"MyAdmin_ProductionEnv\"}",
+        "metadataURL": "http://myadmin.kazurayam.com/",
+        "relativeUrl": "Main_Twins/20220522_094639/objects/e1c1b77efcf423eed1cfdd540c831328a102d764.png",
+        "diffability": "AS_IMAGE"
+      },
+      "right": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094706",
+        "id": "1898c1cc3a0e78026710aa9f4994dbf0ea387651",
+        "fileType": "png",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "devadmin.kazurayam.com",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "http",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_DevelopmentEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"devadmin.kazurayam.com\", \"URL.path\":\"/\", \"URL.port\":\"80\", \"URL.protocol\":\"http\", \"profile\":\"MyAdmin_DevelopmentEnv\"}",
+        "metadataURL": "http://devadmin.kazurayam.com/",
+        "relativeUrl": "Main_Twins/20220522_094706/objects/1898c1cc3a0e78026710aa9f4994dbf0ea387651.png",
+        "diffability": "AS_IMAGE"
+      },
+      "diff": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220523_105336",
+        "id": "50a36b9a59ea7ef50cb44c5dee92e6d8c57dcda9",
+        "fileType": "png",
+        "metadata": {
+          "category": {
+            "key": "category",
+            "value": "diff"
+          },
+          "left": {
+            "key": "left",
+            "value": "e1c1b77efcf423eed1cfdd540c831328a102d764"
+          },
+          "ratio": {
+            "key": "ratio",
+            "value": "14.64%"
+          },
+          "right": {
+            "key": "right",
+            "value": "1898c1cc3a0e78026710aa9f4994dbf0ea387651"
+          }
+        },
+        "metadataText": "{\"category\":\"diff\", \"left\":\"e1c1b77efcf423eed1cfdd540c831328a102d764\", \"ratio\":\"14.64%\", \"right\":\"1898c1cc3a0e78026710aa9f4994dbf0ea387651\"}",
+        "metadataURL": "file://null_object",
+        "relativeUrl": "Main_Twins/20220523_105336/objects/50a36b9a59ea7ef50cb44c5dee92e6d8c57dcda9.png",
+        "diffability": "AS_IMAGE"
+      }
+    },
+    {
+      "checked": false,
+      "isBachelor": false,
+      "diffRatio": 28.7,
+      "fileTypeExtension": "js",
+      "queryOnMetadata": {
+        "URL.path": "/ajax/libs/jquery/1.12.4/jquery.js",
+        "URL.port": "80",
+        "URL.protocol": "https"
+      },
+      "description": "{\"URL.path\":\"/ajax/libs/jquery/1.12.4/jquery.js\", \"URL.port\":\"80\", \"URL.protocol\":\"https\"}",
+      "left": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094639",
+        "id": "96c73f3774471cc8378c77a64ecf09b7f625d8b7",
+        "fileType": "js",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "cdnjs.cloudflare.com",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/ajax/libs/jquery/1.11.3/jquery.js",
+            "matchedByAster": true,
+            "paired": true,
+            "semanticVersionMatcherResult": {
+              "matched": true,
+              "fragments": [
+                "/ajax/libs/jquery/",
+                "1.11.3",
+                "",
+                "/jquery.js"
+              ]
+            }
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "https",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_ProductionEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"cdnjs.cloudflare.com\", \"URL.path\":\"/ajax/libs/jquery/1.11.3/jquery.js\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"profile\":\"MyAdmin_ProductionEnv\"}",
+        "metadataURL": "https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.js",
+        "relativeUrl": "Main_Twins/20220522_094639/objects/96c73f3774471cc8378c77a64ecf09b7f625d8b7.js",
+        "diffability": "AS_TEXT"
+      },
+      "right": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094706",
+        "id": "433836da7e015f2eb3fc386817de88b78248f6ef",
+        "fileType": "js",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "cdnjs.cloudflare.com",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/ajax/libs/jquery/1.12.4/jquery.js",
+            "matchedByAster": true,
+            "paired": true,
+            "semanticVersionMatcherResult": {
+              "matched": true,
+              "fragments": [
+                "/ajax/libs/jquery/",
+                "1.12.4",
+                "",
+                "/jquery.js"
+              ]
+            }
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "https",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_DevelopmentEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"cdnjs.cloudflare.com\", \"URL.path\":\"/ajax/libs/jquery/1.12.4/jquery.js\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"profile\":\"MyAdmin_DevelopmentEnv\"}",
+        "metadataURL": "https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.js",
+        "relativeUrl": "Main_Twins/20220522_094706/objects/433836da7e015f2eb3fc386817de88b78248f6ef.js",
+        "diffability": "AS_TEXT"
+      },
+      "diff": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220523_105336",
+        "id": "398e7965f6e864395b84ea5affe667ec420797d1",
+        "fileType": "html",
+        "metadata": {
+          "category": {
+            "key": "category",
+            "value": "diff"
+          },
+          "left": {
+            "key": "left",
+            "value": "96c73f3774471cc8378c77a64ecf09b7f625d8b7"
+          },
+          "ratio": {
+            "key": "ratio",
+            "value": "28.70%"
+          },
+          "right": {
+            "key": "right",
+            "value": "433836da7e015f2eb3fc386817de88b78248f6ef"
+          }
+        },
+        "metadataText": "{\"category\":\"diff\", \"left\":\"96c73f3774471cc8378c77a64ecf09b7f625d8b7\", \"ratio\":\"28.70%\", \"right\":\"433836da7e015f2eb3fc386817de88b78248f6ef\"}",
+        "metadataURL": "file://null_object",
+        "relativeUrl": "Main_Twins/20220523_105336/objects/398e7965f6e864395b84ea5affe667ec420797d1.html",
+        "diffability": "AS_TEXT"
+      }
+    },
+    {
+      "checked": false,
+      "isBachelor": false,
+      "diffRatio": 10.8,
+      "fileTypeExtension": "css",
+      "queryOnMetadata": {
+        "URL.path": "/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css",
+        "URL.port": "80",
+        "URL.protocol": "https"
+      },
+      "description": "{\"URL.path\":\"/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css\", \"URL.port\":\"80\", \"URL.protocol\":\"https\"}",
+      "left": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094639",
+        "id": "1865dddcbb7b67dcef4250e590cc9a9574aba673",
+        "fileType": "css",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "cdn.jsdelivr.net",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css",
+            "matchedByAster": true,
+            "paired": true,
+            "semanticVersionMatcherResult": {
+              "matched": true,
+              "fragments": [
+                "/npm/bootstrap-icons@",
+                "1.5.0",
+                "",
+                "/font/bootstrap-icons.css"
+              ]
+            }
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "https",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_ProductionEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"cdn.jsdelivr.net\", \"URL.path\":\"/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"profile\":\"MyAdmin_ProductionEnv\"}",
+        "metadataURL": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css",
+        "relativeUrl": "Main_Twins/20220522_094639/objects/1865dddcbb7b67dcef4250e590cc9a9574aba673.css",
+        "diffability": "AS_TEXT"
+      },
+      "right": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094706",
+        "id": "81a66a9eb2de9cb0ace01bf25d52b376b858e960",
+        "fileType": "css",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "cdn.jsdelivr.net",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css",
+            "matchedByAster": true,
+            "paired": true,
+            "semanticVersionMatcherResult": {
+              "matched": true,
+              "fragments": [
+                "/npm/bootstrap-icons@",
+                "1.7.2",
+                "",
+                "/font/bootstrap-icons.css"
+              ]
+            }
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "https",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_DevelopmentEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"cdn.jsdelivr.net\", \"URL.path\":\"/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"profile\":\"MyAdmin_DevelopmentEnv\"}",
+        "metadataURL": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css",
+        "relativeUrl": "Main_Twins/20220522_094706/objects/81a66a9eb2de9cb0ace01bf25d52b376b858e960.css",
+        "diffability": "AS_TEXT"
+      },
+      "diff": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220523_105336",
+        "id": "720a736cc89c37309c79c3798cf085067579762a",
+        "fileType": "html",
+        "metadata": {
+          "category": {
+            "key": "category",
+            "value": "diff"
+          },
+          "left": {
+            "key": "left",
+            "value": "1865dddcbb7b67dcef4250e590cc9a9574aba673"
+          },
+          "ratio": {
+            "key": "ratio",
+            "value": "10.80%"
+          },
+          "right": {
+            "key": "right",
+            "value": "81a66a9eb2de9cb0ace01bf25d52b376b858e960"
+          }
+        },
+        "metadataText": "{\"category\":\"diff\", \"left\":\"1865dddcbb7b67dcef4250e590cc9a9574aba673\", \"ratio\":\"10.80%\", \"right\":\"81a66a9eb2de9cb0ace01bf25d52b376b858e960\"}",
+        "metadataURL": "file://null_object",
+        "relativeUrl": "Main_Twins/20220523_105336/objects/720a736cc89c37309c79c3798cf085067579762a.html",
+        "diffability": "AS_TEXT"
+      }
+    },
+    {
+      "checked": false,
+      "isBachelor": false,
+      "diffRatio": 0.0,
+      "fileTypeExtension": "woff2",
+      "queryOnMetadata": {
+        "URL.path": "/npm/bootstrap-icons@1.7.2/font/fonts/bootstrap-icons.woff2",
+        "URL.port": "80",
+        "URL.protocol": "https",
+        "URL.query": "30af91bf14e37666a085fb8a161ff36d"
+      },
+      "description": "{\"URL.path\":\"/npm/bootstrap-icons@1.7.2/font/fonts/bootstrap-icons.woff2\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"URL.query\":\"30af91bf14e37666a085fb8a161ff36d\"}",
+      "left": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094639",
+        "id": "4649877868a0068ce50b105d0d2a235e8010c98f",
+        "fileType": "woff2",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "cdn.jsdelivr.net",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/npm/bootstrap-icons@1.5.0/font/fonts/bootstrap-icons.woff2",
+            "matchedByAster": true,
+            "paired": true,
+            "semanticVersionMatcherResult": {
+              "matched": true,
+              "fragments": [
+                "/npm/bootstrap-icons@",
+                "1.5.0",
+                "",
+                "/font/fonts/bootstrap-icons.woff2"
+              ]
+            }
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "https",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.query": {
+            "key": "URL.query",
+            "value": "856008caa5eb66df68595e734e59580d",
+            "identifiedByValue": true,
+            "matchedByAster": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_ProductionEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"cdn.jsdelivr.net\", \"URL.path\":\"/npm/bootstrap-icons@1.5.0/font/fonts/bootstrap-icons.woff2\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"URL.query\":\"856008caa5eb66df68595e734e59580d\", \"profile\":\"MyAdmin_ProductionEnv\"}",
+        "metadataURL": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/fonts/bootstrap-icons.woff2?856008caa5eb66df68595e734e59580d",
+        "relativeUrl": "Main_Twins/20220522_094639/objects/4649877868a0068ce50b105d0d2a235e8010c98f.woff2",
+        "diffability": "UNABLE"
+      },
+      "right": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094706",
+        "id": "00150349e6ebdaf2628af9ea4e56d6b02dbda393",
+        "fileType": "woff2",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "cdn.jsdelivr.net",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/npm/bootstrap-icons@1.7.2/font/fonts/bootstrap-icons.woff2",
+            "matchedByAster": true,
+            "paired": true,
+            "semanticVersionMatcherResult": {
+              "matched": true,
+              "fragments": [
+                "/npm/bootstrap-icons@",
+                "1.7.2",
+                "",
+                "/font/fonts/bootstrap-icons.woff2"
+              ]
+            }
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "https",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.query": {
+            "key": "URL.query",
+            "value": "30af91bf14e37666a085fb8a161ff36d",
+            "identifiedByValue": true,
+            "matchedByAster": true,
+            "paired": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_DevelopmentEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"cdn.jsdelivr.net\", \"URL.path\":\"/npm/bootstrap-icons@1.7.2/font/fonts/bootstrap-icons.woff2\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"URL.query\":\"30af91bf14e37666a085fb8a161ff36d\", \"profile\":\"MyAdmin_DevelopmentEnv\"}",
+        "metadataURL": "https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/fonts/bootstrap-icons.woff2?30af91bf14e37666a085fb8a161ff36d",
+        "relativeUrl": "Main_Twins/20220522_094706/objects/00150349e6ebdaf2628af9ea4e56d6b02dbda393.woff2",
+        "diffability": "UNABLE"
+      },
+      "diff": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220523_105336",
+        "id": "61ff05f5eeb6a706fbf661a342e5d3f43a6c58bf",
+        "fileType": "html",
+        "metadata": {
+          "category": {
+            "key": "category",
+            "value": "diff"
+          },
+          "left": {
+            "key": "left",
+            "value": "4649877868a0068ce50b105d0d2a235e8010c98f"
+          },
+          "right": {
+            "key": "right",
+            "value": "00150349e6ebdaf2628af9ea4e56d6b02dbda393"
+          }
+        },
+        "metadataText": "{\"category\":\"diff\", \"left\":\"4649877868a0068ce50b105d0d2a235e8010c98f\", \"right\":\"00150349e6ebdaf2628af9ea4e56d6b02dbda393\"}",
+        "metadataURL": "file://null_object",
+        "relativeUrl": "Main_Twins/20220523_105336/objects/61ff05f5eeb6a706fbf661a342e5d3f43a6c58bf.html",
+        "diffability": "AS_TEXT"
+      }
+    },
+    {
+      "checked": false,
+      "isBachelor": false,
+      "diffRatio": 0.0,
+      "fileTypeExtension": "css",
+      "queryOnMetadata": {
+        "URL.path": "/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css",
+        "URL.port": "80",
+        "URL.protocol": "https"
+      },
+      "description": "{\"URL.path\":\"/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css\", \"URL.port\":\"80\", \"URL.protocol\":\"https\"}",
+      "left": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094639",
+        "id": "396f51b333ff6f0926f6e67ad6e6c9c69bea7b31",
+        "fileType": "css",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "cdn.jsdelivr.net",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css",
+            "matchedByAster": true,
+            "paired": true,
+            "semanticVersionMatcherResult": {
+              "matched": true,
+              "fragments": [
+                "/npm/bootstrap@",
+                "5.1.0",
+                "",
+                "/dist/css/bootstrap.min.css"
+              ]
+            }
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "https",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_ProductionEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"cdn.jsdelivr.net\", \"URL.path\":\"/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"profile\":\"MyAdmin_ProductionEnv\"}",
+        "metadataURL": "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css",
+        "relativeUrl": "Main_Twins/20220522_094639/objects/396f51b333ff6f0926f6e67ad6e6c9c69bea7b31.css",
+        "diffability": "AS_TEXT"
+      },
+      "right": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094706",
+        "id": "396f51b333ff6f0926f6e67ad6e6c9c69bea7b31",
+        "fileType": "css",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "cdn.jsdelivr.net",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css",
+            "matchedByAster": true,
+            "paired": true,
+            "semanticVersionMatcherResult": {
+              "matched": true,
+              "fragments": [
+                "/npm/bootstrap@",
+                "5.1.0",
+                "",
+                "/dist/css/bootstrap.min.css"
+              ]
+            }
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "https",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_DevelopmentEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"cdn.jsdelivr.net\", \"URL.path\":\"/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"profile\":\"MyAdmin_DevelopmentEnv\"}",
+        "metadataURL": "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css",
+        "relativeUrl": "Main_Twins/20220522_094706/objects/396f51b333ff6f0926f6e67ad6e6c9c69bea7b31.css",
+        "diffability": "AS_TEXT"
+      },
+      "diff": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220523_105336",
+        "id": "ad788aee0a7e7976a4954d0e6d077ae2b4a3eebd",
+        "fileType": "html",
+        "metadata": {
+          "category": {
+            "key": "category",
+            "value": "diff"
+          },
+          "left": {
+            "key": "left",
+            "value": "396f51b333ff6f0926f6e67ad6e6c9c69bea7b31"
+          },
+          "ratio": {
+            "key": "ratio",
+            "value": "0.00%"
+          },
+          "right": {
+            "key": "right",
+            "value": "396f51b333ff6f0926f6e67ad6e6c9c69bea7b31"
+          }
+        },
+        "metadataText": "{\"category\":\"diff\", \"left\":\"396f51b333ff6f0926f6e67ad6e6c9c69bea7b31\", \"ratio\":\"0.00%\", \"right\":\"396f51b333ff6f0926f6e67ad6e6c9c69bea7b31\"}",
+        "metadataURL": "file://null_object",
+        "relativeUrl": "Main_Twins/20220523_105336/objects/ad788aee0a7e7976a4954d0e6d077ae2b4a3eebd.html",
+        "diffability": "AS_TEXT"
+      }
+    },
+    {
+      "checked": false,
+      "isBachelor": false,
+      "diffRatio": 0.0,
+      "fileTypeExtension": "js",
+      "queryOnMetadata": {
+        "URL.path": "/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js",
+        "URL.port": "80",
+        "URL.protocol": "https"
+      },
+      "description": "{\"URL.path\":\"/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js\", \"URL.port\":\"80\", \"URL.protocol\":\"https\"}",
+      "left": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094639",
+        "id": "f52210379974496514e24aeb07ecb6ef259063f6",
+        "fileType": "js",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "cdn.jsdelivr.net",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js",
+            "matchedByAster": true,
+            "paired": true,
+            "semanticVersionMatcherResult": {
+              "matched": true,
+              "fragments": [
+                "/npm/bootstrap@",
+                "5.1.0",
+                "",
+                "/dist/js/bootstrap.bundle.min.js"
+              ]
+            }
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "https",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_ProductionEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"cdn.jsdelivr.net\", \"URL.path\":\"/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"profile\":\"MyAdmin_ProductionEnv\"}",
+        "metadataURL": "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js",
+        "relativeUrl": "Main_Twins/20220522_094639/objects/f52210379974496514e24aeb07ecb6ef259063f6.js",
+        "diffability": "AS_TEXT"
+      },
+      "right": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094706",
+        "id": "f52210379974496514e24aeb07ecb6ef259063f6",
+        "fileType": "js",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "cdn.jsdelivr.net",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js",
+            "matchedByAster": true,
+            "paired": true,
+            "semanticVersionMatcherResult": {
+              "matched": true,
+              "fragments": [
+                "/npm/bootstrap@",
+                "5.1.0",
+                "",
+                "/dist/js/bootstrap.bundle.min.js"
+              ]
+            }
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "https",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_DevelopmentEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"cdn.jsdelivr.net\", \"URL.path\":\"/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js\", \"URL.port\":\"80\", \"URL.protocol\":\"https\", \"profile\":\"MyAdmin_DevelopmentEnv\"}",
+        "metadataURL": "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js",
+        "relativeUrl": "Main_Twins/20220522_094706/objects/f52210379974496514e24aeb07ecb6ef259063f6.js",
+        "diffability": "AS_TEXT"
+      },
+      "diff": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220523_105336",
+        "id": "7a09fff8c303434ce10087605af7a9865aec9034",
+        "fileType": "html",
+        "metadata": {
+          "category": {
+            "key": "category",
+            "value": "diff"
+          },
+          "left": {
+            "key": "left",
+            "value": "f52210379974496514e24aeb07ecb6ef259063f6"
+          },
+          "ratio": {
+            "key": "ratio",
+            "value": "0.00%"
+          },
+          "right": {
+            "key": "right",
+            "value": "f52210379974496514e24aeb07ecb6ef259063f6"
+          }
+        },
+        "metadataText": "{\"category\":\"diff\", \"left\":\"f52210379974496514e24aeb07ecb6ef259063f6\", \"ratio\":\"0.00%\", \"right\":\"f52210379974496514e24aeb07ecb6ef259063f6\"}",
+        "metadataURL": "file://null_object",
+        "relativeUrl": "Main_Twins/20220523_105336/objects/7a09fff8c303434ce10087605af7a9865aec9034.html",
+        "diffability": "AS_TEXT"
+      }
+    },
+    {
+      "checked": false,
+      "isBachelor": false,
+      "diffRatio": 0.0,
+      "fileTypeExtension": "jpg",
+      "queryOnMetadata": {
+        "URL.path": "/umineko-1960x1960.jpg",
+        "URL.port": "80",
+        "URL.protocol": "http"
+      },
+      "description": "{\"URL.path\":\"/umineko-1960x1960.jpg\", \"URL.port\":\"80\", \"URL.protocol\":\"http\"}",
+      "left": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094639",
+        "id": "d0ecc09ff333e6051b12b21f97e63101dcbb877b",
+        "fileType": "jpg",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "myadmin.kazurayam.com",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/umineko-1960x1960.jpg",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "http",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_ProductionEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"myadmin.kazurayam.com\", \"URL.path\":\"/umineko-1960x1960.jpg\", \"URL.port\":\"80\", \"URL.protocol\":\"http\", \"profile\":\"MyAdmin_ProductionEnv\"}",
+        "metadataURL": "http://myadmin.kazurayam.com/umineko-1960x1960.jpg",
+        "relativeUrl": "Main_Twins/20220522_094639/objects/d0ecc09ff333e6051b12b21f97e63101dcbb877b.jpg",
+        "diffability": "AS_IMAGE"
+      },
+      "right": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220522_094706",
+        "id": "d0ecc09ff333e6051b12b21f97e63101dcbb877b",
+        "fileType": "jpg",
+        "metadata": {
+          "URL.host": {
+            "key": "URL.host",
+            "value": "devadmin.kazurayam.com",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          },
+          "URL.path": {
+            "key": "URL.path",
+            "value": "/umineko-1960x1960.jpg",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.port": {
+            "key": "URL.port",
+            "value": "80",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "URL.protocol": {
+            "key": "URL.protocol",
+            "value": "http",
+            "matchedByAster": true,
+            "paired": true
+          },
+          "profile": {
+            "key": "profile",
+            "value": "MyAdmin_DevelopmentEnv",
+            "ignoredByKey": true,
+            "matchedByAster": true
+          }
+        },
+        "metadataText": "{\"URL.host\":\"devadmin.kazurayam.com\", \"URL.path\":\"/umineko-1960x1960.jpg\", \"URL.port\":\"80\", \"URL.protocol\":\"http\", \"profile\":\"MyAdmin_DevelopmentEnv\"}",
+        "metadataURL": "http://devadmin.kazurayam.com/umineko-1960x1960.jpg",
+        "relativeUrl": "Main_Twins/20220522_094706/objects/d0ecc09ff333e6051b12b21f97e63101dcbb877b.jpg",
+        "diffability": "AS_IMAGE"
+      },
+      "diff": {
+        "jobName": "Main_Twins",
+        "jobTimestamp": "20220523_105336",
+        "id": "f5f9ef7f7318bb01401fe9430b27b1a0c49b4008",
+        "fileType": "png",
+        "metadata": {
+          "category": {
+            "key": "category",
+            "value": "diff"
+          },
+          "left": {
+            "key": "left",
+            "value": "d0ecc09ff333e6051b12b21f97e63101dcbb877b"
+          },
+          "ratio": {
+            "key": "ratio",
+            "value": "0.00%"
+          },
+          "right": {
+            "key": "right",
+            "value": "d0ecc09ff333e6051b12b21f97e63101dcbb877b"
+          }
+        },
+        "metadataText": "{\"category\":\"diff\", \"left\":\"d0ecc09ff333e6051b12b21f97e63101dcbb877b\", \"ratio\":\"0.00%\", \"right\":\"d0ecc09ff333e6051b12b21f97e63101dcbb877b\"}",
+        "metadataURL": "file://null_object",
+        "relativeUrl": "Main_Twins/20220523_105336/objects/f5f9ef7f7318bb01401fe9430b27b1a0c49b4008.png",
+        "diffability": "AS_IMAGE"
+      }
+    }
+  ],
+  "countWarning": 4.0,
+  "countIgnorable": 0.0,
+  "countTotal": 8.0
+}

@@ -33,6 +33,9 @@ public class MaterialAsGraphNode extends AbstractGraphNode {
         sb.append(escapeHTML(material.getFileType().getExtension()));
         sb.append("</TD>\n");
         String json = material.getMetadata().toSimplifiedJson();
+
+        System.out.println(material.getMetadata().toJson() + "\n");
+
         sb.append(INDENT + INDENT);
         sb.append("<TD PORT=\"f2\">");
         sb.append(insertBR(escapeHTML(json)));

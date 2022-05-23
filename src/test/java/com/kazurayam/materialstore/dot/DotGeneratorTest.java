@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.dot;
 
+import com.kazurayam.materialstore.Inspector;
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.JobName;
@@ -157,13 +158,17 @@ public class DotGeneratorTest {
         // save the dot file and the PNG image into the store directory
         JobName outJobName = new JobName("test_generateDot_MProductGroup");
         JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
-        MProductGroup mProductGroup =
+        MProductGroup reduced =
                 new MProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList).ignoreKeys("profile", "URL.host").build();
-        assert mProductGroup.size() > 0;
+        assert reduced.size() > 0;
+        //
+        Inspector inspector = Inspector.newInstance(store);
+        MProductGroup inspected = inspector.process(reduced);
+
         // generate a dot file
-        String dotText = DotGenerator.generateDot(mProductGroup);
+        String dotText = DotGenerator.generateDot(inspected);
         Material dotMat =
                 store.write(outJobName, outJobTimestamp, FileType.DOT,
                         Metadata.NULL_OBJECT, dotText);
