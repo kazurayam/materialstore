@@ -83,7 +83,6 @@ public class GraphNodeIdResolver {
         return new GraphNodeId("MPGBZ" + mProductGroup.getShortId()
                 + "_"
                 + GraphNodeIdResolver.getGraphNodeId(materialList, material)
-                + "_"
                 + side.toString());
     }
 

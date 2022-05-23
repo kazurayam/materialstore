@@ -81,7 +81,7 @@ public class GraphNodeIdResolverTest {
                         rightMaterialList.get(0),
                         reducedTimestamp).build();
         GraphNodeId graphNodeId = GraphNodeIdResolver.getGraphNodeId(mProduct, leftMaterialList.get(0));
-        assertEquals(new GraphNodeId("MP57d34be_Md5931b2_L"), graphNodeId);
+        assertEquals(new GraphNodeId("MP57d34be_Md5931b2L"), graphNodeId);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class GraphNodeIdResolverTest {
         assert mProductGroup.size() > 0;
         Material material = leftMaterialList.get(0);
         GraphNodeId graphNodeId = GraphNodeIdResolver.getGraphNodeId(mProductGroup, material);
-        assertEquals(new GraphNodeId("MPG3db42ca_MP0e22891_M5bd4611_L"), graphNodeId);
+        assertEquals(new GraphNodeId("MPG3db42ca_MP0e22891_M5bd4611L"), graphNodeId);
     }
 
     @Test
@@ -108,6 +108,6 @@ public class GraphNodeIdResolverTest {
                         rightMaterialList).ignoreKeys("profile", "URL.host").build();
         Material material = leftMaterialList.get(0);
         GraphNodeId graphNodeId = GraphNodeIdResolver.getGraphNodeIdBeforeZIP(mProductGroup, material);
-        assertEquals(new GraphNodeId("MPGBZ2810bee_MLa98d469_Md5931b2_L"), graphNodeId);
+        assertEquals(new GraphNodeId("MPGBZ2810bee_MLa98d469_Md5931b2L"), graphNodeId);
     }
 }
