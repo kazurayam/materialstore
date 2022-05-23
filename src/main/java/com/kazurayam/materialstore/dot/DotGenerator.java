@@ -251,8 +251,10 @@ public class DotGenerator {
         for (int i = 1; i < mProductSubgraphList.size(); i++) {
             GraphNodeId currentLeftMNodeId = mProductSubgraphList.get(i).getLeft();
             GraphNodeId currentRightMNodeId = mProductSubgraphList.get(i).getRight();
-            pw.println(INDENT + previousLeftMNodeId + ":f2" + " -> " + currentLeftMNodeId + ":f2" + " [arrowhead=normal];");   // [style="invis"]
-            pw.println(INDENT + previousRightMNodeId + ":f2" + " -> " + currentRightMNodeId + ":f2" + " [arrowhead=normal];"); // [style=invis]
+            pw.println(INDENT + previousLeftMNodeId + ":f2" + " -> "
+                    + currentLeftMNodeId + ":f2" + " [style=invis];");
+            pw.println(INDENT + previousRightMNodeId + ":f2" + " -> "
+                    + currentRightMNodeId + ":f2" + " [style=invis];");
             previousLeftMNodeId = currentLeftMNodeId;
             previousRightMNodeId = currentRightMNodeId;
         }

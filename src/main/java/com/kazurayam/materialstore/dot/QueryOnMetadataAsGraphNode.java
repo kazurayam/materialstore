@@ -30,11 +30,11 @@ public class QueryOnMetadataAsGraphNode extends AbstractGraphNode {
         sb.append(this.getGraphNodeId().getValue());
         sb.append(" ");
         sb.append("[label=<");
-        sb.append("<TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\"><TR>\n");
+        sb.append("<TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\" BGCOLOR=\"gray50\"><TR>\n");
         sb.append(INDENT + INDENT);
-        sb.append("<TD PORT=\"q0\">");
+        sb.append("<TD PORT=\"q0\"><FONT color=\"white\">");
         sb.append(insertBR(escapeHTML(query.toJson())));
-        sb.append("</TD>\n");
+        sb.append("</FONT></TD>\n");
         sb.append(INDENT);
         sb.append("</TR></TABLE>");
         sb.append(">];");
