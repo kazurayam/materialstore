@@ -12,6 +12,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -99,7 +100,7 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
      */
     public static class Builder {
         public Builder() {
-            attributes = new HashMap<>();
+            attributes = new LinkedHashMap<>();
         }
 
         public Builder(Metadata source) {
@@ -107,7 +108,6 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
             for (String key : source.keySet()) {
                 attributes.put(key, source.getMetadataAttribute(key));
             }
-
         }
 
         public Builder(Map<String, String> map) {
@@ -116,7 +116,6 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
                 MetadataAttribute attribute = new MetadataAttribute(key, map.get(key));
                 attributes.put(key, attribute);
             }
-
         }
 
         public Builder(URL url) {
@@ -129,7 +128,6 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
                 } else {
                     attributes.put(KEY_URL_PORT, new MetadataAttribute(KEY_URL_PORT, Integer.valueOf(url.getPort()).toString()));
                 }
-
             }
 
             attributes.put(KEY_URL_HOST, new MetadataAttribute(KEY_URL_HOST, url.getHost()));
@@ -159,7 +157,6 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
             for (String key : m.keySet()) {
                 attributes.put(key, new MetadataAttribute(key, m.get(key)));
             }
-
             return this;
         }
 

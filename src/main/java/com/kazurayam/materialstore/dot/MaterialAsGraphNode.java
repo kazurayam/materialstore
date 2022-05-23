@@ -1,6 +1,12 @@
 package com.kazurayam.materialstore.dot;
 
 import com.kazurayam.materialstore.filesystem.Material;
+import com.kazurayam.materialstore.filesystem.Metadata;
+import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class MaterialAsGraphNode extends AbstractGraphNode {
 
@@ -32,13 +38,9 @@ public class MaterialAsGraphNode extends AbstractGraphNode {
         sb.append("<TD PORT=\"f1\">");
         sb.append(escapeHTML(material.getFileType().getExtension()));
         sb.append("</TD>\n");
-        String json = material.getMetadata().toSimplifiedJson();
-
-        System.out.println(material.getMetadata().toJson() + "\n");
-
         sb.append(INDENT + INDENT);
         sb.append("<TD PORT=\"f2\">");
-        sb.append(insertBR(escapeHTML(json)));
+        sb.append(formatMetadata());
         sb.append("</TD>\n");
         sb.append(INDENT);
         sb.append("</TR></TABLE>");
@@ -46,4 +48,39 @@ public class MaterialAsGraphNode extends AbstractGraphNode {
         return sb.toString();
     }
 
+    String formatMetadata() {
+        //return insertBR(escapeHTML(this.material.getMetadata().toSimplifiedJson()));
+        Metadata metadata = this.material.getMetadata();
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        int count = 0;
+        List<String> keyList = new ArrayList<>(metadata.keySet());
+        Collections.sort(keyList);
+        for (String key : keyList) {
+            if (count > 0) {
+                sb.append(", ");
+                sb.append("<BR />");
+            }
+            MetadataAttribute metadataAttribute = metadata.getMetadataAttribute(key);
+            if (metadataAttribute.isIgnoredByKey()) {
+                sb.append("<S>");
+                sb.append(escapeHTML("\"" + metadataAttribute.getKey() + "\""));
+                sb.append("</S>");
+            } else {
+                sb.append(escapeHTML("\"" + metadataAttribute.getKey() + "\""));
+            }
+            sb.append(":");
+            if (metadataAttribute.isIdentifiedByValue()) {
+                sb.append("<B><FONT color=\"forestgreen\">");
+                sb.append(escapeHTML("\"" + metadataAttribute.getValue() + "\""));
+                sb.append("</FONT></B>");
+            } else {
+                sb.append(escapeHTML("\"" + metadataAttribute.getValue() + "\""));
+            }
+            count += 1;
+        }
+        sb.append("}");
+        return sb.toString();
+    }
+    
 }

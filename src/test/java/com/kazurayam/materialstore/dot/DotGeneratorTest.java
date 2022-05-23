@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -38,8 +39,8 @@ public class DotGeneratorTest {
 
     private static Store store;
     private static JobName jobName;
-    JobTimestamp leftTimestamp = new JobTimestamp("20220522_094639");
-    JobTimestamp rightTimestamp = new JobTimestamp("20220522_094706");
+    private static JobTimestamp leftTimestamp;
+    private static JobTimestamp rightTimestamp;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
@@ -52,6 +53,8 @@ public class DotGeneratorTest {
         // copy a fixture into the store
         FileUtils.copyDirectory(issue259Dir.resolve("store").toFile(), store.getRoot().toFile());
         jobName = new JobName("Main_Twins");
+        leftTimestamp = new JobTimestamp("20220522_094639");
+        rightTimestamp = new JobTimestamp("20220522_094706");
     }
 
     //@Disabled
@@ -161,7 +164,12 @@ public class DotGeneratorTest {
         MProductGroup reduced =
                 new MProductGroup.Builder(
                         leftMaterialList,
-                        rightMaterialList).ignoreKeys("profile", "URL.host").build();
+                        rightMaterialList)
+                        .ignoreKeys("profile", "URL.host")
+                        .identifyWithRegex(
+                                Collections.singletonMap("URL.query", "\\w{32}")
+                        )
+                        .build();
         assert reduced.size() > 0;
         //
         Inspector inspector = Inspector.newInstance(store);
