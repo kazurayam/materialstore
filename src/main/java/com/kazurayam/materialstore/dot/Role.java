@@ -1,5 +1,5 @@
 package com.kazurayam.materialstore.dot;
 
-public enum Side {
-    L, R;
+public enum Role {
+    L, R, Q, D;
 }

@@ -66,7 +66,7 @@ public class MaterialAsGraphNodeTest {
         JobTimestamp fixtureTimestamp = new JobTimestamp("20220522_094639");
         Material material = store.selectSingle(jobName, fixtureTimestamp, FileType.PNG);
         GraphNodeId graphNodeId = new GraphNodeId("M0123456");
-        MaterialAsGraphNode materialNode = new MaterialAsGraphNode(material, graphNodeId);
+        MaterialAsGraphNode materialNode = new MaterialAsGraphNode(graphNodeId, material);
         assertTrue(materialNode.toGraphNode().startsWith(graphNodeId.getValue()));
     }
 
@@ -96,7 +96,7 @@ public class MaterialAsGraphNodeTest {
         logger_.info("[test_formatMetadata] material.getMetadata().toJson(true)=\n"
                 + material.getMetadata().toJson(true));
         GraphNodeId graphNodeId = new GraphNodeId("M0123456");
-        MaterialAsGraphNode materialNode = new MaterialAsGraphNode(material, graphNodeId);
+        MaterialAsGraphNode materialNode = new MaterialAsGraphNode(graphNodeId, material);
         String htmlContent = materialNode.formatMetadata();
         logger_.info("[test_formatMetadata] htmlConent=\n" + htmlContent);
         assertEquals("{<S>&quot;", htmlContent.substring(0, htmlContent.indexOf("URL")));

@@ -3,6 +3,7 @@ package com.kazurayam.materialstore.dot;
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.MaterialList;
+import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.reduce.MProductGroup;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 
@@ -10,40 +11,47 @@ import java.util.Objects;
 
 public class GraphNodeIdResolver {
 
-    public static GraphNodeId getGraphNodeId(Material material) {
+    public static GraphNodeId resolveIdOfMaterialSolo(Material material) {
         Objects.requireNonNull(material);
         return new GraphNodeId("M" + material.getDescriptionSignature());
     }
 
-    public static GraphNodeId getGraphNodeId(MaterialList materialList, Material material) {
+    public static GraphNodeId resolveIdOfMaterialInMaterialList(MaterialList materialList, Material material) {
         Objects.requireNonNull(materialList);
         Objects.requireNonNull(material);
         return new GraphNodeId("ML" + materialList.getShortId()
                 + "_"
-                + getGraphNodeId(material));
+                + resolveIdOfMaterialSolo(material));
     }
 
-    public static GraphNodeId getGraphNodeId(MaterialProduct materialProduct, Material material)
+    public static GraphNodeId resolveIdOfMaterialInMaterialProduct(MaterialProduct materialProduct, Role role)
             throws MaterialstoreException {
         Objects.requireNonNull(materialProduct);
-        Objects.requireNonNull(material);
-        Side side;
-        if (materialProduct.getLeft() == material) {
-            side = Side.L;
-        } else if (materialProduct.getRight() == material) {
-            side = Side.R;
+        Objects.requireNonNull(role);
+        Material material;
+        if (role.equals(Role.L)) {
+            material = materialProduct.getLeft();
+        } else if (role.equals(Role.R)) {
+            material = materialProduct.getRight();
+        } else if (role.equals(Role.D)) {
+            material = materialProduct.getDiff();
         } else {
-            throw new MaterialstoreException("material(" + material.getShortId()
-                    + ") is not contained in this MaterialProduct");
+            throw new MaterialstoreException("unexpected role is specified: " + role);
         }
         return new GraphNodeId("MP"
                 + materialProduct.getShortId()
                 + "_"
-                + getGraphNodeId(material)
-                + side.toString());
+                + resolveIdOfMaterialSolo(material)
+                + "_"
+                + role.toString());
     }
 
-    public static GraphNodeId getGraphNodeId(MProductGroup mProductGroup, Material material)
+    public static GraphNodeId resolveIdOfQueryInMaterialProduct(MaterialProduct materialProduct) {
+        Objects.requireNonNull(materialProduct);
+        return new GraphNodeId("MP" + materialProduct.getShortId() + "_Q");
+    }
+
+    public static GraphNodeId resolveIdOfMaterialInMProductGroup(MProductGroup mProductGroup, Material material)
             throws MaterialstoreException {
         MaterialProduct materialProduct = null;
         for (MaterialProduct mp : mProductGroup) {
@@ -58,31 +66,31 @@ public class GraphNodeIdResolver {
         return new GraphNodeId("MPG"
                 + mProductGroup.getShortId()
                 + "_"
-                + getGraphNodeId(materialProduct, material)
+                + resolveIdOfMaterialSolo(material)
         );
     }
 
-    public static GraphNodeId getGraphNodeIdBeforeZIP(MProductGroup mProductGroup, Material material)
+    public static GraphNodeId resolveIdOfMaterialInMProductGroupBeforeZIP(MProductGroup mProductGroup, Material material)
             throws MaterialstoreException {
         Objects.requireNonNull(mProductGroup);
         Objects.requireNonNull(material);
         MaterialList materialList = null;
-        Side side = null;
+        Role side = null;
         // look up the material inside the MProductGroup.Builder instance
         // to identify in which materialList the material is contained
         if (mProductGroup.getMaterialListLeft().contains(material)) {
             materialList = mProductGroup.getMaterialListLeft();
-            side = Side.L;
+            side = Role.L;
         } else if (mProductGroup.getMaterialListRight().contains(material)) {
             materialList = mProductGroup.getMaterialListRight();
-            side = Side.R;
+            side = Role.R;
         } else {
             throw new MaterialstoreException("material("
                     + material.getDescription() + ") if not found in the MProductGroup instance");
         }
         return new GraphNodeId("MPGBZ" + mProductGroup.getShortId()
                 + "_"
-                + GraphNodeIdResolver.getGraphNodeId(materialList, material)
+                + resolveIdOfMaterialInMaterialList(materialList, material)
                 + side.toString());
     }
 

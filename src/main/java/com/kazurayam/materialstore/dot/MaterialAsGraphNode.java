@@ -10,12 +10,12 @@ import java.util.List;
 
 public class MaterialAsGraphNode extends AbstractGraphNode {
 
-    private Material material;
     private GraphNodeId graphNodeId;
+    private Material material;
 
     private String INDENT = DotGenerator.INDENT;
 
-    MaterialAsGraphNode(Material material, GraphNodeId graphNodeId) {
+    MaterialAsGraphNode(GraphNodeId graphNodeId, Material material) {
         this.material = material;
         this.graphNodeId = graphNodeId;
     }

@@ -5,12 +5,10 @@ import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.reduce.MProductGroup;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
-import com.kazurayam.materialstore.util.JsonUtil;
 import com.kazurayam.materialstore.util.StringUtils;
 import com.kazurayam.subprocessj.Subprocess;
 
 import javax.imageio.ImageIO;
-import javax.management.Query;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -48,8 +46,8 @@ public class DotGenerator {
         pw.println(INDENT + INDENT + "color=black");
         pw.println(INDENT + "]");
         // node
-        GraphNodeId nodeId = GraphNodeIdResolver.getGraphNodeId(material);
-        pw.println(new MaterialAsGraphNode(material, nodeId).toGraphNode());
+        GraphNodeId nodeId = GraphNodeIdResolver.resolveIdOfMaterialSolo(material);
+        pw.println(new MaterialAsGraphNode(nodeId, material).toGraphNode());
         // no edge
         pw.println("}");
         pw.flush();
@@ -80,16 +78,16 @@ public class DotGenerator {
         // nodes
         for (Material material : materialList) {
             GraphNodeId nodeId =
-                    GraphNodeIdResolver.getGraphNodeId(materialList, material);
-            String nodeStmt = new MaterialAsGraphNode(material, nodeId).toGraphNode();
+                    GraphNodeIdResolver.resolveIdOfMaterialInMaterialList(materialList, material);
+            String nodeStmt = new MaterialAsGraphNode(nodeId, material).toGraphNode();
             pw.println(INDENT + nodeStmt);
         }
         // edges
         GraphNodeId precedingNodeId =
-                GraphNodeIdResolver.getGraphNodeId(materialList, materialList.get(0));
+                GraphNodeIdResolver.resolveIdOfMaterialInMaterialList(materialList, materialList.get(0));
         for (int i = 1; i < materialList.size(); i++) {
             GraphNodeId currentNodeId =
-                    GraphNodeIdResolver.getGraphNodeId(materialList, materialList.get(i));
+                    GraphNodeIdResolver.resolveIdOfMaterialInMaterialList(materialList, materialList.get(i));
             pw.println(INDENT + precedingNodeId + ":f0" + " -> " + currentNodeId + ":f0" +  " [style=invis];");
             precedingNodeId = currentNodeId;
         }
@@ -118,48 +116,58 @@ public class DotGenerator {
         pw.println("subgraph cluster_MP" + sequenceNumber + " {");
         pw.println(INDENT + "graph [");
         pw.println(INDENT + INDENT + "label=\""
-                + materialProduct.getLeft().getJobName()
-                + "/"
                 + materialProduct.getLeft().getJobTimestamp()
-                + " || "
-                + materialProduct.getRight().getJobName()
-                + "/"
+                + " | "
+                + materialProduct.getDiff().getJobTimestamp()
+                + " | "
                 + materialProduct.getRight().getJobTimestamp()
                 + "\",");
         pw.println(INDENT + INDENT + "style=\"dashed\",");
         pw.println(INDENT + INDENT + "color=black");
         pw.println(INDENT + "];");
-        GraphNodeId leftGraphNodeId =
-                GraphNodeIdResolver.getGraphNodeId(materialProduct, materialProduct.getLeft());
-        GraphNodeId rightGraphNodeId =
-                GraphNodeIdResolver.getGraphNodeId(materialProduct, materialProduct.getRight());
+        GraphNodeId leftNodeId =
+                GraphNodeIdResolver.resolveIdOfMaterialInMaterialProduct(materialProduct, Role.L);
+        GraphNodeId copyNodeId =
+                GraphNodeIdResolver.resolveIdOfQueryInMaterialProduct(materialProduct);
+        GraphNodeId rightNodeId =
+                GraphNodeIdResolver.resolveIdOfMaterialInMaterialProduct(materialProduct, Role.R);
+        GraphNodeId diffNodeId =
+                GraphNodeIdResolver.resolveIdOfMaterialInMaterialProduct(materialProduct, Role.D);
         // left Material
-        String leftGraphNodeStatement =
-                new MaterialAsGraphNode(materialProduct.getLeft(), leftGraphNodeId).toGraphNode();
-        pw.println(INDENT + leftGraphNodeStatement);
+        String leftNodeStatement =
+                new MaterialAsGraphNode(leftNodeId, materialProduct.getLeft()).toGraphNode();
+        pw.println(INDENT + leftNodeStatement);
         // query that connects the left and the right
-        QueryOnMetadataAsGraphNode queryNode =
-                new QueryOnMetadataAsGraphNode(
-                        materialProduct.getQueryOnMetadata(),
-                        leftGraphNodeId,
-                        rightGraphNodeId);
-        GraphNodeId queryNodeId = queryNode.getGraphNodeId();
+        GraphNodeId queryNodeId =
+                GraphNodeIdResolver.resolveIdOfQueryInMaterialProduct(materialProduct);
+        QueryAsGraphNode queryNode =
+                new QueryAsGraphNode(queryNodeId, materialProduct.getQueryOnMetadata());
         String queryNodeStatement = queryNode.toGraphNode();
         pw.println(INDENT + queryNodeStatement);
         // right Material
         String rightGraphNodeStatement =
-                new MaterialAsGraphNode(materialProduct.getRight(), rightGraphNodeId).toGraphNode();
+                new MaterialAsGraphNode(rightNodeId, materialProduct.getRight()).toGraphNode();
         pw.println(INDENT + rightGraphNodeStatement);
-        // horizontal edge
-        pw.println(INDENT + leftGraphNodeId + ":f2" + " -> "
-                + queryNodeId + ":q0" + " [arrowhead=none];");
+        // diff Material
+        String diffGraphNodeStatement =
+                new MaterialAsGraphNode(diffNodeId, materialProduct.getDiff()).toGraphNode();
+        pw.println(INDENT + diffGraphNodeStatement);
+
+        // horizontal edges between the left node, the copy node & the right node
+        pw.println(INDENT + leftNodeId + ":f2" + " -> "
+                + queryNodeId + ":q0" + " [arrowhead=none, weight=1];");
         pw.println(INDENT + queryNodeId + ":q0" + " -> "
-                + rightGraphNodeId + ":f0" + " [arrowhead=none];");
-        // rank
-        pw.println(INDENT + "{rankdir=LR; rank=same; "
-                + leftGraphNodeId + ", "
+                + rightNodeId + ":f0" + " [arrowhead=none, weight=1];");
+        // put left + query + right as rank=same
+        pw.println(INDENT + "{ rank=same; "
+                + leftNodeId + ", "
                 + queryNodeId + ", "
-                + rightGraphNodeId + ";}");
+                + rightNodeId + "; }");
+
+        // vertical edge between the copy node & the diff node
+        pw.println(INDENT + queryNodeId + ":q0" + " -> "
+                + diffNodeId + ":d0" + " [arrowhead=none, weight=100];");
+
         pw.println("}");
         pw.flush();
         pw.close();
@@ -221,7 +229,7 @@ public class DotGenerator {
     public static String generateDot(MProductGroup mProductGroup,
                                      Map<String, String> options, boolean standalone)
             throws MaterialstoreException {
-        //
+        // generate a list of "subgraph" statements for MaterialProduct objects
         List<MProductSubgraph> mProductSubgraphList = new ArrayList<>();
         for (MaterialProduct mp : mProductGroup) {
             MProductSubgraph nodeIdPair = new MProductSubgraph(mp);
@@ -246,17 +254,12 @@ public class DotGenerator {
             index += 1;
         }
         // edges
-        GraphNodeId previousLeftMNodeId = mProductSubgraphList.get(0).getLeft();
-        GraphNodeId previousRightMNodeId = mProductSubgraphList.get(0).getRight();
+        GraphNodeId previousDiffNodeId = mProductSubgraphList.get(0).getDiffId();
         for (int i = 1; i < mProductSubgraphList.size(); i++) {
-            GraphNodeId currentLeftMNodeId = mProductSubgraphList.get(i).getLeft();
-            GraphNodeId currentRightMNodeId = mProductSubgraphList.get(i).getRight();
-            pw.println(INDENT + previousLeftMNodeId + ":f2" + " -> "
-                    + currentLeftMNodeId + ":f2" + " [style=invis];");
-            pw.println(INDENT + previousRightMNodeId + ":f2" + " -> "
-                    + currentRightMNodeId + ":f2" + " [style=invis];");
-            previousLeftMNodeId = currentLeftMNodeId;
-            previousRightMNodeId = currentRightMNodeId;
+            GraphNodeId currentQueryNodeId = mProductSubgraphList.get(i).getQueryId();
+            pw.println(INDENT + previousDiffNodeId + ":d0" + " -> "
+                    + currentQueryNodeId + ":q0" + " [style=invis,weight=100];");
+            previousDiffNodeId = mProductSubgraphList.get(i).getDiffId();
         }
         pw.println("}");
         pw.flush();
@@ -275,19 +278,25 @@ public class DotGenerator {
     //-----------------------------------------------------------------
     private static class MProductSubgraph {
         private final MaterialProduct materialProduct;
-        private final GraphNodeId left;
-        private final GraphNodeId right;
+        private final GraphNodeId leftId;
+        private final GraphNodeId rightId;
+        private final GraphNodeId queryId;
+        private final GraphNodeId diffId;
         public MProductSubgraph(MaterialProduct mp) throws MaterialstoreException {
             this.materialProduct = mp;
-            this.left = GraphNodeIdResolver.getGraphNodeId(mp, mp.getLeft());
-            this.right = GraphNodeIdResolver.getGraphNodeId(mp, mp.getRight());
+            this.leftId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialProduct(mp, Role.L);
+            this.rightId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialProduct(mp, Role.R);
+            this.queryId = GraphNodeIdResolver.resolveIdOfQueryInMaterialProduct(mp);
+            this.diffId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialProduct(mp, Role.D);
         }
-        public GraphNodeId getLeft() {
-            return left;
+        public GraphNodeId getLeftId() {
+            return leftId;
         }
-        public GraphNodeId getRight() {
-            return right;
+        public GraphNodeId getRightId() {
+            return rightId;
         }
+        public GraphNodeId getQueryId() { return queryId; }
+        public GraphNodeId getDiffId() { return diffId; }
         public MaterialProduct getMaterialProduct() {
             return materialProduct;
         }
