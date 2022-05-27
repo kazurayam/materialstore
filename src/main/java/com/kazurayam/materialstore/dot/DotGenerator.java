@@ -88,7 +88,7 @@ public class DotGenerator {
         for (int i = 1; i < materialList.size(); i++) {
             GraphNodeId currentNodeId =
                     GraphNodeIdResolver.resolveIdOfMaterialInMaterialList(materialList, materialList.get(i));
-            pw.println(INDENT + precedingNodeId + ":f0" + " -> " + currentNodeId + ":f0" +  " [style=invis];");
+            pw.println(INDENT + precedingNodeId + ":f0" + " -> " + currentNodeId + ":f0" +  " [style=invis, weight=10];");
             precedingNodeId = currentNodeId;
         }
         pw.println("}");
@@ -115,11 +115,11 @@ public class DotGenerator {
         String sequenceNumber = options.getOrDefault("sequenceNumber", "0");
         pw.println("subgraph cluster_MP" + sequenceNumber + " {");
         pw.println(INDENT + "graph [");
-        pw.println(INDENT + INDENT + "label=\""
+        pw.println(INDENT + INDENT + "label=\"left: "
                 + materialProduct.getLeft().getJobTimestamp()
-                + " | "
+                + " | diff: "
                 + materialProduct.getDiff().getJobTimestamp()
-                + " | "
+                + " | right: "
                 + materialProduct.getRight().getJobTimestamp()
                 + "\",");
         pw.println(INDENT + INDENT + "style=\"dashed\",");
@@ -192,10 +192,23 @@ public class DotGenerator {
         String sequenceNumber = options.getOrDefault("sequenceNumber", "0");
         pw.println("subgraph cluster_MPGBZ" + sequenceNumber + " {");
         pw.println(INDENT + "graph [");
-        pw.println(INDENT + INDENT + "label=\"MProductGroup " + mProductGroup.getShortId() + "\",");
+        pw.println(INDENT + INDENT + "label=\"" + mProductGroup.getJobName() + "/\",");
         pw.println(INDENT + INDENT + "style=\"dashed\",");
         pw.println(INDENT + INDENT + "color=black");
         pw.println(INDENT + "];");
+        pw.println(INDENT + "LEFT -> RIGHT [style=invis];");
+        pw.println(INDENT + "{ rank=same; LEFT, RIGHT; }");
+        //
+        MaterialList leftML = mProductGroup.getMaterialListLeft();
+        Material leftTop = leftML.get(0);
+        GraphNodeId leftTopId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialList(leftML, leftTop);
+        pw.println(INDENT + "LEFT -> " + leftTopId.getValue() + " [style=invis];");
+        //
+        MaterialList rightML = mProductGroup.getMaterialListRight();
+        Material rightTop = rightML.get(0);
+        GraphNodeId rightTopId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialList(rightML, rightTop);
+        pw.println(INDENT + "RIGHT -> " + rightTopId.getValue() + " [style=invis];");
+
         // left Material
         String dotLeft =
                 generateDot(mProductGroup.getMaterialListLeft(),
@@ -241,7 +254,7 @@ public class DotGenerator {
         String sequenceNumber = options.getOrDefault("sequenceNumber", "0");
         pw.println("subgraph cluster_MPG" + sequenceNumber + " {");
         pw.println(INDENT + "graph [");
-        pw.println(INDENT + INDENT + "label=\"MProductGroup " + mProductGroup.getShortId() + "\",");
+        pw.println(INDENT + INDENT + "label=\"" + mProductGroup.getJobName() + "/\",");
         pw.println(INDENT + INDENT + "style=\"dashed\",");
         pw.println(INDENT + INDENT + "color=black");
         pw.println(INDENT + "];");
