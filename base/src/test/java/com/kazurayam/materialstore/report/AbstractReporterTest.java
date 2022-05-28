@@ -8,8 +8,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 public abstract class AbstractReporterTest {
 
     public List<String> trimLines(List<String> source) {

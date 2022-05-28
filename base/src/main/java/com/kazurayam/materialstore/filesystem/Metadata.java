@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.filesystem;
 
-import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute;

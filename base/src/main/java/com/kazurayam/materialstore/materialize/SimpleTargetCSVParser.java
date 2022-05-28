@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.materialize;
 
-import com.kazurayam.materialstore.MaterialstoreException;
+import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import org.openqa.selenium.By;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

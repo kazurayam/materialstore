@@ -1,7 +1,5 @@
 package com.kazurayam.materialstore.filesystem;
 
-import com.kazurayam.materialstore.MaterialstoreException;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;

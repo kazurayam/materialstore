@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.net.data;
+package com.kazurayam.materialstore.filesystem.net.data;
 
 public final class DataURLEnabler {
 
@@ -9,7 +9,7 @@ public final class DataURLEnabler {
         // https://docs.oracle.com/javase/7/docs/api/java/net/URL.html
         String prop = System.getProperty(PROPNAME);
         String previousProp = (prop == null) ? "" : prop + "|";
-        String pkg = "com.kazurayam.materialstore.net";
+        String pkg = "com.kazurayam.materialstore.filesystem.net";
         if (!previousProp.contains(pkg)) {
             System.setProperty(PROPNAME, previousProp + pkg);
         }

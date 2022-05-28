@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore;
+package com.kazurayam.materialstore.filesystem;
 
 public class MaterialstoreException extends Exception {
 

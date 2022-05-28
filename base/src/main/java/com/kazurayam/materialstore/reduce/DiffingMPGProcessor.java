@@ -1,10 +1,10 @@
 package com.kazurayam.materialstore.reduce;
 
-import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.FileTypeUtil;
 import com.kazurayam.materialstore.filesystem.IFileType;
 import com.kazurayam.materialstore.filesystem.Material;
+import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.reduce.differ.Differ;
 import com.kazurayam.materialstore.reduce.differ.ImageDifferToPNG;

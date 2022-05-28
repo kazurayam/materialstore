@@ -19,7 +19,7 @@ public class TextDiffContentTest {
         Assertions.assertEquals(equal, tdc.getEqual());
         //
         Assertions.assertEquals(inserted + deleted + changed + equal, tdc.getTotal());
-        Assertions.assertEquals(34.76d, tdc.getDiffRatio());
+        Assertions.assertEquals(34.75d, tdc.getDiffRatio());
     }
 
 }

@@ -2,8 +2,8 @@ package com.kazurayam.materialstore.reduce.differ;
 
 import com.github.difflib.text.DiffRow;
 import com.github.difflib.text.DiffRowGenerator;
-import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Material;
+import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.report.FreeMarkerConfigurator;
 import com.kazurayam.materialstore.report.HTMLPrettyPrintingCapable;

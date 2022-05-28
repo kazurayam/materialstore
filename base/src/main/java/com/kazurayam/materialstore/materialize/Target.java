@@ -1,8 +1,8 @@
 package com.kazurayam.materialstore.materialize;
 
 import com.google.common.collect.ImmutableMap;
-import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Jsonifiable;
+import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.openqa.selenium.By;
 

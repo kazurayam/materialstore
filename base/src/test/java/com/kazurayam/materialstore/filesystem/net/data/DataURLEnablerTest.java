@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.net.data;
+package com.kazurayam.materialstore.filesystem.net.data;
 
 import org.junit.jupiter.api.Test;
 

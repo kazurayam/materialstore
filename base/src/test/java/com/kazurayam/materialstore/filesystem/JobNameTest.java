@@ -3,8 +3,6 @@ package com.kazurayam.materialstore.filesystem;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 public class JobNameTest {
     /**
      * isValid(String) throws an IllegalArgumentException when the argument String contains

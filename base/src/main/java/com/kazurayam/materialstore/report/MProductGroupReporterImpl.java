@@ -1,19 +1,18 @@
 package com.kazurayam.materialstore.report;
 
-import com.kazurayam.materialstore.reduce.MProductGroup;
-
-import com.kazurayam.materialstore.MaterialstoreException;
-import com.kazurayam.materialstore.filesystem.Store;
-
 import com.kazurayam.materialstore.filesystem.JobName;
+import com.kazurayam.materialstore.filesystem.MaterialstoreException;
+import com.kazurayam.materialstore.filesystem.Store;
+import com.kazurayam.materialstore.reduce.MProductGroup;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;

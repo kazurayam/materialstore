@@ -1,10 +1,9 @@
-package com.kazurayam.materialstore.net.data;
+package com.kazurayam.materialstore.filesystem.net.data;
 
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLStreamHandler;
-
 
 /**
  * This class is used by com.kazurayam.materialstore.filesystem.metadata.MetadataImpl class

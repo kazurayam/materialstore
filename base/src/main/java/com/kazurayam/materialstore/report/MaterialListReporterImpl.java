@@ -1,8 +1,8 @@
 package com.kazurayam.materialstore.report;
 
-import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.MaterialList;
+import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
 import freemarker.template.Configuration;
 import freemarker.template.Template;

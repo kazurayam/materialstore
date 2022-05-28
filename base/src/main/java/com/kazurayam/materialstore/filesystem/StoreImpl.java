@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.filesystem;
 
-import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Jobber.DuplicationHandling;
 import com.kazurayam.materialstore.map.IdentityMapper;
 import com.kazurayam.materialstore.map.MappedResultSerializer;

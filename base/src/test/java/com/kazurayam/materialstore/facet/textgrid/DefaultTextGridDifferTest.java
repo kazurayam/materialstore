@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.facet.textgrid;
 
-import com.kazurayam.materialstore.MaterialstoreException;
+import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

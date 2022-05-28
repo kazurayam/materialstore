@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.filesystem;
 
-import com.kazurayam.materialstore.MaterialstoreException;
-import com.kazurayam.materialstore.TestFixtureUtil;
+import com.kazurayam.materialstore.util.TestFixtureUtil;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

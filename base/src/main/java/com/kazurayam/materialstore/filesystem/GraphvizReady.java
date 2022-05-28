@@ -12,7 +12,6 @@ public interface GraphvizReady {
 
     /**
      * generates `subgraph nameX {...}` where X is interpolated with sequenceNumber
-     * @param sequenceNumber should be 0, 1, 2, ... that makes the subgraph name unique in the entire digraph
      */
     String toDot(Map<String, String> options);
 

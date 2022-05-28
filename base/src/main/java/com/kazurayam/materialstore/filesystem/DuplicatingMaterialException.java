@@ -1,7 +1,5 @@
 package com.kazurayam.materialstore.filesystem;
 
-import com.kazurayam.materialstore.MaterialstoreException;
-
 public class DuplicatingMaterialException extends MaterialstoreException {
 
     public DuplicatingMaterialException(String message) {

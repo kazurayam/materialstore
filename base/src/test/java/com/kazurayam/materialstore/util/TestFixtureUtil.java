@@ -1,6 +1,7 @@
-package com.kazurayam.materialstore;
+package com.kazurayam.materialstore.util;
 
 import com.kazurayam.materialstore.filesystem.JobName;
+import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
 import org.apache.commons.io.FileUtils;
 

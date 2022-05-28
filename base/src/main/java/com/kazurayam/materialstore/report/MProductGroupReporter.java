@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.report;
 
-import com.kazurayam.materialstore.MaterialstoreException;
+import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.reduce.MProductGroup;
 
 import java.nio.file.Path;

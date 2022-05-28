@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.filesystem;
 
-
 import com.google.gson.Gson;
 import com.kazurayam.materialstore.util.GsonHelper;
 import com.kazurayam.materialstore.util.JsonUtil;

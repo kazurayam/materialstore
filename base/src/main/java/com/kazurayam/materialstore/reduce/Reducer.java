@@ -1,8 +1,8 @@
 package com.kazurayam.materialstore.reduce;
 
-import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.MaterialList;
+import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.slf4j.Logger;

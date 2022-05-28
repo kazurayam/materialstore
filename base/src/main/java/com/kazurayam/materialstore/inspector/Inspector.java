@@ -1,7 +1,8 @@
-package com.kazurayam.materialstore;
+package com.kazurayam.materialstore.inspector;
 
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.MaterialList;
+import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.reduce.MProductGroup;
 import com.kazurayam.materialstore.report.MProductGroupReporter;

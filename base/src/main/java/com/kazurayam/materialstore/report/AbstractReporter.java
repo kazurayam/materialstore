@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.report;
 
-import com.kazurayam.materialstore.MaterialstoreException;
+import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

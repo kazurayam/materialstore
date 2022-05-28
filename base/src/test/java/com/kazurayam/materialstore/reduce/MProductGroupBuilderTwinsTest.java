@@ -1,10 +1,10 @@
 package com.kazurayam.materialstore.reduce;
 
-import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.dot.MPGVisualizer;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.MaterialList;
+import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
