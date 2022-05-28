@@ -1,0 +1,39 @@
+archivesBaseName = 'materialstore-mapper'
+version = rootProject.version
+
+
+dependencies {
+    implementation project(":base")
+
+    // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-csv
+    implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.9.0'
+
+    // https://mvnrepository.com/artifact/net.sf.cssbox/pdf2dom
+    implementation group: 'net.sf.cssbox', name: 'pdf2dom', version: '2.0.1'
+
+    // https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox
+    implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.25'
+
+    // https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox-tools
+    implementation group: 'org.apache.pdfbox', name: 'pdfbox-tools', version: '2.0.25'
+
+    // https://mvnrepository.com/artifact/com.rometools/rome
+    implementation group: 'com.rometools', name: 'rome', version: '1.18.0'
+
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.31'
+
+    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.31'
+
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    testImplementation group: 'commons-io', name: 'commons-io', version: '2.8.0'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+
+    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
+    implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.1'
+
+}
