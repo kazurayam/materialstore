@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.reduce.differ;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public final class DifferUtil {
     private DifferUtil() {
@@ -31,7 +32,7 @@ public final class DifferUtil {
      */
     public static Double roundUpTo2DecimalPlaces(Double diffRatio) {
         BigDecimal bd = new BigDecimal(diffRatio);
-        BigDecimal bdUP = bd.setScale(2, BigDecimal.ROUND_UP);// 0.001 -> 0.01
+        BigDecimal bdUP = bd.setScale(2, RoundingMode.HALF_EVEN); // 0.001 -> 0.01
         return bdUP.doubleValue();
     }
 

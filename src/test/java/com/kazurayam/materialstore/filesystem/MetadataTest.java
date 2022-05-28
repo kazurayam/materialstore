@@ -3,7 +3,7 @@ package com.kazurayam.materialstore.filesystem;
 import com.kazurayam.materialstore.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute;
-import com.kazurayam.materialstore.net.data.DataURLEnabler;
+import com.kazurayam.materialstore.materialize.net.data.DataURLEnabler;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.apache.http.NameValuePair;
 import org.junit.jupiter.api.Assertions;
