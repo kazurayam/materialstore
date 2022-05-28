@@ -1,164 +1,166 @@
-plugins {
-    id 'java'
-    id 'jacoco'
-    id 'maven-publish'
-    id 'signing'
+allprojects {
+    group 'com.kazurayam'
+    version '0.9.0-SNAPSHOT'
 }
 
-group 'com.kazurayam'
-version '0.8.5'
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'jacoco'
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
 
-ext {
-    isReleaseVersion = ! version.endsWith("SNAPSHOT")
-}
-
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-
-dependencies {
-    // AShot is required by com.kazurayam.materialstore.reduce.differ.ImageDifferToPNG
-    implementation group: 'ru.yandex.qatools.ashot', name: 'ashot', version: "1.5.4"
-
-    // FreeMarker is required by com.kazurayam.materialstore.report.MProductGroupReporterImpl
-    implementation group: 'org.freemarker', name: 'freemarker', version: "2.3.31"
-    // kazurayam_FreeMarker_directives is also required by the MProductGroupReporterImpl
-    implementation group: 'com.kazurayam', name: 'kazurayam_FreeMarker_directives', version: "0.2.0"
-
-    // java-diff-utils is required by com.kazurayam.materialstore.reduce.differ.AbstractTextDiffer
-    implementation group: 'io.github.java-diff-utils', name: 'java-diff-utils', version: "4.9"
-
-    // Gson is required by com.kazurayam.materialstore.filesystem.TemplateReady
-    implementation group: 'com.google.code.gson', name: 'gson', version: "2.8.9"
-
-    // jsoup is required by com.kazurayam.materialstore.reduce.differ.TextDifferToHTML
-    implementation group: 'org.jsoup', name: 'jsoup', version: '1.14.3'
-
-    // slf4j is required by many classes in this library
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: "1.7.31"
-    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: "1.7.31"
-
-    // selenium-java is required by com.kazurayam.materialstore.materialize.MaterializingFunctions
-    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
-    // WebDriverManager is required by com.kazurayam.materialstore.materialize.MaterializingFunctions
-    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.1.1'
-
-    // httpclient is required by com.kazurayam.materialstore.filesystem/Metadata
-    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
-
-    // JUnit Jupiter is used by all unit tests
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
-
-    // PlantUML jar is used by com.kazurayam.materialstore.filesystem.MaterialTest, MateriaListTest, MProductTest, MProductGroupTest
-    // https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml
-    testImplementation group: 'net.sourceforge.plantuml', name: 'plantuml', version: '8059'
-
-    // Subprocessj is used to run "dot" of Graphviz
-    // by com.kazurayam.materialstore.util.DotUtil class
-    // https://mvnrepository.com/artifact/com.kazurayam/subprocessj
-    implementation group: 'com.kazurayam', name: 'subprocessj', version: '0.3.4'
-
-}
-
-sourceCompatibility = '1.8'
-targetCompatibility = '1.8'
-
-def defaultEncoding = 'UTF-8'
-tasks.withType(AbstractCompile).each { it.options.encoding = defaultEncoding }
-tasks.withType(GroovyCompile).each {it.groovyOptions.encoding = defaultEncoding }
-
-compileJava {
-    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-}
-
-tasks.withType(JavaCompile) {
-    options.compilerArgs << '-Xlint:unchecked'
-}
-
-tasks.withType(GroovyCompile) {
-    options.compilerArgs << '-Xlint:unchecked'
-}
-
-test {
-    useJUnitPlatform()
-    finalizedBy jacocoTestReport
-}
-
-task javadocJar(type: Jar) {
-    archiveClassifier = 'javadoc'
-    from javadoc
-}
-
-javadoc {
-    failOnError false
-    options.locale = "en_US"
-}
-
-task copyJavadocToDocsDir(type: Copy) {
-    from 'build/docs/javadoc'
-    into 'docs/api'
-}
-javadoc.finalizedBy copyJavadocToDocsDir
-
-
-task sourcesJar(type: Jar) {
-    archiveClassifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-publishing {
-    publications {
-        materialstore(MavenPublication) {
-            artifact sourcesJar
-            artifact javadocJar
-            pom {
-                groupId = project.group
-                name = project.rootProject.name
-                description = 'A Java/Groovy API to store objects (Screenshots, HTML, JSON, XML) collected during End-to-end testings empowered by diffing and reporting tools'
-                url = 'https://kazurayam.github.io/materialstore/'
-                from components.java
-                licenses {
-                    license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'https://www.apache.org.licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'kazurayam'
-                        name = 'URAYAMA,kazuaki'
-                        email = 'kazuaki.urayama@gmail.com'
-                    }
-                }
-                scm {
-                    connection = "scm:git:https://github.com/kazurayam/${project.rootProject.name}.git"
-                    developerConnection = "scm:git:git@github.com:kazurayam/${project.rootProject.name}.git"
-                    url = "https://github.com/kazurayam/${project.rootProject.name}"
-                }
-            }
-        }
+    ext {
+        isReleaseVersion = !version.endsWith("SNAPSHOT")
     }
+
     repositories {
-        maven {
-            def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-            url = isReleaseVersion ? releaseRepo: snapshotRepo
-            credentials {
-                username = project.hasProperty('ossrhUsername') ? ossrhUsername : "Unknown user"
-                password = project.hasProperty('ossrhPassword') ? ossrhPassword : "Unknown password"
+        mavenCentral()
+        mavenLocal()
+    }
+
+    dependencies {
+        // AShot is required by com.kazurayam.materialstore.reduce.differ.ImageDifferToPNG
+        implementation group: 'ru.yandex.qatools.ashot', name: 'ashot', version: "1.5.4"
+
+        // FreeMarker is required by com.kazurayam.materialstore.report.MProductGroupReporterImpl
+        implementation group: 'org.freemarker', name: 'freemarker', version: "2.3.31"
+        // kazurayam_FreeMarker_directives is also required by the MProductGroupReporterImpl
+        implementation group: 'com.kazurayam', name: 'kazurayam_FreeMarker_directives', version: "0.2.0"
+
+        // java-diff-utils is required by com.kazurayam.materialstore.reduce.differ.AbstractTextDiffer
+        implementation group: 'io.github.java-diff-utils', name: 'java-diff-utils', version: "4.9"
+
+        // Gson is required by com.kazurayam.materialstore.filesystem.TemplateReady
+        implementation group: 'com.google.code.gson', name: 'gson', version: "2.8.9"
+
+        // jsoup is required by com.kazurayam.materialstore.reduce.differ.TextDifferToHTML
+        implementation group: 'org.jsoup', name: 'jsoup', version: '1.14.3'
+
+        // slf4j is required by many classes in this library
+        implementation group: 'org.slf4j', name: 'slf4j-api', version: "1.7.31"
+        testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: "1.7.31"
+
+        // selenium-java is required by com.kazurayam.materialstore.materialize.MaterializingFunctions
+        implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+        // WebDriverManager is required by com.kazurayam.materialstore.materialize.MaterializingFunctions
+        implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.1.1'
+
+        // httpclient is required by com.kazurayam.materialstore.filesystem/Metadata
+        implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+
+        // JUnit Jupiter is used by all unit tests
+        testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+
+        // PlantUML jar is used by com.kazurayam.materialstore.filesystem.MaterialTest, MateriaListTest, MProductTest, MProductGroupTest
+        // https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml
+        testImplementation group: 'net.sourceforge.plantuml', name: 'plantuml', version: '8059'
+
+        // Subprocessj is used to run "dot" of Graphviz
+        // by com.kazurayam.materialstore.util.DotUtil class
+        // https://mvnrepository.com/artifact/com.kazurayam/subprocessj
+        implementation group: 'com.kazurayam', name: 'subprocessj', version: '0.3.4'
+
+    }
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+
+    def defaultEncoding = 'UTF-8'
+    tasks.withType(AbstractCompile).each { it.options.encoding = defaultEncoding }
+    tasks.withType(GroovyCompile).each { it.groovyOptions.encoding = defaultEncoding }
+
+    compileJava {
+        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    }
+
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << '-Xlint:unchecked'
+    }
+
+    tasks.withType(GroovyCompile) {
+        options.compilerArgs << '-Xlint:unchecked'
+    }
+
+    test {
+        useJUnitPlatform()
+        finalizedBy jacocoTestReport
+    }
+
+    task javadocJar(type: Jar) {
+        archiveClassifier = 'javadoc'
+        from javadoc
+    }
+
+    javadoc {
+        failOnError false
+        options.locale = "en_US"
+    }
+
+    task copyJavadocToDocsDir(type: Copy) {
+        from 'build/docs/javadoc'
+        into 'docs/api'
+    }
+    javadoc.finalizedBy copyJavadocToDocsDir
+
+
+    task sourcesJar(type: Jar) {
+        archiveClassifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    publishing {
+        publications {
+            materialstore(MavenPublication) {
+                artifact sourcesJar
+                artifact javadocJar
+                pom {
+                    groupId = project.group
+                    name = project.rootProject.name
+                    description = 'A Java/Groovy API to store objects (Screenshots, HTML, JSON, XML) collected during End-to-end testings empowered by diffing and reporting tools'
+                    url = 'https://kazurayam.github.io/materialstore/'
+                    from components.java
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'https://www.apache.org.licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'kazurayam'
+                            name = 'URAYAMA,kazuaki'
+                            email = 'kazuaki.urayama@gmail.com'
+                        }
+                    }
+                    scm {
+                        connection = "scm:git:https://github.com/kazurayam/${project.rootProject.name}.git"
+                        developerConnection = "scm:git:git@github.com:kazurayam/${project.rootProject.name}.git"
+                        url = "https://github.com/kazurayam/${project.rootProject.name}"
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+                def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+                url = isReleaseVersion ? releaseRepo : snapshotRepo
+                credentials {
+                    username = project.hasProperty('ossrhUsername') ? ossrhUsername : "Unknown user"
+                    password = project.hasProperty('ossrhPassword') ? ossrhPassword : "Unknown password"
+                }
             }
         }
     }
-}
 
-signing {
-    sign publishing.publications.materialstore
-}
+    signing {
+        sign publishing.publications.materialstore
+    }
 // I do not want to sign the SNAPSHOT
-tasks.withType(Sign) {
-    onlyIf { isReleaseVersion }
-}
+    tasks.withType(Sign) {
+        onlyIf { isReleaseVersion }
+    }
 
+}
