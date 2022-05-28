@@ -20,7 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -84,8 +83,7 @@ public class QueryOnMetadataAsGraphNodeTest {
         QueryAsGraphNode queryAsGraphNode = new QueryAsGraphNode(nodeId, query);
         //
         String nodeStatement = queryAsGraphNode.toGraphNode();
-        assertEquals("foo", nodeStatement);
-        assertTrue(nodeStatement.startsWith("MP3d95386_Q ["));
-
+        //assertEquals("foo", nodeStatement);
+        assertTrue(nodeStatement.substring(0,11).matches("MP\\w{7}_Q"));
     }
 }

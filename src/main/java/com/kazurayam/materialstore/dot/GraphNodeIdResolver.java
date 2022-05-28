@@ -75,23 +75,19 @@ public class GraphNodeIdResolver {
         Objects.requireNonNull(mProductGroup);
         Objects.requireNonNull(material);
         MaterialList materialList = null;
-        Role side = null;
         // look up the material inside the MProductGroup.Builder instance
         // to identify in which materialList the material is contained
         if (mProductGroup.getMaterialListLeft().contains(material)) {
             materialList = mProductGroup.getMaterialListLeft();
-            side = Role.L;
         } else if (mProductGroup.getMaterialListRight().contains(material)) {
             materialList = mProductGroup.getMaterialListRight();
-            side = Role.R;
         } else {
             throw new MaterialstoreException("material("
                     + material.getDescription() + ") if not found in the MProductGroup instance");
         }
         return new GraphNodeId("MPGBZ" + mProductGroup.getShortId()
                 + "_"
-                + resolveIdOfMaterialInMaterialList(materialList, material)
-                + side.toString());
+                + resolveIdOfMaterialInMaterialList(materialList, material));
     }
 
     /**
