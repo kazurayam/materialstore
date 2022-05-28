@@ -2,7 +2,6 @@ package com.kazurayam.materialstore.filesystem;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.omg.CORBA.portable.ApplicationException;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
