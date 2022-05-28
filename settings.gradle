@@ -1,4 +1,5 @@
 rootProject.name = 'materialstore'
-include('base', 'mapper')
-include 'mapper'
+include('base', 'mapper', 'tutorial')
+include 'tutorial'
+include 'tutorial'
 
