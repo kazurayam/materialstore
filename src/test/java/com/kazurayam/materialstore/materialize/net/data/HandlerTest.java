@@ -1,9 +1,8 @@
-package com.kazurayam.materialstore.net.data;
+package com.kazurayam.materialstore.materialize.net.data;
 
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import static org.junit.jupiter.api.Assertions.assertNull;

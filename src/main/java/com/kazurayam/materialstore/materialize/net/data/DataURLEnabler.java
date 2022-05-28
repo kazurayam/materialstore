@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.net.data;
+package com.kazurayam.materialstore.materialize.net.data;
 
 public final class DataURLEnabler {
 
