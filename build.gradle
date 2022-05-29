@@ -109,6 +109,7 @@ subprojects {
     }
 
     dependencies {
+
         // Gson is required by com.kazurayam.materialstore.filesystem.TemplateReady
         implementation group: 'com.google.code.gson', name: 'gson', version: "2.8.9"
 
@@ -164,6 +165,11 @@ project("base") {
 
 project("core") {
     dependencies {
+
+        // Guava is used by com.kazurayam.materialstore.filesystem.TemplateReady
+        // https://mvnrepository.com/artifact/com.google.guava/guava
+        implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
+
         // PlantUML jar is used by com.kazurayam.materialstore.filesystem.MaterialTest, MateriaListTest, MProductTest, MProductGroupTest
         // https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml
         testImplementation group: 'net.sourceforge.plantuml', name: 'plantuml', version: '8059'
