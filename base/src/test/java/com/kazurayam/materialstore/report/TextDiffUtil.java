@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.util;
+package com.kazurayam.materialstore.report;
 
 import com.github.difflib.text.DiffRow;
 import com.github.difflib.text.DiffRowGenerator;
