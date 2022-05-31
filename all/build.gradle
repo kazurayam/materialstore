@@ -1,0 +1,17 @@
+archivesBaseName = 'materialstore'
+version = rootProject.version
+
+task initSrcMain(type: Delete) {
+    delete 'src/main'
+    mkdir 'src/main'
+}
+
+task importSrcMain(type: Copy) {
+    from project(":core").file("src/main")
+    from project(":base").file("src/main")
+    from project(":mapper").file("src/main")
+    from project(":tutorial").file("src/main")
+    into "src/main"
+}
+importSrcMain.dependsOn initSrcMain
+

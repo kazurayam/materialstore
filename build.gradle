@@ -1,6 +1,6 @@
 allprojects {
     group 'com.kazurayam'
-    version '0.9.0'
+    version '0.9.1-SNAPSHOT'
     ext {
         isReleaseVersion = !version.endsWith("SNAPSHOT")
     }
@@ -21,12 +21,8 @@ subprojects {
     def defaultEncoding = 'UTF-8'
     tasks.withType(AbstractCompile).each { it.options.encoding = defaultEncoding }
     tasks.withType(GroovyCompile).each { it.groovyOptions.encoding = defaultEncoding }
-
-    compileJava {
-        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-    }
     tasks.withType(JavaCompile) {
-        options.compilerArgs << '-Xlint:unchecked'
+        options.compilerArgs << '-Xlint:unchecked' << "-Xlint:deprecation"
     }
 
     test {
@@ -132,6 +128,18 @@ subprojects {
     }
 }
 
+project("core") {
+    dependencies {
+        // Guava is used by com.kazurayam.materialstore.filesystem.TemplateReady
+        // https://mvnrepository.com/artifact/com.google.guava/guava
+        implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
+
+        // PlantUML jar is used by com.kazurayam.materialstore.filesystem.MaterialTest, MateriaListTest, MProductTest, MProductGroupTest
+        // https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml
+        testImplementation group: 'net.sourceforge.plantuml', name: 'plantuml', version: '8059'
+    }
+}
+
 project("base") {
     dependencies {
         implementation(project(":core"))
@@ -164,18 +172,6 @@ project("base") {
     }
 }
 
-project("core") {
-    dependencies {
-
-        // Guava is used by com.kazurayam.materialstore.filesystem.TemplateReady
-        // https://mvnrepository.com/artifact/com.google.guava/guava
-        implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
-
-        // PlantUML jar is used by com.kazurayam.materialstore.filesystem.MaterialTest, MateriaListTest, MProductTest, MProductGroupTest
-        // https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml
-        testImplementation group: 'net.sourceforge.plantuml', name: 'plantuml', version: '8059'
-    }
-}
 
 project("mapper") {
     dependencies {
@@ -208,6 +204,5 @@ project("mapper") {
 
 project("tutorial") {
     dependencies {
-
     }
 }

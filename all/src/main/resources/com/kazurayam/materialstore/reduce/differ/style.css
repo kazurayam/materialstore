@@ -1,0 +1,59 @@
+
+* {
+    box-sizing: border-box;
+}
+body {
+    font-family: ui-monospace,SFMono-Regular,SZ Mono,
+    Menlo,Consolas,Liberation Mono,monospace;
+    font-size: 12px;
+    line-height: 20px;
+}
+div#container {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+}
+table {
+    table-layout: fixed;
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+thead tr {
+    border-bottom: 1px solid #ccc;
+}
+thead tr td {
+    overflow-wrap: break-word;
+}
+td, th {
+    padding: 4px;
+    font-size: 12px;
+    border-right: 1px solid #ccc;
+    display: table-cell;
+}
+th {
+    border-bottom: 1px solid #ccc;
+}
+.blob-code-inner {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+.code-change {
+    background-color: #dbedff;
+}
+.code-delete {
+    background-color: #ffeef0;
+}
+.code-equal {
+    background-color: #ffffff;
+}
+.code-insert {
+    background-color: #e6ffec;
+}
+.deletion {
+    background-color: #ffdce0;
+}
+.insertion {
+    background-color: #ccffd8;
+}

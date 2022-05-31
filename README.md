@@ -9,7 +9,7 @@ See https://kazurayam.github.io/materialstore-tutorial/ for description of this 
 
 ## Dependencies
 
-See [build.gradle](./build.gradle)
+See [build.gradle](github/materialstore/master/build.gradle)
 
 
 

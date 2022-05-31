@@ -1,14 +1,2 @@
-plugins {
-    id 'java'
-}
-
-group 'com.kazurayam'
-version '0.8.6-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    implementation project(":core")
-}
+archivesBaseName = 'materialstore-base'
+version = rootProject.version

@@ -1,0 +1,110 @@
+.container {
+  font-family: ui-monospace, SFMono-Regular, SZ Mono, Menlo, Consolas, Liberation Mono, monospace;
+  font-size: 12px;
+  line-height: 20px;
+  margin-bottom: 20px;
+}
+.container dl dd {
+  margin-left: 40px;
+}
+
+.container .title {
+  margin-left: 54px;
+}
+
+.container .title button {
+  float: right;
+  margin-top: 6px;
+}
+
+#count {
+  position: fixed;
+  top: 16px;
+  left: 10px;
+}
+#count .warnings {
+  font-size: xx-large;
+  color: #e0ae00;
+}
+#count .ignorable {
+  font-size: x-large;
+  color: #0c63e4;
+}
+#count .total {
+  font-size: large;
+}
+
+.container .header {
+  padding: 16px 20px;
+}
+.container .identified-value {
+  background-color: #FA98FA;
+}
+.container .semantic-version {
+  border: #FA98FA solid;
+}
+.container .ignored-key {
+  background-color: #CCC;
+}
+.container .matched-value {
+  background-color: #98FB98;
+}
+.container .accordion .accordion-header button .ratio {
+  padding: 4px 20px 4px 4px;
+  text-align: left;
+  font-size: 16px;
+  line-height: 24px;
+  flex-basis: 10%;
+}
+.container .accordion .accordion-header button .fileType {
+  padding: 4px 20px 4px 4px;
+  text-align: left;
+  font-size: 16px;
+  line-height: 24px;
+  flex-basis: 10%;
+}
+.container .accordion .accordion-header button .metadata {
+  padding: 4px 20px 4px 4px;
+  text-align: left;
+  font-size: 16px;
+  line-height: 24px;
+  flex-basis: 90%;
+}
+.container .accordion .accordion-header button .description {
+  padding: 4px 20px 4px 4px;
+  text-align: left;
+  font-size: 16px;
+  line-height: 24px;
+  flex-basis: 80%;
+}
+.container .accordion .accordion-header button .warning {
+  background-color: #e0ae00;
+}
+.container .accordion .accordion-header button .ignored {
+  background-color: #ffffff;
+  border: #e0ae00 solid;
+}
+.container .accordion .accordion-body .show-diff .modal .modal-body iframe {
+  position: absolute;
+  border: none;
+  height: 100%;
+  width: 100%;
+}
+.container .accordion .accordion-body .show-diff .modal .modal-body .carousel .carousel-inner {
+  background-color: #efefef;
+}
+.container .accordion .accordion-body .show-diff .modal .modal-body .carousel .carousel-inner .centered {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.container .accordion .accordion-body .show-diff .modal .modal-body .carousel .carousel-control-prev, .container .accordion .accordion-body .show-diff .modal .modal-body .carousel .carousel-control-next {
+  width: 12.5%;
+}
+.container .accordion .accordion-body .show-detail {
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+
+/*# sourceMappingURL=style.css.map */
