@@ -1,6 +1,6 @@
 allprojects {
     group 'com.kazurayam'
-    version '0.9.0'
+    version '0.9.1-SNAPSHOT'
     ext {
         isReleaseVersion = !version.endsWith("SNAPSHOT")
     }
@@ -212,18 +212,23 @@ project("tutorial") {
     }
 }
 
-def exportedProjects = [
+/**
+ * https://stackoverflow.com/questions/63287292/how-to-combine-multiple-javadoc-into-one-using-gradle
+ */
+def subProjects = [
         ":core",
         ":base",
         ":mapper",
         ":tutorial"
 ]
 task javadocAll(type: Javadoc) {
-    source exportedProjects.collect {
+    source subProjects.collect {
         project(it).sourceSets.main.allJava
     }
-    classpath = files(exportedProjects.collect {
+    classpath = files(subProjects.collect {
         project(it).sourceSets.main.compileClasspath
     })
     destinationDir = file("${buildDir}/docs/javadoc-all")
+    failOnError false
+    options.locale = "en_US"
 }
