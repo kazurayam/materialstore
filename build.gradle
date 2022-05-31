@@ -211,3 +211,19 @@ project("tutorial") {
 
     }
 }
+
+def exportedProjects = [
+        ":core",
+        ":base",
+        ":mapper",
+        ":tutorial"
+]
+task javadocAll(type: Javadoc) {
+    source exportedProjects.collect {
+        project(it).sourceSets.main.allJava
+    }
+    classpath = files(exportedProjects.collect {
+        project(it).sourceSets.main.compileClasspath
+    })
+    destinationDir = file("${buildDir}/docs/javadoc-all")
+}
