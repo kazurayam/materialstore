@@ -42,12 +42,21 @@ task showConfigurations() {
         }
     }
 }
-
+task showSourceSets(){
+    doLast{
+        sourceSets.each { srcSet ->
+            println "[" + srcSet.name + "]"
+            println "--> Source directories: " + srcSet.allJava.srcDirs
+            println "--> Output directories: " + srcSet.output.classesDirs.files
+            println ""
+        }
+    }
+}
 dependencies {
-    implementation project(":core")
-    implementation project(":base")
-    implementation project(":mapper")
-    implementation project(":tutorial")
+    combineImplementation project(":core")
+    combineImplementation project(":base")
+    combineImplementation project(":mapper")
+    combineImplementation project(":tutorial")
     /*
     implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.14.3'
