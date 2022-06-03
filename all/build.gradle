@@ -6,6 +6,9 @@
  * 4. publishes the jars to the Maven repositories: MavenLocal and MavenCentral at
  *    https://mvnrepository.com/artifact/com.kazurayam/materialstore
  */
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
 archivesBaseName = rootProject.name
 version = rootProject.version
 
@@ -26,9 +29,11 @@ sourceSets {
     }
 }
 
+/*
 configurations {
-    combineCompile.extendsFrom compile
+    combineImplementation.extendsFrom implementation
 }
+*/
 
 task showConfigurations() {
     doLast {
@@ -42,21 +47,12 @@ task showConfigurations() {
         }
     }
 }
-task showSourceSets(){
-    doLast{
-        sourceSets.each { srcSet ->
-            println "[" + srcSet.name + "]"
-            println "--> Source directories: " + srcSet.allJava.srcDirs
-            println "--> Output directories: " + srcSet.output.classesDirs.files
-            println ""
-        }
-    }
-}
+
 dependencies {
-    combineImplementation project(":core")
-    combineImplementation project(":base")
-    combineImplementation project(":mapper")
-    combineImplementation project(":tutorial")
+    implementation project(":core")
+    implementation project(":base")
+    implementation project(":mapper")
+    implementation project(":tutorial")
     /*
     implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.14.3'

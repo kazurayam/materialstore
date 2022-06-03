@@ -1,2 +1,12 @@
 archivesBaseName = 'materialstore-core'
 version = rootProject.version
+
+dependencies {
+    // Guava is used by com.kazurayam.materialstore.filesystem.TemplateReady
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
+
+    // PlantUML jar is used by com.kazurayam.materialstore.filesystem.MaterialTest, MateriaListTest, MProductTest, MProductGroupTest
+    // https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml
+    testImplementation group: 'net.sourceforge.plantuml', name: 'plantuml', version: '8059'
+}

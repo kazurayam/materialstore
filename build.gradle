@@ -1,24 +1,17 @@
-apply plugin: 'java'
-apply plugin: 'maven-publish'
-apply plugin: 'signing'
 
-allprojects {
-    group 'com.kazurayam'
-    version '0.9.1-SNAPSHOT'
-    ext {
-        isReleaseVersion = !version.endsWith("SNAPSHOT")
-    }
+group 'com.kazurayam'
+version '0.9.1-SNAPSHOT'
+
+ext {
+    isReleaseVersion = !version.endsWith("SNAPSHOT")
 }
 
-subprojects {
+allprojects {
     apply plugin: 'java'
-    apply plugin: 'jacoco'
-
     repositories {
         mavenCentral()
         mavenLocal()
     }
-
     sourceCompatibility = '1.8'
     targetCompatibility = '1.8'
     def defaultEncoding = 'UTF-8'
@@ -27,12 +20,14 @@ subprojects {
     tasks.withType(JavaCompile) {
         options.compilerArgs << '-Xlint:unchecked' << "-Xlint:deprecation"
     }
+}
 
+subprojects {
+    apply plugin: 'jacoco'
     test {
         useJUnitPlatform()
         finalizedBy jacocoTestReport
     }
-
 
     dependencies {
         // Gson is required by com.kazurayam.materialstore.filesystem.TemplateReady
@@ -47,7 +42,6 @@ subprojects {
         // https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5
         implementation group: 'org.apache.httpcomponents.client5', name: 'httpclient5', version: '5.1.3'
 
-
         // slf4j is required by many classes in this library
         implementation group: 'org.slf4j', name: 'slf4j-api', version: "1.7.31"
 
@@ -58,84 +52,22 @@ subprojects {
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
     }
-}
 
-project("core") {
-    dependencies {
-        // Guava is used by com.kazurayam.materialstore.filesystem.TemplateReady
-        // https://mvnrepository.com/artifact/com.google.guava/guava
-        implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
-
-        // PlantUML jar is used by com.kazurayam.materialstore.filesystem.MaterialTest, MateriaListTest, MProductTest, MProductGroupTest
-        // https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml
-        testImplementation group: 'net.sourceforge.plantuml', name: 'plantuml', version: '8059'
-    }
-}
-
-project("base") {
-    dependencies {
-        implementation(project(":core"))
-
-        // Subprocessj is used to run "dot" of Graphviz
-        // by com.kazurayam.materialstore.util.DotUtil class
-        // https://mvnrepository.com/artifact/com.kazurayam/subprocessj
-        implementation group: 'com.kazurayam', name: 'subprocessj', version: '0.3.4'
-
-        // WebDriverManager is required by com.kazurayam.materialstore.materialize.MaterializingFunctions
-        implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.1.1'
-
-        // java-diff-utils is required by com.kazurayam.materialstore.reduce.differ.AbstractTextDiffer
-        implementation group: 'io.github.java-diff-utils', name: 'java-diff-utils', version: "4.9"
-
-        // FreeMarker is required by com.kazurayam.materialstore.report.MProductGroupReporterImpl
-        implementation group: 'org.freemarker', name: 'freemarker', version: "2.3.31"
-
-        // kazurayam_FreeMarker_directives is also required by the MProductGroupReporterImpl
-        implementation group: 'com.kazurayam', name: 'kazurayam_FreeMarker_directives', version: "0.2.0"
-
-        // jsoup is required by com.kazurayam.materialstore.reduce.differ.TextDifferToHTML
-        implementation group: 'org.jsoup', name: 'jsoup', version: '1.14.3'
-
-        // selenium-java is required by com.kazurayam.materialstore.materialize.MaterializingFunctions
-        implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
-
-        // AShot is required by com.kazurayam.materialstore.reduce.differ.ImageDifferToPNG
-        implementation group: 'ru.yandex.qatools.ashot', name: 'ashot', version: "1.5.4"
-    }
-}
-
-
-project("mapper") {
-    dependencies {
-        implementation project(":core")
-        implementation project(":base")
-
-        // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
-        implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '3.17'
-
-        // https://mvnrepository.com/artifact/org.apache.commons/commons-csv
-        implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.9.0'
-
-        // https://mvnrepository.com/artifact/net.sf.cssbox/pdf2dom
-        implementation group: 'net.sf.cssbox', name: 'pdf2dom', version: '2.0.1'
-
-        // https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox
-        implementation group: 'org.apache.pdfbox', name: 'pdfbox', version: '2.0.25'
-
-        // https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox-tools
-        implementation group: 'org.apache.pdfbox', name: 'pdfbox-tools', version: '2.0.25'
-
-        // https://mvnrepository.com/artifact/com.rometools/rome
-        implementation group: 'com.rometools', name: 'rome', version: '1.18.0'
-
-        // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
-        implementation group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.17.1'
+    task showSourceSets(){
+        doLast{
+            sourceSets.each { srcSet ->
+                println "[" + srcSet.name + "]"
+                println "--> Source directories: " + srcSet.allJava.srcDirs
+                println "--> Output directories: " + srcSet.output.classesDirs.files
+                println "--> Compile classpath:"
+                srcSet.compileClasspath.files.each {
+                    println "  " + it.path
+                }
+                println ""
+            }
+        }
     }
 
 }
 
-project("tutorial") {
-    dependencies {
-    }
-}
 
