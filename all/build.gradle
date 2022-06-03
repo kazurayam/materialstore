@@ -29,30 +29,16 @@ sourceSets {
     }
 }
 
-/*
+
 configurations {
-    combineImplementation.extendsFrom implementation
-}
-*/
-
-task showConfigurations() {
-    doLast {
-        configurations.getAll().each {
-            println it.getName()
-
-            it.getExtendsFrom().forEach {
-                println "    extends from " + it.getName()
-            }
-
-        }
-    }
+    combine
 }
 
 dependencies {
-    implementation project(":core")
-    implementation project(":base")
-    implementation project(":mapper")
-    implementation project(":tutorial")
+    combineImplementation project(":core")
+    combineImplementation project(":base")
+    combineImplementation project(":mapper")
+    combineImplementation project(":tutorial")
     /*
     implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
     implementation group: 'org.jsoup', name: 'jsoup', version: '1.14.3'

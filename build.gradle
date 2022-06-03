@@ -68,6 +68,31 @@ subprojects {
         }
     }
 
+    task showConfigurations() {
+        doLast {
+            configurations.getAll().each {
+                println it.getName()
+
+                it.getExtendsFrom().forEach {
+                    println "    extends from " + it.getName()
+                }
+
+            }
+        }
+    }
 }
 
 
+def exportedProjects = [
+        ":",
+        ":base",
+        ":core",
+        ":mapper"
+]
+
+task allJavadoc(type: Javadoc) {
+    source exportedProjects.collect { project(it).sourceSets.main.allJava }
+    classpath = files(exportedProjects.collect { project(it).sourceSets.main.compileClasspath })
+    destinationDir = file("${buildDir}/docs/javadoc-all")
+    failOnError(false)
+}
