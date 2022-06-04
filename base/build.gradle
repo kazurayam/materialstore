@@ -1,11 +1,6 @@
 dependencies {
     implementation(project(":core"))
 
-    // Subprocessj is used to run "dot" of Graphviz
-    // by com.kazurayam.materialstore.util.DotUtil class
-    // https://mvnrepository.com/artifact/com.kazurayam/subprocessj
-    implementation group: 'com.kazurayam', name: 'subprocessj', version: '0.3.4'
-
     // WebDriverManager is required by com.kazurayam.materialstore.materialize.MaterializingFunctions
     implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.1.1'
 

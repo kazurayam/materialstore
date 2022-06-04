@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.reduce;
 
-import com.kazurayam.materialstore.dot.MPGVisualizer;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.MaterialList;
@@ -89,11 +88,6 @@ public class MProductGroupBuilderTwinsTest {
         Assertions.assertNotNull(reduced);
         Assertions.assertEquals(9, reduced.size());
         Assertions.assertEquals(2, reduced.getNumberOfBachelors());
-        //
-        MPGVisualizer visualizer = new MPGVisualizer(store);
-        JobName jobName = new JobName("test_Bachelors");
-        JobTimestamp jobTimestamp = JobTimestamp.now();
-        visualizer.visualize(jobName, jobTimestamp, reduced);
     }
 
 }
