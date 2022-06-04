@@ -60,6 +60,9 @@ public final class StringUtils {
     /**
      * accept a string, split it into multiple lines by NEW LINES char,
      * return a List of String.
+     *
+     * @param content a String that contains zero or more NEW LINE character(s)
+     * @return a List of String
      */
     public static List<String> toList(String content) {
         StringReader sr = new StringReader(content);
@@ -79,6 +82,9 @@ public final class StringUtils {
 
     /**
      * https://www.baeldung.com/java-random-string
+     *
+     * @param length length of the resulting String
+     * @returns a String which contains rundom
      */
     public static String generateRandomAlphaNumericString(int length) {
         int leftLimit = 48; // numeral '0'

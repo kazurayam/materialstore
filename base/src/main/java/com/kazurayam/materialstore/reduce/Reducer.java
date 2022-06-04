@@ -88,7 +88,9 @@ public final class Reducer {
 
 
     /**
-     *
+     * @param leftMaterialList MaterialList object as left side
+     * @param rightMaterialList MaterialList object as right side
+     * @param func BiFunction that implements apply method which zips the left and the right to generate a MProductGroup object
      */
     public static MProductGroup twins(Store store, MaterialList leftMaterialList, MaterialList rightMaterialList, BiFunction<MaterialList, MaterialList, MProductGroup> func) {
         Objects.requireNonNull(store);
