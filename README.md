@@ -1,15 +1,9 @@
 # materialstore
 
-See https://kazurayam.github.io/materialstore-tutorial/ for description of this library with samples how to use it.
+## Tutorial
 
-## API documents
+<https://kazurayam.github.io/materialstore/index.html>
 
-- [materialstore](https://kazurayam.github.io/materialstore/api/)
-- [materialstore-mapper](https://kazurayam.github.io/materialstore-mapper/api/)
+## API doc
 
-## Dependencies
-
-See [build.gradle](github/materialstore/master/build.gradle)
-
-
-
+-   [materialstore](https://kazurayam.github.io/materialstore/api/index.html)
