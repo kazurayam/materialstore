@@ -82,12 +82,12 @@ subprojects {
 }
 
 task allJar(type: Jar, dependsOn: subprojects.jar) {
-    archivesBaseName = rootProject.name
-    subprojects.each { subproject ->
-        from subproject.configurations.archives.allArtifacts.files.collect {
+    from subprojects.collect { subproject ->
+        subproject.configurations.archives.allArtifacts.files.collect {
             it.isDirectory() ? it : zipTree(it)
         }
     }
+    archivesBaseName = rootProject.name
     duplicatesStrategy('exclude')
 }
 
