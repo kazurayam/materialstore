@@ -81,9 +81,14 @@ subprojects {
     }
 }
 
-task allJar(type: Jar) {
-    from subprojects.collect {prj -> prj.tasks.withType(Jar) }
-    into "${buildDir}/allJar"
+task allJar(type: Jar, dependsOn: subprojects.jar) {
+    archivesBaseName = rootProject.name
+    subprojects.each { subproject ->
+        from subproject.configurations.archives.allArtifacts.files.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+    duplicatesStrategy('exclude')
 }
 
 task allJavadoc(type: Javadoc) {

@@ -1,6 +1,3 @@
-archivesBaseName = 'materialstore-core'
-version = rootProject.version
-
 dependencies {
     // Guava is used by com.kazurayam.materialstore.filesystem.TemplateReady
     // https://mvnrepository.com/artifact/com.google.guava/guava

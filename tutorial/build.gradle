@@ -1,6 +1,3 @@
-archivesBaseName = 'materialstore-tutorial'
-version = rootProject.version
-
 dependencies {
 
 }

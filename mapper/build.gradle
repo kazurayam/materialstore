@@ -1,6 +1,3 @@
-archivesBaseName = 'materialstore-mapper'
-version = rootProject.version
-
 dependencies {
     implementation project(":core")
     implementation project(":base")
