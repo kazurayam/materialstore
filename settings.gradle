@@ -18,6 +18,9 @@ dependencyResolutionManagement {
             version('commons-io', '2.8.0')
             library('commons-io', 'commons-io', 'commons-io').versionRef('commons-io')
 
+            version('commons-csv', '1.9.0')
+            library('commons-csv', 'org.apache.commons', 'commons-csv').versionRef('commons-csv')
+
             version('freemarker', '2.3.31')
             library('freemarker', 'org.freemarker', 'freemarker').versionRef('freemarker')
 
@@ -48,8 +51,24 @@ dependencyResolutionManagement {
             library('junit-jupiter-api', 'org.junit.jupiter', 'junit-jupiter-api').versionRef('junit5')
             library('junit-jupiter-engine', 'org.junit.jupiter', 'junit-jupiter-engine').versionRef('junit5')
 
+            version('log4j', '2.17.1')
+            library('log4j-core', 'org.apache.logging.log4j', 'log4j-core').versionRef('log4j')
+
+            version('pdf2dom', '2.0.1')
+            library('pdf2dom', 'net.sf.cssbox', 'pdf2dom').versionRef('pdf2dom')
+
+            version('pdfbox', '2.0.25')
+            library('pdfbox', 'org.apache.pdfbox', 'pdfbox').versionRef('pdfbox')
+            library('pdfbox-tools', 'org.apache.pdfbox', 'pdfbox-tools').versionRef('pdfbox')
+
             version('plantuml', '8059')
             library('plantuml', 'net.sourceforge.plantuml', 'plantuml').versionRef('plantuml')
+
+            version('poi', '3.17')
+            library('poi', 'org.apache.poi', 'poi-ooxml').versionRef('poi')
+
+            version('rome', '1.18.0')
+            library('rome', 'com.rometools', 'rome').versionRef('rome')
 
             version('selenium', '3.141.59')
             library('selenium', 'org.seleniumhq.selenium', 'selenium-java').versionRef('selenium')
