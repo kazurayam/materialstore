@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.report;
 
-import com.kazurayam.freemarker.CompressToSingleLineDirective;
-import com.kazurayam.freemarker.ReadAllLinesDirective;
+import com.kazurayam.materialstore.freemarker.CompressToSingleLineDirective;
+import com.kazurayam.materialstore.freemarker.ReadAllLinesDirective;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
 import freemarker.cache.ClassTemplateLoader;

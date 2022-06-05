@@ -1,5 +1,6 @@
 dependencies {
     implementation(project(":core"))
+    implementation(project(":freemarker"))
 
     // WebDriverManager is required by com.kazurayam.materialstore.materialize.MaterializingFunctions
     implementation libs.webdrivermanager
@@ -9,9 +10,6 @@ dependencies {
 
     // FreeMarker is required by com.kazurayam.materialstore.report.MProductGroupReporterImpl
     implementation libs.freemarker
-
-    // kazurayam_FreeMarker_directives is also required by the MProductGroupReporterImpl
-    implementation libs.freemarkerKazurayamCustom
 
     // jsoup is required by com.kazurayam.materialstore.reduce.differ.TextDifferToHTML
     implementation libs.jsoup
