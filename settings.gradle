@@ -11,21 +11,26 @@ dependencyResolutionManagement {
             version('gson', '2.8.9')
             library('gson', 'com.google.code.gson', 'gson').versionRef('gson')
 
+            version('guava', '31.1-jre')
+            library('guava', 'com.google.guava', 'guava').versionRef('guava')
+
             version('httpclient4', '4.5.13')
             library('httpclient4', 'org.apache.httpcomponents', 'httpclient').versionRef('httpclient4')
 
             version('httpclient5', '5.1.3')
             library('httpclient5', 'org.apache.httpcomponents.client5', 'httpclient5').versionRef('httpclient5')
 
-            version('slf4j', '1.7.31')
-            library('slf4j-api', 'org.slf4j', 'slf4j-api').versionRef('slf4j')
-            library('slf4j-simple', 'org.slf4j', 'slf4j-simple').versionRef('slf4j')
-
             version('junit5', '5.8.2')
             library('junit-jupiter', 'org.junit.jupiter', 'junit-jupiter').versionRef('junit5')
             library('junit-jupiter-api', 'org.junit.jupiter', 'junit-jupiter-api').versionRef('junit5')
             library('junit-jupiter-engine', 'org.junit.jupiter', 'junit-jupiter-engine').versionRef('junit5')
 
+            version('plantuml', '8059')
+            library('plantuml', 'net.sourceforge.plantuml', 'plantuml').versionRef('plantuml')
+
+            version('slf4j', '1.7.31')
+            library('slf4j-api', 'org.slf4j', 'slf4j-api').versionRef('slf4j')
+            library('slf4j-simple', 'org.slf4j', 'slf4j-simple').versionRef('slf4j')
         }
     }
 }
