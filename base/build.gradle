@@ -2,25 +2,25 @@ dependencies {
     implementation(project(":core"))
 
     // WebDriverManager is required by com.kazurayam.materialstore.materialize.MaterializingFunctions
-    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.1.1'
+    implementation libs.webdrivermanager
 
     // java-diff-utils is required by com.kazurayam.materialstore.reduce.differ.AbstractTextDiffer
-    implementation group: 'io.github.java-diff-utils', name: 'java-diff-utils', version: "4.9"
+    implementation libs.javaDiffUtils
 
     // FreeMarker is required by com.kazurayam.materialstore.report.MProductGroupReporterImpl
-    implementation group: 'org.freemarker', name: 'freemarker', version: "2.3.31"
+    implementation libs.freemarker
 
     // kazurayam_FreeMarker_directives is also required by the MProductGroupReporterImpl
-    implementation group: 'com.kazurayam', name: 'kazurayam_FreeMarker_directives', version: "0.2.0"
+    implementation libs.freemarkerKazurayamCustom
 
     // jsoup is required by com.kazurayam.materialstore.reduce.differ.TextDifferToHTML
-    implementation group: 'org.jsoup', name: 'jsoup', version: '1.14.3'
+    implementation libs.jsoup
 
     // selenium-java is required by com.kazurayam.materialstore.materialize.MaterializingFunctions
-    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    implementation libs.selenium
 
     // AShot is required by com.kazurayam.materialstore.reduce.differ.ImageDifferToPNG
-    implementation group: 'ru.yandex.qatools.ashot', name: 'ashot', version: "1.5.4"
+    implementation libs.ashot
 
 }
 
