@@ -5,6 +5,6 @@ dependencies {
     // Subprocessj is used to run "dot" of Graphviz
     // by com.kazurayam.materialstore.util.DotUtil class
     // https://mvnrepository.com/artifact/com.kazurayam/subprocessj
-    implementation group: 'com.kazurayam', name: 'subprocessj', version: '0.3.4'
+    implementation libs.subprocessj
 
 }

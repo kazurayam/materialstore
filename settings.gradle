@@ -77,6 +77,9 @@ dependencyResolutionManagement {
             library('slf4j-api', 'org.slf4j', 'slf4j-api').versionRef('slf4j')
             library('slf4j-simple', 'org.slf4j', 'slf4j-simple').versionRef('slf4j')
 
+            version('subprocessj', '0.3.4')
+            library('subprocessj', 'com.kazurayam', 'subprocessj').versionRef('subprocessj')
+
             version('webdrivermanager', '5.1.1')
             library('webdrivermanager', 'io.github.bonigarcia', 'webdrivermanager').versionRef('webdrivermanager')
         }
