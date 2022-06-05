@@ -3,6 +3,9 @@ include('core', 'freemarker', 'base', 'mapper', 'facet', 'tutorial')
 /*
  subprojects' dependency tree
      core       -> base
+     core                 -> mapper
+     core                 -> facet
+     core                 -> tutorial
      freemarker -> base
                    base   -> mapper
                    base   -> facet

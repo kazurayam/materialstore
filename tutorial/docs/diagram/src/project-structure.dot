@@ -1,0 +1,15 @@
+digraph G {
+  graph [
+      label="Materialstore Project Structure"
+  ];
+  core -> base [weight=10]
+  core -> mapper
+  core -> facet
+  core -> tutorial
+  freemarker -> base
+  base -> mapper [weight=10]
+  base -> facet
+  base -> tutorial
+  {rank=same; freemarker, base;}
+
+}
