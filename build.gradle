@@ -83,18 +83,9 @@ subprojects {
     }
 }
 
-task debugJar(type: Jar) {
+task allJar(type: Jar, dependsOn: subprojects.jar) {
     from subprojects.collect { subproject ->
-        subproject.configurations.archives.allArtifacts.files.collect {
-            println it.toString()
-        }
-    }
-}
-task binariesJar(type: Jar, dependsOn: subprojects.jar) {
-    from subprojects.collect { subproject ->
-        subproject.configurations.archives.allArtifacts.files.collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
+        subproject.sourceSets.main.output
     }
     archivesBaseName = rootProject.name
     duplicatesStrategy('exclude')
@@ -139,7 +130,7 @@ task sourcesJar(type: Jar) {
 publishing {
     publications {
         materialstore(MavenPublication) {
-            artifact binariesJar
+            artifact allJar
             artifact sourcesJar
             artifact javadocJar
             pom {
