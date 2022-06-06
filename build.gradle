@@ -83,7 +83,14 @@ subprojects {
     }
 }
 
-task allJar(type: Jar, dependsOn: subprojects.jar) {
+task debugJar(type: Jar) {
+    from subprojects.collect { subproject ->
+        subproject.configurations.archives.allArtifacts.files.collect {
+            println it.toString()
+        }
+    }
+}
+task binariesJar(type: Jar, dependsOn: subprojects.jar) {
     from subprojects.collect { subproject ->
         subproject.configurations.archives.allArtifacts.files.collect {
             it.isDirectory() ? it : zipTree(it)
@@ -129,11 +136,10 @@ task sourcesJar(type: Jar) {
     archiveClassifier.set('sources')
 }
 
-
 publishing {
     publications {
         materialstore(MavenPublication) {
-            artifact allJar
+            artifact binariesJar
             artifact sourcesJar
             artifact javadocJar
             pom {

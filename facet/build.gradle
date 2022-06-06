@@ -2,3 +2,9 @@ dependencies {
     implementation project(":core")
     implementation project(":base")
 }
+
+
+jar {
+    archiveBaseName = rootProject.name + "-facet"
+    version = rootProject.version
+}

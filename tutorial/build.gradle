@@ -6,5 +6,10 @@ dependencies {
     // by com.kazurayam.materialstore.util.DotUtil class
     // https://mvnrepository.com/artifact/com.kazurayam/subprocessj
     implementation libs.subprocessj
+}
 
+
+jar {
+    archiveBaseName = rootProject.name + "-tutorial"
+    version = rootProject.version
 }

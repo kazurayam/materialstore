@@ -26,3 +26,7 @@ dependencies {
 }
 
 
+jar {
+    archiveBaseName = rootProject.name + "-mapper"
+    version = rootProject.version
+}

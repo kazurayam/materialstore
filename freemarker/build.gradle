@@ -1,3 +1,9 @@
 dependencies {
     implementation libs.freemarker
 }
+
+
+jar {
+    archiveBaseName = rootProject.name + "-freemarker"
+    version = rootProject.version
+}

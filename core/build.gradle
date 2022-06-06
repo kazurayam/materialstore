@@ -7,3 +7,9 @@ dependencies {
     // https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml
     testImplementation libs.plantuml
 }
+
+
+jar {
+    archiveBaseName = rootProject.name + "-core"
+    version = rootProject.version
+}
