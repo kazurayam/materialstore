@@ -1,11 +1,11 @@
-= FreeMarker Directives defined by kazurayam
+== Custom FreeMarker Directives
 
 This project is a collection of FreeMarker user-defined directives
 developed by kazurayam.
 
 It was tested with FreeMarker v2.3.31.
 
-== `readAllLines`
+=== readAllLines
 
 The `readAllLines` directive reads a text file specified by the path parameter,
 iterate over all lines in it, generate the templated body.
@@ -18,7 +18,7 @@ Synopsis
 </@readAllLines>
 ----
 
-=== Motivation
+==== Motivation
 
 Let me consider a case where I am going to generate a HTML file
 using FreeMarker;
@@ -37,25 +37,25 @@ directive with which I can read a text content from external file, and
 transform the lines into HTML fragments.
 The following diagram shows the basic how FreeMarker works.
 
-image:images/FreeMarker_base.png[]
+image:images/freemarker/FreeMarker_base.png[]
 
 Now I wanted to do something like this:
 
-image:images/FreeMarker_readAllLines.png[]
+image:images/freemarker/FreeMarker_readAllLines.png[]
 
-My custom `readAllLines` directive just enambles me to do it.
+My custom `readAllLines` directive just enables me to do it.
 
-=== Sample usage
+==== Example
 
-==== Caller Java
+===== Caller Java
 
 .ReadAllLinesDirectivesTest.java
 [source,java]
 ----
-include::../src/test/java/com/kazurayam/freemarker/ReadAllLinesDirectiveTest.java[]
+include::../src/test/java/com/kazurayam/materialstore/freemarker/ReadAllLinesDirectiveTest.java[]
 ----
 
-==== TestBase.java
+===== TestBase.java
 
 The test classes here extends `TestBase.java` which prepares
 the configuration of FreeMarker.
@@ -65,12 +65,12 @@ which includes the name of directives (e.g, `readAllLines`).
 .TestBase
 [source,java]
 ----
-include::../src/test/java/com/kazurayam/freemarker/TestBase.java[]
+include::../src/test/java/com/kazurayam/materialstore/freemarker/TestBase.java[]
 ----
 
 
 
-==== Template
+===== Template
 
 .readAllLinesDemo.ftlh
 [source]
@@ -78,11 +78,11 @@ include::../src/test/java/com/kazurayam/freemarker/TestBase.java[]
 include::../src/test/resources/freemarker_templates/readAllLinesDemo.ftlh[]
 ----
 
-==== Input
+===== Input
 
-- link:https://github.com/kazurayam/kazurayam_FreeMarker_directives/blob/master/src/test/fixture/store/AmznPress/20220310_203757/objects/e96bd4c2e345301b567d70071dcec04fda699ce4.csv[sample CSV file]
+- link:https://github.com/kazurayam/materialstore/blob/main/freemarker/src/test/fixture/store/AmznPress/20220310_203757/objects/e96bd4c2e345301b567d70071dcec04fda699ce4.csv[sample CSV file]
 
-==== Output
+===== Output
 
 ----
     <tr><td>0</td><td>publishedDate,uri,title,link,description,author</td></tr>
@@ -91,7 +91,7 @@ include::../src/test/resources/freemarker_templates/readAllLinesDemo.ftlh[]
 ... (trimmed)
 ----
 
-== compressToSingleLine
+=== compressToSingleLine
 
 The `compressToSingleLine` directive strips the following text fragments out of the body text.
 
@@ -115,7 +115,7 @@ Synopsis
 <@compressToSIngleLine>
 ----
 
-=== Motivation
+==== Motivation
 
 FreeMarker provides a few options of white-space handling.
 See https://freemarker.apache.org/docs/dgui_misc_whitespace.html[the document] for detail.
@@ -150,15 +150,17 @@ The result I want looks as follows:
 The built-in https://freemarker.apache.org/docs/dgui_misc_whitespace.html#autoid_30[<#compress>] directory
 does sightly different from what I want. So I developed a custom directory `@compressToSingleLine` for me.
 
-==== Caller Java
+==== Example
+
+===== Caller Java
 
 .CompressToSingleLineDirectivesTest.java
 [source,java]
 ----
-include::../src/test/java/com/kazurayam/freemarker/CompressToSingleLineDirectiveTest.java[]
+include::../src/test/java/com/kazurayam/materialstore/freemarker/CompressToSingleLineDirectiveTest.java[]
 ----
 
-==== Template
+===== Template
 
 .compressToSingleLineDemoDemo.ftlh
 [source]
@@ -166,8 +168,7 @@ include::../src/test/java/com/kazurayam/freemarker/CompressToSingleLineDirective
 include::../src/test/resources/freemarker_templates/compressToSingleLineDemo.ftlh[]
 ----
 
-== Reference
+=== Reference
 
 1. https://freemarker.apache.org/docs/pgui_datamodel_directive.html[FreeMarker Programmer's Guide / The Data Model / Directives]
 2. https://freemarker.apache.org/docs/dgui_misc_userdefdir.html[FreeMarker Manual / Template Author's Guide / Miscellaneous / Defining your own directives]
-3. https://github.com/kazurayam/kazurayam_FreeMarker_directives[the project home]

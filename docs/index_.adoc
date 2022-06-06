@@ -1,4 +1,4 @@
-== Materialstore Tutorial
+= Materialstore
+:sectnums:
 
-
-TODO
+include::../freemarker/docs/custom_freemarker_directives.adoc[]
