@@ -8,6 +8,8 @@ application {
 
 dependencies {
     implementation project(":core")
+    testImplementation(project(":core"))
+
     implementation project(":base")
 
     // Subprocessj is used to run "dot" of Graphviz
