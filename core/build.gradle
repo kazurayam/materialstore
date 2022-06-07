@@ -3,6 +3,10 @@ dependencies {
     // https://mvnrepository.com/artifact/com.google.guava/guava
     implementation libs.guava
 
+    // Gson is used by com.kazurayam.materialstore.util.JsonUtil
+    // which is used almost all data classes in this subproject
+    implementation libs.gson
+
     // PlantUML jar is used by com.kazurayam.materialstore.filesystem.MaterialTest, MateriaListTest, MProductTest, MProductGroupTest
     // https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml
     testImplementation libs.plantuml
