@@ -11,5 +11,5 @@ dependencies {
 
 jar {
     archiveBaseName = rootProject.name + "-core"
-    version = rootProject.version
+    archiveVersion = rootProject.version
 }

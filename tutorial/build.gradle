@@ -1,3 +1,11 @@
+plugins {
+    id('application')
+}
+
+application {
+    mainClass = 'tutorial.filesystem.HelloWorld'
+}
+
 dependencies {
     implementation project(":core")
     implementation project(":base")
@@ -6,10 +14,12 @@ dependencies {
     // by com.kazurayam.materialstore.util.DotUtil class
     // https://mvnrepository.com/artifact/com.kazurayam/subprocessj
     implementation libs.subprocessj
+
+    runtimeOnly libs.slf4j.simple
 }
 
 
 jar {
     archiveBaseName = rootProject.name + "-tutorial"
-    version = rootProject.version
+    archiveVersion = rootProject.version
 }

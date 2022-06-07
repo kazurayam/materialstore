@@ -6,5 +6,5 @@ dependencies {
 
 jar {
     archiveBaseName = rootProject.name + "-facet"
-    version = rootProject.version
+    archiveVersion = rootProject.version
 }

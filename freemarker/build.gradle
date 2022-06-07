@@ -5,5 +5,5 @@ dependencies {
 
 jar {
     archiveBaseName = rootProject.name + "-freemarker"
-    version = rootProject.version
+    archiveVersion = rootProject.version
 }
