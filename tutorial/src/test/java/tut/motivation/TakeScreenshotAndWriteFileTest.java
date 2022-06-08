@@ -15,7 +15,10 @@ import tut.util.ScreenshotUtil;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -35,7 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * special special characters: '/', ':' which comprises a URL string.
  *
  */
-public class TakeScreenshotAndSaveIntoFileTest {
+public class TakeScreenshotAndWriteFileTest {
 
     private static String URL_STR = "http://myadmin.kazurayam.com";
     private WebDriver driver = null;
@@ -43,17 +46,18 @@ public class TakeScreenshotAndSaveIntoFileTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
+        // initialize the setting of Chrome Driver
+        WebDriverManager.chromedriver().setup();
         // create the output directory
         outputDir =
                 Paths.get(System.getProperty("user.dir"))
                         .resolve("build/tmp/tutOutput")
-                        .resolve(TakeScreenshotAndSaveIntoFileTest.class.getName());
+                        .resolve(TakeScreenshotAndWriteFileTest.class.getName());
         if (Files.exists(outputDir)) {
             FileUtils.deleteDirectory(outputDir.toFile());
         }
         Files.createDirectories(outputDir);
-        // initialize the setting of Chrome Driver
-        WebDriverManager.chromedriver().setup();
+
     }
 
     @BeforeEach
@@ -65,21 +69,37 @@ public class TakeScreenshotAndSaveIntoFileTest {
     }
 
     @Test
-    public void test_takeScreenshotAndSaveIntoFile() throws IOException {
+    public void checkPage() throws IOException {
         driver.navigate().to(URL_STR);
+
+        // take a screenshot of the entire page
         BufferedImage im = ScreenshotUtil.takeEntirePageImage(driver);
         // determine the path of output file, ensure directory tree
-        String subDir = "test_takeScreenshotAndSaveIntoFile";
-        String fileName = "demoaut-mimic_katalon_com.png";
-        Path png = outputDir.resolve(subDir).resolve(fileName);
-        Files.createDirectories(png.getParent());
+        String subDir = "sampleDir";
+        Path pngFile = outputDir.resolve(subDir)
+                .resolve("demoaut-mimic_katalon_com.png");
+        Files.createDirectories(pngFile.getParent());
         // write the image into file
-        ImageIO.write(im, "png", png.toFile());
-        //
-        assertTrue(Files.exists(png));
-        assertTrue(png.toFile().length() > 0);
-    }
+        ImageIO.write(im, "png", pngFile.toFile());
+        assertTrue(Files.exists(pngFile));
+        assertTrue(pngFile.toFile().length() > 0);
 
+        // get the HTML source of the rendered page
+        String htmlSource = driver.getPageSource();
+        // determine the path of output file
+        Path htmlFile = outputDir.resolve(subDir)
+                .resolve("demoaut-mimic_katalon_com.html");
+        // write the HTML source into file
+        BufferedWriter bw =
+                new BufferedWriter(
+                        new OutputStreamWriter(
+                                new FileOutputStream(htmlFile.toFile()), "UTF-8"));
+        bw.write(htmlSource);
+        bw.flush();
+        bw.close();
+        assertTrue(Files.exists(htmlFile));
+        assertTrue(htmlFile.toFile().length() > 0);
+    }
 
     @AfterEach
     public void afterEach() {
@@ -87,7 +107,4 @@ public class TakeScreenshotAndSaveIntoFileTest {
             driver.quit();
         }
     }
-
-    @AfterAll
-    public static void afterAll() {}
 }
