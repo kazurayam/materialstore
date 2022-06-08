@@ -23,10 +23,6 @@ public abstract class Inspector {
 
     public abstract Path report(MProductGroup mProductGroup, Double criteria, String fileName) throws MaterialstoreException;
 
-    public abstract void report(MProductGroup mProductGroup, Double criteria, Path filePath) throws MaterialstoreException;
-
     public abstract Path report(MaterialList materialList, String fileName) throws MaterialstoreException;
-
-    public abstract void report(MaterialList materialList, Path filePath) throws MaterialstoreException;
 
 }

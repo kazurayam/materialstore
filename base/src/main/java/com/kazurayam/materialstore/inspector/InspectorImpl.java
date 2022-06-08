@@ -52,31 +52,11 @@ public class InspectorImpl extends Inspector {
     }
 
     @Override
-    public void report(MProductGroup mProductGroup, Double criteria, Path filePath) throws MaterialstoreException {
-        Objects.requireNonNull(mProductGroup);
-        Objects.requireNonNull(criteria);
-        Objects.requireNonNull(filePath);
-        //
-        MProductGroupReporter reporter = this.newMProductGroupReporter(mProductGroup.getJobName());
-        reporter.setCriteria(criteria);
-        reporter.report(mProductGroup, filePath);
-    }
-
-    @Override
     public Path report(MaterialList materialList, String fileName) throws MaterialstoreException {
         Objects.requireNonNull(materialList);
         Objects.requireNonNull(fileName);
         MaterialListReporterImpl reporter = new MaterialListReporterImpl(store, materialList.getJobName());
         return reporter.report(materialList, fileName);
-    }
-
-    @Override
-    public void report(MaterialList materialList, Path filePath) throws MaterialstoreException {
-        Objects.requireNonNull(materialList);
-        Objects.requireNonNull(filePath);
-        //MaterialListReporterImplMB reporter = new MaterialListReporterImplMB(store, materialList.getJobName());
-        MaterialListReporterImpl reporter = new MaterialListReporterImpl(store, materialList.getJobName());
-        reporter.report(materialList, filePath);
     }
 
 }
