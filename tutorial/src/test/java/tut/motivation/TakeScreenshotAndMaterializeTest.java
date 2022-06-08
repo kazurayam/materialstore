@@ -101,8 +101,7 @@ public class TakeScreenshotAndMaterializeTest {
         MaterialList materialList = store.select(jobName, jobTimestamp);
         JobTimestamp reportTimestamp = JobTimestamp.laterThan(jobTimestamp);
         Inspector inspector = Inspector.newInstance(store);
-        Path report = outputDir.resolve("stored_materials.html");
-        inspector.report(materialList, report);
+        Path report = inspector.report(materialList, "stored_materials.html");
         assertTrue(Files.exists(report));
     }
 
