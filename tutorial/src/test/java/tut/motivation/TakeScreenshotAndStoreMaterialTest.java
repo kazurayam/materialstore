@@ -31,7 +31,7 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TakeScreenshotAndMaterializeTest {
+public class TakeScreenshotAndStoreMaterialTest {
 
     private static final String URL_STR = "http://myadmin.kazurayam.com";
     private static Path outputDir;
@@ -47,7 +47,7 @@ public class TakeScreenshotAndMaterializeTest {
         outputDir =
                 Paths.get(System.getProperty("user.dir"))
                         .resolve("build/tmp/tutOutput")
-                        .resolve(TakeScreenshotAndWriteFileTest.class.getName());
+                        .resolve(TakeScreenshotAndStoreMaterialTest.class.getName());
         if (Files.exists(outputDir)) {
             FileUtils.deleteDirectory(outputDir.toFile());
         }

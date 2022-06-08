@@ -1,7 +1,6 @@
 package tut.motivation;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * special special characters: '/', ':' which comprises a URL string.
  *
  */
-public class TakeScreenshotAndWriteFileTest {
+public class TakeScreenshotAndWriteIntoFileTest {
 
     private static String URL_STR = "http://myadmin.kazurayam.com";
     private WebDriver driver = null;
@@ -52,7 +51,7 @@ public class TakeScreenshotAndWriteFileTest {
         outputDir =
                 Paths.get(System.getProperty("user.dir"))
                         .resolve("build/tmp/tutOutput")
-                        .resolve(TakeScreenshotAndWriteFileTest.class.getName());
+                        .resolve(TakeScreenshotAndWriteIntoFileTest.class.getName());
         if (Files.exists(outputDir)) {
             FileUtils.deleteDirectory(outputDir.toFile());
         }
