@@ -18,6 +18,15 @@ dependencies {
     implementation libs.subprocessj
 
     runtimeOnly libs.slf4j.simple
+
+    // Ashot is used by tut.motivation.TakeScreenshotAndSaveIntoFile and other classes
+    testImplementation libs.ashot
+
+    // WebDriverManager is used by tut.motivation.TakeScreenshotAndSaveIntoFile and other classes
+    testImplementation libs.webdrivermanager
+
+    // Selenium WebDriver is used by tut.motivation.TakeScreenshotAndSaveIntoFile and other classes
+    testImplementation libs.selenium
 }
 
 

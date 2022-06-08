@@ -26,7 +26,7 @@ import java.util.Map;
 public class HelloWorld {
 
     private static final String DEFAULT_OUTPUT_DIR =
-            "build/tmp/tutorialOutput/HelloWorld";
+            "build/tmp/tutOutput/HelloWorld";
 
     public static void main(String[] args) throws IOException, MaterialstoreException {
         // initialize the directory into which this method writes files
@@ -42,12 +42,15 @@ public class HelloWorld {
         Store store = Stores.newInstance(storeDir);
         JobName jobName = new JobName("sampleJob");
         JobTimestamp jobTimestamp = JobTimestamp.now();
+
         // declare a metadata for the object
         Map<String, String> metadataSource = new HashMap<String, String>();
         metadataSource.put("friendlyName", "/greeting:to*");
         Metadata metadata = Metadata.builder(metadataSource).build();
+
         // the body of the object to store
         String content = "hello, world";
+
         // write an object file into the store
         store.write(jobName, jobTimestamp, FileType.TXT, metadata, content);
 
@@ -55,12 +58,17 @@ public class HelloWorld {
         MaterialList materialList = store.select(jobName, jobTimestamp);
         // I know, the directory contains only 1 object
         assert materialList.size() == 1;
-        // hold an instance of Material
+
+        // hold an instance of Material, which is really a logical reference
+        // to the object file in the store directory
         Material m = materialList.get(0);
+
         // print the Material object in JSON format
         System.out.println(m.toJson(true));
-        // read the object out of the store
+
+        // read the object file out of the store
         byte[] bytes = store.read(m);
+
         // print it as a string
         if (m.getFileType().equals(FileType.TXT)) {
             System.out.println(new String(bytes));
