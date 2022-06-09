@@ -21,6 +21,8 @@ import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -72,13 +74,17 @@ public class TakeScreenshotAndWriteIntoFileTest {
         // let browser navigate to the target URL
         driver.navigate().to(URL_STR);
 
-        // take a screenshot of the entire page
-        BufferedImage im = ScreenshotUtil.takeEntirePageImage(driver);
         // determine the path of output file, ensure directory tree
         String subDir = "sampleDir";
-        Path pngFile = outputDir.resolve(subDir)
+        String subsubDir = getTimestampAsString(LocalDateTime.now());
+        Path pngFile =
+                outputDir.resolve(subDir).resolve(subsubDir)
                 .resolve("demoaut-mimic_katalon_com.png");
         Files.createDirectories(pngFile.getParent());
+
+        // take a screenshot of the entire page
+        BufferedImage im = ScreenshotUtil.takeEntirePageImage(driver);
+
         // write the image into file
         ImageIO.write(im, "png", pngFile.toFile());
         assertTrue(Files.exists(pngFile));
@@ -87,7 +93,7 @@ public class TakeScreenshotAndWriteIntoFileTest {
         // get the HTML source of the rendered page
         String htmlSource = driver.getPageSource();
         // determine the path of output file
-        Path htmlFile = outputDir.resolve(subDir)
+        Path htmlFile = outputDir.resolve(subDir).resolve(subsubDir)
                 .resolve("demoaut-mimic_katalon_com.html");
         // write the HTML source into file
         BufferedWriter bw =
@@ -99,6 +105,11 @@ public class TakeScreenshotAndWriteIntoFileTest {
         bw.close();
         assertTrue(Files.exists(htmlFile));
         assertTrue(htmlFile.toFile().length() > 0);
+    }
+
+    private String getTimestampAsString(LocalDateTime timestamp) {
+        DateTimeFormatter dtFormatter = DateTimeFormatter.ofPattern("uuuuMMdd_HHmmss");
+        return dtFormatter.format(timestamp);
     }
 
     @AfterEach

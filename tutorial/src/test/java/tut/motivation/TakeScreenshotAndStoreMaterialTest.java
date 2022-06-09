@@ -29,14 +29,13 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TakeScreenshotAndStoreMaterialTest {
 
     private static final String URL_STR = "http://myadmin.kazurayam.com";
-    private static Path outputDir;
     private static Store store;
-
     private WebDriver driver = null;
 
     @BeforeAll
@@ -44,7 +43,7 @@ public class TakeScreenshotAndStoreMaterialTest {
         // initialize the setting of Chrome Driver
         WebDriverManager.chromedriver().setup();
         // create the output directory
-        outputDir =
+        Path outputDir =
                 Paths.get(System.getProperty("user.dir"))
                         .resolve("build/tmp/tutOutput")
                         .resolve(TakeScreenshotAndStoreMaterialTest.class.getName());
@@ -72,36 +71,56 @@ public class TakeScreenshotAndStoreMaterialTest {
         URL url = new URL(URL_STR);
         driver.navigate().to(url);
 
-        // take a screenshot of the entire page
-        BufferedImage im = ScreenshotUtil.takeEntirePageImage(driver);
-
         // determine the directory tree
         JobName jobName = new JobName("sampleJob");
         JobTimestamp jobTimestamp = JobTimestamp.now();
 
-        // create the metadata to associate the object file
+        // create a metadata to associate the object file
+        String description1 = "entire page screenshot";
         Metadata metadata1 =
                 Metadata.builder(url)
-                        .put("description", "entire page screenshot")
+                        .put("description", description1)
                         .build();
+
+        // take a screenshot of the entire page
+        BufferedImage im = ScreenshotUtil.takeEntirePageImage(driver);
 
         // write the image into a new object within the store directory
         Material m1 = store.write(jobName, jobTimestamp, FileType.PNG, metadata1, im);
-        assertTrue(Files.exists(m1.toPath(store)));
-        assertTrue(m1.toFile(store).length() > 0);
+
+        assertTrue(Files.exists(m1.toPath(store)));         // assert that the file exists
+        assertTrue(m1.toFile(store).length() > 0); // assert that the file is not empty
+
+        // a Material object can remember the source URL from which the screenshot was taken
+        assertEquals(URL_STR, m1.getMetadata().toURLAsString());  // -> "http://myadmin.kazurayam.com"
+
+        // a Material object can remember any associated metadata
+        assertEquals(description1, m1.getMetadata().get("description")); // -> "entire page screenshot"
+
+        //-------------------------------------------------------------
 
         // get the HTML source of the rendered page
         String htmlSource = driver.getPageSource();
 
-        // create the metadata to associate the object file
+        // create a metadata to associate the object file
+        String description2 = "HTML source of the page";
         Metadata metadata2 =
-                Metadata.builder(url).put("description", "HTML source of the page")
+                Metadata.builder(url).put("description", description2)
                         .build();
 
         // write the html text into a new object within the store directory
         Material m2 = store.write(jobName, jobTimestamp, FileType.HTML, metadata2, htmlSource);
+
         assertTrue(Files.exists(m2.toPath(store)));
         assertTrue(m2.toFile(store).length() > 0);
+
+        // a Material object can remember the source URL from which the screenshot was taken
+        assertEquals(URL_STR, m2.getMetadata().toURLAsString());
+
+        // a Material object can remember any associated metadata
+        assertEquals(description2, m2.getMetadata().get("description"));
+
+        //-------------------------------------------------------------
 
         // additional feature:
         // create a report of the stored Material objects
