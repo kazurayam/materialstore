@@ -35,14 +35,7 @@ subprojects {
 
     dependencies {
         // Gson is required by com.kazurayam.materialstore.filesystem.TemplateReady
-        //implementation libs.gson
-
-
-        // httpclient is required by com.kazurayam.materialstore.filesystem/Metadata
-        //implementation libs.httpclient4
-
-        // https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5
-        //implementation libs.httpclient5
+        implementation libs.gson
 
         // slf4j is required by many classes in this library
         implementation libs.slf4j.api

@@ -17,6 +17,8 @@ dependencies {
     // https://mvnrepository.com/artifact/com.kazurayam/subprocessj
     implementation libs.subprocessj
 
+    implementation libs.commons.io
+
     runtimeOnly libs.slf4j.simple
 
     // Ashot is used by tut.motivation.TakeScreenshotAndSaveIntoFile and other classes
