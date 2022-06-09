@@ -69,6 +69,7 @@ public class TakeScreenshotAndWriteIntoFileTest {
 
     @Test
     public void checkPage() throws IOException {
+        // let browser navigate to the target URL
         driver.navigate().to(URL_STR);
 
         // take a screenshot of the entire page

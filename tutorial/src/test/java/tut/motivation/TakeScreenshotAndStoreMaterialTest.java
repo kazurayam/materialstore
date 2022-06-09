@@ -68,41 +68,49 @@ public class TakeScreenshotAndStoreMaterialTest {
 
     @Test
     public void checkPage() throws MalformedURLException, MaterialstoreException {
+        // let browser navigate to the target URL
         URL url = new URL(URL_STR);
         driver.navigate().to(url);
 
         // take a screenshot of the entire page
         BufferedImage im = ScreenshotUtil.takeEntirePageImage(driver);
+
         // determine the directory tree
         JobName jobName = new JobName("sampleJob");
         JobTimestamp jobTimestamp = JobTimestamp.now();
+
         // create the metadata to associate the object file
         Metadata metadata1 =
                 Metadata.builder(url)
                         .put("description", "entire page screenshot")
                         .build();
-        // write the image into the store directory
+
+        // write the image into a new object within the store directory
         Material m1 = store.write(jobName, jobTimestamp, FileType.PNG, metadata1, im);
         assertTrue(Files.exists(m1.toPath(store)));
         assertTrue(m1.toFile(store).length() > 0);
 
         // get the HTML source of the rendered page
         String htmlSource = driver.getPageSource();
+
         // create the metadata to associate the object file
         Metadata metadata2 =
                 Metadata.builder(url).put("description", "HTML source of the page")
                         .build();
-        // write the html text into the store directory
+
+        // write the html text into a new object within the store directory
         Material m2 = store.write(jobName, jobTimestamp, FileType.HTML, metadata2, htmlSource);
         assertTrue(Files.exists(m2.toPath(store)));
         assertTrue(m2.toFile(store).length() > 0);
 
-        // create a report of the stored materials
+        // additional feature:
+        // create a report of the stored Material objects
         MaterialList materialList = store.select(jobName, jobTimestamp);
         JobTimestamp reportTimestamp = JobTimestamp.laterThan(jobTimestamp);
         Inspector inspector = Inspector.newInstance(store);
         Path report = inspector.report(materialList, "stored_materials.html");
         assertTrue(Files.exists(report));
+        System.out.println("find the list of Material objects at " + report.toString());
     }
 
     @AfterEach
