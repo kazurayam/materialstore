@@ -4,14 +4,9 @@ import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataImpl;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -66,23 +61,6 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
 
     public static Builder builder(Map<String, String> map) {
         return new Builder(map);
-    }
-
-    /**
-     * @param queryString "q=katalon&dfe=piiipfe&cxw=fcfw"
-     * @return List<org.apache.http.NameValuePair>
-     */
-    public static List<NameValuePair> parseURLQuery(String queryString, Charset charset) {
-        Objects.requireNonNull(queryString);
-        return URLEncodedUtils.parse(queryString, charset);
-    }
-
-    /**
-     * @param queryString "q=katalon&dfe=piiipfe&cxw=fcfw"
-     * @return List<org.apache.http.NameValuePair>
-     */
-    public static List<NameValuePair> parseURLQuery(String queryString) {
-        return Metadata.parseURLQuery(queryString, StandardCharsets.UTF_8);
     }
 
     public static final Metadata NULL_OBJECT = new Builder().build();

@@ -35,20 +35,21 @@ subprojects {
 
     dependencies {
         // Gson is required by com.kazurayam.materialstore.filesystem.TemplateReady
-        implementation libs.gson
+        //implementation libs.gson
 
-        // https://mvnrepository.com/artifact/commons-io/commons-io
-        implementation libs.commons.io
 
         // httpclient is required by com.kazurayam.materialstore.filesystem/Metadata
-        implementation libs.httpclient4
+        //implementation libs.httpclient4
 
         // https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5
-        implementation libs.httpclient5
+        //implementation libs.httpclient5
 
         // slf4j is required by many classes in this library
         implementation libs.slf4j.api
         testImplementation libs.slf4j.simple
+
+        // https://mvnrepository.com/artifact/commons-io/commons-io
+        testImplementation libs.commons.io
 
         // JUnit Jupiter is used by all unit tests of all subprojects
         testImplementation libs.junit.jupiter
