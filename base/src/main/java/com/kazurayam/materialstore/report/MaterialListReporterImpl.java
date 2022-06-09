@@ -81,6 +81,8 @@ public final class MaterialListReporterImpl extends MaterialListReporter {
         /* Create a data-model */
         Map<String, Object> model = new HashMap<>();
         model.put("style", StyleHelper.loadStyleFromClasspath());
+        model.put("style2", StyleHelper.loadStyleFromClasspath(
+                "/com/kazurayam/materialstore/reduce/differ/style.css"));
         model.put("title", getTitle(filePath));
         model.put("filePath", filePath.toString());
         model.put("store", store.getRoot().normalize().toString());
