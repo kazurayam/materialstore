@@ -11,10 +11,22 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/base" />
             <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/diagram" />
             <option value="$PROJECT_DIR$/facet" />
             <option value="$PROJECT_DIR$/freemarker" />
             <option value="$PROJECT_DIR$/mapper" />
             <option value="$PROJECT_DIR$/tutorial" />
+            <option value="$PROJECT_DIR$/tutorial/ch1" />
+            <option value="$PROJECT_DIR$/tutorial/ch2" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/diagram" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/diagram" />
           </set>
         </option>
       </GradleProjectSettings>

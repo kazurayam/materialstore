@@ -1,38 +1,17 @@
-plugins {
-    id('application')
-}
-
-application {
-    mainClass = 'tutorial.filesystem.HelloWorld'
-}
-
 dependencies {
     implementation project(":core")
-    testImplementation(project(":core"))
-
     implementation project(":base")
-
-    // Subprocessj is used to run "dot" of Graphviz
-    // by com.kazurayam.materialstore.util.DotUtil class
-    // https://mvnrepository.com/artifact/com.kazurayam/subprocessj
-    implementation libs.subprocessj
-
-    implementation libs.commons.io
-
     runtimeOnly libs.slf4j.simple
-
     // Ashot is used by tut.motivation.TakeScreenshotAndSaveIntoFile and other classes
     testImplementation libs.ashot
-
     // WebDriverManager is used by tut.motivation.TakeScreenshotAndSaveIntoFile and other classes
     testImplementation libs.webdrivermanager
-
     // Selenium WebDriver is used by tut.motivation.TakeScreenshotAndSaveIntoFile and other classes
     testImplementation libs.selenium
 }
 
 
 jar {
-    archiveBaseName = rootProject.name + "-tutorial"
+    archiveBaseName = rootProject.name + "-tutorial-ch2"
     archiveVersion = rootProject.version
 }

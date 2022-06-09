@@ -50,6 +50,12 @@ subprojects {
         testRuntimeOnly libs.junit.jupiter.engine
     }
 
+    javadoc {
+        options.showFromProtected()
+        failOnError = false
+        options.locale = 'en_US'
+    }
+
     task showSourceSets(){
         doLast{
             sourceSets.each { srcSet ->
