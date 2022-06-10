@@ -1,4 +1,4 @@
-package tut.motivation;
+package tut.ch2;
 
 import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.JobName;
@@ -32,8 +32,7 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TakeScreenshotAndStoreMaterialTest {
-
+public class MaterializeScreenshotTest {
     private static final String URL_STR = "http://myadmin.kazurayam.com";
     private static Store store;
     private WebDriver driver = null;
@@ -46,7 +45,7 @@ public class TakeScreenshotAndStoreMaterialTest {
         Path outputDir =
                 Paths.get(System.getProperty("user.dir"))
                         .resolve("build/tmp/tutOutput")
-                        .resolve(TakeScreenshotAndStoreMaterialTest.class.getName());
+                        .resolve(MaterializeScreenshotTest.class.getName());
         if (Files.exists(outputDir)) {
             FileUtils.deleteDirectory(outputDir.toFile());
         }

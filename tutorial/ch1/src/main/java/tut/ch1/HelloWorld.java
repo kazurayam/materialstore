@@ -1,4 +1,4 @@
-package tutorial.filesystem;
+package tut.ch1;
 
 import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.JobName;

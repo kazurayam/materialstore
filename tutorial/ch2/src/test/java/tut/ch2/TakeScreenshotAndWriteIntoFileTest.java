@@ -1,4 +1,4 @@
-package tut.motivation;
+package tut.ch2;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.AfterEach;
