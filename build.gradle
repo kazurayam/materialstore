@@ -26,7 +26,8 @@ allprojects {
     }
 }
 
-subprojects {
+subprojects { subproject ->
+
     apply plugin: 'jacoco'
     test {
         useJUnitPlatform()
