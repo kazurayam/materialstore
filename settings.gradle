@@ -81,5 +81,5 @@ dependencyResolutionManagement {
         }
     }
 }
-include 'freemarker'
+
 
