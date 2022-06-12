@@ -67,8 +67,8 @@ subprojects { subproject ->
     }
 
     jar {
-        archiveBaseName = resolveArchiveBaseName(subproject)
-        archiveVersion = rootProject.version
+        archiveBaseName.set(resolveArchiveBaseName(subproject))
+        archiveVersion.set(rootProject.version)
     }
 
     javadoc {
@@ -79,8 +79,8 @@ subprojects { subproject ->
 
     task submission(type: Zip) {
         destinationDirectory = file("${buildDir}/libs")
-        archiveBaseName = resolveArchiveBaseName(subproject)
-        archiveVersion = rootProject.version
+        archiveBaseName.set(resolveArchiveBaseName(subproject))
+        archiveVersion.set(rootProject.version)
         //archiveFileName = subproject.name + ".self-contained" + ".zip"
         from(".")
         exclude("build")
@@ -101,9 +101,23 @@ subprojects { subproject ->
         }
     }
 
+    task showDependencies() {
+        doFirst {
+            println "dependencies {"
+            configurations.each {config ->
+                if (config.name != '') {
+                    config.dependencies.each { dependency ->
+                        println "    ${config.name} group: '${dependency.group}', name: '${dependency.name}', version: '${dependency.version}'"
+                    }
+                }
+            }
+            println "}"
+        }
+    }
+
     task showConfigurations() {
         doLast {
-            configurations.getAll().each {
+            configurations.each {
                 println it.getName()
                 it.getExtendsFrom().forEach {
                     println "    extends from " + it.getName()
@@ -111,6 +125,8 @@ subprojects { subproject ->
             }
         }
     }
+
+    task printDependencies(type: DependencyReportTask) {}
 }
 
 task aggregateDocsImages {
