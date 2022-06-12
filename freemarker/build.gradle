@@ -1,9 +1,7 @@
-dependencies {
-    implementation libs.freemarker
+plugins {
+    id 'java'
 }
 
-
-jar {
-    archiveBaseName = rootProject.name + "-freemarker"
-    archiveVersion = rootProject.version
+dependencies {
+    implementation libs.freemarker
 }

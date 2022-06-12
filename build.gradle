@@ -1,6 +1,7 @@
 plugins {
     id 'maven-publish'
     id 'signing'
+    id 'distribution'
 }
 
 group 'com.kazurayam'
@@ -8,7 +9,20 @@ version '0.9.5-SNAPSHOT'
 
 ext {
     isReleaseVersion = !version.endsWith("SNAPSHOT")
+    ancestorProjectsName = { proj, str = '' ->
+        if (proj.name == rootProject.name) {
+            str = rootProject.name
+        } else {
+            str = ancestorProjectsName(proj.parent) + '-' + proj.name
+        }
+        return str
+    }
+    resolveArchiveBaseName = { subproj ->
+        return ancestorProjectsName(subproj)
+    }
 }
+
+
 
 allprojects {
     apply plugin: 'java'
@@ -26,8 +40,9 @@ allprojects {
     }
 }
 
-subprojects { subproject ->
 
+
+subprojects { subproject ->
     apply plugin: 'jacoco'
     test {
         useJUnitPlatform()
@@ -51,10 +66,24 @@ subprojects { subproject ->
         testRuntimeOnly libs.junit.jupiter.engine
     }
 
+    jar {
+        archiveBaseName = resolveArchiveBaseName(subproject)
+        archiveVersion = rootProject.version
+    }
+
     javadoc {
         options.showFromProtected()
         failOnError = false
         options.locale = 'en_US'
+    }
+
+    task submission(type: Zip) {
+        destinationDirectory = file("${buildDir}/libs")
+        archiveBaseName = resolveArchiveBaseName(subproject)
+        archiveVersion = rootProject.version
+        //archiveFileName = subproject.name + ".self-contained" + ".zip"
+        from(".")
+        exclude("build")
     }
 
     task showSourceSets(){

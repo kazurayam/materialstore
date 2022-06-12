@@ -1,18 +1,14 @@
 plugins {
+    id('java')
     id('application')
 }
 
 application {
-    mainClass = 'tutorial.filesystem.HelloWorld'
+    mainClass = 'tut.ch1.HelloWorld'
 }
 
 dependencies {
     implementation project(":core")
     implementation libs.commons.io
     runtimeOnly libs.slf4j.simple
-}
-
-jar {
-    archiveBaseName = rootProject.name + "-tutorial-ch1"
-    archiveVersion = rootProject.version
 }

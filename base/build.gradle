@@ -1,3 +1,7 @@
+plugins {
+    id 'java'
+}
+
 dependencies {
     implementation(project(":core"))
     testImplementation project(':core').sourceSets.test.output
@@ -20,12 +24,4 @@ dependencies {
 
     // AShot is required by com.kazurayam.materialstore.reduce.differ.ImageDifferToPNG
     implementation libs.ashot
-
 }
-jar {
-    archiveBaseName = rootProject.name + "-base"
-    archiveVersion = rootProject.version
-}
-
-
-

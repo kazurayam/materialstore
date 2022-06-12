@@ -1,3 +1,7 @@
+plugins {
+    id 'java'
+}
+
 dependencies {
     // Guava is used by com.kazurayam.materialstore.filesystem.TemplateReady
     // https://mvnrepository.com/artifact/com.google.guava/guava
@@ -10,10 +14,4 @@ dependencies {
     // PlantUML jar is used by com.kazurayam.materialstore.filesystem.MaterialTest, MateriaListTest, MProductTest, MProductGroupTest
     // https://mvnrepository.com/artifact/net.sourceforge.plantuml/plantuml
     testImplementation libs.plantuml
-}
-
-
-jar {
-    archiveBaseName = rootProject.name + "-core"
-    archiveVersion = rootProject.version
 }
