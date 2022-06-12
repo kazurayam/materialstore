@@ -1,8 +1,18 @@
+buildscript {
+    repositories {
+        mavenLocal()
+    }
+    dependencies {
+        classpath 'com.kazurayam:GradleSelfContainedSubprojectDistributionPlugin:0.1.0-SNAPSHOT'
+    }
+}
+
 plugins {
     id 'maven-publish'
     id 'signing'
-    id 'distribution'
+    id 'self-contained-subproject-distribution.gradle-plugin'
 }
+
 
 group 'com.kazurayam'
 version '0.9.5-SNAPSHOT'
@@ -21,8 +31,6 @@ ext {
         return ancestorProjectsName(subproj)
     }
 }
-
-
 
 allprojects {
     apply plugin: 'java'
@@ -84,6 +92,10 @@ subprojects { subproject ->
         //archiveFileName = subproject.name + ".self-contained" + ".zip"
         from(".")
         exclude("build")
+    }
+
+    hello {
+        message = 'plugin extension'
     }
 
     task showSourceSets(){
