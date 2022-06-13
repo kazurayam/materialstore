@@ -10,9 +10,7 @@ buildscript {
 plugins {
     id 'maven-publish'
     id 'signing'
-    id 'self-contained-subproject-distribution.gradle-plugin'
 }
-
 
 group 'com.kazurayam'
 version '0.9.5-SNAPSHOT'
@@ -34,6 +32,7 @@ ext {
 
 allprojects {
     apply plugin: 'java'
+    apply plugin: 'self-contained-subproject-distribution.gradle-plugin'
     repositories {
         mavenCentral()
         mavenLocal()
