@@ -32,7 +32,7 @@ ext {
 
 allprojects {
     apply plugin: 'java'
-    apply plugin: 'self-contained-subproject-distribution.gradle-plugin'
+    apply plugin: 'kazurayam.greetingplugin'  // custom Gradle Plugin
     repositories {
         mavenCentral()
         mavenLocal()
@@ -93,8 +93,8 @@ subprojects { subproject ->
         exclude("build")
     }
 
-    hello {
-        message = 'plugin extension'
+    greeting {
+        message = subproject.name
     }
 
     task showSourceSets(){
