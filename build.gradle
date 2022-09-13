@@ -3,25 +3,25 @@ buildscript {
         mavenLocal()
     }
     dependencies {
-        classpath 'com.kazurayam:GradleSelfContainedSubprojectDistributionPlugin:0.1.0-SNAPSHOT'
+        classpath("com.kazurayam:GradleSelfContainedSubprojectDistributionPlugin:0.1.0-SNAPSHOT")
     }
 }
 
 plugins {
-    id 'maven-publish'
-    id 'signing'
+    id("maven-publish")
+    id("signing")
 }
 
-group 'com.kazurayam'
-version '0.9.5'
+group = "com.kazurayam"
+version = "0.10.0-SNAPSHOT"
 
 ext {
     isReleaseVersion = !version.endsWith("SNAPSHOT")
-    ancestorProjectsName = { proj, str = '' ->
+    ancestorProjectsName = { proj, str = "" ->
         if (proj.name == rootProject.name) {
             str = rootProject.name
         } else {
-            str = ancestorProjectsName(proj.parent) + '-' + proj.name
+            str = ancestorProjectsName(proj.parent) + "-" + proj.name
         }
         return str
     }
@@ -31,155 +31,154 @@ ext {
 }
 
 allprojects {
-    apply plugin: 'java'
-    apply plugin: 'kazurayam.greetingplugin'  // custom Gradle Plugin
+    apply(plugin: "java")
+    apply(plugin: "kazurayam.greetingplugin")  // custom Gradle Plugin
     repositories {
         mavenCentral()
         mavenLocal()
     }
-    sourceCompatibility = '1.8'
-    targetCompatibility = '1.8'
-    def defaultEncoding = 'UTF-8'
+    sourceCompatibility = "1.8"
+    targetCompatibility = "1.8"
+    def defaultEncoding = "UTF-8"
     tasks.withType(AbstractCompile).each { it.options.encoding = defaultEncoding }
     tasks.withType(GroovyCompile).each { it.groovyOptions.encoding = defaultEncoding }
     tasks.withType(JavaCompile) {
-        options.compilerArgs << '-Xlint:unchecked' << "-Xlint:deprecation"
+        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
     }
 }
 
 
 
-subprojects { subproject ->
-    apply plugin: 'jacoco'
-    test {
+subprojects({ subproject ->
+    apply(plugin: "jacoco")
+    test({
         useJUnitPlatform()
-        finalizedBy jacocoTestReport
-    }
-
-    dependencies {
+        finalizedBy(jacocoTestReport)
+    })
+    dependencies({
         // Gson is required by com.kazurayam.materialstore.filesystem.TemplateReady
-        implementation libs.gson
+        implementation(libs.gson)
 
         // slf4j is required by many classes in this library
-        implementation libs.slf4j.api
-        testImplementation libs.slf4j.simple
+        implementation(libs.slf4j.api)
+        testImplementation(libs.slf4j.simple)
 
         // https://mvnrepository.com/artifact/commons-io/commons-io
-        testImplementation libs.commons.io
+        testImplementation(libs.commons.io)
 
         // JUnit Jupiter is used by all unit tests of all subprojects
-        testImplementation libs.junit.jupiter
-        testImplementation libs.junit.jupiter.api
-        testRuntimeOnly libs.junit.jupiter.engine
-    }
+        testImplementation(libs.junit.jupiter)
+        testImplementation(libs.junit.jupiter.api)
+        testRuntimeOnly(libs.junit.jupiter.engine)
+    })
 
-    jar {
+    jar({
         archiveBaseName.set(resolveArchiveBaseName(subproject))
         archiveVersion.set(rootProject.version)
-    }
+    })
 
-    javadoc {
+    javadoc({
         options.showFromProtected()
         failOnError = false
-        options.locale = 'en_US'
-    }
+        options.locale = "en_US"
+    })
 
-    task submission(type: Zip) {
+    task submission(type: Zip, {
         destinationDirectory = file("${buildDir}/libs")
         archiveBaseName.set(resolveArchiveBaseName(subproject))
         archiveVersion.set(rootProject.version)
         //archiveFileName = subproject.name + ".self-contained" + ".zip"
         from(".")
         exclude("build")
-    }
+    })
 
     greeting {
         message = subproject.name
     }
 
-    task showSourceSets(){
-        doLast{
-            sourceSets.each { srcSet ->
-                println "[" + srcSet.name + "]"
-                println "--> Source directories: " + srcSet.allJava.srcDirs
-                println "--> Output directories: " + srcSet.output.classesDirs.files
-                println "--> Compile classpath:"
-                srcSet.compileClasspath.files.each {
+    task showSourceSets({
+        doLast({
+            sourceSets.each({ srcSet ->
+                println("[" + srcSet.name + "]")
+                println("--> Source directories: " + srcSet.allJava.srcDirs)
+                println("--> Output directories: " + srcSet.output.classesDirs.files)
+                println("--> Compile classpath:")
+                srcSet.compileClasspath.files.each({
                     println "  " + it.path
-                }
-                println ""
-            }
-        }
-    }
+                })
+                println("")
+            })
+        })
+    })
 
-    task showDependencies() {
-        doFirst {
-            println "dependencies {"
-            configurations.each {config ->
-                if (config.name != '') {
-                    config.dependencies.each { dependency ->
-                        println "    ${config.name} group: '${dependency.group}', name: '${dependency.name}', version: '${dependency.version}'"
-                    }
+    task showDependencies({
+        doFirst({
+            println("dependencies {")
+            configurations.each({config ->
+                if (config.name != "") {
+                    config.dependencies.each({ dependency ->
+                        println "    ${config.name} group: "${dependency.group}", name: "${dependency.name}", version: "${dependency.version}""
+                    })
                 }
-            }
-            println "}"
-        }
-    }
+            })
+            println("}")
+        })
+    })
 
-    task showConfigurations() {
-        doLast {
-            configurations.each {
-                println it.getName()
-                it.getExtendsFrom().forEach {
-                    println "    extends from " + it.getName()
-                }
-            }
-        }
-    }
+    task showConfigurations({
+        doLast({
+            configurations.each({
+                println(it.getName())
+                it.getExtendsFrom().forEach({
+                    println("    extends from " + it.getName())
+                })
+            })
+        })
+    })
 
     task printDependencies(type: DependencyReportTask) {}
+})
+
+task aggregateDocsImages, {
+  copy({
+    from("freemarker/docs/images")
+    into("docs/images")
+  })
 }
 
-task aggregateDocsImages {
-  copy {
-    from "freemarker/docs/images"
-    into "docs/images"
-  }
-}
-
-task allJar(type: Jar, dependsOn: subprojects.jar) {
+task allJar(type: Jar, dependsOn: subprojects.jar, {
     from subprojects.collect { subproject ->
         subproject.sourceSets.main.output
     }
     archivesBaseName = rootProject.name
-    duplicatesStrategy('exclude')
-}
+    duplicatesStrategy("exclude")
+})
 
 task allJavadoc(type: Javadoc) {
-    group = 'aggregation'
+    group = "aggregation"
     description = rootProject.name
     title = "$description $version API"
     destinationDir = file("${buildDir}/docs/javadoc")
     def sourceProjects =
             subprojects.findAll {
-                it.plugins.hasPlugin('java') || it.plugins.hasPlugin('groovy')
+                it.plugins.hasPlugin("java") || it.plugins.hasPlugin("groovy")
             }
     source sourceProjects.collect { prj -> prj.sourceSets.main.allJava }
     classpath = files(sourceProjects.collect { prj -> prj.sourceSets.main.runtimeClasspath })
 
-    options.overview = 'gradle/api/overview.html'
+    options.overview = "gradle/api/overview.html"
     options.showFromProtected()
     failOnError = false
-    options.locale = 'en_US'
+    options.locale = "en_US"
 }
 task copyJavadocToDocsDir(type: Copy) {
-    from 'build/docs/javadoc'
-    into 'docs/api'
+    from "build/docs/javadoc"
+    into "docs/api"
 }
 allJavadoc.finalizedBy copyJavadocToDocsDir
 
 task javadocJar(type: Jar) {
-    archiveClassifier.set('javadoc')
+    archiveClassifier.set("javadoc")
     from allJavadoc
 }
 
@@ -188,7 +187,7 @@ task sourcesJar(type: Jar) {
         subproject.sourceSets.main.allSource
     }
     archivesBaseName = rootProject.name
-    archiveClassifier.set('sources')
+    archiveClassifier.set("sources")
 }
 
 publishing {
@@ -200,19 +199,19 @@ publishing {
             pom {
                 groupId = project.group
                 name = project.rootProject.name
-                description = 'A Java/Groovy API to store objects (Screenshots, HTML, JSON, XML) collected during End-to-end testings empowered by diffing and reporting tools'
-                url = 'https://kazurayam.github.io/materialstore/'
+                description = "A Java/Groovy API to store objects (Screenshots, HTML, JSON, XML) collected during End-to-end testings empowered by diffing and reporting tools"
+                url = "https://kazurayam.github.io/materialstore/"
                 licenses {
                     license {
-                        name = 'The Apache License, Version 2.0'
-                        url = 'https://www.apache.org.licenses/LICENSE-2.0.txt'
+                        name = "The Apache License, Version 2.0"
+                        url = "https://www.apache.org.licenses/LICENSE-2.0.txt"
                     }
                 }
                 developers {
                     developer {
-                        id = 'kazurayam'
-                        name = 'URAYAMA,kazuaki'
-                        email = 'kazuaki.urayama@gmail.com'
+                        id = "kazurayam"
+                        name = "URAYAMA,kazuaki"
+                        email = "kazuaki.urayama@gmail.com"
                     }
                 }
                 scm {
@@ -229,8 +228,8 @@ publishing {
             def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
             url = isReleaseVersion ? releaseRepo: snapshotRepo
             credentials {
-                username = project.hasProperty('ossrhUsername') ? ossrhUsername : "Unknown user"
-                password = project.hasProperty('ossrhPassword') ? ossrhPassword : "Unknown password"
+                username = project.hasProperty("ossrhUsername") ? ossrhUsername : "Unknown user"
+                password = project.hasProperty("ossrhPassword") ? ossrhPassword : "Unknown password"
             }
         }
     }
