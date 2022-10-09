@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -176,10 +177,15 @@ public final class MetadataImpl extends Metadata {
 
     @Override
     public String toSimplifiedJson() {
+        return toSimplifiedJson(new SortKeys());
+    }
+
+    @Override
+    public String toSimplifiedJson(SortKeys sortKeys) {
         final StringBuilder sb = new StringBuilder();
         int entryCount = 0;
         sb.append("{");
-        List<String> keys = getSortedKeys(attributes);
+        List<String> keys = getSortedKeys(attributes, sortKeys);
         for (String key : keys) {
             if (entryCount > 0) {
                 sb.append(", ");// comma followed by a white space
@@ -198,18 +204,35 @@ public final class MetadataImpl extends Metadata {
         return sb.toString();
     }
 
-    private static List<String> getSortedKeys(Map<String, MetadataAttribute> attributes) {
-        List<String> keys = new ArrayList<>(attributes.keySet());
-        Collections.sort(keys);
-        return keys;
+    static List<String> getSortedKeys(
+            Map<String, MetadataAttribute> attributes,
+            SortKeys nominated) {
+        List<String> target = new ArrayList<>();
+        List<String> source = new ArrayList<>(attributes.keySet());
+        Collections.sort(source, String.CASE_INSENSITIVE_ORDER);
+        Iterator<String> nominatedIter = nominated.iterator();
+        while (nominatedIter.hasNext()) {
+            String n = nominatedIter.next();
+            Iterator<String> sourceIter = source.iterator();
+            while (sourceIter.hasNext()) {
+                String e = sourceIter.next();
+                if (n.equals(e)) {
+                    target.add(n);
+                    sourceIter.remove();
+                }
+            }
+        }
+        target.addAll(source);
+        return target;
     }
+
 
     @Override
     public String toJson() {
         final StringBuilder sb = new StringBuilder();
         int entryCount = 0;
         sb.append("{");
-        List<String> keys = getSortedKeys(attributes);
+        List<String> keys = getSortedKeys(attributes, new SortKeys());
         for (String key : keys) {
             if (entryCount > 0) {
                 sb.append(", ");// comma followed by a white space

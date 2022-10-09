@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataImpl;
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 
 import java.net.URL;
 import java.util.LinkedHashMap;
@@ -37,6 +38,8 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
     public abstract int size();
 
     public abstract String toSimplifiedJson();
+
+    public abstract String toSimplifiedJson(SortKeys sortKeys);
 
     public abstract String toURLAsString() throws MaterialstoreException;
 
