@@ -50,6 +50,10 @@ public class MetadataImplTest {
         assertEquals("URL.protocol", sorted.get(5));
     }
 
+    /**
+     * with a SortKeys instance as MetadataImpl.getSortedKeys(Attributes, SortKeys) call,
+     * you can specify how the keys should be ordered in the returned string.
+     */
     @Test
     public void test_getSortedKeys_withSortKeys() {
         SortKeys sortKeys = new SortKeys("timestamp", "step",
@@ -67,23 +71,20 @@ public class MetadataImplTest {
     @Test
     public void test_toSimplifiedJson_noParam() {
         String json = metadata.toSimplifiedJson();
-        System.out.println(String.format("[test_toSimplifiedJson_noParam] %s", json));
-        assertTrue(json.startsWith("{\"URL.host"));
+        assertTrue(json.startsWith("{\"step"), json);
     }
 
     @Test
     public void test_toSimplifiedJson_withSortKeys() {
-        SortKeys sortKeys = new SortKeys("step", "timestamp");
+        SortKeys sortKeys = new SortKeys("timestamp", "step");
         String json = metadata.toSimplifiedJson(sortKeys);
-        System.out.println(String.format("[test_toSimplifiedJson_noParam] %s", json));
-        assertTrue(json.startsWith("{\"step\":\"01\", \"timestamp\":"));
+        assertTrue(json.startsWith("{\"timestamp\":"), json);
     }
 
     @Test
     public void test_toSimplifiedJson_withInrelevantKeys() {
         SortKeys sortKeys = new SortKeys("foo", "bar");
         String json = metadata.toSimplifiedJson(sortKeys);
-        System.out.println(String.format("[test_toSimplifiedJson_noParam] %s", json));
-        assertTrue(json.startsWith("{\"URL.host"));
+        assertTrue(json.startsWith("{\"step"), json);
     }
 }
