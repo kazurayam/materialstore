@@ -139,6 +139,17 @@ public final class MaterialList
         return toJson();
     }
 
+    /**
+     * Alternative to the toTemplateModel() in the TemplateReady interface.
+     * This accepts an argument sortKeys, this makes the result dynamically configurable.
+     *
+     * @param sortKeys
+     * @return
+     */
+    Map<String, Object> toTemplateModel(SortKeys sortKeys) {
+        throw new RuntimeException("TODO");
+    }
+
     @Override
     public String toJson() {
         final StringBuilder sb = new StringBuilder();
