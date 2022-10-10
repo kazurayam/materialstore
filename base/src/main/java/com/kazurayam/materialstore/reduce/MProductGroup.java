@@ -123,6 +123,20 @@ public final class MProductGroup
         return materialProductList.get(index);
     }
 
+
+    @Override
+    public String getId() {
+        String json = this.toJson();
+        return MaterialIO.hashJDK(json.getBytes(StandardCharsets.UTF_8));
+    }
+
+    @Override
+    public String getShortId() {
+        String id = this.getId();
+        return id.substring(0, 7);
+    }
+
+
     public JobTimestamp getResultTimestamp() {
         return this.resultTimestamp;
     }
@@ -259,7 +273,7 @@ public final class MProductGroup
 
     @Override
     public String toJson() {
-        return getDescription(true);
+        return toStringRepresentation(true);
     }
 
     @Override
@@ -272,19 +286,11 @@ public final class MProductGroup
 
     }
 
-    @Override
-    public String getId() {
-        String json = this.toJson();
-        return MaterialIO.hashJDK(json.getBytes(StandardCharsets.UTF_8));
+    public String toStringRepresentation() {
+        return toStringRepresentation(false);
     }
 
-    @Override
-    public String getShortId() {
-        String id = this.getId();
-        return id.substring(0, 7);
-    }
-
-    public String getDescription(boolean fullContent) {
+    public String toStringRepresentation(boolean fullContent) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("\"jobName\":\"");
@@ -355,9 +361,6 @@ public final class MProductGroup
         return sb.toString();
     }
 
-    public String getDescription() {
-        return getDescription(false);
-    }
 
     public static Builder builder(MaterialList left, MaterialList right) {
         return new Builder(left, right);

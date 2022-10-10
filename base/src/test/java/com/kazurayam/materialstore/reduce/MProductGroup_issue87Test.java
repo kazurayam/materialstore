@@ -64,13 +64,13 @@ public class MProductGroup_issue87Test {
 
     @Test
     public void test_getDescription_short() {
-        String desc = mProductGroup.getDescription(false);
+        String desc = mProductGroup.toStringRepresentation(false);
         System.out.println("[test_getDescription_short]\n" + JsonUtil.prettyPrint(desc));
     }
 
     @Test
     public void test_getDescription_full() {
-        String desc = mProductGroup.getDescription(true);
+        String desc = mProductGroup.toStringRepresentation(true);
         System.out.println("[test_getDescription_full]\n" + JsonUtil.prettyPrint(desc));
     }
 

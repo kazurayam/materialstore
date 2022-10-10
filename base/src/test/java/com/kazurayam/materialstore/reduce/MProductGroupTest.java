@@ -139,7 +139,7 @@ public class MProductGroupTest {
 
     @Test
     public void test_getDescription() {
-        String desc = baseMProductGroup.getDescription(false);
+        String desc = baseMProductGroup.toStringRepresentation(false);
         System.out.println(JsonUtil.prettyPrint(desc));
     }
 
