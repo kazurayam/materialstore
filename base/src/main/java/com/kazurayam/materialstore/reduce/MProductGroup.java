@@ -53,7 +53,7 @@ public final class MProductGroup
         this.resultTimestamp = builder.resultTimestamp;
 
         // this is the most mysterious part of the materialstore library
-        Zipper zipper = new Zipper(ignoreMetadataKeys, identifyMetadataValues, sortKeys);
+        Zipper zipper = new Zipper(ignoreMetadataKeys, identifyMetadataValues);
         this.materialProductList = zipper.zipMaterials(materialList0, materialList1, resultTimestamp);
 
         // at this timing the MProducts are not yet filled with the diff information.

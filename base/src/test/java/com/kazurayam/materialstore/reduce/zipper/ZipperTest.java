@@ -79,8 +79,7 @@ public class ZipperTest {
         Zipper zipper =
                 new Zipper(
                         new IgnoreMetadataKeys.Builder().ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").build(),
-                        new IdentifyMetadataValues.Builder().putAllNameRegexPairs(map).build(),
-                        new SortKeys("URL.host"));
+                        new IdentifyMetadataValues.Builder().putAllNameRegexPairs(map).build());
         List<MaterialProduct> mProductList =
                 zipper.zipMaterials(left, right, JobTimestamp.now());
 

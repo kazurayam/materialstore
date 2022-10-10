@@ -34,7 +34,6 @@ public final class MaterialProduct
     private final Material right;
     private final JobTimestamp reducedTimestamp;
     private final QueryOnMetadata query;
-    private final SortKeys sortKeys;
     private Material diff;
     private Double diffRatio;
 
@@ -45,7 +44,6 @@ public final class MaterialProduct
         this.reducedTimestamp = builder.reducedTimestamp;
         this.query = builder.query;
         this.diffRatio = builder.diffRatio;
-        this.sortKeys = builder.sortKeys;
     }
 
     /**
@@ -60,7 +58,6 @@ public final class MaterialProduct
         this.reducedTimestamp = source.getReducedTimestamp();
         this.query = source.getQueryOnMetadata();
         this.diffRatio = source.getDiffRatio();
-        this.sortKeys = source.getSortKeys();
     }
 
     public void annotate(IgnoreMetadataKeys ignoreMetadataKeys,
@@ -83,9 +80,6 @@ public final class MaterialProduct
         return this.left;
     }
 
-    public SortKeys getSortKeys() {
-        return this.sortKeys;
-    }
 
     public String getFileTypeExtension() {
         if (this.getLeft().equals(Material.NULL_OBJECT)) {
@@ -125,10 +119,11 @@ public final class MaterialProduct
         return this.query;
     }
 
-    /**
-     * String representation of this MaterialProduct instance
-     */
     public QueryDescription getQueryDescription() {
+        return this.query.getQueryDescription();
+    }
+
+    public QueryDescription getQueryDescription(SortKeys sortKeys) {
         return this.query.getQueryDescription(sortKeys);
     }
 
@@ -254,7 +249,6 @@ public final class MaterialProduct
         private final Material diff;
         private QueryOnMetadata query;
         private final Double diffRatio;
-        private SortKeys sortKeys;
         public Builder(Material left, Material right, JobTimestamp reducedTimestamp) {
             Objects.requireNonNull(left);
             Objects.requireNonNull(right);
@@ -265,17 +259,11 @@ public final class MaterialProduct
             this.diff = Material.NULL_OBJECT;
             this.query = QueryOnMetadata.NULL_OBJECT;
             this.diffRatio = 0.0d;
-            this.sortKeys = SortKeys.NULL_OBJECT;
         }
 
         public Builder setQueryOnMetadata(QueryOnMetadata query) {
             Objects.requireNonNull(query);
             this.query = query;
-            return this;
-        }
-
-        public Builder sortKeys(SortKeys sortKeys) {
-            this.sortKeys = sortKeys;
             return this;
         }
 

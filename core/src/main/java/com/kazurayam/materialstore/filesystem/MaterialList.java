@@ -108,14 +108,6 @@ public final class MaterialList
         return materialList.size();
     }
 
-    public void order(SortKeys sortKeys) {
-        //
-        MaterialComparatorByMetadataDescription comparator =
-                new MaterialComparatorByMetadataDescription(sortKeys);
-        Collections.sort(materialList, comparator);
-        //
-
-    }
 
     @Override
     public Iterator<Material> iterator() {
@@ -146,8 +138,15 @@ public final class MaterialList
      * @param sortKeys
      * @return
      */
-    Map<String, Object> toTemplateModel(SortKeys sortKeys) {
+    public Map<String, Object> toTemplateModel(SortKeys sortKeys) {
         throw new RuntimeException("TODO");
+    }
+    public void order(SortKeys sortKeys) {
+        //
+        MaterialComparatorByMetadataDescription comparator =
+                new MaterialComparatorByMetadataDescription(sortKeys);
+        Collections.sort(materialList, comparator);
+        //
     }
 
     @Override

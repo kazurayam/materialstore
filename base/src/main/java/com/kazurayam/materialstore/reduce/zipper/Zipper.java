@@ -30,17 +30,13 @@ public final class Zipper {
 
     private final IgnoreMetadataKeys ignoreMetadataKeys;
     private final IdentifyMetadataValues identifyMetadataValues;
-    private final SortKeys sortKeys;
 
     public Zipper(final IgnoreMetadataKeys ignoreMetadataKeys,
-                  final IdentifyMetadataValues identifyMetadataValues,
-                  final SortKeys sortKeys) {
+                  final IdentifyMetadataValues identifyMetadataValues) {
         Objects.requireNonNull(ignoreMetadataKeys);
         Objects.requireNonNull(identifyMetadataValues);
-        Objects.requireNonNull(sortKeys);
         this.ignoreMetadataKeys = ignoreMetadataKeys;
         this.identifyMetadataValues = identifyMetadataValues;
-        this.sortKeys = sortKeys;
     }
 
     /**
@@ -81,7 +77,6 @@ public final class Zipper {
                     MaterialProduct mp =
                             new MaterialProduct.Builder(left, right, resultTimestamp)
                                     .setQueryOnMetadata(rightPattern)
-                                    .sortKeys(sortKeys)
                                     .build();
                     mProductList.add(mp);
                     logger.debug(methodName + "left Y " + left.getShortId() + " "
@@ -96,7 +91,6 @@ public final class Zipper {
                 MaterialProduct mp =
                         new MaterialProduct.Builder(Material.newEmptyMaterial(), right, resultTimestamp)
                                 .setQueryOnMetadata(rightPattern)
-                                .sortKeys(sortKeys)
                                 .build();
                 mProductList.add(mp);
             }
@@ -140,7 +134,6 @@ public final class Zipper {
                 MaterialProduct mProduct =
                         new MaterialProduct.Builder(left, Material.newEmptyMaterial(), resultTimestamp)
                         .setQueryOnMetadata(leftPattern)
-                        .sortKeys(sortKeys)
                         .build();
                 mProductList.add(mProduct);
             }
