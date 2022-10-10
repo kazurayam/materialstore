@@ -3,6 +3,7 @@ package com.kazurayam.materialstore.filesystem;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.QEntry;
 import com.kazurayam.materialstore.filesystem.metadata.QValue;
+import com.kazurayam.materialstore.filesystem.metadata.QueryDescription;
 import com.kazurayam.materialstore.filesystem.metadata.QueryOnMetadataImpl;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 
@@ -46,7 +47,7 @@ public abstract class QueryOnMetadata implements Jsonifiable, TemplateReady {
      * the keys are sorted by the given SortKeys specification
      *
      */
-    public abstract String getDescription(SortKeys sortKeys);
+    public abstract QueryDescription getQueryDescription(SortKeys sortKeys);
 
     public abstract String getAsString(String key);
 

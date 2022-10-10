@@ -8,6 +8,7 @@ import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
+import com.kazurayam.materialstore.filesystem.metadata.QueryDescription;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.apache.commons.io.FileUtils;
@@ -59,8 +60,8 @@ public class MaterialProductTest {
         QueryOnMetadata mp = QueryOnMetadata.builder(map).build();
         SortKeys sortKeys = new SortKeys("step", "profile");
         MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).sortKeys(sortKeys).build();
-        String description = mProduct.getDescription();
-        assertEquals("{\"step\":\"6\", \"profile\":\"Flaskr_ProductionEnv\", \"URL.path\":\"/\"}", description);
+        QueryDescription desc = mProduct.getQueryDescription();
+        assertEquals("{\"step\":\"6\", \"profile\":\"Flaskr_ProductionEnv\", \"URL.path\":\"/\"}", desc.toString());
     }
 
     @Test
@@ -72,7 +73,7 @@ public class MaterialProductTest {
         MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).build();
         assertEquals(
                 "{\"URL.file\":\"/\", \"URL.host\":\"demoaut-mimic.kazurayam.com\"}",
-                mProduct.getDescription());
+                mProduct.getQueryDescription().toString());
     }
 
     @Test
