@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -107,8 +108,13 @@ public final class MaterialList
         return materialList.size();
     }
 
-    public void sort(SortKeys sortKeys) {
-        throw new RuntimeException("TODO");
+    public void order(SortKeys sortKeys) {
+        //
+        MaterialComparatorByOrdinalDescription comparator =
+                new MaterialComparatorByOrdinalDescription(sortKeys);
+        Collections.sort(materialList, comparator);
+        //
+
     }
 
     @Override

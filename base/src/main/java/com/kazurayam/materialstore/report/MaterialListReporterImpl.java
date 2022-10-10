@@ -69,7 +69,7 @@ public final class MaterialListReporterImpl extends MaterialListReporter {
         Objects.requireNonNull(materialList);
 
         /* sort the entries in the materialList as specified by SortKeys */
-        //materialList.sort(getSortKeys());
+        materialList.order(getSortKeys());
 
         /* write the resulting HTML into a file */
         String fileName = (reportFileName == null) ? "list.html" : reportFileName;
@@ -84,6 +84,10 @@ public final class MaterialListReporterImpl extends MaterialListReporter {
             throws MaterialstoreException {
         Objects.requireNonNull(materialList);
         Objects.requireNonNull(filePath);
+
+        // sort the entries by the specified keys
+        materialList.order(getSortKeys());
+
         /* Create a data-model */
         Map<String, Object> model = new HashMap<>();
         model.put("style", StyleHelper.loadStyleFromClasspath());

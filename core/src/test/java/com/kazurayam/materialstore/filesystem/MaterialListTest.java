@@ -11,22 +11,47 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 
 public class MaterialListTest {
 
     private static Path outputDir;
-    private final JobName jobName = new JobName("MaterialListTest");
-    private final QueryOnMetadata query = QueryOnMetadata.ANY;
+    private static Store store;
+    private static final JobName jobName = new JobName("MaterialListTest");
+    private static JobTimestamp jobTimestamp;
+    private static Map<String, Metadata> fixture;
     private Material material;
 
     @BeforeAll
-    public static void beforeAll() throws IOException {
+    public static void beforeAll() throws IOException, MaterialstoreException {
         outputDir = Paths.get("build/tmp/testOutput/").resolve(MaterialListTest.class.getName());
         if (Files.exists(outputDir)) {
             FileUtils.deleteDirectory(outputDir.toFile());
         }
         Files.createDirectories(outputDir);
+        jobTimestamp = JobTimestamp.now();
+        store = Stores.newInstance(outputDir);
+        // create fixture
+        fixture = createFixture();
+        store.write(jobName, jobTimestamp, FileType.TXT, fixture.get("Google"), "Google");
+        store.write(jobName, jobTimestamp, FileType.TXT, fixture.get("DuckDuckGo"), "DuckDuckGo");
+    }
+
+    private static Map<String, Metadata> createFixture() {
+        Map<String, Metadata> fixture = new HashMap<>();
+        //
+        Map<String, String> m1 = new HashMap<>();
+        m1.put("URL.host","www.google.com");
+        m1.put("timestamp", "20221010-132801");
+        fixture.put("Google", new Metadata.Builder(m1).build());
+        //
+        Map<String, String> m2 = new HashMap<>();
+        m2.put("URL.host","duckduckgo.com");
+        m2.put("timestamp", "20221010-132806");
+        fixture.put("DuckDuckGo", new Metadata.Builder(m2).build());
+        //
+        return fixture;
     }
 
     @BeforeEach
@@ -38,30 +63,15 @@ public class MaterialListTest {
 
     @Test
     public void test_countMaterialsWithIdStartingWith() {
-        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query);
+        MaterialList materialList = new MaterialList(jobName, jobTimestamp, QueryOnMetadata.ANY);
         Assertions.assertEquals(0, materialList.countMaterialsWithIdStartingWith("6141b40"));
         materialList.add(material);
         Assertions.assertEquals(1, materialList.countMaterialsWithIdStartingWith("6141b40"));
     }
 
     @Test
-    public void test_toTemplateModel() {
-        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query);
-        Map<String, Object> model = materialList.toTemplateModel();
-        Assertions.assertNotNull(model);
-    }
-
-    @Test
-    public void test_toTemplateModelAsJSON() throws IOException {
-        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query);
-        String json = materialList.toTemplateModelAsJson();
-        Files.write(outputDir.resolve("test_toTemplateModelAsJSON.json"),
-                json.getBytes(StandardCharsets.UTF_8));
-    }
-
-    @Test
     public void test_smoke() {
-        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query);
+        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), QueryOnMetadata.ANY);
         materialList.add(material);
         Assertions.assertEquals(1, materialList.size());
         Assertions.assertTrue(materialList.contains(material));
@@ -69,7 +79,7 @@ public class MaterialListTest {
 
     @Test
     public void test_getQueryOnMetadata() {
-        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query);
+        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), QueryOnMetadata.ANY);
         materialList.add(material);
         Assertions.assertNotNull(materialList.getQueryOnMetadata());
         //println materialList.getQueryOnMetadata().toString()
@@ -77,20 +87,20 @@ public class MaterialListTest {
 
     @Test
     public void test_getJobName() {
-        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query);
+        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), QueryOnMetadata.ANY);
         Assertions.assertEquals(jobName, materialList.getJobName());
     }
 
     @Test
     public void test_getJobTimestamp() {
         JobTimestamp now = JobTimestamp.now();
-        MaterialList materialList = new MaterialList(jobName, now, query);
+        MaterialList materialList = new MaterialList(jobName, now, QueryOnMetadata.ANY);
         Assertions.assertEquals(now, materialList.getJobTimestamp());
     }
 
     @Test
     public void test_toString() {
-        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query);
+        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), QueryOnMetadata.ANY);
         materialList.add(material);
         String str = materialList.toString();
         Assertions.assertNotNull(str);
@@ -99,11 +109,28 @@ public class MaterialListTest {
 
     @Test
     public void test_toJson() {
-        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), query);
+        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), QueryOnMetadata.ANY);
         materialList.add(material);
         String json = materialList.toJson();
         Assertions.assertNotNull(json);
-        //System.out.println(json);
+        System.out.println(json);
     }
+
+    @Test
+    public void test_toTemplateModel() throws MaterialstoreException {
+        MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY);
+        Map<String, Object> model = materialList.toTemplateModel();
+        System.out.println(model.toString());
+        Assertions.assertNotNull(model);
+    }
+
+    @Test
+    public void test_toTemplateModelAsJSON() throws IOException, MaterialstoreException {
+        MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY);
+        String json = materialList.toTemplateModelAsJson(true);
+        Files.write(outputDir.resolve("test_toTemplateModelAsJSON.json"),
+                json.getBytes(StandardCharsets.UTF_8));
+    }
+
 
 }
