@@ -80,7 +80,7 @@ public class MaterializingPageFunctionsTest {
     @Test
     void test_storeEntirePageScreenshot() throws MaterialstoreException {
         Target target = new Target.Builder("https://github.com/kazurayam")
-                .by(By.cssSelector("main#js-pjax-container"))
+                .by(By.cssSelector("div.application-main main"))
                 .build();
         JobName jobName = new JobName("test_storeEntirePageScreenshot");
         JobTimestamp jobTimestamp = JobTimestamp.now();

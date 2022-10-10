@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.report;
 
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -11,6 +12,8 @@ public abstract class AbstractReporter implements HTMLPrettyPrintingCapable {
 
     protected boolean verboseLogging = false;
     protected boolean prettyPrinting = false;
+
+    protected SortKeys sortKeys = new SortKeys();
 
     void enableVerboseLogging(boolean verboseLogging) {
         this.verboseLogging = verboseLogging;
@@ -28,6 +31,7 @@ public abstract class AbstractReporter implements HTMLPrettyPrintingCapable {
     @Override
     public boolean isPrettyPrintingEnabled() { return this.prettyPrinting; }
 
+
     String getTitle(Path file) {
         String fileName = file.getFileName().toString();
         return fileName.substring(0, fileName.indexOf(".html"));
@@ -42,4 +46,15 @@ public abstract class AbstractReporter implements HTMLPrettyPrintingCapable {
             throw new MaterialstoreException(e);
         }
     }
+
+
+    public SortKeys getSortKeys() {
+        return this.sortKeys;
+    }
+
+
+    public void setSortKeys(SortKeys sortKeys) {
+        this.sortKeys = sortKeys;
+    }
+
 }

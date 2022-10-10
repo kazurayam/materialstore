@@ -55,10 +55,6 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
 
     public String getDescription() { return this.getIndexEntry().getDescription(); }
 
-    public boolean isEmpty() {
-        return this.randomId != null;
-    }
-
     public String getDescriptionSignature() {
         if (this.isEmpty()) {
             return this.randomId;
@@ -66,6 +62,11 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
             return this.getIndexEntry().getDescriptionSignature();
         }
     }
+
+    public FileTypeDiffability getDiffability() {
+        return this.getIndexEntry().getFileType().getDiffability();
+    }
+
 
     public JobName getJobName() {
         return jobName_;
@@ -150,9 +151,6 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return getIndexEntry().getShortId();
     }
 
-    public FileTypeDiffability getDiffability() {
-        return this.getIndexEntry().getFileType().getDiffability();
-    }
 
     /**
      * checks if this has the same FileType and Metadata as the other.
@@ -184,6 +182,12 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         hash = 31 * hash + this.getIndexEntry().hashCode();
         return hash;
     }
+
+
+    public boolean isEmpty() {
+        return this.randomId != null;
+    }
+
 
     @Override
     public String toString() {

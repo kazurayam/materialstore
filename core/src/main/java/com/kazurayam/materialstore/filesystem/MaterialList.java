@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.filesystem;
 
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,14 +99,16 @@ public final class MaterialList
             if (material.getIndexEntry().getID().getSha1().startsWith(idStarter)) {
                 count += 1;
             }
-
         }
-
         return count;
     }
 
     public int size() {
         return materialList.size();
+    }
+
+    public void sort(SortKeys sortKeys) {
+        throw new RuntimeException("TODO");
     }
 
     @Override

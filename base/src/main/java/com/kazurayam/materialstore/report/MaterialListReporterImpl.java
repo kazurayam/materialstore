@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -66,12 +67,17 @@ public final class MaterialListReporterImpl extends MaterialListReporter {
     public Path report(MaterialList materialList, String reportFileName)
             throws MaterialstoreException {
         Objects.requireNonNull(materialList);
-        /* write the resulting HTML into a file*/
+
+        /* sort the entries in the materialList as specified by SortKeys */
+        //materialList.sort(getSortKeys());
+
+        /* write the resulting HTML into a file */
         String fileName = (reportFileName == null) ? "list.html" : reportFileName;
         Path filePath = store.getRoot().resolve(fileName);
         this.report(materialList, filePath);
         return filePath;
     }
+
 
     @Override
     public void report(MaterialList materialList, Path filePath)

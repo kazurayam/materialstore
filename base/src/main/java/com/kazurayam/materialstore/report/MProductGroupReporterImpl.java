@@ -74,12 +74,13 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
             throws MaterialstoreException {
         Objects.requireNonNull(mProductGroup);
         Objects.requireNonNull(filePath);
-        //
         if (! mProductGroup.isReadyToReport()) {
             throw new MaterialstoreException(
                     "given MProductGroup is not ready to report. mProductGroup=" +
                             mProductGroup.toString());
         }
+        /* sort the entries in the mProductGroup as specified by SortKeys */
+        //TODO
         /* create a data-model */
         Map<String, Object> model = new HashMap<>();
         model.put("style", StyleHelper.loadStyleFromClasspath());

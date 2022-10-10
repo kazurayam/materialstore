@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 
 public class IndexTest {
 
-    private final String sampleLine = "6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{\"URL\":\"http://demoaut-mimic.kazurayam.com/\", \"profile\":\"DevelopmentEnv\"}";
+    private final String sampleLine = "6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{\"profile\":\"DevelopmentEnv\", \"URL\":\"http://demoaut-mimic.kazurayam.com/\"}";
 
     private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(IndexTest.class.getName());
     private static final Path resultsDir = Paths.get(".").resolve("src/test/fixture/sample_results");

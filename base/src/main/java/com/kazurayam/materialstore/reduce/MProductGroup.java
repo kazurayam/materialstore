@@ -237,7 +237,8 @@ public final class MProductGroup
         return materialProductList.size();
     }
 
-    public void sort() {
+    public void sort(SortKeys sortKeys) {
+        //TODO how to sort the MaterialProductList object?
         Collections.sort(materialProductList);
     }
 

@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.reduce.MProductGroup;
 import com.kazurayam.materialstore.report.MProductGroupReporter;
 
@@ -18,6 +19,8 @@ public abstract class Inspector {
     }
 
     public abstract MProductGroupReporter newMProductGroupReporter(JobName jobName) throws MaterialstoreException;
+
+    public abstract void setSortKeys(SortKeys sortKeys);
 
     public abstract MProductGroup process(MProductGroup input) throws MaterialstoreException;
 

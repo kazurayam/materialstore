@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.reduce.DiffingMPGProcessor;
 import com.kazurayam.materialstore.reduce.MPGProcessor;
 import com.kazurayam.materialstore.reduce.MProductGroup;
@@ -19,9 +20,12 @@ public class InspectorImpl extends Inspector {
     private final Store store;
     private final MPGProcessor reducer;
 
+    private SortKeys sortKeys;
+
     public InspectorImpl(Store store) {
         this.store = store;
         this.reducer = new DiffingMPGProcessor.Builder(store).build();
+        this.sortKeys = new SortKeys();
     }
 
     @Override
@@ -32,10 +36,15 @@ public class InspectorImpl extends Inspector {
     }
 
     @Override
+    public void setSortKeys(SortKeys sortKeys) {
+        this.sortKeys = sortKeys;
+    }
+
+    @Override
     public MProductGroup process(MProductGroup input) throws MaterialstoreException {
         MProductGroup tmp = new MProductGroup(input);
         tmp = reducer.process(tmp);
-        tmp.sort();
+        tmp.sort(sortKeys);
         return tmp;
     }
 

@@ -57,7 +57,7 @@ public class GraphNodeIdResolverTest {
     public void test_getGraphNodeId_Material_solo() throws MaterialstoreException {
         Material material = store.selectSingle(jobName, leftJobTimestamp, FileType.PNG, QueryOnMetadata.ANY);
         GraphNodeId graphNodeId = GraphNodeIdResolver.resolveIdOfMaterialSolo(material);
-        assertEquals(new GraphNodeId("Md5931b2"), graphNodeId);
+        assertEquals(new GraphNodeId("M561b438"), graphNodeId);
     }
 
     @Test
@@ -65,7 +65,7 @@ public class GraphNodeIdResolverTest {
         MaterialList materialList = store.select(jobName, leftJobTimestamp, FileType.PNG);
         Material material = materialList.get(0);
         GraphNodeId graphNodeId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialList(materialList, material);
-        assertEquals(new GraphNodeId("MLa98d469_Md5931b2"), graphNodeId);
+        assertEquals(new GraphNodeId("ML0593add_M561b438"), graphNodeId);
     }
 
     @Test
@@ -81,7 +81,7 @@ public class GraphNodeIdResolverTest {
                         rightMaterialList.get(0),
                         reducedTimestamp).build();
         GraphNodeId graphNodeId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialProduct(mProduct, Role.L);
-        assertEquals(new GraphNodeId("MP57d34be_Md5931b2_L"), graphNodeId);
+        assertEquals(new GraphNodeId("MP3ae81c5_M561b438_L"), graphNodeId);
     }
 
     @Test
@@ -95,7 +95,7 @@ public class GraphNodeIdResolverTest {
         assert mProductGroup.size() > 0;
         Material material = leftMaterialList.get(0);
         GraphNodeId graphNodeId = GraphNodeIdResolver.resolveIdOfMaterialInMProductGroup(mProductGroup, material);
-        assertEquals(new GraphNodeId("MPG3db42ca_M5bd4611"), graphNodeId);
+        assertEquals(new GraphNodeId("MPGec00eec_M99ed902"), graphNodeId);
     }
 
     @Test
@@ -108,6 +108,6 @@ public class GraphNodeIdResolverTest {
                         rightMaterialList).ignoreKeys("profile", "URL.host").build();
         Material material = leftMaterialList.get(0);
         GraphNodeId graphNodeId = GraphNodeIdResolver.resolveIdOfMaterialInMProductGroupBeforeZIP(mProductGroup, material);
-        assertEquals(new GraphNodeId("MPGBZ2810bee_MLa98d469_Md5931b2"), graphNodeId);
+        assertEquals(new GraphNodeId("MPGBZ194947b_ML0593add_M561b438"), graphNodeId);
     }
 }

@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MaterialTest {
-
     private final static Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MaterialTest.class.getName());
     private static Store store;
 
@@ -44,7 +43,7 @@ public class MaterialTest {
                 material.getShortId());
         Assertions.assertEquals(FileType.PNG,
                 material.getIndexEntry().getFileType());
-        Assertions.assertEquals("{\"URL\":\"http://demoaut-mimic.kazurayam.com/\", \"profile\":\"DevelopmentEnv\"}",
+        Assertions.assertEquals("{\"profile\":\"DevelopmentEnv\", \"URL\":\"http://demoaut-mimic.kazurayam.com/\"}",
                 material.getIndexEntry().getMetadata().toSimplifiedJson());
         //
         //System.out.println(material.toString());
