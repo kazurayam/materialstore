@@ -129,7 +129,7 @@ public final class MaterialProduct
      * String representation of this MaterialProduct instance
      */
     public QueryDescription getQueryDescription() {
-        return this.query.getQueryDescription(sortKeys);
+        return this.query.getQueryDescription();
     }
 
     @Override

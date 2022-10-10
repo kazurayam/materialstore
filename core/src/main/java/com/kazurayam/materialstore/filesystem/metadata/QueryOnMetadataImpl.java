@@ -115,12 +115,12 @@ public final class QueryOnMetadataImpl extends QueryOnMetadata {
 
     @Override
     public String toString() {
-        return getQueryDescription(SortKeys.NULL_OBJECT).toString();
+        return getQueryDescription().toString();
     }
 
     @Override
     public String toJson() {
-        return getQueryDescription(SortKeys.NULL_OBJECT).toString();
+        return getQueryDescription().toString();
     }
 
     @Override
@@ -134,8 +134,8 @@ public final class QueryOnMetadataImpl extends QueryOnMetadata {
     }
 
     @Override
-    public QueryDescription getQueryDescription(SortKeys sortKeys) {
-        List<String> keyList = orderedKeyList(keyQValuePairs.keySet(), sortKeys);
+    public QueryDescription getQueryDescription() {
+        List<String> keyList = orderedKeyList(keyQValuePairs.keySet(), getSortKeys());
         //
         final StringBuilder sb = new StringBuilder();
         int count = 0;

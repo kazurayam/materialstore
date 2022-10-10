@@ -52,7 +52,7 @@ public class MaterialProductTest {
     }
 
     @Test
-    public void test_getDescription_more() {
+    public void test_getQueryDescription_more() {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(3);
         map.put("URL.path", "/");
         map.put("profile", "Flaskr_ProductionEnv");
@@ -65,7 +65,7 @@ public class MaterialProductTest {
     }
 
     @Test
-    public void test_getDescription() {
+    public void test_getQueryDescription() {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(2);
         map.put("URL.host", "demoaut-mimic.kazurayam.com");
         map.put("URL.file", "/");
