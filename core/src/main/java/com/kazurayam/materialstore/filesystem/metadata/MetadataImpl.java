@@ -27,11 +27,8 @@ public final class MetadataImpl extends Metadata {
 
     private final Map<String, MetadataAttribute> attributes;
 
-    private SortKeys sortKeys;
-
     public MetadataImpl(Map<String, MetadataAttribute> attributes) {
         this.attributes = attributes;
-        this.sortKeys = new SortKeys();
     }
 
     @Override
@@ -68,12 +65,6 @@ public final class MetadataImpl extends Metadata {
     @Override
     public int size() {
         return attributes.size();
-    }
-
-    @Override
-    public Metadata sortKeys(SortKeys sortKeys) {
-        this.sortKeys = sortKeys;
-        return this;
     }
 
     @Override
@@ -187,7 +178,12 @@ public final class MetadataImpl extends Metadata {
 
     @Override
     public MetadataDescription getMetadataDescription() {
-        String simplifiedJson = this.toSimplifiedJson(this.sortKeys);
+        return this.getMetadataDescription(new SortKeys());
+    }
+
+    @Override
+    public MetadataDescription getMetadataDescription(SortKeys sortKeys) {
+        String simplifiedJson = this.toSimplifiedJson(sortKeys);
         return new MetadataDescription(simplifiedJson);
     }
 

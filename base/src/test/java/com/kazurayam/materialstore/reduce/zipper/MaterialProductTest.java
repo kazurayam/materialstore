@@ -58,8 +58,17 @@ public class MaterialProductTest {
         map.put("profile", "Flaskr_ProductionEnv");
         map.put("step", "6");
         QueryOnMetadata mp = QueryOnMetadata.builder(map).build();
+        //
         SortKeys sortKeys = new SortKeys("step", "profile");
         MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).sortKeys(sortKeys).build();
+
+        //DEBUG
+        System.out.println(String.format("sortKeys : %s", sortKeys));
+        System.out.println(String.format("mProduct.getSortKeys() : %s", mProduct.getSortKeys()));
+        System.out.println(String.format("mProduct.getQueryDescription() : %s", mProduct.getQueryDescription()));
+        System.out.println(String.format("mProduct.getQueryOnMetadata.getQueryDescription() : %s",mProduct.getQueryOnMetadata().getQueryDescription()));
+        System.out.println(String.format("mProduct.getQueryOnMetadata.getQueryDescription(sortKeys) : %s",mProduct.getQueryOnMetadata().getQueryDescription(sortKeys)));
+
         QueryDescription desc = mProduct.getQueryDescription();
         assertEquals("{\"step\":\"6\", \"profile\":\"Flaskr_ProductionEnv\", \"URL.path\":\"/\"}", desc.toString());
     }

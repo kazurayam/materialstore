@@ -16,8 +16,6 @@ import java.util.regex.Pattern;
 
 public abstract class QueryOnMetadata implements Jsonifiable, TemplateReady {
 
-    private SortKeys sortKeys = new SortKeys();
-
     public static Builder builder() {
         return new Builder();
     }
@@ -44,9 +42,6 @@ public abstract class QueryOnMetadata implements Jsonifiable, TemplateReady {
 
     public abstract QValue get(String key);
 
-    public SortKeys getSortKeys() {
-        return sortKeys;
-    }
 
     /**
      * string representation of this QueryOnMetadata,
@@ -54,6 +49,8 @@ public abstract class QueryOnMetadata implements Jsonifiable, TemplateReady {
      *
      */
     public abstract QueryDescription getQueryDescription();
+
+    public abstract QueryDescription getQueryDescription(SortKeys sortKeys);
 
     public abstract String getAsString(String key);
 
@@ -65,10 +62,6 @@ public abstract class QueryOnMetadata implements Jsonifiable, TemplateReady {
 
     public abstract int size();
 
-    public QueryOnMetadata sortKeys(SortKeys sortKeys) {
-        this.sortKeys = sortKeys;
-        return this;
-    }
 
     public abstract List<Map<String, String>> toJSONTextTokens();
 

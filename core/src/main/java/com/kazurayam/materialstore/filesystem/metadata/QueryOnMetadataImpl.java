@@ -135,7 +135,12 @@ public final class QueryOnMetadataImpl extends QueryOnMetadata {
 
     @Override
     public QueryDescription getQueryDescription() {
-        List<String> keyList = orderedKeyList(keyQValuePairs.keySet(), getSortKeys());
+        return this.getQueryDescription(new SortKeys());
+    }
+
+    @Override
+    public QueryDescription getQueryDescription(SortKeys sortKeys) {
+        List<String> keyList = orderedKeyList(keyQValuePairs.keySet(), sortKeys);
         //
         final StringBuilder sb = new StringBuilder();
         int count = 0;

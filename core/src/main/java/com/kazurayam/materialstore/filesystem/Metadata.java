@@ -28,6 +28,8 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
 
     public abstract MetadataDescription getMetadataDescription();
 
+    public abstract MetadataDescription getMetadataDescription(SortKeys sortKeys);
+
     public abstract MetadataAttribute getMetadataAttribute(String key);
 
     public abstract boolean isEmpty();
@@ -39,8 +41,6 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
     public abstract boolean matchesIndividually(QueryOnMetadata query, String key);
 
     public abstract int size();
-
-    public abstract Metadata sortKeys(SortKeys sortKeys);
 
     public abstract String toURLAsString() throws MaterialstoreException;
 

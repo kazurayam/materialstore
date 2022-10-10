@@ -72,7 +72,7 @@ public class MetadataImplTest {
     @Test
     public void test_getMetadataDescription() {
         SortKeys sortKeys = new SortKeys("timestamp", "step");
-        MetadataDescription desc = metadata.sortKeys(sortKeys).getMetadataDescription();
+        MetadataDescription desc = metadata.getMetadataDescription(sortKeys);
         assertTrue(desc.toString().startsWith("{\"timestamp\":"), desc.toString());
     }
 

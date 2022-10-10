@@ -53,7 +53,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return this.getIndexEntry().getFileType();
     }
 
-    public String getDescription() { return this.getIndexEntry().getPlainDescription(); }
+    public String getDescription() { return this.getIndexEntry().getMetadataDescription(); }
 
     public String getDescriptionSignature() {
         if (this.isEmpty()) {

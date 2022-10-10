@@ -22,8 +22,8 @@ public class MaterialComparatorByMetadataDescription implements Comparator<Mater
     public int compare(Material m1, Material m2) {
         Objects.requireNonNull(m1);
         Objects.requireNonNull(m2);
-        MetadataDescription md1 = m1.getMetadata().sortKeys(sortKeys).getMetadataDescription();
-        MetadataDescription md2 = m2.getMetadata().sortKeys(sortKeys).getMetadataDescription();
+        MetadataDescription md1 = m1.getMetadata().getMetadataDescription(sortKeys);
+        MetadataDescription md2 = m2.getMetadata().getMetadataDescription(sortKeys);
         return md1.toString().compareTo(md2.toString());
     }
 }
