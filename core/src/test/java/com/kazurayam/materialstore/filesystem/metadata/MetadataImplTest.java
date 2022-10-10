@@ -68,23 +68,12 @@ public class MetadataImplTest {
         //System.out.println(sorted);
     }
 
-    @Test
-    public void test_getPlainDescription() {
-        PlainDescription desc = metadata.getPlainDescription();
-        assertTrue(desc.toString().startsWith("{\"step"), desc.toString());
-    }
 
     @Test
-    public void test_getOrdinalDescription() {
+    public void test_getMetadataDescription() {
         SortKeys sortKeys = new SortKeys("timestamp", "step");
-        OrdinalDescription desc = metadata.getOrdinalDescription(sortKeys);
+        MetadataDescription desc = metadata.sortKeys(sortKeys).getMetadataDescription();
         assertTrue(desc.toString().startsWith("{\"timestamp\":"), desc.toString());
     }
 
-    @Test
-    public void test_getOrdinalDescription_withInrelevantKeys() {
-        SortKeys sortKeys = new SortKeys("foo", "bar");
-        OrdinalDescription desc = metadata.getOrdinalDescription(sortKeys);
-        assertTrue(desc.toString().startsWith("{\"step"), desc.toString());
-    }
 }

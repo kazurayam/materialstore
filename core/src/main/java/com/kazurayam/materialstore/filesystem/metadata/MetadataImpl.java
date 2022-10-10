@@ -27,8 +27,11 @@ public final class MetadataImpl extends Metadata {
 
     private final Map<String, MetadataAttribute> attributes;
 
+    private SortKeys sortKeys;
+
     public MetadataImpl(Map<String, MetadataAttribute> attributes) {
         this.attributes = attributes;
+        this.sortKeys = new SortKeys();
     }
 
     @Override
@@ -65,6 +68,12 @@ public final class MetadataImpl extends Metadata {
     @Override
     public int size() {
         return attributes.size();
+    }
+
+    @Override
+    public Metadata sortKeys(SortKeys sortKeys) {
+        this.sortKeys = sortKeys;
+        return this;
     }
 
     @Override
@@ -175,16 +184,11 @@ public final class MetadataImpl extends Metadata {
         return query.containsKey("*") && query.get("*").matches(this.get(key)) || query.containsKey(key) && query.get(key).matches(this.get(key));
     }
 
-    @Override
-    public PlainDescription getPlainDescription() {
-        String simplifiedJson = this.toSimplifiedJson(new SortKeys());
-        return new PlainDescription(simplifiedJson);
-    }
 
     @Override
-    public OrdinalDescription getOrdinalDescription(SortKeys sortKeys) {
-        String simplifiedJson = this.toSimplifiedJson(sortKeys);
-        return new OrdinalDescription(simplifiedJson);
+    public MetadataDescription getMetadataDescription() {
+        String simplifiedJson = this.toSimplifiedJson(this.sortKeys);
+        return new MetadataDescription(simplifiedJson);
     }
 
     private String toSimplifiedJson() {

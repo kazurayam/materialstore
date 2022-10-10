@@ -2,11 +2,11 @@ package com.kazurayam.materialstore.filesystem.metadata;
 
 import java.util.Objects;
 
-public abstract class Description implements Comparable<Description> {
+public class MetadataDescription implements Comparable<MetadataDescription> {
 
     private final String representation;
 
-    public Description(String representation) {
+    public MetadataDescription(String representation) {
         Objects.requireNonNull(representation);
         this.representation = representation;
     }
@@ -19,7 +19,7 @@ public abstract class Description implements Comparable<Description> {
         return this.representation;
     }
 
-    public int compareTo(Description other) {
+    public int compareTo(MetadataDescription other) {
         return this.representation.compareTo(other.representation);
     }
 }

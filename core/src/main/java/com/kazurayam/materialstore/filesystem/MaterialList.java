@@ -110,8 +110,8 @@ public final class MaterialList
 
     public void order(SortKeys sortKeys) {
         //
-        MaterialComparatorByOrdinalDescription comparator =
-                new MaterialComparatorByOrdinalDescription(sortKeys);
+        MaterialComparatorByMetadataDescription comparator =
+                new MaterialComparatorByMetadataDescription(sortKeys);
         Collections.sort(materialList, comparator);
         //
 

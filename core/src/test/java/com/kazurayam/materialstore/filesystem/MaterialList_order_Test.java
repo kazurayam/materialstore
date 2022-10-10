@@ -31,7 +31,7 @@ public class MaterialList_order_Test {
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        outputDir = Paths.get("build/tmp/testOutput/").resolve(MaterialComparatorByOrdinalDescriptionTest.class.getName());
+        outputDir = Paths.get("build/tmp/testOutput/").resolve(MaterialComparatorByMetadataDescriptionTest.class.getName());
         if (Files.exists(outputDir)) {
             FileUtils.deleteDirectory(outputDir.toFile());
         }

@@ -7,19 +7,15 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MaterialComparatorByOrdinalDescriptionTest {
+public class MaterialComparatorByMetadataDescriptionTest {
 
     private static Path outputDir;
     private static Store store;
@@ -32,7 +28,7 @@ public class MaterialComparatorByOrdinalDescriptionTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        outputDir = Paths.get("build/tmp/testOutput/").resolve(MaterialComparatorByOrdinalDescriptionTest.class.getName());
+        outputDir = Paths.get("build/tmp/testOutput/").resolve(MaterialComparatorByMetadataDescriptionTest.class.getName());
         if (Files.exists(outputDir)) {
             FileUtils.deleteDirectory(outputDir.toFile());
         }
@@ -57,16 +53,16 @@ public class MaterialComparatorByOrdinalDescriptionTest {
 
     @Test
     public void test_noSortKeys() throws MaterialstoreException {
-        MaterialComparatorByOrdinalDescription comparator =
-                new MaterialComparatorByOrdinalDescription();
+        MaterialComparatorByMetadataDescription comparator =
+                new MaterialComparatorByMetadataDescription();
         assertTrue(comparator.compare(m0, m1) < 0);
     }
 
     @Test
     public void test_withSortKeys() {
         SortKeys sortKeys = new SortKeys("URL.host");
-        MaterialComparatorByOrdinalDescription comparator =
-                new MaterialComparatorByOrdinalDescription(sortKeys);
+        MaterialComparatorByMetadataDescription comparator =
+                new MaterialComparatorByMetadataDescription(sortKeys);
         assertTrue(comparator.compare(m0, m1) > 0);
     }
 

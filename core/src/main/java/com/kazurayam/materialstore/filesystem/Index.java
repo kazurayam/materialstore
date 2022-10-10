@@ -114,7 +114,7 @@ final class Index implements Iterable<IndexEntry> {
         sb.append("\t");
         sb.append(ft.getExtension());
         sb.append("\t");
-        sb.append(md.getPlainDescription());
+        sb.append(md.getMetadataDescription());
         return sb.toString();
     }
 

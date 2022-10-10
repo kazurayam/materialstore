@@ -3,9 +3,8 @@ package com.kazurayam.materialstore.filesystem;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute;
+import com.kazurayam.materialstore.filesystem.metadata.MetadataDescription;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataImpl;
-import com.kazurayam.materialstore.filesystem.metadata.OrdinalDescription;
-import com.kazurayam.materialstore.filesystem.metadata.PlainDescription;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 
 import java.net.URL;
@@ -27,6 +26,8 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
 
     public abstract String get(String key);
 
+    public abstract MetadataDescription getMetadataDescription();
+
     public abstract MetadataAttribute getMetadataAttribute(String key);
 
     public abstract boolean isEmpty();
@@ -39,9 +40,7 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
 
     public abstract int size();
 
-    public abstract PlainDescription getPlainDescription();
-
-    public abstract OrdinalDescription getOrdinalDescription(SortKeys sortKeys);
+    public abstract Metadata sortKeys(SortKeys sortKeys);
 
     public abstract String toURLAsString() throws MaterialstoreException;
 
