@@ -53,7 +53,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return this.getIndexEntry().getFileType();
     }
 
-    public String getDescription() { return this.getIndexEntry().getDescription(); }
+    public String getDescription() { return this.getIndexEntry().getPlainDescription(); }
 
     public String getDescriptionSignature() {
         if (this.isEmpty()) {
@@ -236,7 +236,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         sb.append(",");
         sb.append("\"metadataText\":");
         sb.append("\"");
-        sb.append(JsonUtil.escapeAsJsonString(this.getIndexEntry().getMetadata().toSimplifiedJson()));
+        sb.append(JsonUtil.escapeAsJsonString(this.getIndexEntry().getMetadata().getPlainDescription().toString()));
         sb.append("\"");
         try {
             if (this.getIndexEntry().getMetadata().toURL() != null) {

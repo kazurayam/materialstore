@@ -71,13 +71,13 @@ public final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, Te
         return Paths.get(mio.getID().toString() + "." + mio.getFileType().getExtension());
     }
 
-    public String getDescription() {
-        return this.getFileType().getExtension() + " " + this.getMetadata().toSimplifiedJson();
+    public String getPlainDescription() {
+        return this.getFileType().getExtension() + " " + this.getMetadata().getPlainDescription();
     }
 
     public String getDescriptionSignature() {
         String descriptionSignature =
-                MaterialIO.hashJDK(this.getDescription().getBytes(StandardCharsets.UTF_8));
+                MaterialIO.hashJDK(this.getPlainDescription().getBytes(StandardCharsets.UTF_8));
         return descriptionSignature.substring(0, 7);
     }
 

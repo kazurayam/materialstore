@@ -176,12 +176,22 @@ public final class MetadataImpl extends Metadata {
     }
 
     @Override
-    public String toSimplifiedJson() {
-        return toSimplifiedJson(new SortKeys());
+    public PlainDescription getPlainDescription() {
+        String simplifiedJson = this.toSimplifiedJson(new SortKeys());
+        return new PlainDescription(simplifiedJson);
     }
 
     @Override
-    public String toSimplifiedJson(SortKeys sortKeys) {
+    public OrdinalDescription getOrdinalDescription(SortKeys sortKeys) {
+        String simplifiedJson = this.toSimplifiedJson(sortKeys);
+        return new OrdinalDescription(simplifiedJson);
+    }
+
+    private String toSimplifiedJson() {
+        return this.toSimplifiedJson(new SortKeys());
+    }
+
+    private String toSimplifiedJson(SortKeys sortKeys) {
         final StringBuilder sb = new StringBuilder();
         int entryCount = 0;
         sb.append("{");

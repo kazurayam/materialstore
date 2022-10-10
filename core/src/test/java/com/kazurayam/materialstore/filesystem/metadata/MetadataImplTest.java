@@ -69,22 +69,22 @@ public class MetadataImplTest {
     }
 
     @Test
-    public void test_toSimplifiedJson_noParam() {
-        String json = metadata.toSimplifiedJson();
-        assertTrue(json.startsWith("{\"step"), json);
+    public void test_getPlainDescription() {
+        PlainDescription desc = metadata.getPlainDescription();
+        assertTrue(desc.toString().startsWith("{\"step"), desc.toString());
     }
 
     @Test
-    public void test_toSimplifiedJson_withSortKeys() {
+    public void test_getOrdinalDescription() {
         SortKeys sortKeys = new SortKeys("timestamp", "step");
-        String json = metadata.toSimplifiedJson(sortKeys);
-        assertTrue(json.startsWith("{\"timestamp\":"), json);
+        OrdinalDescription desc = metadata.getOrdinalDescription(sortKeys);
+        assertTrue(desc.toString().startsWith("{\"timestamp\":"), desc.toString());
     }
 
     @Test
-    public void test_toSimplifiedJson_withInrelevantKeys() {
+    public void test_getOrdinalDescription_withInrelevantKeys() {
         SortKeys sortKeys = new SortKeys("foo", "bar");
-        String json = metadata.toSimplifiedJson(sortKeys);
-        assertTrue(json.startsWith("{\"step"), json);
+        OrdinalDescription desc = metadata.getOrdinalDescription(sortKeys);
+        assertTrue(desc.toString().startsWith("{\"step"), desc.toString());
     }
 }
