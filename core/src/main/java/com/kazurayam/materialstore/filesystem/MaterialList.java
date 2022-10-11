@@ -1,10 +1,14 @@
 package com.kazurayam.materialstore.filesystem;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
+import com.kazurayam.materialstore.util.GsonHelper;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -139,8 +143,10 @@ public final class MaterialList
      * @return
      */
     public Map<String, Object> toTemplateModel(SortKeys sortKeys) {
-        throw new RuntimeException("TODO");
+        Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
+        return new Gson().fromJson(toJson(sortKeys), mapType);
     }
+
     public void order(SortKeys sortKeys) {
         //
         MaterialComparatorByMetadataDescription comparator =
@@ -149,8 +155,22 @@ public final class MaterialList
         //
     }
 
+    public String toTemplateModelAsJson(SortKeys sortKeys) {
+        return this.toTemplateModelAsJson(sortKeys, false);
+    }
+
+    public String toTemplateModelAsJson(SortKeys sortKeys, Boolean prettyPrint) {
+        Gson gson = GsonHelper.createGson(prettyPrint);
+        Map<String, Object> model = toTemplateModel(sortKeys);
+        return gson.toJson(model);
+    }
+
     @Override
     public String toJson() {
+        return this.toJson(new SortKeys());
+    }
+
+    public String toJson(SortKeys sortKeys) {
         final StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("\"jobName\":\"");
@@ -171,7 +191,7 @@ public final class MaterialList
             if (count > 0) {
                 sb.append(",");
             }
-            sb.append(material.toJson());
+            sb.append(material.toJson(sortKeys));
             count += 1;
         }
         sb.append("]");

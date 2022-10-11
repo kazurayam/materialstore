@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.filesystem;
 
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -44,11 +45,15 @@ public class MaterialListTest {
         Map<String, String> m1 = new HashMap<>();
         m1.put("URL.host","www.google.com");
         m1.put("timestamp", "20221010-132801");
+        m1.put("key1", "value1");
+        m1.put("zzz", "zzz");
         fixture.put("Google", new Metadata.Builder(m1).build());
         //
         Map<String, String> m2 = new HashMap<>();
         m2.put("URL.host","duckduckgo.com");
         m2.put("timestamp", "20221010-132806");
+        m2.put("key1", "value1");
+        m2.put("zzz", "zzz");
         fixture.put("DuckDuckGo", new Metadata.Builder(m2).build());
         //
         return fixture;
@@ -117,7 +122,7 @@ public class MaterialListTest {
     }
 
     @Test
-    public void test_toTemplateModel() throws MaterialstoreException {
+    public void test_toTemplateModel_noArg() throws MaterialstoreException {
         MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY);
         Map<String, Object> model = materialList.toTemplateModel();
         System.out.println(model.toString());
@@ -125,12 +130,29 @@ public class MaterialListTest {
     }
 
     @Test
-    public void test_toTemplateModelAsJSON() throws IOException, MaterialstoreException {
+    public void test_toTemplateModel_withSortKeys() throws MaterialstoreException {
+        MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY);
+        SortKeys sortKeys = new SortKeys("timestamp","zzz");
+        Map<String, Object> model = materialList.toTemplateModel(sortKeys);
+        System.out.println(model.toString());
+        Assertions.assertNotNull(model);
+    }
+
+    @Test
+    public void test_toTemplateModelAsJson_noArg() throws IOException, MaterialstoreException {
         MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY);
         String json = materialList.toTemplateModelAsJson(true);
         Files.write(outputDir.resolve("test_toTemplateModelAsJSON.json"),
                 json.getBytes(StandardCharsets.UTF_8));
     }
 
+    @Test
+    public void test_toTemplateModelAsJson_withSortKeys() throws IOException, MaterialstoreException {
+        MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY);
+        SortKeys sortKeys = new SortKeys("timestamp","zzz");
+        String json = materialList.toTemplateModelAsJson(sortKeys, true);
+        Files.write(outputDir.resolve("test_toTemplateModelAsJSON.json"),
+                json.getBytes(StandardCharsets.UTF_8));
+    }
 
 }

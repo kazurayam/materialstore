@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.filesystem;
 
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.util.JsonUtil;
 import com.kazurayam.materialstore.util.StringUtils;
 import org.slf4j.Logger;
@@ -213,6 +214,10 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
 
     @Override
     public String toJson() {
+        return this.toJson(new SortKeys());
+    }
+
+    public String toJson(SortKeys sortKeys) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("\"jobName\":\"");
@@ -232,11 +237,18 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         sb.append("\"");
         sb.append(",");
         sb.append("\"metadata\":");
+        //---------------------------------
         sb.append(this.getIndexEntry().getMetadata().toJson());
+
+        System.out.println(String.format("this.getIndexEntry().getMetadata().toJson() : %s",
+                this.getIndexEntry().getMetadata().toJson()));
+        System.out.println(String.format("this.getIndexEntry().getMetadata().getMetadataDescription(sortKeys) : %s",
+                this.getIndexEntry().getMetadata().getMetadataDescription(sortKeys)));
+        //---------------------------------
         sb.append(",");
         sb.append("\"metadataText\":");
         sb.append("\"");
-        sb.append(JsonUtil.escapeAsJsonString(this.getIndexEntry().getMetadata().getMetadataDescription().toString()));
+        sb.append(JsonUtil.escapeAsJsonString(this.getIndexEntry().getMetadata().getMetadataDescription(sortKeys).toString()));
         sb.append("\"");
         try {
             if (this.getIndexEntry().getMetadata().toURL() != null) {
@@ -265,13 +277,18 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
 
     @Override
     public String toJson(boolean prettyPrint) {
+        return this.toJson(new SortKeys(), prettyPrint);
+    }
+
+    public String toJson(SortKeys sortKeys, boolean prettyPrint) {
         if (prettyPrint) {
-            return JsonUtil.prettyPrint(toJson());
+            return JsonUtil.prettyPrint(toJson(sortKeys));
         } else {
             return toJson();
         }
-
     }
+
+
 
 
 }
