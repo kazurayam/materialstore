@@ -21,8 +21,10 @@
         <dl>
           <dt>Root path :</dt>
           <dd>${store}</dd>
+
           <dt>JobName :</dt>
           <dd>${model.jobName}</dd>
+
           <dt>MaterialList specification</dt>
           <dd>
             <dl>
@@ -34,6 +36,9 @@
               </dd>
             </dl>
           </dd>
+
+          <dt>Sort keys :</dt>
+          <dd>${sortKeys}</dd>
         </dl>
       </div>
       <div class="accordion" id="accordionExample">

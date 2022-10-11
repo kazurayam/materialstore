@@ -36,6 +36,10 @@ public final class SortKeys implements Iterable<String> {
 
     @Override
     public String toString() {
+        return this.toJson();
+    }
+
+    public String toJson() {
         final Gson gson = new Gson();
         final StringBuilder sb = new StringBuilder();
         sb.append("[");

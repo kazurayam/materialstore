@@ -98,6 +98,7 @@ public final class MaterialListReporterImpl extends MaterialListReporter {
         model.put("store", store.getRoot().normalize().toString());
 
         model.put("model", materialList.toTemplateModel(getSortKeys()));
+        model.put("sortKeys", getSortKeys().toString());
 
         // for debug
         if (isVerboseLoggingEnabled()) {
