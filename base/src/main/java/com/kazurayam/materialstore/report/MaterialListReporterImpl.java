@@ -138,7 +138,7 @@ public final class MaterialListReporterImpl extends MaterialListReporter {
         try {
             Files.write(filePath,
                     html.getBytes(StandardCharsets.UTF_8),
-                    StandardOpenOption.CREATE);
+                    StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }

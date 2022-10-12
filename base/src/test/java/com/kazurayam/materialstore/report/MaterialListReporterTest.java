@@ -45,10 +45,10 @@ public class MaterialListReporterTest extends AbstractReporterTest {
 
     @BeforeAll
     static void beforeAll() throws IOException {
-        if (Files.exists(outputDir)) {
+        //if (Files.exists(outputDir)) {
             // make sure the outputDir to be empty
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
+            //FileUtils.deleteDirectory(outputDir.toFile());
+        //}
         Files.createDirectories(outputDir);
         Path root = outputDir.resolve("store");
         store = Stores.newInstance(root);

@@ -134,7 +134,7 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
         try {
             Files.write(filePath,
                     html.getBytes(StandardCharsets.UTF_8),
-                    StandardOpenOption.CREATE);
+                    StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
