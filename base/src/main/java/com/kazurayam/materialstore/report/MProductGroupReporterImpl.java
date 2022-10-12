@@ -3,6 +3,7 @@ package com.kazurayam.materialstore.report;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.reduce.MProductGroup;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -63,16 +64,28 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
     @Override
     public Path report(MProductGroup mProductGroup, String fileName)
             throws MaterialstoreException {
+        return this.report(mProductGroup, new SortKeys(), fileName);
+    }
+
+    @Override
+    public Path report(MProductGroup mProductGroup, SortKeys sortKeys, String fileName)
+            throws MaterialstoreException {
         mProductGroup.setCriteria(this.criteria);
         Path reportFile = store.getRoot().resolve(fileName);
-        this.report(mProductGroup, reportFile);
+        this.report(mProductGroup, sortKeys, reportFile);
         return reportFile;
     }
 
     @Override
     public void report(MProductGroup mProductGroup, Path filePath)
             throws MaterialstoreException {
+        this.report(mProductGroup, new SortKeys(), filePath);
+    }
+    @Override
+    public void report(MProductGroup mProductGroup, SortKeys sortKeys, Path filePath)
+            throws MaterialstoreException {
         Objects.requireNonNull(mProductGroup);
+        Objects.requireNonNull(sortKeys);
         Objects.requireNonNull(filePath);
         if (! mProductGroup.isReadyToReport()) {
             throw new MaterialstoreException(
@@ -80,7 +93,7 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
                             mProductGroup.toString());
         }
         /* sort the entries in the mProductGroup as specified by SortKeys */
-        mProductGroup.sort(getSortKeys());
+        mProductGroup.sort(sortKeys);
 
         /* create a data-model */
         Map<String, Object> model = new HashMap<>();
@@ -94,7 +107,7 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
         model.put("mProductGroup", mProductGroup.toTemplateModel());
         model.put("model", mProductGroup.toJson(true));
         model.put("criteria", criteria);
-        model.put("sortKeys", getSortKeys().toString());
+        model.put("sortKeys", sortKeys.toString());
 
         // for debug
         if (isVerboseLoggingEnabled()) {

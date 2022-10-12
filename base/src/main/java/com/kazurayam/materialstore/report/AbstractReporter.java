@@ -13,8 +13,6 @@ public abstract class AbstractReporter implements HTMLPrettyPrintingCapable {
     protected boolean verboseLogging = false;
     protected boolean prettyPrinting = false;
 
-    protected SortKeys sortKeys = new SortKeys();
-
     void enableVerboseLogging(boolean verboseLogging) {
         this.verboseLogging = verboseLogging;
     }
@@ -45,16 +43,6 @@ public abstract class AbstractReporter implements HTMLPrettyPrintingCapable {
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
-    }
-
-
-    public SortKeys getSortKeys() {
-        return this.sortKeys;
-    }
-
-
-    public void setSortKeys(SortKeys sortKeys) {
-        this.sortKeys = sortKeys;
     }
 
 }

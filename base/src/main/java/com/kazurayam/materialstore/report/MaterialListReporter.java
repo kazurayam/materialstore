@@ -10,6 +10,10 @@ public abstract class MaterialListReporter extends AbstractReporter {
 
     public abstract Path report(MaterialList materialList, String fileName) throws MaterialstoreException;
 
+    public abstract Path report(MaterialList materialList, SortKeys sortKeys, String fileName) throws MaterialstoreException;
+
     public abstract void report(MaterialList materialList, Path filePath) throws MaterialstoreException;
+
+    public abstract void report(MaterialList materialList, SortKeys sortKeys, Path filePath) throws MaterialstoreException;
 
 }

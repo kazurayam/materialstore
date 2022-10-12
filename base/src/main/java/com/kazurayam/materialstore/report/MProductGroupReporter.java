@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.report;
 
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.reduce.MProductGroup;
 
 import java.nio.file.Path;
@@ -15,5 +16,9 @@ public abstract class MProductGroupReporter extends AbstractReporter {
 
     public abstract Path report(MProductGroup mProductGroup, String fileName) throws MaterialstoreException;
 
+    public abstract Path report(MProductGroup mProductGroup, SortKeys sortKeys, String fileName) throws MaterialstoreException;
+
     public abstract void report(MProductGroup mProductGroup, Path filePath) throws MaterialstoreException;
+
+    public abstract void report(MProductGroup mProductGroup, SortKeys sortKeys, Path filePath) throws MaterialstoreException;
 }

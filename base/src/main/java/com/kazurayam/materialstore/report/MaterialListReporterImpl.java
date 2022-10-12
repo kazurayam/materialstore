@@ -66,27 +66,35 @@ public final class MaterialListReporterImpl extends MaterialListReporter {
     @Override
     public Path report(MaterialList materialList, String reportFileName)
             throws MaterialstoreException {
-        Objects.requireNonNull(materialList);
-
-        /* sort the entries in the materialList as specified by SortKeys */
-        materialList.order(getSortKeys());
-
-        /* write the resulting HTML into a file */
-        String fileName = (reportFileName == null) ? "list.html" : reportFileName;
-        Path filePath = store.getRoot().resolve(fileName);
-        this.report(materialList, filePath);
-        return filePath;
+        return this.report(materialList, new SortKeys(), reportFileName);
     }
 
+    @Override
+    public Path report(MaterialList materialList, SortKeys sortKeys, String reportFileName)
+            throws MaterialstoreException {
+        Objects.requireNonNull(materialList);
+        Objects.requireNonNull(sortKeys);
+        String fileName = (reportFileName == null) ? "list.html" : reportFileName;
+        /* write the resulting HTML into a file */
+        Path filePath = store.getRoot().resolve(fileName);
+        this.report(materialList, sortKeys, filePath);
+        return filePath;
+    }
 
     @Override
     public void report(MaterialList materialList, Path filePath)
             throws MaterialstoreException {
+        this.report(materialList, new SortKeys(), filePath);
+    }
+    @Override
+    public void report(MaterialList materialList, SortKeys sortKeys, Path filePath)
+            throws MaterialstoreException {
         Objects.requireNonNull(materialList);
+        Objects.requireNonNull(sortKeys);
         Objects.requireNonNull(filePath);
 
         // sort the entries by the specified keys
-        materialList.order(getSortKeys());
+        materialList.order(sortKeys);
 
         /* Create a data-model */
         Map<String, Object> model = new HashMap<>();
@@ -97,8 +105,8 @@ public final class MaterialListReporterImpl extends MaterialListReporter {
         model.put("filePath", filePath.toString());
         model.put("store", store.getRoot().normalize().toString());
 
-        model.put("model", materialList.toTemplateModel(getSortKeys()));
-        model.put("sortKeys", getSortKeys().toString());
+        model.put("model", materialList.toTemplateModel(sortKeys));
+        model.put("sortKeys", sortKeys.toString());
 
         // for debug
         if (isVerboseLoggingEnabled()) {

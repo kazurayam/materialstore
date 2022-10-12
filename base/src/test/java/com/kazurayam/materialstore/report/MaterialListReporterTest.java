@@ -86,9 +86,10 @@ public class MaterialListReporterTest extends AbstractReporterTest {
         String fileName = jobName + "-list.html";
 
         // generate a MaterialList report by FreeMarker
-        reporter.setSortKeys(
-                new SortKeys("profile", "URL.protocol", "URL.host", "URL.path", "category", "xpath"));
-        reportByFreeMarker = reporter.report(list, fileName);
+        SortKeys sortKeys =
+                new SortKeys("profile", "URL.protocol", "URL.host",
+                        "URL.path", "category", "xpath");
+        reportByFreeMarker = reporter.report(list, sortKeys, fileName);
         assertTrue(Files.exists(reportByFreeMarker));
     }
 
