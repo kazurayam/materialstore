@@ -56,6 +56,7 @@ public class InspectorImpl extends Inspector {
         //
         MProductGroupReporter reporter = this.newMProductGroupReporter(mProductGroup.getJobName());
         reporter.setCriteria(criteria);
+        reporter.setSortKeys(sortKeys);
         reporter.report(mProductGroup, fileName);
         return store.getRoot().resolve(fileName);
     }
@@ -65,6 +66,7 @@ public class InspectorImpl extends Inspector {
         Objects.requireNonNull(materialList);
         Objects.requireNonNull(fileName);
         MaterialListReporterImpl reporter = new MaterialListReporterImpl(store, materialList.getJobName());
+        reporter.setSortKeys(sortKeys);
         return reporter.report(materialList, fileName);
     }
 
