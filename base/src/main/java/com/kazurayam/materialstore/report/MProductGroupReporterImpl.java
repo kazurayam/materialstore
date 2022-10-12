@@ -80,7 +80,8 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
                             mProductGroup.toString());
         }
         /* sort the entries in the mProductGroup as specified by SortKeys */
-        //TODO
+        mProductGroup.sort(getSortKeys());
+
         /* create a data-model */
         Map<String, Object> model = new HashMap<>();
         model.put("style", StyleHelper.loadStyleFromClasspath());
@@ -93,6 +94,7 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
         model.put("mProductGroup", mProductGroup.toTemplateModel());
         model.put("model", mProductGroup.toJson(true));
         model.put("criteria", criteria);
+        model.put("sortKeys", getSortKeys().toString());
 
         // for debug
         if (isVerboseLoggingEnabled()) {
@@ -130,7 +132,8 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
         }
 
         try {
-            Files.write(filePath, html.getBytes(StandardCharsets.UTF_8),
+            Files.write(filePath,
+                    html.getBytes(StandardCharsets.UTF_8),
                     StandardOpenOption.CREATE);
         } catch (IOException e) {
             throw new MaterialstoreException(e);

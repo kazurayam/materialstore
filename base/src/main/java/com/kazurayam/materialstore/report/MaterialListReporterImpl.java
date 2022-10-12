@@ -125,6 +125,8 @@ public final class MaterialListReporterImpl extends MaterialListReporter {
         }
 
         String html;
+
+        /* pretty print the HTML using jsoup if required */
         if (isPrettyPrintingEnabled()) {
             Document doc = Jsoup.parse(sw.toString(), "", Parser.htmlParser());
             doc.outputSettings().indentAmount(2);

@@ -240,10 +240,6 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         //---------------------------------
         sb.append(this.getIndexEntry().getMetadata().toJson());
 
-        System.out.println(String.format("this.getIndexEntry().getMetadata().toJson() : %s",
-                this.getIndexEntry().getMetadata().toJson()));
-        System.out.println(String.format("this.getIndexEntry().getMetadata().getMetadataDescription(sortKeys) : %s",
-                this.getIndexEntry().getMetadata().getMetadataDescription(sortKeys)));
         //---------------------------------
         sb.append(",");
         sb.append("\"metadataText\":");
