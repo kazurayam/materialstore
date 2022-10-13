@@ -290,6 +290,10 @@ public final class MProductGroup
 
     }
 
+    public String getDescription() {
+        return this.toOrderedStringRepresentation(new SortKeys(), false);
+    }
+
     String toOrderedStringRepresentation(SortKeys sortKeys, boolean fullContent) {
         //TODO sortKeys is not yet used
         StringBuilder sb = new StringBuilder();
@@ -366,7 +370,7 @@ public final class MProductGroup
     public Map<String, Object> toTemplateModel(SortKeys sortKeys) {
         Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
         return new Gson().fromJson(
-                toOrderedStringRepresentation(sortKeys, false),
+                toOrderedStringRepresentation(sortKeys, true),
                 mapType);
     }
 

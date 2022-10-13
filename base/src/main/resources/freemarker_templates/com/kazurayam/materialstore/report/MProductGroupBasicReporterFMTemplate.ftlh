@@ -65,6 +65,9 @@
           <dd>
             ${mProductGroup.criteria?string["0.00"]}
           </dd>
+
+          <dt>Sort keys :</dt>
+          <dd>${sortKeys}</dd>
         </dl>
       </div>
       <div class="accordion accordion--custom" id="diff-contents">

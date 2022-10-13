@@ -50,34 +50,11 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
     }
 
     @Override
-    public void setCriteria(Double criteria) {
-        if (criteria < 0.0 || 100.0 < criteria) {
-            throw new IllegalArgumentException(
-                    "criteria(${criteria}) must be in the range of [0,100)");
-        }
-        this.criteria = criteria;
-    }
-
-    @Override
-    public Path report(MProductGroup mProductGroup, String fileName)
-            throws MaterialstoreException {
-        return this.report(mProductGroup, new SortKeys(), fileName);
-    }
-
-    @Override
-    public Path report(MProductGroup mProductGroup, SortKeys sortKeys, String fileName)
-            throws MaterialstoreException {
-        mProductGroup.setCriteria(this.criteria);
-        Path reportFile = store.getRoot().resolve(fileName);
-        this.report(mProductGroup, sortKeys, reportFile);
-        return reportFile;
-    }
-
-    @Override
     public void report(MProductGroup mProductGroup, Path filePath)
             throws MaterialstoreException {
         this.report(mProductGroup, new SortKeys(), filePath);
     }
+
     @Override
     public void report(MProductGroup mProductGroup, SortKeys sortKeys, Path filePath)
             throws MaterialstoreException {
@@ -101,21 +78,21 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
                 StyleHelper.loadStyleFromClasspath("/com/kazurayam/materialstore/report/model-manager.js"));
         model.put("title", getTitle(filePath));
         model.put("store", store.getRoot().normalize().toString());
-        model.put("mProductGroup", mProductGroup.toTemplateModel());
+        model.put("mProductGroup", mProductGroup.toTemplateModel(sortKeys));
         model.put("model", mProductGroup.toJson(true));
         model.put("criteria", criteria);
         model.put("sortKeys", sortKeys.toString());
 
         // for debug
         if (isVerboseLoggingEnabled()) {
-            writeModel(mProductGroup.toTemplateModelAsJson(true),
+            writeModel(mProductGroup.toTemplateModelAsJson(sortKeys,true),
                     filePath.getParent());
         }
 
         /* Get the template */
         Template template;
         try {
-           template = cfg.getTemplate(TEMPLATE_PATH);
+            template = cfg.getTemplate(TEMPLATE_PATH);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
@@ -148,5 +125,29 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
+    }
+
+    @Override
+    public Path report(MProductGroup mProductGroup, SortKeys sortKeys, String fileName)
+            throws MaterialstoreException {
+        mProductGroup.setCriteria(this.criteria);
+        Path reportFile = store.getRoot().resolve(fileName);
+        this.report(mProductGroup, sortKeys, reportFile);
+        return reportFile;
+    }
+
+    @Override
+    public Path report(MProductGroup mProductGroup, String fileName)
+            throws MaterialstoreException {
+        return this.report(mProductGroup, new SortKeys(), fileName);
+    }
+
+    @Override
+    public void setCriteria(Double criteria) {
+        if (criteria < 0.0 || 100.0 < criteria) {
+            throw new IllegalArgumentException(
+                    "criteria(${criteria}) must be in the range of [0,100)");
+        }
+        this.criteria = criteria;
     }
 }

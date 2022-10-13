@@ -12,13 +12,15 @@ public abstract class MProductGroupReporter extends AbstractReporter {
      *                 the criteria. if the diffRatio &gt; the criteria, the MaterialProduct is regarded
      *                 "TO BE WARNED". The criteria is set to be 0.0 as default.
      */
-    public abstract void setCriteria(Double criteria);
-
-    public abstract Path report(MProductGroup mProductGroup, String fileName) throws MaterialstoreException;
-
-    public abstract Path report(MProductGroup mProductGroup, SortKeys sortKeys, String fileName) throws MaterialstoreException;
 
     public abstract void report(MProductGroup mProductGroup, Path filePath) throws MaterialstoreException;
 
     public abstract void report(MProductGroup mProductGroup, SortKeys sortKeys, Path filePath) throws MaterialstoreException;
+
+    public abstract Path report(MProductGroup mProductGroup, SortKeys sortKeys, String fileName) throws MaterialstoreException;
+
+    public abstract Path report(MProductGroup mProductGroup, String fileName) throws MaterialstoreException;
+
+    public abstract void setCriteria(Double criteria);
+
 }

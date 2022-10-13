@@ -47,9 +47,30 @@ public class InspectorImpl extends Inspector {
         return tmp;
     }
 
+
+    @Override
+    public Path report(MaterialList materialList, SortKeys sortKeys, String fileName) throws MaterialstoreException {
+        Objects.requireNonNull(materialList);
+        Objects.requireNonNull(sortKeys);
+        Objects.requireNonNull(fileName);
+        MaterialListReporterImpl reporter = new MaterialListReporterImpl(store);
+        return reporter.report(materialList, sortKeys, fileName);
+    }
+
+    @Override
+    public Path report(MaterialList materialList, String fileName) throws MaterialstoreException {
+        return report(materialList, new SortKeys(), fileName);
+    }
+
     @Override
     public Path report(MProductGroup mProductGroup, Double criteria, String fileName) throws MaterialstoreException {
+        return report(mProductGroup, new SortKeys(), criteria, fileName);
+    }
+
+    @Override
+    public Path report(MProductGroup mProductGroup, SortKeys sortKeys, Double criteria, String fileName) throws MaterialstoreException {
         Objects.requireNonNull(mProductGroup);
+        Objects.requireNonNull(sortKeys);
         Objects.requireNonNull(criteria);
         Objects.requireNonNull(fileName);
         //
@@ -59,12 +80,5 @@ public class InspectorImpl extends Inspector {
         return store.getRoot().resolve(fileName);
     }
 
-    @Override
-    public Path report(MaterialList materialList, String fileName) throws MaterialstoreException {
-        Objects.requireNonNull(materialList);
-        Objects.requireNonNull(fileName);
-        MaterialListReporterImpl reporter = new MaterialListReporterImpl(store);
-        return reporter.report(materialList, sortKeys, fileName);
-    }
 
 }

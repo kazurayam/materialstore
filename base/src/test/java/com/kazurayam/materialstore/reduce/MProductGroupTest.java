@@ -206,6 +206,13 @@ public class MProductGroupTest {
         Assertions.assertTrue(s.contains("diffRatio"), s);
     }
 
+    @Test
+    public void test_getDescription() {
+        baseMProductGroup.add(MaterialProduct.NULL_OBJECT);
+        String s = baseMProductGroup.getDescription();
+        System.out.println(JsonUtil.prettyPrint(s));
+    }
+
 
     @Test
     public void test_Builder() throws MaterialstoreException {
