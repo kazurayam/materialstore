@@ -71,8 +71,7 @@ public class MaterialListReporterTest extends AbstractReporterTest {
         // stuff the Job directory with a fixture
         Path jobNameDir = store.getRoot().resolve(jobName.toString());
         FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile());
-        MaterialListReporter reporter =
-                new MaterialListReporterImpl(store, jobName);
+        MaterialListReporter reporter = new MaterialListReporterImpl(store);
         reporter.enablePrettyPrinting(true);
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");

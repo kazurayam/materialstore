@@ -35,7 +35,7 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
             LoggerFactory.getLogger(MProductGroupReporterImpl.class);
 
     private final Store store;
-    private final JobName jobName;
+
     private Double criteria = 0.0d;
 
     private static final String TEMPLATE_PATH =
@@ -44,11 +44,9 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
 
     private final Configuration cfg;
 
-    public MProductGroupReporterImpl(Store store, JobName jobName) throws MaterialstoreException {
+    public MProductGroupReporterImpl(Store store) throws MaterialstoreException {
         Objects.requireNonNull(store);
-        Objects.requireNonNull(jobName);
         this.store = store;
-        this.jobName = jobName;
         this.cfg = FreeMarkerConfigurator.configureFreeMarker(store);
     }
 

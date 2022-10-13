@@ -29,8 +29,8 @@ public class InspectorImpl extends Inspector {
     }
 
     @Override
-    public MProductGroupReporter newMProductGroupReporter(JobName jobName) throws MaterialstoreException {
-        MProductGroupReporterImpl instance = new MProductGroupReporterImpl(store, jobName);
+    public MProductGroupReporter newMProductGroupReporter() throws MaterialstoreException {
+        MProductGroupReporterImpl instance = new MProductGroupReporterImpl(store);
         instance.enablePrettyPrinting(true);
         return instance;
     }
@@ -54,7 +54,7 @@ public class InspectorImpl extends Inspector {
         Objects.requireNonNull(criteria);
         Objects.requireNonNull(fileName);
         //
-        MProductGroupReporter reporter = this.newMProductGroupReporter(mProductGroup.getJobName());
+        MProductGroupReporter reporter = this.newMProductGroupReporter();
         reporter.setCriteria(criteria);
         reporter.report(mProductGroup, sortKeys, fileName);
         return store.getRoot().resolve(fileName);
@@ -64,7 +64,7 @@ public class InspectorImpl extends Inspector {
     public Path report(MaterialList materialList, String fileName) throws MaterialstoreException {
         Objects.requireNonNull(materialList);
         Objects.requireNonNull(fileName);
-        MaterialListReporterImpl reporter = new MaterialListReporterImpl(store, materialList.getJobName());
+        MaterialListReporterImpl reporter = new MaterialListReporterImpl(store);
         return reporter.report(materialList, sortKeys, fileName);
     }
 

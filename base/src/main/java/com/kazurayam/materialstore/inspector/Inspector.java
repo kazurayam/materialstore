@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.inspector;
 
-import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
@@ -18,7 +17,7 @@ public abstract class Inspector {
         return new InspectorImpl(store);
     }
 
-    public abstract MProductGroupReporter newMProductGroupReporter(JobName jobName) throws MaterialstoreException;
+    public abstract MProductGroupReporter newMProductGroupReporter() throws MaterialstoreException;
 
     public abstract void setSortKeys(SortKeys sortKeys);
 

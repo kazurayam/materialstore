@@ -59,7 +59,7 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
         //
         MProductGroup reduced = prepareFixture(jobNameB);
         // compile HTML report
-        MProductGroupReporterImpl reporter = new MProductGroupReporterImpl(store, jobNameB);
+        MProductGroupReporterImpl reporter = new MProductGroupReporterImpl(store);
         reporter.enableVerboseLogging(true);
         reporter.enablePrettyPrinting(true);
         reporter.setCriteria(15.0d);

@@ -36,7 +36,6 @@ public final class MaterialListReporterImpl extends MaterialListReporter {
     private static final Logger logger = LoggerFactory.getLogger(MaterialListReporterImpl.class);
 
     private final Store store;
-    private final JobName jobName;
 
     private static final String TEMPLATE_PATH =
             "com/kazurayam/materialstore/report/MaterialListBasicReporterTemplate.ftlh";
@@ -44,12 +43,10 @@ public final class MaterialListReporterImpl extends MaterialListReporter {
 
     private final Configuration cfg;
 
-    public MaterialListReporterImpl(Store store, JobName jobName)
+    public MaterialListReporterImpl(Store store)
             throws MaterialstoreException {
         Objects.requireNonNull(store);
-        Objects.requireNonNull(jobName);
         this.store = store;
-        this.jobName = jobName;
         this.cfg = FreeMarkerConfigurator.configureFreeMarker(store);
     }
 
