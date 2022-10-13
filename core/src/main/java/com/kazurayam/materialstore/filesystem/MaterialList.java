@@ -145,7 +145,7 @@ public final class MaterialList
     @Override
     public Map<String, Object> toTemplateModel(SortKeys sortKeys) {
         Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
-        return new Gson().fromJson(toJson(sortKeys), mapType);
+        return new Gson().fromJson(toOrderedStringRepresentation(sortKeys), mapType);
     }
 
     public void order(SortKeys sortKeys) {
@@ -156,11 +156,7 @@ public final class MaterialList
         //
     }
 
-    public String toTemplateModelAsJson(SortKeys sortKeys) {
-        return this.toTemplateModelAsJson(sortKeys, false);
-    }
-
-    public String toTemplateModelAsJson(SortKeys sortKeys, Boolean prettyPrint) {
+    public String toTemplateModelAsJson(SortKeys sortKeys, boolean prettyPrint) {
         Gson gson = GsonHelper.createGson(prettyPrint);
         Map<String, Object> model = toTemplateModel(sortKeys);
         return gson.toJson(model);
@@ -168,10 +164,10 @@ public final class MaterialList
 
     @Override
     public String toJson() {
-        return this.toJson(new SortKeys());
+        return this.toOrderedStringRepresentation(new SortKeys());
     }
 
-    public String toJson(SortKeys sortKeys) {
+    String toOrderedStringRepresentation(SortKeys sortKeys) {
         final StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("\"jobName\":\"");

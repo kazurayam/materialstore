@@ -140,7 +140,7 @@ public class MProductGroupTest {
 
     @Test
     public void test_toStringRepresentation() {
-        String desc = baseMProductGroup.toStringRepresentation(new SortKeys(), false);
+        String desc = baseMProductGroup.toOrderedStringRepresentation(new SortKeys(), false);
         System.out.println(JsonUtil.prettyPrint(desc));
     }
 

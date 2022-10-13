@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.inspector;
 
-import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
@@ -44,7 +43,7 @@ public class InspectorImpl extends Inspector {
     public MProductGroup process(MProductGroup input) throws MaterialstoreException {
         MProductGroup tmp = new MProductGroup(input);
         tmp = reducer.process(tmp);
-        tmp.sort(sortKeys);
+        tmp.order(sortKeys);
         return tmp;
     }
 

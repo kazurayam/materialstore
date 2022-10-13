@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.report;
 
-import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
@@ -91,7 +90,7 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
                             mProductGroup.toString());
         }
         /* sort the entries in the mProductGroup as specified by SortKeys */
-        mProductGroup.sort(sortKeys);
+        mProductGroup.order(sortKeys);
 
         /* create a data-model */
         Map<String, Object> model = new HashMap<>();
