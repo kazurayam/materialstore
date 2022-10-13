@@ -13,6 +13,7 @@ import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.apache.commons.io.FileUtils;
@@ -138,8 +139,8 @@ public class MProductGroupTest {
     }
 
     @Test
-    public void test_getDescription() {
-        String desc = baseMProductGroup.toStringRepresentation(false);
+    public void test_toStringRepresentation() {
+        String desc = baseMProductGroup.toStringRepresentation(new SortKeys(), false);
         System.out.println(JsonUtil.prettyPrint(desc));
     }
 

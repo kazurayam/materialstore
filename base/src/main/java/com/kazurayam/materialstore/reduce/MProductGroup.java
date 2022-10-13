@@ -1,5 +1,7 @@
 package com.kazurayam.materialstore.reduce;
 
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
 import com.kazurayam.materialstore.filesystem.Identifiable;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
@@ -7,6 +9,7 @@ import com.kazurayam.materialstore.filesystem.MaterialIO;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.TemplateReady;
+import com.kazurayam.materialstore.filesystem.TemplateReadySortable;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
@@ -16,6 +19,7 @@ import com.kazurayam.materialstore.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +34,7 @@ import java.util.stream.Collectors;
  *
  */
 public final class MProductGroup
-        implements Iterable<MaterialProduct>, TemplateReady, Identifiable {
+        implements Iterable<MaterialProduct>, TemplateReadySortable, Identifiable {
 
     private static final Logger logger = LoggerFactory.getLogger(MProductGroup.class);
     private final List<MaterialProduct> materialProductList;
@@ -273,7 +277,7 @@ public final class MProductGroup
 
     @Override
     public String toJson() {
-        return toStringRepresentation(true);
+        return toStringRepresentation(new SortKeys(), true);
     }
 
     @Override
@@ -287,10 +291,13 @@ public final class MProductGroup
     }
 
     public String toStringRepresentation() {
-        return toStringRepresentation(false);
+        return toStringRepresentation(new SortKeys(), false);
     }
 
-    public String toStringRepresentation(boolean fullContent) {
+    public String toStringRepresentation(SortKeys sortKeys, boolean fullContent) {
+
+        //TODO sortKyes is not yet used
+
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("\"jobName\":\"");
@@ -359,6 +366,12 @@ public final class MProductGroup
 
         sb.append("}");
         return sb.toString();
+    }
+
+    @Override
+    public Map<String, Object> toTemplateModel(SortKeys sortKeys) {
+        Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
+        return new Gson().fromJson(toStringRepresentation(sortKeys, false), mapType);
     }
 
 

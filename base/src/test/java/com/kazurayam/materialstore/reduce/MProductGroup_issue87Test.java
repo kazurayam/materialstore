@@ -7,6 +7,7 @@ import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
@@ -63,14 +64,14 @@ public class MProductGroup_issue87Test {
     }
 
     @Test
-    public void test_getDescription_short() {
-        String desc = mProductGroup.toStringRepresentation(false);
+    public void test_toStringRepresentation_short() {
+        String desc = mProductGroup.toStringRepresentation(new SortKeys(), false);
         System.out.println("[test_getDescription_short]\n" + JsonUtil.prettyPrint(desc));
     }
 
     @Test
-    public void test_getDescription_full() {
-        String desc = mProductGroup.toStringRepresentation(true);
+    public void test_toStringRepresentation_full() {
+        String desc = mProductGroup.toStringRepresentation(new SortKeys(), true);
         System.out.println("[test_getDescription_full]\n" + JsonUtil.prettyPrint(desc));
     }
 

@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.filesystem;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.util.GsonHelper;
 
 import java.lang.reflect.Type;
@@ -19,7 +20,6 @@ public interface TemplateReady extends Jsonifiable {
         Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
         return new Gson().fromJson(toJson(), mapType);
     }
-
 
     /**
      * @return one line json (non-pretty-printed)

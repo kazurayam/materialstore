@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public final class MaterialList
-        implements Iterable<Material>, Jsonifiable, TemplateReady, Identifiable {
+        implements Iterable<Material>, Jsonifiable, TemplateReadySortable, Identifiable {
 
     private static final Logger logger = LoggerFactory.getLogger(MaterialList.class.getName());
 
@@ -142,6 +142,7 @@ public final class MaterialList
      * @param sortKeys
      * @return
      */
+    @Override
     public Map<String, Object> toTemplateModel(SortKeys sortKeys) {
         Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
         return new Gson().fromJson(toJson(sortKeys), mapType);
