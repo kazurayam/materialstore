@@ -365,7 +365,9 @@ public final class MProductGroup
     @Override
     public Map<String, Object> toTemplateModel(SortKeys sortKeys) {
         Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
-        return new Gson().fromJson(toOrderedStringRepresentation(sortKeys, false), mapType);
+        return new Gson().fromJson(
+                toOrderedStringRepresentation(sortKeys, false),
+                mapType);
     }
 
     @Override

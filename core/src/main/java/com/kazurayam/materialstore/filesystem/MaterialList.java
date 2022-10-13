@@ -130,41 +130,24 @@ public final class MaterialList
         return this.query;
     }
 
-    @Override
-    public String toString() {
-        return toJson();
-    }
-
-    /**
-     * Alternative to the toTemplateModel() in the TemplateReady interface.
-     * This accepts an argument sortKeys, this makes the result dynamically configurable.
-     *
-     * @param sortKeys
-     * @return
-     */
-    @Override
-    public Map<String, Object> toTemplateModel(SortKeys sortKeys) {
-        Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
-        return new Gson().fromJson(toOrderedStringRepresentation(sortKeys), mapType);
-    }
-
     public void order(SortKeys sortKeys) {
-        //
         MaterialComparatorByMetadataDescription comparator =
                 new MaterialComparatorByMetadataDescription(sortKeys);
         Collections.sort(materialList, comparator);
-        //
-    }
-
-    public String toTemplateModelAsJson(SortKeys sortKeys, boolean prettyPrint) {
-        Gson gson = GsonHelper.createGson(prettyPrint);
-        Map<String, Object> model = toTemplateModel(sortKeys);
-        return gson.toJson(model);
     }
 
     @Override
     public String toJson() {
         return this.toOrderedStringRepresentation(new SortKeys());
+    }
+
+    @Override
+    public String toJson(boolean prettyPrint) {
+        if (prettyPrint) {
+            return JsonUtil.prettyPrint(toJson(), Map.class);
+        } else {
+            return toJson();
+        }
     }
 
     String toOrderedStringRepresentation(SortKeys sortKeys) {
@@ -196,13 +179,29 @@ public final class MaterialList
         return sb.toString();
     }
 
+
     @Override
-    public String toJson(boolean prettyPrint) {
-        if (prettyPrint) {
-            return JsonUtil.prettyPrint(toJson(), Map.class);
-        } else {
-            return toJson();
-        }
+    public String toString() {
+        return toJson();
     }
 
+    /**
+     * Alternative to the toTemplateModel() in the TemplateReady interface.
+     * This accepts an argument sortKeys, this makes the result dynamically configurable.
+     *
+     * @param sortKeys
+     * @return
+     */
+    @Override
+    public Map<String, Object> toTemplateModel(SortKeys sortKeys) {
+        Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
+        return new Gson().fromJson(toOrderedStringRepresentation(sortKeys), mapType);
+    }
+
+
+    public String toTemplateModelAsJson(SortKeys sortKeys, boolean prettyPrint) {
+        Gson gson = GsonHelper.createGson(prettyPrint);
+        Map<String, Object> model = toTemplateModel(sortKeys);
+        return gson.toJson(model);
+    }
 }
