@@ -244,7 +244,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         sb.append(",");
         sb.append("\"metadataText\":");
         sb.append("\"");
-        sb.append(JsonUtil.escapeAsJsonString(this.getIndexEntry().getMetadata().getMetadataDescription(sortKeys).toString()));
+        sb.append(JsonUtil.escapeAsJsonString(this.getIndexEntry().getMetadata().getMetadataIdentification(sortKeys).toString()));
         sb.append("\"");
         try {
             if (this.getIndexEntry().getMetadata().toURL() != null) {

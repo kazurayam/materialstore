@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.TemplateReady;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
-import com.kazurayam.materialstore.filesystem.metadata.QueryDescription;
+import com.kazurayam.materialstore.filesystem.metadata.QueryIdentification;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.util.JsonUtil;
 
@@ -119,12 +119,12 @@ public final class MaterialProduct
         return this.query;
     }
 
-    public QueryDescription getQueryDescription() {
-        return this.query.getQueryDescription();
+    public QueryIdentification getQueryIdentification() {
+        return this.query.getQueryIdentification();
     }
 
-    public QueryDescription getQueryDescription(SortKeys sortKeys) {
-        return this.query.getQueryDescription(sortKeys);
+    public QueryIdentification getQueryIdentification(SortKeys sortKeys) {
+        return this.query.getQueryIdentification(sortKeys);
     }
 
     @Override
@@ -168,7 +168,7 @@ public final class MaterialProduct
     @Override
     public int compareTo(MaterialProduct other) {
         // Note that the SortKey is taken into account here indirectly
-        return this.getQueryDescription().compareTo(other.getQueryDescription());
+        return this.getQueryIdentification().compareTo(other.getQueryIdentification());
     }
 
     public boolean contains(Material material) {

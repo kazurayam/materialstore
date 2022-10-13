@@ -72,7 +72,7 @@ public final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, Te
     }
 
     public String getMetadataDescription() {
-        return this.getFileType().getExtension() + " " + this.getMetadata().getMetadataDescription();
+        return this.getFileType().getExtension() + " " + this.getMetadata().getMetadataIdentification();
     }
 
     public String getDescriptionSignature() {

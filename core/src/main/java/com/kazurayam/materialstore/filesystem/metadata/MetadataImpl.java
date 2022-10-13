@@ -177,14 +177,14 @@ public final class MetadataImpl extends Metadata {
 
 
     @Override
-    public MetadataDescription getMetadataDescription() {
-        return this.getMetadataDescription(new SortKeys());
+    public MetadataIdentification getMetadataIdentification() {
+        return this.getMetadataIdentification(new SortKeys());
     }
 
     @Override
-    public MetadataDescription getMetadataDescription(SortKeys sortKeys) {
+    public MetadataIdentification getMetadataIdentification(SortKeys sortKeys) {
         String simplifiedJson = this.toSimplifiedJson(sortKeys);
-        return new MetadataDescription(simplifiedJson);
+        return new MetadataIdentification(simplifiedJson);
     }
 
     private String toSimplifiedJson() {

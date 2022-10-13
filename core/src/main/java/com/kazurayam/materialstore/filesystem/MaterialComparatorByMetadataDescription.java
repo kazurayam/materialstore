@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.filesystem;
 
-import com.kazurayam.materialstore.filesystem.metadata.MetadataDescription;
+import com.kazurayam.materialstore.filesystem.metadata.MetadataIdentification;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 
 import java.util.Comparator;
@@ -22,8 +22,8 @@ public class MaterialComparatorByMetadataDescription implements Comparator<Mater
     public int compare(Material m1, Material m2) {
         Objects.requireNonNull(m1);
         Objects.requireNonNull(m2);
-        MetadataDescription md1 = m1.getMetadata().getMetadataDescription(sortKeys);
-        MetadataDescription md2 = m2.getMetadata().getMetadataDescription(sortKeys);
-        return md1.toString().compareTo(md2.toString());
+        MetadataIdentification mi1 = m1.getMetadata().getMetadataIdentification(sortKeys);
+        MetadataIdentification mi2 = m2.getMetadata().getMetadataIdentification(sortKeys);
+        return mi1.toString().compareTo(mi2.toString());
     }
 }

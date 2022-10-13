@@ -44,7 +44,7 @@ public class MaterialTest {
         Assertions.assertEquals(FileType.PNG,
                 material.getIndexEntry().getFileType());
         Assertions.assertEquals("{\"profile\":\"DevelopmentEnv\", \"URL\":\"http://demoaut-mimic.kazurayam.com/\"}",
-                material.getIndexEntry().getMetadata().getMetadataDescription().toString());
+                material.getIndexEntry().getMetadata().getMetadataIdentification().toString());
         //
         //System.out.println(material.toString());
         Assertions.assertEquals(material, material);

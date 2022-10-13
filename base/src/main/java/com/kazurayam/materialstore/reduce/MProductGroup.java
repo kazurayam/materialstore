@@ -277,7 +277,7 @@ public final class MProductGroup
 
     @Override
     public String toJson() {
-        return toOrderedStringRepresentation(new SortKeys(), true);
+        return toVariableJson(new SortKeys(), true);
     }
 
     @Override
@@ -290,11 +290,14 @@ public final class MProductGroup
 
     }
 
-    public String getDescription() {
-        return this.toOrderedStringRepresentation(new SortKeys(), false);
+    public String toSummary() {
+        return JsonUtil.prettyPrint(
+                this.toVariableJson(new SortKeys(),
+                        false));
     }
 
-    String toOrderedStringRepresentation(SortKeys sortKeys, boolean fullContent) {
+    String toVariableJson(SortKeys sortKeys,
+                          boolean withMaterialProductList) {
         //TODO sortKeys is not yet used
         StringBuilder sb = new StringBuilder();
         sb.append("{");
@@ -338,7 +341,7 @@ public final class MProductGroup
         sb.append("\"size\":");
         sb.append(materialList1.size());
         sb.append("}");
-        if (fullContent) {
+        if (withMaterialProductList) {
             sb.append(",");
             int count = 0;
             sb.append("\"materialProductList\":");
@@ -370,7 +373,7 @@ public final class MProductGroup
     public Map<String, Object> toTemplateModel(SortKeys sortKeys) {
         Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
         return new Gson().fromJson(
-                toOrderedStringRepresentation(sortKeys, true),
+                toVariableJson(sortKeys, true),
                 mapType);
     }
 

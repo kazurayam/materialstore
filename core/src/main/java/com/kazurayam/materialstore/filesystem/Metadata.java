@@ -3,7 +3,7 @@ package com.kazurayam.materialstore.filesystem;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute;
-import com.kazurayam.materialstore.filesystem.metadata.MetadataDescription;
+import com.kazurayam.materialstore.filesystem.metadata.MetadataIdentification;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataImpl;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 
@@ -26,9 +26,9 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
 
     public abstract String get(String key);
 
-    public abstract MetadataDescription getMetadataDescription();
+    public abstract MetadataIdentification getMetadataIdentification();
 
-    public abstract MetadataDescription getMetadataDescription(SortKeys sortKeys);
+    public abstract MetadataIdentification getMetadataIdentification(SortKeys sortKeys);
 
     public abstract MetadataAttribute getMetadataAttribute(String key);
 

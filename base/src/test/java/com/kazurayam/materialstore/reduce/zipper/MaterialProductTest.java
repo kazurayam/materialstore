@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
-import com.kazurayam.materialstore.filesystem.metadata.QueryDescription;
+import com.kazurayam.materialstore.filesystem.metadata.QueryIdentification;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.apache.commons.io.FileUtils;
@@ -52,7 +52,7 @@ public class MaterialProductTest {
     }
 
     @Test
-    public void test_getQueryDescription_more() {
+    public void test_getQueryIdentification_more() {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(3);
         map.put("URL.path", "/");
         map.put("profile", "Flaskr_ProductionEnv");
@@ -62,18 +62,12 @@ public class MaterialProductTest {
         SortKeys sortKeys = new SortKeys("step", "profile");
         MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).build();
 
-        //DEBUG
-        System.out.println(String.format("sortKeys : %s", sortKeys));
-        System.out.println(String.format("mProduct.getQueryDescription() : %s", mProduct.getQueryDescription()));
-        System.out.println(String.format("mProduct.getQueryOnMetadata.getQueryDescription() : %s",mProduct.getQueryOnMetadata().getQueryDescription()));
-        System.out.println(String.format("mProduct.getQueryOnMetadata.getQueryDescription(sortKeys) : %s",mProduct.getQueryOnMetadata().getQueryDescription(sortKeys)));
-
-        QueryDescription desc = mProduct.getQueryDescription(sortKeys);
+        QueryIdentification desc = mProduct.getQueryIdentification(sortKeys);
         assertEquals("{\"step\":\"6\", \"profile\":\"Flaskr_ProductionEnv\", \"URL.path\":\"/\"}", desc.toString());
     }
 
     @Test
-    public void test_getQueryDescription() {
+    public void test_getQueryIdentification() {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(2);
         map.put("URL.host", "demoaut-mimic.kazurayam.com");
         map.put("URL.file", "/");
@@ -81,7 +75,7 @@ public class MaterialProductTest {
         MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).build();
         assertEquals(
                 "{\"URL.file\":\"/\", \"URL.host\":\"demoaut-mimic.kazurayam.com\"}",
-                mProduct.getQueryDescription().toString());
+                mProduct.getQueryIdentification().toString());
     }
 
     @Test

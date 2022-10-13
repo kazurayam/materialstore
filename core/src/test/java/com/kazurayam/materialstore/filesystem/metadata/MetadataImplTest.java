@@ -2,7 +2,6 @@ package com.kazurayam.materialstore.filesystem.metadata;
 
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.net.MalformedURLException;
@@ -70,9 +69,9 @@ public class MetadataImplTest {
 
 
     @Test
-    public void test_getMetadataDescription() {
+    public void test_getMetadataIdentification() {
         SortKeys sortKeys = new SortKeys("timestamp", "step");
-        MetadataDescription desc = metadata.getMetadataDescription(sortKeys);
+        MetadataIdentification desc = metadata.getMetadataIdentification(sortKeys);
         assertTrue(desc.toString().startsWith("{\"timestamp\":"), desc.toString());
     }
 

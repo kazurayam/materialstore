@@ -140,7 +140,7 @@ public class MProductGroupTest {
 
     @Test
     public void test_toStringRepresentation() {
-        String desc = baseMProductGroup.toOrderedStringRepresentation(new SortKeys(), false);
+        String desc = baseMProductGroup.toVariableJson(new SortKeys(), false);
         System.out.println(JsonUtil.prettyPrint(desc));
     }
 
@@ -207,9 +207,9 @@ public class MProductGroupTest {
     }
 
     @Test
-    public void test_getDescription() {
+    public void test_toSummary() {
         baseMProductGroup.add(MaterialProduct.NULL_OBJECT);
-        String s = baseMProductGroup.getDescription();
+        String s = baseMProductGroup.toSummary();
         System.out.println(JsonUtil.prettyPrint(s));
     }
 

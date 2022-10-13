@@ -138,7 +138,7 @@ public final class MaterialList
 
     @Override
     public String toJson() {
-        return this.toOrderedStringRepresentation(new SortKeys());
+        return this.toVariableJson(new SortKeys());
     }
 
     @Override
@@ -150,7 +150,7 @@ public final class MaterialList
         }
     }
 
-    String toOrderedStringRepresentation(SortKeys sortKeys) {
+    String toVariableJson(SortKeys sortKeys) {
         final StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("\"jobName\":\"");
@@ -195,7 +195,7 @@ public final class MaterialList
     @Override
     public Map<String, Object> toTemplateModel(SortKeys sortKeys) {
         Type mapType = new TypeToken<Map<String, Object>>(){}.getType();
-        return new Gson().fromJson(toOrderedStringRepresentation(sortKeys), mapType);
+        return new Gson().fromJson(toVariableJson(sortKeys), mapType);
     }
 
 

@@ -65,13 +65,13 @@ public class MProductGroup_issue87Test {
 
     @Test
     public void test_toStringRepresentation_short() {
-        String desc = mProductGroup.toOrderedStringRepresentation(new SortKeys(), false);
+        String desc = mProductGroup.toVariableJson(new SortKeys(), false);
         System.out.println("[test_getDescription_short]\n" + JsonUtil.prettyPrint(desc));
     }
 
     @Test
     public void test_toStringRepresentation_full() {
-        String desc = mProductGroup.toOrderedStringRepresentation(new SortKeys(), true);
+        String desc = mProductGroup.toVariableJson(new SortKeys(), true);
         System.out.println("[test_getDescription_full]\n" + JsonUtil.prettyPrint(desc));
     }
 
