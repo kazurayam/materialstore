@@ -49,28 +49,16 @@ public class InspectorImpl extends Inspector {
 
 
     @Override
-    public Path report(MaterialList materialList, SortKeys sortKeys, String fileName) throws MaterialstoreException {
+    public Path report(MaterialList materialList, String fileName) throws MaterialstoreException {
         Objects.requireNonNull(materialList);
-        Objects.requireNonNull(sortKeys);
         Objects.requireNonNull(fileName);
         MaterialListReporterImpl reporter = new MaterialListReporterImpl(store);
         return reporter.report(materialList, sortKeys, fileName);
     }
 
     @Override
-    public Path report(MaterialList materialList, String fileName) throws MaterialstoreException {
-        return report(materialList, new SortKeys(), fileName);
-    }
-
-    @Override
     public Path report(MaterialProductGroup mpg, Double criteria, String fileName) throws MaterialstoreException {
-        return report(mpg, new SortKeys(), criteria, fileName);
-    }
-
-    @Override
-    public Path report(MaterialProductGroup mpg, SortKeys sortKeys, Double criteria, String fileName) throws MaterialstoreException {
         Objects.requireNonNull(mpg);
-        Objects.requireNonNull(sortKeys);
         Objects.requireNonNull(criteria);
         Objects.requireNonNull(fileName);
         //
