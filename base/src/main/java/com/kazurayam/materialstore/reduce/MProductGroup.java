@@ -13,6 +13,7 @@ import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
+import com.kazurayam.materialstore.reduce.zipper.MaterialProductComparator;
 import com.kazurayam.materialstore.reduce.zipper.Zipper;
 import com.kazurayam.materialstore.util.GsonHelper;
 import com.kazurayam.materialstore.util.JsonUtil;
@@ -256,8 +257,8 @@ public final class MProductGroup
     }
 
     public void order(SortKeys sortKeys) {
-        //TODO how to sort the MaterialProductList object?
-        Collections.sort(materialProductList);
+        MaterialProductComparator comparator = new MaterialProductComparator(sortKeys);
+        materialProductList.sort(comparator);
     }
 
     public List<QueryOnMetadata> getQueryOnMetadataList() {
@@ -350,7 +351,10 @@ public final class MProductGroup
                 if (count > 0) {
                     sb.append(",");
                 }
-                sb.append(mProduct.toJson());
+                sb.append(
+                        mProduct.toVariableJson(
+                                sortKeys
+                        ));
                 count += 1;
             }
             sb.append("]");

@@ -4,22 +4,22 @@ import java.util.Objects;
 
 public class MetadataIdentification implements Comparable<MetadataIdentification> {
 
-    private final String representation;
+    private final String identification;
 
     public MetadataIdentification(String representation) {
         Objects.requireNonNull(representation);
-        this.representation = representation;
+        this.identification = representation;
     }
 
-    public String getRepresentation() {
-        return this.representation;
+    public String getIdentification() {
+        return this.identification;
     }
 
     public String toString() {
-        return this.representation;
+        return this.identification;
     }
 
     public int compareTo(MetadataIdentification other) {
-        return this.representation.compareTo(other.representation);
+        return this.identification.compareTo(other.identification);
     }
 }

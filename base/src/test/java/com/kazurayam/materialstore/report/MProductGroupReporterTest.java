@@ -7,6 +7,7 @@ import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
+import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.inspector.Inspector;
 import com.kazurayam.materialstore.reduce.MProductGroup;
 import org.apache.commons.io.FileUtils;
@@ -64,9 +65,9 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
         reporter.enablePrettyPrinting(true);
         reporter.setCriteria(15.0d);
         //
-        report1 = reporter.report(reduced, jobNameB + "-index.html");
+        SortKeys sortKeys = new SortKeys("URL.path");
+        report1 = reporter.report(reduced, sortKeys,jobNameB + "-index.html");
         assertTrue(Files.exists(report1));
-
 
         // test the report content
         // make sure the HTML contains a string "class='ignored-key'"
@@ -98,7 +99,7 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
         // make diff of the 2 MaterialList objects
         MProductGroup reducedMPG =
                 MProductGroup.builder(left, right)
-                        .ignoreKeys("profile", "URL.host")
+                        .ignoreKeys("profile", "URL.host", "URL.protocol", "URL.port")
                         .identifyWithRegex(
                                 Collections.singletonMap(
                                         "URL.query", "\\w{32}"))

@@ -133,7 +133,7 @@ public final class MaterialList
     public void order(SortKeys sortKeys) {
         MaterialComparatorByMetadataDescription comparator =
                 new MaterialComparatorByMetadataDescription(sortKeys);
-        Collections.sort(materialList, comparator);
+        materialList.sort(comparator);
     }
 
     @Override

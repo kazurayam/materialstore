@@ -98,7 +98,7 @@
                       <span class="ratio ">no diff</span>
                     </#if>
                     <span class="fileType">${mProduct.fileTypeExtension}</span>
-                    <span class="description">${mProduct.description}</span>
+                    <span class="identification">${mProduct.identification}</span>
                   </button>
                 </h2>
                 <div id="collapse${index}" class="according-collapse collapse" aria-labelledby="heading${index}"
@@ -144,7 +144,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="${imageModalTitleId}">
-                <span>${mProduct.diffRatio?string["0.00"]}% ${mProduct.fileTypeExtension} ${mProduct.description}</span>
+                <span>${mProduct.diffRatio?string["0.00"]}% ${mProduct.fileTypeExtension} ${mProduct.identification}</span>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </h5>
             </div>
@@ -189,7 +189,7 @@
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="${textModalTitleId}">
-                <span>${mProduct.diffRatio?string["0.00"]}% ${mProduct.fileTypeExtension} ${mProduct.description}</span>
+                <span>${mProduct.diffRatio?string["0.00"]}% ${mProduct.fileTypeExtension} ${mProduct.identification}</span>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
               </h5>
             </div>

@@ -23,7 +23,8 @@ public class MaterialList_order_Test {
 
     private static Path outputDir;
     private static Store store;
-    private static final JobName jobName = new JobName("MaterialComparatorByOrdinalDescriptionTest");
+    private static final JobName jobName =
+            new JobName("MaterialList_order_Test");
     private static JobTimestamp jobTimestamp;
     private static Map<String, Metadata> fixture = new HashMap<>();
 

@@ -8,9 +8,9 @@ public class MetadataIdentificationTest {
 
     @Test
     public void test_smoke() {
-        String representation = "{\"timestamp\":\"20221010-091203\", \"step\":\"01\"}";
-        MetadataIdentification mi = new MetadataIdentification(representation);
-        assertEquals(representation, mi.getRepresentation());
-        assertEquals(representation, mi.toString());
+        String identification = "{\"timestamp\":\"20221010-091203\", \"step\":\"01\"}";
+        MetadataIdentification mi = new MetadataIdentification(identification);
+        assertEquals(identification, mi.getIdentification());
+        assertEquals(identification, mi.toString());
     }
 }

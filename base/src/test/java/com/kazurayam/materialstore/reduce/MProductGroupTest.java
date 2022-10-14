@@ -139,8 +139,8 @@ public class MProductGroupTest {
     }
 
     @Test
-    public void test_toStringRepresentation() {
-        String desc = baseMProductGroup.toVariableJson(new SortKeys(), false);
+    public void test_toVariableJson() {
+        String desc = baseMProductGroup.toVariableJson(new SortKeys(), true);
         System.out.println(JsonUtil.prettyPrint(desc));
     }
 

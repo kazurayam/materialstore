@@ -167,7 +167,6 @@ public final class MaterialProduct
 
     @Override
     public int compareTo(MaterialProduct other) {
-        // Note that the SortKey is taken into account here indirectly
         return this.getQueryIdentification().compareTo(other.getQueryIdentification());
     }
 
@@ -187,6 +186,19 @@ public final class MaterialProduct
 
     @Override
     public String toJson() {
+        return this.toVariableJson(new SortKeys());
+    }
+
+    @Override
+    public String toJson(boolean prettyPrint) {
+        if (prettyPrint) {
+            return JsonUtil.prettyPrint(toJson());
+        } else {
+            return toJson();
+        }
+    }
+
+    public String toVariableJson(SortKeys sortKeys) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         //sb.append("\"reducedTimestamp\":\"");
@@ -211,10 +223,10 @@ public final class MaterialProduct
         sb.append("\"" + getFileTypeExtension() + "\"");
         sb.append(",");
         sb.append("\"queryOnMetadata\":");
-        sb.append(query.toJson());
+        sb.append(query.getQueryIdentification(sortKeys).toString());
         sb.append(",");
-        sb.append("\"description\":");
-        sb.append("\"" + JsonUtil.escapeAsJsonString(query.toJson()) + "\"");
+        sb.append("\"identification\":");
+        sb.append("\"" + JsonUtil.escapeAsJsonString(query.getQueryIdentification(sortKeys).toString()) + "\"");
         sb.append(",");
         sb.append("\"left\":");
         sb.append(left.toJson());
@@ -228,15 +240,6 @@ public final class MaterialProduct
         return sb.toString();
     }
 
-    @Override
-    public String toJson(boolean prettyPrint) {
-        if (prettyPrint) {
-            return JsonUtil.prettyPrint(toJson());
-        } else {
-            return toJson();
-        }
-
-    }
 
 
     /**
