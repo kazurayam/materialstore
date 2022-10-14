@@ -6,9 +6,9 @@ import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.reduce.DiffingMPGProcessor;
 import com.kazurayam.materialstore.reduce.MPGProcessor;
-import com.kazurayam.materialstore.reduce.MProductGroup;
-import com.kazurayam.materialstore.report.MProductGroupReporter;
-import com.kazurayam.materialstore.report.MProductGroupReporterImpl;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
+import com.kazurayam.materialstore.report.MaterialProductGroupReporter;
+import com.kazurayam.materialstore.report.MaterialProductGroupReporterImpl;
 import com.kazurayam.materialstore.report.MaterialListReporterImpl;
 
 import java.nio.file.Path;
@@ -28,8 +28,8 @@ public class InspectorImpl extends Inspector {
     }
 
     @Override
-    public MProductGroupReporter newMProductGroupReporter() throws MaterialstoreException {
-        MProductGroupReporterImpl instance = new MProductGroupReporterImpl(store);
+    public MaterialProductGroupReporter newMaterialProductGroupReporter() throws MaterialstoreException {
+        MaterialProductGroupReporterImpl instance = new MaterialProductGroupReporterImpl(store);
         instance.enablePrettyPrinting(true);
         return instance;
     }
@@ -40,8 +40,8 @@ public class InspectorImpl extends Inspector {
     }
 
     @Override
-    public MProductGroup process(MProductGroup input) throws MaterialstoreException {
-        MProductGroup tmp = new MProductGroup(input);
+    public MaterialProductGroup process(MaterialProductGroup input) throws MaterialstoreException {
+        MaterialProductGroup tmp = new MaterialProductGroup(input);
         tmp = reducer.process(tmp);
         tmp.order(sortKeys);
         return tmp;
@@ -63,20 +63,20 @@ public class InspectorImpl extends Inspector {
     }
 
     @Override
-    public Path report(MProductGroup mProductGroup, Double criteria, String fileName) throws MaterialstoreException {
-        return report(mProductGroup, new SortKeys(), criteria, fileName);
+    public Path report(MaterialProductGroup mpg, Double criteria, String fileName) throws MaterialstoreException {
+        return report(mpg, new SortKeys(), criteria, fileName);
     }
 
     @Override
-    public Path report(MProductGroup mProductGroup, SortKeys sortKeys, Double criteria, String fileName) throws MaterialstoreException {
-        Objects.requireNonNull(mProductGroup);
+    public Path report(MaterialProductGroup mpg, SortKeys sortKeys, Double criteria, String fileName) throws MaterialstoreException {
+        Objects.requireNonNull(mpg);
         Objects.requireNonNull(sortKeys);
         Objects.requireNonNull(criteria);
         Objects.requireNonNull(fileName);
         //
-        MProductGroupReporter reporter = this.newMProductGroupReporter();
+        MaterialProductGroupReporter reporter = this.newMaterialProductGroupReporter();
         reporter.setCriteria(criteria);
-        reporter.report(mProductGroup, sortKeys, fileName);
+        reporter.report(mpg, sortKeys, fileName);
         return store.getRoot().resolve(fileName);
     }
 

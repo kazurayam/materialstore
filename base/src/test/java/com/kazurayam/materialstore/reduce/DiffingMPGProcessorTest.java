@@ -64,12 +64,12 @@ public class DiffingMPGProcessorTest {
         MaterialList right = store.select(jobName, timestamp2, FileType.HTML, QueryOnMetadata.builder(map1).build());
         Assertions.assertEquals(1, right.size());
 
-        MProductGroup mProductGroup = MProductGroup.builder(left, right).ignoreKeys("profile", "URL", "URL.host").build();
-        Assertions.assertNotNull(mProductGroup);
-        Assertions.assertEquals(1, mProductGroup.size());
+        MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL", "URL.host").build();
+        Assertions.assertNotNull(mpg);
+        Assertions.assertEquals(1, mpg.size());
         //
         DiffingMPGProcessor differDriver = new DiffingMPGProcessor.Builder(store).build();
-        MProductGroup resolved = differDriver.process(mProductGroup);
+        MaterialProductGroup resolved = differDriver.process(mpg);
         Assertions.assertEquals(1, resolved.size());
     }
 
@@ -87,12 +87,12 @@ public class DiffingMPGProcessorTest {
         map1.put("profile", "DevelopmentEnv");
         MaterialList right = store.select(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.builder(map1).build());
 
-        MProductGroup mProductGroup = MProductGroup.builder(left, right).ignoreKeys("profile", "URL", "URL.host").build();
-        Assertions.assertNotNull(mProductGroup);
-        Assertions.assertEquals(2, mProductGroup.size());
+        MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL", "URL.host").build();
+        Assertions.assertNotNull(mpg);
+        Assertions.assertEquals(2, mpg.size());
         //
         DiffingMPGProcessor differDriver = new DiffingMPGProcessor.Builder(store).build();
-        MProductGroup resolved = differDriver.process(mProductGroup);
+        MaterialProductGroup resolved = differDriver.process(mpg);
         Assertions.assertNotNull(resolved);
         Assertions.assertEquals(2, resolved.size());
     }

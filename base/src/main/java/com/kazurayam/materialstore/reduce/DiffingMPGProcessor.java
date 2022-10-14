@@ -33,17 +33,17 @@ public final class DiffingMPGProcessor implements MPGProcessor {
 
     // implements Reducer
     @Override
-    public MProductGroup process(MProductGroup mProductGroup) throws MaterialstoreException {
-        Objects.requireNonNull(mProductGroup);
+    public MaterialProductGroup process(MaterialProductGroup mpg) throws MaterialstoreException {
+        Objects.requireNonNull(mpg);
         final List<MaterialProduct> stuffedMPs = new ArrayList<>();
-        for (MaterialProduct input : mProductGroup) {
+        for (MaterialProduct input : mpg) {
             // do make difference
             MaterialProduct stuffed = stuffDiffByDiffer(input);
             // memorize the diff
             stuffedMPs.add(stuffed);
         }
         // clone the input to build the result
-        final MProductGroup result = new MProductGroup(mProductGroup);
+        final MaterialProductGroup result = new MaterialProductGroup(mpg);
         // and engrave the diff
         for (MaterialProduct stuffed : stuffedMPs) {
             result.update(stuffed);

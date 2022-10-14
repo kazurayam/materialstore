@@ -7,7 +7,7 @@ import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -52,8 +52,8 @@ public class MPGVisualizerTest {
     public void test_visualize() throws MaterialstoreException {
         MaterialList leftMaterialList = store.select(jobName, leftTimestamp);
         MaterialList rightMaterialList = store.select(jobName, rightTimestamp);
-        MProductGroup mProductGroup =
-                new MProductGroup.Builder(
+        MaterialProductGroup mProductGroup =
+                new MaterialProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList).ignoreKeys("profile", "URL.host").build();
         //

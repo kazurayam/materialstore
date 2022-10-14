@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.StoreImpl;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.report.AbstractReporterTest;
 import com.kazurayam.materialstore.util.TestFixtureUtil;
@@ -43,7 +43,7 @@ public class TextDifferToHTMLTest extends AbstractReporterTest {
 
 
     @Test
-    public void test_makeMProduct() throws MaterialstoreException, FileNotFoundException {
+    public void test_makeMProduct() throws MaterialstoreException {
         JobName jobName = new JobName("test_makeMProduct");
         TestFixtureUtil.setupFixture(store, jobName);
         MaterialProduct mProductFM = injectDiffAsMaterialProductFM(store, jobName);
@@ -57,7 +57,7 @@ public class TextDifferToHTMLTest extends AbstractReporterTest {
      *
      */
     private static MaterialProduct injectDiffAsMaterialProductFM(Store store, JobName jobName) throws MaterialstoreException {
-        MProductGroup reducedMPG = prepareMProductGroup(store, jobName);
+        MaterialProductGroup reducedMPG = prepareMPG(store, jobName);
         TextDifferToHTML instance = new TextDifferToHTML(store);
         instance.enablePrettyPrinting(false);
         return instance.stuffDiff(reducedMPG.get(0));
@@ -65,7 +65,7 @@ public class TextDifferToHTMLTest extends AbstractReporterTest {
 
     /**
      */
-    private static MProductGroup prepareMProductGroup(Store store, JobName jobName) throws MaterialstoreException {
+    private static MaterialProductGroup prepareMPG(Store store, JobName jobName) throws MaterialstoreException {
         Objects.requireNonNull(jobName);
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         LinkedHashMap<String, String> map = new LinkedHashMap<>(2);
@@ -80,7 +80,7 @@ public class TextDifferToHTMLTest extends AbstractReporterTest {
         MaterialList actual = store.select(jobName, jobTimestamp, FileType.HTML, QueryOnMetadata.builder(map1).build());
         Assertions.assertEquals(1, actual.size());
 
-        MProductGroup reducedMPG = MProductGroup.builder(expected, actual).ignoreKeys("profile", "URL.host").build();
+        MaterialProductGroup reducedMPG = MaterialProductGroup.builder(expected, actual).ignoreKeys("profile", "URL.host").build();
         Assertions.assertNotNull(reducedMPG);
         Assertions.assertEquals(1, reducedMPG.size());
         return reducedMPG;

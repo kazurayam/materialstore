@@ -3,7 +3,7 @@ package com.kazurayam.materialstore.report;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -28,10 +28,10 @@ import java.util.Objects;
  * MProductGroupReporterImplMB re-implemented using FreeMarker.
  *
  */
-public final class MProductGroupReporterImpl extends MProductGroupReporter {
+public final class MaterialProductGroupReporterImpl extends MaterialProductGroupReporter {
 
     private static final Logger logger =
-            LoggerFactory.getLogger(MProductGroupReporterImpl.class);
+            LoggerFactory.getLogger(MaterialProductGroupReporterImpl.class);
 
     private final Store store;
 
@@ -43,31 +43,31 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
 
     private final Configuration cfg;
 
-    public MProductGroupReporterImpl(Store store) throws MaterialstoreException {
+    public MaterialProductGroupReporterImpl(Store store) throws MaterialstoreException {
         Objects.requireNonNull(store);
         this.store = store;
         this.cfg = FreeMarkerConfigurator.configureFreeMarker(store);
     }
 
     @Override
-    public void report(MProductGroup mProductGroup, Path filePath)
+    public void report(MaterialProductGroup mpg, Path filePath)
             throws MaterialstoreException {
-        this.report(mProductGroup, new SortKeys(), filePath);
+        this.report(mpg, new SortKeys(), filePath);
     }
 
     @Override
-    public void report(MProductGroup mProductGroup, SortKeys sortKeys, Path filePath)
+    public void report(MaterialProductGroup mpg, SortKeys sortKeys, Path filePath)
             throws MaterialstoreException {
-        Objects.requireNonNull(mProductGroup);
+        Objects.requireNonNull(mpg);
         Objects.requireNonNull(sortKeys);
         Objects.requireNonNull(filePath);
-        if (! mProductGroup.isReadyToReport()) {
+        if (! mpg.isReadyToReport()) {
             throw new MaterialstoreException(
                     "given MProductGroup is not ready to report. mProductGroup=" +
-                            mProductGroup.toString());
+                            mpg.toString());
         }
         /* sort the entries in the mProductGroup as specified by SortKeys */
-        mProductGroup.order(sortKeys);
+        mpg.order(sortKeys);
 
         /* create a data-model */
         Map<String, Object> model = new HashMap<>();
@@ -78,14 +78,14 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
                 StyleHelper.loadStyleFromClasspath("/com/kazurayam/materialstore/report/model-manager.js"));
         model.put("title", getTitle(filePath));
         model.put("store", store.getRoot().normalize().toString());
-        model.put("mProductGroup", mProductGroup.toTemplateModel(sortKeys));
-        model.put("model", mProductGroup.toJson(true));
+        model.put("mProductGroup", mpg.toTemplateModel(sortKeys));
+        model.put("model", mpg.toJson(true));
         model.put("criteria", criteria);
         model.put("sortKeys", sortKeys.toString());
 
         // for debug
         if (isVerboseLoggingEnabled()) {
-            writeModel(mProductGroup.toTemplateModelAsJson(sortKeys,true),
+            writeModel(mpg.toTemplateModelAsJson(sortKeys,true),
                     filePath.getParent());
         }
 
@@ -128,18 +128,18 @@ public final class MProductGroupReporterImpl extends MProductGroupReporter {
     }
 
     @Override
-    public Path report(MProductGroup mProductGroup, SortKeys sortKeys, String fileName)
+    public Path report(MaterialProductGroup mpg, SortKeys sortKeys, String fileName)
             throws MaterialstoreException {
-        mProductGroup.setCriteria(this.criteria);
+        mpg.setCriteria(this.criteria);
         Path reportFile = store.getRoot().resolve(fileName);
-        this.report(mProductGroup, sortKeys, reportFile);
+        this.report(mpg, sortKeys, reportFile);
         return reportFile;
     }
 
     @Override
-    public Path report(MProductGroup mProductGroup, String fileName)
+    public Path report(MaterialProductGroup mpg, String fileName)
             throws MaterialstoreException {
-        return this.report(mProductGroup, new SortKeys(), fileName);
+        return this.report(mpg, new SortKeys(), fileName);
     }
 
     @Override

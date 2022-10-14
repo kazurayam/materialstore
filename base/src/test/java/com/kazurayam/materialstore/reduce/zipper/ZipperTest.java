@@ -9,8 +9,7 @@ import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
-import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -41,7 +40,7 @@ public class ZipperTest {
     private static JobName jobName;
     private static MaterialList left;
     private static MaterialList right;
-    private MProductGroup baseMProductGroup;    // constructed with MaterialList.NULL_OBJECTs
+    private MaterialProductGroup mpg;    // constructed with MaterialList.NULL_OBJECTs
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
@@ -68,7 +67,7 @@ public class ZipperTest {
 
     @BeforeEach
     public void beforeEach() {
-        baseMProductGroup = MProductGroup.builder(MaterialList.NULL_OBJECT, MaterialList.NULL_OBJECT).build();
+        mpg = MaterialProductGroup.builder(MaterialList.NULL_OBJECT, MaterialList.NULL_OBJECT).build();
     }
 
     @Test

@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.reduce.Reducer;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
@@ -57,16 +57,16 @@ public class Issue217Test {
     }
 
     @Test
-    public void test_MProductGroupBuilder_chronos() throws MaterialstoreException {
+    public void test_MaterialProductGroupBuilder_chronos() throws MaterialstoreException {
         MaterialList currentMaterialList =
                 store.select(jobName,
                         new JobTimestamp("20220406_134203"),
                         FileType.CSV,
                         QueryOnMetadata.ANY);
-        BiFunction<MaterialList, MaterialList, MProductGroup> func =
-                (left, right) -> MProductGroup.builder(left, right).build();
+        BiFunction<MaterialList, MaterialList, MaterialProductGroup> func =
+                (left, right) -> MaterialProductGroup.builder(left, right).build();
 
-        MProductGroup reducedMPG = Reducer.chronos(store, currentMaterialList, func);
+        MaterialProductGroup reducedMPG = Reducer.chronos(store, currentMaterialList, func);
         assertNotNull(reducedMPG);
         assertEquals(15, reducedMPG.size());
     }

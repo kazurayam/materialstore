@@ -9,7 +9,7 @@ import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
@@ -88,8 +88,8 @@ public class GraphNodeIdResolverTest {
     public void test_getGraphNodeId_Material_in_MProductGroup() throws MaterialstoreException {
         MaterialList leftMaterialList = store.select(jobName, leftJobTimestamp);
         MaterialList rightMaterialList = store.select(jobName, rightJobTimestamp);
-        MProductGroup mProductGroup =
-                new MProductGroup.Builder(leftMaterialList, rightMaterialList)
+        MaterialProductGroup mProductGroup =
+                new MaterialProductGroup.Builder(leftMaterialList, rightMaterialList)
                         .ignoreKeys("profile", "URL.host")
                         .build();
         assert mProductGroup.size() > 0;
@@ -102,8 +102,8 @@ public class GraphNodeIdResolverTest {
     public void test_getGraphNodeId_Material_in_MProductGroup_before_Zip() throws MaterialstoreException {
         MaterialList leftMaterialList = store.select(jobName, leftJobTimestamp, FileType.PNG);
         MaterialList rightMaterialList = store.select(jobName, rightJobTimestamp, FileType.PNG);
-        MProductGroup mProductGroup =
-                new MProductGroup.Builder(
+        MaterialProductGroup mProductGroup =
+                new MaterialProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList).ignoreKeys("profile", "URL.host").build();
         Material material = leftMaterialList.get(0);

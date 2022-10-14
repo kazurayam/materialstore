@@ -10,7 +10,7 @@ import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.reduce.DiffingMPGProcessor;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -29,7 +29,7 @@ public class VoidDifferTest {
 
     private static Store store;
     private JobName jobName;
-    private MProductGroup reducedMPG;
+    private MaterialProductGroup reducedMPG;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
@@ -60,7 +60,7 @@ public class VoidDifferTest {
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
         map1.put("URL.path", "/npm/bootstrap-icons@1.7.2/font/fonts/bootstrap-icons.woff2");
         MaterialList right = store.select(jobName, timestamp2, FileType.WOFF2, QueryOnMetadata.builder(map1).build());
-        reducedMPG = MProductGroup.builder(left, right).ignoreKeys("profile", "URL.query").build();
+        reducedMPG = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL.query").build();
 
         Assertions.assertNotNull(reducedMPG);
         Assertions.assertEquals(1, reducedMPG.size());

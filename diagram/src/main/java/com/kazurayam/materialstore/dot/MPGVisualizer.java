@@ -6,7 +6,7 @@ import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.Store;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 
 import java.awt.image.BufferedImage;
 import java.util.Collections;
@@ -26,7 +26,7 @@ public class MPGVisualizer {
 
     public void visualize(JobName jobName,
                           JobTimestamp jobTimestamp,
-                          MProductGroup mProductGroup)
+                          MaterialProductGroup mProductGroup)
             throws MaterialstoreException {
         //
         String dotBeforeZip = DotGenerator.generateDotOfMPGBeforeZip(

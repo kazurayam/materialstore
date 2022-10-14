@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 /**
  * This test concentrates on MProductGroup#toVariableJson() method.
  */
-public class MProductGroup_toVariableJsonTest {
+public class MaterialProductGroup_toVariableJsonTest {
 
     private static Path outputDir;
     private static Store store;
@@ -41,12 +41,12 @@ public class MProductGroup_toVariableJsonTest {
 
     private static Map<String, Metadata> fixture = new HashMap<>();
 
-    private MProductGroup mProductGroup;
+    private MaterialProductGroup mpg;
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
         outputDir = Paths.get(".").resolve("build/tmp/testOutput")
-                .resolve(MProductGroup_toVariableJsonTest.class.getName());
+                .resolve(MaterialProductGroup_toVariableJsonTest.class.getName());
         if (Files.exists(outputDir)) {
             FileUtils.deleteDirectory(outputDir.toFile());
         }
@@ -122,16 +122,16 @@ public class MProductGroup_toVariableJsonTest {
         map2.put("profile", "DevelopmentEnv");
         right = store.select(jobName, jobTimestamp2, QueryOnMetadata.builder(map2).build());
         //
-        mProductGroup =
-                MProductGroup.builder(left, right)
+        mpg =
+                MaterialProductGroup.builder(left, right)
                         .ignoreKeys("URL.protocol", "URL.port").build();
     }
 
     @Test
     public void test_smoke() throws MaterialstoreException {
         SortKeys sortKeys = new SortKeys("step", "timestamp");
-        mProductGroup.order(sortKeys);
-        String output = mProductGroup.toVariableJson(sortKeys, true);
+        mpg.order(sortKeys);
+        String output = mpg.toVariableJson(sortKeys, true);
         JobTimestamp jt = JobTimestamp.laterThan(jobTimestamp2);
         store.write(jobName, jt, FileType.JSON, Metadata.NULL_OBJECT, JsonUtil.prettyPrint(output));
         System.out.println(JsonUtil.prettyPrint(output));

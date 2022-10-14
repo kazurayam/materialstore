@@ -22,14 +22,14 @@ import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class MProductGroup_issue87Test {
+public class MaterialProductGroup_issue87Test {
 
     private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixture/issue#80");
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MProductGroup_issue87Test.class.getName());
+    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MaterialProductGroup_issue87Test.class.getName());
     private static Store store;
     private MaterialList left;
     private MaterialList right;
-    private MProductGroup mProductGroup;
+    private MaterialProductGroup mpg;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
@@ -60,45 +60,45 @@ public class MProductGroup_issue87Test {
 
         LinkedHashMap<String, String> map2 = new LinkedHashMap<>(1);
         map2.put("URL.query", "\\w{32}");
-        mProductGroup = MProductGroup.builder(left, right).ignoreKeys("profile", "URL.host").identifyWithRegex(map2).build();
+        mpg = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL.host").identifyWithRegex(map2).build();
     }
 
     @Test
     public void test_toStringRepresentation_short() {
-        String desc = mProductGroup.toVariableJson(new SortKeys(), false);
+        String desc = mpg.toVariableJson(new SortKeys(), false);
         System.out.println("[test_getDescription_short]\n" + JsonUtil.prettyPrint(desc));
     }
 
     @Test
     public void test_toStringRepresentation_full() {
-        String desc = mProductGroup.toVariableJson(new SortKeys(), true);
+        String desc = mpg.toVariableJson(new SortKeys(), true);
         System.out.println("[test_getDescription_full]\n" + JsonUtil.prettyPrint(desc));
     }
 
     @Test
     public void test_getJobTimestampLeft() {
-        Assertions.assertEquals(new JobTimestamp("20220128_191320"), mProductGroup.getJobTimestampLeft());
+        Assertions.assertEquals(new JobTimestamp("20220128_191320"), mpg.getJobTimestampLeft());
     }
 
     @Test
     public void test_getJobTimestampRight() {
-        Assertions.assertEquals(new JobTimestamp("20220128_191342"), mProductGroup.getJobTimestampRight());
+        Assertions.assertEquals(new JobTimestamp("20220128_191342"), mpg.getJobTimestampRight());
     }
 
     @Test
     public void test_getJobTimestampPrevious() {
-        Assertions.assertEquals(new JobTimestamp("20220128_191320"), mProductGroup.getJobTimestampPrevious());
+        Assertions.assertEquals(new JobTimestamp("20220128_191320"), mpg.getJobTimestampPrevious());
     }
 
     @Test
     public void test_getJobTimestampFollowing() {
-        Assertions.assertEquals(new JobTimestamp("20220128_191342"), mProductGroup.getJobTimestampFollowing());
+        Assertions.assertEquals(new JobTimestamp("20220128_191342"), mpg.getJobTimestampFollowing());
     }
 
     @Test
     public void test_getQueryOnMetadataList() {
 
-        List<QueryOnMetadata> queryList = mProductGroup.getQueryOnMetadataList();
+        List<QueryOnMetadata> queryList = mpg.getQueryOnMetadataList();
         Assertions.assertEquals(8, queryList.size());
         //
         System.out.println("[test_getQueryOnMetadataList]");
@@ -145,11 +145,11 @@ after issue87, the output is
         this.right = right;
     }
 
-    public MProductGroup getmProductGroup() {
-        return mProductGroup;
+    public MaterialProductGroup getMpg() {
+        return mpg;
     }
 
-    public void setmProductGroup(MProductGroup mProductGroup) {
-        this.mProductGroup = mProductGroup;
+    public void setMpg(MaterialProductGroup mpg) {
+        this.mpg = mpg;
     }
 }

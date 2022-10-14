@@ -17,39 +17,39 @@ public final class Reducer {
 
     private Reducer() {}
 
-    public static MProductGroup chronos(Store store,
-                                        MaterialList currentMaterialList)
+    public static MaterialProductGroup chronos(Store store,
+                                               MaterialList currentMaterialList)
         throws MaterialstoreException {
 
         return chronos(store, currentMaterialList, currentMaterialList.getJobTimestamp());
     }
 
-    public static MProductGroup chronos(Store store,
-                                        MaterialList currentMaterialList,
-                                        BiFunction<MaterialList, MaterialList, MProductGroup> func)
+    public static MaterialProductGroup chronos(Store store,
+                                               MaterialList currentMaterialList,
+                                               BiFunction<MaterialList, MaterialList, MaterialProductGroup> func)
             throws MaterialstoreException {
         return chronos(store, currentMaterialList, currentMaterialList.getJobTimestamp(), func);
     }
     /**
      *
      */
-    public static MProductGroup chronos(Store store,
-                                        MaterialList currentMaterialList,
-                                        JobTimestamp priorTo)
+    public static MaterialProductGroup chronos(Store store,
+                                               MaterialList currentMaterialList,
+                                               JobTimestamp priorTo)
             throws MaterialstoreException {
-        BiFunction<MaterialList, MaterialList, MProductGroup> func =
+        BiFunction<MaterialList, MaterialList, MaterialProductGroup> func =
                 (MaterialList left, MaterialList right) ->
-                        MProductGroup.builder(left,right).build();
+                        MaterialProductGroup.builder(left,right).build();
         return chronos(store, currentMaterialList, priorTo, func);
     }
 
     /**
      *
      */
-    public static MProductGroup chronos(Store store,
-                                        MaterialList currentMaterialList,
-                                        JobTimestamp priorTo,
-                                        BiFunction<MaterialList, MaterialList, MProductGroup> func)
+    public static MaterialProductGroup chronos(Store store,
+                                               MaterialList currentMaterialList,
+                                               JobTimestamp priorTo,
+                                               BiFunction<MaterialList, MaterialList, MaterialProductGroup> func)
             throws MaterialstoreException {
         Objects.requireNonNull(store);
         Objects.requireNonNull(currentMaterialList);
@@ -74,7 +74,7 @@ public final class Reducer {
         }
 
         // zip 2 MaterialLists to form a single MProductGroup
-        MProductGroup reducedMPG = func.apply(previousMaterialList, currentMaterialList);
+        MaterialProductGroup reducedMPG = func.apply(previousMaterialList, currentMaterialList);
         assert reducedMPG.size() > 0;
 
         logger.info("[chronos] reducedMPG.size()=" + reducedMPG.size());
@@ -92,7 +92,7 @@ public final class Reducer {
      * @param rightMaterialList MaterialList object as right side
      * @param func BiFunction that implements apply method which zips the left and the right to generate a MProductGroup object
      */
-    public static MProductGroup twins(Store store, MaterialList leftMaterialList, MaterialList rightMaterialList, BiFunction<MaterialList, MaterialList, MProductGroup> func) {
+    public static MaterialProductGroup twins(Store store, MaterialList leftMaterialList, MaterialList rightMaterialList, BiFunction<MaterialList, MaterialList, MaterialProductGroup> func) {
         Objects.requireNonNull(store);
         Objects.requireNonNull(leftMaterialList);
         Objects.requireNonNull(rightMaterialList);
@@ -103,7 +103,7 @@ public final class Reducer {
         assert rightMaterialList.size() > 0;
 
         // zip 2 Materials to form a single Artifact
-        MProductGroup reducedMPG = func.apply(leftMaterialList, rightMaterialList);
+        MaterialProductGroup reducedMPG = func.apply(leftMaterialList, rightMaterialList);
         assert reducedMPG.size() > 0;
 
         return reducedMPG;

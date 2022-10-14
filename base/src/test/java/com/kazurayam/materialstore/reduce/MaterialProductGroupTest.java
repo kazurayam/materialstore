@@ -32,7 +32,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MProductGroupTest {
+public class MaterialProductGroupTest {
 
     private static final Path issue80Dir =
             Paths.get(".")
@@ -41,13 +41,13 @@ public class MProductGroupTest {
     private static final Path outputDir =
             Paths.get(".")
                     .resolve("build/tmp/testOutput")
-                    .resolve(MProductGroupTest.class.getName());
+                    .resolve(MaterialProductGroupTest.class.getName());
 
     private static Store store;
     private static JobName jobName;
     private static MaterialList left;
     private static MaterialList right;
-    private MProductGroup baseMProductGroup;    // constructed with MaterialList.NULL_OBJECTs
+    private MaterialProductGroup mpg;    // constructed with MaterialList.NULL_OBJECTs
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
@@ -74,15 +74,15 @@ public class MProductGroupTest {
 
     @BeforeEach
     public void beforeEach() {
-        baseMProductGroup =
-                MProductGroup.builder(
+        mpg =
+                MaterialProductGroup.builder(
                         MaterialList.NULL_OBJECT, MaterialList.NULL_OBJECT).build();
     }
 
     @Test
     public void test_add_size_get() {
-        baseMProductGroup.add(MaterialProduct.NULL_OBJECT);
-        assertEquals(1, baseMProductGroup.size());
+        mpg.add(MaterialProduct.NULL_OBJECT);
+        assertEquals(1, mpg.size());
     }
 
     @Test
@@ -94,10 +94,10 @@ public class MProductGroupTest {
                 .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT)
                 .build();
         tmp.setDiffRatio(45.0d);
-        baseMProductGroup.add(tmp);
-        assertEquals(1, baseMProductGroup.countWarnings(0.00d));
-        assertEquals(0, baseMProductGroup.countWarnings(45.00d));
-        assertEquals(0, baseMProductGroup.countWarnings(45.01d));
+        mpg.add(tmp);
+        assertEquals(1, mpg.countWarnings(0.00d));
+        assertEquals(0, mpg.countWarnings(45.00d));
+        assertEquals(0, mpg.countWarnings(45.01d));
     }
 
     @Test
@@ -106,8 +106,8 @@ public class MProductGroupTest {
                 new MaterialProduct
                         .Builder(Material.newEmptyMaterial(), Material.newEmptyMaterial(), JobTimestamp.now())
                         .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT).build();
-        baseMProductGroup.add(tmp);
-        assertEquals(0, baseMProductGroup.getCountWarning());
+        mpg.add(tmp);
+        assertEquals(0, mpg.getCountWarning());
     }
 
     @Test
@@ -117,8 +117,8 @@ public class MProductGroupTest {
                         JobTimestamp.now())
                         .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT)
                         .build();
-        baseMProductGroup.add(tmp);
-        assertEquals(1, baseMProductGroup.getNumberOfBachelors());
+        mpg.add(tmp);
+        assertEquals(1, mpg.getNumberOfBachelors());
     }
 
     @Test
@@ -127,35 +127,35 @@ public class MProductGroupTest {
                 new MaterialProduct.Builder(Material.newEmptyMaterial(), Material.newEmptyMaterial(), JobTimestamp.now())
                         .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT)
                         .build();
-        baseMProductGroup.add(tmp);
-        assertEquals(1, baseMProductGroup.getCountTotal());
+        mpg.add(tmp);
+        assertEquals(1, mpg.getCountTotal());
     }
 
     @Test
     public void test_getResultTimestamp() {
-        JobTimestamp resultTimestamp = baseMProductGroup.getResultTimestamp();
+        JobTimestamp resultTimestamp = mpg.getResultTimestamp();
         //println "resultTimestamp=${resultTimestamp.toString()}"
         Assertions.assertNotEquals(JobTimestamp.NULL_OBJECT, resultTimestamp);
     }
 
     @Test
     public void test_toVariableJson() {
-        String desc = baseMProductGroup.toVariableJson(new SortKeys(), true);
+        String desc = mpg.toVariableJson(new SortKeys(), true);
         System.out.println(JsonUtil.prettyPrint(desc));
     }
 
     @Test
     public void test_getJobName() {
-        MProductGroup mProductGroup = MProductGroup.builder(left, right).build();
+        MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).build();
         assertEquals(
                 new JobName("MyAdmin_visual_inspection_twins"),
-                mProductGroup.getJobName());
+                mpg.getJobName());
     }
 
     @Test
     public void test_iterator() {
-        baseMProductGroup.add(MaterialProduct.NULL_OBJECT);
-        Iterator<MaterialProduct> iter = baseMProductGroup.iterator();
+        mpg.add(MaterialProduct.NULL_OBJECT);
+        Iterator<MaterialProduct> iter = mpg.iterator();
         while (iter.hasNext()) {
             MaterialProduct mProduct = iter.next();
             assert mProduct.equals(MaterialProduct.NULL_OBJECT);
@@ -167,37 +167,37 @@ public class MProductGroupTest {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(1);
         map.put("URL.query", "\\w{32}");
         IdentifyMetadataValues imv = new IdentifyMetadataValues.Builder().putAllNameRegexPairs(map).build();
-        baseMProductGroup.setIdentifyMetadataValues(imv);
-        IdentifyMetadataValues result = baseMProductGroup.getIdentifyMetadataValues();
+        mpg.setIdentifyMetadataValues(imv);
+        IdentifyMetadataValues result = mpg.getIdentifyMetadataValues();
         assertEquals(imv, result);
     }
 
     @Test
     public void test_setter_getter_IgnoreMetadataKeys() {
-        baseMProductGroup.setIgnoreMetadataKeys(IgnoreMetadataKeys.NULL_OBJECT);
-        IgnoreMetadataKeys ignoreMetadataKeys = baseMProductGroup.getIgnoreMetadataKeys();
+        mpg.setIgnoreMetadataKeys(IgnoreMetadataKeys.NULL_OBJECT);
+        IgnoreMetadataKeys ignoreMetadataKeys = mpg.getIgnoreMetadataKeys();
         Assertions.assertNotNull(ignoreMetadataKeys);
     }
 
     @Test
     public void test_setter_getter_MaterialListLeft() {
-        baseMProductGroup.setMaterialListLeft(MaterialList.NULL_OBJECT);
-        MaterialList left = baseMProductGroup.getMaterialListLeft();
+        mpg.setMaterialListLeft(MaterialList.NULL_OBJECT);
+        MaterialList left = mpg.getMaterialListLeft();
         Assertions.assertNotNull(left);
     }
 
     @Test
     public void test_setter_getter_MaterialListRight() {
-        baseMProductGroup.setMaterialListRight(MaterialList.NULL_OBJECT);
-        MaterialList right = baseMProductGroup.getMaterialListRight();
+        mpg.setMaterialListRight(MaterialList.NULL_OBJECT);
+        MaterialList right = mpg.getMaterialListRight();
         Assertions.assertNotNull(right);
     }
 
 
     @Test
     public void test_toString() {
-        baseMProductGroup.add(MaterialProduct.NULL_OBJECT);
-        String s = baseMProductGroup.toString();
+        mpg.add(MaterialProduct.NULL_OBJECT);
+        String s = mpg.toString();
         System.out.println(JsonUtil.prettyPrint(s));
         Assertions.assertTrue(s.contains("left"), s);
         Assertions.assertTrue(s.contains("right"), s);
@@ -208,8 +208,8 @@ public class MProductGroupTest {
 
     @Test
     public void test_toSummary() {
-        baseMProductGroup.add(MaterialProduct.NULL_OBJECT);
-        String s = baseMProductGroup.toSummary();
+        mpg.add(MaterialProduct.NULL_OBJECT);
+        String s = mpg.toSummary();
         System.out.println(JsonUtil.prettyPrint(s));
     }
 
@@ -218,34 +218,34 @@ public class MProductGroupTest {
     public void test_Builder() throws MaterialstoreException {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(1);
         map.put("URL.query", "\\w{32}");
-        MProductGroup mProductGroup = MProductGroup.builder(left, right).ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.path").build();
-        Assertions.assertNotNull(mProductGroup);
-        mProductGroup.forEach( mProduct -> {
+        MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.path").build();
+        Assertions.assertNotNull(mpg);
+        mpg.forEach( mProduct -> {
             Assertions.assertNotEquals(ID.NULL_OBJECT, ((MaterialProduct) mProduct).getLeft().getIndexEntry().getID());
             Assertions.assertNotEquals(ID.NULL_OBJECT, ((MaterialProduct) mProduct).getRight().getIndexEntry().getID());
         });
-        assertEquals(8, mProductGroup.size());
+        assertEquals(8, mpg.size());
     }
 
     @Test
     public void test_update() throws MaterialstoreException {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(1);
         map.put("URL.query", "\\w{32}");
-        MProductGroup mProductGroup = new MProductGroup.Builder(left, right).ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.host").build();
-        int theSize = mProductGroup.size();
+        MaterialProductGroup mpg = new MaterialProductGroup.Builder(left, right).ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.host").build();
+        int theSize = mpg.size();
         assertEquals(8, theSize);
         //
-        MaterialProduct target = mProductGroup.get(0);
+        MaterialProduct target = mpg.get(0);
         // make a clone of the target
         MaterialProduct clone = new MaterialProduct(target);
         // let's update it
-        mProductGroup.update(clone);
+        mpg.update(clone);
         // now the head is not equal to the clone
-        Assertions.assertNotEquals(mProductGroup.get(0), clone);
+        Assertions.assertNotEquals(mpg.get(0), clone);
         // the tail is equal to the clone
-        assertEquals(mProductGroup.get(theSize - 1), clone);
+        assertEquals(mpg.get(theSize - 1), clone);
         //
-        //println JsonOutput.prettyPrint(mProductGroup.get(theSize - 1).toString())
+        //println JsonOutput.prettyPrint(mpg.get(theSize - 1).toString())
     }
 
 
@@ -255,16 +255,16 @@ public class MProductGroupTest {
      */
     @Test
     public void test_toTemplateModel() throws MaterialstoreException {
-        MProductGroup mProductGroup =
-                new MProductGroup.Builder(left, right).build();
+        MaterialProductGroup mpg =
+                new MaterialProductGroup.Builder(left, right).build();
         JobName jobName = new JobName("test_toTemplateModel");
         // save json for debug
         JobTimestamp jobTimestamp = JobTimestamp.now();
         Metadata metadata = Metadata.builder().build();
         store.write(jobName, jobTimestamp, FileType.JSON,
-                metadata, mProductGroup.toJson(true));
+                metadata, mpg.toJson(true));
         // call toTemplateModel()
-        Map<String, Object> model = mProductGroup.toTemplateModel();
+        Map<String, Object> model = mpg.toTemplateModel();
         Assertions.assertNotNull(model);
     }
 

@@ -17,9 +17,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 
-public class MProductGroup_BuilderTest {
+public class MaterialProductGroup_BuilderTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MProductGroup_BuilderTest.class.getName());
+    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MaterialProductGroup_BuilderTest.class.getName());
     private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixture/issue#80");
     private static Store store;
     private JobName jobName;

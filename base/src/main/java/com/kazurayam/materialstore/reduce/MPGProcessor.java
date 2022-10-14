@@ -4,6 +4,6 @@ import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 
 public interface MPGProcessor {
 
-    MProductGroup process(MProductGroup mProductGroup) throws MaterialstoreException;
+    MaterialProductGroup process(MaterialProductGroup mpg) throws MaterialstoreException;
 
 }

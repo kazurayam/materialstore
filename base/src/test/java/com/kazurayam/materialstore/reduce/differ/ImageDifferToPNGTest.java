@@ -9,7 +9,7 @@ import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.StoreImpl;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.util.JsonUtil;
 import com.kazurayam.materialstore.util.TestFixtureUtil;
@@ -43,11 +43,11 @@ public class ImageDifferToPNGTest {
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
         map1.put("profile", "DevelopmentEnv");
         MaterialList right = store.select(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.builder(map1).build());
-        MProductGroup mProductGroup = MProductGroup.builder(left, right).ignoreKeys("profile", "URL", "URL.host").build();
-        Assertions.assertNotNull(mProductGroup);
-        Assertions.assertEquals(2, mProductGroup.size(), JsonUtil.prettyPrint(mProductGroup.toString()));
+        MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL", "URL.host").build();
+        Assertions.assertNotNull(mpg);
+        Assertions.assertEquals(2, mpg.size(), JsonUtil.prettyPrint(mpg.toString()));
         //
-        MaterialProduct stuffed = new ImageDifferToPNG(store).stuffDiff(mProductGroup.get(0));
+        MaterialProduct stuffed = new ImageDifferToPNG(store).stuffDiff(mpg.get(0));
         Assertions.assertNotNull(stuffed);
         Assertions.assertNotNull(stuffed.getDiff());
         Assertions.assertTrue(stuffed.getDiffRatio() > 0);

@@ -9,7 +9,7 @@ import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.StoreImpl;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.util.TestFixtureUtil;
 import org.junit.jupiter.api.Assertions;
@@ -41,11 +41,11 @@ public class TextDifferToMarkdownTest {
         map1.put("profile", "DevelopmentEnv");
         MaterialList right = store.select(jobName, jobTimestamp, FileType.HTML, QueryOnMetadata.builder(map1).build());
 
-        MProductGroup mProductGroup = MProductGroup.builder(left, right).ignoreKeys("profile", "URL", "URL.host").build();
-        Assertions.assertNotNull(mProductGroup);
-        Assertions.assertEquals(1, mProductGroup.size());
+        MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL", "URL.host").build();
+        Assertions.assertNotNull(mpg);
+        Assertions.assertEquals(1, mpg.size());
         //
-        MaterialProduct stuffed = new TextDifferToMarkdown(store).stuffDiff(mProductGroup.get(0));
+        MaterialProduct stuffed = new TextDifferToMarkdown(store).stuffDiff(mpg.get(0));
         Assertions.assertNotNull(stuffed);
         Assertions.assertNotNull(stuffed.getDiff());
         Assertions.assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff());

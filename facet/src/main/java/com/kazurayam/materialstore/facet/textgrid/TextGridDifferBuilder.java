@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.inspector.Inspector;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,8 +58,8 @@ public abstract class TextGridDifferBuilder {
 
         Inspector inspector = Inspector.newInstance(store);
 
-        MProductGroup reduced = MProductGroup.builder(left, right).ignoreKeys("input").build();
-        MProductGroup processed = inspector.process(reduced);
+        MaterialProductGroup reduced = MaterialProductGroup.builder(left, right).ignoreKeys("input").build();
+        MaterialProductGroup processed = inspector.process(reduced);
         int warnings = processed.countWarnings(criteria);
         reportFile = inspector.report(processed, criteria, jobName.toString() + "-index.html");
         assert Files.exists(reportFile);

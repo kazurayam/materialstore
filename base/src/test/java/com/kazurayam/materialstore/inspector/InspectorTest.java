@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -61,10 +61,10 @@ public class InspectorTest {
     public void test_apply() throws MaterialstoreException {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("URL.query", "\\w{32}");
-        MProductGroup reducedMPG = MProductGroup.builder(left, right).ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.host").build();
+        MaterialProductGroup reducedMPG = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.host").build();
         Assertions.assertNotNull(reducedMPG);
 
-        MProductGroup processedMPG = inspector.process(reducedMPG);
+        MaterialProductGroup processedMPG = inspector.process(reducedMPG);
         Assertions.assertNotNull(processedMPG);
 
         processedMPG.forEach(mProduct -> Assertions.assertNotEquals(ID.NULL_OBJECT,
@@ -85,15 +85,15 @@ public class InspectorTest {
     }
 
     @Test
-    public void test_report_MProductGroup() throws MaterialstoreException {
+    public void test_report_MaterialProductGroup() throws MaterialstoreException {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("URL.query", "\\w{32}");
-        MProductGroup reducedMPG = MProductGroup.builder(left, right)
+        MaterialProductGroup reducedMPG = MaterialProductGroup.builder(left, right)
                 .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
                 .identifyWithRegex(map)
                 .sort("URL.host")
                 .build();
-        MProductGroup processedMPG = inspector.process(reducedMPG);
+        MaterialProductGroup processedMPG = inspector.process(reducedMPG);
         double criteria = 0.0D;
         Assertions.assertTrue(processedMPG.countWarnings(criteria) > 0);
 

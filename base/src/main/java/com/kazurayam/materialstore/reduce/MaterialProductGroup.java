@@ -23,7 +23,6 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -34,10 +33,10 @@ import java.util.stream.Collectors;
  * A group of MaterialProduct objects.
  *
  */
-public final class MProductGroup
+public final class MaterialProductGroup
         implements Iterable<MaterialProduct>, TemplateReadySortable, Identifiable {
 
-    private static final Logger logger = LoggerFactory.getLogger(MProductGroup.class);
+    private static final Logger logger = LoggerFactory.getLogger(MaterialProductGroup.class);
     private final List<MaterialProduct> materialProductList;
     private final JobTimestamp resultTimestamp;
     private MaterialList materialList0;
@@ -48,7 +47,7 @@ public final class MProductGroup
     private Double criteria;
     private boolean readyToReport;
 
-    private MProductGroup(Builder builder) {
+    private MaterialProductGroup(Builder builder) {
         this.materialList0 = builder.materialList0;
         this.materialList1 = builder.materialList1;
         this.ignoreMetadataKeys = builder.ignoreMetadataKeys;
@@ -73,7 +72,7 @@ public final class MProductGroup
      * Deep-copy constructor
      *
      */
-    public MProductGroup(MProductGroup source) {
+    public MaterialProductGroup(MaterialProductGroup source) {
         this.materialList0 = new MaterialList(source.materialList0);
         this.materialList1 = new MaterialList(source.materialList1);
         this.ignoreMetadataKeys = source.getIgnoreMetadataKeys();        // IgnoreMetadataKeys is immutable
@@ -449,8 +448,8 @@ public final class MProductGroup
             return this;
         }
 
-        public MProductGroup build() {
-            return new MProductGroup(this);
+        public MaterialProductGroup build() {
+            return new MaterialProductGroup(this);
         }
     }
 }

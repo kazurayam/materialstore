@@ -3,7 +3,7 @@ package com.kazurayam.materialstore.dot;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 
 import java.util.Objects;
@@ -50,7 +50,7 @@ public class GraphNodeIdResolver {
         return new GraphNodeId("MP" + materialProduct.getShortId() + "_Q");
     }
 
-    public static GraphNodeId resolveIdOfMaterialInMProductGroup(MProductGroup mProductGroup, Material material)
+    public static GraphNodeId resolveIdOfMaterialInMProductGroup(MaterialProductGroup mProductGroup, Material material)
             throws MaterialstoreException {
         MaterialProduct materialProduct = null;
         for (MaterialProduct mp : mProductGroup) {
@@ -69,7 +69,7 @@ public class GraphNodeIdResolver {
         );
     }
 
-    public static GraphNodeId resolveIdOfMaterialInMProductGroupBeforeZIP(MProductGroup mProductGroup, Material material)
+    public static GraphNodeId resolveIdOfMaterialInMProductGroupBeforeZIP(MaterialProductGroup mProductGroup, Material material)
             throws MaterialstoreException {
         Objects.requireNonNull(mProductGroup);
         Objects.requireNonNull(material);

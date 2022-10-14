@@ -3,7 +3,7 @@ package com.kazurayam.materialstore.dot;
 import com.kazurayam.materialstore.filesystem.Material;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.util.StringUtils;
 import com.kazurayam.subprocessj.Subprocess;
@@ -184,7 +184,7 @@ public class DotGenerator {
 
 
     //-----------------------------------------------------------------
-    public static String generateDotOfMPGBeforeZip(MProductGroup mProductGroup,
+    public static String generateDotOfMPGBeforeZip(MaterialProductGroup mProductGroup,
                                                    Map<String, String> options,
                                                    boolean standalone) {
         StringWriter sw = new StringWriter();
@@ -230,7 +230,7 @@ public class DotGenerator {
         }
     }
 
-    public static String generateDotOfMPGBeforeZip(MProductGroup mProductGroup) {
+    public static String generateDotOfMPGBeforeZip(MaterialProductGroup mProductGroup) {
         return generateDotOfMPGBeforeZip(mProductGroup, Collections.emptyMap(), true);
     }
 
@@ -239,7 +239,7 @@ public class DotGenerator {
     /**
      *
      */
-    public static String generateDot(MProductGroup mProductGroup,
+    public static String generateDot(MaterialProductGroup mProductGroup,
                                      Map<String, String> options, boolean standalone)
             throws MaterialstoreException {
         // generate a list of "subgraph" statements for MaterialProduct objects
@@ -283,7 +283,7 @@ public class DotGenerator {
             return sw.toString();
         }
     }
-    public static String generateDot(MProductGroup mProductGroup) throws MaterialstoreException {
+    public static String generateDot(MaterialProductGroup mProductGroup) throws MaterialstoreException {
         return generateDot(mProductGroup, Collections.emptyMap(), true);
     }
 

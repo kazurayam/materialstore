@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.inspector.Inspector;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
@@ -61,8 +61,8 @@ public class QueryOnMetadataAsGraphNodeTest {
         // save the dot file and the PNG image into the store directory
         JobName outJobName = new JobName("test_generateDot_MProductGroup");
         JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
-        MProductGroup reduced =
-                new MProductGroup.Builder(
+        MaterialProductGroup reduced =
+                new MaterialProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList)
                         .ignoreKeys("profile", "URL.host")
@@ -73,7 +73,7 @@ public class QueryOnMetadataAsGraphNodeTest {
         assert reduced.size() > 0;
         //
         Inspector inspector = Inspector.newInstance(store);
-        MProductGroup inspected = inspector.process(reduced);
+        MaterialProductGroup inspected = inspector.process(reduced);
         //
         MaterialProduct materialProduct = inspected.get(0);
         GraphNodeId nodeId = GraphNodeIdResolver.resolveIdOfQueryInMaterialProduct(materialProduct);

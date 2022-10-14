@@ -9,7 +9,7 @@ import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.inspector.Inspector;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
@@ -77,8 +77,8 @@ public class MaterialAsGraphNodeTest {
         JobTimestamp reducedTimestamp = JobTimestamp.now();
         JobName outJobName = new JobName("test_formatMetadata");
         JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
-        MProductGroup reduced =
-                new MProductGroup.Builder(
+        MaterialProductGroup reduced =
+                new MaterialProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList)
                         .ignoreKeys("profile", "URL.host")
@@ -89,7 +89,7 @@ public class MaterialAsGraphNodeTest {
         assert reduced.size() > 0;
         //
         Inspector inspector = Inspector.newInstance(store);
-        MProductGroup inspected = inspector.process(reduced);
+        MaterialProductGroup inspected = inspector.process(reduced);
         //
         MaterialProduct mp = inspected.get(4);
         Material material = mp.getLeft();
@@ -111,8 +111,8 @@ public class MaterialAsGraphNodeTest {
         JobTimestamp reducedTimestamp = JobTimestamp.now();
         JobName outJobName = new JobName("test_look_at_Material_inside_MProductGroup_after_zipping");
         JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
-        MProductGroup reduced =
-                new MProductGroup.Builder(
+        MaterialProductGroup reduced =
+                new MaterialProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList)
                         .ignoreKeys("profile", "URL.host")
@@ -123,7 +123,7 @@ public class MaterialAsGraphNodeTest {
         assert reduced.size() > 0;
         //
         Inspector inspector = Inspector.newInstance(store);
-        MProductGroup inspected = inspector.process(reduced);
+        MaterialProductGroup inspected = inspector.process(reduced);
         //
         logger_.info("[test_look_at_Material_inside_MProductGroup_after_zipping]\n" + inspected.toJson(true));
         // see the file "./inspected_MProductGroup_sample.json" for the output recorded

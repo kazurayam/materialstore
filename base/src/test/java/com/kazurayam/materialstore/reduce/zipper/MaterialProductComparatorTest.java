@@ -10,7 +10,7 @@ import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
-import com.kazurayam.materialstore.reduce.MProductGroup_toVariableJsonTest;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup_toVariableJsonTest;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,10 +59,10 @@ public class MaterialProductComparatorTest {
         jobTimestamp1 = JobTimestamp.now();
         jobTimestamp2 = JobTimestamp.laterThan(jobTimestamp1);
         // create fixture
-        fixture = MProductGroup_toVariableJsonTest.createFixtureLeft();
+        fixture = MaterialProductGroup_toVariableJsonTest.createFixtureLeft();
         store.write(jobName, jobTimestamp1, FileType.TXT, fixture.get("Google"), "Google");
         store.write(jobName, jobTimestamp1, FileType.TXT, fixture.get("DuckDuckGo"), "DuckDuckGo");
-        fixture = MProductGroup_toVariableJsonTest.createFixtureRight();
+        fixture = MaterialProductGroup_toVariableJsonTest.createFixtureRight();
         store.write(jobName, jobTimestamp2, FileType.TXT, fixture.get("Google"), "Google");
         store.write(jobName, jobTimestamp2, FileType.TXT, fixture.get("DuckDuckGo"), "DuckDuckGo");
     }

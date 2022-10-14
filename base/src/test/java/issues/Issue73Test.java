@@ -8,7 +8,7 @@ import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.inspector.Inspector;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -65,8 +65,8 @@ public class Issue73Test {
     @Test
     public void test_smoke() throws MaterialstoreException {
         Inspector inspector = Inspector.newInstance(store);
-        MProductGroup reducedMPG = MProductGroup.builder(left, right).ignoreKeys("profile", "URL.host").build();
-        MProductGroup processedMPG = inspector.process(reducedMPG);
+        MaterialProductGroup reducedMPG = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL.host").build();
+        MaterialProductGroup processedMPG = inspector.process(reducedMPG);
         Double criteria = 0.0d;
         int warnings = processedMPG.countWarnings(criteria);
         // compile the report

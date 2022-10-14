@@ -9,7 +9,7 @@ import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.inspector.Inspector;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class MProductGroupReporterTest extends AbstractReporterTest {
+public class MaterialProductGroupReporterTest extends AbstractReporterTest {
 
     private static final Path fixtureDir =
             Paths.get(".").resolve("src/test/fixture/issue#80");
@@ -31,7 +31,7 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
             Paths.get(".").resolve("build/tmp/testOutput");
 
     private final static Path outputDir =
-            testOutput.resolve(MProductGroupReporterTest.class.getName());
+            testOutput.resolve(MaterialProductGroupReporterTest.class.getName());
 
     private static Store store;
     private static JobName jobNameA;
@@ -50,17 +50,17 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
     }
 
     @Test
-    public void test_MProductGroupBasicReporter() throws IOException, MaterialstoreException {
-        runMProductGroupReporterImpl();
+    public void test_MaterialProductGroupBasicReporter() throws IOException, MaterialstoreException {
+        runMaterialProductGroupReporterImpl();
     }
 
 
-    void runMProductGroupReporterImpl() throws IOException, MaterialstoreException {
+    void runMaterialProductGroupReporterImpl() throws IOException, MaterialstoreException {
         JobName jobNameB = new JobName("runMProductGroupReporterImpl");
         //
-        MProductGroup reduced = prepareFixture(jobNameB);
+        MaterialProductGroup reduced = prepareFixture(jobNameB);
         // compile HTML report
-        MProductGroupReporterImpl reporter = new MProductGroupReporterImpl(store);
+        MaterialProductGroupReporterImpl reporter = new MaterialProductGroupReporterImpl(store);
         reporter.enableVerboseLogging(true);
         reporter.enablePrettyPrinting(true);
         reporter.setCriteria(15.0d);
@@ -84,7 +84,7 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
                 "expected a string 'class=\"identified-value\"' in the report but not found");
     }
 
-    private MProductGroup prepareFixture(JobName jobName) throws IOException, MaterialstoreException {
+    private MaterialProductGroup prepareFixture(JobName jobName) throws IOException, MaterialstoreException {
         // stuff the Job directory with a fixture
         Path jobNameDir = store.getRoot().resolve(jobName.toString());
         FileUtils.copyDirectory(
@@ -97,8 +97,8 @@ public class MProductGroupReporterTest extends AbstractReporterTest {
         MaterialList right = createMaterialList(jobName, timestamp1, "MyAdmin_DevelopmentEnv");
         Inspector inspector = Inspector.newInstance(store);
         // make diff of the 2 MaterialList objects
-        MProductGroup reducedMPG =
-                MProductGroup.builder(left, right)
+        MaterialProductGroup reducedMPG =
+                MaterialProductGroup.builder(left, right)
                         .ignoreKeys("profile", "URL.host", "URL.protocol", "URL.port")
                         .identifyWithRegex(
                                 Collections.singletonMap(

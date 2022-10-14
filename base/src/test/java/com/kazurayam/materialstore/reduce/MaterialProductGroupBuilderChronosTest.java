@@ -22,9 +22,9 @@ import java.util.function.BiFunction;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MProductGroupBuilderChronosTest {
+public class MaterialProductGroupBuilderChronosTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MProductGroupBuilderChronosTest.class.getName());
+    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MaterialProductGroupBuilderChronosTest.class.getName());
     private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixture/issue#80");
     private static final boolean verbose = true;
     private static Store store;
@@ -68,13 +68,13 @@ public class MProductGroupBuilderChronosTest {
 
     @Test
     public void test_chronos_with_func() throws MaterialstoreException {
-        BiFunction<MaterialList, MaterialList, MProductGroup> func =
+        BiFunction<MaterialList, MaterialList, MaterialProductGroup> func =
                 (MaterialList left, MaterialList right) ->
-                        MProductGroup.builder(left,right)
+                        MaterialProductGroup.builder(left,right)
                                 .ignoreKeys("profile", "URL.host")
                                 .identifyWithRegex(Collections.singletonMap("URL.query","\\w{32}"))
                                 .build();
-        MProductGroup reduced = Reducer.chronos(store, right, func);
+        MaterialProductGroup reduced = Reducer.chronos(store, right, func);
         Assertions.assertNotNull(reduced);
         assertEquals(1, reduced.getMaterialListPrevious().countMaterialsWithIdStartingWith("5d7e467"));
         assertEquals(1, reduced.getMaterialListFollowing().countMaterialsWithIdStartingWith("5d7e467"));
@@ -91,7 +91,7 @@ public class MProductGroupBuilderChronosTest {
 
     @Test
     public void test_chronos_without_func() throws MaterialstoreException {
-        MProductGroup reduced = Reducer.chronos(store, right);
+        MaterialProductGroup reduced = Reducer.chronos(store, right);
         Assertions.assertNotNull(reduced);
         assertEquals(1, reduced.getMaterialListPrevious().countMaterialsWithIdStartingWith("5d7e467"));
         assertEquals(1, reduced.getMaterialListFollowing().countMaterialsWithIdStartingWith("5d7e467"));
@@ -102,7 +102,7 @@ public class MProductGroupBuilderChronosTest {
     public void test_chronos_priorTo_endOfLastMonth() throws MaterialstoreException {
         JobTimestamp priorTo = right.getJobTimestamp().beginningOfTheMonth();
         assertEquals(new JobTimestamp("20220101_000000"), priorTo);
-        MProductGroup reduced = Reducer.chronos(store, right, priorTo);
+        MaterialProductGroup reduced = Reducer.chronos(store, right, priorTo);
         Assertions.assertNotNull(reduced);
         assertEquals(new JobTimestamp("20211231_010101"), reduced.getJobTimestampLeft());
     }

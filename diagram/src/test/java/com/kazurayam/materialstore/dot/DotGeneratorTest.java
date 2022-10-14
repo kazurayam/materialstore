@@ -10,7 +10,7 @@ import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
 import com.kazurayam.materialstore.inspector.Inspector;
-import com.kazurayam.materialstore.reduce.MProductGroup;
+import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
@@ -133,8 +133,8 @@ public class DotGeneratorTest {
         JobTimestamp reducedTimestamp = JobTimestamp.now();
         JobName outJobName = new JobName("test_generateDotOfMPGBeforeZip");
         JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
-        MProductGroup mProductGroup =
-                new MProductGroup.Builder(
+        MaterialProductGroup mProductGroup =
+                new MaterialProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList).ignoreKeys("profile", "URL.host").build();
         //
@@ -160,8 +160,8 @@ public class DotGeneratorTest {
         // save the dot file and the PNG image into the store directory
         JobName outJobName = new JobName("test_generateDot_MProductGroup");
         JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
-        MProductGroup reduced =
-                new MProductGroup.Builder(
+        MaterialProductGroup reduced =
+                new MaterialProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList)
                         .ignoreKeys("profile", "URL.host")
@@ -172,7 +172,7 @@ public class DotGeneratorTest {
         assert reduced.size() > 0;
         //
         Inspector inspector = Inspector.newInstance(store);
-        MProductGroup inspected = inspector.process(reduced);
+        MaterialProductGroup inspected = inspector.process(reduced);
 
         // generate a dot file
         String dotText = DotGenerator.generateDot(inspected);

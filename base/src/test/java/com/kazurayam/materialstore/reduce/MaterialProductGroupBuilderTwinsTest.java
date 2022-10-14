@@ -21,12 +21,12 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.function.BiFunction;
 
-public class MProductGroupBuilderTwinsTest {
+public class MaterialProductGroupBuilderTwinsTest {
 
     private static final Path outputDir =
             Paths.get(".")
                     .resolve("build/tmp/testOutput")
-                    .resolve(MProductGroupBuilderTwinsTest.class.getName());
+                    .resolve(MaterialProductGroupBuilderTwinsTest.class.getName());
     private static final Path fixtureDir =
             Paths.get(".")
                     .resolve("src/test/fixture/issue#80");
@@ -63,13 +63,13 @@ public class MProductGroupBuilderTwinsTest {
 
     @Test
     public void test_twins() {
-        BiFunction<MaterialList, MaterialList, MProductGroup> func =
+        BiFunction<MaterialList, MaterialList, MaterialProductGroup> func =
                 (MaterialList left, MaterialList right) ->
-                        MProductGroup.builder(left, right)
+                        MaterialProductGroup.builder(left, right)
                                 .ignoreKeys("profile", "URL.host")
                                 .identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"))
                                 .build();
-        MProductGroup reduced = Reducer.twins(store, left, right, func);
+        MaterialProductGroup reduced = Reducer.twins(store, left, right, func);
         Assertions.assertNotNull(reduced);
         Assertions.assertEquals(8, reduced.size());
         Assertions.assertEquals(0, reduced.getNumberOfBachelors());
@@ -78,13 +78,13 @@ public class MProductGroupBuilderTwinsTest {
 
     @Test
     public void test_Bachelors() throws MaterialstoreException {
-        BiFunction<MaterialList, MaterialList, MProductGroup> func =
+        BiFunction<MaterialList, MaterialList, MaterialProductGroup> func =
                 (MaterialList left, MaterialList right) ->
-                        MProductGroup.builder(left, right)
+                        MaterialProductGroup.builder(left, right)
                                 .ignoreKeys("profile", "URL.host")
                                 //.identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"))
                                 .build();
-        MProductGroup reduced = Reducer.twins(store, left, right, func);
+        MaterialProductGroup reduced = Reducer.twins(store, left, right, func);
         Assertions.assertNotNull(reduced);
         Assertions.assertEquals(9, reduced.size());
         Assertions.assertEquals(2, reduced.getNumberOfBachelors());
