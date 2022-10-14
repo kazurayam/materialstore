@@ -214,10 +214,15 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
 
     @Override
     public String toJson() {
-        return this.toJson(new SortKeys());
+        return this.toVariableJson(new SortKeys());
     }
 
-    public String toJson(SortKeys sortKeys) {
+    @Override
+    public String toJson(boolean prettyPrint) {
+        return this.toVariableJson(new SortKeys(), prettyPrint);
+    }
+
+    public String toVariableJson(SortKeys sortKeys) {
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("\"jobName\":\"");
@@ -242,7 +247,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
 
         //---------------------------------
         sb.append(",");
-        sb.append("\"metadataText\":");
+        sb.append("\"identification\":");
         sb.append("\"");
         sb.append(JsonUtil.escapeAsJsonString(this.getIndexEntry().getMetadata().getMetadataIdentification(sortKeys).toString()));
         sb.append("\"");
@@ -271,14 +276,10 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return sb.toString();
     }
 
-    @Override
-    public String toJson(boolean prettyPrint) {
-        return this.toJson(new SortKeys(), prettyPrint);
-    }
 
-    public String toJson(SortKeys sortKeys, boolean prettyPrint) {
+    public String toVariableJson(SortKeys sortKeys, boolean prettyPrint) {
         if (prettyPrint) {
-            return JsonUtil.prettyPrint(toJson(sortKeys));
+            return JsonUtil.prettyPrint(toVariableJson(sortKeys));
         } else {
             return toJson();
         }

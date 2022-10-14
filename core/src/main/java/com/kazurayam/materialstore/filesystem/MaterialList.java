@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -171,7 +170,7 @@ public final class MaterialList
             if (count > 0) {
                 sb.append(",");
             }
-            sb.append(material.toJson(sortKeys));
+            sb.append(material.toVariableJson(sortKeys));
             count += 1;
         }
         sb.append("]");

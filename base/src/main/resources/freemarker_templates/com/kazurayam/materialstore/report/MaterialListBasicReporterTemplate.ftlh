@@ -48,7 +48,7 @@
               <h2 class="accordion-header" id="heading${material?counter}">
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${material?counter}" area-expanded="false" aria-controls="collapse${material?counter}">
                   <span class="fileType">${material.fileType}</span>
-                  <span class="metadata">${material.metadataText}</span>
+                  <span class="metadata">${material.identification}</span>
                 </button>
               </h2>
               <div id="collapse${material?counter}" class="accordion-collapse collapse" aria-labelledby="heading${material?counter}" data-bs-parent="#accordionExample">
