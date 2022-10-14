@@ -21,7 +21,7 @@ public abstract class Inspector {
 
     public abstract void setSortKeys(SortKeys sortKeys);
 
-    public abstract MaterialProductGroup process(MaterialProductGroup input) throws MaterialstoreException;
+    public abstract MaterialProductGroup reduceAndSort(MaterialProductGroup input) throws MaterialstoreException;
 
     public abstract Path report(MaterialProductGroup mpg, Double criteria, String fileName) throws MaterialstoreException;
 

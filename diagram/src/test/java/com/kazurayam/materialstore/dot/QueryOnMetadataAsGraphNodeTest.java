@@ -73,7 +73,7 @@ public class QueryOnMetadataAsGraphNodeTest {
         assert reduced.size() > 0;
         //
         Inspector inspector = Inspector.newInstance(store);
-        MaterialProductGroup inspected = inspector.process(reduced);
+        MaterialProductGroup inspected = inspector.reduceAndSort(reduced);
         //
         MaterialProduct materialProduct = inspected.get(0);
         GraphNodeId nodeId = GraphNodeIdResolver.resolveIdOfQueryInMaterialProduct(materialProduct);

@@ -172,7 +172,7 @@ public class DotGeneratorTest {
         assert reduced.size() > 0;
         //
         Inspector inspector = Inspector.newInstance(store);
-        MaterialProductGroup inspected = inspector.process(reduced);
+        MaterialProductGroup inspected = inspector.reduceAndSort(reduced);
 
         // generate a dot file
         String dotText = DotGenerator.generateDot(inspected);

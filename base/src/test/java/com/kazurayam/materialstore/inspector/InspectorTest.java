@@ -58,13 +58,13 @@ public class InspectorTest {
     }
 
     @Test
-    public void test_apply() throws MaterialstoreException {
+    public void test_reduceAndSort() throws MaterialstoreException {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("URL.query", "\\w{32}");
         MaterialProductGroup reducedMPG = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.host").build();
         Assertions.assertNotNull(reducedMPG);
 
-        MaterialProductGroup processedMPG = inspector.process(reducedMPG);
+        MaterialProductGroup processedMPG = inspector.reduceAndSort(reducedMPG);
         Assertions.assertNotNull(processedMPG);
 
         processedMPG.forEach(mProduct -> Assertions.assertNotEquals(ID.NULL_OBJECT,
@@ -93,7 +93,7 @@ public class InspectorTest {
                 .identifyWithRegex(map)
                 .sort("URL.host")
                 .build();
-        MaterialProductGroup processedMPG = inspector.process(reducedMPG);
+        MaterialProductGroup processedMPG = inspector.reduceAndSort(reducedMPG);
         double criteria = 0.0D;
         Assertions.assertTrue(processedMPG.countWarnings(criteria) > 0);
 

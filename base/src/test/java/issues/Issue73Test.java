@@ -66,7 +66,7 @@ public class Issue73Test {
     public void test_smoke() throws MaterialstoreException {
         Inspector inspector = Inspector.newInstance(store);
         MaterialProductGroup reducedMPG = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL.host").build();
-        MaterialProductGroup processedMPG = inspector.process(reducedMPG);
+        MaterialProductGroup processedMPG = inspector.reduceAndSort(reducedMPG);
         Double criteria = 0.0d;
         int warnings = processedMPG.countWarnings(criteria);
         // compile the report

@@ -104,7 +104,7 @@ public class MaterialProductGroupReporterTest extends AbstractReporterTest {
                                 Collections.singletonMap(
                                         "URL.query", "\\w{32}"))
                         .build();
-        return inspector.process(reducedMPG);
+        return inspector.reduceAndSort(reducedMPG);
     }
 
     private MaterialList createMaterialList(JobName jobName, JobTimestamp timestamp, String profileName)

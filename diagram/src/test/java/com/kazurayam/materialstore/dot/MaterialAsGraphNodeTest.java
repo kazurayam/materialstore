@@ -89,7 +89,7 @@ public class MaterialAsGraphNodeTest {
         assert reduced.size() > 0;
         //
         Inspector inspector = Inspector.newInstance(store);
-        MaterialProductGroup inspected = inspector.process(reduced);
+        MaterialProductGroup inspected = inspector.reduceAndSort(reduced);
         //
         MaterialProduct mp = inspected.get(4);
         Material material = mp.getLeft();
@@ -123,7 +123,7 @@ public class MaterialAsGraphNodeTest {
         assert reduced.size() > 0;
         //
         Inspector inspector = Inspector.newInstance(store);
-        MaterialProductGroup inspected = inspector.process(reduced);
+        MaterialProductGroup inspected = inspector.reduceAndSort(reduced);
         //
         logger_.info("[test_look_at_Material_inside_MProductGroup_after_zipping]\n" + inspected.toJson(true));
         // see the file "./inspected_MProductGroup_sample.json" for the output recorded
