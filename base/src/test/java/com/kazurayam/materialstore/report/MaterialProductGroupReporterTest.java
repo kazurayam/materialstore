@@ -7,7 +7,7 @@ import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
-import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
+import com.kazurayam.materialstore.filesystem.SortKeys;
 import com.kazurayam.materialstore.inspector.Inspector;
 import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import org.apache.commons.io.FileUtils;

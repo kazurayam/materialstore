@@ -11,7 +11,7 @@ import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.TemplateReadySortable;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
-import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
+import com.kazurayam.materialstore.filesystem.SortKeys;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.reduce.zipper.MaterialProductComparator;
 import com.kazurayam.materialstore.reduce.zipper.Zipper;

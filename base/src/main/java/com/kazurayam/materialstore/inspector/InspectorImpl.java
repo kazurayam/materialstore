@@ -3,7 +3,7 @@ package com.kazurayam.materialstore.inspector;
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
-import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
+import com.kazurayam.materialstore.filesystem.SortKeys;
 import com.kazurayam.materialstore.reduce.DiffingMPGProcessor;
 import com.kazurayam.materialstore.reduce.MPGProcessor;
 import com.kazurayam.materialstore.reduce.MaterialProductGroup;

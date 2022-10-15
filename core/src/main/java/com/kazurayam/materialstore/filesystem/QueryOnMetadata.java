@@ -5,7 +5,6 @@ import com.kazurayam.materialstore.filesystem.metadata.QEntry;
 import com.kazurayam.materialstore.filesystem.metadata.QValue;
 import com.kazurayam.materialstore.filesystem.metadata.QueryIdentification;
 import com.kazurayam.materialstore.filesystem.metadata.QueryOnMetadataImpl;
-import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 
 import java.util.HashMap;
 import java.util.List;

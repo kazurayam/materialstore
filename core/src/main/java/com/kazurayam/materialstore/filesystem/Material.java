@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.filesystem;
 
-import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.util.JsonUtil;
 import com.kazurayam.materialstore.util.StringUtils;
 import org.slf4j.Logger;

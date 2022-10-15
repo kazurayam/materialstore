@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.report;
 
 import com.kazurayam.materialstore.filesystem.MaterialList;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
-import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
+import com.kazurayam.materialstore.filesystem.SortKeys;
 
 import java.nio.file.Path;
 

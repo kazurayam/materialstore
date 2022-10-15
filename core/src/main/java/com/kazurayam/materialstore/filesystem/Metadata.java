@@ -5,7 +5,6 @@ import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataIdentification;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataImpl;
-import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 
 import java.net.URL;
 import java.util.LinkedHashMap;

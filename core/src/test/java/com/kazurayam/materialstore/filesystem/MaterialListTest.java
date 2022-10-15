@@ -1,6 +1,5 @@
 package com.kazurayam.materialstore.filesystem;
 
-import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

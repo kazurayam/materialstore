@@ -8,7 +8,6 @@ import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
-import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

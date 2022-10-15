@@ -3,6 +3,7 @@ package com.kazurayam.materialstore.filesystem.metadata;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.QueryOnMetadata;
+import com.kazurayam.materialstore.filesystem.SortKeys;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

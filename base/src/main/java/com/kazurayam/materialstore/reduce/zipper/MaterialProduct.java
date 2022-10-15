@@ -9,7 +9,7 @@ import com.kazurayam.materialstore.filesystem.TemplateReady;
 import com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.QueryIdentification;
-import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
+import com.kazurayam.materialstore.filesystem.SortKeys;
 import com.kazurayam.materialstore.util.JsonUtil;
 
 import java.nio.charset.StandardCharsets;

@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.filesystem;
 
 import com.kazurayam.materialstore.filesystem.metadata.MetadataIdentification;
-import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 
 import java.util.Comparator;
 import java.util.Objects;

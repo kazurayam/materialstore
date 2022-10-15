@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.filesystem.metadata;
+package com.kazurayam.materialstore.filesystem;
 
 import com.google.gson.Gson;
 

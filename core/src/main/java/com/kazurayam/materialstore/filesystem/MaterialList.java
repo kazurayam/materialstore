@@ -2,7 +2,6 @@ package com.kazurayam.materialstore.filesystem;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
 import com.kazurayam.materialstore.util.GsonHelper;
 import com.kazurayam.materialstore.util.JsonUtil;
 import org.slf4j.Logger;

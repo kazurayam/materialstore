@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.report;
 
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
-import com.kazurayam.materialstore.filesystem.metadata.SortKeys;
+import com.kazurayam.materialstore.filesystem.SortKeys;
 import com.kazurayam.materialstore.reduce.MaterialProductGroup;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
