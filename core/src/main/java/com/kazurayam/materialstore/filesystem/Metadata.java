@@ -5,9 +5,11 @@ import com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataAttribute;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataIdentification;
 import com.kazurayam.materialstore.filesystem.metadata.MetadataImpl;
-
+import com.kazurayam.materialstore.util.KeyValuePair;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -115,7 +117,13 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
             }
 
             if (url.getQuery() != null) {
-                attributes.put(KEY_URL_QUERY, new MetadataAttribute(KEY_URL_QUERY, url.getQuery()));
+                //attributes.put(KEY_URL_QUERY, new MetadataAttribute(KEY_URL_QUERY, url.getQuery()));
+                List<KeyValuePair> pairs = parseQuery(url.getQuery());
+                pairs.forEach((KeyValuePair kvp) -> {
+                    String k = KEY_URL_QUERY + "?" + kvp.getKey();
+                    String v = (kvp.getValue() != null) ? kvp.getValue() : "null";
+                    attributes.put(k, new MetadataAttribute(k, v));
+                });
             }
 
             int posHash = url.toString().indexOf("#");
@@ -152,5 +160,26 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
         }
 
         private Map<String, MetadataAttribute> attributes;
+    }
+
+    /**
+     *
+     * @param query "a=x&b=y&c"
+     * @return [new KeyValuePair("a","x"), new KeyValuePair("b","y"), new KeyValuePair("c, null)]
+     */
+    public static List<KeyValuePair> parseQuery(String query) {
+        Objects.requireNonNull(query);
+        List<KeyValuePair> list = new ArrayList<>();
+        String[] pairs = query.split("&");
+        for (int i = 0; i < pairs.length; i++) {
+            String[] kv = pairs[i].split("=");
+            String key = kv[0];
+            String value = null;
+            if (kv.length == 2) {
+                value = kv[1];
+            }
+            list.add(new KeyValuePair(key, value));
+        }
+        return list;
     }
 }
