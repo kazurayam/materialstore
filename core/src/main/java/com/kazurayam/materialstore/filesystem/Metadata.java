@@ -8,6 +8,7 @@ import com.kazurayam.materialstore.filesystem.metadata.MetadataImpl;
 import com.kazurayam.materialstore.util.KeyValuePair;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -147,8 +148,19 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
             return this;
         }
 
+        public Builder exclude(String... keys) {
+            Arrays.asList(keys).forEach((String key) -> {
+                    excludedKeys.add(key);
+            });
+            return this;
+        }
+
         public Metadata build() {
-            return new MetadataImpl(attributes);
+            Metadata metadata = new MetadataImpl(attributes);
+            excludedKeys.forEach((String key) -> {
+                attributes.remove(key);
+            });
+            return metadata;
         }
 
         public Map<String, MetadataAttribute> getAttributes() {
@@ -160,6 +172,8 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
         }
 
         private Map<String, MetadataAttribute> attributes;
+
+        private List<String> excludedKeys = new ArrayList<>();
     }
 
     /**

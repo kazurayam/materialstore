@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.filesystem.metadata;
+package com.kazurayam.materialstore.filesystem;
 
 import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.util.KeyValuePair;

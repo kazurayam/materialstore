@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.filesystem.metadata;
+package com.kazurayam.materialstore.filesystem;
 
 import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.util.KeyValuePair;
@@ -10,7 +10,9 @@ import java.net.URL;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MetadataBuilderTest {
 
@@ -60,5 +62,17 @@ public class MetadataBuilderTest {
         assertEquals("Cgdnd3Mtd2l6EAMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEOg0IABAEEIAEELEDEIMBOgcIABAEEIAEOgcIABCABBAKUABYIGD2G2gAcAB4AIABxAGIAaAFkgEDMS4zmAEAoAEB",
                 metadata.get("URL.query?gs_lcp"));
         assertEquals("gws-wiz", metadata.get("URL.query?sclient"));
+    }
+
+    @Test
+    public void testExclude() throws MalformedURLException {
+        URL url0 = new URL(fixture);
+        Metadata md = new Metadata.Builder(url0)
+                .exclude("URL.query?iflsig", "URL.query?gs_lcp").build();
+        assertTrue(md.containsKey("URL.host"));
+        assertTrue(md.containsKey("URL.query?q"));
+        assertFalse(md.containsKey("URL.query?iflsig"));
+        assertFalse(md.containsKey("URL.query?gs_lcp"));
+        //System.out.println("[MetadataBuilderTest#testExclude] md=" + md.toJson(true));
     }
 }
