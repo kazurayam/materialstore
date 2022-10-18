@@ -1,5 +1,5 @@
 rootProject.name = 'materialstore'
-include(':core', ':freemarker', ':base', ':mapper', ':facet', ':diagram', ':tutorial:ch1', 'tutorial:ch2')
+include(':core', ':freemarker', ':base', ':mapper', ':facet', ':diagram')
 /*
  subprojects' dependency tree
      :core       -> :base

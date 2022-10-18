@@ -15,9 +15,6 @@
             <option value="$PROJECT_DIR$/facet" />
             <option value="$PROJECT_DIR$/freemarker" />
             <option value="$PROJECT_DIR$/mapper" />
-            <option value="$PROJECT_DIR$/tutorial" />
-            <option value="$PROJECT_DIR$/tutorial/ch1" />
-            <option value="$PROJECT_DIR$/tutorial/ch2" />
           </set>
         </option>
       </GradleProjectSettings>
