@@ -75,4 +75,16 @@ public class MetadataBuilderTest {
         assertFalse(md.containsKey("URL.query?gs_lcp"));
         //System.out.println("[MetadataBuilderTest#testExclude] md=" + md.toJson(true));
     }
+
+    @Test
+    public void testFileURLSupport() throws MalformedURLException {
+        String fileUrlString = "file:/Users/who/bar/baz.txt";
+        URL url = new URL(fileUrlString);
+        Metadata md = new Metadata.Builder(url).build();
+        System.out.println(md.toJson(true));
+        assertTrue(md.containsKey("URL.protocol"), "URL.protocol is not contained");
+        assertEquals("file", md.get("URL.protocol"));
+        assertTrue(md.containsKey("URL.path"), "URL.path is not contained");
+        assertEquals("/Users/who/bar/baz.txt", md.get("URL.path"));
+    }
 }
