@@ -23,7 +23,6 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GraphNodeIdResolverTest {
-
     private static final Path outputDir =
             Paths.get(System.getProperty("user.dir"))
                     .resolve("build/tmp/testOutput")
@@ -65,7 +64,7 @@ public class GraphNodeIdResolverTest {
         MaterialList materialList = store.select(jobName, leftJobTimestamp, FileType.PNG);
         Material material = materialList.get(0);
         GraphNodeId graphNodeId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialList(materialList, material);
-        assertEquals(new GraphNodeId("ML21ba599_M561b438"), graphNodeId);
+        assertEquals(new GraphNodeId("MLe25845c_M561b438"), graphNodeId);
     }
 
     @Test
@@ -81,7 +80,7 @@ public class GraphNodeIdResolverTest {
                         rightMaterialList.get(0),
                         reducedTimestamp).build();
         GraphNodeId graphNodeId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialProduct(mProduct, Role.L);
-        assertEquals(new GraphNodeId("MP2fce745_M561b438_L"), graphNodeId);
+        assertEquals(new GraphNodeId("MP015220a_M561b438_L"), graphNodeId);
     }
 
     @Test
@@ -95,7 +94,7 @@ public class GraphNodeIdResolverTest {
         assert mProductGroup.size() > 0;
         Material material = leftMaterialList.get(0);
         GraphNodeId graphNodeId = GraphNodeIdResolver.resolveIdOfMaterialInMProductGroup(mProductGroup, material);
-        assertEquals(new GraphNodeId("MPG3e2eba0_M99ed902"), graphNodeId);
+        assertEquals(new GraphNodeId("MPG53955d6_M99ed902"), graphNodeId);
     }
 
     @Test
@@ -108,6 +107,6 @@ public class GraphNodeIdResolverTest {
                         rightMaterialList).ignoreKeys("profile", "URL.host").build();
         Material material = leftMaterialList.get(0);
         GraphNodeId graphNodeId = GraphNodeIdResolver.resolveIdOfMaterialInMProductGroupBeforeZIP(mProductGroup, material);
-        assertEquals(new GraphNodeId("MPGBZ85a4d6b_ML21ba599_M561b438"), graphNodeId);
+        assertEquals(new GraphNodeId("MPGBZ36d4203_MLe25845c_M561b438"), graphNodeId);
     }
 }

@@ -88,7 +88,7 @@
       </#if>
     </dl>
     <#if material.diffability == "AS_IMAGE">
-      <img class="img-fluid d-block w-75 centered" alt="image-material" src="${material.relativeUrl}" />
+      <img class="img-fluid border d-block w-75 centered" alt="image-material" src="${material.relativeUrl}" />
     <#elseif material.diffability == "AS_TEXT">
       <table id="text-content">
         <colgroup>

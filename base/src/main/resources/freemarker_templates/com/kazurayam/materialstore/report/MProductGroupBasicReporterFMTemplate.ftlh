@@ -153,15 +153,15 @@
                 <div class="carousel-inner">
                   <div class="carousel-item">
                     <h3 class="centered">Left</h3>
-                    <img class="img-fluid d-block w-75 centered" alt="left" src="${mProduct.left.relativeUrl}">
+                    <img class="img-fluid border d-block w-75 centered" alt="left" src="${mProduct.left.relativeUrl}">
                   </div>
                   <div class="carousel-item active">
                     <h3 class="centered">Diff</h3>
-                    <img class="img-fluid d-block w-75 centered" alt="diff" src="${mProduct.diff.relativeUrl}">
+                    <img class="img-fluid border d-block w-75 centered" alt="diff" src="${mProduct.diff.relativeUrl}">
                   </div>
                   <div class="carousel-item">
                     <h3 class="centered">Right</h3>
-                    <img class="img-fluid d-block w-75 centered" alt="right" src="${mProduct.right.relativeUrl}">
+                    <img class="img-fluid border d-block w-75 centered" alt="right" src="${mProduct.right.relativeUrl}">
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev">

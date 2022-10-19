@@ -127,13 +127,13 @@ public final class TextDifferToHTML extends AbstractTextDiffer implements Differ
             put("relativeURL", left.getRelativeURL());
             put("fileType", left.getFileType().getExtension());
             put("metadata", left.getMetadata().toString());
-            put("url", left.getMetadata().toURL().toExternalForm());
+            put("url", left.getMetadata().toURLAsString());
         }};
         Map<String, String> rightData = new HashMap<String, String>() {{
             put("relativeURL", right.getRelativeURL());
             put("fileType", right.getFileType().getExtension());
             put("metadata", right.getMetadata().toString());
-            put("url", right.getMetadata().toURL().toExternalForm());
+            put("url", right.getMetadata().toURLAsString());
         }};
         model.put("leftData", leftData);
         model.put("rightData", rightData);
