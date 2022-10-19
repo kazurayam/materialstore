@@ -8,7 +8,6 @@ import com.kazurayam.materialstore.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,8 +27,11 @@ public final class MetadataImpl extends Metadata {
 
     private final Map<String, MetadataAttribute> attributes;
 
+    private URL url;
+
     public MetadataImpl(Map<String, MetadataAttribute> attributes) {
         this.attributes = attributes;
+        this.url = null;
     }
 
     @Override
@@ -63,6 +65,10 @@ public final class MetadataImpl extends Metadata {
         return attributes.keySet();
     }
 
+    public void setURL(URL url) {
+        this.url = url;
+    }
+
     @Override
     public int size() {
         return attributes.size();
@@ -70,49 +76,20 @@ public final class MetadataImpl extends Metadata {
 
     @Override
     public String toURLAsString() throws MaterialstoreException {
-        if (attributes.containsKey(KEY_URL_FRAGMENT)) {
-            return Objects.requireNonNull(toURL()).toExternalForm() + "#" + attributes.get(KEY_URL_FRAGMENT).getValue();
+        if (this.toURL() != null) {
+            if (attributes.containsKey(KEY_URL_FRAGMENT)) {
+                return Objects.requireNonNull(toURL()).toExternalForm() + "#" + attributes.get(KEY_URL_FRAGMENT).getValue();
+            } else {
+                return Objects.requireNonNull(toURL()).toExternalForm();
+            }
         } else {
-            return Objects.requireNonNull(toURL()).toExternalForm();
+            return "";
         }
-
     }
 
     @Override
     public URL toURL() throws MaterialstoreException {
-        if (attributes.containsKey(KEY_URL_PROTOCOL) && attributes.containsKey(KEY_URL_HOST)) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(attributes.get(KEY_URL_PROTOCOL).getValue());
-            sb.append(":");
-            if (attributes.get(KEY_URL_PROTOCOL).getValue().startsWith("http")) {
-                sb.append("//");
-            }
-
-            sb.append(attributes.get(KEY_URL_HOST).getValue());
-            if (attributes.containsKey(KEY_URL_PORT) && !attributes.get(KEY_URL_PORT).getValue().equals("80")) {
-                sb.append(":");
-                sb.append(attributes.get(KEY_URL_PORT).getValue());
-            }
-
-            sb.append(attributes.get(KEY_URL_PATH).getValue());
-            if (attributes.containsKey(KEY_URL_QUERY)) {
-                sb.append("?");
-                sb.append(attributes.get(KEY_URL_QUERY).getValue());
-            }
-
-            try {
-                return new URL(sb.toString());
-            } catch (MalformedURLException e) {
-                throw new MaterialstoreException(e);
-            }
-        } else {
-            try {
-                return new URL("file://null_object");
-            } catch (MalformedURLException e) {
-                throw new MaterialstoreException(e);
-            }
-        }
-
+        return this.url;
     }
 
     @Override

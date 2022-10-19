@@ -4,9 +4,12 @@ import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.util.KeyValuePair;
 import org.junit.jupiter.api.Test;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MetadataTest {
@@ -24,4 +27,20 @@ public class MetadataTest {
         assertEquals("c", list.get(3).getKey());
         assertNull(list.get(3).getValue());
     }
+
+    /**
+     * #313
+     */
+    @Test
+    public void testToURLAsString() throws MalformedURLException, MaterialstoreException {
+        URL url = new URL("https://duckduckgo.com/search/");
+        Metadata metadata =
+                new Metadata.Builder(url)
+                        .exclude("URL.protocol")
+                        .build();
+        assertNotEquals("file://null_object", metadata.toURLAsString());
+        assertEquals(url, metadata.toURL());
+        //System.out.println(metadata.toURL().toString());
+    }
+
 }

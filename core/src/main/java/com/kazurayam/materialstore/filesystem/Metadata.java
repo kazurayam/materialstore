@@ -103,6 +103,7 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
         public Builder(URL url) {
             this();
             Objects.requireNonNull(url);
+            this.url = url;
             attributes.put(KEY_URL_PROTOCOL, new MetadataAttribute(KEY_URL_PROTOCOL, url.getProtocol()));
             if (url.getProtocol().startsWith("http")) {
                 if (url.getPort() < 0) {
@@ -156,11 +157,12 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
         }
 
         public Metadata build() {
-            Metadata metadata = new MetadataImpl(attributes);
             excludedKeys.forEach((String key) -> {
                 attributes.remove(key);
             });
-            return metadata;
+            MetadataImpl impl = new MetadataImpl(attributes);
+            impl.setURL(this.url);
+            return (Metadata)impl;
         }
 
         public Map<String, MetadataAttribute> getAttributes() {
@@ -174,6 +176,8 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
         private Map<String, MetadataAttribute> attributes;
 
         private List<String> excludedKeys = new ArrayList<>();
+
+        private URL url = null;
     }
 
     /**
