@@ -22,7 +22,9 @@ public interface Store {
      * @return number of JobTimestamp directories which were deleted
      * @throws MaterialstoreException
      */
-    int deleteMaterialsOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp, long amountToSubtract, TemporalUnit unit) throws MaterialstoreException;
+    int deleteStuffOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp, long amountToSubtract, TemporalUnit unit) throws MaterialstoreException, IOException;
+
+    int deleteStuffOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException, IOException;
 
     int copyMaterials(JobName jobName, JobTimestamp source, JobTimestamp target) throws MaterialstoreException;
 
@@ -60,6 +62,8 @@ public interface Store {
     MaterialList reflect(MaterialList baseMaterialList) throws MaterialstoreException;
 
     MaterialList reflect(MaterialList baseMaterialList, JobTimestamp priorTo) throws MaterialstoreException;
+
+    String resolveReportFileName(JobName jobName, JobTimestamp jobTimestamp);
 
     long retrieve(Material material, Path out) throws MaterialstoreException;
 

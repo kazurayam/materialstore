@@ -49,24 +49,15 @@ public class InspectorImpl extends Inspector {
 
     @Override
     public String resolveReportFileName(MaterialList materialList) {
-        Objects.requireNonNull(materialList);
-        StringBuilder sb = new StringBuilder();
-        sb.append(materialList.getJobName().toString());
-        sb.append("-");
-        sb.append(materialList.getJobTimestamp().toString());
-        sb.append(".html");
-        return sb.toString();
+        return store.resolveReportFileName(materialList.getJobName(),
+                materialList.getJobTimestamp());
     }
 
     @Override
     public String resolveReportFileName(MaterialProductGroup mpg) {
         Objects.requireNonNull(mpg);
-        StringBuilder sb = new StringBuilder();
-        sb.append(mpg.getJobName().toString());
-        sb.append("-");
-        sb.append(mpg.getJobTimestampOfReduceResult().toString());
-        sb.append(".html");
-        return sb.toString();
+        return store.resolveReportFileName(mpg.getJobName(),
+                mpg.getJobTimestampOfReduceResult());
     }
 
 

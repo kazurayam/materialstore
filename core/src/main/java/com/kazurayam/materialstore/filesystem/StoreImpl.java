@@ -23,6 +23,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,6 +35,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public final class StoreImpl implements Store {
 
@@ -80,11 +82,19 @@ public final class StoreImpl implements Store {
     }
 
     @Override
-    public int deleteMaterialsOlderThanExclusive(final JobName jobName,
-                                                 JobTimestamp jobTimestamp,
-                                                 final long amountToSubtract,
-                                                 TemporalUnit unit)
-            throws MaterialstoreException {
+    public int deleteStuffOlderThanExclusive(final JobName jobName,
+                                             final JobTimestamp jobTimestamp)
+            throws MaterialstoreException, IOException {
+        return deleteStuffOlderThanExclusive(jobName, jobTimestamp,
+                0, ChronoUnit.SECONDS);
+    }
+
+    @Override
+    public int deleteStuffOlderThanExclusive(final JobName jobName,
+                                             final JobTimestamp jobTimestamp,
+                                             final long amountToSubtract,
+                                             final TemporalUnit unit)
+            throws MaterialstoreException, IOException {
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(jobTimestamp);
         if (amountToSubtract < 0) {
@@ -94,6 +104,7 @@ public final class StoreImpl implements Store {
         Objects.requireNonNull(unit);
         // calculate the base timestamp
         JobTimestamp thanThisJobTimestamp = jobTimestamp.minus(amountToSubtract, unit);
+
         // identify the JobTimestamp directories to be deleted
         List<JobTimestamp> toBeDeleted = this.findAllJobTimestampsPriorTo(jobName, thanThisJobTimestamp);
         // now delete files/directories
@@ -113,9 +124,36 @@ public final class StoreImpl implements Store {
                 countDeletedJT += 1;
             }
         }
+
+        // identify "store/<JobName>-<JobTimestamp>.html" files to be deleted
+        List<String> htmlNames = getListOfReportFiles(jobName);
+
+        htmlNames.forEach((String fileName) -> {
+            String baseFileName = this.resolveReportFileName(jobName, thanThisJobTimestamp);
+
+            if (fileName.compareTo(baseFileName) < 0) {
+                Path p = root_.resolve(fileName);
+                try {
+                    Files.delete(p);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
         return countDeletedJT;
     }
 
+    List<String> getListOfReportFiles(JobName jobName) throws IOException {
+        try (Stream<Path> stream = Files.list(root_)) {
+            return stream
+                    .filter(p -> !Files.isDirectory(p))
+                    .filter(p -> p.getFileName().toString().startsWith(jobName.toString()))
+                    .filter(p -> p.getFileName().toString().endsWith(".html"))
+                    .map(p -> p.getFileName().toString())
+                    .collect(Collectors.toList());
+        }
+    }
     /**
      * @param jobName JobName instance
      * @return List of JobTimestamp objects in the jobName directory.
@@ -394,6 +432,11 @@ public final class StoreImpl implements Store {
         }
         logger.debug(String.format("%s returning MaterialList.NULL_OBJECT", methodName));
         return MaterialList.NULL_OBJECT;
+    }
+
+    @Override
+    public String resolveReportFileName(JobName jobName, JobTimestamp jobTimestamp) {
+        return jobName.toString() + "-" + jobTimestamp.toString() + ".html";
     }
 
     @Override

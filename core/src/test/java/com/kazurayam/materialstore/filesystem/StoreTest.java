@@ -1,18 +1,17 @@
 package com.kazurayam.materialstore.filesystem;
 
 import com.kazurayam.materialstore.TestHelper;
-import java.nio.file.Path;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StoreTest {
@@ -54,10 +53,21 @@ public class StoreTest {
         assertEquals(jtB, store.findNthJobTimestamp(jobName, 999));
     }
 
-    @Disabled
     @Test
-    public void test_deleteMaterialsOlderThanExclusive() {
-        throw new RuntimeException("TODO");
+    public void test_deleteStuffOlderThanExclusive() throws MaterialstoreException, IOException {
+        jobName = new JobName("test_deleteStuffOlderThanExclusive");
+        JobTimestamp jtA = createFixtures(store, jobName, JobTimestamp.now());
+        JobTimestamp jtB = createFixtures(store, jobName, jtA); // intentionally create 2 JobTimestamps
+        List<JobTimestamp> jobTimestampList = store.findAllJobTimestamps(jobName);
+        assertTrue(jobTimestampList.size() >= 2);
+        // create the report HTML file
+        JobTimestamp htmlJobTimestamp = JobTimestamp.laterThan(jtB);
+        Path report = store.getRoot().resolve(store.resolveReportFileName(jobName, htmlJobTimestamp));
+        Files.write(report, "<html></html>".getBytes());
+        // delete JobTimestamp directories older than the one last 1 JobTimestamp.
+        // delete <JobName>-<JobTimestamp>.html files older than the one last 1 JobTimestamp
+        int deleted = store.deleteStuffOlderThanExclusive(jobName, store.findNthJobTimestamp(jobName, 1));
+        assertTrue(deleted >= 1);
     }
 
     /**
@@ -65,7 +75,7 @@ public class StoreTest {
      * @param store
      * @param jobName
      */
-    private JobTimestamp createFixtures(Store store, JobName jobName, JobTimestamp base) throws MaterialstoreException {
+    private JobTimestamp createFixtures(Store store, JobName jobName, JobTimestamp base) throws MaterialstoreException, IOException {
         JobTimestamp jobTimestamp = JobTimestamp.laterThan(base);
         Material apple = this.writeFixtureIntoStore(store, jobName, jobTimestamp, "Apple", "01", "it is red");
         Material orange = this.writeFixtureIntoStore(store, jobName, jobTimestamp, "Orange", "02", "it is orange");
