@@ -70,8 +70,7 @@ public class Issue73Test {
         Double criteria = 0.0d;
         int warnings = processedMPG.countWarnings(criteria);
         // compile the report
-        Path reportFile = inspector.report(processedMPG, criteria,
-                jobName.toString() + "-index.html");
+        Path reportFile = inspector.report(processedMPG, criteria);
         assert processedMPG.size() == 8;
     }
 }

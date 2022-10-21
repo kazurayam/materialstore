@@ -23,8 +23,12 @@ public abstract class Inspector {
 
     public abstract MaterialProductGroup reduceAndSort(MaterialProductGroup input) throws MaterialstoreException;
 
-    public abstract Path report(MaterialProductGroup mpg, Double criteria, String fileName) throws MaterialstoreException;
+    public abstract String resolveReportFileName(MaterialProductGroup mpg);
 
-    public abstract Path report(MaterialList materialList, String fileName) throws MaterialstoreException;
+    public abstract Path report(MaterialProductGroup mpg, Double criteria) throws MaterialstoreException;
+
+    public abstract String resolveReportFileName(MaterialList materialList);
+
+    public abstract Path report(MaterialList materialList) throws MaterialstoreException;
 
 }

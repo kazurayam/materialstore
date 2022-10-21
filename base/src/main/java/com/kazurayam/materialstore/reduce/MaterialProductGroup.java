@@ -84,7 +84,7 @@ public final class MaterialProductGroup
             tmp.add(new MaterialProduct(sourceMProduct));
         }
         this.materialProductList = tmp;
-        this.resultTimestamp = source.getResultTimestamp();
+        this.resultTimestamp = source.getJobTimestampOfReduceResult();
         this.readyToReport = source.isReadyToReport();
     }
 
@@ -141,7 +141,7 @@ public final class MaterialProductGroup
     }
 
 
-    public JobTimestamp getResultTimestamp() {
+    public JobTimestamp getJobTimestampOfReduceResult() {
         return this.resultTimestamp;
     }
 

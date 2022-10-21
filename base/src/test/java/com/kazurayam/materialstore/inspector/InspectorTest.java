@@ -21,6 +21,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class InspectorTest {
 
     private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(InspectorTest.class.getName());
@@ -69,7 +71,7 @@ public class InspectorTest {
 
         processedMPG.forEach(mProduct -> Assertions.assertNotEquals(ID.NULL_OBJECT,
                 mProduct.getDiff().getIndexEntry().getID()));
-        Assertions.assertEquals(8, processedMPG.size());
+        assertEquals(8, processedMPG.size());
     }
 
     @Test
@@ -79,7 +81,7 @@ public class InspectorTest {
         MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY);
         //System.out.println("materialList=" + materialList.toTemplateModel());
         Inspector inspector = Inspector.newInstance(store);
-        Path report = inspector.report(materialList, "test_reportMaterials.html");
+        Path report = inspector.report(materialList);
         Assertions.assertNotNull(report);
         Assertions.assertTrue(Files.exists(report));
     }
@@ -97,10 +99,30 @@ public class InspectorTest {
         double criteria = 0.0D;
         Assertions.assertTrue(processedMPG.countWarnings(criteria) > 0);
 
-        Path report = inspector.report(processedMPG, criteria, "test_report_MProductGroup.html");
+        Path report = inspector.report(processedMPG, criteria);
         Assertions.assertNotNull(report);
         Assertions.assertTrue(Files.exists(report));
     }
 
+    @Test
+    public void test_resolveReportFileName_MaterialList() throws MaterialstoreException {
+        JobName jobName = new JobName("MyAdmin_visual_inspection_twins");
+        JobTimestamp jobTimestamp = new JobTimestamp("20220128_191320");
+        MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY);
+        String fileName = inspector.resolveReportFileName(materialList);
+        assertEquals(jobName.toString() + "-" +
+                        jobTimestamp.toString() + ".html",
+                fileName);
+    }
 
+    @Test
+    public void test_resolveReportFileName_MaterialProductGroup() throws MaterialstoreException {
+        MaterialProductGroup mpg = MaterialProductGroup.builder(left, right)
+                .build();
+        String fileName = inspector.resolveReportFileName(mpg);
+        assertEquals(mpg.getJobName() + "-" +
+                        mpg.getJobTimestampOfReduceResult().toString() +
+                        ".html",
+                fileName);
+    }
 }

@@ -196,6 +196,24 @@ public final class StoreImpl implements Store {
 
     }
 
+    @Override
+    public JobTimestamp findNthJobTimestamp(JobName jobName, int nth) throws MaterialstoreException {
+        Objects.requireNonNull(jobName);
+        if (nth <= 0) {
+            throw new IllegalArgumentException("nth=" + nth + ", must be equal to or greater than 1");
+        }
+        List<JobTimestamp> allJobTimestamps = this.findAllJobTimestamps(jobName);
+        if (allJobTimestamps.size() == 0) {
+            return JobTimestamp.NULL_OBJECT;
+        }
+        Collections.sort(allJobTimestamps, Collections.reverseOrder());
+        if (nth > allJobTimestamps.size()) {
+            return allJobTimestamps.get(0);
+        } else {
+            return allJobTimestamps.get(nth - 1);
+        }
+    }
+
     public Jobber getCachedJobber(JobName jobName, JobTimestamp jobTimestamp) {
         Jobber result = null;
         for (Jobber cached : jobberCache_) {

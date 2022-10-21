@@ -34,6 +34,15 @@ public interface Store {
 
     JobTimestamp findLatestJobTimestamp(JobName jobName) throws MaterialstoreException;
 
+    /**
+     *
+     * @param jobName
+     * @param nth starts with 1; does not start with zero
+     * @return
+     * @throws MaterialstoreException
+     */
+    JobTimestamp findNthJobTimestamp(JobName jobName, int nth) throws MaterialstoreException;
+
     List<JobTimestamp> queryAllJobTimestamps(JobName jobName, QueryOnMetadata query) throws MaterialstoreException;
 
     List<JobTimestamp> queryAllJobTimestampsPriorTo(JobName jobName, QueryOnMetadata query, JobTimestamp jobTimestamp) throws MaterialstoreException;

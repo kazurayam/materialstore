@@ -133,7 +133,7 @@ public class MaterialProductGroupTest {
 
     @Test
     public void test_getResultTimestamp() {
-        JobTimestamp resultTimestamp = mpg.getResultTimestamp();
+        JobTimestamp resultTimestamp = mpg.getJobTimestampOfReduceResult();
         //println "resultTimestamp=${resultTimestamp.toString()}"
         Assertions.assertNotEquals(JobTimestamp.NULL_OBJECT, resultTimestamp);
     }

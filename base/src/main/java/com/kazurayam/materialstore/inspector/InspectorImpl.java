@@ -47,9 +47,37 @@ public class InspectorImpl extends Inspector {
         return tmp;
     }
 
+    @Override
+    public String resolveReportFileName(MaterialList materialList) {
+        Objects.requireNonNull(materialList);
+        StringBuilder sb = new StringBuilder();
+        sb.append(materialList.getJobName().toString());
+        sb.append("-");
+        sb.append(materialList.getJobTimestamp().toString());
+        sb.append(".html");
+        return sb.toString();
+    }
 
     @Override
-    public Path report(MaterialList materialList, String fileName) throws MaterialstoreException {
+    public String resolveReportFileName(MaterialProductGroup mpg) {
+        Objects.requireNonNull(mpg);
+        StringBuilder sb = new StringBuilder();
+        sb.append(mpg.getJobName().toString());
+        sb.append("-");
+        sb.append(mpg.getJobTimestampOfReduceResult().toString());
+        sb.append(".html");
+        return sb.toString();
+    }
+
+
+    @Override
+    public Path report(MaterialList materialList) throws MaterialstoreException {
+        Objects.requireNonNull(materialList);
+        String fileName = this.resolveReportFileName(materialList);
+        return this.report(materialList, fileName);
+    }
+
+    private Path report(MaterialList materialList, String fileName) throws MaterialstoreException {
         Objects.requireNonNull(materialList);
         Objects.requireNonNull(fileName);
         MaterialListReporterImpl reporter = new MaterialListReporterImpl(store);
@@ -57,7 +85,14 @@ public class InspectorImpl extends Inspector {
     }
 
     @Override
-    public Path report(MaterialProductGroup mpg, Double criteria, String fileName) throws MaterialstoreException {
+    public Path report(MaterialProductGroup mpg, Double criteria) throws MaterialstoreException {
+        Objects.requireNonNull(mpg);
+        Objects.requireNonNull(criteria);
+        String fileName = this.resolveReportFileName(mpg);
+        return this.report(mpg, criteria, fileName);
+    }
+
+    private Path report(MaterialProductGroup mpg, Double criteria, String fileName) throws MaterialstoreException {
         Objects.requireNonNull(mpg);
         Objects.requireNonNull(criteria);
         Objects.requireNonNull(fileName);
