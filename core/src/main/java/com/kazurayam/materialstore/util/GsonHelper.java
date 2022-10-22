@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class GsonHelper {
+
     public static Gson createGson(boolean prettyPrint) {
         if (prettyPrint) {
             return new GsonBuilder().setPrettyPrinting().create();
         } else {
             return new Gson();
         }
-
     }
 
     public static Map<String, String> toStringStringMap(Map<?, ?> map) {

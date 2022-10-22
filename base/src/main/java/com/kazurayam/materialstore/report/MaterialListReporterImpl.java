@@ -36,7 +36,7 @@ public final class MaterialListReporterImpl extends MaterialListReporter {
 
     private final Store store;
 
-    private static final String TEMPLATE_PATH =
+    private static String TEMPLATE_PATH =
             "com/kazurayam/materialstore/report/MaterialListBasicReporterTemplate.ftlh";
     // ftlh is a short for "FreeMarker Template Language for HTML"
 
@@ -93,16 +93,16 @@ public final class MaterialListReporterImpl extends MaterialListReporter {
         materialList.order(sortKeys);
 
         /* Create a data-model */
-        Map<String, Object> model = new HashMap<>();
-        model.put("style", StyleHelper.loadStyleFromClasspath());
-        model.put("style2", StyleHelper.loadStyleFromClasspath(
+        Map<String, Object> dataModel = new HashMap<>();
+        dataModel.put("style", StyleHelper.loadStyleFromClasspath());
+        dataModel.put("style2", StyleHelper.loadStyleFromClasspath(
                 "/com/kazurayam/materialstore/reduce/differ/style.css"));
-        model.put("title", getTitle(filePath));
-        model.put("filePath", filePath.toString());
-        model.put("store", store.getRoot().normalize().toString());
+        dataModel.put("title", getTitle(filePath));
+        dataModel.put("filePath", filePath.toString());
+        dataModel.put("store", store.getRoot().normalize().toString());
 
-        model.put("model", materialList.toTemplateModel(sortKeys));
-        model.put("sortKeys", sortKeys.toString());
+        dataModel.put("model", materialList.toTemplateModel(sortKeys));
+        dataModel.put("sortKeys", sortKeys.toString());
 
         // for debug
         if (isVerboseLoggingEnabled()) {
@@ -118,10 +118,10 @@ public final class MaterialListReporterImpl extends MaterialListReporter {
             throw new MaterialstoreException(e);
         }
 
-        /* Merge data-model with the template */
+        /* Merge data-dataModel with the template */
         Writer sw = new StringWriter();
         try {
-            template.process(model, sw);
+            template.process(dataModel, sw);
             sw.flush();
             sw.close();
         } catch (IOException | TemplateException e) {

@@ -70,18 +70,18 @@ public final class MaterialProductGroupReporterImpl extends MaterialProductGroup
         mpg.order(sortKeys);
 
         /* create a data-model */
-        Map<String, Object> model = new HashMap<>();
-        model.put("style", StyleHelper.loadStyleFromClasspath());
-        model.put("accordionCustom",
+        Map<String, Object> dataModel = new HashMap<>();
+        dataModel.put("style", StyleHelper.loadStyleFromClasspath());
+        dataModel.put("accordionCustom",
                 StyleHelper.loadStyleFromClasspath("/com/kazurayam/materialstore/report/bootstrap-5-accordion-with-an-inline-checkbox.css"));
-        model.put("js",
+        dataModel.put("js",
                 StyleHelper.loadStyleFromClasspath("/com/kazurayam/materialstore/report/model-manager.js"));
-        model.put("title", getTitle(filePath));
-        model.put("store", store.getRoot().normalize().toString());
-        model.put("mProductGroup", mpg.toTemplateModel(sortKeys));
-        model.put("model", mpg.toJson(true));
-        model.put("criteria", criteria);
-        model.put("sortKeys", sortKeys.toString());
+        dataModel.put("title", getTitle(filePath));
+        dataModel.put("store", store.getRoot().normalize().toString());
+        dataModel.put("mProductGroup", mpg.toTemplateModel(sortKeys));
+        dataModel.put("model", mpg.toJson(true));
+        dataModel.put("criteria", criteria);
+        dataModel.put("sortKeys", sortKeys.toString());
 
         // for debug
         if (isVerboseLoggingEnabled()) {
@@ -100,7 +100,7 @@ public final class MaterialProductGroupReporterImpl extends MaterialProductGroup
         /* Merge data-model with template to generate a HTML document*/
         Writer sw = new StringWriter();
         try {
-            template.process(model, sw);
+            template.process(dataModel, sw);
             sw.flush();
             sw.close();
         } catch (IOException | TemplateException e) {
