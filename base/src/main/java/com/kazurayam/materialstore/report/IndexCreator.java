@@ -1,8 +1,10 @@
 package com.kazurayam.materialstore.report;
 
+import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.Jsonifiable;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
+import com.kazurayam.materialstore.filesystem.TemplateReady;
 import com.kazurayam.materialstore.util.JsonUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -22,6 +24,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +57,8 @@ public class IndexCreator {
         dataModel.put("style2", StyleHelper.loadStyleFromClasspath(
                 "/com/kazurayam/materialstore/reduce/differ/style.css"));
         dataModel.put("title", "store/index.html");
-        dataModel.put("model", createModel(store));
+        ReportFileList rfl = new ReportFileList(store);
+        dataModel.put("model", rfl.toTemplateModel());
 
         /* Get the template */
         Template template = null;
@@ -94,24 +98,21 @@ public class IndexCreator {
         return filePath;
     }
 
-    Map<String, Object> createModel(Store store) throws IOException {
-        Map<String, Object> m = new LinkedHashMap<>();
-        m.put("reports", new ReportFileList(store));
-        return m;
-    }
-
-    static class ReportFileList implements Jsonifiable {
+    static class ReportFileList implements TemplateReady {
         private final Store store;
         public ReportFileList(Store store) {
             this.store = store;
         }
-        public List<ReportFile> getList() throws IOException {
+        public Store getStore() { return this.store; }
+        public List<ReportFile> getFiles() throws IOException {
             try (Stream<Path> stream = Files.list(store.getRoot())) {
                 return stream
                         .filter(p -> !Files.isDirectory(p))
                         .filter(p -> p.getFileName().toString().endsWith(".html"))
                         .filter(p -> ! p.getFileName().toString().equals("index.html"))
                         .map(ReportFile::new)
+                        // sort the report files by the lastModified value in descending order
+                        .sorted(new ReportFileComparatorByLastModified().reversed())
                         .collect(Collectors.toList());
             }
         }
@@ -135,10 +136,10 @@ public class IndexCreator {
             sb.append("{").append("\"store\":\"")
                     .append(store.getRoot().toString()).append("\"")
                     .append(",")
-                    .append("\"reports\":[");
+                    .append("\"files\":[");
             try {
-                for (int i = 0; i < this.getList().size(); i++) {
-                    ReportFile rf = this.getList().get(i);
+                for (int i = 0; i < this.getFiles().size(); i++) {
+                    ReportFile rf = this.getFiles().get(i);
                     if (i > 0) { sb.append(","); }
                     sb.append(rf.toJson());
                 }
@@ -153,7 +154,7 @@ public class IndexCreator {
 
     static class ReportFile implements Jsonifiable {
         private final Path path;
-        private final DateTimeFormatter DATETIME_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        private final DateTimeFormatter DATE_TIME_FORMATTER = JobTimestamp.FORMATTER;
         public ReportFile(Path path) {
             this.path = path;
         }
@@ -167,7 +168,7 @@ public class IndexCreator {
                     Instant.ofEpochMilli(lastModified)
                             .atZone(zone)
                             .toLocalDateTime();
-            return DATETIME_FORMATTER.format(ldt);
+            return DATE_TIME_FORMATTER.format(ldt);
         }
         @Override
         public String toString() {
@@ -190,6 +191,13 @@ public class IndexCreator {
                     .append("\"lastModified\":\"" + this.getDateTimeLastModified() + "\"")
                     .append("}");
             return sb.toString();
+        }
+    }
+    static class ReportFileComparatorByLastModified implements Comparator<ReportFile> {
+        @Override
+        public int compare(ReportFile first, ReportFile second) {
+            return first.getDateTimeLastModified()
+                    .compareTo(second.getDateTimeLastModified());
         }
     }
 }

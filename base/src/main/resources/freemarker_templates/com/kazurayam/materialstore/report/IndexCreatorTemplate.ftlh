@@ -13,7 +13,25 @@
 <body>
 <div class="container">
   <h1 class="title">${title}</h1>
-  <p>${model.reports}</p>
+  <p>store : ${model.store}</p>
+  <table class="table table-sm table-striped">
+    <thead>
+      <tr>
+        <th scope="col" style="width:10%">#</th>
+        <th scope="col" style="width:65%">file name</th>
+        <th scope="col" style="width:25%">created at</th>
+      </tr>
+    </thead>
+    <tbody>
+    <#list model.files as item>
+      <tr>
+        <th scope="row">${item?index + 1}</th>
+        <td><a href="./${item.fileName}">${item.fileName}</a></td>
+        <td>${item.lastModified}</td>
+      </tr>
+    </#list>
+    </tbody>
+  </table>
 </div>
 </body>
 </html>
