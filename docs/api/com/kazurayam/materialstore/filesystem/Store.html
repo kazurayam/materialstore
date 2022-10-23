@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6,"i8":6,"i9":6,"i10":6,"i11":6,"i12":6,"i13":6,"i14":6,"i15":6,"i16":6,"i17":6,"i18":6,"i19":6,"i20":6,"i21":6,"i22":6,"i23":6,"i24":6,"i25":6,"i26":6,"i27":6,"i28":6,"i29":6,"i30":6,"i31":6,"i32":6,"i33":6,"i34":6,"i35":6,"i36":6,"i37":6,"i38":6,"i39":6};
+var methods = {"i0":6,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6,"i8":6,"i9":6,"i10":6,"i11":6,"i12":6,"i13":6,"i14":6,"i15":6,"i16":6,"i17":6,"i18":6,"i19":6,"i20":6,"i21":6,"i22":6,"i23":6,"i24":6,"i25":6,"i26":6,"i27":6,"i28":6,"i29":6,"i30":6,"i31":6,"i32":6,"i33":6,"i34":6,"i35":6,"i36":6,"i37":6,"i38":6,"i39":6,"i40":6,"i41":6,"i42":6};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -131,145 +131,160 @@ var activeTableTab = "activeTableTab";
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#deleteMaterialsOlderThanExclusive-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-long-java.time.temporal.TemporalUnit-">deleteMaterialsOlderThanExclusive</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
-                                 <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
-                                 long&nbsp;amountToSubtract,
-                                 java.time.temporal.TemporalUnit&nbsp;unit)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#deleteStuffOlderThanExclusive-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">deleteStuffOlderThanExclusive</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+                             <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
+<td class="colFirst"><code>int</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#deleteStuffOlderThanExclusive-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-long-java.time.temporal.TemporalUnit-">deleteStuffOlderThanExclusive</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+                             <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
+                             long&nbsp;amountToSubtract,
+                             java.time.temporal.TemporalUnit&nbsp;unit)</code>&nbsp;</td>
+</tr>
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#findAllJobTimestamps-com.kazurayam.materialstore.filesystem.JobName-">findAllJobTimestamps</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName)</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#findAllJobTimestampsPriorTo-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">findAllJobTimestampsPriorTo</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
                            <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)</code>&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#findJobTimestampPriorTo-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">findJobTimestampPriorTo</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
                        <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)</code>&nbsp;</td>
 </tr>
-<tr id="i5" class="rowColor">
+<tr id="i6" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#findLatestJobTimestamp-com.kazurayam.materialstore.filesystem.JobName-">findLatestJobTimestamp</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName)</code>&nbsp;</td>
 </tr>
-<tr id="i6" class="altColor">
+<tr id="i7" class="rowColor">
+<td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#findNthJobTimestamp-com.kazurayam.materialstore.filesystem.JobName-int-">findNthJobTimestamp</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+                   int&nbsp;nth)</code>&nbsp;</td>
+</tr>
+<tr id="i8" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Jobber.html" title="class in com.kazurayam.materialstore.filesystem">Jobber</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#getCachedJobber-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">getCachedJobber</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
                <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)</code>&nbsp;</td>
 </tr>
-<tr id="i7" class="rowColor">
+<tr id="i9" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Jobber.html" title="class in com.kazurayam.materialstore.filesystem">Jobber</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#getJobber-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">getJobber</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
          <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)</code>&nbsp;</td>
 </tr>
-<tr id="i8" class="altColor">
+<tr id="i10" class="altColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#getPathOf-com.kazurayam.materialstore.filesystem.Material-">getPathOf</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a>&nbsp;material)</code>&nbsp;</td>
 </tr>
-<tr id="i9" class="rowColor">
+<tr id="i11" class="rowColor">
 <td class="colFirst"><code>java.nio.file.Path</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#getRoot--">getRoot</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i10" class="altColor">
+<tr id="i12" class="altColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#queryAllJobTimestamps-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.QueryOnMetadata-">queryAllJobTimestamps</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
                      <a href="../../../../com/kazurayam/materialstore/filesystem/QueryOnMetadata.html" title="class in com.kazurayam.materialstore.filesystem">QueryOnMetadata</a>&nbsp;query)</code>&nbsp;</td>
 </tr>
-<tr id="i11" class="rowColor">
+<tr id="i13" class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#queryAllJobTimestampsPriorTo-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.QueryOnMetadata-com.kazurayam.materialstore.filesystem.JobTimestamp-">queryAllJobTimestampsPriorTo</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
                             <a href="../../../../com/kazurayam/materialstore/filesystem/QueryOnMetadata.html" title="class in com.kazurayam.materialstore.filesystem">QueryOnMetadata</a>&nbsp;query,
                             <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)</code>&nbsp;</td>
 </tr>
-<tr id="i12" class="altColor">
+<tr id="i14" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#queryJobTimestampPriorTo-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.QueryOnMetadata-com.kazurayam.materialstore.filesystem.JobTimestamp-">queryJobTimestampPriorTo</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
                         <a href="../../../../com/kazurayam/materialstore/filesystem/QueryOnMetadata.html" title="class in com.kazurayam.materialstore.filesystem">QueryOnMetadata</a>&nbsp;query,
                         <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)</code>&nbsp;</td>
 </tr>
-<tr id="i13" class="rowColor">
+<tr id="i15" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#queryLatestJobTimestamp-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.QueryOnMetadata-">queryLatestJobTimestamp</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
                        <a href="../../../../com/kazurayam/materialstore/filesystem/QueryOnMetadata.html" title="class in com.kazurayam.materialstore.filesystem">QueryOnMetadata</a>&nbsp;query)</code>&nbsp;</td>
 </tr>
-<tr id="i14" class="altColor">
+<tr id="i16" class="altColor">
 <td class="colFirst"><code>byte[]</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#read-com.kazurayam.materialstore.filesystem.Material-">read</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a>&nbsp;material)</code>&nbsp;</td>
 </tr>
-<tr id="i15" class="rowColor">
+<tr id="i17" class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;java.lang.String&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#readAllLines-com.kazurayam.materialstore.filesystem.Material-">readAllLines</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a>&nbsp;material)</code>&nbsp;</td>
 </tr>
-<tr id="i16" class="altColor">
+<tr id="i18" class="altColor">
 <td class="colFirst"><code>java.util.List&lt;java.lang.String&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#readAllLines-com.kazurayam.materialstore.filesystem.Material-java.nio.charset.Charset-">readAllLines</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a>&nbsp;material,
             java.nio.charset.Charset&nbsp;charset)</code>&nbsp;</td>
 </tr>
-<tr id="i17" class="rowColor">
+<tr id="i19" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#reflect-com.kazurayam.materialstore.filesystem.MaterialList-">reflect</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;baseMaterialList)</code>&nbsp;</td>
 </tr>
-<tr id="i18" class="altColor">
+<tr id="i20" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#reflect-com.kazurayam.materialstore.filesystem.MaterialList-com.kazurayam.materialstore.filesystem.JobTimestamp-">reflect</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;baseMaterialList,
        <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;priorTo)</code>&nbsp;</td>
 </tr>
-<tr id="i19" class="rowColor">
+<tr id="i21" class="rowColor">
+<td class="colFirst"><code>java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#resolveReportFileName-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">resolveReportFileName</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+                     <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)</code>&nbsp;</td>
+</tr>
+<tr id="i22" class="altColor">
 <td class="colFirst"><code>long</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#retrieve-com.kazurayam.materialstore.filesystem.Material-java.nio.file.Path-">retrieve</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a>&nbsp;material,
         java.nio.file.Path&nbsp;out)</code>&nbsp;</td>
 </tr>
-<tr id="i20" class="altColor">
+<tr id="i23" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#select-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">select</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
       <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)</code>&nbsp;</td>
 </tr>
-<tr id="i21" class="rowColor">
+<tr id="i24" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#select-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-">select</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
       <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
       <a href="../../../../com/kazurayam/materialstore/filesystem/IFileType.html" title="interface in com.kazurayam.materialstore.filesystem">IFileType</a>&nbsp;fileType)</code>&nbsp;</td>
 </tr>
-<tr id="i22" class="altColor">
+<tr id="i25" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#select-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-com.kazurayam.materialstore.filesystem.QueryOnMetadata-">select</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
       <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
       <a href="../../../../com/kazurayam/materialstore/filesystem/IFileType.html" title="interface in com.kazurayam.materialstore.filesystem">IFileType</a>&nbsp;fileType,
       <a href="../../../../com/kazurayam/materialstore/filesystem/QueryOnMetadata.html" title="class in com.kazurayam.materialstore.filesystem">QueryOnMetadata</a>&nbsp;query)</code>&nbsp;</td>
 </tr>
-<tr id="i23" class="rowColor">
+<tr id="i26" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#select-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.QueryOnMetadata-">select</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
       <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
       <a href="../../../../com/kazurayam/materialstore/filesystem/QueryOnMetadata.html" title="class in com.kazurayam.materialstore.filesystem">QueryOnMetadata</a>&nbsp;query)</code>&nbsp;</td>
 </tr>
-<tr id="i24" class="altColor">
+<tr id="i27" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#selectSingle-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">selectSingle</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
             <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)</code>&nbsp;</td>
 </tr>
-<tr id="i25" class="rowColor">
+<tr id="i28" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#selectSingle-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-">selectSingle</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
             <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
             <a href="../../../../com/kazurayam/materialstore/filesystem/IFileType.html" title="interface in com.kazurayam.materialstore.filesystem">IFileType</a>&nbsp;fileType)</code>&nbsp;</td>
 </tr>
-<tr id="i26" class="altColor">
+<tr id="i29" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#selectSingle-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-com.kazurayam.materialstore.filesystem.QueryOnMetadata-">selectSingle</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
             <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
             <a href="../../../../com/kazurayam/materialstore/filesystem/IFileType.html" title="interface in com.kazurayam.materialstore.filesystem">IFileType</a>&nbsp;fileType,
             <a href="../../../../com/kazurayam/materialstore/filesystem/QueryOnMetadata.html" title="class in com.kazurayam.materialstore.filesystem">QueryOnMetadata</a>&nbsp;query)</code>&nbsp;</td>
 </tr>
-<tr id="i27" class="rowColor">
+<tr id="i30" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#selectSingle-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.QueryOnMetadata-">selectSingle</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
             <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
             <a href="../../../../com/kazurayam/materialstore/filesystem/QueryOnMetadata.html" title="class in com.kazurayam.materialstore.filesystem">QueryOnMetadata</a>&nbsp;query)</code>&nbsp;</td>
 </tr>
-<tr id="i28" class="altColor">
+<tr id="i31" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#write-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-com.kazurayam.materialstore.filesystem.Metadata-java.awt.image.BufferedImage-">write</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
      <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
@@ -277,7 +292,7 @@ var activeTableTab = "activeTableTab";
      <a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.html" title="class in com.kazurayam.materialstore.filesystem">Metadata</a>&nbsp;meta,
      java.awt.image.BufferedImage&nbsp;input)</code>&nbsp;</td>
 </tr>
-<tr id="i29" class="rowColor">
+<tr id="i32" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#write-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-com.kazurayam.materialstore.filesystem.Metadata-java.awt.image.BufferedImage-com.kazurayam.materialstore.filesystem.Jobber.DuplicationHandling-">write</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
      <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
@@ -286,7 +301,7 @@ var activeTableTab = "activeTableTab";
      java.awt.image.BufferedImage&nbsp;input,
      <a href="../../../../com/kazurayam/materialstore/filesystem/Jobber.DuplicationHandling.html" title="enum in com.kazurayam.materialstore.filesystem">Jobber.DuplicationHandling</a>&nbsp;flowControl)</code>&nbsp;</td>
 </tr>
-<tr id="i30" class="altColor">
+<tr id="i33" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#write-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-com.kazurayam.materialstore.filesystem.Metadata-byte:A-">write</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
      <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
@@ -294,7 +309,7 @@ var activeTableTab = "activeTableTab";
      <a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.html" title="class in com.kazurayam.materialstore.filesystem">Metadata</a>&nbsp;meta,
      byte[]&nbsp;input)</code>&nbsp;</td>
 </tr>
-<tr id="i31" class="rowColor">
+<tr id="i34" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#write-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-com.kazurayam.materialstore.filesystem.Metadata-byte:A-com.kazurayam.materialstore.filesystem.Jobber.DuplicationHandling-">write</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
      <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
@@ -303,7 +318,7 @@ var activeTableTab = "activeTableTab";
      byte[]&nbsp;input,
      <a href="../../../../com/kazurayam/materialstore/filesystem/Jobber.DuplicationHandling.html" title="enum in com.kazurayam.materialstore.filesystem">Jobber.DuplicationHandling</a>&nbsp;flowControl)</code>&nbsp;</td>
 </tr>
-<tr id="i32" class="altColor">
+<tr id="i35" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#write-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-com.kazurayam.materialstore.filesystem.Metadata-java.io.File-">write</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
      <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
@@ -311,7 +326,7 @@ var activeTableTab = "activeTableTab";
      <a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.html" title="class in com.kazurayam.materialstore.filesystem">Metadata</a>&nbsp;meta,
      java.io.File&nbsp;input)</code>&nbsp;</td>
 </tr>
-<tr id="i33" class="rowColor">
+<tr id="i36" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#write-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-com.kazurayam.materialstore.filesystem.Metadata-java.io.File-com.kazurayam.materialstore.filesystem.Jobber.DuplicationHandling-">write</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
      <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
@@ -320,7 +335,7 @@ var activeTableTab = "activeTableTab";
      java.io.File&nbsp;input,
      <a href="../../../../com/kazurayam/materialstore/filesystem/Jobber.DuplicationHandling.html" title="enum in com.kazurayam.materialstore.filesystem">Jobber.DuplicationHandling</a>&nbsp;flowControl)</code>&nbsp;</td>
 </tr>
-<tr id="i34" class="altColor">
+<tr id="i37" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#write-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-com.kazurayam.materialstore.filesystem.Metadata-java.nio.file.Path-">write</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
      <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
@@ -328,7 +343,7 @@ var activeTableTab = "activeTableTab";
      <a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.html" title="class in com.kazurayam.materialstore.filesystem">Metadata</a>&nbsp;meta,
      java.nio.file.Path&nbsp;input)</code>&nbsp;</td>
 </tr>
-<tr id="i35" class="rowColor">
+<tr id="i38" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#write-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-com.kazurayam.materialstore.filesystem.Metadata-java.nio.file.Path-com.kazurayam.materialstore.filesystem.Jobber.DuplicationHandling-">write</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
      <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
@@ -337,7 +352,7 @@ var activeTableTab = "activeTableTab";
      java.nio.file.Path&nbsp;input,
      <a href="../../../../com/kazurayam/materialstore/filesystem/Jobber.DuplicationHandling.html" title="enum in com.kazurayam.materialstore.filesystem">Jobber.DuplicationHandling</a>&nbsp;flowControl)</code>&nbsp;</td>
 </tr>
-<tr id="i36" class="altColor">
+<tr id="i39" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#write-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-com.kazurayam.materialstore.filesystem.Metadata-java.lang.String-">write</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
      <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
@@ -345,7 +360,7 @@ var activeTableTab = "activeTableTab";
      <a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.html" title="class in com.kazurayam.materialstore.filesystem">Metadata</a>&nbsp;meta,
      java.lang.String&nbsp;input)</code>&nbsp;</td>
 </tr>
-<tr id="i37" class="rowColor">
+<tr id="i40" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#write-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-com.kazurayam.materialstore.filesystem.Metadata-java.lang.String-java.nio.charset.Charset-">write</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
      <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
@@ -354,7 +369,7 @@ var activeTableTab = "activeTableTab";
      java.lang.String&nbsp;input,
      java.nio.charset.Charset&nbsp;charset)</code>&nbsp;</td>
 </tr>
-<tr id="i38" class="altColor">
+<tr id="i41" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#write-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-com.kazurayam.materialstore.filesystem.Metadata-java.lang.String-java.nio.charset.Charset-com.kazurayam.materialstore.filesystem.Jobber.DuplicationHandling-">write</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
      <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
@@ -364,7 +379,7 @@ var activeTableTab = "activeTableTab";
      java.nio.charset.Charset&nbsp;charset,
      <a href="../../../../com/kazurayam/materialstore/filesystem/Jobber.DuplicationHandling.html" title="enum in com.kazurayam.materialstore.filesystem">Jobber.DuplicationHandling</a>&nbsp;flowControl)</code>&nbsp;</td>
 </tr>
-<tr id="i39" class="rowColor">
+<tr id="i42" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#write-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.IFileType-com.kazurayam.materialstore.filesystem.Metadata-java.lang.String-com.kazurayam.materialstore.filesystem.Jobber.DuplicationHandling-">write</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
      <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
@@ -388,17 +403,18 @@ var activeTableTab = "activeTableTab";
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="deleteMaterialsOlderThanExclusive-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-long-java.time.temporal.TemporalUnit-">
+<a name="deleteStuffOlderThanExclusive-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-long-java.time.temporal.TemporalUnit-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>deleteMaterialsOlderThanExclusive</h4>
-<pre>int&nbsp;deleteMaterialsOlderThanExclusive(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
-                                      <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
-                                      long&nbsp;amountToSubtract,
-                                      java.time.temporal.TemporalUnit&nbsp;unit)
-                               throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></pre>
+<h4>deleteStuffOlderThanExclusive</h4>
+<pre>int&nbsp;deleteStuffOlderThanExclusive(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+                                  <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
+                                  long&nbsp;amountToSubtract,
+                                  java.time.temporal.TemporalUnit&nbsp;unit)
+                           throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a>,
+                                  java.io.IOException</pre>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>jobName</code> - </dd>
@@ -409,6 +425,24 @@ var activeTableTab = "activeTableTab";
 <dd>number of JobTimestamp directories which were deleted</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></code></dd>
+<dd><code>java.io.IOException</code></dd>
+</dl>
+</li>
+</ul>
+<a name="deleteStuffOlderThanExclusive-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>deleteStuffOlderThanExclusive</h4>
+<pre>int&nbsp;deleteStuffOlderThanExclusive(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+                                  <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)
+                           throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a>,
+                                  java.io.IOException</pre>
+<dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></code></dd>
+<dd><code>java.io.IOException</code></dd>
 </dl>
 </li>
 </ul>
@@ -483,6 +517,25 @@ var activeTableTab = "activeTableTab";
 <pre><a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;findLatestJobTimestamp(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName)
                              throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></pre>
 <dl>
+<dt><span class="throwsLabel">Throws:</span></dt>
+<dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></code></dd>
+</dl>
+</li>
+</ul>
+<a name="findNthJobTimestamp-com.kazurayam.materialstore.filesystem.JobName-int-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>findNthJobTimestamp</h4>
+<pre><a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;findNthJobTimestamp(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+                                 int&nbsp;nth)
+                          throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>jobName</code> - </dd>
+<dd><code>nth</code> - starts with 1; does not start with zero</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></code></dd>
 </dl>
@@ -620,6 +673,16 @@ var activeTableTab = "activeTableTab";
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></code></dd>
 </dl>
+</li>
+</ul>
+<a name="resolveReportFileName-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>resolveReportFileName</h4>
+<pre>java.lang.String&nbsp;resolveReportFileName(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+                                       <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)</pre>
 </li>
 </ul>
 <a name="retrieve-com.kazurayam.materialstore.filesystem.Material-java.nio.file.Path-">

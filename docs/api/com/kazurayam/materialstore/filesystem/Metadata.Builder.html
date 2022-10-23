@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10};
+var methods = {"i0":10,"i1":10,"i2":10,"i3":10,"i4":10,"i5":10};
 var tabs = {65535:["t0","All Methods"],2:["t2","Instance Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -162,19 +162,23 @@ extends java.lang.Object</pre>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.Builder.html#build--">build</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
+<td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.Builder.html" title="class in com.kazurayam.materialstore.filesystem">Metadata.Builder</a></code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.Builder.html#exclude-java.lang.String...-">exclude</a></span>(java.lang.String...&nbsp;keys)</code>&nbsp;</td>
+</tr>
+<tr id="i2" class="altColor">
 <td class="colFirst"><code>java.util.Map&lt;java.lang.String,<a href="../../../../com/kazurayam/materialstore/filesystem/metadata/MetadataAttribute.html" title="class in com.kazurayam.materialstore.filesystem.metadata">MetadataAttribute</a>&gt;</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.Builder.html#getAttributes--">getAttributes</a></span>()</code>&nbsp;</td>
 </tr>
-<tr id="i2" class="altColor">
+<tr id="i3" class="rowColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.Builder.html" title="class in com.kazurayam.materialstore.filesystem">Metadata.Builder</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.Builder.html#put-java.lang.String-java.lang.String-">put</a></span>(java.lang.String&nbsp;key,
    java.lang.String&nbsp;value)</code>&nbsp;</td>
 </tr>
-<tr id="i3" class="rowColor">
+<tr id="i4" class="altColor">
 <td class="colFirst"><code><a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.Builder.html" title="class in com.kazurayam.materialstore.filesystem">Metadata.Builder</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.Builder.html#putAll-java.util.Map-">putAll</a></span>(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;m)</code>&nbsp;</td>
 </tr>
-<tr id="i4" class="altColor">
+<tr id="i5" class="rowColor">
 <td class="colFirst"><code>void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.Builder.html#setAttributes-java.util.Map-">setAttributes</a></span>(java.util.Map&lt;java.lang.String,<a href="../../../../com/kazurayam/materialstore/filesystem/metadata/MetadataAttribute.html" title="class in com.kazurayam.materialstore.filesystem.metadata">MetadataAttribute</a>&gt;&nbsp;attributes)</code>&nbsp;</td>
 </tr>
@@ -261,6 +265,15 @@ extends java.lang.Object</pre>
 <li class="blockList">
 <h4>putAll</h4>
 <pre>public&nbsp;<a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.Builder.html" title="class in com.kazurayam.materialstore.filesystem">Metadata.Builder</a>&nbsp;putAll(java.util.Map&lt;java.lang.String,java.lang.String&gt;&nbsp;m)</pre>
+</li>
+</ul>
+<a name="exclude-java.lang.String...-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>exclude</h4>
+<pre>public&nbsp;<a href="../../../../com/kazurayam/materialstore/filesystem/Metadata.Builder.html" title="class in com.kazurayam.materialstore.filesystem">Metadata.Builder</a>&nbsp;exclude(java.lang.String...&nbsp;keys)</pre>
 </li>
 </ul>
 <a name="build--">

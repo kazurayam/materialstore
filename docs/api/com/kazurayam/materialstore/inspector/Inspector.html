@@ -17,7 +17,7 @@
     catch(err) {
     }
 //-->
-var methods = {"i0":9,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6};
+var methods = {"i0":9,"i1":6,"i2":6,"i3":6,"i4":6,"i5":6,"i6":6,"i7":6};
 var tabs = {65535:["t0","All Methods"],1:["t1","Static Methods"],2:["t2","Instance Methods"],4:["t3","Abstract Methods"],8:["t4","Concrete Methods"]};
 var altColor = "altColor";
 var rowColor = "rowColor";
@@ -164,16 +164,22 @@ extends java.lang.Object</pre>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>abstract java.nio.file.Path</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/inspector/Inspector.html#report-com.kazurayam.materialstore.filesystem.MaterialList-java.lang.String-">report</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;materialList,
-      java.lang.String&nbsp;fileName)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/inspector/Inspector.html#report-com.kazurayam.materialstore.filesystem.MaterialList-">report</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;materialList)</code>&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>abstract java.nio.file.Path</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/inspector/Inspector.html#report-com.kazurayam.materialstore.reduce.MaterialProductGroup-java.lang.Double-java.lang.String-">report</a></span>(<a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html" title="class in com.kazurayam.materialstore.reduce">MaterialProductGroup</a>&nbsp;mpg,
-      java.lang.Double&nbsp;criteria,
-      java.lang.String&nbsp;fileName)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/inspector/Inspector.html#report-com.kazurayam.materialstore.reduce.MaterialProductGroup-java.lang.Double-">report</a></span>(<a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html" title="class in com.kazurayam.materialstore.reduce">MaterialProductGroup</a>&nbsp;mpg,
+      java.lang.Double&nbsp;criteria)</code>&nbsp;</td>
 </tr>
 <tr id="i5" class="rowColor">
+<td class="colFirst"><code>abstract java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/inspector/Inspector.html#resolveReportFileName-com.kazurayam.materialstore.filesystem.MaterialList-">resolveReportFileName</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;materialList)</code>&nbsp;</td>
+</tr>
+<tr id="i6" class="altColor">
+<td class="colFirst"><code>abstract java.lang.String</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/inspector/Inspector.html#resolveReportFileName-com.kazurayam.materialstore.reduce.MaterialProductGroup-">resolveReportFileName</a></span>(<a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html" title="class in com.kazurayam.materialstore.reduce">MaterialProductGroup</a>&nbsp;mpg)</code>&nbsp;</td>
+</tr>
+<tr id="i7" class="rowColor">
 <td class="colFirst"><code>abstract void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/inspector/Inspector.html#setSortKeys-com.kazurayam.materialstore.filesystem.SortKeys-">setSortKeys</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/SortKeys.html" title="class in com.kazurayam.materialstore.filesystem">SortKeys</a>&nbsp;sortKeys)</code>&nbsp;</td>
 </tr>
@@ -263,15 +269,23 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a name="report-com.kazurayam.materialstore.reduce.MaterialProductGroup-java.lang.Double-java.lang.String-">
+<a name="resolveReportFileName-com.kazurayam.materialstore.reduce.MaterialProductGroup-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>resolveReportFileName</h4>
+<pre>public abstract&nbsp;java.lang.String&nbsp;resolveReportFileName(<a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html" title="class in com.kazurayam.materialstore.reduce">MaterialProductGroup</a>&nbsp;mpg)</pre>
+</li>
+</ul>
+<a name="report-com.kazurayam.materialstore.reduce.MaterialProductGroup-java.lang.Double-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
 <h4>report</h4>
 <pre>public abstract&nbsp;java.nio.file.Path&nbsp;report(<a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html" title="class in com.kazurayam.materialstore.reduce">MaterialProductGroup</a>&nbsp;mpg,
-                                          java.lang.Double&nbsp;criteria,
-                                          java.lang.String&nbsp;fileName)
+                                          java.lang.Double&nbsp;criteria)
                                    throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
@@ -279,14 +293,22 @@ extends java.lang.Object</pre>
 </dl>
 </li>
 </ul>
-<a name="report-com.kazurayam.materialstore.filesystem.MaterialList-java.lang.String-">
+<a name="resolveReportFileName-com.kazurayam.materialstore.filesystem.MaterialList-">
+<!--   -->
+</a>
+<ul class="blockList">
+<li class="blockList">
+<h4>resolveReportFileName</h4>
+<pre>public abstract&nbsp;java.lang.String&nbsp;resolveReportFileName(<a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;materialList)</pre>
+</li>
+</ul>
+<a name="report-com.kazurayam.materialstore.filesystem.MaterialList-">
 <!--   -->
 </a>
 <ul class="blockListLast">
 <li class="blockList">
 <h4>report</h4>
-<pre>public abstract&nbsp;java.nio.file.Path&nbsp;report(<a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;materialList,
-                                          java.lang.String&nbsp;fileName)
+<pre>public abstract&nbsp;java.nio.file.Path&nbsp;report(<a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;materialList)
                                    throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
