@@ -62,7 +62,7 @@ public final class Zipper {
                     QueryOnMetadata.builder(rightMetadata, ignoreMetadataKeys).build();
             //
             logger.debug(methodName + "--------");
-            logger.debug(methodName + "right " + right.getShortId() + " "
+            logger.debug(methodName + "right " + right.getShortID() + " "
                     + rightFileType.getExtension() + " pattern: " + rightPattern);
             int foundLeftCount = 0;
 
@@ -78,11 +78,11 @@ public final class Zipper {
                                     .setQueryOnMetadata(rightPattern)
                                     .build();
                     mProductList.add(mp);
-                    logger.debug(methodName + "left Y " + left.getShortId() + " "
+                    logger.debug(methodName + "left Y " + left.getShortID() + " "
                             + leftFileType.getExtension() + " " + leftMetadata);
                     foundLeftCount += 1;
                 } else {
-                    logger.debug(methodName + "left N " + left.getShortId() + " "
+                    logger.debug(methodName + "left N " + left.getShortID() + " "
                             + leftFileType.getExtension() + " " + leftMetadata);
                 }
             }
@@ -109,7 +109,7 @@ public final class Zipper {
             final QueryOnMetadata leftPattern =
                     QueryOnMetadata.builder(leftMetadata, ignoreMetadataKeys).build();
             logger.debug(methodName + "--------");
-            logger.debug(methodName + "left " + left.getShortId() + " "
+            logger.debug(methodName + "left " + left.getShortID() + " "
                     + leftFileType.toString() + " pattern: " + leftPattern);
             int foundRightCount = 0;
             //
@@ -121,11 +121,11 @@ public final class Zipper {
                 if (rightFileType.equals(leftFileType) && (leftPattern.matches(rightMetadata)
                                 || identifyMetadataValues.matches(rightMetadata))) {
                     // this must have been found matched already; no need to create a MProduct
-                    logger.debug(methodName + "right Y " + right.getShortId() + " " +
+                    logger.debug(methodName + "right Y " + right.getShortID() + " " +
                             rightFileType.getExtension() + " " + rightMetadata);
                     foundRightCount += 1;
                 } else {
-                    logger.debug(methodName + "right N " + right.getShortId() + " " +
+                    logger.debug(methodName + "right N " + right.getShortID() + " " +
                             rightFileType.getExtension() + " " + rightMetadata);
                 }
             }

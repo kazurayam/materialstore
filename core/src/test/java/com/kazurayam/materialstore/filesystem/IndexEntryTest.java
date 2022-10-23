@@ -18,7 +18,7 @@ public class IndexEntryTest {
     @Test
     public void test_parseLine() {
         IndexEntry indexEntry = IndexEntry.parseLine(sampleLine);
-        Assertions.assertEquals("6141b40", indexEntry.getShortId());
+        Assertions.assertEquals("6141b40", indexEntry.getShortID());
         Assertions.assertNotNull(indexEntry);
     }
 

@@ -144,11 +144,11 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
     }
 
     @Override
-    public String getId() { return getIndexEntry().getID().toString(); }
+    public ID getID() { return getIndexEntry().getID(); }
 
     @Override
-    public String getShortId() {
-        return getIndexEntry().getShortId();
+    public String getShortID() {
+        return getIndexEntry().getShortID();
     }
 
 

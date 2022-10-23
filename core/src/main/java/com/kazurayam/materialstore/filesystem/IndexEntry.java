@@ -89,7 +89,7 @@ public final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, Te
         return getMaterialIO().getID();
     }
 
-    public String getShortId() {
+    public String getShortID() {
         return getID().getShortSha1();
     }
 

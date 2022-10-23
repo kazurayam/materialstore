@@ -2,8 +2,8 @@ package com.kazurayam.materialstore.filesystem;
 
 public interface Identifiable {
 
-    String getId();
+    ID getID();
 
-    String getShortId();
+    String getShortID();
 
 }

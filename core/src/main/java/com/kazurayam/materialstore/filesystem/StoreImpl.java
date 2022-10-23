@@ -129,7 +129,8 @@ public final class StoreImpl implements Store {
         List<String> htmlNames = getListOfReportFiles(jobName);
 
         htmlNames.forEach((String fileName) -> {
-            String baseFileName = this.resolveReportFileName(jobName, thanThisJobTimestamp);
+            String baseFileName =
+                    this.resolveReportFileName(jobName, thanThisJobTimestamp);
 
             if (fileName.compareTo(baseFileName) < 0) {
                 Path p = root_.resolve(fileName);

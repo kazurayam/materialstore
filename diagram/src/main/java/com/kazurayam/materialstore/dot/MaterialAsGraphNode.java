@@ -26,13 +26,13 @@ public class MaterialAsGraphNode extends AbstractGraphNode {
         sb.append(" ");
         sb.append("[label=<");
         sb.append("<TABLE BORDER=\"0\" CELLBORDER=\"1\" CELLSPACING=\"0\"");
-        if (material.getShortId().equals("0000000")) {
+        if (material.getShortID().equals("0000000")) {
             sb.append(" BGCOLOR=\"gold\"");
         }
         sb.append("><TR>\n");
         sb.append(INDENT + INDENT);
         sb.append("<TD PORT=\"f0\">");
-        sb.append(escapeHTML(material.getShortId()));
+        sb.append(escapeHTML(material.getShortID()));
         sb.append("</TD>\n");
         sb.append(INDENT + INDENT);
         sb.append("<TD PORT=\"f1\">");

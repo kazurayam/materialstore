@@ -40,7 +40,7 @@ public class MaterialTest {
         Assertions.assertEquals("6141b40cfe9e7340a483a3097c4f6ff5d20e04ea",
                 material.getIndexEntry().getID().toString());
         Assertions.assertEquals("6141b40",
-                material.getShortId());
+                material.getShortID());
         Assertions.assertEquals(FileType.PNG,
                 material.getIndexEntry().getFileType());
         Assertions.assertEquals("{\"profile\":\"DevelopmentEnv\", \"URL\":\"http://demoaut-mimic.kazurayam.com/\"}",

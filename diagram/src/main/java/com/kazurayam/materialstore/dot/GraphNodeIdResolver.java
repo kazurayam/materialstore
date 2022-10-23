@@ -18,7 +18,7 @@ public class GraphNodeIdResolver {
     public static GraphNodeId resolveIdOfMaterialInMaterialList(MaterialList materialList, Material material) {
         Objects.requireNonNull(materialList);
         Objects.requireNonNull(material);
-        return new GraphNodeId("ML" + materialList.getShortId()
+        return new GraphNodeId("ML" + materialList.getShortID()
                 + "_"
                 + resolveIdOfMaterialSolo(material));
     }
@@ -38,7 +38,7 @@ public class GraphNodeIdResolver {
             throw new MaterialstoreException("unexpected role is specified: " + role);
         }
         return new GraphNodeId("MP"
-                + materialProduct.getShortId()
+                + materialProduct.getShortID()
                 + "_"
                 + resolveIdOfMaterialSolo(material)
                 + "_"
@@ -47,7 +47,7 @@ public class GraphNodeIdResolver {
 
     public static GraphNodeId resolveIdOfQueryInMaterialProduct(MaterialProduct materialProduct) {
         Objects.requireNonNull(materialProduct);
-        return new GraphNodeId("MP" + materialProduct.getShortId() + "_Q");
+        return new GraphNodeId("MP" + materialProduct.getShortID() + "_Q");
     }
 
     public static GraphNodeId resolveIdOfMaterialInMProductGroup(MaterialProductGroup mProductGroup, Material material)
@@ -63,7 +63,7 @@ public class GraphNodeIdResolver {
                     + material.getDescription() + ") is not contained");
         }
         return new GraphNodeId("MPG"
-                + mProductGroup.getShortId()
+                + mProductGroup.getShortID()
                 + "_"
                 + resolveIdOfMaterialSolo(material)
         );
@@ -84,7 +84,7 @@ public class GraphNodeIdResolver {
             throw new MaterialstoreException("material("
                     + material.getDescription() + ") if not found in the MProductGroup instance");
         }
-        return new GraphNodeId("MPGBZ" + mProductGroup.getShortId()
+        return new GraphNodeId("MPGBZ" + mProductGroup.getShortID()
                 + "_"
                 + resolveIdOfMaterialInMaterialList(materialList, material));
     }

@@ -64,14 +64,14 @@ public final class MaterialList
     }
 
     @Override
-    public String getId() {
+    public ID getID() {
         String json = this.toJson();
-        return MaterialIO.hashJDK(json.getBytes(StandardCharsets.UTF_8));
+        return new ID(MaterialIO.hashJDK(json.getBytes(StandardCharsets.UTF_8)));
     }
 
     @Override
-    public String getShortId() {
-        String id = this.getId();
+    public String getShortID() {
+        String id = this.getID().toString();
         return id.substring(0, 7);
     }
 
