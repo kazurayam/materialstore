@@ -75,6 +75,10 @@ public interface Store {
 
     Jobber getJobber(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
+    Path getPathOf(JobName jobName) throws IOException;
+
+    Path getPathOf(JobName jobName, JobTimestamp jobTimestamp) throws IOException;
+
     Path getPathOf(Material material);
 
     Path getRoot();

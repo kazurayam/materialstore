@@ -266,6 +266,42 @@ public final class StoreImpl implements Store {
     }
 
     @Override
+    public Path getPathOf(JobName jobName) throws IOException {
+        Objects.requireNonNull(jobName);
+        List<Path> list =
+                Files.list(getRoot())
+                        .filter(p -> Files.isDirectory(p))
+                        .filter(p -> p.getFileName().toString().equals(jobName.toString()))
+                        .collect(Collectors.toList());
+        if (list.size() > 0) {
+            return list.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public Path getPathOf(JobName jobName, JobTimestamp jobTimestamp) throws IOException {
+        Objects.requireNonNull(jobName);
+        Objects.requireNonNull(jobTimestamp);
+        Path jobNamePath = this.getPathOf(jobName);
+        if (jobNamePath != null) {
+            List<Path> list =
+                    Files.list(jobNamePath)
+                            .filter(p -> Files.isDirectory(p))
+                            .filter(p -> p.getFileName().toString().equals(jobTimestamp.toString()))
+                            .collect(Collectors.toList());
+            if (list.size() > 0) {
+                return list.get(0);
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public Path getPathOf(Material material) {
         Objects.requireNonNull(material);
         Path relativePath = material.getRelativePath();

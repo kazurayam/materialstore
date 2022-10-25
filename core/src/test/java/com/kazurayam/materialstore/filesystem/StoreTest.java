@@ -6,15 +6,19 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StoreTest {
 
-    private static TestCaseSupport tcSupport;
+    private TestCaseSupport tcSupport;
     private Store store;
     private JobName jobName;
 
@@ -72,4 +76,23 @@ public class StoreTest {
         assertEquals(jtB, store.findNthJobTimestamp(jobName, 999));
     }
 
+    @Test
+    public void test_getPathOf_JobName() throws MaterialstoreException, IOException {
+        jobName = new JobName("test_getPathOf_JobName");
+        JobTimestamp jtA = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
+        //
+        Path jobNamePath = store.getPathOf(jobName);
+        assertNotNull(jobNamePath);
+        assertTrue(jobNamePath.toString().endsWith(jobName.toString()));
+    }
+
+    @Test
+    public void test_getPathOf_JobTimestamp() throws MaterialstoreException, IOException {
+        jobName = new JobName("test_getPathOf_JobTimestamp");
+        JobTimestamp jobTimestamp = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
+        //
+        Path jobTimestampPath = store.getPathOf(jobName, jobTimestamp);
+        assertNotNull(jobTimestampPath);
+        assertTrue(jobTimestampPath.toString().endsWith(jobTimestamp.toString()));
+    }
 }
