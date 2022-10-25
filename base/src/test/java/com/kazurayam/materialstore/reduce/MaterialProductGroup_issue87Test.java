@@ -24,7 +24,7 @@ import java.util.List;
 
 public class MaterialProductGroup_issue87Test {
 
-    private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixture/issue#80");
+    private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixtures/issue#80");
     private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MaterialProductGroup_issue87Test.class.getName());
     private static Store store;
     private MaterialList left;

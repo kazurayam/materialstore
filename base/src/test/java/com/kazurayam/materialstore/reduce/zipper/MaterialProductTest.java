@@ -30,7 +30,7 @@ public class MaterialProductTest {
             .resolve(MaterialProductTest.class.getName());
 
     private static final Path fixtureDir = Paths.get(".")
-            .resolve("src/test/fixture/issue#73/");
+            .resolve("src/test/fixtures/issue#73/");
 
     private static Store store;
     private JobName jobName = new JobName("MyAdmin_visual_inspection_twins");

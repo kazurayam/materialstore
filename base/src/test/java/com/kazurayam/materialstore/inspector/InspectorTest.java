@@ -27,7 +27,7 @@ public class InspectorTest {
 
     private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(InspectorTest.class.getName());
     private static final Path storeDir = outputDir.resolve("store");
-    private static final Path issue80Dir = Paths.get(".").resolve("src/test/fixture/issue#80");
+    private static final Path issue80Dir = Paths.get(".").resolve("src/test/fixtures/issue#80");
 
     private Store store;
     private MaterialList left;

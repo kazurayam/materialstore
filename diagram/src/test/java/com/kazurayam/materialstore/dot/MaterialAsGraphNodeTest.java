@@ -38,7 +38,7 @@ public class MaterialAsGraphNodeTest {
 
     private static final Path issue259Dir =
             Paths.get(".")
-                    .resolve("src/test/fixture/issue#259");
+                    .resolve("src/test/fixtures/issue#259");
 
     private static Store store;
     private static JobName jobName;

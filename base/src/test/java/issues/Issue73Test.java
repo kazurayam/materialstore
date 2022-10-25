@@ -27,7 +27,7 @@ import java.util.LinkedHashMap;
 public class Issue73Test {
 
 
-    private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixture/issue#73");
+    private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixtures/issue#73");
     private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(Issue73Test.class.getName());
     private static Store store;
     private static final JobName jobName = new JobName("MyAdmin_visual_inspection_twins");

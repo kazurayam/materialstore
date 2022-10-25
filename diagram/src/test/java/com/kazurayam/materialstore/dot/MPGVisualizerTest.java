@@ -28,7 +28,7 @@ public class MPGVisualizerTest {
 
     private static final Path issue80Dir =
             Paths.get(".")
-                    .resolve("src/test/fixture/issue#80");
+                    .resolve("src/test/fixtures/issue#80");
 
     private static Store store;
     private static JobName jobName;

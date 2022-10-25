@@ -23,5 +23,5 @@ public class TestFixtureUtil {
         }
     }
 
-    private static Path resultsDir = Paths.get(".").resolve("src/test/fixture/sample_results");
+    private static Path resultsDir = Paths.get(".").resolve("src/test/fixtures/sample_results");
 }

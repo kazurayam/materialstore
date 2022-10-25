@@ -20,7 +20,7 @@ import java.util.LinkedHashMap;
 public class MaterialProductGroup_BuilderTest {
 
     private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MaterialProductGroup_BuilderTest.class.getName());
-    private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixture/issue#80");
+    private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixtures/issue#80");
     private static Store store;
     private JobName jobName;
     private MaterialList left;

@@ -40,7 +40,7 @@ public class TestBase {
         // add custom directives
         try {
             cfg.setSharedVariable("readAllLines", new ReadAllLinesDirective());
-            Path store = projectDir.resolve("src/test/fixture").resolve("store");
+            Path store = projectDir.resolve("src/test/fixtures").resolve("store");
             cfg.setSharedVariable("baseDir", store.normalize().toAbsolutePath().toString());
             //
             cfg.setSharedVariable("uppercase", new UpperCaseDirective());

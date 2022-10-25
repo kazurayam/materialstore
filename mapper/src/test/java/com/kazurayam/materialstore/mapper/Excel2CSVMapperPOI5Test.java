@@ -39,7 +39,7 @@ public class Excel2CSVMapperPOI5Test {
                 .resolve(Excel2CSVMapperPOI5Test.class.getName());
         Files.createDirectories(outputDir);
         //
-        fixtureDir = projectDir.resolve("src/test/fixture");
+        fixtureDir = projectDir.resolve("src/test/fixtures");
         FileUtils.copyDirectory(fixtureDir.toFile(), outputDir.toFile());
     }
 

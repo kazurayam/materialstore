@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 public class IdentityMapperTest {
 
     private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(IdentityMapperTest.class.getName());
-    private static final Path resultsDir = Paths.get(".").resolve("src/test/fixture/sample_results");
+    private static final Path resultsDir = Paths.get(".").resolve("src/test/fixtures/sample_results");
     private Store store;
     private JobName jobName;
 

@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MaterialProductGroupReporterTest extends AbstractReporterTest {
 
     private static final Path fixtureDir =
-            Paths.get(".").resolve("src/test/fixture/issue#80");
+            Paths.get(".").resolve("src/test/fixtures/issue#80");
 
     private static final Path testOutput =
             Paths.get(".").resolve("build/tmp/testOutput");

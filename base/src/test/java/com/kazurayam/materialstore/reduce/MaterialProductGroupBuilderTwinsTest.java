@@ -29,7 +29,7 @@ public class MaterialProductGroupBuilderTwinsTest {
                     .resolve(MaterialProductGroupBuilderTwinsTest.class.getName());
     private static final Path fixtureDir =
             Paths.get(".")
-                    .resolve("src/test/fixture/issue#80");
+                    .resolve("src/test/fixtures/issue#80");
     private static Store store;
     private JobName jobName;
     private MaterialList left;

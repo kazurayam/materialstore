@@ -36,7 +36,7 @@ public class PDF2HTMLMapperTest {
                 .resolve(PDF2HTMLMapperTest.class.getName());
         Files.createDirectories(outputDir);
         //
-        fixtureDir = projectDir.resolve("src/test/fixture");
+        fixtureDir = projectDir.resolve("src/test/fixtures");
         FileUtils.copyDirectory(fixtureDir.toFile(), outputDir.toFile());
     }
 

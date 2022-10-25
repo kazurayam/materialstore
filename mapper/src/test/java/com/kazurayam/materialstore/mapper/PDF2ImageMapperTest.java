@@ -36,7 +36,7 @@ public class PDF2ImageMapperTest {
                 .resolve(PDF2ImageMapperTest.class.getName());
         Files.createDirectories(outputDir);
         //
-        fixtureDir = projectDir.resolve("src/test/fixture");
+        fixtureDir = projectDir.resolve("src/test/fixtures");
         FileUtils.copyDirectory(fixtureDir.toFile(), outputDir.toFile());
     }
 

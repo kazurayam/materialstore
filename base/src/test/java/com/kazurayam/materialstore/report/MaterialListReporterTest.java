@@ -37,7 +37,7 @@ public class MaterialListReporterTest extends AbstractReporterTest {
                     .resolve(MaterialListReporterTest.class.getName());
 
     private final static Path resultsDir =
-            Paths.get(".").resolve("src/test/fixture/sample_results");
+            Paths.get(".").resolve("src/test/fixtures/sample_results");
 
     private static Store store;
 

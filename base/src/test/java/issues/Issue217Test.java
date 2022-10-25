@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class Issue217Test {
 
     static final Path fixtureDir = Paths.get(".")
-            .resolve("src/test/fixture/issue#217");
+            .resolve("src/test/fixtures/issue#217");
     static final Path outputDir = Paths.get(".")
             .resolve("build/tmp/testOutput")
             .resolve(Issue217Test.class.getName());

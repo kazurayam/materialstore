@@ -43,7 +43,7 @@ public class VoidDifferTest {
         }
 
         Files.createDirectories(outputDir);
-        Path fixtureDir = projectDir.resolve("src/test/fixture");
+        Path fixtureDir = projectDir.resolve("src/test/fixtures");
         FileUtils.copyDirectory(fixtureDir.resolve("issue#80").toFile(), outputDir.resolve("store").toFile());
         Path root = outputDir.resolve("store");
         store = Stores.newInstance(root);

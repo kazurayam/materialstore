@@ -15,8 +15,8 @@ import java.nio.file.Paths;
 public class MaterialIOTest {
 
     private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MaterialIOTest.class.getName());
-    private static final Path imagesDir = Paths.get(".").resolve("src/test/fixture/sample_images");
-    private static final Path htmlDir = Paths.get(".").resolve("src/test/fixture/sample_html");
+    private static final Path imagesDir = Paths.get(".").resolve("src/test/fixtures/sample_images");
+    private static final Path htmlDir = Paths.get(".").resolve("src/test/fixtures/sample_html");
 
     @BeforeAll
     public static void beforeAll() throws IOException {
