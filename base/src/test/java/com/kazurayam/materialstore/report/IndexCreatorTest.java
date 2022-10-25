@@ -23,26 +23,24 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class IndexCreatorTest {
 
+    private TestCaseSupport tcSupport;
     private Store store;
     private JobName jobName;
 
     private IndexCreator indexCreator;
 
-    @BeforeAll
-    public static void beforeAll() throws IOException {
-    }
-
     @BeforeEach
     public void beforeEach() throws IOException, MaterialstoreException {
-        store = TestCaseSupport.initializeStore(this);
+        tcSupport = new TestCaseSupport(this);
+        store = tcSupport.getStore();
         indexCreator = new IndexCreator(store);
     }
 
     @Test
     public void test_create() throws MaterialstoreException, IOException {
         jobName = new JobName("test_create");
-        JobTimestamp jtA = FixtureCreator4base.createFixtures(store, jobName, JobTimestamp.now());
-        JobTimestamp jtB = FixtureCreator4base.createFixtures(store, jobName, jtA); // intentionally create 2 JobTimestamps
+        JobTimestamp jtA = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
+        JobTimestamp jtB = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
         MaterialList mlA = store.select(jobName, jtA);
         MaterialList mlB = store.select(jobName, jtB);
         MaterialProductGroup reduced = Reducer.chronos(store, mlB);

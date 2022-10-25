@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.manage;
 
 import com.kazurayam.materialstore.TestCaseSupport;
+import com.kazurayam.materialstore.TestHelper;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
@@ -21,16 +22,19 @@ public class StoreCleanerTest {
     private Store store;
     private JobName jobName;
 
+    private TestCaseSupport tcSupport;
+
     @BeforeEach
     public void beforeEach() throws IOException {
-        store = TestCaseSupport.initializeStore(this);
+        tcSupport = new TestCaseSupport(this);
+        store = tcSupport.getStore();
     }
 
     @Test
     public void test_deleteJobTimestampsOlderThan() throws MaterialstoreException, IOException {
         jobName = new JobName("test_deleteJobTimestampsOlderThan");
-        JobTimestamp jtA = TestCaseSupport.createFixtures(store, jobName, JobTimestamp.now());
-        JobTimestamp jtB = TestCaseSupport.createFixtures(store, jobName, jtA); // intentionally create 2 JobTimestamps
+        JobTimestamp jtA = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
+        JobTimestamp jtB = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
         List<JobTimestamp> jobTimestampList = store.findAllJobTimestamps(jobName);
         assertTrue(jobTimestampList.size() >= 2);
         // delete JobTimestamp directories older than the one last 1 JobTimestamp.
@@ -58,11 +62,25 @@ public class StoreCleanerTest {
     }
 
     @Test
-    public void test_cleanup() throws IOException {
-        jobName = new JobName("test_cleanup");
-        Path sourceDir = TestCaseSupport.getFixtureDirectory("issue#327").resolve("store");
-        Files.walk(sourceDir).forEach(source -> {
-
-        });
+    public void test_cleanup() throws MaterialstoreException, IOException {
+        // Arrange
+        StoreCleaner cleaner = StoreCleaner.newInstance(store);
+        //
+        Path fixtureDir = TestHelper.getFixturesDirectory().resolve("issue#327");
+        tcSupport.copyFixture(fixtureDir, tcSupport.getOutputDir());
+        JobName jobName = new JobName("CURA");
+        assertTrue(store.contains(jobName),
+                String.format("JobName \"%s\" is not found", jobName));
+        List<JobTimestamp> jobTimestampsBeforeCleanUp = store.findAllJobTimestamps(jobName);
+        assertEquals(5, jobTimestampsBeforeCleanUp.size());
+        List<Path> reportFilesBeforeCleanUp = cleaner.findAllReportsOf(jobName);
+        assertEquals(2, reportFilesBeforeCleanUp.size());
+        // Action
+        cleaner.cleanup(jobName);
+        // Assert
+        List<JobTimestamp> jobTimestampsAfterCleanUp = store.findAllJobTimestamps(jobName);
+        assertEquals(3, jobTimestampsAfterCleanUp.size());
+        List<Path> reportFilesAfterCleanUp = cleaner.findAllReportsOf(jobName);
+        assertEquals(1, reportFilesAfterCleanUp.size());
     }
 }

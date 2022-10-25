@@ -5,6 +5,7 @@ import com.kazurayam.materialstore.filesystem.FileType;
 import com.kazurayam.materialstore.filesystem.FileTypeDiffability;
 import com.kazurayam.materialstore.filesystem.Jobber;
 import com.kazurayam.materialstore.filesystem.Material;
+import com.kazurayam.materialstore.filesystem.MaterialLocator;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Metadata;
 import com.kazurayam.materialstore.filesystem.Store;
@@ -68,8 +69,8 @@ public abstract class AbstractTextDiffer implements Differ {
         byte[] diffData = toByteArray(textDiffContent.getContent());
         LinkedHashMap<String, String> map = new LinkedHashMap<>(4);
         map.put("category", "diff");
-        map.put("left", left.getIndexEntry().getID().toString());
-        map.put("right", right.getIndexEntry().getID().toString());
+        map.put("left", new MaterialLocator(left).toString());
+        map.put("right", new MaterialLocator(right).toString());
         map.put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio));
         Metadata diffMetadata = Metadata.builder(map).build();
         Jobber jobber = new Jobber(store, right.getJobName(), mProduct.getReducedTimestamp());

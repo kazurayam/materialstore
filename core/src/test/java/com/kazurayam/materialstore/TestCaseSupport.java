@@ -12,13 +12,14 @@ import com.kazurayam.materialstore.filesystem.Stores;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Objects;
 
 public class TestCaseSupport {
 
-    private Object testCase;
-    private Path outputDir;
-    private Path root;
-    private Store store;
+    private final Object testCase;
+    private final Path outputDir;
+    private final Path root;
+    private final Store store;
 
     public TestCaseSupport(Object testCase) {
         this.testCase = testCase;
@@ -49,6 +50,20 @@ public class TestCaseSupport {
             return store.deleteJobName(jobName);
         }
         return 0;
+    }
+
+    /**
+     * #331
+     * @return
+     */
+    public void copyFixture(Path fixtureDir, Path testCaseOutputDir)
+            throws MaterialstoreException, IOException {
+        Objects.requireNonNull(fixtureDir);
+        if (!Files.exists(fixtureDir)) {
+            throw new MaterialstoreException(String.format("%s is not present", fixtureDir));
+        }
+        Objects.requireNonNull(testCaseOutputDir);
+        TestHelper.copyDirectory(fixtureDir, testCaseOutputDir);
     }
 
     public JobTimestamp create3TXTsWithStepAndLabel(JobName jobName, JobTimestamp jobTimestamp)

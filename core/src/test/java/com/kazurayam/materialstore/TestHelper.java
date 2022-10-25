@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Comparator;
 import java.util.Objects;
 
@@ -48,6 +49,30 @@ public class TestHelper {
         }
         Files.createDirectories(dir);
         return dir;
+    }
+
+    public static void copyDirectory(Path sourceDir, Path destinationDir) throws IOException {
+        copyDirectory(
+                sourceDir.normalize().toAbsolutePath().toString(),
+                destinationDir.normalize().toAbsolutePath().toString()
+        );
+    }
+
+    public static void copyDirectory(String sourceDir, String destinationDir)
+            throws IOException {
+        deleteDirectoryRecursively(Paths.get(destinationDir));
+        Files.walk(Paths.get(sourceDir))
+                .forEach(source -> {
+                    Path destination =
+                            Paths.get(destinationDir,
+                                    source.toString().substring(sourceDir.length())
+                            );
+                    try {
+                        Files.copy(source, destination);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public static void deleteDirectoryRecursively(Path dir) throws IOException {
