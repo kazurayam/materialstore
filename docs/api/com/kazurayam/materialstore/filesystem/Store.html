@@ -124,22 +124,23 @@ var activeTableTab = "activeTableTab";
 <th class="colLast" scope="col">Method and Description</th>
 </tr>
 <tr id="i0" class="altColor">
+<td class="colFirst"><code>boolean</code></td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#contains-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">contains</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+        <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)</code>
+<div class="block">return true if the directory of specified as JobName/JobTimestamp
+ exists in the store</div>
+</td>
+</tr>
+<tr id="i1" class="rowColor">
 <td class="colFirst"><code>int</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#copyMaterials-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.JobTimestamp-">copyMaterials</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
              <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;source,
              <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;target)</code>&nbsp;</td>
 </tr>
-<tr id="i1" class="rowColor">
-<td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#deleteStuffOlderThanExclusive-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">deleteStuffOlderThanExclusive</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
-                             <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)</code>&nbsp;</td>
-</tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#deleteStuffOlderThanExclusive-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-long-java.time.temporal.TemporalUnit-">deleteStuffOlderThanExclusive</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
-                             <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
-                             long&nbsp;amountToSubtract,
-                             java.time.temporal.TemporalUnit&nbsp;unit)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/filesystem/Store.html#deleteJobTimestamp-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">deleteJobTimestamp</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+                  <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>java.util.List&lt;<a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&gt;</code></td>
@@ -403,42 +404,37 @@ var activeTableTab = "activeTableTab";
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="deleteStuffOlderThanExclusive-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-long-java.time.temporal.TemporalUnit-">
+<a name="contains-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>deleteStuffOlderThanExclusive</h4>
-<pre>int&nbsp;deleteStuffOlderThanExclusive(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
-                                  <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp,
-                                  long&nbsp;amountToSubtract,
-                                  java.time.temporal.TemporalUnit&nbsp;unit)
-                           throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a>,
-                                  java.io.IOException</pre>
+<h4>contains</h4>
+<pre>boolean&nbsp;contains(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+                 <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)
+          throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></pre>
+<div class="block">return true if the directory of specified as JobName/JobTimestamp
+ exists in the store</div>
 <dl>
 <dt><span class="paramLabel">Parameters:</span></dt>
 <dd><code>jobName</code> - </dd>
 <dd><code>jobTimestamp</code> - </dd>
-<dd><code>amountToSubtract</code> - </dd>
-<dd><code>unit</code> - </dd>
 <dt><span class="returnLabel">Returns:</span></dt>
-<dd>number of JobTimestamp directories which were deleted</dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></code></dd>
-<dd><code>java.io.IOException</code></dd>
 </dl>
 </li>
 </ul>
-<a name="deleteStuffOlderThanExclusive-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">
+<a name="deleteJobTimestamp-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">
 <!--   -->
 </a>
 <ul class="blockList">
 <li class="blockList">
-<h4>deleteStuffOlderThanExclusive</h4>
-<pre>int&nbsp;deleteStuffOlderThanExclusive(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
-                                  <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)
-                           throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a>,
-                                  java.io.IOException</pre>
+<h4>deleteJobTimestamp</h4>
+<pre>int&nbsp;deleteJobTimestamp(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+                       <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;jobTimestamp)
+                throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a>,
+                       java.io.IOException</pre>
 <dl>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></code></dd>

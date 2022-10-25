@@ -5,6 +5,7 @@ com.kazurayam.materialstore.filesystem.metadata
 com.kazurayam.materialstore.filesystem.net.data
 com.kazurayam.materialstore.freemarker
 com.kazurayam.materialstore.inspector
+com.kazurayam.materialstore.manage
 com.kazurayam.materialstore.map
 com.kazurayam.materialstore.mapper
 com.kazurayam.materialstore.materialize

@@ -240,6 +240,8 @@
 <dd>&nbsp;</dd>
 <dt><a href="com/kazurayam/materialstore/inspector/package-summary.html">com.kazurayam.materialstore.inspector</a> - package com.kazurayam.materialstore.inspector</dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/kazurayam/materialstore/manage/package-summary.html">com.kazurayam.materialstore.manage</a> - package com.kazurayam.materialstore.manage</dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/kazurayam/materialstore/map/package-summary.html">com.kazurayam.materialstore.map</a> - package com.kazurayam.materialstore.map</dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/kazurayam/materialstore/mapper/package-summary.html">com.kazurayam.materialstore.mapper</a> - package com.kazurayam.materialstore.mapper</dt>
@@ -303,6 +305,13 @@
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/metadata/IgnoreMetadataKeys.html#contains-java.lang.String-">contains(String)</a></span> - Method in class com.kazurayam.materialstore.filesystem.metadata.<a href="com/kazurayam/materialstore/filesystem/metadata/IgnoreMetadataKeys.html" title="class in com.kazurayam.materialstore.filesystem.metadata">IgnoreMetadataKeys</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/metadata/IgnoreMetadataKeysImpl.html#contains-java.lang.String-">contains(String)</a></span> - Method in class com.kazurayam.materialstore.filesystem.metadata.<a href="com/kazurayam/materialstore/filesystem/metadata/IgnoreMetadataKeysImpl.html" title="class in com.kazurayam.materialstore.filesystem.metadata">IgnoreMetadataKeysImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Store.html#contains-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">contains(JobName, JobTimestamp)</a></span> - Method in interface com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Store.html" title="interface in com.kazurayam.materialstore.filesystem">Store</a></dt>
+<dd>
+<div class="block">return true if the directory of specified as JobName/JobTimestamp
+ exists in the store</div>
+</dd>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/StoreImpl.html#contains-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">contains(JobName, JobTimestamp)</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/StoreImpl.html" title="class in com.kazurayam.materialstore.filesystem">StoreImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html#contains-com.kazurayam.materialstore.filesystem.Material-">contains(Material)</a></span> - Method in class com.kazurayam.materialstore.reduce.zipper.<a href="com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html" title="class in com.kazurayam.materialstore.reduce.zipper">MaterialProduct</a></dt>
 <dd>&nbsp;</dd>
@@ -369,13 +378,17 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/reduce/differ/TextDiffContent.Builder.html#deleted-int-">deleted(int)</a></span> - Method in class com.kazurayam.materialstore.reduce.differ.<a href="com/kazurayam/materialstore/reduce/differ/TextDiffContent.Builder.html" title="class in com.kazurayam.materialstore.reduce.differ">TextDiffContent.Builder</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Store.html#deleteStuffOlderThanExclusive-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-long-java.time.temporal.TemporalUnit-">deleteStuffOlderThanExclusive(JobName, JobTimestamp, long, TemporalUnit)</a></span> - Method in interface com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Store.html" title="interface in com.kazurayam.materialstore.filesystem">Store</a></dt>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Store.html#deleteJobTimestamp-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">deleteJobTimestamp(JobName, JobTimestamp)</a></span> - Method in interface com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Store.html" title="interface in com.kazurayam.materialstore.filesystem">Store</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Store.html#deleteStuffOlderThanExclusive-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">deleteStuffOlderThanExclusive(JobName, JobTimestamp)</a></span> - Method in interface com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Store.html" title="interface in com.kazurayam.materialstore.filesystem">Store</a></dt>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/StoreImpl.html#deleteJobTimestamp-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">deleteJobTimestamp(JobName, JobTimestamp)</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/StoreImpl.html" title="class in com.kazurayam.materialstore.filesystem">StoreImpl</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/StoreImpl.html#deleteStuffOlderThanExclusive-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">deleteStuffOlderThanExclusive(JobName, JobTimestamp)</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/StoreImpl.html" title="class in com.kazurayam.materialstore.filesystem">StoreImpl</a></dt>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/manage/StoreScavenger.html#deleteJobTimestampsOlderThan-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">deleteJobTimestampsOlderThan(JobName, JobTimestamp)</a></span> - Method in class com.kazurayam.materialstore.manage.<a href="com/kazurayam/materialstore/manage/StoreScavenger.html" title="class in com.kazurayam.materialstore.manage">StoreScavenger</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/StoreImpl.html#deleteStuffOlderThanExclusive-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-long-java.time.temporal.TemporalUnit-">deleteStuffOlderThanExclusive(JobName, JobTimestamp, long, TemporalUnit)</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/StoreImpl.html" title="class in com.kazurayam.materialstore.filesystem">StoreImpl</a></dt>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/manage/StoreScavengerImpl.html#deleteJobTimestampsOlderThan-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">deleteJobTimestampsOlderThan(JobName, JobTimestamp)</a></span> - Method in class com.kazurayam.materialstore.manage.<a href="com/kazurayam/materialstore/manage/StoreScavengerImpl.html" title="class in com.kazurayam.materialstore.manage">StoreScavengerImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/manage/StoreScavenger.html#deleteReportsOlderThan-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">deleteReportsOlderThan(JobName, JobTimestamp)</a></span> - Method in class com.kazurayam.materialstore.manage.<a href="com/kazurayam/materialstore/manage/StoreScavenger.html" title="class in com.kazurayam.materialstore.manage">StoreScavenger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/manage/StoreScavengerImpl.html#deleteReportsOlderThan-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">deleteReportsOlderThan(JobName, JobTimestamp)</a></span> - Method in class com.kazurayam.materialstore.manage.<a href="com/kazurayam/materialstore/manage/StoreScavengerImpl.html" title="class in com.kazurayam.materialstore.manage">StoreScavengerImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/MaterialIO.html#deserialize-java.nio.file.Path-">deserialize(Path)</a></span> - Static method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/MaterialIO.html" title="class in com.kazurayam.materialstore.filesystem">MaterialIO</a></dt>
 <dd>&nbsp;</dd>
@@ -517,6 +530,10 @@
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Store.html#findAllJobTimestampsPriorTo-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">findAllJobTimestampsPriorTo(JobName, JobTimestamp)</a></span> - Method in interface com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Store.html" title="interface in com.kazurayam.materialstore.filesystem">Store</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/StoreImpl.html#findAllJobTimestampsPriorTo-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">findAllJobTimestampsPriorTo(JobName, JobTimestamp)</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/StoreImpl.html" title="class in com.kazurayam.materialstore.filesystem">StoreImpl</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/manage/StoreScavenger.html#findAllReportsOf-com.kazurayam.materialstore.filesystem.JobName-">findAllReportsOf(JobName)</a></span> - Method in class com.kazurayam.materialstore.manage.<a href="com/kazurayam/materialstore/manage/StoreScavenger.html" title="class in com.kazurayam.materialstore.manage">StoreScavenger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/manage/StoreScavengerImpl.html#findAllReportsOf-com.kazurayam.materialstore.filesystem.JobName-">findAllReportsOf(JobName)</a></span> - Method in class com.kazurayam.materialstore.manage.<a href="com/kazurayam/materialstore/manage/StoreScavengerImpl.html" title="class in com.kazurayam.materialstore.manage">StoreScavengerImpl</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Store.html#findJobTimestampPriorTo-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">findJobTimestampPriorTo(JobName, JobTimestamp)</a></span> - Method in interface com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Store.html" title="interface in com.kazurayam.materialstore.filesystem">Store</a></dt>
 <dd>&nbsp;</dd>
@@ -670,19 +687,21 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/metadata/SemanticVersionMatcherResult.html#getHeader--">getHeader()</a></span> - Method in class com.kazurayam.materialstore.filesystem.metadata.<a href="com/kazurayam/materialstore/filesystem/metadata/SemanticVersionMatcherResult.html" title="class in com.kazurayam.materialstore.filesystem.metadata">SemanticVersionMatcherResult</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Identifiable.html#getId--">getId()</a></span> - Method in interface com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Identifiable.html" title="interface in com.kazurayam.materialstore.filesystem">Identifiable</a></dt>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Identifiable.html#getID--">getID()</a></span> - Method in interface com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Identifiable.html" title="interface in com.kazurayam.materialstore.filesystem">Identifiable</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/IndexEntry.html#getID--">getID()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/IndexEntry.html" title="class in com.kazurayam.materialstore.filesystem">IndexEntry</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Material.html#getId--">getId()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></dt>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Material.html#getID--">getID()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/MaterialIO.html#getID--">getID()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/MaterialIO.html" title="class in com.kazurayam.materialstore.filesystem">MaterialIO</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/MaterialList.html#getId--">getId()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a></dt>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/MaterialList.html#getID--">getID()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/reduce/MaterialProductGroup.html#getId--">getId()</a></span> - Method in class com.kazurayam.materialstore.reduce.<a href="com/kazurayam/materialstore/reduce/MaterialProductGroup.html" title="class in com.kazurayam.materialstore.reduce">MaterialProductGroup</a></dt>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/MaterialLocator.html#getID--">getID()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/MaterialLocator.html" title="class in com.kazurayam.materialstore.filesystem">MaterialLocator</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html#getId--">getId()</a></span> - Method in class com.kazurayam.materialstore.reduce.zipper.<a href="com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html" title="class in com.kazurayam.materialstore.reduce.zipper">MaterialProduct</a></dt>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/reduce/MaterialProductGroup.html#getID--">getID()</a></span> - Method in class com.kazurayam.materialstore.reduce.<a href="com/kazurayam/materialstore/reduce/MaterialProductGroup.html" title="class in com.kazurayam.materialstore.reduce">MaterialProductGroup</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html#getID--">getID()</a></span> - Method in class com.kazurayam.materialstore.reduce.zipper.<a href="com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html" title="class in com.kazurayam.materialstore.reduce.zipper">MaterialProduct</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/metadata/MetadataIdentification.html#getIdentification--">getIdentification()</a></span> - Method in class com.kazurayam.materialstore.filesystem.metadata.<a href="com/kazurayam/materialstore/filesystem/metadata/MetadataIdentification.html" title="class in com.kazurayam.materialstore.filesystem.metadata">MetadataIdentification</a></dt>
 <dd>&nbsp;</dd>
@@ -719,6 +738,8 @@
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Material.html#getJobTimestamp--">getJobTimestamp()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/MaterialList.html#getJobTimestamp--">getJobTimestamp()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/MaterialLocator.html#getJobTimestamp--">getJobTimestamp()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/MaterialLocator.html" title="class in com.kazurayam.materialstore.filesystem">MaterialLocator</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/materialize/StorageDirectory.html#getJobTimestamp--">getJobTimestamp()</a></span> - Method in class com.kazurayam.materialstore.materialize.<a href="com/kazurayam/materialstore/materialize/StorageDirectory.html" title="class in com.kazurayam.materialstore.materialize">StorageDirectory</a></dt>
 <dd>&nbsp;</dd>
@@ -831,17 +852,17 @@
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/ID.html#getSha1--">getSha1()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/ID.html" title="class in com.kazurayam.materialstore.filesystem">ID</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Identifiable.html#getShortId--">getShortId()</a></span> - Method in interface com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Identifiable.html" title="interface in com.kazurayam.materialstore.filesystem">Identifiable</a></dt>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Identifiable.html#getShortID--">getShortID()</a></span> - Method in interface com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Identifiable.html" title="interface in com.kazurayam.materialstore.filesystem">Identifiable</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/IndexEntry.html#getShortId--">getShortId()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/IndexEntry.html" title="class in com.kazurayam.materialstore.filesystem">IndexEntry</a></dt>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/IndexEntry.html#getShortID--">getShortID()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/IndexEntry.html" title="class in com.kazurayam.materialstore.filesystem">IndexEntry</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Material.html#getShortId--">getShortId()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></dt>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Material.html#getShortID--">getShortID()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Material.html" title="class in com.kazurayam.materialstore.filesystem">Material</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/MaterialList.html#getShortId--">getShortId()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a></dt>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/MaterialList.html#getShortID--">getShortID()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/reduce/MaterialProductGroup.html#getShortId--">getShortId()</a></span> - Method in class com.kazurayam.materialstore.reduce.<a href="com/kazurayam/materialstore/reduce/MaterialProductGroup.html" title="class in com.kazurayam.materialstore.reduce">MaterialProductGroup</a></dt>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/reduce/MaterialProductGroup.html#getShortID--">getShortID()</a></span> - Method in class com.kazurayam.materialstore.reduce.<a href="com/kazurayam/materialstore/reduce/MaterialProductGroup.html" title="class in com.kazurayam.materialstore.reduce">MaterialProductGroup</a></dt>
 <dd>&nbsp;</dd>
-<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html#getShortId--">getShortId()</a></span> - Method in class com.kazurayam.materialstore.reduce.zipper.<a href="com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html" title="class in com.kazurayam.materialstore.reduce.zipper">MaterialProduct</a></dt>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html#getShortID--">getShortID()</a></span> - Method in class com.kazurayam.materialstore.reduce.zipper.<a href="com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html" title="class in com.kazurayam.materialstore.reduce.zipper">MaterialProduct</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/ID.html#getShortSha1--">getShortSha1()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/ID.html" title="class in com.kazurayam.materialstore.filesystem">ID</a></dt>
 <dd>&nbsp;</dd>
@@ -1310,6 +1331,12 @@
 </dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/report/MaterialListReporterImpl.html#MaterialListReporterImpl-com.kazurayam.materialstore.filesystem.Store-">MaterialListReporterImpl(Store)</a></span> - Constructor for class com.kazurayam.materialstore.report.<a href="com/kazurayam/materialstore/report/MaterialListReporterImpl.html" title="class in com.kazurayam.materialstore.report">MaterialListReporterImpl</a></dt>
 <dd>&nbsp;</dd>
+<dt><a href="com/kazurayam/materialstore/filesystem/MaterialLocator.html" title="class in com.kazurayam.materialstore.filesystem"><span class="typeNameLink">MaterialLocator</span></a> - Class in <a href="com/kazurayam/materialstore/filesystem/package-summary.html">com.kazurayam.materialstore.filesystem</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/MaterialLocator.html#MaterialLocator-com.kazurayam.materialstore.filesystem.Material-">MaterialLocator(Material)</a></span> - Constructor for class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/MaterialLocator.html" title="class in com.kazurayam.materialstore.filesystem">MaterialLocator</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/MaterialLocator.html#MaterialLocator-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.ID-">MaterialLocator(JobTimestamp, ID)</a></span> - Constructor for class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/MaterialLocator.html" title="class in com.kazurayam.materialstore.filesystem">MaterialLocator</a></dt>
+<dd>&nbsp;</dd>
 <dt><a href="com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html" title="class in com.kazurayam.materialstore.reduce.zipper"><span class="typeNameLink">MaterialProduct</span></a> - Class in <a href="com/kazurayam/materialstore/reduce/zipper/package-summary.html">com.kazurayam.materialstore.reduce.zipper</a></dt>
 <dd>
 <div class="block">"Material x Material" = "Materials Product"</div>
@@ -1414,6 +1441,8 @@
 <dd>
 <div class="block">the factory method</div>
 </dd>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/manage/StoreScavenger.html#newInstance-com.kazurayam.materialstore.filesystem.Store-">newInstance(Store)</a></span> - Static method in class com.kazurayam.materialstore.manage.<a href="com/kazurayam/materialstore/manage/StoreScavenger.html" title="class in com.kazurayam.materialstore.manage">StoreScavenger</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/inspector/Inspector.html#newMaterialProductGroupReporter--">newMaterialProductGroupReporter()</a></span> - Method in class com.kazurayam.materialstore.inspector.<a href="com/kazurayam/materialstore/inspector/Inspector.html" title="class in com.kazurayam.materialstore.inspector">Inspector</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/inspector/InspectorImpl.html#newMaterialProductGroupReporter--">newMaterialProductGroupReporter()</a></span> - Method in class com.kazurayam.materialstore.inspector.<a href="com/kazurayam/materialstore/inspector/InspectorImpl.html" title="class in com.kazurayam.materialstore.inspector">InspectorImpl</a></dt>
@@ -1485,6 +1514,12 @@
 </a>
 <h2 class="title">P</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/MaterialLocator.html#parse-java.lang.String-">parse(String)</a></span> - Static method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/MaterialLocator.html" title="class in com.kazurayam.materialstore.filesystem">MaterialLocator</a></dt>
+<dd>
+<div class="block">parse a string like "20221023_144115/07730aaa0c4992dcddb58ef5281faec082c8a8ee"
+ to return a MaterialReference object of which JobTimestamp is "20221023_144115"
+ and of which ID is "07730aaa0c4992dcddb58ef5281faec082c8a8ee"</div>
+</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/materialize/SimpleTargetCSVParser.html#parse-java.lang.String-">parse(String)</a></span> - Method in class com.kazurayam.materialstore.materialize.<a href="com/kazurayam/materialstore/materialize/SimpleTargetCSVParser.html" title="class in com.kazurayam.materialstore.materialize">SimpleTargetCSVParser</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/materialize/SimpleTargetCSVParser.html#parse-java.nio.file.Path-">parse(Path)</a></span> - Method in class com.kazurayam.materialstore.materialize.<a href="com/kazurayam/materialstore/materialize/SimpleTargetCSVParser.html" title="class in com.kazurayam.materialstore.materialize">SimpleTargetCSVParser</a></dt>
@@ -1754,6 +1789,10 @@
 </a>
 <h2 class="title">S</h2>
 <dl>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/manage/StoreScavenger.html#scavenge-com.kazurayam.materialstore.filesystem.JobName-">scavenge(JobName)</a></span> - Method in class com.kazurayam.materialstore.manage.<a href="com/kazurayam/materialstore/manage/StoreScavenger.html" title="class in com.kazurayam.materialstore.manage">StoreScavenger</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/manage/StoreScavengerImpl.html#scavenge-com.kazurayam.materialstore.filesystem.JobName-">scavenge(JobName)</a></span> - Method in class com.kazurayam.materialstore.manage.<a href="com/kazurayam/materialstore/manage/StoreScavengerImpl.html" title="class in com.kazurayam.materialstore.manage">StoreScavengerImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Store.html#select-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">select(JobName, JobTimestamp)</a></span> - Method in interface com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Store.html" title="interface in com.kazurayam.materialstore.filesystem">Store</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/Store.html#select-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-com.kazurayam.materialstore.filesystem.QueryOnMetadata-">select(JobName, JobTimestamp, QueryOnMetadata)</a></span> - Method in interface com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/Store.html" title="interface in com.kazurayam.materialstore.filesystem">Store</a></dt>
@@ -1955,6 +1994,14 @@
 <dd>
 <div class="block">Factory class for the Store interface</div>
 </dd>
+<dt><a href="com/kazurayam/materialstore/manage/StoreScavenger.html" title="class in com.kazurayam.materialstore.manage"><span class="typeNameLink">StoreScavenger</span></a> - Class in <a href="com/kazurayam/materialstore/manage/package-summary.html">com.kazurayam.materialstore.manage</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/manage/StoreScavenger.html#StoreScavenger--">StoreScavenger()</a></span> - Constructor for class com.kazurayam.materialstore.manage.<a href="com/kazurayam/materialstore/manage/StoreScavenger.html" title="class in com.kazurayam.materialstore.manage">StoreScavenger</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/kazurayam/materialstore/manage/StoreScavengerImpl.html" title="class in com.kazurayam.materialstore.manage"><span class="typeNameLink">StoreScavengerImpl</span></a> - Class in <a href="com/kazurayam/materialstore/manage/package-summary.html">com.kazurayam.materialstore.manage</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/manage/StoreScavengerImpl.html#StoreScavengerImpl-com.kazurayam.materialstore.filesystem.Store-">StoreScavengerImpl(Store)</a></span> - Constructor for class com.kazurayam.materialstore.manage.<a href="com/kazurayam/materialstore/manage/StoreScavengerImpl.html" title="class in com.kazurayam.materialstore.manage">StoreScavengerImpl</a></dt>
+<dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/materialize/MaterializingWebResourceFunctions.html#storeWebResource">storeWebResource</a></span> - Static variable in class com.kazurayam.materialstore.materialize.<a href="com/kazurayam/materialstore/materialize/MaterializingWebResourceFunctions.html" title="class in com.kazurayam.materialstore.materialize">MaterializingWebResourceFunctions</a></dt>
 <dd>
 <div class="block">get the URL, store the content into the store.</div>
@@ -2171,6 +2218,8 @@
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/MaterialIO.html#toString--">toString()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/MaterialIO.html" title="class in com.kazurayam.materialstore.filesystem">MaterialIO</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/MaterialList.html#toString--">toString()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a></dt>
+<dd>&nbsp;</dd>
+<dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/MaterialLocator.html#toString--">toString()</a></span> - Method in class com.kazurayam.materialstore.filesystem.<a href="com/kazurayam/materialstore/filesystem/MaterialLocator.html" title="class in com.kazurayam.materialstore.filesystem">MaterialLocator</a></dt>
 <dd>&nbsp;</dd>
 <dt><span class="memberNameLink"><a href="com/kazurayam/materialstore/filesystem/metadata/IgnoreMetadataKeysImpl.html#toString--">toString()</a></span> - Method in class com.kazurayam.materialstore.filesystem.metadata.<a href="com/kazurayam/materialstore/filesystem/metadata/IgnoreMetadataKeysImpl.html" title="class in com.kazurayam.materialstore.filesystem.metadata">IgnoreMetadataKeysImpl</a></dt>
 <dd>&nbsp;</dd>
