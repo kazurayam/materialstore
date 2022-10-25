@@ -116,7 +116,7 @@ public class InspectorTest {
     }
 
     @Test
-    public void test_resolveReportFileName_MaterialProductGroup() throws MaterialstoreException {
+    public void test_resolveReportFileName_MaterialProductGroup() {
         MaterialProductGroup mpg = MaterialProductGroup.builder(left, right)
                 .build();
         String fileName = inspector.resolveReportFileName(mpg);

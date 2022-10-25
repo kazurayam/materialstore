@@ -29,14 +29,14 @@ public class StoreTest {
     }
 
     @Test
-    public void test_contains_JobName() throws MaterialstoreException, IOException {
+    public void test_contains_JobName() throws MaterialstoreException {
         jobName = new JobName("test_contains_JobName");
         JobTimestamp jtA = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
         assertTrue(store.contains(jobName));
     }
 
     @Test
-    public void test_findAllJobNames() throws MaterialstoreException, IOException {
+    public void test_findAllJobNames() throws MaterialstoreException {
         jobName = new JobName("test_contains_JobName");
         JobTimestamp jtA = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
         assertTrue(store.findAllJobNames().size() > 0);
@@ -44,7 +44,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_deleteJobName() throws MaterialstoreException, IOException {
+    public void test_deleteJobName() throws MaterialstoreException {
         jobName = new JobName("test_deleteJobName");
         JobTimestamp jtA = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
         assertTrue(store.contains(jobName));
@@ -54,7 +54,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_findNthJobTimestamp_normal() throws MaterialstoreException, IOException {
+    public void test_findNthJobTimestamp_normal() throws MaterialstoreException {
         jobName = new JobName("test_findNthJobTimestamp_normal");
         JobTimestamp jtA = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
         JobTimestamp jtB = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
@@ -66,7 +66,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_findNthJobTimestamp_exceedingRange() throws MaterialstoreException, IOException {
+    public void test_findNthJobTimestamp_exceedingRange() throws MaterialstoreException {
         jobName = new JobName("test_findNthJobTimestamp_exceedingRange");
         JobTimestamp jtA = tcSupport.create3PNGsWithStepAndLabel(jobName, JobTimestamp.now());
         JobTimestamp jtB = tcSupport.create3PNGsWithStepAndLabel(jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
@@ -77,7 +77,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_getPathOf_JobName() throws MaterialstoreException, IOException {
+    public void test_getPathOf_JobName() throws MaterialstoreException {
         jobName = new JobName("test_getPathOf_JobName");
         JobTimestamp jtA = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
         //
@@ -87,7 +87,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_getPathOf_JobTimestamp() throws MaterialstoreException, IOException {
+    public void test_getPathOf_JobTimestamp() throws MaterialstoreException {
         jobName = new JobName("test_getPathOf_JobTimestamp");
         JobTimestamp jobTimestamp = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
         //

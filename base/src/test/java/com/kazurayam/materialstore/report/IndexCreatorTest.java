@@ -30,7 +30,7 @@ public class IndexCreatorTest {
     private IndexCreator indexCreator;
 
     @BeforeEach
-    public void beforeEach() throws IOException, MaterialstoreException {
+    public void beforeEach() throws MaterialstoreException {
         tcSupport = new TestCaseSupport(this);
         store = tcSupport.getStore();
         indexCreator = new IndexCreator(store);

@@ -78,7 +78,7 @@ public final class StoreImpl implements Store {
     }
 
     @Override
-    public int deleteJobName(final JobName jobName) throws MaterialstoreException, IOException {
+    public int deleteJobName(final JobName jobName) throws MaterialstoreException {
         Objects.requireNonNull(jobName);
         if (this.contains(jobName)) {
             Path dir = getRoot().resolve(jobName.toString());
@@ -125,14 +125,19 @@ public final class StoreImpl implements Store {
     }
 
     @Override
-    public List<JobName> findAllJobNames() throws IOException {
-        return Files.list(root_)
-                        .filter(Files::isDirectory)
-                        .map(p -> p.getFileName().toString())
-                        .filter(JobName::isValid)
-                        .map(JobName::new)
-                        .sorted()
-                        .collect(Collectors.toList());
+    public List<JobName> findAllJobNames() throws MaterialstoreException {
+        try {
+            return Files.list(root_)
+                    .filter(Files::isDirectory)
+                    .map(p -> p.getFileName().toString())
+                    .filter(JobName::isValid)
+                    .map(JobName::new)
+                    .sorted()
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new MaterialstoreException(e);
+        }
+
     }
 
     /**
@@ -225,7 +230,7 @@ public final class StoreImpl implements Store {
         if (allJobTimestamps.size() == 0) {
             return JobTimestamp.NULL_OBJECT;
         }
-        Collections.sort(allJobTimestamps, Collections.reverseOrder());
+        allJobTimestamps.sort(Collections.reverseOrder());
         if (nth > allJobTimestamps.size()) {
             return allJobTimestamps.get(0);
         } else {
@@ -266,35 +271,43 @@ public final class StoreImpl implements Store {
     }
 
     @Override
-    public Path getPathOf(JobName jobName) throws IOException {
+    public Path getPathOf(JobName jobName) throws MaterialstoreException {
         Objects.requireNonNull(jobName);
-        List<Path> list =
-                Files.list(getRoot())
-                        .filter(p -> Files.isDirectory(p))
-                        .filter(p -> p.getFileName().toString().equals(jobName.toString()))
-                        .collect(Collectors.toList());
-        if (list.size() > 0) {
-            return list.get(0);
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public Path getPathOf(JobName jobName, JobTimestamp jobTimestamp) throws IOException {
-        Objects.requireNonNull(jobName);
-        Objects.requireNonNull(jobTimestamp);
-        Path jobNamePath = this.getPathOf(jobName);
-        if (jobNamePath != null) {
+        try {
             List<Path> list =
-                    Files.list(jobNamePath)
+                    Files.list(getRoot())
                             .filter(p -> Files.isDirectory(p))
-                            .filter(p -> p.getFileName().toString().equals(jobTimestamp.toString()))
+                            .filter(p -> p.getFileName().toString().equals(jobName.toString()))
                             .collect(Collectors.toList());
             if (list.size() > 0) {
                 return list.get(0);
             } else {
                 return null;
+            }
+        } catch (IOException e) {
+            throw new MaterialstoreException(e);
+        }
+    }
+
+    @Override
+    public Path getPathOf(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException {
+        Objects.requireNonNull(jobName);
+        Objects.requireNonNull(jobTimestamp);
+        Path jobNamePath = this.getPathOf(jobName);
+        if (jobNamePath != null) {
+            try {
+                List<Path> list =
+                        Files.list(jobNamePath)
+                                .filter(p -> Files.isDirectory(p))
+                                .filter(p -> p.getFileName().toString().equals(jobTimestamp.toString()))
+                                .collect(Collectors.toList());
+                if (list.size() > 0) {
+                    return list.get(0);
+                } else {
+                    return null;
+                }
+            } catch (IOException e) {
+                throw new MaterialstoreException(e);
             }
         } else {
             return null;
@@ -519,7 +532,7 @@ public final class StoreImpl implements Store {
     }
 
     @Override
-    public boolean contains(JobName jobName) throws MaterialstoreException, IOException {
+    public boolean contains(JobName jobName) throws MaterialstoreException {
         Objects.requireNonNull(jobName);
         List<JobName> all = this.findAllJobNames();
         return all.contains(jobName);

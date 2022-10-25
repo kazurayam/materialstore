@@ -2,10 +2,8 @@ package com.kazurayam.materialstore.filesystem;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
-import java.time.temporal.TemporalUnit;
 import java.util.List;
 
 /**
@@ -22,17 +20,17 @@ public interface Store {
      */
     boolean contains(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
-    boolean contains(JobName jobName) throws MaterialstoreException, IOException;
-
-    int deleteJobTimestamp(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException, IOException;
-
-    int deleteJobName(JobName jobName) throws MaterialstoreException, IOException;
+    boolean contains(JobName jobName) throws MaterialstoreException;
 
     int copyMaterials(JobName jobName, JobTimestamp source, JobTimestamp target) throws MaterialstoreException;
 
-    List<JobName> findAllJobNames() throws IOException, MaterialstoreException;
+    int deleteJobName(JobName jobName) throws MaterialstoreException;
 
-    List<JobTimestamp> findAllJobTimestamps(JobName jobName) throws IOException, MaterialstoreException;
+    int deleteJobTimestamp(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
+
+    List<JobName> findAllJobNames() throws MaterialstoreException;
+
+    List<JobTimestamp> findAllJobTimestamps(JobName jobName) throws MaterialstoreException;
 
     List<JobTimestamp> findAllJobTimestampsPriorTo(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
@@ -48,6 +46,18 @@ public interface Store {
      * @throws MaterialstoreException
      */
     JobTimestamp findNthJobTimestamp(JobName jobName, int nth) throws MaterialstoreException;
+
+    Jobber getCachedJobber(JobName jobName, JobTimestamp jobTimestamp);
+
+    Jobber getJobber(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
+
+    Path getPathOf(JobName jobName) throws MaterialstoreException;
+
+    Path getPathOf(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
+
+    Path getPathOf(Material material);
+
+    Path getRoot();
 
     List<JobTimestamp> queryAllJobTimestamps(JobName jobName, QueryOnMetadata query) throws MaterialstoreException;
 
@@ -70,18 +80,6 @@ public interface Store {
     String resolveReportFileName(JobName jobName, JobTimestamp jobTimestamp);
 
     long retrieve(Material material, Path out) throws MaterialstoreException;
-
-    Jobber getCachedJobber(JobName jobName, JobTimestamp jobTimestamp);
-
-    Jobber getJobber(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
-
-    Path getPathOf(JobName jobName) throws IOException;
-
-    Path getPathOf(JobName jobName, JobTimestamp jobTimestamp) throws IOException;
-
-    Path getPathOf(Material material);
-
-    Path getRoot();
 
     MaterialList select(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 

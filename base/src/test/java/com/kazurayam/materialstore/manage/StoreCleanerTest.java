@@ -45,7 +45,7 @@ public class StoreCleanerTest {
     }
 
     @Test
-    public void test_deleteReportsOlderThan() throws MaterialstoreException, IOException {
+    public void test_deleteReportsOlderThan() throws IOException {
         jobName = new JobName("test_deleteReportsOlderThan");
         JobTimestamp jtA = JobTimestamp.now();
         JobTimestamp jtB = JobTimestamp.laterThan(jtA);
