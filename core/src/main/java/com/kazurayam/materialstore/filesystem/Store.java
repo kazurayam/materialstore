@@ -14,19 +14,23 @@ import java.util.List;
 public interface Store {
 
     /**
-     *
+     * return true if the directory of specified as JobName/JobTimestamp
+     * exists in the store
      * @param jobName
      * @param jobTimestamp
-     * @param amountToSubtract
-     * @param unit
-     * @return number of JobTimestamp directories which were deleted
-     * @throws MaterialstoreException
+     * @return
      */
-    int deleteStuffOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp, long amountToSubtract, TemporalUnit unit) throws MaterialstoreException, IOException;
+    boolean contains(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
-    int deleteStuffOlderThanExclusive(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException, IOException;
+    boolean contains(JobName jobName) throws MaterialstoreException, IOException;
+
+    int deleteJobTimestamp(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException, IOException;
+
+    int deleteJobName(JobName jobName) throws MaterialstoreException, IOException;
 
     int copyMaterials(JobName jobName, JobTimestamp source, JobTimestamp target) throws MaterialstoreException;
+
+    List<JobName> findAllJobNames() throws IOException, MaterialstoreException;
 
     List<JobTimestamp> findAllJobTimestamps(JobName jobName) throws IOException, MaterialstoreException;
 

@@ -23,8 +23,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -35,7 +33,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public final class StoreImpl implements Store {
 
@@ -77,40 +74,39 @@ public final class StoreImpl implements Store {
             identity.map(material);
             count += 1;
         }
-
         return count;
     }
 
     @Override
-    public int deleteStuffOlderThanExclusive(final JobName jobName,
-                                             final JobTimestamp jobTimestamp)
-            throws MaterialstoreException, IOException {
-        return deleteStuffOlderThanExclusive(jobName, jobTimestamp,
-                0, ChronoUnit.SECONDS);
+    public int deleteJobName(final JobName jobName) throws MaterialstoreException, IOException {
+        Objects.requireNonNull(jobName);
+        if (this.contains(jobName)) {
+            Path dir = getRoot().resolve(jobName.toString());
+            if (Files.exists(dir)) {
+                try {
+                    Files.walk(dir)
+                            .sorted(Comparator.reverseOrder())
+                            .map(Path::toFile)
+                            .forEach(File::delete);
+                } catch (IOException e) {
+                    throw new MaterialstoreException(e);
+                }
+                return 1;
+            }
+        } else {
+            logger.warn(String.format("JobName %s is not present", jobName));
+        }
+        return 0;
     }
 
     @Override
-    public int deleteStuffOlderThanExclusive(final JobName jobName,
-                                             final JobTimestamp jobTimestamp,
-                                             final long amountToSubtract,
-                                             final TemporalUnit unit)
-            throws MaterialstoreException, IOException {
+    public int deleteJobTimestamp(final JobName jobName,
+                                  final JobTimestamp jobTimestamp)
+            throws MaterialstoreException {
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(jobTimestamp);
-        if (amountToSubtract < 0) {
-            throw new IllegalArgumentException("amountToSubtract(" + amountToSubtract + ") must not be a negative value < 0");
-        }
-
-        Objects.requireNonNull(unit);
-        // calculate the base timestamp
-        JobTimestamp thanThisJobTimestamp = jobTimestamp.minus(amountToSubtract, unit);
-
-        // identify the JobTimestamp directories to be deleted
-        List<JobTimestamp> toBeDeleted = this.findAllJobTimestampsPriorTo(jobName, thanThisJobTimestamp);
-        // now delete files/directories
-        int countDeletedJT = 0;
-        for (JobTimestamp jt : toBeDeleted) {
-            Path dir = root_.resolve(jobName.toString()).resolve(jt.toString());
+        if (this.contains(jobName, jobTimestamp)) {
+            Path dir = root_.resolve(jobName.toString()).resolve(jobTimestamp.toString());
             // delete this directory recursively
             if (Files.exists(dir)) {
                 try {
@@ -121,40 +117,24 @@ public final class StoreImpl implements Store {
                 } catch (IOException e) {
                     throw new MaterialstoreException(e);
                 }
-                countDeletedJT += 1;
             }
-        }
-
-        // identify "store/<JobName>-<JobTimestamp>.html" files to be deleted
-        List<String> htmlNames = getListOfReportFiles(jobName);
-
-        htmlNames.forEach((String fileName) -> {
-            String baseFileName =
-                    this.resolveReportFileName(jobName, thanThisJobTimestamp);
-
-            if (fileName.compareTo(baseFileName) < 0) {
-                Path p = root_.resolve(fileName);
-                try {
-                    Files.delete(p);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
-
-        return countDeletedJT;
-    }
-
-    List<String> getListOfReportFiles(JobName jobName) throws IOException {
-        try (Stream<Path> stream = Files.list(root_)) {
-            return stream
-                    .filter(p -> !Files.isDirectory(p))
-                    .filter(p -> p.getFileName().toString().startsWith(jobName.toString()))
-                    .filter(p -> p.getFileName().toString().endsWith(".html"))
-                    .map(p -> p.getFileName().toString())
-                    .collect(Collectors.toList());
+            return 1;
+        } else {
+            return 0;
         }
     }
+
+    @Override
+    public List<JobName> findAllJobNames() throws IOException {
+        return Files.list(root_)
+                        .filter(Files::isDirectory)
+                        .map(p -> p.getFileName().toString())
+                        .filter(JobName::isValid)
+                        .map(JobName::new)
+                        .sorted()
+                        .collect(Collectors.toList());
+    }
+
     /**
      * @param jobName JobName instance
      * @return List of JobTimestamp objects in the jobName directory.
@@ -413,7 +393,7 @@ public final class StoreImpl implements Store {
                 queryAllJobTimestampsPriorTo(base.getJobName(),
                         base.getQueryOnMetadata(),
                         priorTo);
-        logger.info(String.format("%s priorTo=%s", methodName, priorTo.toString()));
+        logger.info(String.format("%s priorTo=%s", methodName, priorTo));
         for (JobTimestamp jt : allJobTimestamps) {
             logger.info(String.format("%s jt=%s", methodName, jt.toString()));
         }
@@ -492,6 +472,21 @@ public final class StoreImpl implements Store {
         }
         //assert collection.countMaterialsWithIdStartingWith("5d7e467") <= 1
         return collection;
+    }
+
+    @Override
+    public boolean contains(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException {
+        Objects.requireNonNull(jobName);
+        Objects.requireNonNull(jobTimestamp);
+        List<JobTimestamp> all = this.findAllJobTimestamps(jobName);
+        return all.contains(jobTimestamp);
+    }
+
+    @Override
+    public boolean contains(JobName jobName) throws MaterialstoreException, IOException {
+        Objects.requireNonNull(jobName);
+        List<JobName> all = this.findAllJobNames();
+        return all.contains(jobName);
     }
 
     @Override
