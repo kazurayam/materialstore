@@ -10,6 +10,7 @@ import com.kazurayam.materialstore.filesystem.Store;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -42,6 +43,7 @@ public class StoreCleanerImpl extends StoreCleaner {
         Objects.requireNonNull(olderThan);
         List<JobTimestamp> diffs = store.findDifferentiatingJobTimestamps(jobName);
         if (diffs.size() > 0) {
+            diffs.sort(Collections.reverseOrder());
             JobTimestamp boundary = store.findLatestJobTimestamp(jobName);
             for (JobTimestamp jt : diffs) {
                 if (jt.compareTo(olderThan) >= 0) {
@@ -50,7 +52,9 @@ public class StoreCleanerImpl extends StoreCleaner {
             }
             this.doCleanup(jobName, boundary);
         } else {
-            this.doCleanup(jobName, store.findLatestJobTimestamp(jobName));
+            List<JobTimestamp> nonDiffs =
+                    store.findAllJobTimestampsPriorTo(jobName, olderThan);
+            this.doCleanup(jobName, nonDiffs.get(nonDiffs.size() - 1));
         }
     }
 
@@ -64,7 +68,8 @@ public class StoreCleanerImpl extends StoreCleaner {
         }
         List<JobTimestamp> diffs = store.findDifferentiatingJobTimestamps(jobName);
         if (diffs.size() > 0) {
-            if (olderThan > diffs.size()) {
+            diffs.sort(Collections.reverseOrder());
+            if (diffs.size() < olderThan) {
                 this.doCleanup(jobName, diffs.get(diffs.size() - 1));
             } else {
                 this.doCleanup(jobName, diffs.get(olderThan - 1));
@@ -75,25 +80,11 @@ public class StoreCleanerImpl extends StoreCleaner {
     }
 
     private void doCleanup(JobName jobName, JobTimestamp olderThan) throws MaterialstoreException {
-        Objects.requireNonNull(jobName);
-        Set<JobTimestamp> markedJT = new HashSet<>();
-        markedJT.add(olderThan);
-        // as for Chronos mode, retain a few more JobTimestamps that are
-        // referred by the latest JobTimestamp
-        for (Material m : store.select(jobName, olderThan)) {
-            if (m.getMetadata().containsKey("category") &&
-                    m.getMetadata().get("category").equals("diff")) {
-                MaterialLocator leftLocator =
-                        MaterialLocator.parse(m.getMetadata().get("left"));
-                markedJT.add(leftLocator.getJobTimestamp());
-                MaterialLocator rightLocator =
-                        MaterialLocator.parse(m.getMetadata().get("right"));
-                markedJT.add(rightLocator.getJobTimestamp());
-            }
-        }
+        // identify which JobTimestamp directories to preserve
+        Set<JobTimestamp> marked = mark(jobName, olderThan);
         // delete unnecessary JobTimestamps
         for (JobTimestamp jt : store.findAllJobTimestamps(jobName)) {
-            if (!markedJT.contains(jt)) {
+            if (!marked.contains(jt)) {
                 store.deleteJobTimestamp(jobName, jt);
             }
         }
@@ -101,6 +92,38 @@ public class StoreCleanerImpl extends StoreCleaner {
         this.deleteReportsOlderThan(jobName, olderThan);
     }
 
+    /**
+     * check all JobTimestamp directories and mark if each should be
+     * preserved. A "differentiating JobTimestamp" links to other
+     * job timestamps. The referred JobTimestamps is included as marked.
+     */
+    private Set<JobTimestamp> mark(JobName jobName, JobTimestamp olderThan)
+            throws MaterialstoreException {
+        Set<JobTimestamp> marked = new HashSet<>();
+        List<JobTimestamp> all = store.findAllJobTimestamps(jobName);
+        all.sort(Collections.reverseOrder());
+        for (JobTimestamp jt : all) {
+            if (jt.compareTo(olderThan) >= 0) {
+                // retain the JobTimestamp newer than the "olderThan" value
+                marked.add(jt);
+                if (store.hasDifferentiatingIndexEntry(jobName, jt)) {
+                    // if jt is a differentiating one, add 2 more JobTimestamps which is refered by jt
+                    for (Material m : store.select(jobName, olderThan)) {
+                        if (m.getMetadata().containsKey("category") &&
+                                m.getMetadata().get("category").equals("diff")) {
+                            MaterialLocator leftLocator =
+                                    MaterialLocator.parse(m.getMetadata().get("left"));
+                            marked.add(leftLocator.getJobTimestamp());
+                            MaterialLocator rightLocator =
+                                    MaterialLocator.parse(m.getMetadata().get("right"));
+                            marked.add(rightLocator.getJobTimestamp());
+                        }
+                    }
+                }
+            }
+        }
+        return marked;
+    }
 
     @Override
     public int deleteJobTimestampsOlderThan(JobName jobName,
