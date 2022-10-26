@@ -45,7 +45,7 @@ public class StoreTest {
     @Test
     public void test_findDifferentiatingJobTimestamps() throws MaterialstoreException, IOException {
         Path fixtureDir = TestHelper.getFixturesDirectory().resolve("issue#331");
-        tcSupport.copyFixture(fixtureDir, tcSupport.getOutputDir());
+        TestHelper.copyDirectory(fixtureDir, tcSupport.getOutputDir());
         JobName jobName = new JobName("CURA");
         assertTrue(store.contains(jobName),
                 String.format("JobName \"%s\" is not found", jobName));

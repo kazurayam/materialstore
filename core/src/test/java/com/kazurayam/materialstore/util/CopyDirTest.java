@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class CopyDirTest {
 
     private TestCaseSupport tcSupport;
@@ -29,6 +31,7 @@ public class CopyDirTest {
         Path targetDir = tcSupport.getOutputDir();
         DeleteDir.deleteDirectoryRecursively(targetDir);
         Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));
+        assertTrue(Files.exists(targetDir));
         Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));
     }
 }

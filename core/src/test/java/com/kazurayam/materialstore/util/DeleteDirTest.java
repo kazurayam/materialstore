@@ -22,7 +22,7 @@ public class DeleteDirTest {
     }
 
     @Test
-    public void test_copyDirectory_overwriting() throws IOException {
+    public void test_deleteDirectoryRecursively() throws IOException {
         Path sourceDir = TestHelper.getFixturesDirectory().resolve("issue#331");
         Path targetDir = tcSupport.getOutputDir();
         Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));

@@ -25,7 +25,7 @@ public class TestCaseSupportTest {
     @Test
     public void test_copyFixture() throws MaterialstoreException, IOException {
         Path fixtureDir = TestHelper.getFixturesDirectory().resolve("issue#331");
-        tcSupport.copyFixture(fixtureDir, tcSupport.getOutputDir());
+        TestHelper.copyDirectory(fixtureDir, tcSupport.getOutputDir());
         assertTrue(store.contains(new JobName("CURA")));
     }
 }

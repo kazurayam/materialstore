@@ -58,6 +58,15 @@ public class TestHelper {
     public static void copyDirectory(Path sourceDir, Path targetDir) throws IOException {
         Objects.requireNonNull(sourceDir);
         Objects.requireNonNull(targetDir);
+        if (!Files.exists(sourceDir)) {
+            throw new IOException(String.format("%s does not exist", sourceDir));
+        }
+        if (!Files.isDirectory(sourceDir)) {
+            throw new IOException(String.format("%s is not a directory", sourceDir));
+        }
+        if (!Files.exists(targetDir.getParent())) {
+            Files.createDirectories(targetDir.getParent());
+        }
         Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));
     }
 }

@@ -52,20 +52,6 @@ public class TestCaseSupport {
         return 0;
     }
 
-    /**
-     * #331
-     * @return
-     */
-    public void copyFixture(Path fixtureDir, Path testCaseOutputDir)
-            throws MaterialstoreException, IOException {
-        Objects.requireNonNull(fixtureDir);
-        if (!Files.exists(fixtureDir)) {
-            throw new MaterialstoreException(String.format("%s is not present", fixtureDir));
-        }
-        Objects.requireNonNull(testCaseOutputDir);
-        TestHelper.copyDirectory(fixtureDir, testCaseOutputDir);
-    }
-
     public JobTimestamp create3TXTsWithStepAndLabel(JobName jobName, JobTimestamp jobTimestamp)
             throws MaterialstoreException {
         Material apple = writeTXT(jobName, jobTimestamp, "Apple", "01", "it is red");
