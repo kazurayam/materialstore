@@ -2,14 +2,13 @@ package com.kazurayam.materialstore.filesystem;
 
 import com.kazurayam.materialstore.TestCaseSupport;
 
+import com.kazurayam.materialstore.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -41,6 +40,18 @@ public class StoreTest {
         JobTimestamp jtA = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
         assertTrue(store.findAllJobNames().size() > 0);
         assertTrue(store.findAllJobNames().contains(jobName));
+    }
+
+    @Test
+    public void test_findDifferentiatingJobTimestamps() throws MaterialstoreException, IOException {
+        Path fixtureDir = TestHelper.getFixturesDirectory().resolve("issue#331");
+        tcSupport.copyFixture(fixtureDir, tcSupport.getOutputDir());
+        JobName jobName = new JobName("CURA");
+        assertTrue(store.contains(jobName),
+                String.format("JobName \"%s\" is not found", jobName));
+        //
+        List<JobTimestamp> diffJobTimestamps = store.findDifferentiatingJobTimestamps(jobName);
+        assertEquals(2, diffJobTimestamps.size());
     }
 
     @Test

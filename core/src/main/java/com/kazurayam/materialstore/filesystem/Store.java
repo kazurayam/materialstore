@@ -34,7 +34,10 @@ public interface Store {
 
     List<JobTimestamp> findAllJobTimestampsPriorTo(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
+    List<JobTimestamp> findDifferentiatingJobTimestamps(JobName jobName) throws MaterialstoreException;
+
     JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
+
 
     JobTimestamp findLatestJobTimestamp(JobName jobName) throws MaterialstoreException;
 

@@ -196,6 +196,24 @@ public final class StoreImpl implements Store {
     }
 
     @Override
+    public List<JobTimestamp> findDifferentiatingJobTimestamps(JobName jobName)
+            throws MaterialstoreException {
+        Objects.requireNonNull(jobName);
+        List<JobTimestamp> differentiatingJT = new ArrayList<>();
+        for (JobTimestamp jt : this.findAllJobTimestamps(jobName)) {
+            for (Material m : this.select(jobName, jt)) {
+                if (m.getMetadata().containsKey("category") &&
+                        m.getMetadata().get("category").equals("diff")) {
+                    differentiatingJT.add(jt);
+                    break;
+                }
+            }
+        }
+        differentiatingJT.sort(Collections.reverseOrder());
+        return differentiatingJT;
+    }
+
+    @Override
     public JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp)
             throws MaterialstoreException {
         Objects.requireNonNull(jobName);
