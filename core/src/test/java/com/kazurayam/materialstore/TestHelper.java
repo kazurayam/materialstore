@@ -1,15 +1,19 @@
 package com.kazurayam.materialstore;
 
-import java.io.File;
+import com.kazurayam.materialstore.util.CopyDir;
+import com.kazurayam.materialstore.util.DeleteDir;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Comparator;
 import java.util.Objects;
 
 public class TestHelper {
+    private static final Logger logger = LoggerFactory.getLogger(TestHelper.class);
     private static final Path currentWorkingDir;
     private static final Path testOutputDir;
     private static final Path fixturesDir;
@@ -45,45 +49,15 @@ public class TestHelper {
      */
     public static Path initializeDirectory(Path dir) throws IOException {
         if (Files.exists(dir)) {
-            TestHelper.deleteDirectoryRecursively(dir);
+            DeleteDir.deleteDirectoryRecursively(dir);
         }
         Files.createDirectories(dir);
         return dir;
     }
 
-    public static void copyDirectory(Path sourceDir, Path destinationDir) throws IOException {
-        copyDirectory(
-                sourceDir.normalize().toAbsolutePath().toString(),
-                destinationDir.normalize().toAbsolutePath().toString()
-        );
+    public static void copyDirectory(Path sourceDir, Path targetDir) throws IOException {
+        Objects.requireNonNull(sourceDir);
+        Objects.requireNonNull(targetDir);
+        Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));
     }
-
-    public static void copyDirectory(String sourceDir, String destinationDir)
-            throws IOException {
-        deleteDirectoryRecursively(Paths.get(destinationDir));
-        Files.walk(Paths.get(sourceDir))
-                .forEach(source -> {
-                    Path destination =
-                            Paths.get(destinationDir,
-                                    source.toString().substring(sourceDir.length())
-                            );
-                    try {
-                        Files.copy(source, destination);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-    }
-
-    public static void deleteDirectoryRecursively(Path dir) throws IOException {
-        Objects.requireNonNull(dir);
-        if (!Files.exists(dir)) {
-            throw new IOException(dir.toString() + " does not exist");
-        }
-        Files.walk(dir)
-                .sorted(Comparator.reverseOrder())
-                .map(Path::toFile)
-                .forEach(File::delete);
-    }
-
 }
