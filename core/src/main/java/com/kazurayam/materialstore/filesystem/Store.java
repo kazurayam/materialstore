@@ -36,6 +36,16 @@ public interface Store {
 
     List<JobTimestamp> findDifferentiatingJobTimestamps(JobName jobName) throws MaterialstoreException;
 
+    /**
+     * returns true if the specfied JobName/JobTimestamp directory contains one or more
+     * Differentiating IndexEntry.
+     * @param jobName
+     * @param jobTimestamp
+     * @return
+     * @throws MaterialstoreException
+     */
+    boolean hasDifferentiatingIndexEntry(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
+
     JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
 

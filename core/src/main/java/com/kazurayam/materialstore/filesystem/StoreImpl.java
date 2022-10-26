@@ -201,16 +201,26 @@ public final class StoreImpl implements Store {
         Objects.requireNonNull(jobName);
         List<JobTimestamp> differentiatingJT = new ArrayList<>();
         for (JobTimestamp jt : this.findAllJobTimestamps(jobName)) {
-            for (Material m : this.select(jobName, jt)) {
-                if (m.getMetadata().containsKey("category") &&
-                        m.getMetadata().get("category").equals("diff")) {
-                    differentiatingJT.add(jt);
-                    break;
-                }
+            if (hasDifferentiatingIndexEntry(jobName, jt)) {
+                differentiatingJT.add(jt);
             }
         }
         differentiatingJT.sort(Collections.reverseOrder());
         return differentiatingJT;
+    }
+
+    @Override
+    public boolean hasDifferentiatingIndexEntry(JobName jobName, JobTimestamp jobTimestamp)
+        throws MaterialstoreException {
+        Objects.requireNonNull(jobName);
+        Objects.requireNonNull(jobTimestamp);
+        for (Material m : this.select(jobName, jobTimestamp)) {
+            if (m.getMetadata().containsKey("category") &&
+                    m.getMetadata().get("category").equals("diff")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

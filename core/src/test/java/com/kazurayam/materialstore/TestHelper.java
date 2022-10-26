@@ -69,4 +69,20 @@ public class TestHelper {
         }
         Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));
     }
+
+    /**
+     * create the out directory for the testCase object to write output files
+     */
+    public static Path createTestClassOutputDir(Object testCase) {
+        Path output = getTestOutputDir()
+                .resolve(testCase.getClass().getName());
+        try {
+            if (!Files.exists(output)) {
+                Files.createDirectories(output);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return output;
+    }
 }

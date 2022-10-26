@@ -5,15 +5,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestHelperTest {
 
-    private TestCaseSupport tcSupport;
+    private Path testClassOutputDir;
 
     @BeforeEach
     public void beforeEach() throws IOException {
-        tcSupport = new TestCaseSupport(this);
+        testClassOutputDir = TestHelper.createTestClassOutputDir(this);
     }
 
     /**
@@ -24,8 +27,9 @@ public class TestHelperTest {
     @Test
     public void test_copyDirectory_overwriting() throws IOException {
         Path fixtureDir = TestHelper.getFixturesDirectory().resolve("issue#331");
-        DeleteDir.deleteDirectoryRecursively(tcSupport.getOutputDir());
-        TestHelper.copyDirectory(fixtureDir, tcSupport.getOutputDir());
-        TestHelper.copyDirectory(fixtureDir, tcSupport.getOutputDir());
+        DeleteDir.deleteDirectoryRecursively(testClassOutputDir);
+        TestHelper.copyDirectory(fixtureDir, testClassOutputDir);
+        TestHelper.copyDirectory(fixtureDir, testClassOutputDir);
+        assertTrue(Files.exists(testClassOutputDir.resolve("store/CURA")));
     }
 }

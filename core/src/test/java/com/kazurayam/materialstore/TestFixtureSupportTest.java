@@ -3,6 +3,7 @@ package com.kazurayam.materialstore;
 import com.kazurayam.materialstore.filesystem.JobName;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
+import com.kazurayam.materialstore.filesystem.Stores;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,21 +12,21 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TestCaseSupportTest {
+public class TestFixtureSupportTest {
 
-    TestCaseSupport tcSupport;
-    Store store;
+    private Path testClassOutputDir;
+    private Store store;
 
     @BeforeEach
     public void setup() {
-        tcSupport = new TestCaseSupport(this);
-        store = tcSupport.getStore();
+        testClassOutputDir = TestHelper.createTestClassOutputDir(this);
+        store = Stores.newInstance(testClassOutputDir.resolve("store"));
     }
 
     @Test
     public void test_copyFixture() throws MaterialstoreException, IOException {
         Path fixtureDir = TestHelper.getFixturesDirectory().resolve("issue#331");
-        TestHelper.copyDirectory(fixtureDir, tcSupport.getOutputDir());
+        TestHelper.copyDirectory(fixtureDir, testClassOutputDir);
         assertTrue(store.contains(new JobName("CURA")));
     }
 }

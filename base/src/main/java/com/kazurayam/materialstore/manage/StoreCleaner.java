@@ -41,14 +41,20 @@ public abstract class StoreCleaner {
      * @throws MaterialstoreException
      */
     public abstract void cleanup(JobName jobName)
-            throws MaterialstoreException, IOException;
+            throws MaterialstoreException;
+
+    public abstract void cleanup(JobName jobName, JobTimestamp olderThan)
+            throws MaterialstoreException;
+
+    public abstract void cleanup(JobName jobName, int olderThan)
+            throws MaterialstoreException;
+
 
     public abstract int deleteJobTimestampsOlderThan(
-            JobName jobName, JobTimestamp jobTimestamp)
-            throws MaterialstoreException, IOException;
+            JobName jobName, JobTimestamp olderThan) throws MaterialstoreException;
 
     public abstract int deleteReportsOlderThan(
-            JobName jobName, JobTimestamp jobTimestamp) throws IOException;
+            JobName jobName, JobTimestamp olderThan) throws MaterialstoreException;
 
-    public abstract List<Path> findAllReportsOf(JobName jobName) throws IOException;
+    public abstract List<Path> findAllReportsOf(JobName jobName) throws MaterialstoreException;
 }

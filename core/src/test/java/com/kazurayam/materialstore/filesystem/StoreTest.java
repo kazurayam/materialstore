@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.filesystem;
 
-import com.kazurayam.materialstore.TestCaseSupport;
+import com.kazurayam.materialstore.TestFixtureSupport;
 
 import com.kazurayam.materialstore.TestHelper;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,27 +17,27 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StoreTest {
 
-    private TestCaseSupport tcSupport;
+    private Path testClassOutputDir;
     private Store store;
     private JobName jobName;
 
     @BeforeEach
     public void beforeEach() throws IOException {
-        tcSupport = new TestCaseSupport(this);
-        store = tcSupport.getStore();
+        testClassOutputDir = TestHelper.createTestClassOutputDir(this);
+        store = Stores.newInstance(testClassOutputDir.resolve("store"));
     }
 
     @Test
     public void test_contains_JobName() throws MaterialstoreException {
         jobName = new JobName("test_contains_JobName");
-        JobTimestamp jtA = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
+        JobTimestamp jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
         assertTrue(store.contains(jobName));
     }
 
     @Test
     public void test_findAllJobNames() throws MaterialstoreException {
-        jobName = new JobName("test_contains_JobName");
-        JobTimestamp jtA = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
+        jobName = new JobName("test_findAllJobNames");
+        JobTimestamp jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
         assertTrue(store.findAllJobNames().size() > 0);
         assertTrue(store.findAllJobNames().contains(jobName));
     }
@@ -45,7 +45,7 @@ public class StoreTest {
     @Test
     public void test_findDifferentiatingJobTimestamps() throws MaterialstoreException, IOException {
         Path fixtureDir = TestHelper.getFixturesDirectory().resolve("issue#331");
-        TestHelper.copyDirectory(fixtureDir, tcSupport.getOutputDir());
+        TestHelper.copyDirectory(fixtureDir, testClassOutputDir);
         JobName jobName = new JobName("CURA");
         assertTrue(store.contains(jobName),
                 String.format("JobName \"%s\" is not found", jobName));
@@ -57,7 +57,7 @@ public class StoreTest {
     @Test
     public void test_deleteJobName() throws MaterialstoreException {
         jobName = new JobName("test_deleteJobName");
-        JobTimestamp jtA = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
+        JobTimestamp jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
         assertTrue(store.contains(jobName));
         //
         int i = store.deleteJobName(jobName);
@@ -67,8 +67,8 @@ public class StoreTest {
     @Test
     public void test_findNthJobTimestamp_normal() throws MaterialstoreException {
         jobName = new JobName("test_findNthJobTimestamp_normal");
-        JobTimestamp jtA = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
-        JobTimestamp jtB = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
+        JobTimestamp jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
+        JobTimestamp jtB = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
         List<JobTimestamp> jobTimestampList = store.findAllJobTimestamps(jobName);
         assertTrue(jobTimestampList.size() >= 2);
         // findNthJobTimestamps regards the list of JobTimestamp in the descending order
@@ -79,8 +79,8 @@ public class StoreTest {
     @Test
     public void test_findNthJobTimestamp_exceedingRange() throws MaterialstoreException {
         jobName = new JobName("test_findNthJobTimestamp_exceedingRange");
-        JobTimestamp jtA = tcSupport.create3PNGsWithStepAndLabel(jobName, JobTimestamp.now());
-        JobTimestamp jtB = tcSupport.create3PNGsWithStepAndLabel(jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
+        JobTimestamp jtA = TestFixtureSupport.create3PNGs(store, jobName, JobTimestamp.now());
+        JobTimestamp jtB = TestFixtureSupport.create3PNGs(store, jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
         List<JobTimestamp> jobTimestampList = store.findAllJobTimestamps(jobName);
         assertTrue(jobTimestampList.size() >= 2);
         // if nth parameter exceeds the range, return the last jobTimestamp
@@ -90,7 +90,7 @@ public class StoreTest {
     @Test
     public void test_getPathOf_JobName() throws MaterialstoreException {
         jobName = new JobName("test_getPathOf_JobName");
-        JobTimestamp jtA = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
+        JobTimestamp jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
         //
         Path jobNamePath = store.getPathOf(jobName);
         assertNotNull(jobNamePath);
@@ -100,7 +100,7 @@ public class StoreTest {
     @Test
     public void test_getPathOf_JobTimestamp() throws MaterialstoreException {
         jobName = new JobName("test_getPathOf_JobTimestamp");
-        JobTimestamp jobTimestamp = tcSupport.create3TXTsWithStepAndLabel(jobName, JobTimestamp.now());
+        JobTimestamp jobTimestamp = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
         //
         Path jobTimestampPath = store.getPathOf(jobName, jobTimestamp);
         assertNotNull(jobTimestampPath);
