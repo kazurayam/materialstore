@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.manage;
 
+import com.kazurayam.materialstore.FixtureDirCopier;
 import com.kazurayam.materialstore.TestFixtureSupport;
 import com.kazurayam.materialstore.TestHelper;
 import com.kazurayam.materialstore.filesystem.JobName;
@@ -7,7 +8,6 @@ import com.kazurayam.materialstore.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.filesystem.Store;
 import com.kazurayam.materialstore.filesystem.Stores;
-import com.kazurayam.materialstore.util.DeleteDir;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -71,7 +71,8 @@ public class StoreCleanerTest {
     @Test
     public void test_cleanup_with_diff() throws IOException, MaterialstoreException {
         String testCaseName = "test_cleanup_with_diff";
-        Store store = arrangeFixture(testCaseName);
+        Store store = FixtureDirCopier.copyIssue334FixtureInto(
+                testClassOutputDir.resolve(testCaseName));
         StoreCleaner cleaner = StoreCleaner.newInstance(store);
         // Action
         JobName jobName = new JobName("CURA");
@@ -96,7 +97,7 @@ public class StoreCleanerTest {
     public void test_cleanup_with_boundaryJobTimestamp()
             throws IOException, MaterialstoreException {
         String testCaseName = "test_cleanup_with_boundaryJobTimestamp";
-        Store store = arrangeFixture(testCaseName);
+        Store store = FixtureDirCopier.copyIssue334FixtureInto(testClassOutputDir.resolve(testCaseName));
         StoreCleaner cleaner = StoreCleaner.newInstance(store);
         JobName jobName = new JobName("CURA");
         // Assert before
@@ -122,7 +123,7 @@ public class StoreCleanerTest {
     public void test_cleanup_with_numberOfJobTimestamps()
             throws IOException, MaterialstoreException {
         String testCaseName = "test_cleanup_with_numberOfJobTimestamps";
-        Store store = arrangeFixture(testCaseName);
+        Store store = FixtureDirCopier.copyIssue334FixtureInto(testClassOutputDir.resolve(testCaseName));
         StoreCleaner cleaner = StoreCleaner.newInstance(store);
         JobName jobName = new JobName("CURA");
         // Assert before
@@ -139,22 +140,5 @@ public class StoreCleanerTest {
         assertEquals(2, reportFilesAfterCleanUp.size());
     }
 
-
-    private Store arrangeFixture(String testCaseName) throws IOException, MaterialstoreException {
-        Path testCaseDir = testClassOutputDir.resolve(testCaseName.toString());
-        if (Files.exists(testCaseDir)) {
-            DeleteDir.deleteDirectoryRecursively(testCaseDir);
-        }
-        Store store = Stores.newInstance(testCaseDir.resolve("store"));
-        // Arrange
-        Path fixtureDir = TestHelper.getFixturesDirectory().resolve("issue#334");
-        TestHelper.copyDirectory(fixtureDir, testCaseDir);
-        JobName jobName = new JobName("CURA");
-        assertTrue(store.contains(jobName),
-                String.format("JobName \"%s\" is not found", jobName));
-        List<JobTimestamp> jobTimestampsBeforeCleanUp = store.findAllJobTimestamps(jobName);
-        assertEquals(7, jobTimestampsBeforeCleanUp.size());
-        return store;
-    }
 
 }

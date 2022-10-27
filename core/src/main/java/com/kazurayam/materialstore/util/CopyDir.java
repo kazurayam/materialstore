@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Objects;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,20 +18,41 @@ import org.slf4j.LoggerFactory;
  */
 public class CopyDir extends SimpleFileVisitor<Path> {
     private static Logger logger = LoggerFactory.getLogger(CopyDir.class);
-    private Path sourceDir;
-    private Path targetDir;
+    private final Path sourceDir;
+    private final Path targetDir;
+
+    private final Option option;
 
     public CopyDir(Path sourceDir, Path targetDir) {
+        this(sourceDir, targetDir, Option.REPLACE_EXISTING);
+    }
+
+    public CopyDir(Path sourceDir, Path targetDir, Option option) {
+        Objects.requireNonNull(sourceDir);
+        Objects.requireNonNull(targetDir);
+        Objects.requireNonNull(option);
         this.sourceDir = sourceDir;
         this.targetDir = targetDir;
+        this.option = option;
     }
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) {
         try {
             Path targetFile = targetDir.resolve(sourceDir.relativize(file));
-            Files.copy(file, targetFile,
-                    StandardCopyOption.REPLACE_EXISTING);
+            if (Files.exists(targetFile)) {
+                if (option == Option.REPLACE_EXISTING) {
+                    Files.copy(file, targetFile,
+                            StandardCopyOption.REPLACE_EXISTING,
+                            StandardCopyOption.COPY_ATTRIBUTES);
+                } else {
+                    logger.info(targetFile + " is found; skipped overwriting it.");
+                }
+            } else {
+                Files.copy(file, targetFile,
+                        StandardCopyOption.COPY_ATTRIBUTES);
+            }
+
         } catch (IOException e) {
             logger.warn(e.getMessage());
         }
@@ -46,14 +69,19 @@ public class CopyDir extends SimpleFileVisitor<Path> {
             }
         } catch (IOException ex) {
             logger.warn(ex.getMessage());
-            }
-            return FileVisitResult.CONTINUE;
         }
-
-        public static void main(String[] args) throws IOException {
-            Path sourceDir = Paths.get(args[0]);
-            Path targetDir = Paths.get(args[1]);
-            Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));
-        }
+        return FileVisitResult.CONTINUE;
     }
+
+    public static enum Option {
+        REPLACE_EXISTING,
+        SKIP_IF_EXISTING;
+    }
+
+    public static void main(String[] args) throws IOException {
+        Path sourceDir = Paths.get(args[0]);
+        Path targetDir = Paths.get(args[1]);
+        Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));
+    }
+}
 

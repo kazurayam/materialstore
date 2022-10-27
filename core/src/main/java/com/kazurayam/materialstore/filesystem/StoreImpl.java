@@ -196,6 +196,23 @@ public final class StoreImpl implements Store {
     }
 
     @Override
+    public List<Path> findAllReportsOf(JobName jobName) throws MaterialstoreException {
+        Objects.requireNonNull(jobName);
+        List<Path> list = new ArrayList<>();
+        try {
+            list = Files.list(getRoot())
+                    .filter(p -> !Files.isDirectory(p))
+                    .filter(p -> p.getFileName().toString().startsWith(jobName.toString()))
+                    .filter(p -> p.getFileName().toString().endsWith(".html"))
+                    .sorted(Collections.reverseOrder())
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new MaterialstoreException(e);
+        }
+        return list;
+    }
+
+    @Override
     public List<JobTimestamp> findDifferentiatingJobTimestamps(JobName jobName)
             throws MaterialstoreException {
         Objects.requireNonNull(jobName);

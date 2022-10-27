@@ -34,6 +34,8 @@ public interface Store {
 
     List<JobTimestamp> findAllJobTimestampsPriorTo(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
+    List<Path> findAllReportsOf(JobName jobName) throws MaterialstoreException;
+
     List<JobTimestamp> findDifferentiatingJobTimestamps(JobName jobName) throws MaterialstoreException;
 
     /**
