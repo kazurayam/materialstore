@@ -109,7 +109,12 @@ public class StoreCleanerImpl extends StoreCleaner {
                 // retain the JobTimestamp newer than the "olderThan" value
                 marked.add(jt);
                 if (store.hasDifferentiatingIndexEntry(jobName, jt)) {
-                    // if jt is a differentiating one, add 2 more JobTimestamps which is refered by jt
+                    // if the jt is a differentiating one, add 2 more JobTimestamps
+                    // which are referred by the jt
+                    List<JobTimestamp> referred = store.findJobTimestampsReferredBy(jobName, jt);
+                    marked.addAll(referred);
+
+                    /*
                     for (Material m : store.select(jobName, olderThan)) {
                         if (m.getMetadata().containsKey("category") &&
                                 m.getMetadata().get("category").equals("diff")) {
@@ -121,6 +126,7 @@ public class StoreCleanerImpl extends StoreCleaner {
                             marked.add(rightLocator.getJobTimestamp());
                         }
                     }
+                     */
                 }
             }
         }

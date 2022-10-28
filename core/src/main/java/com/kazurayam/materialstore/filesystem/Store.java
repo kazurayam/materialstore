@@ -5,6 +5,7 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
 
 /**
  * defines the public interface of the Store object
@@ -47,6 +48,8 @@ public interface Store {
      * @throws MaterialstoreException
      */
     boolean hasDifferentiatingIndexEntry(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
+
+    List<JobTimestamp> findJobTimestampsReferredBy(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
     JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 

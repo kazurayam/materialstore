@@ -227,18 +227,39 @@ public final class StoreImpl implements Store {
     }
 
     @Override
-    public boolean hasDifferentiatingIndexEntry(JobName jobName, JobTimestamp jobTimestamp)
+    public boolean hasDifferentiatingIndexEntry(JobName jobName,
+                                                JobTimestamp jobTimestamp)
         throws MaterialstoreException {
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(jobTimestamp);
+        List<JobTimestamp> referred =
+                this.findJobTimestampsReferredBy(jobName, jobTimestamp);
+        return (referred.size() > 0);
+    }
+
+    @Override
+    public List<JobTimestamp> findJobTimestampsReferredBy(JobName jobName,
+                                                   JobTimestamp jobTimestamp)
+            throws MaterialstoreException {
+        Objects.requireNonNull(jobName);
+        Objects.requireNonNull(jobTimestamp);
+        Set<JobTimestamp> reffered = new HashSet<>();
         for (Material m : this.select(jobName, jobTimestamp)) {
             if (m.getMetadata().containsKey("category") &&
                     m.getMetadata().get("category").equals("diff")) {
-                return true;
+                MaterialLocator leftLocator =
+                        MaterialLocator.parse(m.getMetadata().get("left"));
+                reffered.add(leftLocator.getJobTimestamp());
+                MaterialLocator rightLocator =
+                        MaterialLocator.parse(m.getMetadata().get("right"));
+                reffered.add(rightLocator.getJobTimestamp());
             }
         }
-        return false;
+        List<JobTimestamp> list = new ArrayList<>(reffered);
+        list.sort(Comparator.reverseOrder());
+        return list;
     }
+
 
     @Override
     public JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp)

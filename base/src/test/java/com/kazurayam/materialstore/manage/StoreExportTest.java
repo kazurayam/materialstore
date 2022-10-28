@@ -38,14 +38,9 @@ public class StoreExportTest {
         storeExport.exportReports(jobName);
         // Assert
         assertTrue(remote.findAllJobNames().contains(jobName),
-                String.format("JobName %s is not found in %s", jobName, remote));
+                String.format("JobName %s is not found in the remote store at %s", jobName, remote));
         assertEquals(3, remote.findAllJobTimestamps(jobName).size());
         assertEquals(1, remote.findAllReportsOf(jobName).size());
-    }
-
-    @Test
-    public void test_exportReports_newerThanOrEqualTo() {
-
     }
 
 }
