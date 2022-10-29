@@ -98,7 +98,7 @@ var activeTableTab = "activeTableTab";
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li>com.kazurayam.materialstore.reduce.MaterialProductGroup</li>
+<li>com.kazurayam.materialstore.base.reduce.MaterialProductGroup</li>
 </ul>
 </li>
 </ul>
@@ -152,7 +152,7 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#MaterialProductGroup-com.kazurayam.materialstore.reduce.MaterialProductGroup-">MaterialProductGroup</a></span>(<a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html" title="class in com.kazurayam.materialstore.reduce">MaterialProductGroup</a>&nbsp;source)</code>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#MaterialProductGroup-com.kazurayam.materialstore.base.reduce.MaterialProductGroup-">MaterialProductGroup</a></span>(<a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html" title="class in com.kazurayam.materialstore.reduce">MaterialProductGroup</a>&nbsp;source)</code>
 <div class="block">Deep-copy constructor</div>
 </td>
 </tr>
@@ -173,11 +173,11 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#add-com.kazurayam.materialstore.reduce.zipper.MaterialProduct-">add</a></span>(<a href="../../../../com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html" title="class in com.kazurayam.materialstore.reduce.zipper">MaterialProduct</a>&nbsp;mProduct)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#add-zipper.com.kazurayam.materialstore.base.reduce.MaterialProduct-">add</a></span>(<a href="../../../../com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html" title="class in com.kazurayam.materialstore.reduce.zipper">MaterialProduct</a>&nbsp;mProduct)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.Builder.html" title="class in com.kazurayam.materialstore.reduce">MaterialProductGroup.Builder</a></code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#builder-com.kazurayam.materialstore.filesystem.MaterialList-com.kazurayam.materialstore.filesystem.MaterialList-">builder</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;left,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#builder-com.kazurayam.materialstore.core.filesystem.MaterialList-com.kazurayam.materialstore.core.filesystem.MaterialList-">builder</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;left,
        <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;right)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
@@ -285,7 +285,7 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 </tr>
 <tr id="i27" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#order-com.kazurayam.materialstore.filesystem.SortKeys-">order</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/SortKeys.html" title="class in com.kazurayam.materialstore.filesystem">SortKeys</a>&nbsp;sortKeys)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#order-com.kazurayam.materialstore.core.filesystem.SortKeys-">order</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/SortKeys.html" title="class in com.kazurayam.materialstore.filesystem">SortKeys</a>&nbsp;sortKeys)</code>&nbsp;</td>
 </tr>
 <tr id="i28" class="altColor">
 <td class="colFirst"><code>void</code></td>
@@ -293,19 +293,19 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 </tr>
 <tr id="i29" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#setIdentifyMetadataValues-com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues-">setIdentifyMetadataValues</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/metadata/IdentifyMetadataValues.html" title="class in com.kazurayam.materialstore.filesystem.metadata">IdentifyMetadataValues</a>&nbsp;identifyMetadataValues)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#setIdentifyMetadataValues-metadata.com.kazurayam.materialstore.core.filesystem.IdentifyMetadataValues-">setIdentifyMetadataValues</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/metadata/IdentifyMetadataValues.html" title="class in com.kazurayam.materialstore.filesystem.metadata">IdentifyMetadataValues</a>&nbsp;identifyMetadataValues)</code>&nbsp;</td>
 </tr>
 <tr id="i30" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#setIgnoreMetadataKeys-com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys-">setIgnoreMetadataKeys</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/metadata/IgnoreMetadataKeys.html" title="class in com.kazurayam.materialstore.filesystem.metadata">IgnoreMetadataKeys</a>&nbsp;ignoreMetadataKeys)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#setIgnoreMetadataKeys-metadata.com.kazurayam.materialstore.core.filesystem.IgnoreMetadataKeys-">setIgnoreMetadataKeys</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/metadata/IgnoreMetadataKeys.html" title="class in com.kazurayam.materialstore.filesystem.metadata">IgnoreMetadataKeys</a>&nbsp;ignoreMetadataKeys)</code>&nbsp;</td>
 </tr>
 <tr id="i31" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#setMaterialListLeft-com.kazurayam.materialstore.filesystem.MaterialList-">setMaterialListLeft</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;materialList)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#setMaterialListLeft-com.kazurayam.materialstore.core.filesystem.MaterialList-">setMaterialListLeft</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;materialList)</code>&nbsp;</td>
 </tr>
 <tr id="i32" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#setMaterialListRight-com.kazurayam.materialstore.filesystem.MaterialList-">setMaterialListRight</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;materialList)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#setMaterialListRight-com.kazurayam.materialstore.core.filesystem.MaterialList-">setMaterialListRight</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;materialList)</code>&nbsp;</td>
 </tr>
 <tr id="i33" class="rowColor">
 <td class="colFirst"><code>void</code></td>
@@ -335,16 +335,16 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 </tr>
 <tr id="i39" class="rowColor">
 <td class="colFirst"><code>java.util.Map&lt;java.lang.String,java.lang.Object&gt;</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#toTemplateModel-com.kazurayam.materialstore.filesystem.SortKeys-">toTemplateModel</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/SortKeys.html" title="class in com.kazurayam.materialstore.filesystem">SortKeys</a>&nbsp;sortKeys)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#toTemplateModel-com.kazurayam.materialstore.core.filesystem.SortKeys-">toTemplateModel</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/SortKeys.html" title="class in com.kazurayam.materialstore.filesystem">SortKeys</a>&nbsp;sortKeys)</code>&nbsp;</td>
 </tr>
 <tr id="i40" class="altColor">
 <td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#toTemplateModelAsJson-com.kazurayam.materialstore.filesystem.SortKeys-boolean-">toTemplateModelAsJson</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/SortKeys.html" title="class in com.kazurayam.materialstore.filesystem">SortKeys</a>&nbsp;sortKeys,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#toTemplateModelAsJson-com.kazurayam.materialstore.core.filesystem.SortKeys-boolean-">toTemplateModelAsJson</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/SortKeys.html" title="class in com.kazurayam.materialstore.filesystem">SortKeys</a>&nbsp;sortKeys,
                      boolean&nbsp;prettyPrint)</code>&nbsp;</td>
 </tr>
 <tr id="i41" class="rowColor">
 <td class="colFirst"><code>boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#update-com.kazurayam.materialstore.reduce.zipper.MaterialProduct-">update</a></span>(<a href="../../../../com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html" title="class in com.kazurayam.materialstore.reduce.zipper">MaterialProduct</a>&nbsp;mProduct)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/reduce/MaterialProductGroup.html#update-zipper.com.kazurayam.materialstore.base.reduce.MaterialProduct-">update</a></span>(<a href="../../../../com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html" title="class in com.kazurayam.materialstore.reduce.zipper">MaterialProduct</a>&nbsp;mProduct)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -362,7 +362,7 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 <code>forEach, spliterator</code></li>
 </ul>
 <ul class="blockList">
-<li class="blockList"><a name="methods.inherited.from.class.com.kazurayam.materialstore.filesystem.TemplateReady">
+<li class="blockList"><a name="methods.inherited.from.class.com.kazurayam.materialstore.core.filesystem.TemplateReady">
 <!--   -->
 </a>
 <h3>Methods inherited from interface&nbsp;com.kazurayam.materialstore.filesystem.<a href="../../../../com/kazurayam/materialstore/filesystem/TemplateReady.html" title="interface in com.kazurayam.materialstore.filesystem">TemplateReady</a></h3>
@@ -382,7 +382,7 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="MaterialProductGroup-com.kazurayam.materialstore.reduce.MaterialProductGroup-">
+<a name="MaterialProductGroup-com.kazurayam.materialstore.base.reduce.MaterialProductGroup-">
 <!--   -->
 </a>
 <ul class="blockListLast">
@@ -400,7 +400,7 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="add-com.kazurayam.materialstore.reduce.zipper.MaterialProduct-">
+<a name="add-zipper.com.kazurayam.materialstore.base.reduce.MaterialProduct-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -409,7 +409,7 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 <pre>public&nbsp;void&nbsp;add(<a href="../../../../com/kazurayam/materialstore/reduce/zipper/MaterialProduct.html" title="class in com.kazurayam.materialstore.reduce.zipper">MaterialProduct</a>&nbsp;mProduct)</pre>
 </li>
 </ul>
-<a name="update-com.kazurayam.materialstore.reduce.zipper.MaterialProduct-">
+<a name="update-zipper.com.kazurayam.materialstore.base.reduce.MaterialProduct-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -653,7 +653,7 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 </dl>
 </li>
 </ul>
-<a name="setIdentifyMetadataValues-com.kazurayam.materialstore.filesystem.metadata.IdentifyMetadataValues-">
+<a name="setIdentifyMetadataValues-metadata.com.kazurayam.materialstore.core.filesystem.IdentifyMetadataValues-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -662,7 +662,7 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 <pre>public&nbsp;void&nbsp;setIdentifyMetadataValues(<a href="../../../../com/kazurayam/materialstore/filesystem/metadata/IdentifyMetadataValues.html" title="class in com.kazurayam.materialstore.filesystem.metadata">IdentifyMetadataValues</a>&nbsp;identifyMetadataValues)</pre>
 </li>
 </ul>
-<a name="setIgnoreMetadataKeys-com.kazurayam.materialstore.filesystem.metadata.IgnoreMetadataKeys-">
+<a name="setIgnoreMetadataKeys-metadata.com.kazurayam.materialstore.core.filesystem.IgnoreMetadataKeys-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -671,7 +671,7 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 <pre>public&nbsp;void&nbsp;setIgnoreMetadataKeys(<a href="../../../../com/kazurayam/materialstore/filesystem/metadata/IgnoreMetadataKeys.html" title="class in com.kazurayam.materialstore.filesystem.metadata">IgnoreMetadataKeys</a>&nbsp;ignoreMetadataKeys)</pre>
 </li>
 </ul>
-<a name="setMaterialListLeft-com.kazurayam.materialstore.filesystem.MaterialList-">
+<a name="setMaterialListLeft-com.kazurayam.materialstore.core.filesystem.MaterialList-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -680,7 +680,7 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 <pre>public&nbsp;void&nbsp;setMaterialListLeft(<a href="../../../../com/kazurayam/materialstore/filesystem/MaterialList.html" title="class in com.kazurayam.materialstore.filesystem">MaterialList</a>&nbsp;materialList)</pre>
 </li>
 </ul>
-<a name="setMaterialListRight-com.kazurayam.materialstore.filesystem.MaterialList-">
+<a name="setMaterialListRight-com.kazurayam.materialstore.core.filesystem.MaterialList-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -717,7 +717,7 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 <pre>public&nbsp;int&nbsp;size()</pre>
 </li>
 </ul>
-<a name="order-com.kazurayam.materialstore.filesystem.SortKeys-">
+<a name="order-com.kazurayam.materialstore.core.filesystem.SortKeys-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -783,7 +783,7 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 <pre>public&nbsp;java.lang.String&nbsp;toSummary()</pre>
 </li>
 </ul>
-<a name="toTemplateModel-com.kazurayam.materialstore.filesystem.SortKeys-">
+<a name="toTemplateModel-com.kazurayam.materialstore.core.filesystem.SortKeys-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -792,11 +792,11 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
 <pre>public&nbsp;java.util.Map&lt;java.lang.String,java.lang.Object&gt;&nbsp;toTemplateModel(<a href="../../../../com/kazurayam/materialstore/filesystem/SortKeys.html" title="class in com.kazurayam.materialstore.filesystem">SortKeys</a>&nbsp;sortKeys)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/TemplateReadySortable.html#toTemplateModel-com.kazurayam.materialstore.filesystem.SortKeys-">toTemplateModel</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/kazurayam/materialstore/filesystem/TemplateReadySortable.html" title="interface in com.kazurayam.materialstore.filesystem">TemplateReadySortable</a></code></dd>
+<dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/TemplateReadySortable.html#toTemplateModel-com.kazurayam.materialstore.core.filesystem.SortKeys-">toTemplateModel</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/kazurayam/materialstore/filesystem/TemplateReadySortable.html" title="interface in com.kazurayam.materialstore.filesystem">TemplateReadySortable</a></code></dd>
 </dl>
 </li>
 </ul>
-<a name="toTemplateModelAsJson-com.kazurayam.materialstore.filesystem.SortKeys-boolean-">
+<a name="toTemplateModelAsJson-com.kazurayam.materialstore.core.filesystem.SortKeys-boolean-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -806,11 +806,11 @@ implements java.lang.Iterable&lt;<a href="../../../../com/kazurayam/materialstor
                                               boolean&nbsp;prettyPrint)</pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/TemplateReadySortable.html#toTemplateModelAsJson-com.kazurayam.materialstore.filesystem.SortKeys-boolean-">toTemplateModelAsJson</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/kazurayam/materialstore/filesystem/TemplateReadySortable.html" title="interface in com.kazurayam.materialstore.filesystem">TemplateReadySortable</a></code></dd>
+<dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/TemplateReadySortable.html#toTemplateModelAsJson-com.kazurayam.materialstore.core.filesystem.SortKeys-boolean-">toTemplateModelAsJson</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../com/kazurayam/materialstore/filesystem/TemplateReadySortable.html" title="interface in com.kazurayam.materialstore.filesystem">TemplateReadySortable</a></code></dd>
 </dl>
 </li>
 </ul>
-<a name="builder-com.kazurayam.materialstore.filesystem.MaterialList-com.kazurayam.materialstore.filesystem.MaterialList-">
+<a name="builder-com.kazurayam.materialstore.core.filesystem.MaterialList-com.kazurayam.materialstore.core.filesystem.MaterialList-">
 <!--   -->
 </a>
 <ul class="blockListLast">

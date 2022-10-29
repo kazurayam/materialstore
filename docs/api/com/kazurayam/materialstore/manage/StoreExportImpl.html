@@ -98,10 +98,10 @@ var activeTableTab = "activeTableTab";
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li><a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html" title="class in com.kazurayam.materialstore.manage">com.kazurayam.materialstore.manage.StoreExport</a></li>
+<li><a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html" title="class in com.kazurayam.materialstore.manage">com.kazurayam.materialstore.base.manage.StoreExport</a></li>
 <li>
 <ul class="inheritance">
-<li>com.kazurayam.materialstore.manage.StoreExportImpl</li>
+<li>com.kazurayam.materialstore.base.manage.StoreExportImpl</li>
 </ul>
 </li>
 </ul>
@@ -132,7 +132,7 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreExportImpl.html#StoreExportImpl-com.kazurayam.materialstore.filesystem.Store-com.kazurayam.materialstore.filesystem.Store-">StoreExportImpl</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/Store.html" title="interface in com.kazurayam.materialstore.filesystem">Store</a>&nbsp;local,
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreExportImpl.html#StoreExportImpl-com.kazurayam.materialstore.core.filesystem.Store-com.kazurayam.materialstore.core.filesystem.Store-">StoreExportImpl</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/Store.html" title="interface in com.kazurayam.materialstore.filesystem">Store</a>&nbsp;local,
                <a href="../../../../com/kazurayam/materialstore/filesystem/Store.html" title="interface in com.kazurayam.materialstore.filesystem">Store</a>&nbsp;remote)</code>&nbsp;</td>
 </tr>
 </table>
@@ -152,20 +152,20 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreExportImpl.html#exportReports-com.kazurayam.materialstore.filesystem.JobName-">exportReports</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreExportImpl.html#exportReports-com.kazurayam.materialstore.core.filesystem.JobName-">exportReports</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName)</code>&nbsp;</td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreExportImpl.html#exportReports-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">exportReports</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreExportImpl.html#exportReports-com.kazurayam.materialstore.core.filesystem.JobName-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">exportReports</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
              <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;newerThanOrEqualTo)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
-<li class="blockList"><a name="methods.inherited.from.class.com.kazurayam.materialstore.manage.StoreExport">
+<li class="blockList"><a name="methods.inherited.from.class.com.kazurayam.materialstore.base.manage.StoreExport">
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.kazurayam.materialstore.manage.<a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html" title="class in com.kazurayam.materialstore.manage">StoreExport</a></h3>
-<code><a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html#newInstance-com.kazurayam.materialstore.filesystem.Store-com.kazurayam.materialstore.filesystem.Store-">newInstance</a></code></li>
+<code><a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html#newInstance-com.kazurayam.materialstore.core.filesystem.Store-com.kazurayam.materialstore.core.filesystem.Store-">newInstance</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -188,7 +188,7 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="StoreExportImpl-com.kazurayam.materialstore.filesystem.Store-com.kazurayam.materialstore.filesystem.Store-">
+<a name="StoreExportImpl-com.kazurayam.materialstore.core.filesystem.Store-com.kazurayam.materialstore.core.filesystem.Store-">
 <!--   -->
 </a>
 <ul class="blockListLast">
@@ -206,7 +206,7 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="exportReports-com.kazurayam.materialstore.filesystem.JobName-">
+<a name="exportReports-com.kazurayam.materialstore.core.filesystem.JobName-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -216,13 +216,13 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html
                    throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html#exportReports-com.kazurayam.materialstore.filesystem.JobName-">exportReports</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html" title="class in com.kazurayam.materialstore.manage">StoreExport</a></code></dd>
+<dd><code><a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html#exportReports-com.kazurayam.materialstore.core.filesystem.JobName-">exportReports</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html" title="class in com.kazurayam.materialstore.manage">StoreExport</a></code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></code></dd>
 </dl>
 </li>
 </ul>
-<a name="exportReports-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">
+<a name="exportReports-com.kazurayam.materialstore.core.filesystem.JobName-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">
 <!--   -->
 </a>
 <ul class="blockListLast">
@@ -233,7 +233,7 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html
                    throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html#exportReports-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">exportReports</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html" title="class in com.kazurayam.materialstore.manage">StoreExport</a></code></dd>
+<dd><code><a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html#exportReports-com.kazurayam.materialstore.core.filesystem.JobName-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">exportReports</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreExport.html" title="class in com.kazurayam.materialstore.manage">StoreExport</a></code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></code></dd>
 </dl>

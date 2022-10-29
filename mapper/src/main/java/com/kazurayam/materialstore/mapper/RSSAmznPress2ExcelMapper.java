@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.mapper;
 
-import com.kazurayam.materialstore.map.Mapper;
+import com.kazurayam.materialstore.core.map.Mapper;
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
 import com.rometools.rome.io.FeedException;

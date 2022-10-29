@@ -98,10 +98,10 @@ var activeTableTab = "activeTableTab";
 <li>java.lang.Object</li>
 <li>
 <ul class="inheritance">
-<li><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html" title="class in com.kazurayam.materialstore.manage">com.kazurayam.materialstore.manage.StoreCleaner</a></li>
+<li><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html" title="class in com.kazurayam.materialstore.manage">com.kazurayam.materialstore.base.manage.StoreCleaner</a></li>
 <li>
 <ul class="inheritance">
-<li>com.kazurayam.materialstore.manage.StoreCleanerImpl</li>
+<li>com.kazurayam.materialstore.base.manage.StoreCleanerImpl</li>
 </ul>
 </li>
 </ul>
@@ -132,7 +132,7 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.htm
 <th class="colOne" scope="col">Constructor and Description</th>
 </tr>
 <tr class="altColor">
-<td class="colOne"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreCleanerImpl.html#StoreCleanerImpl-com.kazurayam.materialstore.filesystem.Store-">StoreCleanerImpl</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/Store.html" title="interface in com.kazurayam.materialstore.filesystem">Store</a>&nbsp;store)</code>&nbsp;</td>
+<td class="colOne"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreCleanerImpl.html#StoreCleanerImpl-com.kazurayam.materialstore.core.filesystem.Store-">StoreCleanerImpl</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/Store.html" title="interface in com.kazurayam.materialstore.filesystem">Store</a>&nbsp;store)</code>&nbsp;</td>
 </tr>
 </table>
 </li>
@@ -151,37 +151,37 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.htm
 </tr>
 <tr id="i0" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreCleanerImpl.html#cleanup-com.kazurayam.materialstore.filesystem.JobName-">cleanup</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName)</code>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreCleanerImpl.html#cleanup-com.kazurayam.materialstore.core.filesystem.JobName-">cleanup</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName)</code>
 <div class="block">Clean up the store directory for the given JobName.</div>
 </td>
 </tr>
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreCleanerImpl.html#cleanup-com.kazurayam.materialstore.filesystem.JobName-int-">cleanup</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreCleanerImpl.html#cleanup-com.kazurayam.materialstore.core.filesystem.JobName-int-">cleanup</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
        int&nbsp;olderThanNth)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreCleanerImpl.html#cleanup-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">cleanup</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreCleanerImpl.html#cleanup-com.kazurayam.materialstore.core.filesystem.JobName-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">cleanup</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
        <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;olderThan)</code>&nbsp;</td>
 </tr>
 <tr id="i3" class="rowColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreCleanerImpl.html#deleteJobTimestampsOlderThan-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">deleteJobTimestampsOlderThan</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreCleanerImpl.html#deleteJobTimestampsOlderThan-com.kazurayam.materialstore.core.filesystem.JobName-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">deleteJobTimestampsOlderThan</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
                             <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;olderThan)</code>&nbsp;</td>
 </tr>
 <tr id="i4" class="altColor">
 <td class="colFirst"><code>int</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreCleanerImpl.html#deleteReportsOlderThan-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">deleteReportsOlderThan</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../com/kazurayam/materialstore/manage/StoreCleanerImpl.html#deleteReportsOlderThan-com.kazurayam.materialstore.core.filesystem.JobName-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">deleteReportsOlderThan</a></span>(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName,
                       <a href="../../../../com/kazurayam/materialstore/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.filesystem">JobTimestamp</a>&nbsp;olderThan)</code>&nbsp;</td>
 </tr>
 </table>
 <ul class="blockList">
-<li class="blockList"><a name="methods.inherited.from.class.com.kazurayam.materialstore.manage.StoreCleaner">
+<li class="blockList"><a name="methods.inherited.from.class.com.kazurayam.materialstore.base.manage.StoreCleaner">
 <!--   -->
 </a>
 <h3>Methods inherited from class&nbsp;com.kazurayam.materialstore.manage.<a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html" title="class in com.kazurayam.materialstore.manage">StoreCleaner</a></h3>
-<code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html#newInstance-com.kazurayam.materialstore.filesystem.Store-">newInstance</a></code></li>
+<code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html#newInstance-com.kazurayam.materialstore.core.filesystem.Store-">newInstance</a></code></li>
 </ul>
 <ul class="blockList">
 <li class="blockList"><a name="methods.inherited.from.class.java.lang.Object">
@@ -204,7 +204,7 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.htm
 <!--   -->
 </a>
 <h3>Constructor Detail</h3>
-<a name="StoreCleanerImpl-com.kazurayam.materialstore.filesystem.Store-">
+<a name="StoreCleanerImpl-com.kazurayam.materialstore.core.filesystem.Store-">
 <!--   -->
 </a>
 <ul class="blockListLast">
@@ -221,7 +221,7 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.htm
 <!--   -->
 </a>
 <h3>Method Detail</h3>
-<a name="cleanup-com.kazurayam.materialstore.filesystem.JobName-">
+<a name="cleanup-com.kazurayam.materialstore.core.filesystem.JobName-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -229,7 +229,7 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.htm
 <h4>cleanup</h4>
 <pre>public&nbsp;void&nbsp;cleanup(<a href="../../../../com/kazurayam/materialstore/filesystem/JobName.html" title="class in com.kazurayam.materialstore.filesystem">JobName</a>&nbsp;jobName)
              throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></pre>
-<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html#cleanup-com.kazurayam.materialstore.filesystem.JobName-">StoreCleaner</a></code></span></div>
+<div class="block"><span class="descfrmTypeLabel">Description copied from class:&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html#cleanup-com.kazurayam.materialstore.core.filesystem.JobName-">StoreCleaner</a></code></span></div>
 <div class="block">Clean up the store directory for the given JobName. This will do 2 clean-up actions.
 
  (1) delete unnecessary JobTimestamp directories. Beware there are 2 cases.
@@ -251,13 +251,13 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.htm
  the cleanup method retains only the latest report, will delete all the rest.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html#cleanup-com.kazurayam.materialstore.filesystem.JobName-">cleanup</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html" title="class in com.kazurayam.materialstore.manage">StoreCleaner</a></code></dd>
+<dd><code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html#cleanup-com.kazurayam.materialstore.core.filesystem.JobName-">cleanup</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html" title="class in com.kazurayam.materialstore.manage">StoreCleaner</a></code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></code></dd>
 </dl>
 </li>
 </ul>
-<a name="cleanup-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">
+<a name="cleanup-com.kazurayam.materialstore.core.filesystem.JobName-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -268,13 +268,13 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.htm
              throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html#cleanup-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">cleanup</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html" title="class in com.kazurayam.materialstore.manage">StoreCleaner</a></code></dd>
+<dd><code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html#cleanup-com.kazurayam.materialstore.core.filesystem.JobName-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">cleanup</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html" title="class in com.kazurayam.materialstore.manage">StoreCleaner</a></code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></code></dd>
 </dl>
 </li>
 </ul>
-<a name="cleanup-com.kazurayam.materialstore.filesystem.JobName-int-">
+<a name="cleanup-com.kazurayam.materialstore.core.filesystem.JobName-int-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -285,13 +285,13 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.htm
              throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html#cleanup-com.kazurayam.materialstore.filesystem.JobName-int-">cleanup</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html" title="class in com.kazurayam.materialstore.manage">StoreCleaner</a></code></dd>
+<dd><code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html#cleanup-com.kazurayam.materialstore.core.filesystem.JobName-int-">cleanup</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html" title="class in com.kazurayam.materialstore.manage">StoreCleaner</a></code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></code></dd>
 </dl>
 </li>
 </ul>
-<a name="deleteJobTimestampsOlderThan-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">
+<a name="deleteJobTimestampsOlderThan-com.kazurayam.materialstore.core.filesystem.JobName-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">
 <!--   -->
 </a>
 <ul class="blockList">
@@ -302,13 +302,13 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.htm
                                  throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html#deleteJobTimestampsOlderThan-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">deleteJobTimestampsOlderThan</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html" title="class in com.kazurayam.materialstore.manage">StoreCleaner</a></code></dd>
+<dd><code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html#deleteJobTimestampsOlderThan-com.kazurayam.materialstore.core.filesystem.JobName-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">deleteJobTimestampsOlderThan</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html" title="class in com.kazurayam.materialstore.manage">StoreCleaner</a></code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></code></dd>
 </dl>
 </li>
 </ul>
-<a name="deleteReportsOlderThan-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">
+<a name="deleteReportsOlderThan-com.kazurayam.materialstore.core.filesystem.JobName-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">
 <!--   -->
 </a>
 <ul class="blockListLast">
@@ -319,7 +319,7 @@ extends <a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.htm
                            throws <a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></pre>
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
-<dd><code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html#deleteReportsOlderThan-com.kazurayam.materialstore.filesystem.JobName-com.kazurayam.materialstore.filesystem.JobTimestamp-">deleteReportsOlderThan</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html" title="class in com.kazurayam.materialstore.manage">StoreCleaner</a></code></dd>
+<dd><code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html#deleteReportsOlderThan-com.kazurayam.materialstore.core.filesystem.JobName-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">deleteReportsOlderThan</a></code>&nbsp;in class&nbsp;<code><a href="../../../../com/kazurayam/materialstore/manage/StoreCleaner.html" title="class in com.kazurayam.materialstore.manage">StoreCleaner</a></code></dd>
 <dt><span class="throwsLabel">Throws:</span></dt>
 <dd><code><a href="../../../../com/kazurayam/materialstore/filesystem/MaterialstoreException.html" title="class in com.kazurayam.materialstore.filesystem">MaterialstoreException</a></code></dd>
 </dl>
