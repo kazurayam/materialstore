@@ -56,5 +56,4 @@ public abstract class StoreCleaner {
     public abstract int deleteReportsOlderThan(
             JobName jobName, JobTimestamp olderThan) throws MaterialstoreException;
 
-    public abstract List<Path> findAllReportsOf(JobName jobName) throws MaterialstoreException;
 }

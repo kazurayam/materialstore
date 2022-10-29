@@ -5,6 +5,7 @@ import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Set;
 
 /**
  * defines the public interface of the Store object
@@ -34,6 +35,8 @@ public interface Store {
 
     List<JobTimestamp> findAllJobTimestampsPriorTo(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
+    List<Path> findAllReportsOf(JobName jobName) throws MaterialstoreException;
+
     List<JobTimestamp> findDifferentiatingJobTimestamps(JobName jobName) throws MaterialstoreException;
 
     /**
@@ -45,6 +48,14 @@ public interface Store {
      * @throws MaterialstoreException
      */
     boolean hasDifferentiatingIndexEntry(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
+
+    Set<JobTimestamp> markOlderThan(JobName jobName, JobTimestamp olderThan)
+            throws MaterialstoreException;
+
+    Set<JobTimestamp> markNewerThanOrEqualTo(JobName jobName, JobTimestamp newerThanOrEqualTo)
+            throws MaterialstoreException;
+
+    List<JobTimestamp> findJobTimestampsReferredBy(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
     JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 

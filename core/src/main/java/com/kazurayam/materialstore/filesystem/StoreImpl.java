@@ -196,6 +196,23 @@ public final class StoreImpl implements Store {
     }
 
     @Override
+    public List<Path> findAllReportsOf(JobName jobName) throws MaterialstoreException {
+        Objects.requireNonNull(jobName);
+        List<Path> list = new ArrayList<>();
+        try {
+            list = Files.list(getRoot())
+                    .filter(p -> !Files.isDirectory(p))
+                    .filter(p -> p.getFileName().toString().startsWith(jobName.toString()))
+                    .filter(p -> p.getFileName().toString().endsWith(".html"))
+                    .sorted(Collections.reverseOrder())
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new MaterialstoreException(e);
+        }
+        return list;
+    }
+
+    @Override
     public List<JobTimestamp> findDifferentiatingJobTimestamps(JobName jobName)
             throws MaterialstoreException {
         Objects.requireNonNull(jobName);
@@ -210,18 +227,80 @@ public final class StoreImpl implements Store {
     }
 
     @Override
-    public boolean hasDifferentiatingIndexEntry(JobName jobName, JobTimestamp jobTimestamp)
+    public boolean hasDifferentiatingIndexEntry(JobName jobName,
+                                                JobTimestamp jobTimestamp)
         throws MaterialstoreException {
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(jobTimestamp);
+        List<JobTimestamp> referred =
+                this.findJobTimestampsReferredBy(jobName, jobTimestamp);
+        return (referred.size() > 0);
+    }
+
+    @Override
+    public Set<JobTimestamp> markOlderThan(JobName jobName,
+                                           JobTimestamp olderThan)
+            throws MaterialstoreException {
+        Set<JobTimestamp> marked = new HashSet<>();
+        List<JobTimestamp> all = this.findAllJobTimestamps(jobName);
+        if (all.size() > 0) {
+            all.sort(Comparator.reverseOrder());
+            for (JobTimestamp jt : all) {
+                if (jt.compareTo(olderThan) < 0) {
+                    marked.add(jt);
+                    List<JobTimestamp> referred = this.findJobTimestampsReferredBy(jobName, jt);
+                    if (referred.size() > 0) {
+                        marked.addAll(referred);
+                    }
+                }
+            }
+        }
+        return marked;
+    }
+
+    @Override
+    public Set<JobTimestamp> markNewerThanOrEqualTo(JobName jobName,
+                                                    JobTimestamp newerThanOrEqualTo)
+            throws MaterialstoreException {
+        Set<JobTimestamp> marked = new HashSet<>();
+        List<JobTimestamp> all = this.findAllJobTimestamps(jobName);
+        if (all.size() > 0) {
+            all.sort(Comparator.reverseOrder());
+            for (JobTimestamp jt : all) {
+                if (jt.compareTo(newerThanOrEqualTo) >= 0) {
+                    marked.add(jt);
+                    List<JobTimestamp> referred = this.findJobTimestampsReferredBy(jobName, jt);
+                    if (referred.size() > 0) {
+                        marked.addAll(referred);
+                    }
+                }
+            }
+        }
+        return marked;
+    }
+    @Override
+    public List<JobTimestamp> findJobTimestampsReferredBy(JobName jobName,
+                                                   JobTimestamp jobTimestamp)
+            throws MaterialstoreException {
+        Objects.requireNonNull(jobName);
+        Objects.requireNonNull(jobTimestamp);
+        Set<JobTimestamp> reffered = new HashSet<>();
         for (Material m : this.select(jobName, jobTimestamp)) {
             if (m.getMetadata().containsKey("category") &&
                     m.getMetadata().get("category").equals("diff")) {
-                return true;
+                MaterialLocator leftLocator =
+                        MaterialLocator.parse(m.getMetadata().get("left"));
+                reffered.add(leftLocator.getJobTimestamp());
+                MaterialLocator rightLocator =
+                        MaterialLocator.parse(m.getMetadata().get("right"));
+                reffered.add(rightLocator.getJobTimestamp());
             }
         }
-        return false;
+        List<JobTimestamp> list = new ArrayList<>(reffered);
+        list.sort(Comparator.reverseOrder());
+        return list;
     }
+
 
     @Override
     public JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp)
