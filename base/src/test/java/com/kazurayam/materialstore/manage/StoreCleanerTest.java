@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StoreCleanerTest {
-
     private Path testClassOutputDir;
 
     @BeforeEach
@@ -60,7 +59,7 @@ public class StoreCleanerTest {
         StoreCleaner cleaner = StoreCleaner.newInstance(store);
         int deleted = cleaner.deleteReportsOlderThan(jobName, jtB);
         assertTrue(deleted >= 1);
-        assertEquals(1, cleaner.findAllReportsOf(jobName).size());
+        assertEquals(1, store.findAllReportsOf(jobName).size());
     }
 
 
@@ -80,7 +79,7 @@ public class StoreCleanerTest {
         // Assert
         List<JobTimestamp> jobTimestampsAfterCleanUp = store.findAllJobTimestamps(jobName);
         assertEquals(3, jobTimestampsAfterCleanUp.size());
-        List<Path> reportFilesAfterCleanUp = cleaner.findAllReportsOf(jobName);
+        List<Path> reportFilesAfterCleanUp = store.findAllReportsOf(jobName);
         assertEquals(1, reportFilesAfterCleanUp.size());
     }
 
@@ -103,14 +102,14 @@ public class StoreCleanerTest {
         // Assert before
         List<JobTimestamp> jobTimestampsBeforeCleanUp = store.findAllJobTimestamps(jobName);
         assertEquals(7, jobTimestampsBeforeCleanUp.size());
-        List<Path> reportFilesBeforeCleanUp = cleaner.findAllReportsOf(jobName);
+        List<Path> reportFilesBeforeCleanUp = store.findAllReportsOf(jobName);
         assertEquals(3, reportFilesBeforeCleanUp.size());
         // Action
         cleaner.cleanup(jobName, new JobTimestamp("20221026_171412"));
         // Assert after
         List<JobTimestamp> jobTimestampsAfterCleanUp = store.findAllJobTimestamps(jobName);
         assertEquals(5, jobTimestampsAfterCleanUp.size());
-        List<Path> reportFilesAfterCleanUp = cleaner.findAllReportsOf(jobName);
+        List<Path> reportFilesAfterCleanUp = store.findAllReportsOf(jobName);
         assertEquals(2, reportFilesAfterCleanUp.size());
     }
 
@@ -129,16 +128,14 @@ public class StoreCleanerTest {
         // Assert before
         List<JobTimestamp> jobTimestampsBeforeCleanUp = store.findAllJobTimestamps(jobName);
         assertEquals(7, jobTimestampsBeforeCleanUp.size());
-        List<Path> reportFilesBeforeCleanUp = cleaner.findAllReportsOf(jobName);
+        List<Path> reportFilesBeforeCleanUp = store.findAllReportsOf(jobName);
         assertEquals(3, reportFilesBeforeCleanUp.size());
         // Action
         cleaner.cleanup(jobName, 2);
         // Assert after
         List<JobTimestamp> jobTimestampsAfterCleanUp = store.findAllJobTimestamps(jobName);
         assertEquals(5, jobTimestampsAfterCleanUp.size());
-        List<Path> reportFilesAfterCleanUp = cleaner.findAllReportsOf(jobName);
+        List<Path> reportFilesAfterCleanUp = store.findAllReportsOf(jobName);
         assertEquals(2, reportFilesAfterCleanUp.size());
     }
-
-
 }
