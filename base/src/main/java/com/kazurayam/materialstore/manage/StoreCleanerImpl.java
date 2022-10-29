@@ -113,20 +113,6 @@ public class StoreCleanerImpl extends StoreCleaner {
                     // which are referred by the jt
                     List<JobTimestamp> referred = store.findJobTimestampsReferredBy(jobName, jt);
                     marked.addAll(referred);
-
-                    /*
-                    for (Material m : store.select(jobName, olderThan)) {
-                        if (m.getMetadata().containsKey("category") &&
-                                m.getMetadata().get("category").equals("diff")) {
-                            MaterialLocator leftLocator =
-                                    MaterialLocator.parse(m.getMetadata().get("left"));
-                            marked.add(leftLocator.getJobTimestamp());
-                            MaterialLocator rightLocator =
-                                    MaterialLocator.parse(m.getMetadata().get("right"));
-                            marked.add(rightLocator.getJobTimestamp());
-                        }
-                    }
-                     */
                 }
             }
         }

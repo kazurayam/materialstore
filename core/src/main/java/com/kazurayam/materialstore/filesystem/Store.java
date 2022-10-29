@@ -49,6 +49,12 @@ public interface Store {
      */
     boolean hasDifferentiatingIndexEntry(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
+    Set<JobTimestamp> markOlderThan(JobName jobName, JobTimestamp olderThan)
+            throws MaterialstoreException;
+
+    Set<JobTimestamp> markNewerThanOrEqualTo(JobName jobName, JobTimestamp newerThanOrEqualTo)
+            throws MaterialstoreException;
+
     List<JobTimestamp> findJobTimestampsReferredBy(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
     JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;

@@ -238,6 +238,47 @@ public final class StoreImpl implements Store {
     }
 
     @Override
+    public Set<JobTimestamp> markOlderThan(JobName jobName,
+                                           JobTimestamp olderThan)
+            throws MaterialstoreException {
+        Set<JobTimestamp> marked = new HashSet<>();
+        List<JobTimestamp> all = this.findAllJobTimestamps(jobName);
+        if (all.size() > 0) {
+            all.sort(Comparator.reverseOrder());
+            for (JobTimestamp jt : all) {
+                if (jt.compareTo(olderThan) < 0) {
+                    marked.add(jt);
+                    List<JobTimestamp> referred = this.findJobTimestampsReferredBy(jobName, jt);
+                    if (referred.size() > 0) {
+                        marked.addAll(referred);
+                    }
+                }
+            }
+        }
+        return marked;
+    }
+
+    @Override
+    public Set<JobTimestamp> markNewerThanOrEqualTo(JobName jobName,
+                                                    JobTimestamp newerThanOrEqualTo)
+            throws MaterialstoreException {
+        Set<JobTimestamp> marked = new HashSet<>();
+        List<JobTimestamp> all = this.findAllJobTimestamps(jobName);
+        if (all.size() > 0) {
+            all.sort(Comparator.reverseOrder());
+            for (JobTimestamp jt : all) {
+                if (jt.compareTo(newerThanOrEqualTo) >= 0) {
+                    marked.add(jt);
+                    List<JobTimestamp> referred = this.findJobTimestampsReferredBy(jobName, jt);
+                    if (referred.size() > 0) {
+                        marked.addAll(referred);
+                    }
+                }
+            }
+        }
+        return marked;
+    }
+    @Override
     public List<JobTimestamp> findJobTimestampsReferredBy(JobName jobName,
                                                    JobTimestamp jobTimestamp)
             throws MaterialstoreException {

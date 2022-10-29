@@ -22,6 +22,8 @@ public class StoreExportImpl extends StoreExport {
     private final Store remote;
 
     public StoreExportImpl(Store local, Store remote) {
+        Objects.requireNonNull(local);
+        Objects.requireNonNull(remote);
         this.local = local;
         this.remote = remote;
     }
@@ -32,6 +34,7 @@ public class StoreExportImpl extends StoreExport {
      */
     @Override
     public void exportReports(JobName jobName) throws MaterialstoreException {
+        Objects.requireNonNull(jobName);
         JobTimestamp jt = local.findLatestJobTimestamp(jobName);
         if (jt != JobTimestamp.NULL_OBJECT) {
             this.exportReports(jobName, jt);
@@ -45,6 +48,7 @@ public class StoreExportImpl extends StoreExport {
     public void exportReports(JobName jobName, JobTimestamp newerThanOrEqualTo)
             throws MaterialstoreException {
         Objects.requireNonNull(jobName);
+        Objects.requireNonNull(newerThanOrEqualTo);
         exportJobTimestamps(jobName, newerThanOrEqualTo);
         exportReportFiles(jobName, newerThanOrEqualTo);
     }
@@ -52,22 +56,22 @@ public class StoreExportImpl extends StoreExport {
 
     private void exportJobTimestamps(JobName jobName, JobTimestamp newerThanOrEqualTo)
             throws MaterialstoreException {
-        Set<JobTimestamp> marked = markJobTimestampsToExport(jobName, newerThanOrEqualTo);
+        Set<JobTimestamp> marked =
+                local.markNewerThanOrEqualTo(jobName, newerThanOrEqualTo);
         for (JobTimestamp jt : marked) {
             Path source = local.getPathOf(jobName, jt);
-            Path target = remote.getRoot()
-                            .resolve(jobName.toString())
-                            .resolve(jt.toString());
+            Path target =
+                    remote.getRoot().resolve(jobName.toString()).resolve(jt.toString());
             try {
                 if (!Files.exists(target)) {
                     Files.createDirectories(target);
                 }
-                Files.walkFileTree(source,
-                        new CopyDir(source, target,
-                                CopyDir.Option.SKIP_IF_EXISTING));
                 // If a file is already existing in the remote store,
                 // we will skip copying it.
                 // It is to shorten the processing time.
+                Files.walkFileTree(source,
+                        new CopyDir(source, target,
+                                CopyDir.Option.SKIP_IF_EXISTING));
             } catch (IOException e) {
                 throw new MaterialstoreException(e);
             }
@@ -77,7 +81,8 @@ public class StoreExportImpl extends StoreExport {
 
     private void exportReportFiles(JobName jobName, JobTimestamp newerThanOrEqualTo)
             throws MaterialstoreException {
-        Set<JobTimestamp> marked = markJobTimestampsToExport(jobName, newerThanOrEqualTo);
+        Set<JobTimestamp> marked =
+                local.markNewerThanOrEqualTo(jobName, newerThanOrEqualTo);
         for (JobTimestamp jt : marked) {
             Path source = local.getRoot().resolve(
                     local.resolveReportFileName(jobName, jt));
@@ -93,27 +98,6 @@ public class StoreExportImpl extends StoreExport {
                 }
             }
         }
-    }
-
-
-    private Set<JobTimestamp> markJobTimestampsToExport(JobName jobName,
-                                                        JobTimestamp newerThanOrEqualTo)
-            throws MaterialstoreException {
-        Set<JobTimestamp> marked = new HashSet<>();
-        List<JobTimestamp> all = local.findAllJobTimestamps(jobName);
-        if (all.size() > 0) {
-            all.sort(Comparator.reverseOrder());
-            for (JobTimestamp jt : all) {
-                if (jt.compareTo(newerThanOrEqualTo) >= 0) {
-                    marked.add(jt);
-                    List<JobTimestamp> referred = local.findJobTimestampsReferredBy(jobName, jt);
-                    if (referred.size() > 0) {
-                        marked.addAll(referred);
-                    }
-                }
-            }
-        }
-        return marked;
     }
 
 }
