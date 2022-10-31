@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.base.manage;
 
 import com.kazurayam.materialstore.base.FixtureDirCopier;
+import com.kazurayam.materialstore.base.inspector.Inspector;
 import com.kazurayam.materialstore.core.TestFixtureSupport;
 import com.kazurayam.materialstore.core.TestHelper;
 import com.kazurayam.materialstore.core.filesystem.JobName;
@@ -83,8 +84,25 @@ public class StoreCleanerTest {
         assertEquals(1, reportFilesAfterCleanUp.size());
     }
 
-    public void test_cleanup_without_diff() throws IOException, MaterialstoreException {
-        throw new RuntimeException("TODO");
+    @Test
+    public void test_cleanup_MaterialListReports_without_diff() throws IOException, MaterialstoreException {
+        String testCaseName = "test_cleanup_MaterialListReports_without_diff";
+        // Arrange
+        Path testCaseOutputDir = testClassOutputDir.resolve(testCaseName);
+        Store store = Stores.newInstance(testCaseOutputDir.resolve("store"));
+        JobName jobName = new JobName(testCaseName);
+        JobTimestamp jtA = JobTimestamp.now();
+        JobTimestamp jtB = JobTimestamp.laterThan(jtA);
+        jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
+        jtB = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
+        Inspector inspector = Inspector.newInstance(store);
+        Path reportA = inspector.report(store.select(jobName, jtA));
+        Path reportB = inspector.report(store.select(jobName, jtB));
+        // Action
+        StoreCleaner cleaner = StoreCleaner.newInstance(store);
+        cleaner.cleanup(jobName);
+        // Assert
+        assertEquals(1, store.findAllReportsOf(jobName).size());
     }
 
     /**
