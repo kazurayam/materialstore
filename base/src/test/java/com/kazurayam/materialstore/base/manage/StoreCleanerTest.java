@@ -93,14 +93,20 @@ public class StoreCleanerTest {
         JobName jobName = new JobName(testCaseName);
         JobTimestamp jtA = new JobTimestamp("20221026_205509");
         JobTimestamp jtB = new JobTimestamp("20221029_220401");
-        jtA = TestFixtureSupport.create3TXTs(store, jobName, jtA);
-        jtB = TestFixtureSupport.create3TXTs(store, jobName, jtB); // intentionally create 2 JobTimestamps
+        TestFixtureSupport.create3TXTs(store, jobName, jtA);
+        TestFixtureSupport.create3TXTs(store, jobName, jtB);
         Inspector inspector = Inspector.newInstance(store);
         Path reportA = inspector.report(store.select(jobName, jtA));
         Path reportB = inspector.report(store.select(jobName, jtB));
         // Action
         StoreCleaner cleaner = StoreCleaner.newInstance(store);
-        cleaner.cleanup(jobName, jtB.minusHours(2));
+        JobTimestamp olderThan = jtB.minusHours(2);
+
+        System.out.println("jtA      =" + jtA);
+        System.out.println("jtB      =" + jtB);
+        System.out.println("olderThan=" + olderThan);
+
+        cleaner.cleanup(jobName, olderThan);
         // Assert
         assertEquals(1, store.findAllReportsOf(jobName).size());
     }

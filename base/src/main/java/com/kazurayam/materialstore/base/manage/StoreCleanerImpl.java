@@ -50,7 +50,7 @@ public class StoreCleanerImpl extends StoreCleaner {
             List<JobTimestamp> nonDiffs =
                     store.findAllJobTimestampsPriorTo(jobName, olderThan);
             if (nonDiffs.size() > 0) {
-                this.doCleanup(jobName, nonDiffs.get(nonDiffs.size() - 1));
+                this.doCleanup(jobName, olderThan);
             }
         }
     }
