@@ -85,22 +85,22 @@ public class StoreCleanerTest {
     }
 
     @Test
-    public void test_cleanup_MaterialListReports_without_diff() throws IOException, MaterialstoreException {
-        String testCaseName = "test_cleanup_MaterialListReports_without_diff";
+    public void test_cleanup_MaterialListReports_olderThan() throws IOException, MaterialstoreException {
+        String testCaseName = "test_cleanup_MaterialListReports_olderThan";
         // Arrange
         Path testCaseOutputDir = testClassOutputDir.resolve(testCaseName);
         Store store = Stores.newInstance(testCaseOutputDir.resolve("store"));
         JobName jobName = new JobName(testCaseName);
-        JobTimestamp jtA = JobTimestamp.now();
-        JobTimestamp jtB = JobTimestamp.laterThan(jtA);
-        jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
-        jtB = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
+        JobTimestamp jtA = new JobTimestamp("20221026_205509");
+        JobTimestamp jtB = new JobTimestamp("20221029_220401");
+        jtA = TestFixtureSupport.create3TXTs(store, jobName, jtA);
+        jtB = TestFixtureSupport.create3TXTs(store, jobName, jtB); // intentionally create 2 JobTimestamps
         Inspector inspector = Inspector.newInstance(store);
         Path reportA = inspector.report(store.select(jobName, jtA));
         Path reportB = inspector.report(store.select(jobName, jtB));
         // Action
         StoreCleaner cleaner = StoreCleaner.newInstance(store);
-        cleaner.cleanup(jobName);
+        cleaner.cleanup(jobName, jtB.minusHours(2));
         // Assert
         assertEquals(1, store.findAllReportsOf(jobName).size());
     }
