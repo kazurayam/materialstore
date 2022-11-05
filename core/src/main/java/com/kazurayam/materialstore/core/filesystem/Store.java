@@ -12,6 +12,8 @@ import java.util.Set;
  */
 public interface Store {
 
+    Store NULL_OBJECT = new StoreImpl(null);
+
     /**
      * return true if the directory of specified as JobName/JobTimestamp
      * exists in the store

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -105,5 +106,13 @@ public class StoreTest {
         Path jobTimestampPath = store.getPathOf(jobName, jobTimestamp);
         assertNotNull(jobTimestampPath);
         assertTrue(jobTimestampPath.toString().endsWith(jobTimestamp.toString()));
+    }
+
+    @Test
+    public void test_NULL_OBJECT() {
+        Store obj = Store.NULL_OBJECT;
+        assertNotNull(obj);
+        assertTrue(Files.exists(obj.getRoot()));
+        //System.out.println(obj.toString());
     }
 }
