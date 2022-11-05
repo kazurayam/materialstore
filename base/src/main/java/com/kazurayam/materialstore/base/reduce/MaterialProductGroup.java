@@ -37,6 +37,11 @@ import java.util.stream.Collectors;
 public final class MaterialProductGroup
         implements Iterable<MaterialProduct>, TemplateReadySortable, Identifiable {
 
+    public static final MaterialProductGroup NULL_OBJECT =
+            new MaterialProductGroup.Builder(
+                    MaterialList.NULL_OBJECT,
+                    MaterialList.NULL_OBJECT).build();
+
     private static final Logger logger = LoggerFactory.getLogger(MaterialProductGroup.class);
     private final List<MaterialProduct> materialProductList;
     private final JobTimestamp resultTimestamp;

@@ -31,6 +31,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MaterialProductGroupTest {
 
@@ -163,6 +164,13 @@ public class MaterialProductGroupTest {
     }
 
     @Test
+    public void test_NULL_OBJECT() {
+        MaterialProductGroup mpg = MaterialProductGroup.NULL_OBJECT;
+        assertNotNull(mpg);
+        //System.out.println(mpg.toString());
+    }
+
+    @Test
     public void test_setter_getter_IdentifyMetadataValues() {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(1);
         map.put("URL.query", "\\w{32}");
@@ -176,21 +184,21 @@ public class MaterialProductGroupTest {
     public void test_setter_getter_IgnoreMetadataKeys() {
         mpg.setIgnoreMetadataKeys(IgnoreMetadataKeys.NULL_OBJECT);
         IgnoreMetadataKeys ignoreMetadataKeys = mpg.getIgnoreMetadataKeys();
-        Assertions.assertNotNull(ignoreMetadataKeys);
+        assertNotNull(ignoreMetadataKeys);
     }
 
     @Test
     public void test_setter_getter_MaterialListLeft() {
         mpg.setMaterialListLeft(MaterialList.NULL_OBJECT);
         MaterialList left = mpg.getMaterialListLeft();
-        Assertions.assertNotNull(left);
+        assertNotNull(left);
     }
 
     @Test
     public void test_setter_getter_MaterialListRight() {
         mpg.setMaterialListRight(MaterialList.NULL_OBJECT);
         MaterialList right = mpg.getMaterialListRight();
-        Assertions.assertNotNull(right);
+        assertNotNull(right);
     }
 
 
@@ -219,7 +227,7 @@ public class MaterialProductGroupTest {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(1);
         map.put("URL.query", "\\w{32}");
         MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.path").build();
-        Assertions.assertNotNull(mpg);
+        assertNotNull(mpg);
         mpg.forEach( mProduct -> {
             Assertions.assertNotEquals(ID.NULL_OBJECT, ((MaterialProduct) mProduct).getLeft().getIndexEntry().getID());
             Assertions.assertNotEquals(ID.NULL_OBJECT, ((MaterialProduct) mProduct).getRight().getIndexEntry().getID());
@@ -265,7 +273,7 @@ public class MaterialProductGroupTest {
                 metadata, mpg.toJson(true));
         // call toTemplateModel()
         Map<String, Object> model = mpg.toTemplateModel();
-        Assertions.assertNotNull(model);
+        assertNotNull(model);
     }
 
 }
