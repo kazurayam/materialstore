@@ -46,7 +46,7 @@ public class CopyDir extends SimpleFileVisitor<Path> {
                             StandardCopyOption.REPLACE_EXISTING,
                             StandardCopyOption.COPY_ATTRIBUTES);
                 } else {
-                    logger.info(targetFile + " is found; skipped overwriting it.");
+                    logger.debug(targetFile + " is found; skipped overwriting it.");
                 }
             } else {
                 Files.copy(file, targetFile,
