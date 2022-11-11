@@ -35,7 +35,7 @@ public final class MaterialProductGroupReporterImpl extends MaterialProductGroup
 
     private final Store store;
 
-    private Double criteria = 0.0d;
+    private Double threshold = 0.0d;
 
     private static final String TEMPLATE_PATH =
             "com/kazurayam/materialstore/report/MProductGroupBasicReporterFMTemplate.ftlh";
@@ -80,7 +80,7 @@ public final class MaterialProductGroupReporterImpl extends MaterialProductGroup
         dataModel.put("store", store.getRoot().normalize().toString());
         dataModel.put("mProductGroup", mpg.toTemplateModel(sortKeys));
         dataModel.put("model", mpg.toJson(true));
-        dataModel.put("criteria", criteria);
+        dataModel.put("threshold", threshold);
         dataModel.put("sortKeys", sortKeys.toString());
 
         // for debug
@@ -130,7 +130,7 @@ public final class MaterialProductGroupReporterImpl extends MaterialProductGroup
     @Override
     public Path report(MaterialProductGroup mpg, SortKeys sortKeys, String fileName)
             throws MaterialstoreException {
-        mpg.setCriteria(this.criteria);
+        mpg.setThreshold(this.threshold);
         Path reportFile = store.getRoot().resolve(fileName);
         this.report(mpg, sortKeys, reportFile);
         return reportFile;
@@ -143,11 +143,11 @@ public final class MaterialProductGroupReporterImpl extends MaterialProductGroup
     }
 
     @Override
-    public void setCriteria(Double criteria) {
-        if (criteria < 0.0 || 100.0 < criteria) {
+    public void setThreshold(Double threshold) {
+        if (threshold < 0.0 || 100.0 < threshold) {
             throw new IllegalArgumentException(
-                    "criteria(${criteria}) must be in the range of [0,100)");
+                    "threshold(${threshold}) must be in the range of [0.0, 100.0)");
         }
-        this.criteria = criteria;
+        this.threshold = threshold;
     }
 }

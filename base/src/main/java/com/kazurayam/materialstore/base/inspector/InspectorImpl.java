@@ -76,20 +76,20 @@ public class InspectorImpl extends Inspector {
     }
 
     @Override
-    public Path report(MaterialProductGroup mpg, Double criteria) throws MaterialstoreException {
+    public Path report(MaterialProductGroup mpg, Double threshold) throws MaterialstoreException {
         Objects.requireNonNull(mpg);
-        Objects.requireNonNull(criteria);
+        Objects.requireNonNull(threshold);
         String fileName = this.resolveReportFileName(mpg);
-        return this.report(mpg, criteria, fileName);
+        return this.report(mpg, threshold, fileName);
     }
 
-    private Path report(MaterialProductGroup mpg, Double criteria, String fileName) throws MaterialstoreException {
+    private Path report(MaterialProductGroup mpg, Double threshold, String fileName) throws MaterialstoreException {
         Objects.requireNonNull(mpg);
-        Objects.requireNonNull(criteria);
+        Objects.requireNonNull(threshold);
         Objects.requireNonNull(fileName);
         //
         MaterialProductGroupReporter reporter = this.newMaterialProductGroupReporter();
-        reporter.setCriteria(criteria);
+        reporter.setThreshold(threshold);
         reporter.report(mpg, sortKeys, fileName);
         return store.getRoot().resolve(fileName);
     }

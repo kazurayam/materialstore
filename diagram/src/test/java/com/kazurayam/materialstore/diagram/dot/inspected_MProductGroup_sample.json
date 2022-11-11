@@ -1,6 +1,6 @@
 {
   "jobName": "Main_Twins",
-  "criteria": 0.0,
+  "threshold": 0.0,
   "isReadyToReport": true,
   "ignoreMetadataKeys": [
     "URL.host",

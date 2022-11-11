@@ -61,9 +61,9 @@
           <dd>
             <@compressToSingleLine><@IgnoreMetadataKeys.toSpanSequence keys=mProductGroup.ignoreMetadataKeys /></@compressToSingleLine>
           </dd>
-          <dt>criteria</dt>
+          <dt>threshold</dt>
           <dd>
-            ${mProductGroup.criteria?string["0.00"]}
+            ${mProductGroup.threshold?string["0.00"]}
           </dd>
 
           <dt>Sort keys :</dt>
@@ -77,7 +77,7 @@
             <#if mProduct??>
               <div id="accordion${index}" class="accordion-item">
                 <h2 id="heading${index}" class="accordion-header">
-                  <#if mProduct.diffRatio?? && mProduct.diffRatio gt mProductGroup.criteria>
+                  <#if mProduct.diffRatio?? && mProduct.diffRatio gt mProductGroup.threshold>
                     <input class="form-check-input" type="checkbox" id="ignorable${index}" value=""
                            data-index="${index}">
                   <#else>
@@ -88,7 +88,7 @@
                           data-bs-target="#collapse${index}" area-expanded="false" aria-controls="collapse${index}">
                     <#if mProduct.diffRatio??>
                       <#assign ratio = mProduct.diffRatio>
-                      <#if ratio gt criteria >
+                      <#if ratio gt threshold >
                         <#assign warningClass = 'warning'>
                       <#else>
                         <#assign warningClass = ''>

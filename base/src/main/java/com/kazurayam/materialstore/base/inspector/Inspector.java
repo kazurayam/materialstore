@@ -25,7 +25,7 @@ public abstract class Inspector {
 
     public abstract String resolveReportFileName(MaterialProductGroup mpg);
 
-    public abstract Path report(MaterialProductGroup mpg, Double criteria) throws MaterialstoreException;
+    public abstract Path report(MaterialProductGroup mpg, Double threshold) throws MaterialstoreException;
 
     public abstract String resolveReportFileName(MaterialList materialList);
 

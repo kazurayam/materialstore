@@ -67,10 +67,10 @@ public class Issue73Test {
         Inspector inspector = Inspector.newInstance(store);
         MaterialProductGroup reducedMPG = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL.host").build();
         MaterialProductGroup processedMPG = inspector.reduceAndSort(reducedMPG);
-        Double criteria = 0.0d;
-        int warnings = processedMPG.countWarnings(criteria);
+        Double threshold = 0.0d;
+        int warnings = processedMPG.countWarnings(threshold);
         // compile the report
-        Path reportFile = inspector.report(processedMPG, criteria);
+        Path reportFile = inspector.report(processedMPG, threshold);
         assert processedMPG.size() == 8;
     }
 }

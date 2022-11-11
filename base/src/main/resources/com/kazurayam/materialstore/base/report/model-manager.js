@@ -87,19 +87,19 @@ function setChecked(model, index, checked) {
 
 function classifyRatioSpan(input, index, id, checked, diffRatio) {
     const ratioSpan = input.next("button").find("span.ratio")
-    if (diffRatio > model.criteria) {
+    if (diffRatio > model.threshold) {
         if (checked) {
             console.log(id + " is ignored. The diffRatio(" +
-                diffRatio + ") is larger than the criteria(" +
-                model.criteria + ") but is checked.");
+                diffRatio + ") is larger than the threshold(" +
+                model.threshold + ") but is checked.");
             ratioSpan.removeClass("warning");
             ratioSpan.addClass("ignored");
             setChecked(model, index, true);
             updateCountDisplay(model);
         } else {
             console.log(id + " is warned. The diffRatio(" +
-                diffRatio + ") is larger than the criteria(" +
-                model.criteria + ") and is unchecked.");
+                diffRatio + ") is larger than the threshold(" +
+                model.threshold + ") and is unchecked.");
             ratioSpan.removeClass("ignored");
             ratioSpan.addClass("warning");
             setChecked(model, index, false);
@@ -107,8 +107,8 @@ function classifyRatioSpan(input, index, id, checked, diffRatio) {
         }
     } else {
         console.log(id + " is no problem The diffRatio(" +
-            diffRatio + ") is smaller than or equal to the criteria(" +
-            model.criteria + ").");
+            diffRatio + ") is smaller than or equal to the threshold(" +
+            model.threshold + ").");
     }
 }
 
@@ -117,10 +117,10 @@ function updateCountDisplay(mdl) {
     //
     model.countWarning =
         model.materialProductList
-            .filter(mp => mp.diffRatio > model.criteria && ! mp.checked).length;
+            .filter(mp => mp.diffRatio > model.threshold && ! mp.checked).length;
     model.countIgnorable =
         model.materialProductList
-            .filter(mp => mp.diffRatio > model.criteria && mp.checked).length;
+            .filter(mp => mp.diffRatio > model.threshold && mp.checked).length;
     //
     $(document).find("#count .warnings").text(mdl.countWarning.toFixed());
     $(document).find("#count .ignorable").text(mdl.countIgnorable.toFixed());
@@ -163,7 +163,7 @@ function getWithExpiry(key) {
  {
   "jobName": "MyAdmin_Main_Twins",
   "resultTimestamp": "20220409_101751",
-  "criteria": 0.0,
+  "threshold": 0.0,
   "isReadyToReport": true,
   "ignoreMetadataKeys": [
     "URL.host",

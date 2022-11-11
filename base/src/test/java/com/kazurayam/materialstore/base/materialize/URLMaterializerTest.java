@@ -37,7 +37,7 @@ public class URLMaterializerTest {
 
     @Test
     public void test_materialize() throws IOException, MaterialstoreException {
-        URL url = new URL("https://press.aboutamazon.com/rss/news-releases.xml");
+        URL url = new URL("https://www.data.jma.go.jp/rss/jma.rss");
         JobName jobName = new JobName("test_materialize");
         JobTimestamp jobTimestamp = JobTimestamp.now();
         FileType fileType = FileType.XML;

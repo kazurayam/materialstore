@@ -28,8 +28,8 @@ public class URLDownloaderTest {
 
     @Test
     public void test_download() throws IOException {
-        URL url = new URL("https://press.aboutamazon.com/rss/news-releases.xml");
-        Path out = outputDir.resolve("AmznPress-rss.xml");
+        URL url = new URL("https://www.data.jma.go.jp/rss/jma.rss");
+        Path out = outputDir.resolve("jma.rss");
         URLDownloader.download(url, out);
         Assertions.assertTrue(Files.exists(out));
         Assertions.assertTrue(out.toFile().length() > 0);

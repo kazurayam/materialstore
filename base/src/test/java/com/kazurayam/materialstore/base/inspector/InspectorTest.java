@@ -96,10 +96,10 @@ public class InspectorTest {
                 .sort("URL.host")
                 .build();
         MaterialProductGroup processedMPG = inspector.reduceAndSort(reducedMPG);
-        double criteria = 0.0D;
-        Assertions.assertTrue(processedMPG.countWarnings(criteria) > 0);
+        double threshold = 0.0D;
+        Assertions.assertTrue(processedMPG.countWarnings(threshold) > 0);
 
-        Path report = inspector.report(processedMPG, criteria);
+        Path report = inspector.report(processedMPG, threshold);
         Assertions.assertNotNull(report);
         Assertions.assertTrue(Files.exists(report));
     }

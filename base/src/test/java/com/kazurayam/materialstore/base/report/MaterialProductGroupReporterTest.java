@@ -63,7 +63,7 @@ public class MaterialProductGroupReporterTest extends AbstractReporterTest {
         MaterialProductGroupReporterImpl reporter = new MaterialProductGroupReporterImpl(store);
         reporter.enableVerboseLogging(true);
         reporter.enablePrettyPrinting(true);
-        reporter.setCriteria(15.0d);
+        reporter.setThreshold(15.0d);
         //
         SortKeys sortKeys = new SortKeys("URL.path");
         report1 = reporter.report(reduced, sortKeys,jobNameB + "-index.html");

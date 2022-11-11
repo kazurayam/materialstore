@@ -17,7 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * I found at Nov 2022, the URL "https://press.aboutamazon.com/res/news-releases.xml" is not
+ * available. This class would have no use any longer.
+ */
 public final class RSSAmznPress2ExcelMapper extends RSS2ExcelMapper implements Mapper {
 
     private static final Logger logger =

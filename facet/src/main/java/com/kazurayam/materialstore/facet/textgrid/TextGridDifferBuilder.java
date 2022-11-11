@@ -54,14 +54,14 @@ public abstract class TextGridDifferBuilder {
         MaterialList left = store.select(jobName, timestamp1, QueryOnMetadata.builder().build());
 
         MaterialList right = store.select(jobName, timestamp2, QueryOnMetadata.builder().build());
-        double criteria = 0.0d;
+        double threshold = 0.0d;
 
         Inspector inspector = Inspector.newInstance(store);
 
         MaterialProductGroup reduced = MaterialProductGroup.builder(left, right).ignoreKeys("input").build();
         MaterialProductGroup processed = inspector.reduceAndSort(reduced);
-        int warnings = processed.countWarnings(criteria);
-        reportFile = inspector.report(processed, criteria);
+        int warnings = processed.countWarnings(threshold);
+        reportFile = inspector.report(processed, threshold);
         assert Files.exists(reportFile);
         logger.info("report is found at " + reportFile.normalize().toAbsolutePath());
 

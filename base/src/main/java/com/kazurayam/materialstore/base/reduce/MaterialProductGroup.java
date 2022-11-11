@@ -50,7 +50,7 @@ public final class MaterialProductGroup
     private IgnoreMetadataKeys ignoreMetadataKeys;
     private IdentifyMetadataValues identifyMetadataValues;
     private final SortKeys sortKeys;
-    private Double criteria;
+    private Double threshold;
     private boolean readyToReport;
 
     private MaterialProductGroup(Builder builder) {
@@ -59,7 +59,7 @@ public final class MaterialProductGroup
         this.ignoreMetadataKeys = builder.ignoreMetadataKeys;
         this.identifyMetadataValues = builder.identifyMetadataValues;
         this.sortKeys = builder.sortKeys;
-        this.criteria = builder.criteria;
+        this.threshold = builder.threshold;
         this.resultTimestamp = builder.resultTimestamp;
 
         // this is the most mysterious part of the materialstore library
@@ -84,7 +84,7 @@ public final class MaterialProductGroup
         this.ignoreMetadataKeys = source.getIgnoreMetadataKeys();        // IgnoreMetadataKeys is immutable
         this.identifyMetadataValues = source.getIdentifyMetadataValues();// IdentifyMetadataValues is immutable
         this.sortKeys = source.getSortKeys();                            // SortKeys is immutable
-        this.criteria = source.getCriteria();
+        this.threshold = source.getThreshold();
         final List<MaterialProduct> tmp = new ArrayList<>();
         for (MaterialProduct sourceMProduct : source) {
             tmp.add(new MaterialProduct(sourceMProduct));
@@ -105,24 +105,24 @@ public final class MaterialProductGroup
         return wasPresent;
     }
 
-    public int countWarnings(final Double criteria) {
-        return this.countExceeding(criteria);
+    public int countWarnings(final Double threshold) {
+        return this.countExceeding(threshold);
     }
 
     /**
      * count the number of MaterialProduct objects that have diffRatio
-     * greater than the criteria given.
+     * greater than the threshold given.
      *
-     * @param criteria
+     * @param threshold
      * @return
      */
-    public int countExceeding(final Double criteria) {
-        Objects.requireNonNull(criteria);
+    public int countExceeding(final Double threshold) {
+        Objects.requireNonNull(threshold);
         int count = 0;
         for (MaterialProduct mProduct : materialProductList) {
             assert mProduct != null;
             assert mProduct.getDiffRatio() != null;
-            if (mProduct.getDiffRatio() > criteria) {
+            if (mProduct.getDiffRatio() > threshold) {
                 count += 1;
             }
         }
@@ -199,12 +199,12 @@ public final class MaterialProductGroup
         return this.sortKeys;
     }
 
-    public Double getCriteria() { return this.criteria; }
+    public Double getThreshold() { return this.threshold; }
 
     public int getCountWarning() {
         List<MaterialProduct> filtered = new ArrayList<>();
         for (MaterialProduct mp : this) {
-            if (mp.getDiffRatio() > this.getCriteria()) {
+            if (mp.getDiffRatio() > this.getThreshold()) {
                 filtered.add(mp);
             }
         }
@@ -245,9 +245,9 @@ public final class MaterialProductGroup
         this.materialList1 = materialList;
     }
 
-    public void setCriteria(Double criteria) {
-        Objects.requireNonNull(criteria);
-        this.criteria = criteria;
+    public void setThreshold(Double threshold) {
+        Objects.requireNonNull(threshold);
+        this.threshold = threshold;
     }
 
     /**
@@ -315,8 +315,8 @@ public final class MaterialProductGroup
         //sb.append(this.resultTimestamp.toString());
         //sb.append("\"");
         //sb.append(",");
-        sb.append("\"criteria\":");
-        sb.append(this.getCriteria());
+        sb.append("\"threshold\":");
+        sb.append(this.getThreshold());
         sb.append(",");
         sb.append("\"isReadyToReport\":");
         sb.append(this.isReadyToReport());
@@ -409,7 +409,7 @@ public final class MaterialProductGroup
         private IgnoreMetadataKeys ignoreMetadataKeys = IgnoreMetadataKeys.NULL_OBJECT;
         private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT;
         private SortKeys sortKeys = SortKeys.NULL_OBJECT;
-        private final Double criteria;
+        private final Double threshold;
 
         public Builder(final MaterialList materialList0, final MaterialList materialList1) {
             this.materialList0 = materialList0;
@@ -421,7 +421,7 @@ public final class MaterialProductGroup
                 throw new IllegalArgumentException("left=" + materialList0.getJobTimestamp() + ", right=" +
                         materialList1.getJobTimestamp() + ". expected left < right.");
             }
-            this.criteria = 0.0d;
+            this.threshold = 0.0d;
         }
 
         public Builder ignoreKeys(String... keys) {

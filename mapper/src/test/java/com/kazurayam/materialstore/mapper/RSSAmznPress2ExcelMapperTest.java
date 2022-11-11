@@ -28,6 +28,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * I found at Nov 2022, the URL "https://press.aboutamazon.com/res/news-releases.xml" is not
+ * available. This class would have no use any longer.
+ */
+@Disabled
 public class RSSAmznPress2ExcelMapperTest {
 
     private static URL url;

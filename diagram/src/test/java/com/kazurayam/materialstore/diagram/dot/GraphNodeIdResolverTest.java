@@ -94,7 +94,7 @@ public class GraphNodeIdResolverTest {
         assert mProductGroup.size() > 0;
         Material material = leftMaterialList.get(0);
         GraphNodeId graphNodeId = GraphNodeIdResolver.resolveIdOfMaterialInMProductGroup(mProductGroup, material);
-        assertEquals(new GraphNodeId("MPG53955d6_M99ed902"), graphNodeId);
+        assertEquals(new GraphNodeId("MPG55bdbaa_M99ed902"), graphNodeId);
     }
 
     @Test
@@ -107,6 +107,6 @@ public class GraphNodeIdResolverTest {
                         rightMaterialList).ignoreKeys("profile", "URL.host").build();
         Material material = leftMaterialList.get(0);
         GraphNodeId graphNodeId = GraphNodeIdResolver.resolveIdOfMaterialInMProductGroupBeforeZIP(mProductGroup, material);
-        assertEquals(new GraphNodeId("MPGBZ36d4203_MLe25845c_M561b438"), graphNodeId);
+        assertEquals(new GraphNodeId("MPGBZdaa650e_MLe25845c_M561b438"), graphNodeId);
     }
 }
