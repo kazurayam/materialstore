@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -424,9 +425,20 @@ public final class MaterialProductGroup
             this.threshold = 0.0d;
         }
 
+        public Builder ignoreKey(String key) {
+            ignoreMetadataKeys.add(key);
+            return this;
+        }
+
         public Builder ignoreKeys(String... keys) {
-            IgnoreMetadataKeys imk = new IgnoreMetadataKeys.Builder().ignoreKeys(keys).build();
-            return setIgnoreMetadataKeys(imk);
+            this.ignoreKeys(Arrays.asList(keys));
+            return this;
+        }
+
+        public Builder ignoreKeys(List<String> keys) {
+            ignoreMetadataKeys.addAll(keys);
+            return this;
+
         }
 
         public Builder setIgnoreMetadataKeys(IgnoreMetadataKeys ignoreMetadataKeys) {

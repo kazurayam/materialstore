@@ -10,12 +10,17 @@ import com.kazurayam.materialstore.core.filesystem.Stores;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MaterialProductGroup_BuilderTest {
 
@@ -50,6 +55,21 @@ public class MaterialProductGroup_BuilderTest {
         map1.put("profile", "MyAdmin_DevelopmentEnv");
         right = store.select(jobName, timestampD, QueryOnMetadata.builder(map1).build());
         assert right.size() == 8;
+    }
+
+    @Test
+    public void test_ignoreKey_and_ignoreKeys() {
+        MaterialProductGroup mpg = new MaterialProductGroup.Builder(left, right)
+                .ignoreKey("profile")
+                .ignoreKeys("URL.host", "URL.protocol")
+                .ignoreKeys(Arrays.asList("URL.port", "URL.path"))
+                .build();
+        assertTrue(mpg.getIgnoreMetadataKeys().contains("profile"));
+        assertTrue(mpg.getIgnoreMetadataKeys().contains("URL.host"));
+        assertTrue(mpg.getIgnoreMetadataKeys().contains("URL.protocol"));
+        assertTrue(mpg.getIgnoreMetadataKeys().contains("URL.port"));
+        assertTrue(mpg.getIgnoreMetadataKeys().contains("URL.path"));
+        assertFalse(mpg.getIgnoreMetadataKeys().contains("hello"));
     }
 
 }
