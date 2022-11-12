@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.core.util.JsonUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -36,6 +37,16 @@ public final class IgnoreMetadataKeysImpl extends IgnoreMetadataKeys {
     @Override
     public boolean addAll(List<String> list) {
         return this.keySet.addAll(list);
+    }
+
+    @Override
+    public boolean addAll(Set<String> set) {
+        return this.keySet.addAll(set);
+    }
+
+    @Override
+    public boolean addAll(IgnoreMetadataKeys imk) {
+        return this.keySet.addAll(imk.keySet());
     }
 
     @Override

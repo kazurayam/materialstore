@@ -17,7 +17,9 @@ public abstract class IgnoreMetadataKeys implements Iterable<String>, Jsonifiabl
     public abstract boolean add(String s);
 
     public abstract boolean addAll(String... keys);
-    public abstract boolean addAll(List<String> collection);
+    public abstract boolean addAll(List<String> list);
+    public abstract boolean addAll(Set<String> set);
+    public abstract boolean addAll(IgnoreMetadataKeys imk);
 
     public abstract int size();
 

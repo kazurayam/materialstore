@@ -436,13 +436,17 @@ public final class MaterialProductGroup
         }
 
         public Builder ignoreKeys(List<String> keys) {
-            ignoreMetadataKeys.addAll(keys);
+            this.ignoreMetadataKeys.addAll(keys);
             return this;
-
         }
 
-        public Builder setIgnoreMetadataKeys(IgnoreMetadataKeys ignoreMetadataKeys) {
-            this.ignoreMetadataKeys = ignoreMetadataKeys;
+        public Builder ignoreKeys(IgnoreMetadataKeys imk) {
+            this.ignoreMetadataKeys.addAll(imk);
+            return this;
+        }
+
+        public Builder setIgnoreMetadataKeys(IgnoreMetadataKeys imk) {
+            this.ignoreMetadataKeys = imk;
             return this;
         }
 

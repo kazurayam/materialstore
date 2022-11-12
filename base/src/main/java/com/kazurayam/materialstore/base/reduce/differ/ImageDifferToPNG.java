@@ -37,7 +37,7 @@ public final class ImageDifferToPNG implements Differ {
         //
         final Material left = mProduct.getLeft();
         if (!left.getDiffability().equals(FileTypeDiffability.AS_IMAGE)) {
-            throw new IllegalArgumentException("the left material is not an image: " + left);
+            throw new MaterialstoreException("the left material is not an image: " + left);
         }
 
         File leftFile = store.getRoot().resolve(left.getRelativePath()).toFile();
@@ -46,7 +46,7 @@ public final class ImageDifferToPNG implements Differ {
         //
         final Material right = mProduct.getRight();
         if (!right.getDiffability().equals(FileTypeDiffability.AS_IMAGE)) {
-            throw new IllegalArgumentException("the right material is not an image: " + right);
+            throw new MaterialstoreException("the right material is not an image: " + right);
         }
 
         File rightFile = store.getRoot().resolve(right.getRelativePath()).toFile();
