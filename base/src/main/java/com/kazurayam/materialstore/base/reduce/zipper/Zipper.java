@@ -20,7 +20,7 @@ import java.util.Objects;
 /**
  * contains the "zipMaterials" method that takes 2 MaterialList objects (left, right)
  * together with some parameters, create a List of MaterialProduct objects.
- * 2 Lists are converted into 1 List.
+ * 2 MaterialLists are converted into a single List of MaterialProduct.
  * It is the reason why this method and this class is named "zipper".
  */
 public final class Zipper {
@@ -52,10 +52,7 @@ public final class Zipper {
         // the result
         final List<MaterialProduct> mProductList = new ArrayList<>();
 
-        //
-        Iterator<Material> rightIter = rightList.iterator();
-        while (rightIter.hasNext()) {
-            Material right = rightIter.next();
+        for (Material right : rightList) {
             final IFileType rightFileType = right.getIndexEntry().getFileType();
             Metadata rightMetadata = right.getIndexEntry().getMetadata();
             final QueryOnMetadata rightPattern =
@@ -66,9 +63,7 @@ public final class Zipper {
                     + rightFileType.getExtension() + " pattern: " + rightPattern);
             int foundLeftCount = 0;
 
-            Iterator<Material> leftIter = leftList.iterator();
-            while (leftIter.hasNext()) {
-                Material left = leftIter.next();
+            for (Material left : leftList) {
                 final IFileType leftFileType = left.getIndexEntry().getFileType();
                 final Metadata leftMetadata = left.getIndexEntry().getMetadata();
                 if (leftFileType.equals(rightFileType) && (rightPattern.matches(leftMetadata)
@@ -94,16 +89,14 @@ public final class Zipper {
                 mProductList.add(mp);
             }
 
-            logger.debug(methodName + "foundLeftCount=" + foundLeftCount);
+            //logger.debug(methodName + "foundLeftCount=" + foundLeftCount);
             if (foundLeftCount == 0 || foundLeftCount >= 2) {
                 logger.info(methodName + "foundLeftCount=" + foundLeftCount + " is unusual");
             }
         }
 
         //
-        Iterator<Material> leftIter2 = leftList.iterator();
-        while (leftIter2.hasNext()) {
-            Material left = leftIter2.next();
+        for (Material left : leftList) {
             final IFileType leftFileType = left.getIndexEntry().getFileType();
             Metadata leftMetadata = left.getIndexEntry().getMetadata();
             final QueryOnMetadata leftPattern =
@@ -112,10 +105,7 @@ public final class Zipper {
             logger.debug(methodName + "left " + left.getShortID() + " "
                     + leftFileType.toString() + " pattern: " + leftPattern);
             int foundRightCount = 0;
-            //
-            Iterator<Material> rightIter2 = rightList.iterator();
-            while (rightIter2.hasNext()) {
-                Material right = rightIter2.next();
+            for (Material right : rightList) {
                 final IFileType rightFileType = right.getIndexEntry().getFileType();
                 final Metadata rightMetadata = right.getIndexEntry().getMetadata();
                 if (rightFileType.equals(leftFileType) && (leftPattern.matches(rightMetadata)
@@ -132,11 +122,12 @@ public final class Zipper {
             if (foundRightCount == 0) {
                 MaterialProduct mProduct =
                         new MaterialProduct.Builder(left, Material.newEmptyMaterial(), resultTimestamp)
-                        .setQueryOnMetadata(leftPattern)
-                        .build();
+                                .setQueryOnMetadata(leftPattern)
+                                .build();
                 mProductList.add(mProduct);
             }
-            logger.debug(methodName + "foundRightCount=" + foundRightCount);
+
+            //logger.debug(methodName + "foundRightCount=" + foundRightCount);
             if (foundRightCount == 0 || foundRightCount >= 2) {
                 logger.info(methodName + "foundRightCount=" + foundRightCount + " is unusual");
             }
