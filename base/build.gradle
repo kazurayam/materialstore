@@ -5,6 +5,7 @@ plugins {
 dependencies {
     implementation(project(":core"))
     testImplementation project(':core').sourceSets.test.output
+    testImplementation(project(':diagram'))
     implementation(project(":freemarker"))
 
     // WebDriverManager is required by com.kazurayam.materialstore.materialize.MaterializingFunctions
@@ -25,3 +26,12 @@ dependencies {
     // AShot is required by com.kazurayam.materialstore.reduce.differ.ImageDifferToPNG
     implementation libs.ashot
 }
+
+/*
+test {
+    filter {
+        includeTestsMatching("*reduce.MaterialProductGroup_BuilderTest")
+        includeTestsMatching("*reduce.MaterialProductGroup_issue87Test")
+    }
+}
+*/

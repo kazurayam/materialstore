@@ -12,6 +12,7 @@ import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -20,15 +21,19 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 /**
  * Reproducing the issue #73 at https://github.com/kazurayam/materialstore/issues/73
  * and fixing it.
  */
+@Disabled
 public class Issue73Test {
 
-
     private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixtures/issue#73");
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(Issue73Test.class.getName());
+    private static final Path outputDir =
+            Paths.get(".").resolve("build/tmp/testOutput")
+                    .resolve(Issue73Test.class.getName());
     private static Store store;
     private static final JobName jobName = new JobName("MyAdmin_visual_inspection_twins");
     private static final JobTimestamp timestampP = new JobTimestamp("20220125_140449");
@@ -71,6 +76,6 @@ public class Issue73Test {
         int warnings = processedMPG.countWarnings(threshold);
         // compile the report
         Path reportFile = inspector.report(processedMPG, threshold);
-        assert processedMPG.size() == 8;
+        assertEquals(8, processedMPG.size());
     }
 }

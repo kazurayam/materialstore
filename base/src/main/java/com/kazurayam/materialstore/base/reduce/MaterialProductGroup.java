@@ -2,6 +2,9 @@ package com.kazurayam.materialstore.base.reduce;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
+import com.kazurayam.materialstore.base.reduce.zipper.MaterialProductComparator;
+import com.kazurayam.materialstore.base.reduce.zipper.Zipper;
 import com.kazurayam.materialstore.core.filesystem.ID;
 import com.kazurayam.materialstore.core.filesystem.Identifiable;
 import com.kazurayam.materialstore.core.filesystem.JobName;
@@ -9,13 +12,10 @@ import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.core.filesystem.MaterialIO;
 import com.kazurayam.materialstore.core.filesystem.MaterialList;
 import com.kazurayam.materialstore.core.filesystem.QueryOnMetadata;
+import com.kazurayam.materialstore.core.filesystem.SortKeys;
 import com.kazurayam.materialstore.core.filesystem.TemplateReadySortable;
 import com.kazurayam.materialstore.core.filesystem.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.core.filesystem.metadata.IgnoreMetadataKeys;
-import com.kazurayam.materialstore.core.filesystem.SortKeys;
-import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
-import com.kazurayam.materialstore.base.reduce.zipper.MaterialProductComparator;
-import com.kazurayam.materialstore.base.reduce.zipper.Zipper;
 import com.kazurayam.materialstore.core.util.GsonHelper;
 import com.kazurayam.materialstore.core.util.JsonUtil;
 import org.slf4j.Logger;
@@ -62,17 +62,7 @@ public final class MaterialProductGroup
         this.sortKeys = builder.sortKeys;
         this.threshold = builder.threshold;
         this.resultTimestamp = builder.resultTimestamp;
-
-        // this is the most mysterious part of the materialstore library
-        Zipper zipper = new Zipper(ignoreMetadataKeys, identifyMetadataValues);
-        this.materialProductList = zipper.zipMaterials(materialList0, materialList1, resultTimestamp);
-
-        // at this timing the MProducts are not yet filled with the diff information.
-        // the diff information is still vacant.
-        // The following code processes the MProductGroup object and fill with the diff information:
-
-        // Inspector inspector = Inspector.newInstance(store)
-        // MProductGroup processed = inspector.process(reduced)
+        this.materialProductList = builder.materialProductList;
     }
 
     /**
@@ -404,6 +394,8 @@ public final class MaterialProductGroup
      */
     public static class Builder {
 
+        private Logger logger = LoggerFactory.getLogger(MaterialProductGroup.Builder.class);
+
         private final MaterialList materialList0;
         private final MaterialList materialList1;
         private final JobTimestamp resultTimestamp;
@@ -411,6 +403,7 @@ public final class MaterialProductGroup
         private IdentifyMetadataValues identifyMetadataValues = IdentifyMetadataValues.NULL_OBJECT;
         private SortKeys sortKeys = SortKeys.NULL_OBJECT;
         private final Double threshold;
+        private List<MaterialProduct> materialProductList;
 
         public Builder(final MaterialList materialList0, final MaterialList materialList1) {
             this.materialList0 = materialList0;
@@ -471,6 +464,25 @@ public final class MaterialProductGroup
         }
 
         public MaterialProductGroup build() {
+
+            /* =============================================================
+             * this is the most mysterious part of the materialstore library
+             */
+            Zipper zipper = new Zipper(ignoreMetadataKeys, identifyMetadataValues);
+            this.materialProductList =
+                    zipper.zipMaterials(materialList0, materialList1, resultTimestamp);
+
+            //logger.info("materialProductList:");
+            for (int i = 0; i < materialProductList.size(); i++) {
+                MaterialProduct mp = materialProductList.get(i);
+                //logger.info("materialProductList[" + i + "] : " +mp.toJson(true));
+            }
+
+            /* ============================================================
+             * at this timing the MaterialProducts is not yet filled with
+             * the diff information.
+             */
+
             return new MaterialProductGroup(this);
         }
     }
