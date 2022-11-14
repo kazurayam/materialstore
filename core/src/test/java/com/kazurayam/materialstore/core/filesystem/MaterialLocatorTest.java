@@ -3,6 +3,7 @@ package com.kazurayam.materialstore.core.filesystem;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MaterialLocatorTest {
 
@@ -28,5 +29,12 @@ public class MaterialLocatorTest {
         //
         assertEquals(jobTimestamp, locator.getJobTimestamp());
         assertEquals(idStr, locator.getID().toString());
+    }
+
+    @Test
+    public void test_NULL_OBJECT() {
+        MaterialLocator locator = MaterialLocator.NULL_OBJECT;
+        assertNotNull(locator);
+        assertEquals("_", locator.getJobTimestamp().toString());
     }
 }
