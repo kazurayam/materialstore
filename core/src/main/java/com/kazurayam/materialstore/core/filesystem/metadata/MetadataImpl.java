@@ -34,63 +34,6 @@ public final class MetadataImpl extends Metadata {
         this.url = null;
     }
 
-    @Override
-    public boolean containsKey(String key) {
-        return attributes.containsKey(key);
-    }
-
-    @Override
-    public String get(String key) {
-        MetadataAttribute attribute = attributes.get(key);
-        if (attribute != null) {
-            return attribute.getValue();
-        } else {
-            return null;
-        }
-
-    }
-
-    @Override
-    public MetadataAttribute getMetadataAttribute(String key) {
-        return attributes.get(key);
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return attributes.isEmpty();
-    }
-
-    @Override
-    public Set<String> keySet() {
-        return attributes.keySet();
-    }
-
-    public void setURL(URL url) {
-        this.url = url;
-    }
-
-    @Override
-    public int size() {
-        return attributes.size();
-    }
-
-    @Override
-    public String toURLAsString() throws MaterialstoreException {
-        if (this.toURL() != null) {
-            if (attributes.containsKey(KEY_URL_FRAGMENT)) {
-                return Objects.requireNonNull(toURL()).toExternalForm() + "#" + attributes.get(KEY_URL_FRAGMENT).getValue();
-            } else {
-                return Objects.requireNonNull(toURL()).toExternalForm();
-            }
-        } else {
-            return "";
-        }
-    }
-
-    @Override
-    public URL toURL() throws MaterialstoreException {
-        return this.url;
-    }
 
     @Override
     public void annotate(final QueryOnMetadata query) {
@@ -134,16 +77,6 @@ public final class MetadataImpl extends Metadata {
     }
 
     @Override
-    public boolean matchesByAster(QueryOnMetadata query, String key) {
-        return query.containsKey("*") && query.get("*").matches(this.get(key));
-    }
-
-    @Override
-    public boolean matchesIndividually(QueryOnMetadata query, String key) {
-        return query.containsKey(key) && this.containsKey(key) && query.get(key).matches(this.get(key));
-    }
-
-    @Override
     public boolean canBeIdentified(String key, IdentifyMetadataValues identifyMetadataValues) {
         return identifyMetadataValues.containsKey(key) && identifyMetadataValues.matches(this);
     }
@@ -153,6 +86,47 @@ public final class MetadataImpl extends Metadata {
         return query.containsKey("*") && query.get("*").matches(this.get(key)) || query.containsKey(key) && query.get(key).matches(this.get(key));
     }
 
+    @Override
+    public int compareTo(Metadata obj) {
+        MetadataImpl other = (MetadataImpl) (obj);
+        return this.toString().compareTo(other.toString());
+    }
+
+    @Override
+    public boolean containsKey(String key) {
+        return attributes.containsKey(key);
+    }
+
+    /**
+     * compares this.toSimplifiedJson() with other.toSimplifiedJson()
+     * @param obj
+     * @return
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if ( !(obj instanceof MetadataImpl) ) {
+            return false;
+        }
+        MetadataImpl other = (MetadataImpl) obj;
+        return this.toSimplifiedJson().equals(other.toSimplifiedJson());
+    }
+
+
+
+    @Override
+    public String get(String key) {
+        MetadataAttribute attribute = attributes.get(key);
+        if (attribute != null) {
+            return attribute.getValue();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public MetadataAttribute getMetadataAttribute(String key) {
+        return attributes.get(key);
+    }
 
     @Override
     public MetadataIdentification getMetadataIdentification() {
@@ -163,33 +137,6 @@ public final class MetadataImpl extends Metadata {
     public MetadataIdentification getMetadataIdentification(SortKeys sortKeys) {
         String simplifiedJson = this.toSimplifiedJson(sortKeys);
         return new MetadataIdentification(simplifiedJson);
-    }
-
-    private String toSimplifiedJson() {
-        return this.toSimplifiedJson(new SortKeys());
-    }
-
-    private String toSimplifiedJson(SortKeys sortKeys) {
-        final StringBuilder sb = new StringBuilder();
-        int entryCount = 0;
-        sb.append("{");
-        List<String> keys = getSortedKeys(attributes, sortKeys);
-        for (String key : keys) {
-            if (entryCount > 0) {
-                sb.append(", ");// comma followed by a white space
-            }
-            sb.append("\"");
-            sb.append(JsonUtil.escapeAsJsonString(key));
-            sb.append("\"");
-            sb.append(":");
-            MetadataAttribute attribute = attributes.get(key);
-            sb.append("\"");
-            sb.append(attribute.getValue());
-            sb.append("\"");
-            entryCount += 1;
-        }
-        sb.append("}");
-        return sb.toString();
     }
 
     static List<String> getSortedKeys(
@@ -214,6 +161,45 @@ public final class MetadataImpl extends Metadata {
         return target;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        for (String key : this.keySet()) {
+            hash = 31 * hash + key.hashCode();
+            hash = 31 * hash + Objects.requireNonNull(this.get(key)).hashCode();
+        }
+        return hash;
+    }
+
+
+    @Override
+    public boolean isEmpty() {
+        return attributes.isEmpty();
+    }
+
+    @Override
+    public Set<String> keySet() {
+        return attributes.keySet();
+    }
+
+    @Override
+    public boolean matchesByAster(QueryOnMetadata query, String key) {
+        return query.containsKey("*") && query.get("*").matches(this.get(key));
+    }
+
+    @Override
+    public boolean matchesIndividually(QueryOnMetadata query, String key) {
+        return query.containsKey(key) && this.containsKey(key) && query.get(key).matches(this.get(key));
+    }
+
+    public void setURL(URL url) {
+        this.url = url;
+    }
+
+    @Override
+    public int size() {
+        return attributes.size();
+    }
 
     @Override
     public String toJson() {
@@ -244,7 +230,33 @@ public final class MetadataImpl extends Metadata {
         } else {
             return toJson();
         }
+    }
 
+    private String toSimplifiedJson() {
+        return this.toSimplifiedJson(new SortKeys());
+    }
+
+    private String toSimplifiedJson(SortKeys sortKeys) {
+        final StringBuilder sb = new StringBuilder();
+        int entryCount = 0;
+        sb.append("{");
+        List<String> keys = getSortedKeys(attributes, sortKeys);
+        for (String key : keys) {
+            if (entryCount > 0) {
+                sb.append(", ");// comma followed by a white space
+            }
+            sb.append("\"");
+            sb.append(JsonUtil.escapeAsJsonString(key));
+            sb.append("\"");
+            sb.append(":");
+            MetadataAttribute attribute = attributes.get(key);
+            sb.append("\"");
+            sb.append(attribute.getValue());
+            sb.append("\"");
+            entryCount += 1;
+        }
+        sb.append("}");
+        return sb.toString();
     }
 
     @Override
@@ -252,33 +264,21 @@ public final class MetadataImpl extends Metadata {
         return toJson();
     }
 
-    /**
-     * compares this.toSimplifiedJson() with other.toSimplifiedJson()
-     * @param obj
-     * @return
-     */
     @Override
-    public boolean equals(Object obj) {
-        if ( !(obj instanceof MetadataImpl) ) {
-            return false;
-        }
-        MetadataImpl other = (MetadataImpl) obj;
-        return this.toSimplifiedJson().equals(other.toSimplifiedJson());
+    public URL toURL() throws MaterialstoreException {
+        return this.url;
     }
 
     @Override
-    public int hashCode() {
-        int hash = 7;
-        for (String key : this.keySet()) {
-            hash = 31 * hash + key.hashCode();
-            hash = 31 * hash + Objects.requireNonNull(this.get(key)).hashCode();
+    public String toURLAsString() throws MaterialstoreException {
+        if (this.toURL() != null) {
+            if (attributes.containsKey(KEY_URL_FRAGMENT)) {
+                return Objects.requireNonNull(toURL()).toExternalForm() + "#" + attributes.get(KEY_URL_FRAGMENT).getValue();
+            } else {
+                return Objects.requireNonNull(toURL()).toExternalForm();
+            }
+        } else {
+            return "";
         }
-        return hash;
-    }
-
-    @Override
-    public int compareTo(Metadata obj) {
-        MetadataImpl other = (MetadataImpl) (obj);
-        return this.toString().compareTo(other.toString());
     }
 }
