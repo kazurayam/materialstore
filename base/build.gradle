@@ -27,11 +27,11 @@ dependencies {
     implementation libs.ashot
 }
 
-/*
-test {
+
+task testFiltered(type:Test) {
+    useJUnitPlatform()
     filter {
         includeTestsMatching("*reduce.MaterialProductGroup_BuilderTest")
         includeTestsMatching("*reduce.MaterialProductGroup_issue87Test")
     }
 }
-*/
