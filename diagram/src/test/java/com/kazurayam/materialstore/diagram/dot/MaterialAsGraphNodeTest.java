@@ -81,7 +81,7 @@ public class MaterialAsGraphNodeTest {
                 new MaterialProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList)
-                        .ignoreKeys("profile", "URL.host")
+                        .ignoreKeys("environment", "URL.host")
                         .identifyWithRegex(
                                 Collections.singletonMap("URL.query", "\\w{32}")
                         )
@@ -115,7 +115,7 @@ public class MaterialAsGraphNodeTest {
                 new MaterialProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList)
-                        .ignoreKeys("profile", "URL.host")
+                        .ignoreKeys("environment", "URL.host")
                         .identifyWithRegex(
                                 Collections.singletonMap("URL.query","\\w{32}")
                         )

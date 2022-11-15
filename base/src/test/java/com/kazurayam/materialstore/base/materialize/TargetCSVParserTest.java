@@ -48,7 +48,7 @@ public class TargetCSVParserTest {
     public void test_parse_then_append_attributes() throws MaterialstoreException {
         Reader reader = new StringReader(csvLines);
         final Map<String, String> attributes = new LinkedHashMap<String, String>() {{
-            put("profile", "Development");
+            put("environment", "Development");
         }};
         List<Target> targetList =
                 new SimpleTargetCSVParser().parse(reader).stream()

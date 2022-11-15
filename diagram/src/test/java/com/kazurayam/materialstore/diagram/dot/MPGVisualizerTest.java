@@ -55,7 +55,7 @@ public class MPGVisualizerTest {
         MaterialProductGroup mProductGroup =
                 new MaterialProductGroup.Builder(
                         leftMaterialList,
-                        rightMaterialList).ignoreKeys("profile", "URL.host").build();
+                        rightMaterialList).ignoreKeys("environment", "URL.host").build();
         //
         MPGVisualizer visualizer = new MPGVisualizer(store);
         JobTimestamp jobTimestamp = JobTimestamp.now();

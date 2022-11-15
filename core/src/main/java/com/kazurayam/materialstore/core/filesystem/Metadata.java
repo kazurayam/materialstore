@@ -26,7 +26,13 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
 
     public abstract boolean containsKey(String key);
 
+    public abstract boolean containsCategoryDiff();
+
     public abstract String get(String key);
+
+    public abstract MaterialLocator getMaterialLocatorLeft();
+
+    public abstract MaterialLocator getMaterialLocatorRight();
 
     public abstract MetadataIdentification getMetadataIdentification();
 

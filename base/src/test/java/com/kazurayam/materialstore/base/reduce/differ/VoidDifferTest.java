@@ -60,7 +60,7 @@ public class VoidDifferTest {
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
         map1.put("URL.path", "/npm/bootstrap-icons@1.7.2/font/fonts/bootstrap-icons.woff2");
         MaterialList right = store.select(jobName, timestamp2, FileType.WOFF2, QueryOnMetadata.builder(map1).build());
-        reducedMPG = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL.query").build();
+        reducedMPG = MaterialProductGroup.builder(left, right).ignoreKeys("environment", "URL.query").build();
 
         Assertions.assertNotNull(reducedMPG);
         Assertions.assertEquals(1, reducedMPG.size());

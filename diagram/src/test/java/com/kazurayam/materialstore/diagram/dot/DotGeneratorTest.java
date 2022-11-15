@@ -136,7 +136,7 @@ public class DotGeneratorTest {
         MaterialProductGroup mProductGroup =
                 new MaterialProductGroup.Builder(
                         leftMaterialList,
-                        rightMaterialList).ignoreKeys("profile", "URL.host").build();
+                        rightMaterialList).ignoreKeys("environment", "URL.host").build();
         //
         String dotText = DotGenerator.generateDotOfMPGBeforeZip(mProductGroup);
         Material dotMat =
@@ -164,7 +164,7 @@ public class DotGeneratorTest {
                 new MaterialProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList)
-                        .ignoreKeys("profile", "URL.host")
+                        .ignoreKeys("environment", "URL.host")
                         .identifyWithRegex(
                                 Collections.singletonMap("URL.query", "\\w{32}")
                         )

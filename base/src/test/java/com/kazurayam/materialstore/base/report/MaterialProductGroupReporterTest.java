@@ -101,7 +101,7 @@ public class MaterialProductGroupReporterTest extends AbstractReporterTest {
         // make diff of the 2 MaterialList objects
         MaterialProductGroup reducedMPG =
                 MaterialProductGroup.builder(left, right)
-                        .ignoreKeys("profile", "URL.host", "URL.protocol", "URL.port")
+                        .ignoreKeys("environment", "URL.host", "URL.protocol", "URL.port")
                         .identifyWithRegex(
                                 Collections.singletonMap(
                                         "URL.query", "\\w{32}"))
@@ -113,7 +113,7 @@ public class MaterialProductGroupReporterTest extends AbstractReporterTest {
             throws MaterialstoreException {
         return store.select(jobName, timestamp,
                 QueryOnMetadata.builder(
-                        Collections.singletonMap("profile", profileName))
+                        Collections.singletonMap("environment", profileName))
                         .build());
     }
 

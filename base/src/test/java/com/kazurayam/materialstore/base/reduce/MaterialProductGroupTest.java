@@ -63,12 +63,12 @@ public class MaterialProductGroupTest {
         jobName = new JobName("MyAdmin_visual_inspection_twins");
         JobTimestamp timestampP = new JobTimestamp("20220128_191320");
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(1);
-        map.put("profile", "MyAdmin_ProductionEnv");
+        map.put("environment", "MyAdmin_ProductionEnv");
         left = store.select(jobName, timestampP, QueryOnMetadata.builder(map).build());
         assert left.size() > 0;
         JobTimestamp timestampD = new JobTimestamp("20220128_191342");
         LinkedHashMap<String, String> map1 = new LinkedHashMap<String, String>(1);
-        map1.put("profile", "MyAdmin_DevelopmentEnv");
+        map1.put("environment", "MyAdmin_DevelopmentEnv");
         right = store.select(jobName, timestampD, QueryOnMetadata.builder(map1).build());
         assert right.size() > 0;
     }
@@ -226,7 +226,7 @@ public class MaterialProductGroupTest {
     public void test_Builder() throws MaterialstoreException {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(1);
         map.put("URL.query", "\\w{32}");
-        MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.path").build();
+        MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).ignoreKeys("environment", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.path").build();
         assertNotNull(mpg);
         mpg.forEach( mProduct -> {
             Assertions.assertNotEquals(ID.NULL_OBJECT, ((MaterialProduct) mProduct).getLeft().getIndexEntry().getID());
@@ -239,7 +239,7 @@ public class MaterialProductGroupTest {
     public void test_update() throws MaterialstoreException {
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(1);
         map.put("URL.query", "\\w{32}");
-        MaterialProductGroup mpg = new MaterialProductGroup.Builder(left, right).ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.host").build();
+        MaterialProductGroup mpg = new MaterialProductGroup.Builder(left, right).ignoreKeys("environment", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.host").build();
         int theSize = mpg.size();
         assertEquals(8, theSize);
         //

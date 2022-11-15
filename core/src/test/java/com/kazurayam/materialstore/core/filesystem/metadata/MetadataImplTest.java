@@ -1,6 +1,8 @@
 package com.kazurayam.materialstore.core.filesystem.metadata;
 
+import com.kazurayam.materialstore.core.filesystem.ID;
 import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
+import com.kazurayam.materialstore.core.filesystem.MaterialLocator;
 import com.kazurayam.materialstore.core.filesystem.SortKeys;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.kazurayam.materialstore.core.filesystem.Metadata;
 
@@ -20,6 +23,8 @@ public class MetadataImplTest {
     private static Map<String, MetadataAttribute> attributes;
 
     private static Metadata metadata;
+
+    private static Metadata diffMetadata;
 
     @BeforeAll
     public static void beforeAll() throws MalformedURLException {
@@ -36,6 +41,13 @@ public class MetadataImplTest {
         attributes.put("URL.port", new MetadataAttribute("URL.port", "80"));
         attributes.put("URL.path", new MetadataAttribute("URL.path", "/"));
         attributes.put("timestamp", new MetadataAttribute("timestamp", timestamp.toString()));
+        //
+        diffMetadata = new Metadata.Builder()
+                .put("category", "diff")
+                .put("left", "20221114_110415/00c21d303acfd5b8e65a40e9e1807bc70a8ad377")
+                .put("ratio", "0.00%")
+                .put("right", "20221114_110425/00c21d303acfd5b8e65a40e9e1807bc70a8ad377")
+                .build();
     }
 
     @Test
@@ -74,6 +86,29 @@ public class MetadataImplTest {
         SortKeys sortKeys = new SortKeys("timestamp", "step");
         MetadataIdentification desc = metadata.getMetadataIdentification(sortKeys);
         assertTrue(desc.toString().startsWith("{\"timestamp\":"), desc.toString());
+    }
+
+    @Test
+    public void test_containsCategoryDiff_falsy() {
+        assertFalse(metadata.containsCategoryDiff());
+    }
+
+    @Test
+    public void test_containsCategoryDiff_truthy() {
+        assertTrue(diffMetadata.containsCategoryDiff());
+    }
+
+    @Test
+    public void test_getMaterialLocatorLeft() {
+        MaterialLocator left = diffMetadata.getMaterialLocatorLeft();
+        assertEquals(new JobTimestamp("20221114_110415"), left.getJobTimestamp());
+        assertEquals(new ID("00c21d303acfd5b8e65a40e9e1807bc70a8ad377"), left.getID());
+    }
+
+    @Test
+    public void test_getMaterialLocatorRight() {
+        MaterialLocator right = diffMetadata.getMaterialLocatorRight();
+        assertEquals(new JobTimestamp("20221114_110425"), right.getJobTimestamp());
     }
 
 }

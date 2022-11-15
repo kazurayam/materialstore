@@ -4,7 +4,7 @@
   "isReadyToReport": true,
   "ignoreMetadataKeys": [
     "URL.host",
-    "profile"
+    "environment"
   ],
   "materialList0": {
     "jobTimestamp": "20220522_094639",
@@ -62,8 +62,8 @@
             "matchedByAster": true,
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_ProductionEnv",
             "ignoredByKey": true,
             "matchedByAster": true
@@ -104,8 +104,8 @@
             "matchedByAster": true,
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_DevelopmentEnv",
             "ignoredByKey": true,
             "matchedByAster": true
@@ -186,8 +186,8 @@
             "matchedByAster": true,
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_ProductionEnv",
             "ignoredByKey": true,
             "matchedByAster": true
@@ -228,8 +228,8 @@
             "matchedByAster": true,
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_DevelopmentEnv",
             "ignoredByKey": true,
             "matchedByAster": true
@@ -319,8 +319,8 @@
             "matchedByAster": true,
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_ProductionEnv",
             "ignoredByKey": true,
             "matchedByAster": true
@@ -370,8 +370,8 @@
             "matchedByAster": true,
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_DevelopmentEnv",
             "ignoredByKey": true,
             "matchedByAster": true
@@ -461,8 +461,8 @@
             "matchedByAster": true,
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_ProductionEnv",
             "ignoredByKey": true,
             "matchedByAster": true
@@ -512,8 +512,8 @@
             "matchedByAster": true,
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_DevelopmentEnv",
             "ignoredByKey": true,
             "matchedByAster": true
@@ -610,8 +610,8 @@
             "identifiedByValue": true,
             "matchedByAster": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_ProductionEnv",
             "ignoredByKey": true,
             "matchedByAster": true
@@ -668,8 +668,8 @@
             "matchedByAster": true,
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_DevelopmentEnv",
             "ignoredByKey": true,
             "matchedByAster": true
@@ -755,8 +755,8 @@
             "matchedByAster": true,
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_ProductionEnv",
             "ignoredByKey": true,
             "matchedByAster": true
@@ -806,8 +806,8 @@
             "matchedByAster": true,
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_DevelopmentEnv",
             "ignoredByKey": true,
             "matchedByAster": true
@@ -897,8 +897,8 @@
             "matchedByAster": true,
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_ProductionEnv",
             "ignoredByKey": true,
             "matchedByAster": true
@@ -948,8 +948,8 @@
             "matchedByAster": true,
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_DevelopmentEnv",
             "ignoredByKey": true,
             "matchedByAster": true
@@ -1030,8 +1030,8 @@
             "matchedByAster": true,
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_ProductionEnv",
             "ignoredByKey": true,
             "matchedByAster": true
@@ -1072,8 +1072,8 @@
             "matchedByAster": true,
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_DevelopmentEnv",
             "ignoredByKey": true,
             "matchedByAster": true

@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
  * 5. Metadata in List literal: "data" seperated by a comma, enclosed by [ and ]
  *
  * e.g,
- * 6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{"URL":"http://demoaut-mimic.kazurayam.com/","profile":"DevelopmentEnv"}
+ * 6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{"URL":"http://demoaut-mimic.kazurayam.com/","environment":"DevelopmentEnv"}
  */
 final class Index implements Iterable<IndexEntry> {
 

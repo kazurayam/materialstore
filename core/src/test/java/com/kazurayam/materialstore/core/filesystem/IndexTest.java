@@ -12,7 +12,7 @@ import java.util.LinkedHashMap;
 
 public class IndexTest {
 
-    private final String sampleLine = "6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{\"profile\":\"DevelopmentEnv\", \"URL\":\"http://demoaut-mimic.kazurayam.com/\"}";
+    private final String sampleLine = "6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{\"environment\":\"DevelopmentEnv\", \"URL\":\"http://demoaut-mimic.kazurayam.com/\"}";
 
     private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(IndexTest.class.getName());
     private static final Path resultsDir = Paths.get(".").resolve("src/test/fixtures/sample_results");
@@ -33,7 +33,7 @@ public class IndexTest {
         ID id = new ID("6141b40cfe9e7340a483a3097c4f6ff5d20e04ea");
         FileType fileType = FileType.PNG;
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(2);
-        map.put("profile", "DevelopmentEnv");
+        map.put("environment", "DevelopmentEnv");
         map.put("URL", "http://demoaut-mimic.kazurayam.com/");
         Metadata metadata = Metadata.builder(map).build();
         IndexEntry indexEntry = new IndexEntry(new MaterialIO(id, fileType), metadata);

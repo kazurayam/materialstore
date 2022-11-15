@@ -77,7 +77,7 @@ public class MaterialListReporterTest extends AbstractReporterTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         MaterialList list = store.select(jobName, jobTimestamp,
                 QueryOnMetadata.builder()
-                        .put("profile", Pattern.compile(".*Env"))
+                        .put("environment", Pattern.compile(".*Env"))
                         .put("category", "page source")
                         .build()
         );
@@ -86,7 +86,7 @@ public class MaterialListReporterTest extends AbstractReporterTest {
 
         // generate a MaterialList report by FreeMarker
         SortKeys sortKeys =
-                new SortKeys("profile", "URL.protocol", "URL.host",
+                new SortKeys("environment", "URL.protocol", "URL.host",
                         "URL.path", "category", "xpath");
         reportByFreeMarker = reporter.report(list, sortKeys, fileName);
         assertTrue(Files.exists(reportByFreeMarker));

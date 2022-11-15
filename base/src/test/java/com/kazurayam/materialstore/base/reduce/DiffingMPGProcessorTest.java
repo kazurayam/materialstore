@@ -54,17 +54,17 @@ public class DiffingMPGProcessorTest {
 
         JobTimestamp timestamp1 = new JobTimestamp("20210715_145922");
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
-        map.put("profile", "ProductionEnv");
+        map.put("environment", "ProductionEnv");
         MaterialList left = store.select(jobName, timestamp1,  FileType.HTML, QueryOnMetadata.builder(map).build());
         Assertions.assertEquals(1, left.size());
 
         JobTimestamp timestamp2 = new JobTimestamp("20210715_145922");
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
-        map1.put("profile", "DevelopmentEnv");
+        map1.put("environment", "DevelopmentEnv");
         MaterialList right = store.select(jobName, timestamp2, FileType.HTML, QueryOnMetadata.builder(map1).build());
         Assertions.assertEquals(1, right.size());
 
-        MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL", "URL.host").build();
+        MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).ignoreKeys("environment", "URL", "URL.host").build();
         Assertions.assertNotNull(mpg);
         Assertions.assertEquals(1, mpg.size());
         //
@@ -80,14 +80,14 @@ public class DiffingMPGProcessorTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         //
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
-        map.put("profile", "ProductionEnv");
+        map.put("environment", "ProductionEnv");
         MaterialList left = store.select(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.builder(map).build());
 
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
-        map1.put("profile", "DevelopmentEnv");
+        map1.put("environment", "DevelopmentEnv");
         MaterialList right = store.select(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.builder(map1).build());
 
-        MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL", "URL.host").build();
+        MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).ignoreKeys("environment", "URL", "URL.host").build();
         Assertions.assertNotNull(mpg);
         Assertions.assertEquals(2, mpg.size());
         //

@@ -111,7 +111,7 @@ public class MaterialTest {
         Assertions.assertEquals("/", ((Map)metadata.get("URL.path")).get("value"));
         Assertions.assertEquals("http", ((Map)metadata.get("URL.protocol")).get("value"));
         Assertions.assertEquals("screenshot", ((Map)metadata.get("category")).get("value"));
-        Assertions.assertEquals("ProductionEnv", ((Map)metadata.get("profile")).get("value"));
+        Assertions.assertEquals("ProductionEnv", ((Map)metadata.get("environment")).get("value"));
 
     }
 

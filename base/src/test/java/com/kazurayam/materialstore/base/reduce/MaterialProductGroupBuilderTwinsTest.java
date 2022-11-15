@@ -52,11 +52,11 @@ public class MaterialProductGroupBuilderTwinsTest {
         JobTimestamp timestampP = new JobTimestamp("20220128_191320");
         JobTimestamp timestampD = new JobTimestamp("20220128_191342");
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
-        map.put("profile", "MyAdmin_ProductionEnv");
+        map.put("environment", "MyAdmin_ProductionEnv");
         left = store.select(jobName, timestampP, QueryOnMetadata.builder(map).build());
         assert left.size() == 8;
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
-        map1.put("profile", "MyAdmin_DevelopmentEnv");
+        map1.put("environment", "MyAdmin_DevelopmentEnv");
         right = store.select(jobName, timestampD, QueryOnMetadata.builder(map1).build());
         assert right.size() == 8;
     }
@@ -66,7 +66,7 @@ public class MaterialProductGroupBuilderTwinsTest {
         BiFunction<MaterialList, MaterialList, MaterialProductGroup> func =
                 (MaterialList left, MaterialList right) ->
                         MaterialProductGroup.builder(left, right)
-                                .ignoreKeys("profile", "URL.host")
+                                .ignoreKeys("environment", "URL.host")
                                 .identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"))
                                 .build();
         MaterialProductGroup reduced = Reducer.twins(store, left, right, func);
@@ -81,7 +81,7 @@ public class MaterialProductGroupBuilderTwinsTest {
         BiFunction<MaterialList, MaterialList, MaterialProductGroup> func =
                 (MaterialList left, MaterialList right) ->
                         MaterialProductGroup.builder(left, right)
-                                .ignoreKeys("profile", "URL.host")
+                                .ignoreKeys("environment", "URL.host")
                                 //.identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"))
                                 .build();
         MaterialProductGroup reduced = Reducer.twins(store, left, right, func);

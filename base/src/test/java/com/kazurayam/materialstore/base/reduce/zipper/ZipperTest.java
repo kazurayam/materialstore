@@ -55,12 +55,12 @@ public class ZipperTest {
         jobName = new JobName("MyAdmin_visual_inspection_twins");
         JobTimestamp timestampP = new JobTimestamp("20220128_191320");
         LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(1);
-        map.put("profile", "MyAdmin_ProductionEnv");
+        map.put("environment", "MyAdmin_ProductionEnv");
         left = store.select(jobName, timestampP, QueryOnMetadata.builder(map).build());
         assert left.size() > 0;
         JobTimestamp timestampD = new JobTimestamp("20220128_191342");
         LinkedHashMap<String, String> map1 = new LinkedHashMap<String, String>(1);
-        map1.put("profile", "MyAdmin_DevelopmentEnv");
+        map1.put("environment", "MyAdmin_DevelopmentEnv");
         right = store.select(jobName, timestampD, QueryOnMetadata.builder(map1).build());
         assert right.size() > 0;
     }
@@ -77,7 +77,7 @@ public class ZipperTest {
 
         Zipper zipper =
                 new Zipper(
-                        new IgnoreMetadataKeys.Builder().ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").build(),
+                        new IgnoreMetadataKeys.Builder().ignoreKeys("environment", "URL.host", "URL.port", "URL.protocol").build(),
                         new IdentifyMetadataValues.Builder().putAllNameRegexPairs(map).build());
         List<MaterialProduct> mProductList =
                 zipper.zipMaterials(left, right, JobTimestamp.now());

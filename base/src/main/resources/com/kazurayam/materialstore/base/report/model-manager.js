@@ -168,19 +168,19 @@ function getWithExpiry(key) {
   "ignoreMetadataKeys": [
     "URL.host",
     "URL.port",
-    "profile"
+    "environment"
   ],
   "materialList0": {
     "jobTimestamp": "20220409_101728",
     "queryOnMetadata": {
-      "profile": "MyAdmin_ProductionEnv"
+      "environment": "MyAdmin_ProductionEnv"
     },
     "size": 2.0
   },
   "materialList1": {
     "jobTimestamp": "20220409_101742",
     "queryOnMetadata": {
-      "profile": "MyAdmin_DevelopmentEnv"
+      "environment": "MyAdmin_DevelopmentEnv"
     },
     "size": 2.0
   },
@@ -222,8 +222,8 @@ function getWithExpiry(key) {
             "value": "http",
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_ProductionEnv",
             "ignoredByKey": true,
             "matchedIndividually": true
@@ -265,8 +265,8 @@ function getWithExpiry(key) {
             "value": "http",
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_DevelopmentEnv",
             "ignoredByKey": true,
             "matchedIndividually": true
@@ -348,8 +348,8 @@ function getWithExpiry(key) {
             "value": "http",
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_ProductionEnv",
             "ignoredByKey": true,
             "matchedIndividually": true
@@ -391,8 +391,8 @@ function getWithExpiry(key) {
             "value": "http",
             "paired": true
           },
-          "profile": {
-            "key": "profile",
+          "environment": {
+            "key": "environment",
             "value": "MyAdmin_DevelopmentEnv",
             "ignoredByKey": true,
             "matchedIndividually": true

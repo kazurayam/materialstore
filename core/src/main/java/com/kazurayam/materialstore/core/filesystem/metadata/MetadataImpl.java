@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.core.filesystem.metadata;
 
+import com.kazurayam.materialstore.core.filesystem.MaterialLocator;
 import com.kazurayam.materialstore.core.filesystem.Metadata;
 import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
 import com.kazurayam.materialstore.core.filesystem.QueryOnMetadata;
@@ -93,6 +94,14 @@ public final class MetadataImpl extends Metadata {
     }
 
     @Override
+    public boolean containsCategoryDiff() {
+        if (this.containsKey("category")) {
+            return (this.get("category").equals("diff"));
+        } else {
+            return false;
+        }
+    }
+    @Override
     public boolean containsKey(String key) {
         return attributes.containsKey(key);
     }
@@ -120,6 +129,32 @@ public final class MetadataImpl extends Metadata {
             return attribute.getValue();
         } else {
             return null;
+        }
+    }
+
+    @Override
+    public MaterialLocator getMaterialLocatorLeft() {
+        if (this.containsCategoryDiff()) {
+            if (this.containsKey("left")) {
+                return MaterialLocator.parse(this.get("left"));
+            } else {
+                return MaterialLocator.NULL_OBJECT;
+            }
+        } else {
+            return MaterialLocator.NULL_OBJECT;
+        }
+    }
+
+    @Override
+    public MaterialLocator getMaterialLocatorRight() {
+        if (this.containsCategoryDiff()) {
+            if (this.containsKey("right")) {
+                return MaterialLocator.parse(this.get("right"));
+            } else {
+                return MaterialLocator.NULL_OBJECT;
+            }
+        } else {
+            return MaterialLocator.NULL_OBJECT;
         }
     }
 

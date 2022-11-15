@@ -49,7 +49,7 @@ public class MaterialProductGroupBuilderChronosTest {
         JobName jobName = new JobName("MyAdmin_visual_inspection_twins");
         JobTimestamp timestampD = new JobTimestamp("20220128_191342");
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
-        map.put("profile", "MyAdmin_DevelopmentEnv");
+        map.put("environment", "MyAdmin_DevelopmentEnv");
         right = store.select(jobName, timestampD, QueryOnMetadata.builder(map).build());
         assert right.size() == 8;
         assert right.countMaterialsWithIdStartingWith("5d7e467") == 1;
@@ -60,7 +60,7 @@ public class MaterialProductGroupBuilderChronosTest {
         store.copyMaterials(jobName, timestampD, timestampW);
 
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
-        map1.put("profile", "MyAdmin_DevelopmentEnv");
+        map1.put("environment", "MyAdmin_DevelopmentEnv");
         left = store.select(jobName, timestampW, QueryOnMetadata.builder(map1).build());
         assert left.size() == 8;
         assert left.countMaterialsWithIdStartingWith("5d7e467") == 1;
@@ -71,7 +71,7 @@ public class MaterialProductGroupBuilderChronosTest {
         BiFunction<MaterialList, MaterialList, MaterialProductGroup> func =
                 (MaterialList left, MaterialList right) ->
                         MaterialProductGroup.builder(left,right)
-                                .ignoreKeys("profile", "URL.host")
+                                .ignoreKeys("environment", "URL.host")
                                 .identifyWithRegex(Collections.singletonMap("URL.query","\\w{32}"))
                                 .build();
         MaterialProductGroup reduced = Reducer.chronos(store, right, func);

@@ -65,7 +65,7 @@ public class QueryOnMetadataAsGraphNodeTest {
                 new MaterialProductGroup.Builder(
                         leftMaterialList,
                         rightMaterialList)
-                        .ignoreKeys("profile", "URL.host")
+                        .ignoreKeys("environment", "URL.host")
                         .identifyWithRegex(
                                 Collections.singletonMap("URL.query", "\\w{32}")
                         )

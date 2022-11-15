@@ -50,11 +50,11 @@ public class InspectorTest {
         JobName jobName = new JobName("MyAdmin_visual_inspection_twins");
         JobTimestamp timestampP = new JobTimestamp("20220128_191320");
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
-        map.put("profile", "MyAdmin_ProductionEnv");
+        map.put("environment", "MyAdmin_ProductionEnv");
         left = store.select(jobName, timestampP, QueryOnMetadata.builder(map).build());
         JobTimestamp timestampD = new JobTimestamp("20220128_191342");
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
-        map1.put("profile", "MyAdmin_DevelopmentEnv");
+        map1.put("environment", "MyAdmin_DevelopmentEnv");
         right = store.select(jobName, timestampD, QueryOnMetadata.builder(map1).build());
         inspector = Inspector.newInstance(store);
     }
@@ -63,7 +63,7 @@ public class InspectorTest {
     public void test_reduceAndSort() throws MaterialstoreException {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("URL.query", "\\w{32}");
-        MaterialProductGroup reducedMPG = MaterialProductGroup.builder(left, right).ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.host").build();
+        MaterialProductGroup reducedMPG = MaterialProductGroup.builder(left, right).ignoreKeys("environment", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.host").build();
         Assertions.assertNotNull(reducedMPG);
 
         MaterialProductGroup processedMPG = inspector.reduceAndSort(reducedMPG);
@@ -91,7 +91,7 @@ public class InspectorTest {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("URL.query", "\\w{32}");
         MaterialProductGroup reducedMPG = MaterialProductGroup.builder(left, right)
-                .ignoreKeys("profile", "URL.host", "URL.port", "URL.protocol")
+                .ignoreKeys("environment", "URL.host", "URL.port", "URL.protocol")
                 .identifyWithRegex(map)
                 .sort("URL.host")
                 .build();

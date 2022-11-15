@@ -91,14 +91,14 @@ public class JobberTest {
         JobName jobName = new JobName("test_selectMaterials_with_FileType");
         JobTimestamp jobTimestamp = JobTimestamp.now();
         Jobber jobber = store.getJobber(jobName, jobTimestamp);
-        Metadata metadata = Metadata.builder(new URL("http://demoaut-mimic.katalon.com/")).put("profile", "DevelopmentEnv").build();
+        Metadata metadata = Metadata.builder(new URL("http://demoaut-mimic.katalon.com/")).put("environment", "DevelopmentEnv").build();
         BufferedImage image = ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile());
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, FileType.PNG.getExtension(), baos);
         byte[] data = baos.toByteArray();
         Material material = jobber.write(data, FileType.PNG, metadata);
         //
-        QueryOnMetadata pattern = QueryOnMetadata.builder().put("profile", Pattern.compile(".*")).build();
+        QueryOnMetadata pattern = QueryOnMetadata.builder().put("environment", Pattern.compile(".*")).build();
         MaterialList materialList = jobber.selectMaterials(FileType.PNG, pattern);
         Assertions.assertNotNull(materialList);
         Assertions.assertEquals(1, materialList.size());
@@ -111,7 +111,7 @@ public class JobberTest {
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
-        QueryOnMetadata pattern = QueryOnMetadata.builder().put("profile", "DevelopmentEnv").put("URL.host", Pattern.compile(".*")).build();
+        QueryOnMetadata pattern = QueryOnMetadata.builder().put("environment", "DevelopmentEnv").put("URL.host", Pattern.compile(".*")).build();
         // select without FileType
         MaterialList materialList = jobber.selectMaterials(pattern);
         Assertions.assertNotNull(materialList);
@@ -137,7 +137,7 @@ public class JobberTest {
         JobTimestamp jobTimestamp = JobTimestamp.now();
         Jobber jobber = store.getJobber(jobName, jobTimestamp);
         LinkedHashMap<String, String> map = new LinkedHashMap<>(2);
-        map.put("profile", "DevelopmentEnv");
+        map.put("environment", "DevelopmentEnv");
         map.put("URL", "http://demoaut-mimic.katalon.com/");
         Metadata metadata = Metadata.builder(map).build();
         BufferedImage image = ImageIO.read(imagesDir.resolve("20210623_225337.development.png").toFile());
@@ -157,14 +157,14 @@ public class JobberTest {
         byte[] data = "foo".getBytes();
         //
         LinkedHashMap<String, String> map = new LinkedHashMap<>(2);
-        map.put("profile", "ProductionEnv");
+        map.put("environment", "ProductionEnv");
         map.put("URL", "http://example.com");
         Metadata metadata1 = Metadata.builder(map).build();
         Material material1 = jobber.write(data, FileType.TXT, metadata1);
         assert material1 != null;
         //
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(2);
-        map1.put("profile", "DevelopmentEnv");
+        map1.put("environment", "DevelopmentEnv");
         map1.put("URL", "http://example.com");
         Metadata metadata2 = Metadata.builder(map1).build();
         Material material2 = jobber.write(data, FileType.TXT, metadata2);
@@ -177,7 +177,7 @@ public class JobberTest {
         JobTimestamp jobTimestamp = JobTimestamp.now();
         final Jobber jobber = store.getJobber(jobName, jobTimestamp);
         LinkedHashMap<String, String> map = new LinkedHashMap<>(2);
-        map.put("profile", "SomeEnv");
+        map.put("environment", "SomeEnv");
         map.put("URL", "http://example.com");
         final Metadata metadata = Metadata.builder(map).build();
         final byte[] data = "foo".getBytes();
@@ -200,7 +200,7 @@ public class JobberTest {
         JobTimestamp jobTimestamp = JobTimestamp.now();
         Jobber jobber = store.getJobber(jobName, jobTimestamp);
         LinkedHashMap<String, String> map = new LinkedHashMap<>(2);
-        map.put("profile", "SomeEnv");
+        map.put("environment", "SomeEnv");
         map.put("URL", "http://example.com");
         Metadata metadata = Metadata.builder(map).build();
         byte[] data = "foo".getBytes();

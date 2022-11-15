@@ -32,7 +32,7 @@ import java.util.List;
  * https://github.com/kazurayam/materialstore/issues/87
  *
  */
-@Disabled
+@Disabled   // sometimes this fails, and I can not solve it, yet.
 public class MaterialProductGroup_issue87Test {
 
     private static final Path outputDir =
@@ -63,18 +63,18 @@ public class MaterialProductGroup_issue87Test {
 
         MaterialList left = store.select(jobName, timestampP,
                 QueryOnMetadata
-                        .builder(Collections.singletonMap("profile", "MyAdmin_ProductionEnv"))
+                        .builder(Collections.singletonMap("environment", "MyAdmin_ProductionEnv"))
                         .build());
         assert left.size() == 8;
 
         MaterialList right = store.select(jobName, timestampD,
                 QueryOnMetadata
-                        .builder(Collections.singletonMap("profile", "MyAdmin_DevelopmentEnv"))
+                        .builder(Collections.singletonMap("environment", "MyAdmin_DevelopmentEnv"))
                         .build());
         assert right.size() == 8;
 
         mpg = MaterialProductGroup.builder(left, right)
-                .ignoreKeys("profile", "URL.host")
+                .ignoreKeys("environment", "URL.host")
                 .identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"))
                 .build();
     }

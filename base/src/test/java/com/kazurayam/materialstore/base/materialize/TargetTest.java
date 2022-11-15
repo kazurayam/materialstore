@@ -48,8 +48,8 @@ public class TargetTest {
                 new Target.Builder("https://www.google.com")
                         .by(By.cssSelector("input[name=\"q\"]"))
                         .build();
-        Target newTarget = target.copyWith("profile", "Development");
-        assertEquals("Development", newTarget.get("profile"));
+        Target newTarget = target.copyWith("environment", "Development");
+        assertEquals("Development", newTarget.get("environment"));
     }
 
     @Test
@@ -58,9 +58,9 @@ public class TargetTest {
                 new Target.Builder("https://www.google.com")
                         .by(By.cssSelector("input[name=\"q\"]"))
                         .build();
-        Map<String, String> attributes = Collections.singletonMap("profile", "Development");
+        Map<String, String> attributes = Collections.singletonMap("environment", "Development");
         Target newTarget = target.copyWith(attributes);
-        assertEquals("Development", newTarget.get("profile"));
+        assertEquals("Development", newTarget.get("environment"));
     }
 
     @Test

@@ -77,14 +77,14 @@ public class MaterialProductGroup_toVariableJsonTest {
         Map<String, String> m1 = new HashMap<>();
         m1.put("timestamp", "20221010-132801");
         m1.put("step", "1");
-        m1.put("profile", "ProductionEnv");
+        m1.put("environment", "ProductionEnv");
         fixture.put("Google", new Metadata.Builder(url1).putAll(m1).build());
         //
         URL url2 = new URL("https://duckduckgo.com/");
         Map<String, String> m2 = new HashMap<>();
         m2.put("timestamp", "20221010-132806");
         m2.put("step", "2");
-        m2.put("profile", "ProductionEnv");
+        m2.put("environment", "ProductionEnv");
         fixture.put("DuckDuckGo", new Metadata.Builder(url2).putAll(m2).build());
         //
         return fixture;
@@ -97,14 +97,14 @@ public class MaterialProductGroup_toVariableJsonTest {
         Map<String, String> m1 = new HashMap<>();
         m1.put("timestamp", "20221010-132801");
         m1.put("step", "1");
-        m1.put("profile", "DevelopmentEnv");  // Here is a difference
+        m1.put("environment", "DevelopmentEnv");  // Here is a difference
         fixture.put("Google", new Metadata.Builder(url1).putAll(m1).build());
         //
         URL url2 = new URL("https://duckduckgo.com/");
         Map<String, String> m2 = new HashMap<>();
         m2.put("timestamp", "20221010-132806");
         m2.put("step", "2");
-        m2.put("profile", "DevelopmentEnv");  // Here is a difference
+        m2.put("environment", "DevelopmentEnv");  // Here is a difference
         fixture.put("DuckDuckGo", new Metadata.Builder(url2).putAll(m2).build());
         //
         return fixture;
@@ -114,12 +114,12 @@ public class MaterialProductGroup_toVariableJsonTest {
     public void setup() throws MaterialstoreException {
         MaterialList left;
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
-        map1.put("profile", "ProductionEnv");
+        map1.put("environment", "ProductionEnv");
         left = store.select(jobName, jobTimestamp1, QueryOnMetadata.builder(map1).build());
         //
         MaterialList right;
         LinkedHashMap<String, String> map2 = new LinkedHashMap<>(1);
-        map2.put("profile", "DevelopmentEnv");
+        map2.put("environment", "DevelopmentEnv");
         right = store.select(jobName, jobTimestamp2, QueryOnMetadata.builder(map2).build());
         //
         mpg =

@@ -71,12 +71,12 @@ public class MaterialProductComparatorTest {
     public void setup() throws MaterialstoreException {
         MaterialList left;
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(1);
-        map1.put("profile", "ProductionEnv");
+        map1.put("environment", "ProductionEnv");
         left = store.select(jobName, jobTimestamp1, QueryOnMetadata.builder(map1).build());
         //
         MaterialList right;
         LinkedHashMap<String, String> map2 = new LinkedHashMap<>(1);
-        map2.put("profile", "DevelopmentEnv");
+        map2.put("environment", "DevelopmentEnv");
         right = store.select(jobName, jobTimestamp2, QueryOnMetadata.builder(map2).build());
         //
         Map<String, String> q1 = new HashMap<>();

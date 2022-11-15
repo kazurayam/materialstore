@@ -69,17 +69,17 @@ public class TextDifferToHTMLTest extends AbstractReporterTest {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         LinkedHashMap<String, String> map = new LinkedHashMap<>(2);
         map.put("category", "page source");
-        map.put("profile", "ProductionEnv");
+        map.put("environment", "ProductionEnv");
         MaterialList expected = store.select(jobName, jobTimestamp, FileType.HTML, QueryOnMetadata.builder(map).build());
         Assertions.assertEquals(1, expected.size());
 
         LinkedHashMap<String, String> map1 = new LinkedHashMap<>(2);
         map1.put("category", "page source");
-        map1.put("profile", "DevelopmentEnv");
+        map1.put("environment", "DevelopmentEnv");
         MaterialList actual = store.select(jobName, jobTimestamp, FileType.HTML, QueryOnMetadata.builder(map1).build());
         Assertions.assertEquals(1, actual.size());
 
-        MaterialProductGroup reducedMPG = MaterialProductGroup.builder(expected, actual).ignoreKeys("profile", "URL.host").build();
+        MaterialProductGroup reducedMPG = MaterialProductGroup.builder(expected, actual).ignoreKeys("environment", "URL.host").build();
         Assertions.assertNotNull(reducedMPG);
         Assertions.assertEquals(1, reducedMPG.size());
         return reducedMPG;

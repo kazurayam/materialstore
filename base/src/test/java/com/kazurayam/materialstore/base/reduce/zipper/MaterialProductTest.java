@@ -55,15 +55,15 @@ public class MaterialProductTest {
     public void test_getQueryIdentification_more() {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(3);
         map.put("URL.path", "/");
-        map.put("profile", "Flaskr_ProductionEnv");
+        map.put("environment", "Flaskr_ProductionEnv");
         map.put("step", "6");
         QueryOnMetadata mp = QueryOnMetadata.builder(map).build();
         //
-        SortKeys sortKeys = new SortKeys("step", "profile");
+        SortKeys sortKeys = new SortKeys("step", "environment");
         MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).build();
 
         QueryIdentification desc = mProduct.getQueryIdentification(sortKeys);
-        assertEquals("{\"step\":\"6\", \"profile\":\"Flaskr_ProductionEnv\", \"URL.path\":\"/\"}", desc.toString());
+        assertEquals("{\"step\":\"6\", \"environment\":\"Flaskr_ProductionEnv\", \"URL.path\":\"/\"}", desc.toString());
     }
 
     @Test
