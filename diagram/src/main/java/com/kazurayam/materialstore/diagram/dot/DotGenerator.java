@@ -31,7 +31,7 @@ public class DotGenerator {
     public static final String INDENT = "    ";
 
     //-----------------------------------------------------------------
-    /**
+    /*
      * generate DOT of a Material object
      */
     public static String generateDot(Material material,
@@ -60,7 +60,7 @@ public class DotGenerator {
     }
 
     //-----------------------------------------------------------------
-    /**
+    /*
      * generate DOT of a MaterialList object
      */
     public static String generateDot(MaterialList materialList,
@@ -105,7 +105,7 @@ public class DotGenerator {
     }
 
     //-----------------------------------------------------------------
-    /**
+    /*
      *
      */
     public static String generateDot(MaterialProduct materialProduct,
@@ -236,7 +236,7 @@ public class DotGenerator {
 
 
     //-----------------------------------------------------------------
-    /**
+    /*
      *
      */
     public static String generateDot(MaterialProductGroup mProductGroup,
@@ -345,7 +345,7 @@ public class DotGenerator {
     }
 
 
-    /**
+    /*
      * generate a PNG image from the given DOT text, return a BufferedImage
      */
     public static BufferedImage toImage(String dot) throws MaterialstoreException {
@@ -365,7 +365,7 @@ public class DotGenerator {
     }
 
 
-    /**
+    /*
      * run the dot command of Graphviz in command line
      */
     public static int runDotCommand(Path dotFile, Path outFile) throws MaterialstoreException {
