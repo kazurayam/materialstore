@@ -53,6 +53,8 @@ public final class MaterialProductGroup
     private final SortKeys sortKeys;
     private Double threshold;
     private boolean readyToReport;
+    private String environmentLeft;
+    private String environmentRight;
 
     private MaterialProductGroup(Builder builder) {
         this.materialList0 = builder.materialList0;
@@ -63,6 +65,8 @@ public final class MaterialProductGroup
         this.threshold = builder.threshold;
         this.resultTimestamp = builder.resultTimestamp;
         this.materialProductList = builder.materialProductList;
+        this.environmentLeft = builder.environmentLeft;
+        this.environmentRight = builder.environmentRight;
     }
 
     /**
@@ -83,6 +87,8 @@ public final class MaterialProductGroup
         this.materialProductList = tmp;
         this.resultTimestamp = source.getJobTimestampOfReduceResult();
         this.readyToReport = source.isReadyToReport();
+        this.environmentLeft = source.getEnvironmentLeft();
+        this.environmentRight = source.getEnvironmentRight();
     }
 
     public void add(MaterialProduct mProduct) {
@@ -211,6 +217,9 @@ public final class MaterialProductGroup
     }
 
     public long getCountTotal() { return this.materialProductList.size(); }
+
+    public String getEnvironmentLeft() { return this.environmentLeft; }
+    public String getEnvironmentRight() { return this.environmentRight; }
 
     public boolean isReadyToReport() {
         return this.readyToReport;
@@ -364,7 +373,14 @@ public final class MaterialProductGroup
         sb.append(",");
         sb.append("\"countTotal\":");
         sb.append(getCountTotal());
-
+        sb.append(",");
+        sb.append("\"environmentLeft\":\"");
+        sb.append(getEnvironmentLeft());
+        sb.append("\"");
+        sb.append(",");
+        sb.append("\"environmentRight\":\"");
+        sb.append(getEnvironmentRight());
+        sb.append("\"");
         sb.append("}");
         return sb.toString();
     }
@@ -404,6 +420,8 @@ public final class MaterialProductGroup
         private SortKeys sortKeys = SortKeys.NULL_OBJECT;
         private final Double threshold;
         private List<MaterialProduct> materialProductList;
+        private String environmentLeft;
+        private String environmentRight;
 
         public Builder(final MaterialList materialList0, final MaterialList materialList1) {
             this.materialList0 = materialList0;
@@ -416,6 +434,8 @@ public final class MaterialProductGroup
                         materialList1.getJobTimestamp() + ". expected left < right.");
             }
             this.threshold = 0.0d;
+            this.environmentLeft = "";
+            this.environmentRight = "";
         }
 
         public Builder ignoreKey(String key) {
@@ -460,6 +480,16 @@ public final class MaterialProductGroup
 
         public Builder setSortKeys(SortKeys sortKeys) {
             this.sortKeys = sortKeys;
+            return this;
+        }
+
+        public Builder environmentLeft(String environmentLeft) {
+            this.environmentLeft = environmentLeft;
+            return this;
+        }
+
+        public Builder environmentRight(String environmentRight) {
+            this.environmentRight = environmentRight;
             return this;
         }
 
