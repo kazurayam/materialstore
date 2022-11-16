@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="container">
-  <h1 class="title">${title}</h1>
+  <h4 class="title">${title}</h4>
   <p>store : ${model.store}</p>
   <table class="table table-sm table-striped">
     <thead>

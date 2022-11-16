@@ -18,9 +18,10 @@
       <p id="count"><span class="warnings">${mProductGroup.countWarning?string("0")}</span>w
         <span class="ignorable">${mProductGroup.countIgnorable?string("0")}</span>i
         <span class="total">${mProductGroup.countTotal?string("0")}</span>t</p>
-      <h1 class="title">${title}
-        <button class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsingHeader" aria-expanded="false" aria-controls="collapsingHeader">About</button>
-      </h1>
+      <div style="display:flex">
+        <h4 class="title" style="padding-top:10px">${title}</h4>
+        <button style="margin-left:auto" class="btn btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsingHeader" aria-expanded="false" aria-controls="collapsingHeader">About</button>
+      </div>
       <div id="collapsingHeader" class="collapse header">
         <dl>
           <dt>Root path :</dt>

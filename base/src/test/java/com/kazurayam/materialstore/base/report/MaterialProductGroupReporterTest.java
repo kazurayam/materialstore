@@ -23,7 +23,7 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Disabled   // https://github.com/kazurayam/materialstore/issues/352
+//@Disabled   // https://github.com/kazurayam/materialstore/issues/352
 public class MaterialProductGroupReporterTest extends AbstractReporterTest {
 
     private static final Path fixtureDir =
