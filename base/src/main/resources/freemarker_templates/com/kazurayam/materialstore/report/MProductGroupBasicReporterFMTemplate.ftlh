@@ -143,6 +143,7 @@
       <div class="modal fade" id="${imageModalId}" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content">
+            <h4 style="margin: 12px 0 0 130px">${title}</h4>
             <div class="modal-header">
               <h5 class="modal-title" id="${imageModalTitleId}">
                 <span>${mProduct.diffRatio?string["0.00"]}% ${mProduct.fileTypeExtension} ${mProduct.identification}</span>
@@ -188,6 +189,7 @@
       <div class="modal fade" id="${textModalId}" tabindex="-1" aria-labelledby="textModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-fullscreen">
           <div class="modal-content">
+            <h4 style="margin: 12px 0 0 130px">${title}</h4>
             <div class="modal-header">
               <h5 class="modal-title" id="${textModalTitleId}">
                 <span>${mProduct.diffRatio?string["0.00"]}% ${mProduct.fileTypeExtension} ${mProduct.identification}</span>
