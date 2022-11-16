@@ -105,7 +105,7 @@
                 <div id="collapse${index}" class="according-collapse collapse" aria-labelledby="heading${index}"
                      data-bs-parent="#diff-contents">
                   <div class="accordion-body">
-                    <@makeModalSubsection mProduct index />
+                    <@makeModalSubsection mProduct index mProductGroup/>
 
                     <@makeMaterialSubsection "left" mProduct.left mProductGroup />
                     <@makeMaterialSubsection "right" mProduct.right mProductGroup />
@@ -132,7 +132,7 @@
 
 
 
-<#macro makeModalSubsection mProduct index>
+<#macro makeModalSubsection mProduct index mProductGroup>
   <div class="show-diff">
     <#if mProduct.left.diffability == "AS_IMAGE"  || mProduct.right.diffability == "AS_IMAGE">
       <#assign imageModalId = "imageModal" + index >
@@ -154,7 +154,7 @@
               <div id="${carouselId}" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item">
-                    <h3 class="centered">Left</h3>
+                    <h3 class="centered">Left <#if mProductGroup.environmentLeft != "">(${mProductGroup.environmentLeft})</#if></h3>
                     <img class="img-fluid border d-block w-75 centered" alt="left" src="${mProduct.left.relativeUrl}">
                   </div>
                   <div class="carousel-item active">
@@ -162,7 +162,7 @@
                     <img class="img-fluid border d-block w-75 centered" alt="diff" src="${mProduct.diff.relativeUrl}">
                   </div>
                   <div class="carousel-item">
-                    <h3 class="centered">Right</h3>
+                    <h3 class="centered">Right <#if mProductGroup.environmentRight != "">(${mProductGroup.environmentRight})</#if></h3>
                     <img class="img-fluid border d-block w-75 centered" alt="right" src="${mProduct.right.relativeUrl}">
                   </div>
                 </div>
@@ -215,7 +215,13 @@
 
 <#macro makeMaterialSubsection name material mProductGroup>
 <div class="show-detail">
-  <h2>${name}</h2>
+  <h4>${name}
+      <#if name == "left" && mProductGroup.environmentLeft != "">
+        (${mProductGroup.environmentLeft})
+      <#elseif name = "right" && mProductGroup.environmentRight != "">
+        (${mProductGroup.environmentRight})
+      </#if>
+  </h4>
   <dl class="detail">
     <dt>Material URL</dt>
     <dd>

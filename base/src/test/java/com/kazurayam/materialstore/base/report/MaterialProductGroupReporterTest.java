@@ -105,6 +105,8 @@ public class MaterialProductGroupReporterTest extends AbstractReporterTest {
                         .identifyWithRegex(
                                 Collections.singletonMap(
                                         "URL.query", "\\w{32}"))
+                        .environmentLeft("ProductionEnv")
+                        .environmentRight("DevelopmentEnv")
                         .build();
         return inspector.reduceAndSort(reducedMPG);
     }

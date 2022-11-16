@@ -146,6 +146,26 @@ public class MaterialProductGroupTest {
     }
 
     @Test
+    public void test_getEnvironmentLeft() {
+        MaterialProductGroup mpg =
+                MaterialProductGroup.builder(left, right)
+                        .environmentLeft("ProductionEnv").build();
+        assertEquals(
+                "ProductionEnv",
+                mpg.getEnvironmentLeft());
+    }
+
+    @Test
+    public void test_getEnvironmentRight() {
+        MaterialProductGroup mpg =
+                MaterialProductGroup.builder(left, right)
+                        .environmentRight("DevelopmentEnv").build();
+        assertEquals(
+                "DevelopmentEnv",
+                mpg.getEnvironmentRight());
+    }
+
+    @Test
     public void test_getJobName() {
         MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).build();
         assertEquals(
