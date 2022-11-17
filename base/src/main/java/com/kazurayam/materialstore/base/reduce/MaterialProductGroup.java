@@ -53,8 +53,8 @@ public final class MaterialProductGroup
     private final SortKeys sortKeys;
     private Double threshold;
     private boolean readyToReport;
-    private String environmentLeft;
-    private String environmentRight;
+    private String labelLeft;
+    private String labelRight;
 
     private MaterialProductGroup(Builder builder) {
         this.materialList0 = builder.materialList0;
@@ -65,8 +65,8 @@ public final class MaterialProductGroup
         this.threshold = builder.threshold;
         this.resultTimestamp = builder.resultTimestamp;
         this.materialProductList = builder.materialProductList;
-        this.environmentLeft = builder.environmentLeft;
-        this.environmentRight = builder.environmentRight;
+        this.labelLeft = builder.labelLeft;
+        this.labelRight = builder.labelRight;
     }
 
     /*
@@ -87,8 +87,8 @@ public final class MaterialProductGroup
         this.materialProductList = tmp;
         this.resultTimestamp = source.getJobTimestampOfReduceResult();
         this.readyToReport = source.isReadyToReport();
-        this.environmentLeft = source.getEnvironmentLeft();
-        this.environmentRight = source.getEnvironmentRight();
+        this.labelLeft = source.getLabelLeft();
+        this.labelRight = source.getLabelRight();
     }
 
     public void add(MaterialProduct mProduct) {
@@ -218,8 +218,8 @@ public final class MaterialProductGroup
 
     public long getCountTotal() { return this.materialProductList.size(); }
 
-    public String getEnvironmentLeft() { return this.environmentLeft; }
-    public String getEnvironmentRight() { return this.environmentRight; }
+    public String getLabelLeft() { return this.labelLeft; }
+    public String getLabelRight() { return this.labelRight; }
 
     public boolean isReadyToReport() {
         return this.readyToReport;
@@ -374,12 +374,12 @@ public final class MaterialProductGroup
         sb.append("\"countTotal\":");
         sb.append(getCountTotal());
         sb.append(",");
-        sb.append("\"environmentLeft\":\"");
-        sb.append(getEnvironmentLeft());
+        sb.append("\"labelLeft\":\"");
+        sb.append(getLabelLeft());
         sb.append("\"");
         sb.append(",");
-        sb.append("\"environmentRight\":\"");
-        sb.append(getEnvironmentRight());
+        sb.append("\"labelRight\":\"");
+        sb.append(getLabelRight());
         sb.append("\"");
         sb.append("}");
         return sb.toString();
@@ -420,8 +420,8 @@ public final class MaterialProductGroup
         private SortKeys sortKeys = SortKeys.NULL_OBJECT;
         private final Double threshold;
         private List<MaterialProduct> materialProductList;
-        private String environmentLeft;
-        private String environmentRight;
+        private String labelLeft;
+        private String labelRight;
 
         public Builder(final MaterialList materialList0, final MaterialList materialList1) {
             this.materialList0 = materialList0;
@@ -434,8 +434,8 @@ public final class MaterialProductGroup
                         materialList1.getJobTimestamp() + ". expected left < right.");
             }
             this.threshold = 0.0d;
-            this.environmentLeft = "";
-            this.environmentRight = "";
+            this.labelLeft = materialList0.getJobTimestamp().toString();
+            this.labelRight = materialList1.getJobTimestamp().toString();
         }
 
         public Builder ignoreKey(String key) {
@@ -483,13 +483,13 @@ public final class MaterialProductGroup
             return this;
         }
 
-        public Builder environmentLeft(String environmentLeft) {
-            this.environmentLeft = environmentLeft;
+        public Builder labelLeft(String labelLeft) {
+            this.labelLeft = labelLeft;
             return this;
         }
 
-        public Builder environmentRight(String environmentRight) {
-            this.environmentRight = environmentRight;
+        public Builder labelRight(String labelRight) {
+            this.labelRight = labelRight;
             return this;
         }
 

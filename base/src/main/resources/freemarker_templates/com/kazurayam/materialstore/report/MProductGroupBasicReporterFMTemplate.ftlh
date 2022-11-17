@@ -154,7 +154,7 @@
               <div id="${carouselId}" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                   <div class="carousel-item">
-                    <h3 class="centered">Left <#if mProductGroup.environmentLeft != "">(${mProductGroup.environmentLeft})</#if></h3>
+                    <h3 class="centered">Left <#if mProductGroup.labelLeft != "">(${mProductGroup.labelLeft})</#if></h3>
                     <img class="img-fluid border d-block w-75 centered" alt="left" src="${mProduct.left.relativeUrl}">
                   </div>
                   <div class="carousel-item active">
@@ -162,7 +162,7 @@
                     <img class="img-fluid border d-block w-75 centered" alt="diff" src="${mProduct.diff.relativeUrl}">
                   </div>
                   <div class="carousel-item">
-                    <h3 class="centered">Right <#if mProductGroup.environmentRight != "">(${mProductGroup.environmentRight})</#if></h3>
+                    <h3 class="centered">Right <#if mProductGroup.labelRight != "">(${mProductGroup.labelRight})</#if></h3>
                     <img class="img-fluid border d-block w-75 centered" alt="right" src="${mProduct.right.relativeUrl}">
                   </div>
                 </div>
@@ -216,10 +216,10 @@
 <#macro makeMaterialSubsection name material mProductGroup>
 <div class="show-detail">
   <h4>${name}
-      <#if name == "left" && mProductGroup.environmentLeft != "">
-        (${mProductGroup.environmentLeft})
-      <#elseif name = "right" && mProductGroup.environmentRight != "">
-        (${mProductGroup.environmentRight})
+      <#if name == "left" && mProductGroup.labelLeft != "">
+        (${mProductGroup.labelLeft})
+      <#elseif name = "right" && mProductGroup.labelRight != "">
+        (${mProductGroup.labelRight})
       </#if>
   </h4>
   <dl class="detail">

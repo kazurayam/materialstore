@@ -12,7 +12,6 @@ import com.kazurayam.materialstore.base.inspector.Inspector;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -105,8 +104,8 @@ public class MaterialProductGroupReporterTest extends AbstractReporterTest {
                         .identifyWithRegex(
                                 Collections.singletonMap(
                                         "URL.query", "\\w{32}"))
-                        .environmentLeft("ProductionEnv")
-                        .environmentRight("DevelopmentEnv")
+                        .labelLeft("ProductionEnv")
+                        .labelRight("DevelopmentEnv")
                         .build();
         return inspector.reduceAndSort(reducedMPG);
     }

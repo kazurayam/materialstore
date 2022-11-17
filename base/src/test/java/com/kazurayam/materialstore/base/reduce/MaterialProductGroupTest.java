@@ -149,20 +149,20 @@ public class MaterialProductGroupTest {
     public void test_getEnvironmentLeft() {
         MaterialProductGroup mpg =
                 MaterialProductGroup.builder(left, right)
-                        .environmentLeft("ProductionEnv").build();
+                        .labelLeft("ProductionEnv").build();
         assertEquals(
                 "ProductionEnv",
-                mpg.getEnvironmentLeft());
+                mpg.getLabelLeft());
     }
 
     @Test
     public void test_getEnvironmentRight() {
         MaterialProductGroup mpg =
                 MaterialProductGroup.builder(left, right)
-                        .environmentRight("DevelopmentEnv").build();
+                        .labelRight("DevelopmentEnv").build();
         assertEquals(
                 "DevelopmentEnv",
-                mpg.getEnvironmentRight());
+                mpg.getLabelRight());
     }
 
     @Test
