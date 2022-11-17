@@ -60,7 +60,7 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
         return new Builder();
     }
 
-    /**
+    /*
      * with deep copy
      */
     public static Builder builder(Metadata source) {
@@ -186,7 +186,7 @@ public abstract class Metadata implements Comparable<Metadata>, Jsonifiable, Tem
         private URL url = null;
     }
 
-    /**
+    /*
      *
      * @param query "a=x&b=y&c"
      * @return [new KeyValuePair("a","x"), new KeyValuePair("b","y"), new KeyValuePair("c, null)]

@@ -106,10 +106,8 @@ public final class MetadataImpl extends Metadata {
         return attributes.containsKey(key);
     }
 
-    /**
+    /*
      * compares this.toSimplifiedJson() with other.toSimplifiedJson()
-     * @param obj
-     * @return
      */
     @Override
     public boolean equals(Object obj) {

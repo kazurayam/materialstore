@@ -80,11 +80,11 @@ public final class StringUtils {
         return lines;
     }
 
-    /**
+    /*
      * https://www.baeldung.com/java-random-string
      *
-     * @param length length of the resulting String
-     * @returns a String which contains rundom
+     * @param length of the resulting String
+     * @returns a String which contains random
      */
     public static String generateRandomAlphaNumericString(int length) {
         int leftLimit = 48; // numeral '0'

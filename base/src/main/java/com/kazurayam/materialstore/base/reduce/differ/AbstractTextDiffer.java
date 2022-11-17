@@ -141,7 +141,7 @@ public abstract class AbstractTextDiffer implements Differ {
         }
     }
 
-    /**
+    /*
      * "Java Split String and Keep Delimitiers"
      * https://www.baeldung.com/java-split-string-keep-delimiters
      * @param line

@@ -42,7 +42,7 @@ public abstract class QueryOnMetadata implements Jsonifiable, TemplateReady {
     public abstract QValue get(String key);
 
 
-    /**
+    /*
      * string representation of this QueryOnMetadata,
      * the keys are sorted by the given SortKeys specification
      *

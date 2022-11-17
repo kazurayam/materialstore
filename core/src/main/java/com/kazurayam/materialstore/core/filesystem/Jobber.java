@@ -100,7 +100,7 @@ public final class Jobber {
         return selectMaterials(FileType.NULL_OBJECT, query);
     }
 
-    /**
+    /*
      *
      */
     public Material selectMaterial(final ID id) {
@@ -118,25 +118,25 @@ public final class Jobber {
         return index.size();
     }
 
-    /**
+    /*
      * This method writes the "byte[] data" into a File on disk.
      * The path of the file will be
-     * <root>/<JobName>/<JobTimestamp>/objects/<sha1 hash id>.<FileType.extension>
+     * &lt;root&gt;/&lt;JobName&gt;/&lt;JobTimestamp&gt;/objects/&lt;sha1 hash id&gt;.&lt;FileType.extension&gt;
      * <p>
      * And the "index" file will record MaterialIO objects; 1 line per 1 single MaterialIO.
      * An entry of "index" will be like:
-     * <sha1 hash id>¥t<FileType.extension>¥t<Metadata>
+     * &lt;sha1 hash id&gt;¥t&lt;FileType.extension&gt;¥t&gt;Metadata&lt;
      * <p>
      * The "index" entries are identified uniquely by the combination of
-     * <FileType.extension> + <Metadata>
+     * &lt;FileType.extension&gt; + &lt;Metadata&gt;
      * <p>
      * You can not write (create) 2 or more IndexEntry objects with the same
-     * <FileType.extension> + <Metadata> combination.
+     * &lt;FileType.extension&lt; + &lt;Metadata&gt; combination.
      * <p>
      * If you try to do write it, a MaterialstoreException will be raised.
      * <p>
      * However, you can create 2 or more IndexEntry objects
-     * with different key with the same `<sha1 hash id>.<FileType.extension>`.
+     * with different key with the same `&lt;sha1 hash id&gt;.&lt;FileType.extension&gt;`.
      * <p>
      * This means, you would possibly see such an index entries:
      *

@@ -40,7 +40,7 @@ public final class Target implements Jsonifiable {
                         .build();
     }
 
-    /**
+    /*
      * copy constructor
      */
     public Target(Target source) {
@@ -49,7 +49,7 @@ public final class Target implements Jsonifiable {
         this.attributes = source.getAttributes();
     }
 
-    /**
+    /*
      * creates a new instance of Target class while replacing the By with specified value
      */
     public Target copyWith(By by) {
@@ -59,7 +59,7 @@ public final class Target implements Jsonifiable {
                 .build();
     }
 
-    /**
+    /*
      * creates a new instance of Target class while adding a new attribyte (kew=value)
      */
     public Target copyWith(String key, String value) {
@@ -70,7 +70,7 @@ public final class Target implements Jsonifiable {
                 .build();
     }
 
-    /**
+    /*
      * creates a new instance of Target class while adding attributes specified
      */
     public Target copyWith(Map<String, String> newAttributes) {

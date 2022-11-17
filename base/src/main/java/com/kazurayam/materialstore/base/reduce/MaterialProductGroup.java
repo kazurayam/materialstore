@@ -69,7 +69,7 @@ public final class MaterialProductGroup
         this.environmentRight = builder.environmentRight;
     }
 
-    /**
+    /*
      * Deep-copy constructor
      *
      */
@@ -106,7 +106,7 @@ public final class MaterialProductGroup
         return this.countExceeding(threshold);
     }
 
-    /**
+    /*
      * count the number of MaterialProduct objects that have diffRatio
      * greater than the threshold given.
      *
@@ -250,7 +250,7 @@ public final class MaterialProductGroup
         this.threshold = threshold;
     }
 
-    /**
+    /*
      * supposed to be used only by DifferDriverImpl
      */
     public void setReadyToReport(boolean readyToReport) {

@@ -21,7 +21,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
     public static final Material NULL_OBJECT =
             new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, IndexEntry.NULL_OBJECT);
 
-    /**
+    /*
      * empty Material is used as an element of a bachelor MaterialProduct
      */
     public static Material newEmptyMaterial() {
@@ -122,7 +122,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return this.toFile(store.getRoot()).toPath();
     }
 
-    /**
+    /*
      * returns a URL in the form of "file:/". The path will be an absolute path.
      *
      */
@@ -152,7 +152,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
     }
 
 
-    /**
+    /*
      * checks if this has the same FileType and Metadata as the other.
      * JobName and JobTimestamp are disregarded.
      */

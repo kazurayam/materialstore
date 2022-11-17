@@ -10,7 +10,7 @@ public interface Mapper {
 
     void setMappingListener(MappingListener listener);
 
-    /**
+    /*
      * MappingListener#onMapped() will be called back once or more times
      */
     void map(Material material) throws MaterialstoreException;

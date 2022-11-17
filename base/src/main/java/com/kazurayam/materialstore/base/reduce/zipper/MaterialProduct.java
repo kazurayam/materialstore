@@ -47,7 +47,7 @@ public final class MaterialProduct
         this.diffRatio = builder.diffRatio;
     }
 
-    /**
+    /*
      * copy constructor
      *
      */

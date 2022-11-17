@@ -152,7 +152,7 @@ task allJavadoc(type: Javadoc) {
     source sourceProjects.collect { prj -> prj.sourceSets.main.allJava }
     classpath = files(sourceProjects.collect { prj -> prj.sourceSets.main.runtimeClasspath })
 
-    options.overview = "gradle/api/overview.html"
+    //options.overview = "gradle/api/overview.html"
     options.showFromProtected()
     failOnError = false
     options.locale = "en_US"

@@ -38,7 +38,7 @@ public final class Zipper {
         this.identifyMetadataValues = identifyMetadataValues;
     }
 
-    /**
+    /*
      *
      */
     public List<MaterialProduct> zipMaterials(

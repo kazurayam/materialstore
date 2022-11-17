@@ -17,7 +17,7 @@ public final class MaterialIO {
     private final IFileType fileType_;
     private static final int BUFFER_SIZE = 8000;
 
-    /**
+    /*
      * calculate SHA1 message digest of the given data
      */
     public static String hashJDK(byte[] data) {

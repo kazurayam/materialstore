@@ -27,7 +27,7 @@ public interface TemplateReady extends Jsonifiable {
         return toTemplateModelAsJson(false);
     }
 
-    /**
+    /*
      * for debugging purposes.
      * <p>
      * turn the object returned by toTemplateModel() into a pretty-printed JSON text string

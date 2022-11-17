@@ -30,7 +30,8 @@ public final class Reducer {
             throws MaterialstoreException {
         return chronos(store, currentMaterialList, currentMaterialList.getJobTimestamp(), func);
     }
-    /**
+
+    /*
      *
      */
     public static MaterialProductGroup chronos(Store store,
@@ -43,7 +44,7 @@ public final class Reducer {
         return chronos(store, currentMaterialList, priorTo, func);
     }
 
-    /**
+    /*
      *
      */
     public static MaterialProductGroup chronos(Store store,
@@ -87,7 +88,7 @@ public final class Reducer {
     }
 
 
-    /**
+    /*
      * @param leftMaterialList MaterialList object as left side
      * @param rightMaterialList MaterialList object as right side
      * @param func BiFunction that implements apply method which zips the left and the right to generate a MProductGroup object

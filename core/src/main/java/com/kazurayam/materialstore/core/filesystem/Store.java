@@ -14,7 +14,7 @@ public interface Store {
 
     Store NULL_OBJECT = new StoreImpl(null);
 
-    /**
+    /*
      * return true if the directory of specified as JobName/JobTimestamp
      * exists in the store
      * @param jobName
@@ -41,7 +41,7 @@ public interface Store {
 
     List<JobTimestamp> findDifferentiatingJobTimestamps(JobName jobName) throws MaterialstoreException;
 
-    /**
+    /*
      * returns true if the specfied JobName/JobTimestamp directory contains one or more
      * Differentiating IndexEntry.
      * @param jobName
@@ -64,7 +64,7 @@ public interface Store {
 
     JobTimestamp findLatestJobTimestamp(JobName jobName) throws MaterialstoreException;
 
-    /**
+    /*
      *
      * @param jobName
      * @param nth starts with 1; does not start with zero

@@ -13,7 +13,7 @@ public abstract class StoreCleaner {
         return new StoreCleanerImpl(store);
     }
 
-    /**
+    /*
      * Clean up the store directory for the given JobName. This will do 2 clean-up actions.
      *
      * (1) delete unnecessary JobTimestamp directories. Beware there are 2 cases.

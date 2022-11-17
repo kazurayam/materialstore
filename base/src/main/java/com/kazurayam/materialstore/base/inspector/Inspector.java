@@ -10,7 +10,8 @@ import com.kazurayam.materialstore.base.report.MaterialProductGroupReporter;
 import java.nio.file.Path;
 
 public abstract class Inspector {
-    /**
+
+    /*
      * the factory method
      */
     public static Inspector newInstance(Store store) {

@@ -22,7 +22,7 @@ public class MaterialLocator {
         this.id = id;
     }
 
-    /**
+    /*
      * parse a string like "20221023_144115/07730aaa0c4992dcddb58ef5281faec082c8a8ee"
      * to return a MaterialReference object of which JobTimestamp is "20221023_144115"
      * and of which ID is "07730aaa0c4992dcddb58ef5281faec082c8a8ee"

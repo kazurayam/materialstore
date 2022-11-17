@@ -7,7 +7,7 @@ public final class DifferUtil {
     private DifferUtil() {
     }
 
-    /**
+    /*
      * @return e.g. "0.23" or "90.00"
      */
     public static String formatDiffRatioAsString(Double diffRatio, String fmt) {
@@ -19,14 +19,14 @@ public final class DifferUtil {
 
     }
 
-    /**
+    /*
      * @return e.g. "0.23" or "90.00"
      */
     public static String formatDiffRatioAsString(Double diffRatio) {
         return DifferUtil.formatDiffRatioAsString(diffRatio, "%1$.2f");
     }
 
-    /**
+    /*
      * 0.001 -> 0.01
      *
      */

@@ -37,7 +37,7 @@ public final class MaterialList
         this.materialList = new ArrayList<>();
     }
 
-    /**
+    /*
      * Deep-copy constructor
      *
      */
@@ -183,7 +183,7 @@ public final class MaterialList
         return toJson();
     }
 
-    /**
+    /*
      * Alternative to the toTemplateModel() in the TemplateReady interface.
      * This accepts an argument sortKeys, this makes the result dynamically configurable.
      *
