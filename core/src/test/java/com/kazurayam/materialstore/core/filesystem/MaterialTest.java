@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -32,6 +33,12 @@ public class MaterialTest {
     }
 
     @Test
+    public void test_loadNoMaterialFoundImage() throws MaterialstoreException {
+        BufferedImage png = Material.loadNoMaterialFoundPageAsBufferedImage();
+        assertNotNull(png);
+    }
+
+    @Test
     public void test_smoke() throws MaterialstoreException {
         String sampleLine = "6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{\"profile\":\"DevelopmentEnv\",\"URL\":\"http://demoaut-mimic.kazurayam.com/\"}";
         IndexEntry indexEntry = IndexEntry.parseLine(sampleLine);
@@ -49,6 +56,14 @@ public class MaterialTest {
         //System.out.println(material.toString());
         Assertions.assertEquals(material, material);
 
+    }
+
+    @Test
+    public void test_getNoMaterialFoundImageURL() throws MaterialstoreException {
+        String url = Material.getNoMaterialFoundImageURL();
+        System.out.println(url);
+        assertNotNull(url);
+        assertTrue(url.startsWith("data:image/png;base64,"));
     }
 
     @Test

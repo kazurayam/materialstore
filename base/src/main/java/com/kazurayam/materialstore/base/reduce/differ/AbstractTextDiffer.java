@@ -4,6 +4,7 @@ import com.github.difflib.text.DiffRow;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.core.filesystem.FileType;
 import com.kazurayam.materialstore.core.filesystem.FileTypeDiffability;
+import com.kazurayam.materialstore.core.filesystem.JobName;
 import com.kazurayam.materialstore.core.filesystem.Jobber;
 import com.kazurayam.materialstore.core.filesystem.Material;
 import com.kazurayam.materialstore.core.filesystem.MaterialLocator;
@@ -48,17 +49,23 @@ public abstract class AbstractTextDiffer implements Differ {
         Objects.requireNonNull(mProduct);
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());
+
+        JobName diffJobName = JobName.NULL_OBJECT;
         //
         Material left = mProduct.getLeft();
         if (!left.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
             logger.warn(left + " is not a text.\n" +
                     "mProduct=" + mProduct.toJson(true));
+        } else {
+            diffJobName = left.getJobName();
         }
 
         Material right = mProduct.getRight();
         if (!right.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
             logger.warn(right + " is not a text.\n" +
                     "mProduct=" + mProduct.toJson(true));
+        } else {
+            diffJobName = right.getJobName();
         }
 
         //
@@ -73,7 +80,8 @@ public abstract class AbstractTextDiffer implements Differ {
         map.put("right", new MaterialLocator(right).toString());
         map.put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio));
         Metadata diffMetadata = Metadata.builder(map).build();
-        Jobber jobber = new Jobber(store, right.getJobName(), mProduct.getReducedTimestamp());
+        //
+        Jobber jobber = new Jobber(store, diffJobName, mProduct.getReducedTimestamp());
         Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata, Jobber.DuplicationHandling.CONTINUE);
         //
         MaterialProduct result = new MaterialProduct(mProduct);

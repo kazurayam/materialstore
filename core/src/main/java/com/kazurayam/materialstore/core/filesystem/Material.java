@@ -5,12 +5,18 @@ import com.kazurayam.materialstore.core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Base64;
 import java.util.Objects;
 
 public final class Material implements Comparable<Material>, Jsonifiable, TemplateReady,
@@ -20,6 +26,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
 
     public static final Material NULL_OBJECT =
             new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, IndexEntry.NULL_OBJECT);
+
 
     /*
      * empty Material is used as an element of a bachelor MaterialProduct
@@ -98,6 +105,58 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return Paths.get(".").resolve(jobName_.toString()).resolve(jobTimestamp_.toString()).resolve(Jobber.getOBJECTS_DIR_NAME()).resolve(this.getIndexEntry().getFileName()).normalize();
     }
 
+    public static BufferedImage loadNoMaterialFoundPageAsBufferedImage() throws MaterialstoreException {
+        try {
+            InputStream inputStream = getNoMaterialFoundPage();
+            return ImageIO.read(inputStream);
+        } catch (IOException e) {
+            throw new MaterialstoreException(e);
+        }
+    }
+
+    public static byte[] loadNoMaterialFoundPageAsByteArray() throws MaterialstoreException {
+        // create an Input Stream from the PNG file loaded from CLASSPATH
+        InputStream inputStream = getNoMaterialFoundPage();
+        // Buffer size taken to be 1024 say.
+        byte[] buffer = new byte[1024];
+        // we will use an object of ByteArrayOutputStream class
+        // as a buffer to construct the entire byte[]
+        ByteArrayOutputStream baos =
+                new ByteArrayOutputStream();
+        // load all bytes
+        int len;
+        try {
+            while ((len = inputStream.read(buffer)) != -1) {
+                baos.write(buffer, 0, len);
+            }
+        } catch (IOException e) {
+            throw new MaterialstoreException(e);
+        }
+
+        //
+        return baos.toByteArray();
+    }
+
+    public static InputStream getNoMaterialFoundPage() {
+        ClassLoader cl = Material.class.getClassLoader();
+        String resourcePath =
+                "com/kazurayam/materialstore/core/filesystem" +
+                        "/NoMaterialFound.png";
+        InputStream inputStream = cl.getResourceAsStream(resourcePath);
+        assert inputStream != null : "failed to load " + resourcePath + " from CLASSPATH";
+        return inputStream;
+    }
+
+    /*
+     * @returns a string as URL of the "No Material is Found" image
+     * in the format of "data:image/png;base64,xxxxxxx"
+     */
+    public static String getNoMaterialFoundImageURL() throws MaterialstoreException {
+        byte[] ba = loadNoMaterialFoundPageAsByteArray();
+        String base64encoded = Base64.getEncoder().encodeToString(ba);
+        return String.format("data:image/png;base64,%s", base64encoded);
+    }
+
     public File toFile(final Store store) throws MaterialstoreException {
         return this.toFile(store.getRoot());
     }
@@ -137,10 +196,23 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
     /**
      * @return the returned value of getRelative() is stringified, and
      * replace all of `\` character to `/` to make it a valid relative URL string.
+     * Material.NULL_OBJECT.getRelativeURL() will return a string which
+     * represent the "No Material is Found" image encoded by base64.
+     * It will like something like
+     * "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4
+     *   //8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
      */
     public String getRelativeURL() {
-        String s = this.getRelativePath().toString();
-        return s.replace("\\", "/");
+        if (jobName_ == JobName.NULL_OBJECT) {
+            try {
+                return getNoMaterialFoundImageURL();
+            } catch (MaterialstoreException e) {
+                return "[Material#getRelativeURL] getNoMaterialFoundImageURL() raised a MaterialstoreException";
+            }
+        } else {
+            String s = this.getRelativePath().toString();
+            return s.replace("\\", "/");
+        }
     }
 
     @Override

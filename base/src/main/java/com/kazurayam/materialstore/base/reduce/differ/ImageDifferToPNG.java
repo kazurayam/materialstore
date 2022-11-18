@@ -3,6 +3,7 @@ package com.kazurayam.materialstore.base.reduce.differ;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.core.filesystem.FileType;
 import com.kazurayam.materialstore.core.filesystem.FileTypeDiffability;
+import com.kazurayam.materialstore.core.filesystem.JobName;
 import com.kazurayam.materialstore.core.filesystem.Jobber;
 import com.kazurayam.materialstore.core.filesystem.Material;
 import com.kazurayam.materialstore.core.filesystem.MaterialLocator;
@@ -35,23 +36,21 @@ public final class ImageDifferToPNG implements Differ {
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());
         //
-        final Material left = mProduct.getLeft();
-        if (!left.getDiffability().equals(FileTypeDiffability.AS_IMAGE)) {
-            throw new MaterialstoreException("the left material is not an image: " + left);
+        JobName diffJobName = JobName.NULL_OBJECT;
+
+        Material left = mProduct.getLeft();
+        BufferedImage leftImage = Material.loadNoMaterialFoundPageAsBufferedImage();
+        if (left.getDiffability().equals(FileTypeDiffability.AS_IMAGE)) {
+            leftImage = readImage(left.toFile(store));
+            diffJobName = left.getJobName();
         }
 
-        File leftFile = store.getRoot().resolve(left.getRelativePath()).toFile();
-        BufferedImage leftImage = readImage(leftFile);
-        assert leftImage != null;
-        //
-        final Material right = mProduct.getRight();
-        if (!right.getDiffability().equals(FileTypeDiffability.AS_IMAGE)) {
-            throw new MaterialstoreException("the right material is not an image: " + right);
+        Material right = mProduct.getRight();
+        BufferedImage rightImage = Material.loadNoMaterialFoundPageAsBufferedImage();
+        if (right.getDiffability().equals(FileTypeDiffability.AS_IMAGE)) {
+            rightImage = readImage(right.toFile(store));
+            diffJobName = right.getJobName();
         }
-
-        File rightFile = store.getRoot().resolve(right.getRelativePath()).toFile();
-        BufferedImage rightImage = readImage(rightFile);
-        assert rightImage != null;
 
         // make a diff image using AShot
         ImageDiffer imgDiff = new ImageDiffer();
@@ -64,8 +63,9 @@ public final class ImageDifferToPNG implements Differ {
         map.put("right", new MaterialLocator(right).toString());
         Metadata diffMetadata = Metadata.builder(map).build();
         byte[] diffData = toByteArray(imageDiff.getDiffImage(), FileType.PNG);
+
         // write the image diff into disk
-        Jobber jobber = new Jobber(store, right.getJobName(), mProduct.getReducedTimestamp());
+        Jobber jobber = new Jobber(store, diffJobName, mProduct.getReducedTimestamp());
         Material diffMaterial = jobber.write(diffData, FileType.PNG, diffMetadata, Jobber.DuplicationHandling.CONTINUE);
 
         //
@@ -79,7 +79,6 @@ public final class ImageDifferToPNG implements Differ {
         if (!imageFile.exists()) {
             throw new IllegalArgumentException(imageFile + " is not found");
         }
-
         try {
             BufferedImage bufferedImage = ImageIO.read(imageFile);
             assert bufferedImage != null;
@@ -89,6 +88,7 @@ public final class ImageDifferToPNG implements Differ {
         }
 
     }
+
 
     private static byte[] toByteArray(BufferedImage input, FileType fileType)
             throws MaterialstoreException {

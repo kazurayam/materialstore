@@ -17,9 +17,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ImageDifferToPNGTest {
 
@@ -44,15 +48,14 @@ public class ImageDifferToPNGTest {
         map1.put("environment", "DevelopmentEnv");
         MaterialList right = store.select(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.builder(map1).build());
         MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).ignoreKeys("environment", "URL", "URL.host").build();
-        Assertions.assertNotNull(mpg);
+        assertNotNull(mpg);
         Assertions.assertEquals(2, mpg.size(), JsonUtil.prettyPrint(mpg.toString()));
         //
         MaterialProduct stuffed = new ImageDifferToPNG(store).stuffDiff(mpg.get(0));
-        Assertions.assertNotNull(stuffed);
-        Assertions.assertNotNull(stuffed.getDiff());
+        assertNotNull(stuffed);
+        assertNotNull(stuffed.getDiff());
         Assertions.assertTrue(stuffed.getDiffRatio() > 0);
         Assertions.assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff());
     }
-
 
 }
