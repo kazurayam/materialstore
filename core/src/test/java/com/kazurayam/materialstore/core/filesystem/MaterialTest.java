@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -32,11 +31,6 @@ public class MaterialTest {
         store = new StoreImpl(root);
     }
 
-    @Test
-    public void test_loadNoMaterialFoundImage() throws MaterialstoreException {
-        BufferedImage png = Material.loadNoMaterialFoundPageAsBufferedImage();
-        assertNotNull(png);
-    }
 
     @Test
     public void test_smoke() throws MaterialstoreException {
@@ -138,6 +132,18 @@ public class MaterialTest {
         IndexEntry indexEntry2 = IndexEntry.parseLine(sampleLine.replace("6141b40", "1020304"));
         Material material2 = new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, indexEntry2);
         assertTrue(material1.isSimilarTo(material2));
+    }
+
+    @Test
+    public void test_loadNoMaterialFoundHtml() throws MaterialstoreException {
+        byte[] bytes = Material.loadNoMaterialFoundText();
+        assertTrue(bytes.length > 0);
+    }
+
+    @Test
+    public void test_loadNoMaterialFoundPng() throws MaterialstoreException {
+        byte[] bytes = Material.loadNoMaterialFoundPng();
+        assertTrue(bytes.length > 0);
     }
 
     @Test

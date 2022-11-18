@@ -5,8 +5,6 @@ import com.kazurayam.materialstore.core.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +27,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
 
 
     /*
-     * empty Material is used as an element of a bachelor MaterialProduct
+     * empty Material is used as a filler in a bachelor MaterialProduct
      */
     public static Material newEmptyMaterial() {
         return new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, IndexEntry.NULL_OBJECT,
@@ -105,18 +103,42 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return Paths.get(".").resolve(jobName_.toString()).resolve(jobTimestamp_.toString()).resolve(Jobber.getOBJECTS_DIR_NAME()).resolve(this.getIndexEntry().getFileName()).normalize();
     }
 
-    public static BufferedImage loadNoMaterialFoundPageAsBufferedImage() throws MaterialstoreException {
-        try {
-            InputStream inputStream = getNoMaterialFoundPage();
-            return ImageIO.read(inputStream);
-        } catch (IOException e) {
-            throw new MaterialstoreException(e);
-        }
+
+    /*
+     * returns the byte array of the PNG file of "No Material is found"
+     */
+    public static byte[] loadNoMaterialFoundPng() throws MaterialstoreException {
+        return readInputStream(getNoMaterialFoundPngAsInputStream());
     }
 
-    public static byte[] loadNoMaterialFoundPageAsByteArray() throws MaterialstoreException {
-        // create an Input Stream from the PNG file loaded from CLASSPATH
-        InputStream inputStream = getNoMaterialFoundPage();
+    /*
+     * returns the byte array of the HTML file of "No Materials is found"
+     */
+    public static byte[] loadNoMaterialFoundText() throws MaterialstoreException {
+        return readInputStream(getNoMaterialFoundHtmlAsInputStream());
+    }
+
+    public static InputStream getNoMaterialFoundPngAsInputStream() {
+        ClassLoader cl = Material.class.getClassLoader();
+        String resourcePath =
+                "com/kazurayam/materialstore/core/filesystem" +
+                        "/NoMaterialFound.png";
+        InputStream inputStream = cl.getResourceAsStream(resourcePath);
+        assert inputStream != null : "failed to load " + resourcePath + " from CLASSPATH";
+        return inputStream;
+    }
+
+    public static InputStream getNoMaterialFoundHtmlAsInputStream() {
+        ClassLoader cl = Material.class.getClassLoader();
+        String resourcePath =
+                "com/kazurayam/materialstore/core/filesystem" +
+                        "/NoMaterialFound.html";
+        InputStream inputStream = cl.getResourceAsStream(resourcePath);
+        assert inputStream != null : "failed to load " + resourcePath + " from CLASSPATH";
+        return inputStream;
+    }
+
+    public static byte[] readInputStream(InputStream inputStream) throws MaterialstoreException {
         // Buffer size taken to be 1024 say.
         byte[] buffer = new byte[1024];
         // we will use an object of ByteArrayOutputStream class
@@ -132,19 +154,8 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
-
         //
         return baos.toByteArray();
-    }
-
-    public static InputStream getNoMaterialFoundPage() {
-        ClassLoader cl = Material.class.getClassLoader();
-        String resourcePath =
-                "com/kazurayam/materialstore/core/filesystem" +
-                        "/NoMaterialFound.png";
-        InputStream inputStream = cl.getResourceAsStream(resourcePath);
-        assert inputStream != null : "failed to load " + resourcePath + " from CLASSPATH";
-        return inputStream;
     }
 
     /*
@@ -152,7 +163,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
      * in the format of "data:image/png;base64,xxxxxxx"
      */
     public static String getNoMaterialFoundImageURL() throws MaterialstoreException {
-        byte[] ba = loadNoMaterialFoundPageAsByteArray();
+        byte[] ba = loadNoMaterialFoundPng();
         String base64encoded = Base64.getEncoder().encodeToString(ba);
         return String.format("data:image/png;base64,%s", base64encoded);
     }

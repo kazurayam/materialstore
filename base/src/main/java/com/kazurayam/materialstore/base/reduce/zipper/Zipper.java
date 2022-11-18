@@ -69,7 +69,8 @@ public final class Zipper {
                 if (leftFileType.equals(rightFileType) && (rightPattern.matches(leftMetadata)
                         || identifyMetadataValues.matches(leftMetadata))) {
                     MaterialProduct mp =
-                            new MaterialProduct.Builder(left, right, resultTimestamp)
+                            new MaterialProduct.Builder(left, right,
+                                    right.getJobName(), resultTimestamp)
                                     .setQueryOnMetadata(rightPattern)
                                     .build();
                     mProductList.add(mp);
@@ -83,7 +84,8 @@ public final class Zipper {
             }
             if (foundLeftCount == 0) {
                 MaterialProduct mp =
-                        new MaterialProduct.Builder(Material.newEmptyMaterial(), right, resultTimestamp)
+                        new MaterialProduct.Builder(Material.newEmptyMaterial(), right,
+                                right.getJobName(), resultTimestamp)
                                 .setQueryOnMetadata(rightPattern)
                                 .build();
                 mProductList.add(mp);
@@ -121,7 +123,8 @@ public final class Zipper {
             }
             if (foundRightCount == 0) {
                 MaterialProduct mProduct =
-                        new MaterialProduct.Builder(left, Material.newEmptyMaterial(), resultTimestamp)
+                        new MaterialProduct.Builder(left, Material.newEmptyMaterial(),
+                                left.getJobName(), resultTimestamp)
                                 .setQueryOnMetadata(leftPattern)
                                 .build();
                 mProductList.add(mProduct);

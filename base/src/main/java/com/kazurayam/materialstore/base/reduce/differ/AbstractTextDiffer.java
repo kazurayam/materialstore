@@ -4,7 +4,6 @@ import com.github.difflib.text.DiffRow;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.core.filesystem.FileType;
 import com.kazurayam.materialstore.core.filesystem.FileTypeDiffability;
-import com.kazurayam.materialstore.core.filesystem.JobName;
 import com.kazurayam.materialstore.core.filesystem.Jobber;
 import com.kazurayam.materialstore.core.filesystem.Material;
 import com.kazurayam.materialstore.core.filesystem.MaterialLocator;
@@ -21,20 +20,20 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
 public abstract class AbstractTextDiffer implements Differ {
 
-    private Logger logger = LoggerFactory.getLogger(AbstractTextDiffer.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(AbstractTextDiffer.class.getName());
 
     protected final Store store;
 
     private Charset charset = StandardCharsets.UTF_8;
 
     public AbstractTextDiffer(Store store) {
+        Objects.requireNonNull(store);
         this.store = store;
     }
 
@@ -45,50 +44,56 @@ public abstract class AbstractTextDiffer implements Differ {
 
     @Override
     public MaterialProduct stuffDiff(MaterialProduct mProduct) throws MaterialstoreException {
-        Objects.requireNonNull(store);
         Objects.requireNonNull(mProduct);
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());
 
-        JobName diffJobName = JobName.NULL_OBJECT;
-        //
-        Material left = mProduct.getLeft();
-        if (!left.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
-            logger.warn(left + " is not a text.\n" +
-                    "mProduct=" + mProduct.toJson(true));
-        } else {
-            diffJobName = left.getJobName();
-        }
+        Material left = complementTextMaterial(store, mProduct, mProduct.getLeft());
+        Material right = complementTextMaterial(store, mProduct, mProduct.getRight());
 
-        Material right = mProduct.getRight();
-        if (!right.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
-            logger.warn(right + " is not a text.\n" +
-                    "mProduct=" + mProduct.toJson(true));
-        } else {
-            diffJobName = right.getJobName();
-        }
-
-        //
         TextDiffContent textDiffContent = makeTextDiffContent(store, left, right, charset);
         Double diffRatio = textDiffContent.getDiffRatio();
 
         //
         byte[] diffData = toByteArray(textDiffContent.getContent());
-        LinkedHashMap<String, String> map = new LinkedHashMap<>(4);
-        map.put("category", "diff");
-        map.put("left", new MaterialLocator(left).toString());
-        map.put("right", new MaterialLocator(right).toString());
-        map.put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio));
-        Metadata diffMetadata = Metadata.builder(map).build();
-        //
-        Jobber jobber = new Jobber(store, diffJobName, mProduct.getReducedTimestamp());
+
+        Metadata diffMetadata =
+                Metadata.builder()
+                        .put("category", "diff")
+                        .put("left", new MaterialLocator(left).toString())
+                        .put("right", new MaterialLocator(right).toString())
+                        .put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio))
+                        .build();
+        // write the diff text
+        Jobber jobber = new Jobber(store, mProduct.getJobName(), mProduct.getReducedTimestamp());
         Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata, Jobber.DuplicationHandling.CONTINUE);
         //
-        MaterialProduct result = new MaterialProduct(mProduct);
+        MaterialProduct result = new MaterialProduct.Builder(mProduct)
+                .setLeft(left)
+                .setRight(right)
+                .build();
         result.setDiff(diffMaterial);
         result.setDiffRatio(diffRatio);
+
         return result;
     }
+
+    private Material complementTextMaterial(Store store,
+                                             MaterialProduct mProduct,
+                                             Material material) throws MaterialstoreException {
+        if (material.getDiffability().equals(FileTypeDiffability.AS_IMAGE)) {
+            return material;
+        } else {
+            return makeNoMaterialFoundMaterialOfText(store, mProduct);
+        }
+    }
+    private Material makeNoMaterialFoundMaterialOfText(
+            Store store, MaterialProduct mProduct)
+            throws MaterialstoreException {
+        return makeNoMaterialFoundMaterial(store, mProduct,
+                FileType.HTML, Material.loadNoMaterialFoundText());
+    }
+
 
     public abstract TextDiffContent makeTextDiffContent(Store store,
                                                         Material original, Material revised,
@@ -164,8 +169,7 @@ public abstract class AbstractTextDiffer implements Differ {
                             OLD_TAG, OLD_TAG, NEW_TAG, NEW_TAG));
 
     public static List<String> splitStringWithOldNewTags(String line) {
-        List<String> segments = Arrays.asList(SPLITTER.split(line));
-        return segments;
+        return Arrays.asList(SPLITTER.split(line));
     }
 
 }

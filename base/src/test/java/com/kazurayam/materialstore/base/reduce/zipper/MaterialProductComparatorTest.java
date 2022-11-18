@@ -81,13 +81,13 @@ public class MaterialProductComparatorTest {
         //
         Map<String, String> q1 = new HashMap<>();
         q1.put("step","1");
-        mp1 = new MaterialProduct.Builder(left.get(0), right.get(0), JobTimestamp.now())
+        mp1 = new MaterialProduct.Builder(left.get(0), right.get(0), jobName, JobTimestamp.now())
                 .setQueryOnMetadata(new QueryOnMetadata.Builder(q1).build())
                 .build();
         //
         Map<String, String> q2 = new HashMap<>();
         q2.put("step","2");
-        mp2 = new MaterialProduct.Builder(left.get(0), right.get(0), JobTimestamp.now())
+        mp2 = new MaterialProduct.Builder(left.get(0), right.get(0), jobName, JobTimestamp.now())
                 .setQueryOnMetadata(new QueryOnMetadata.Builder(q2).build())
                 .build();
         //

@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.base.reduce.zipper;
 
 import com.kazurayam.materialstore.core.filesystem.ID;
 import com.kazurayam.materialstore.core.filesystem.Identifiable;
+import com.kazurayam.materialstore.core.filesystem.JobName;
 import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.core.filesystem.Material;
 import com.kazurayam.materialstore.core.filesystem.MaterialIO;
@@ -27,12 +28,13 @@ public final class MaterialProduct
 
     public static final MaterialProduct NULL_OBJECT =
             new Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
-                    JobTimestamp.NULL_OBJECT)
+                    JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT)
                     .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT)
                     .build();
 
     private final Material left;
     private final Material right;
+    private final JobName jobName;
     private final JobTimestamp reducedTimestamp;
     private final QueryOnMetadata query;
     private Material diff;
@@ -42,23 +44,10 @@ public final class MaterialProduct
         this.left = builder.left;
         this.right = builder.right;
         this.diff = builder.diff;
+        this.jobName = builder.jobName;
         this.reducedTimestamp = builder.reducedTimestamp;
         this.query = builder.query;
         this.diffRatio = builder.diffRatio;
-    }
-
-    /*
-     * copy constructor
-     *
-     */
-    public MaterialProduct(MaterialProduct source) {
-        Objects.requireNonNull(source);
-        this.left = source.getLeft();
-        this.right = source.getRight();
-        this.diff = source.getDiff();
-        this.reducedTimestamp = source.getReducedTimestamp();
-        this.query = source.getQueryOnMetadata();
-        this.diffRatio = source.getDiffRatio();
     }
 
     public void annotate(IgnoreMetadataKeys ignoreMetadataKeys,
@@ -132,6 +121,10 @@ public final class MaterialProduct
     public ID getID() {
         String json = this.toJson();
         return new ID(MaterialIO.hashJDK(json.getBytes(StandardCharsets.UTF_8)));
+    }
+
+    public JobName getJobName() {
+        return this.jobName;
     }
 
     @Override
@@ -247,22 +240,49 @@ public final class MaterialProduct
      *
      */
     public static class Builder {
-        private final Material left;
-        private final Material right;
+        private Material left;
+        private Material right;
+        private final JobName jobName;
         private final JobTimestamp reducedTimestamp;
         private final Material diff;
         private QueryOnMetadata query;
         private final Double diffRatio;
-        public Builder(Material left, Material right, JobTimestamp reducedTimestamp) {
+        public Builder(Material left, Material right,
+                       JobName jobName, JobTimestamp reducedTimestamp) {
             Objects.requireNonNull(left);
             Objects.requireNonNull(right);
+            Objects.requireNonNull(jobName);
             Objects.requireNonNull(reducedTimestamp);
             this.left = left;
             this.right = right;
+            this.jobName = jobName;
             this.reducedTimestamp = reducedTimestamp;
             this.diff = Material.NULL_OBJECT;
             this.query = QueryOnMetadata.NULL_OBJECT;
             this.diffRatio = 0.0d;
+        }
+
+        public Builder(MaterialProduct source) {
+            Objects.requireNonNull(source);
+            this.left = source.getLeft();
+            this.right = source.getRight();
+            this.diff = source.getDiff();
+            this.jobName = source.getJobName();
+            this.reducedTimestamp = source.getReducedTimestamp();
+            this.query = source.getQueryOnMetadata();
+            this.diffRatio = source.getDiffRatio();
+        }
+
+        public Builder setLeft(Material left) {
+            Objects.requireNonNull(left);
+            this.left = left;
+            return this;
+        }
+
+        public Builder setRight(Material right) {
+            Objects.requireNonNull(right);
+            this.right = right;
+            return this;
         }
 
         public Builder setQueryOnMetadata(QueryOnMetadata query) {

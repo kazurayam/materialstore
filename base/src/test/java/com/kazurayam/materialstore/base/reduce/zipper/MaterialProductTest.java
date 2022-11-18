@@ -60,7 +60,9 @@ public class MaterialProductTest {
         QueryOnMetadata mp = QueryOnMetadata.builder(map).build();
         //
         SortKeys sortKeys = new SortKeys("step", "environment");
-        MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).build();
+        MaterialProduct mProduct =
+                new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
+                        jobName, JobTimestamp.now()).setQueryOnMetadata(mp).build();
 
         QueryIdentification desc = mProduct.getQueryIdentification(sortKeys);
         assertEquals("{\"step\":\"6\", \"environment\":\"Flaskr_ProductionEnv\", \"URL.path\":\"/\"}", desc.toString());
@@ -72,7 +74,9 @@ public class MaterialProductTest {
         map.put("URL.host", "demoaut-mimic.kazurayam.com");
         map.put("URL.file", "/");
         QueryOnMetadata mp = QueryOnMetadata.builder(map).build();
-        MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).build();
+        MaterialProduct mProduct =
+                new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
+                        jobName, JobTimestamp.now()).setQueryOnMetadata(mp).build();
         assertEquals(
                 "{\"URL.file\":\"/\", \"URL.host\":\"demoaut-mimic.kazurayam.com\"}",
                 mProduct.getQueryIdentification().toString());
@@ -84,7 +88,10 @@ public class MaterialProductTest {
         map.put("URL.host", "demoaut-mimic.kazurayam.com");
         map.put("URL.file", "/");
         QueryOnMetadata mp = QueryOnMetadata.builder(map).build();
-        MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).build();
+        MaterialProduct mProduct =
+                new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
+                        jobName, JobTimestamp.now())
+                        .setQueryOnMetadata(mp).build();
         System.out.println(JsonUtil.prettyPrint(mProduct.toString()));
     }
 
@@ -94,7 +101,10 @@ public class MaterialProductTest {
         map.put("URL.host", "demoaut-mimic.kazurayam.com");
         map.put("URL.file", "/");
         QueryOnMetadata mp = QueryOnMetadata.builder(map).build();
-        MaterialProduct mProduct = new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT, JobTimestamp.now()).setQueryOnMetadata(mp).build();
+        MaterialProduct mProduct =
+                new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
+                        jobName, JobTimestamp.now())
+                        .setQueryOnMetadata(mp).build();
         String json = mProduct.toJson(true);
         System.out.println(json);
     }
@@ -105,7 +115,7 @@ public class MaterialProductTest {
         Material right = store.selectSingle(jobName, rightJobTimestamp, FileType.PNG);
         JobTimestamp outJobTimestamp = JobTimestamp.now();
         MaterialProduct mp =
-                new MaterialProduct.Builder(left, right, outJobTimestamp).build();
+                new MaterialProduct.Builder(left, right, jobName, outJobTimestamp).build();
         assertEquals(-1, mp.containsMaterialAt(left));
         assertEquals(1, mp.containsMaterialAt(right));
         //

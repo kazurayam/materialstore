@@ -110,7 +110,9 @@ public class DotGeneratorTest {
                 new MaterialProduct.Builder(
                         leftMaterialList.get(0),
                         rightMaterialList.get(0),
-                        reducedTimestamp).build();
+                        jobName,
+                        reducedTimestamp)
+                        .build();
         //
         String dotText = DotGenerator.generateDot(mp);
         Material dotMat =

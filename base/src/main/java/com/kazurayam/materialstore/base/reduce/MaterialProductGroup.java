@@ -82,7 +82,7 @@ public final class MaterialProductGroup
         this.threshold = source.getThreshold();
         final List<MaterialProduct> tmp = new ArrayList<>();
         for (MaterialProduct sourceMProduct : source) {
-            tmp.add(new MaterialProduct(sourceMProduct));
+            tmp.add(new MaterialProduct.Builder(sourceMProduct).build());
         }
         this.materialProductList = tmp;
         this.resultTimestamp = source.getJobTimestampOfReduceResult();
@@ -96,9 +96,22 @@ public final class MaterialProductGroup
         materialProductList.add(mProduct);
     }
 
+    /*
+     *
+     */
     public boolean update(MaterialProduct mProduct) {
+        System.out.println("");
+        System.out.println("[MaterialProductGroup#update] mProduct.left =" + mProduct.getLeft().getFileType() + " " + mProduct.getLeft().getMetadata());
+        System.out.println("[MaterialProductGroup#update] mProduct.right=" + mProduct.getRight().getFileType() + " " + mProduct.getRight().getMetadata());
+        System.out.println("[MaterialProductGroup#update] mProduct.diff =" + mProduct.getDiff().getFileType() + " " + mProduct.getDiff().getMetadata());
+
         boolean wasPresent = materialProductList.remove(mProduct);
+
+        System.out.println("[MaterialProductGroup#update] wasPresent=" + wasPresent);
+
         this.add(mProduct);
+
+        System.out.println("[MaterialProductGroup#update] materialProductList.size()=" + materialProductList.size());
         return wasPresent;
     }
 

@@ -33,22 +33,32 @@ public final class DiffingMPGProcessor implements MPGProcessor {
 
     // implements Reducer
     @Override
-    public MaterialProductGroup process(MaterialProductGroup mpg) throws MaterialstoreException {
-        Objects.requireNonNull(mpg);
-        final List<MaterialProduct> stuffedMPs = new ArrayList<>();
-        for (MaterialProduct input : mpg) {
-            // do make difference
-            MaterialProduct stuffed = stuffDiffByDiffer(input);
-            // memorize the diff
-            stuffedMPs.add(stuffed);
+    public MaterialProductGroup process(MaterialProductGroup source) throws MaterialstoreException {
+        Objects.requireNonNull(source);
+
+        System.out.println("[DiffingMPGProcessor#process] mpg.getCountTotal()=" + source.getCountTotal());
+
+        final List<MaterialProduct> stuffedMaterialProductList = new ArrayList<>();
+        for (MaterialProduct input : source) {
+            // do make difference and memorize it
+            stuffedMaterialProductList.add(stuffDiffByDiffer(input));
         }
+
+        System.out.println("[DiffingMPGProcessor#process] stuffedMaterialProductList.size()=" + stuffedMaterialProductList.size());
+
         // clone the input to build the result
-        final MaterialProductGroup result = new MaterialProductGroup(mpg);
+        final MaterialProductGroup result = new MaterialProductGroup(source);
+
+        System.out.println("[DiffingMPGProcessor#process] before engraving diff, result.getCountTotal()=" + result.getCountTotal());
+
         // and engrave the diff
-        for (MaterialProduct stuffed : stuffedMPs) {
+        for (MaterialProduct stuffed : stuffedMaterialProductList) {
             result.update(stuffed);
         }
         result.setReadyToReport(true);
+
+        System.out.println("[DiffingMPGProcessor#process] after engraving diff, result.getCountTotal()=" + result.getCountTotal());
+
         return result;
     }
 

@@ -78,7 +78,7 @@ public final class VoidDiffer implements Differ {
             Jobber jobber = new Jobber(store, right.getJobName(), mProduct.getReducedTimestamp());
             Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata, Jobber.DuplicationHandling.CONTINUE);
             //
-            MaterialProduct result = new MaterialProduct(mProduct);
+            MaterialProduct result = new MaterialProduct.Builder(mProduct).build();
             result.setDiff(diffMaterial);
             return result;
         } catch (TemplateException | IOException e) {

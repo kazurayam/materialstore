@@ -3,7 +3,6 @@ package com.kazurayam.materialstore.base.reduce.differ;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.core.filesystem.FileType;
 import com.kazurayam.materialstore.core.filesystem.FileTypeDiffability;
-import com.kazurayam.materialstore.core.filesystem.JobName;
 import com.kazurayam.materialstore.core.filesystem.Jobber;
 import com.kazurayam.materialstore.core.filesystem.Material;
 import com.kazurayam.materialstore.core.filesystem.MaterialLocator;
@@ -13,12 +12,7 @@ import com.kazurayam.materialstore.core.filesystem.Store;
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
 import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.LinkedHashMap;
 import java.util.Objects;
 
 public final class ImageDifferToPNG implements Differ {
@@ -26,80 +20,75 @@ public final class ImageDifferToPNG implements Differ {
     private final Store store;
 
     public ImageDifferToPNG(Store store) {
+        Objects.requireNonNull(store);
         this.store = store;
     }
 
     @Override
     public MaterialProduct stuffDiff(MaterialProduct mProduct) throws MaterialstoreException {
-        Objects.requireNonNull(store);
         Objects.requireNonNull(mProduct);
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());
-        //
-        JobName diffJobName = JobName.NULL_OBJECT;
 
-        Material left = mProduct.getLeft();
-        BufferedImage leftImage = Material.loadNoMaterialFoundPageAsBufferedImage();
-        if (left.getDiffability().equals(FileTypeDiffability.AS_IMAGE)) {
-            leftImage = readImage(left.toFile(store));
-            diffJobName = left.getJobName();
-        }
+        Material left = complementImageMaterial(store, mProduct, mProduct.getLeft());
+        BufferedImage leftImage = readImage(left.toFile(store));
 
-        Material right = mProduct.getRight();
-        BufferedImage rightImage = Material.loadNoMaterialFoundPageAsBufferedImage();
-        if (right.getDiffability().equals(FileTypeDiffability.AS_IMAGE)) {
-            rightImage = readImage(right.toFile(store));
-            diffJobName = right.getJobName();
-        }
+        Material right = complementImageMaterial(store, mProduct, mProduct.getRight());
+        BufferedImage rightImage = readImage(right.toFile(store));
 
         // make a diff image using AShot
         ImageDiffer imgDiff = new ImageDiffer();
         ImageDiff imageDiff = imgDiff.makeDiff(leftImage, rightImage);
         Double diffRatio = calculateDiffRatioPercent(imageDiff);
-        LinkedHashMap<String, String> map = new LinkedHashMap<>(4);
-        map.put("category", "diff");
-        map.put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio));
-        map.put("left", new MaterialLocator(left).toString());
-        map.put("right", new MaterialLocator(right).toString());
-        Metadata diffMetadata = Metadata.builder(map).build();
+        //
+        Metadata diffMetadata =
+                Metadata.builder()
+                        .put("category", "diff")
+                        .put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio))
+                        .put("left", new MaterialLocator(left).toString())
+                        .put("right", new MaterialLocator(right).toString())
+                        .build();
+
         byte[] diffData = toByteArray(imageDiff.getDiffImage(), FileType.PNG);
 
-        // write the image diff into disk
-        Jobber jobber = new Jobber(store, diffJobName, mProduct.getReducedTimestamp());
-        Material diffMaterial = jobber.write(diffData, FileType.PNG, diffMetadata, Jobber.DuplicationHandling.CONTINUE);
-
+        // write the image diff
+        Material diffMaterial =
+                new Jobber(store, mProduct.getJobName(), mProduct.getReducedTimestamp())
+                        .write(diffData, FileType.PNG, diffMetadata,
+                                Jobber.DuplicationHandling.CONTINUE);
         //
-        MaterialProduct result = new MaterialProduct(mProduct);
+        MaterialProduct result = new MaterialProduct.Builder(mProduct)
+                .setLeft(left)
+                .setRight(right)
+                .build();
         result.setDiff(diffMaterial);
         result.setDiffRatio(diffRatio);
+
         return result;
     }
 
-    private static BufferedImage readImage(final File imageFile) {
-        if (!imageFile.exists()) {
-            throw new IllegalArgumentException(imageFile + " is not found");
+    /*
+     * if the given Material object is OK as an image, just return it.
+     * if the given Material object is empty one, swap it to the "No Material is found" image.
+     */
+    private Material complementImageMaterial(Store store,
+                                             MaterialProduct mProduct,
+                                             Material material) throws MaterialstoreException {
+        if (material.getDiffability().equals(FileTypeDiffability.AS_IMAGE)) {
+            return material;
+        } else {
+            return makeNoMaterialFoundMaterialOfPng(store, mProduct);
         }
-        try {
-            BufferedImage bufferedImage = ImageIO.read(imageFile);
-            assert bufferedImage != null;
-            return bufferedImage;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
-
-    private static byte[] toByteArray(BufferedImage input, FileType fileType)
+    private Material makeNoMaterialFoundMaterialOfPng(
+            Store store, MaterialProduct mProduct)
             throws MaterialstoreException {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(input, fileType.getExtension(), baos);
-            return baos.toByteArray();
-        } catch (IOException e) {
-            throw new MaterialstoreException(e);
-        }
+        return makeNoMaterialFoundMaterial(store, mProduct,
+                FileType.PNG, Material.loadNoMaterialFoundPng());
     }
+
+
 
     /**
      * Calculate the ratio of diff-size against the whole page size.

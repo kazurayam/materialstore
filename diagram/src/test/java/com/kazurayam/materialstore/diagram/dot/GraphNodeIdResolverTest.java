@@ -78,6 +78,7 @@ public class GraphNodeIdResolverTest {
                 new MaterialProduct.Builder(
                         leftMaterialList.get(0),
                         rightMaterialList.get(0),
+                        jobName,
                         reducedTimestamp).build();
         GraphNodeId graphNodeId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialProduct(mProduct, Role.L);
         assertEquals(new GraphNodeId("MPcc1f410_Mf526e62_L"), graphNodeId);

@@ -91,6 +91,7 @@ public class MaterialProductGroupTest {
         MaterialProduct tmp = new MaterialProduct.Builder(
                 Material.newEmptyMaterial(),
                 Material.newEmptyMaterial(),
+                jobName,
                 JobTimestamp.now())
                 .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT)
                 .build();
@@ -105,7 +106,8 @@ public class MaterialProductGroupTest {
     public void test_getCountWarning() {
         MaterialProduct tmp =
                 new MaterialProduct
-                        .Builder(Material.newEmptyMaterial(), Material.newEmptyMaterial(), JobTimestamp.now())
+                        .Builder(Material.newEmptyMaterial(), Material.newEmptyMaterial(),
+                        jobName, JobTimestamp.now())
                         .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT).build();
         mpg.add(tmp);
         assertEquals(0, mpg.getCountWarning());
@@ -115,6 +117,7 @@ public class MaterialProductGroupTest {
     public void test_getNumberOfBachelors() {
         MaterialProduct tmp =
                 new MaterialProduct.Builder(Material.newEmptyMaterial(), Material.newEmptyMaterial(),
+                        jobName,
                         JobTimestamp.now())
                         .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT)
                         .build();
@@ -125,7 +128,8 @@ public class MaterialProductGroupTest {
     @Test
     public void test_getCountTotal() {
         MaterialProduct tmp =
-                new MaterialProduct.Builder(Material.newEmptyMaterial(), Material.newEmptyMaterial(), JobTimestamp.now())
+                new MaterialProduct.Builder(Material.newEmptyMaterial(), Material.newEmptyMaterial(),
+                        jobName, JobTimestamp.now())
                         .setQueryOnMetadata(QueryOnMetadata.NULL_OBJECT)
                         .build();
         mpg.add(tmp);
@@ -265,7 +269,7 @@ public class MaterialProductGroupTest {
         //
         MaterialProduct target = mpg.get(0);
         // make a clone of the target
-        MaterialProduct clone = new MaterialProduct(target);
+        MaterialProduct clone = new MaterialProduct.Builder(target).build();
         // let's update it
         mpg.update(clone);
         // now the head is not equal to the clone
