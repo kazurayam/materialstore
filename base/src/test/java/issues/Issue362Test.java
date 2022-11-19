@@ -17,6 +17,7 @@ import com.kazurayam.materialstore.core.filesystem.Stores;
 import com.kazurayam.materialstore.core.util.CopyDir;
 import com.kazurayam.materialstore.core.util.DeleteDir;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -45,6 +46,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * and verifies the outcome.
  */
+@Disabled
 public class Issue362Test {
 
     private Store store;

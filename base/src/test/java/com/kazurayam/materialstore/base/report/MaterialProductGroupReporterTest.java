@@ -80,9 +80,9 @@ public class MaterialProductGroupReporterTest extends AbstractReporterTest {
         assertTrue(reportText.contains("class=\"matched-value\""),
                 "expected 'class=\"matched-value\"' in the report but not found");
 
-        // make sure the HTML contains a string "class='identified-value'"
-        assertTrue(reportText.contains("class=\"identified-value\""),
-                "expected a string 'class=\"identified-value\"' in the report but not found");
+        // make sure the HTML contains a string "class='identification'"
+        assertTrue(reportText.contains("class=\"identification\""),
+                "expected a string 'class=\"identification\"' in the report but not found");
     }
 
     private MaterialProductGroup prepareFixture(JobName jobName) throws IOException, MaterialstoreException {

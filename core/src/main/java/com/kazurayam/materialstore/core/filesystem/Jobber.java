@@ -6,13 +6,12 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
 public final class Jobber {
 
-    private static final Logger logger_ = LoggerFactory.getLogger(Jobber.class);
+    private static final Logger logger = LoggerFactory.getLogger(Jobber.class);
     private static final String OBJECTS_DIR_NAME = "objects";
     private final JobName jobName;
     private final JobTimestamp jobTimestamp;
@@ -83,8 +82,7 @@ public final class Jobber {
         Objects.requireNonNull(query);
         Objects.requireNonNull(fileType);
         final MaterialList result = new MaterialList(jobName, jobTimestamp, query);
-        for (Iterator<IndexEntry> iter = index.iterator(); iter.hasNext(); ) {
-            IndexEntry indexEntry = iter.next();
+        for (IndexEntry indexEntry : index) {
             if (query.equals(QueryOnMetadata.ANY) || query.matches(indexEntry.getMetadata())) {
                 if (fileType.equals(FileType.NULL_OBJECT) || fileType.equals(indexEntry.getFileType())) {
                     Material material = new Material(getJobName(), getJobTimestamp(), indexEntry);
@@ -105,8 +103,7 @@ public final class Jobber {
      */
     public Material selectMaterial(final ID id) {
         Objects.requireNonNull(id);
-        for (Iterator<IndexEntry> iter = index.iterator(); iter.hasNext(); ) {
-            IndexEntry indexEntry = iter.next();
+        for (IndexEntry indexEntry : index) {
             if (indexEntry.getMaterialIO().getID().equals(id)) {
                 return new Material(jobName, jobTimestamp, indexEntry);
             }
@@ -151,7 +148,7 @@ public final class Jobber {
 
     public Material write(byte[] data, final IFileType fileType, final Metadata metadata,
                           final DuplicationHandling duplicationHandling)
-            throws DuplicatingMaterialException, MaterialstoreException {
+            throws MaterialstoreException {
         Objects.requireNonNull(metadata);
         if (data.length == 0) throw new IllegalArgumentException("length of the data is 0");
         Objects.requireNonNull(fileType);
@@ -164,7 +161,7 @@ public final class Jobber {
                 throw new DuplicatingMaterialException(msg1 + ".");
 
             } else if (duplicationHandling.equals(DuplicationHandling.CONTINUE)) {
-                logger_.info(msg1 + "; process skips one write and continue ...");
+                logger.info(msg1 + "; process skips one write and continue ...");
                 // look up an entry of the index
                 List<IndexEntry> indexEntries = index.indexEntriesOf(fileType, metadata);
                 assert indexEntries.size() > 0;

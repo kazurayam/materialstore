@@ -259,28 +259,6 @@ public class MaterialProductGroupTest {
         assertEquals(8, mpg.size());
     }
 
-    @Test
-    public void test_update() throws MaterialstoreException {
-        LinkedHashMap<String, String> map = new LinkedHashMap<String, String>(1);
-        map.put("URL.query", "\\w{32}");
-        MaterialProductGroup mpg = new MaterialProductGroup.Builder(left, right).ignoreKeys("environment", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.host").build();
-        int theSize = mpg.size();
-        assertEquals(8, theSize);
-        //
-        MaterialProduct target = mpg.get(0);
-        // make a clone of the target
-        MaterialProduct clone = new MaterialProduct.Builder(target).build();
-        // let's update it
-        mpg.update(clone);
-        // now the head is not equal to the clone
-        Assertions.assertNotEquals(mpg.get(0), clone);
-        // the tail is equal to the clone
-        assertEquals(mpg.get(theSize - 1), clone);
-        //
-        //println JsonOutput.prettyPrint(mpg.get(theSize - 1).toString())
-    }
-
-
     /**
      * FIXME:
      * this test should be moved to the MProductGroupTest class

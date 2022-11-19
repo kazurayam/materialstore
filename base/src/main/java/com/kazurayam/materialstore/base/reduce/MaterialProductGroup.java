@@ -44,7 +44,7 @@ public final class MaterialProductGroup
                     MaterialList.NULL_OBJECT).build();
 
     private static final Logger logger = LoggerFactory.getLogger(MaterialProductGroup.class);
-    private final List<MaterialProduct> materialProductList;
+    private List<MaterialProduct> materialProductList;
     private final JobTimestamp resultTimestamp;
     private MaterialList materialList0;
     private MaterialList materialList1;
@@ -71,24 +71,38 @@ public final class MaterialProductGroup
 
     /*
      * Deep-copy constructor
-     *
      */
     public MaterialProductGroup(MaterialProductGroup source) {
+        Objects.requireNonNull(source);
         this.materialList0 = new MaterialList(source.materialList0);
         this.materialList1 = new MaterialList(source.materialList1);
         this.ignoreMetadataKeys = source.getIgnoreMetadataKeys();        // IgnoreMetadataKeys is immutable
         this.identifyMetadataValues = source.getIdentifyMetadataValues();// IdentifyMetadataValues is immutable
         this.sortKeys = source.getSortKeys();                            // SortKeys is immutable
         this.threshold = source.getThreshold();
+        this.resultTimestamp = source.getJobTimestampOfReduceResult();
+        this.readyToReport = source.isReadyToReport();
+        this.labelLeft = source.getLabelLeft();
+        this.labelRight = source.getLabelRight();
+        //
         final List<MaterialProduct> tmp = new ArrayList<>();
         for (MaterialProduct sourceMProduct : source) {
             tmp.add(new MaterialProduct.Builder(sourceMProduct).build());
         }
         this.materialProductList = tmp;
-        this.resultTimestamp = source.getJobTimestampOfReduceResult();
-        this.readyToReport = source.isReadyToReport();
-        this.labelLeft = source.getLabelLeft();
-        this.labelRight = source.getLabelRight();
+    }
+
+    /**
+     * Deep copy constructor, plus replace the internal list of MaterialProduct with
+     * given instance.
+     * @param source
+     * @param newMaterialProductList
+     */
+    public MaterialProductGroup(MaterialProductGroup source,
+                                List<MaterialProduct> newMaterialProductList) {
+        this(source);
+        Objects.requireNonNull(newMaterialProductList);
+        this.materialProductList = newMaterialProductList;
     }
 
     public void add(MaterialProduct mProduct) {
@@ -96,28 +110,6 @@ public final class MaterialProductGroup
         materialProductList.add(mProduct);
     }
 
-    /*
-     *
-     */
-    public boolean update(MaterialProduct mProduct) {
-        logger.debug(String.format("#update mProduct.left =%s %s",
-                mProduct.getLeft().getFileType(), mProduct.getLeft().getMetadata()));
-        logger.debug(String.format("#update mProduct.right=%s %s",
-                mProduct.getRight().getFileType(), mProduct.getRight().getMetadata()));
-        logger.debug(String.format("#update mProduct.diff =%s %s",
-                mProduct.getDiff().getFileType(), mProduct.getDiff().getMetadata()));
-
-        boolean wasPresent = materialProductList.remove(mProduct);
-
-        logger.debug(String.format("#update wasPresent=%b", wasPresent));
-
-        this.add(mProduct);
-
-        logger.debug(String.format("#update materialProductList.size()=%d",
-                materialProductList.size()));
-
-        return wasPresent;
-    }
 
     public int countWarnings(final Double threshold) {
         return this.countExceeding(threshold);
@@ -519,15 +511,9 @@ public final class MaterialProductGroup
             this.materialProductList =
                     zipper.zipMaterials(materialList0, materialList1, resultTimestamp);
 
-            //logger.info("materialProductList:");
-            for (int i = 0; i < materialProductList.size(); i++) {
-                MaterialProduct mp = materialProductList.get(i);
-                //logger.info("materialProductList[" + i + "] : " +mp.toJson(true));
-            }
-
             /* ============================================================
-             * at this timing the MaterialProducts is not yet filled with
-             * the diff information.
+             * at this timing the materialProductList variable is null.
+             * the instance han no diff information yet
              */
 
             return new MaterialProductGroup(this);

@@ -35,36 +35,17 @@ public final class DiffingMPGProcessor implements MPGProcessor {
     @Override
     public MaterialProductGroup process(MaterialProductGroup source) throws MaterialstoreException {
         Objects.requireNonNull(source);
-
-        logger.debug(String.format("#process mpg.getCountTotal()=%d",
-                source.getCountTotal()));
+        logger.debug(String.format("#process mpg.getCountTotal()=%d", source.getCountTotal()));
 
         final List<MaterialProduct> stuffedMaterialProductList = new ArrayList<>();
         for (MaterialProduct input : source) {
             // do make difference and memorize it
             stuffedMaterialProductList.add(stuffDiffByDiffer(input));
         }
-
-        logger.debug(String.format("#process stuffedMaterialProductList.size()=%d",
-                stuffedMaterialProductList.size()));
-
-        // clone the input to build the result
-        final MaterialProductGroup result = new MaterialProductGroup(source);
-
-        logger.debug(String.format("#process before engraving the diff, result.getCountTotal()=%d",
-                result.getCountTotal()));
-        logger.debug(String.format("#process before engraving the diff, result=%s", result.toJson(true)));
-
-        // and engrave the diff
-        for (MaterialProduct stuffed : stuffedMaterialProductList) {
-            result.update(stuffed);
-        }
+        logger.debug(String.format("#process stuffedMaterialProductList.size()=%d", stuffedMaterialProductList.size()));
+        // create a new MaterialProductGroup object with diff info stuffed
+        MaterialProductGroup result = new MaterialProductGroup(source, stuffedMaterialProductList);
         result.setReadyToReport(true);
-
-        logger.debug(String.format("#process after engraving diff, result.getCountTotal()=%d",
-                result.getCountTotal()));
-        logger.debug(String.format("#process after engraving the diff, result=%s", result.toJson(true)));
-
         return result;
     }
 

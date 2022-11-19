@@ -376,6 +376,12 @@ public final class StoreImpl implements Store {
 
     }
 
+    /**
+     *
+     * @param jobName
+     * @return the Path of the JobName; returns null if not present.
+     * @throws MaterialstoreException
+     */
     @Override
     public Path getPathOf(JobName jobName) throws MaterialstoreException {
         Objects.requireNonNull(jobName);

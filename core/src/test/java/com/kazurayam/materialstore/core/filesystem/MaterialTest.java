@@ -52,6 +52,7 @@ public class MaterialTest {
 
     }
 
+    /*
     @Test
     public void test_getNoMaterialFoundImageURL() throws MaterialstoreException {
         String url = Material.getNoMaterialFoundImageURL();
@@ -59,6 +60,7 @@ public class MaterialTest {
         assertNotNull(url);
         assertTrue(url.startsWith("data:image/png;base64,"));
     }
+     */
 
     @Test
     public void test_getRelativePath_getRelativeURL() throws MaterialstoreException {

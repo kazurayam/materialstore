@@ -154,18 +154,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
-        //
         return baos.toByteArray();
-    }
-
-    /*
-     * @returns a string as URL of the "No Material is Found" image
-     * in the format of "data:image/png;base64,xxxxxxx"
-     */
-    public static String getNoMaterialFoundImageURL() throws MaterialstoreException {
-        byte[] ba = loadNoMaterialFoundPng();
-        String base64encoded = Base64.getEncoder().encodeToString(ba);
-        return String.format("data:image/png;base64,%s", base64encoded);
     }
 
     public File toFile(final Store store) throws MaterialstoreException {
@@ -214,16 +203,8 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
      *   //8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
      */
     public String getRelativeURL() {
-        if (jobName_ == JobName.NULL_OBJECT) {
-            try {
-                return getNoMaterialFoundImageURL();
-            } catch (MaterialstoreException e) {
-                return "[Material#getRelativeURL] getNoMaterialFoundImageURL() raised a MaterialstoreException";
-            }
-        } else {
-            String s = this.getRelativePath().toString();
-            return s.replace("\\", "/");
-        }
+        String s = this.getRelativePath().toString();
+        return s.replace("\\", "/");
     }
 
     @Override

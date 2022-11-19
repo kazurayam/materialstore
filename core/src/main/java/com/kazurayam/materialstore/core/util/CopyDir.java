@@ -28,9 +28,9 @@ public class CopyDir extends SimpleFileVisitor<Path> {
     }
 
     public CopyDir(Path sourceDir, Path targetDir, Option option) {
-        Objects.requireNonNull(sourceDir);
-        Objects.requireNonNull(targetDir);
-        Objects.requireNonNull(option);
+        Objects.requireNonNull(sourceDir, "sourceDir must not be null");
+        Objects.requireNonNull(targetDir, "targetDir must not be null");
+        Objects.requireNonNull(option, "option must not be null");
         this.sourceDir = sourceDir;
         this.targetDir = targetDir;
         this.option = option;
