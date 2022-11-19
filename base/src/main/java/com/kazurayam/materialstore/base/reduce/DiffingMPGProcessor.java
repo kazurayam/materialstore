@@ -51,8 +51,9 @@ public final class DiffingMPGProcessor implements MPGProcessor {
         // clone the input to build the result
         final MaterialProductGroup result = new MaterialProductGroup(source);
 
-        logger.debug(String.format("#process before engraving diff, result.getCountTotal()=%d",
+        logger.debug(String.format("#process before engraving the diff, result.getCountTotal()=%d",
                 result.getCountTotal()));
+        logger.debug(String.format("#process before engraving the diff, result=%s", result.toJson(true)));
 
         // and engrave the diff
         for (MaterialProduct stuffed : stuffedMaterialProductList) {
@@ -62,6 +63,7 @@ public final class DiffingMPGProcessor implements MPGProcessor {
 
         logger.debug(String.format("#process after engraving diff, result.getCountTotal()=%d",
                 result.getCountTotal()));
+        logger.debug(String.format("#process after engraving the diff, result=%s", result.toJson(true)));
 
         return result;
     }

@@ -48,8 +48,8 @@ public abstract class AbstractTextDiffer implements Differ {
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());
 
-        Material left = complementTextMaterial(store, mProduct, mProduct.getLeft());
-        Material right = complementTextMaterial(store, mProduct, mProduct.getRight());
+        Material left = complementMaterialAsText(store, mProduct, mProduct.getLeft());
+        Material right = complementMaterialAsText(store, mProduct, mProduct.getRight());
 
         TextDiffContent textDiffContent = makeTextDiffContent(store, left, right, charset);
         Double diffRatio = textDiffContent.getDiffRatio();
@@ -83,22 +83,16 @@ public abstract class AbstractTextDiffer implements Differ {
         return result;
     }
 
-    private Material complementTextMaterial(Store store,
-                                             MaterialProduct mProduct,
-                                             Material material) throws MaterialstoreException {
+    private Material complementMaterialAsText(Store store,
+                                              MaterialProduct mProduct,
+                                              Material material) throws MaterialstoreException {
         if (material.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
             return material;
         } else {
-            return makeNoMaterialFoundMaterialOfText(store, mProduct);
+            return makeNoMaterialFoundMaterial(store, mProduct,
+                    FileType.HTML, Material.loadNoMaterialFoundText());
         }
     }
-    private Material makeNoMaterialFoundMaterialOfText(
-            Store store, MaterialProduct mProduct)
-            throws MaterialstoreException {
-        return makeNoMaterialFoundMaterial(store, mProduct,
-                FileType.HTML, Material.loadNoMaterialFoundText());
-    }
-
 
     public abstract TextDiffContent makeTextDiffContent(Store store,
                                                         Material original, Material revised,

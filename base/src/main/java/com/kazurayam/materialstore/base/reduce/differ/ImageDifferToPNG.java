@@ -30,10 +30,10 @@ public final class ImageDifferToPNG implements Differ {
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());
 
-        Material left = complementImageMaterial(store, mProduct, mProduct.getLeft());
+        Material left = complementMaterialAsImage(store, mProduct, mProduct.getLeft());
         BufferedImage leftImage = readImage(left.toFile(store));
 
-        Material right = complementImageMaterial(store, mProduct, mProduct.getRight());
+        Material right = complementMaterialAsImage(store, mProduct, mProduct.getRight());
         BufferedImage rightImage = readImage(right.toFile(store));
 
         // make a diff image using AShot
@@ -71,24 +71,16 @@ public final class ImageDifferToPNG implements Differ {
      * if the given Material object is OK as an image, just return it.
      * if the given Material object is empty one, swap it to the "No Material is found" image.
      */
-    private Material complementImageMaterial(Store store,
-                                             MaterialProduct mProduct,
-                                             Material material) throws MaterialstoreException {
+    private Material complementMaterialAsImage(Store store,
+                                               MaterialProduct mProduct,
+                                               Material material) throws MaterialstoreException {
         if (material.getDiffability().equals(FileTypeDiffability.AS_IMAGE)) {
             return material;
         } else {
-            return makeNoMaterialFoundMaterialOfPng(store, mProduct);
+            return makeNoMaterialFoundMaterial(store, mProduct,
+                    FileType.PNG, Material.loadNoMaterialFoundPng());
         }
     }
-
-    private Material makeNoMaterialFoundMaterialOfPng(
-            Store store, MaterialProduct mProduct)
-            throws MaterialstoreException {
-        return makeNoMaterialFoundMaterial(store, mProduct,
-                FileType.PNG, Material.loadNoMaterialFoundPng());
-    }
-
-
 
     /**
      * Calculate the ratio of diff-size against the whole page size.

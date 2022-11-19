@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.base.reduce.differ;
 
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.core.filesystem.FileType;
+import com.kazurayam.materialstore.core.filesystem.FileTypeDiffability;
 import com.kazurayam.materialstore.core.filesystem.Jobber;
 import com.kazurayam.materialstore.core.filesystem.Material;
 import com.kazurayam.materialstore.core.filesystem.MaterialList;

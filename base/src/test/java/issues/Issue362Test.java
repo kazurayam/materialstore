@@ -2,11 +2,16 @@ package issues;
 
 import com.kazurayam.materialstore.base.inspector.Inspector;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
+import com.kazurayam.materialstore.base.reduce.differ.TextDifferToHTML;
+import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.core.TestHelper;
+import com.kazurayam.materialstore.core.filesystem.FileType;
 import com.kazurayam.materialstore.core.filesystem.JobName;
 import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
+import com.kazurayam.materialstore.core.filesystem.Material;
 import com.kazurayam.materialstore.core.filesystem.MaterialList;
 import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
+import com.kazurayam.materialstore.core.filesystem.Metadata;
 import com.kazurayam.materialstore.core.filesystem.Store;
 import com.kazurayam.materialstore.core.filesystem.Stores;
 import com.kazurayam.materialstore.core.util.CopyDir;
@@ -96,5 +101,28 @@ public class Issue362Test {
         Path sourceDir = issue362fixtureDir.resolve("store/MyAdmin");
         assert Files.exists(sourceDir);
         Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));
+    }
+
+    @Test
+    public void test_compare_logs() throws MaterialstoreException {
+        JobName jobName = new JobName("test_compare_logs");
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        //
+        Path fixtureDir = TestHelper.getFixturesDirectory().resolve(
+                "issue#362_DiffingMPGProcessor_debug_logs");
+        Path jsonLeft = fixtureDir.resolve("before_engraving.json");
+        Path jsonRight = fixtureDir.resolve("after_engraving.json");
+        Material left = store.write(jobName, jobTimestamp, FileType.JSON,
+                Metadata.builder().put("label", "before engraving").build(),
+                jsonLeft);
+        Material right = store.write(jobName, jobTimestamp, FileType.JSON,
+                Metadata.builder().put("label", "after engraving").build(),
+                jsonRight);
+        //
+        MaterialProduct mp = new MaterialProduct.Builder(left, right, jobName, jobTimestamp).build();
+        TextDifferToHTML differ = new TextDifferToHTML(store);
+        MaterialProduct stuffed = differ.stuffDiff(mp);
+
+
     }
 }
