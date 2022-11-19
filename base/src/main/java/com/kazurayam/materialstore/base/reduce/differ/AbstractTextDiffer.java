@@ -65,13 +65,18 @@ public abstract class AbstractTextDiffer implements Differ {
                         .put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio))
                         .build();
         // write the diff text
-        Jobber jobber = new Jobber(store, mProduct.getJobName(), mProduct.getReducedTimestamp());
-        Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata, Jobber.DuplicationHandling.CONTINUE);
-        //
-        MaterialProduct result = new MaterialProduct.Builder(mProduct)
-                .setLeft(left)
-                .setRight(right)
-                .build();
+        Jobber jobber =
+                new Jobber(store, mProduct.getJobName(),
+                        mProduct.getReducedTimestamp());
+        Material diffMaterial =
+                jobber.write(diffData, FileType.HTML,
+                        diffMetadata, Jobber.DuplicationHandling.CONTINUE);
+
+        MaterialProduct result =
+                new MaterialProduct.Builder(mProduct)
+                        .setLeft(left)
+                        .setRight(right)
+                        .build();
         result.setDiff(diffMaterial);
         result.setDiffRatio(diffRatio);
 
@@ -81,7 +86,7 @@ public abstract class AbstractTextDiffer implements Differ {
     private Material complementTextMaterial(Store store,
                                              MaterialProduct mProduct,
                                              Material material) throws MaterialstoreException {
-        if (material.getDiffability().equals(FileTypeDiffability.AS_IMAGE)) {
+        if (material.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
             return material;
         } else {
             return makeNoMaterialFoundMaterialOfText(store, mProduct);
