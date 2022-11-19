@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,7 +47,7 @@ public final class Zipper {
         Objects.requireNonNull(leftList);
         Objects.requireNonNull(rightList);
         Objects.requireNonNull(resultTimestamp);
-        String methodName = "[zipMaterials] ";
+        String methodName = "#zipMaterials ";
         // the result
         final List<MaterialProduct> mProductList = new ArrayList<>();
 
@@ -91,7 +90,6 @@ public final class Zipper {
                 mProductList.add(mp);
             }
 
-            //logger.debug(methodName + "foundLeftCount=" + foundLeftCount);
             if (foundLeftCount == 0 || foundLeftCount >= 2) {
                 logger.info(methodName + "foundLeftCount=" + foundLeftCount + " is unusual");
             }

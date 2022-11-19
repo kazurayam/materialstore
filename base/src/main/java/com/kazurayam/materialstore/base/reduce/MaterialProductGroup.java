@@ -100,18 +100,22 @@ public final class MaterialProductGroup
      *
      */
     public boolean update(MaterialProduct mProduct) {
-        System.out.println("");
-        System.out.println("[MaterialProductGroup#update] mProduct.left =" + mProduct.getLeft().getFileType() + " " + mProduct.getLeft().getMetadata());
-        System.out.println("[MaterialProductGroup#update] mProduct.right=" + mProduct.getRight().getFileType() + " " + mProduct.getRight().getMetadata());
-        System.out.println("[MaterialProductGroup#update] mProduct.diff =" + mProduct.getDiff().getFileType() + " " + mProduct.getDiff().getMetadata());
+        logger.debug(String.format("#update mProduct.left =%s %s",
+                mProduct.getLeft().getFileType(), mProduct.getLeft().getMetadata()));
+        logger.debug(String.format("#update mProduct.right=%s %s",
+                mProduct.getRight().getFileType(), mProduct.getRight().getMetadata()));
+        logger.debug(String.format("#update mProduct.diff =%s %s",
+                mProduct.getDiff().getFileType(), mProduct.getDiff().getMetadata()));
 
         boolean wasPresent = materialProductList.remove(mProduct);
 
-        System.out.println("[MaterialProductGroup#update] wasPresent=" + wasPresent);
+        logger.debug(String.format("#update wasPresent=%b", wasPresent));
 
         this.add(mProduct);
 
-        System.out.println("[MaterialProductGroup#update] materialProductList.size()=" + materialProductList.size());
+        logger.debug(String.format("#update materialProductList.size()=%d",
+                materialProductList.size()));
+
         return wasPresent;
     }
 

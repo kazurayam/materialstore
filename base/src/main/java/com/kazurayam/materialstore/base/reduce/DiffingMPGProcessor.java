@@ -36,7 +36,8 @@ public final class DiffingMPGProcessor implements MPGProcessor {
     public MaterialProductGroup process(MaterialProductGroup source) throws MaterialstoreException {
         Objects.requireNonNull(source);
 
-        System.out.println("[DiffingMPGProcessor#process] mpg.getCountTotal()=" + source.getCountTotal());
+        logger.debug(String.format("#process mpg.getCountTotal()=%d",
+                source.getCountTotal()));
 
         final List<MaterialProduct> stuffedMaterialProductList = new ArrayList<>();
         for (MaterialProduct input : source) {
@@ -44,12 +45,14 @@ public final class DiffingMPGProcessor implements MPGProcessor {
             stuffedMaterialProductList.add(stuffDiffByDiffer(input));
         }
 
-        System.out.println("[DiffingMPGProcessor#process] stuffedMaterialProductList.size()=" + stuffedMaterialProductList.size());
+        logger.debug(String.format("#process stuffedMaterialProductList.size()=%d",
+                stuffedMaterialProductList.size()));
 
         // clone the input to build the result
         final MaterialProductGroup result = new MaterialProductGroup(source);
 
-        System.out.println("[DiffingMPGProcessor#process] before engraving diff, result.getCountTotal()=" + result.getCountTotal());
+        logger.debug(String.format("#process before engraving diff, result.getCountTotal()=%d",
+                result.getCountTotal()));
 
         // and engrave the diff
         for (MaterialProduct stuffed : stuffedMaterialProductList) {
@@ -57,7 +60,8 @@ public final class DiffingMPGProcessor implements MPGProcessor {
         }
         result.setReadyToReport(true);
 
-        System.out.println("[DiffingMPGProcessor#process] after engraving diff, result.getCountTotal()=" + result.getCountTotal());
+        logger.debug(String.format("#process after engraving diff, result.getCountTotal()=%d",
+                result.getCountTotal()));
 
         return result;
     }
@@ -66,10 +70,12 @@ public final class DiffingMPGProcessor implements MPGProcessor {
             throws MaterialstoreException {
         IFileType fileType;
         if (materialProduct.getLeft().equals(Material.NULL_OBJECT)) {
-            logger.warn("left Material was NULL_OBJECT. right=" + materialProduct.getRight());
+            logger.warn(String.format("#stuffDiffByDiffer left Material was NULL_OBJECT. right=%s",
+                    materialProduct.getRight()));
             fileType = materialProduct.getRight().getIndexEntry().getFileType();
         } else if (materialProduct.getRight().equals(Material.NULL_OBJECT)) {
-            logger.warn("right Material was NULL_OBJECT. left=" + materialProduct.getLeft());
+            logger.warn(String.format("#stuffDiffByDiffer right Material was NULL_OBJECT. left=%s",
+                    materialProduct.getLeft()));
             fileType = materialProduct.getLeft().getIndexEntry().getFileType();
         } else {
             fileType = materialProduct.getRight().getIndexEntry().getFileType();

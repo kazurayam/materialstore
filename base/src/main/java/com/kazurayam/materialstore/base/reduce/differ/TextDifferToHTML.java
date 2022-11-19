@@ -150,7 +150,7 @@ public final class TextDifferToHTML extends AbstractTextDiffer implements Differ
             //
             count += 1;
         }
-        logger.info("rowsAsModel.size()=" + rowsAsModel.size());
+        logger.debug("#makeTextDiffContent rowsAsModel.size()=" + rowsAsModel.size());
         model.put("rows", rowsAsModel);
         model.put("OLD_TAG", OLD_TAG);
         model.put("NEW_TAG", NEW_TAG);

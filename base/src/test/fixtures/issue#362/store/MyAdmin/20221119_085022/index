@@ -1,0 +1,10 @@
+13f9e939f8d7c557089165832d630aaf5d1d2450	html	{"category":"NoMaterialFound"}
+13f9e939f8d7c557089165832d630aaf5d1d2450	html	{"category":"NoMaterialFound"}
+13f9e939f8d7c557089165832d630aaf5d1d2450	html	{"category":"NoMaterialFound"}
+13f9e939f8d7c557089165832d630aaf5d1d2450	html	{"category":"NoMaterialFound"}
+9ff31f11fd00ca5d41cd46fece62618d5ce2bd68	png	{"category":"NoMaterialFound"}
+9ff31f11fd00ca5d41cd46fece62618d5ce2bd68	png	{"category":"NoMaterialFound"}
+7c4e5092195ae018e380b6cb3735ff138590f3d8	png	{"category":"diff", "left":"20221119_085006/93f19f62774550aade8ceb9657405c2624c720a0", "ratio":"73.95%", "right":"20221119_085022/9ff31f11fd00ca5d41cd46fece62618d5ce2bd68"}
+3455f9f46d177bda55a0db5c08ef11c7c9b756ef	html	{"category":"diff", "left":"20221119_085022/13f9e939f8d7c557089165832d630aaf5d1d2450", "ratio":"0.00%", "right":"20221119_085022/13f9e939f8d7c557089165832d630aaf5d1d2450"}
+3455f9f46d177bda55a0db5c08ef11c7c9b756ef	html	{"category":"diff", "left":"20221119_085022/13f9e939f8d7c557089165832d630aaf5d1d2450", "ratio":"0.00%", "right":"20221119_085022/13f9e939f8d7c557089165832d630aaf5d1d2450"}
+90061e22e17565ccb2b2f2a4ceba6faa79658418	png	{"category":"diff", "left":"20221119_085022/9ff31f11fd00ca5d41cd46fece62618d5ce2bd68", "ratio":"75.29%", "right":"20221119_085016/bc92b9da1350c2ffc0623cea3607b604401d9dfe"}
