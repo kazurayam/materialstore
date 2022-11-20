@@ -92,7 +92,7 @@ public final class MaterialProductGroup
         this.materialProductList = tmp;
     }
 
-    /**
+    /*
      * Deep copy constructor, plus replace the internal list of MaterialProduct with
      * given instance.
      * @param source

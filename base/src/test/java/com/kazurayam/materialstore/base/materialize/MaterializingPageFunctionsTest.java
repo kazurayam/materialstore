@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -61,7 +63,7 @@ public class MaterializingPageFunctionsTest {
     @Test
     void test_storeHTMLSource() throws MaterialstoreException {
         Target target = new Target.Builder("https://www.google.com")
-                .by(By.cssSelector("input[name=\"q\"]"))
+                .handle(By.cssSelector("input[name=\"q\"]"))
                 .build();
         JobName jobName = new JobName("test_storeHTMLSource");
         JobTimestamp jobTimestamp = JobTimestamp.now();
@@ -69,7 +71,8 @@ public class MaterializingPageFunctionsTest {
         // open the page in browser
         driver.navigate().to(target.getUrl());
         // get HTML source of the page, save it into the store
-        Material createdMaterial  = MaterializingPageFunctions.storeHTMLSource.accept(target, driver, storageDirectory);
+        Map<String, String> attribute = Collections.singletonMap("step", "01");
+        Material createdMaterial  = MaterializingPageFunctions.storeHTMLSource.accept(target, driver, storageDirectory, attribute);
         assertNotNull(createdMaterial);
         // assert that a material has been created
         Material selectedMaterial = store.selectSingle(jobName, jobTimestamp, FileType.HTML, QueryOnMetadata.ANY);
@@ -80,7 +83,7 @@ public class MaterializingPageFunctionsTest {
     @Test
     void test_storeEntirePageScreenshot() throws MaterialstoreException {
         Target target = new Target.Builder("https://github.com/kazurayam")
-                .by(By.cssSelector("div.application-main main"))
+                .handle(By.cssSelector("div.application-main main"))
                 .build();
         JobName jobName = new JobName("test_storeEntirePageScreenshot");
         JobTimestamp jobTimestamp = JobTimestamp.now();
@@ -88,7 +91,8 @@ public class MaterializingPageFunctionsTest {
         // open the page in browser
         driver.navigate().to(target.getUrl());
         // take an entire page screenshot, write the image into the store
-        Material createdMaterial = MaterializingPageFunctions.storeEntirePageScreenshot.accept(target, driver, storageDirectory);
+        Map<String, String> attribute = Collections.singletonMap("step", "01");
+        Material createdMaterial = MaterializingPageFunctions.storeEntirePageScreenshot.accept(target, driver, storageDirectory, attribute);
         assertNotNull(createdMaterial);
         // assert that a material has been created
         Material selectedMaterial = store.selectSingle(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.ANY);

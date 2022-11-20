@@ -376,7 +376,7 @@ public final class StoreImpl implements Store {
 
     }
 
-    /**
+    /*
      *
      * @param jobName
      * @return the Path of the JobName; returns null if not present.

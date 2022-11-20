@@ -77,7 +77,7 @@ public final class SimpleTargetCSVParser extends TargetCSVParser {
                                 By.xpath(locator) :
                                 By.cssSelector(locator);
                         target = Target.builder(url)
-                                .by(by)
+                                .handle(by)
                                 .build();
                     } else {
                         target = Target.builder(url).build();

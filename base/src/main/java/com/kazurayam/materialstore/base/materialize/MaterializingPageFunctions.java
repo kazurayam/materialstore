@@ -11,15 +11,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.yandex.qatools.ashot.AShot;
 import ru.yandex.qatools.ashot.Screenshot;
 import ru.yandex.qatools.ashot.coordinates.WebDriverCoordsProvider;
 import ru.yandex.qatools.ashot.shooting.ShootingStrategies;
 
 import java.awt.image.BufferedImage;
+import java.util.Map;
 import java.util.Objects;
 
 public class MaterializingPageFunctions {
@@ -28,16 +26,12 @@ public class MaterializingPageFunctions {
      * get HTML source of the target web page, pretty-print it, save it into
      * the store
      */
-    public static MaterializingPageFunction<Target, WebDriver, StorageDirectory, Material>
-            storeHTMLSource = (target, driver, storageDirectory) -> {
+    public static MaterializingPageFunction<Target, WebDriver, StorageDirectory, Map<String,String>, Material>
+            storeHTMLSource = (target, driver, storageDirectory, attributes) -> {
         Objects.requireNonNull(target);
         Objects.requireNonNull(driver);
         Objects.requireNonNull(storageDirectory);
-        // make sure the page is loaded completely
-        WebDriverWait wait = new WebDriverWait(driver, 20);
-        WebElement handle =
-                wait.until(ExpectedConditions.visibilityOfElementLocated(
-                        target.getBy()));
+        Objects.requireNonNull(attributes);
         //-------------------------------------------------------------
         // get the HTML source from browser
         String rawHtmlSource = driver.getPageSource();
@@ -49,27 +43,24 @@ public class MaterializingPageFunctions {
         // write the HTML source into the store
         Metadata metadata = Metadata.builder(target.getUrl())
                 .putAll(target.getAttributes())
+                .putAll(attributes)
                 .build();
         Store store = storageDirectory.getStore();
         JobName jobName = storageDirectory.getJobName();
         JobTimestamp jobTimestamp = storageDirectory.getJobTimestamp();
-        Material material = store.write(jobName, jobTimestamp, FileType.HTML, metadata, ppHtml);
-        return material;
+        return store.write(jobName, jobTimestamp, FileType.HTML, metadata, ppHtml);
     };
 
     /**
      *
      */
-    public static MaterializingPageFunction<Target, WebDriver, StorageDirectory, Material>
-            storeEntirePageScreenshot = (target, driver, storageDirectory) -> {
+    public static MaterializingPageFunction<Target, WebDriver, StorageDirectory, Map<String,String>,
+            Material>
+            storeEntirePageScreenshot = (target, driver, storageDirectory, attributes) -> {
         Objects.requireNonNull(target);
         Objects.requireNonNull(driver);
         Objects.requireNonNull(storageDirectory);
-        // make sure the page is loaded completely
-        WebDriverWait wait = new WebDriverWait(driver, 20);
-        WebElement handle =
-                wait.until(ExpectedConditions.visibilityOfElementLocated(
-                        target.getBy()));
+        Objects.requireNonNull(attributes);
         //-------------------------------------------------------------
         int timeout = 500;  // milli-seconds
         // look up the device-pixel-ratio of the current machine
@@ -89,12 +80,12 @@ public class MaterializingPageFunctions {
         // write the PNG image into the store
         Metadata metadata = Metadata.builder(target.getUrl())
                 .putAll(target.getAttributes())
+                .putAll(attributes)
                 .build();
         Store store = storageDirectory.getStore();
         JobName jobName = storageDirectory.getJobName();
         JobTimestamp jobTimestamp = storageDirectory.getJobTimestamp();
-        Material material = store.write(jobName, jobTimestamp, FileType.PNG, metadata, bufferedImage);
-        return material;
+        return store.write(jobName, jobTimestamp, FileType.PNG, metadata, bufferedImage);
     };
 
     private MaterializingPageFunctions() {}

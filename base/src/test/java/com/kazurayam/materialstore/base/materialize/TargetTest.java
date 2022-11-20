@@ -19,7 +19,7 @@ public class TargetTest {
         Target target =
                 new Target.Builder("http://example.com").build();
         assertEquals(new URL("http://example.com"), target.getUrl());
-        assertEquals("By.xpath: /html/body", target.getBy().toString());
+        assertEquals("By.xpath: /html/body", target.getHandle().toString());
         System.out.println(target.toJson(true));
     }
 
@@ -27,10 +27,10 @@ public class TargetTest {
     public void test_GoogleSearchPage() throws MalformedURLException, MaterialstoreException {
         Target target =
                 new Target.Builder("https://www.google.com")
-                        .by(By.cssSelector("input[name=\"q\"]"))
+                        .handle(By.cssSelector("input[name=\"q\"]"))
                         .build();
         assertEquals(new URL("https://www.google.com"), target.getUrl());
-        assertEquals("By.cssSelector: input[name=\"q\"]", target.getBy().toString());
+        assertEquals("By.cssSelector: input[name=\"q\"]", target.getHandle().toString());
     }
 
     @Test
@@ -39,14 +39,14 @@ public class TargetTest {
                 new Target.Builder("https://www.google.com")
                         .build();
         Target newTarget = target.copyWith(By.cssSelector("/html/body/section"));
-        assertEquals("By.cssSelector: /html/body/section", newTarget.getBy().toString());
+        assertEquals("By.cssSelector: /html/body/section", newTarget.getHandle().toString());
     }
 
     @Test
     public void test_copyWithAttribute() throws MaterialstoreException {
         Target target =
                 new Target.Builder("https://www.google.com")
-                        .by(By.cssSelector("input[name=\"q\"]"))
+                        .handle(By.cssSelector("input[name=\"q\"]"))
                         .build();
         Target newTarget = target.copyWith("environment", "Development");
         assertEquals("Development", newTarget.get("environment"));
@@ -56,7 +56,7 @@ public class TargetTest {
     public void test_copyWithAttributes() throws MaterialstoreException {
         Target target =
                 new Target.Builder("https://www.google.com")
-                        .by(By.cssSelector("input[name=\"q\"]"))
+                        .handle(By.cssSelector("input[name=\"q\"]"))
                         .build();
         Map<String, String> attributes = Collections.singletonMap("environment", "Development");
         Target newTarget = target.copyWith(attributes);
@@ -67,7 +67,7 @@ public class TargetTest {
     public void test_copyConstructor() throws MaterialstoreException {
         Target target =
                 new Target.Builder("https://www.google.com")
-                        .by(By.cssSelector("input[name=\"q\"]"))
+                        .handle(By.cssSelector("input[name=\"q\"]"))
                         .put("foo", "bar")
                         .build();
         assertEquals("bar", target.get("foo"));

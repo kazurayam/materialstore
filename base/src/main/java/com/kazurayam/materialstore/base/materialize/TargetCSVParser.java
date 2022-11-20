@@ -9,7 +9,7 @@ import java.util.List;
 
 public abstract class TargetCSVParser {
 
-    static TargetCSVParser newSimpleParser() {
+    public static TargetCSVParser newSimpleParser() {
         return new SimpleTargetCSVParser();
     }
 

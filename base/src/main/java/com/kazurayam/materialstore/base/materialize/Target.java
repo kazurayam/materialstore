@@ -17,7 +17,7 @@ import java.util.Map;
 public final class Target implements Jsonifiable {
 
     private final URL url;
-    private final By by;
+    private final By handle;
     private final ImmutableMap<String, String> attributes;
 
     public static Builder builder(URL url) {
@@ -33,7 +33,7 @@ public final class Target implements Jsonifiable {
      */
     private Target(Builder builder) {
         this.url = builder.url;
-        this.by = builder.by;
+        this.handle = builder.handle;
         this.attributes =
                 ImmutableMap.<String, String>builder()
                         .putAll(builder.attributes)
@@ -45,26 +45,27 @@ public final class Target implements Jsonifiable {
      */
     public Target(Target source) {
         this.url = source.getUrl();
-        this.by = source.getBy();
+        this.handle = source.getHandle();
         this.attributes = source.getAttributes();
     }
 
     /*
      * creates a new instance of Target class while replacing the By with specified value
      */
-    public Target copyWith(By by) {
+    public Target copyWith(By handle) {
         return Target.builder(this.getUrl())
-                .by(by)
+                .handle(handle)
                 .putAll(this.getAttributes())
                 .build();
     }
 
     /*
-     * creates a new instance of Target class while adding a new attribyte (kew=value)
+     * creates a new instance of Target class while adding
+     * a new attribute with kew=value.
      */
     public Target copyWith(String key, String value) {
         return Target.builder(this.getUrl())
-                .by(this.getBy())
+                .handle(this.getHandle())
                 .putAll(this.getAttributes())
                 .put(key, value)
                 .build();
@@ -75,7 +76,7 @@ public final class Target implements Jsonifiable {
      */
     public Target copyWith(Map<String, String> newAttributes) {
         return Target.builder(this.getUrl())
-                .by(this.getBy())
+                .handle(this.getHandle())
                 .putAll(this.getAttributes())
                 .putAll(newAttributes)
                 .build();
@@ -84,7 +85,7 @@ public final class Target implements Jsonifiable {
     public URL getUrl() {
         return this.url;
     }
-    public By getBy() { return this.by; }
+    public By getHandle() { return this.handle; }
     public ImmutableMap<String, String> getAttributes() { return this.attributes; }
     public Object get(String key) { return this.attributes.get(key); }
 
@@ -94,8 +95,8 @@ public final class Target implements Jsonifiable {
         sb.append("\"url\":\"");
         sb.append(JsonUtil.escapeAsJsonString(url.toExternalForm()));
         sb.append("\",");
-        sb.append("\"by\":\"");
-        sb.append(JsonUtil.escapeAsJsonString(by.toString()));
+        sb.append("\"handle\":\"");
+        sb.append(JsonUtil.escapeAsJsonString(handle.toString()));
         sb.append("\",");
         sb.append("\"attributes\":");
         sb.append("{");
@@ -132,7 +133,7 @@ public final class Target implements Jsonifiable {
      */
     public static class Builder {
         private final URL url;
-        private By by = By.xpath("/html/body");
+        private By handle = By.xpath("/html/body");
         private Map<String, String> attributes = new LinkedHashMap<>();
         public Builder(String urlString) throws MaterialstoreException {
             try {
@@ -144,19 +145,19 @@ public final class Target implements Jsonifiable {
         public Builder(URL url) {
             this.url = url;
         }
-        Builder by(By by) {
-            this.by = by;
+        public Builder handle(By handle) {
+            this.handle = handle;
             return this;
         }
-        Builder put(String key, String value) {
+        public Builder put(String key, String value) {
             this.attributes.put(key, value);
             return this;
         }
-        Builder putAll(Map<String, String> attrs) {
+        public Builder putAll(Map<String, String> attrs) {
             this.attributes.putAll(attrs);
             return this;
         }
-        Target build() {
+        public Target build() {
             return new Target(this);
         }
     }

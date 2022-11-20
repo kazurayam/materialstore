@@ -73,6 +73,6 @@ public class TargetCSVParserTest {
                         .collect(Collectors.toList());
         assertEquals(1, targetList.size());
         assertEquals("By.xpath: //h1[text()=\"Example Domain\"]",
-                targetList.get(0).getBy().toString());
+                targetList.get(0).getHandle().toString());
     }
 }
