@@ -1,4 +1,4 @@
-= Materialstore
+= materialstore
 :sectnums:
 
 include::../freemarker/docs/custom_freemarker_directives.adoc[]
