@@ -6,13 +6,19 @@ Let us begin with a quick introduction to a Java library named "materialstore".
 
 Here I assume you have a seasoned programming skill in Java, and you have installed the build tool link:https://gradle.org/install/[Gradle]. Now let us create a project where you write some Java code for practice.
 
-You want to create a new project. Let me assume the project is named as "sampleProject". You would want to initialize it as a Gradle application project, as this:
+You would want to initialize it as a Gradle application project. Let me assume the project is named as "sampleProject".
+
+[source, shell]
+```
+$ cd ~/tmp/
+$ mkdir sampleProject
+```
+
+You would operate in the console as this:
 
 [source, shell]
 ----
-$ cd ~/tmp/
-$ mkdir sampleProject
-$ cd sampleProject
+$ cd ~/tmp/sampleProject
 $ gradle init
 
 Select type of project to generate:
@@ -43,7 +49,6 @@ Then you will find a file `sampleProject/settings.gradle` has been created, whic
 [source, gradle]
 ----
 rootProject.name = 'sampleProject'
-include('app')
 ----
 
 You will also find a file `sampleProject/build.gradle` file, but it will be empty (comments only). So you want to edit it, like this.
@@ -52,6 +57,8 @@ You will also find a file `sampleProject/build.gradle` file, but it will be empt
 ----
 include::../build.gradle[lines=1..30]
 ----
+
+Please note that here you declared the dependency to the `materialstore` library.
 
 You can check if the project is properly setup by executing a command:
 

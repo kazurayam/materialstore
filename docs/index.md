@@ -1,3 +1,8 @@
+-   <a href="#_materialstore_documentation" id="toc-_materialstore_documentation">Materialstore Documentation</a>
+    -   <a href="#_materialstore_tutorial" id="toc-_materialstore_tutorial">Materialstore Tutorial</a>
+        -   <a href="#_setting_up_a_project" id="toc-_setting_up_a_project">Setting up a project</a>
+        -   <a href="#_a_test_with_materialstore" id="toc-_a_test_with_materialstore">A test with "materialstore"</a>
+
 # Materialstore Documentation
 
 -   [materialstore javadoc](https://kazurayam.github.io/materialstore/api/index.html)
@@ -12,11 +17,14 @@ Let us begin with a quick introduction to a Java library named "materialstore".
 
 Here I assume you have a seasoned programming skill in Java, and you have installed the build tool [Gradle](https://gradle.org/install/). Now let us create a project where you write some Java code for practice.
 
-You want to create a new project. Let me assume the project is named as "sampleProject". You would want to initialize it as a Gradle application project, as this:
+You would want to initialize it as a Gradle application project. Let me assume the project is named as "sampleProject".
 
     $ cd ~/tmp/
     $ mkdir sampleProject
-    $ cd sampleProject
+
+You would operate in the console as this:
+
+    $ cd ~/tmp/sampleProject
     $ gradle init
 
     Select type of project to generate:
@@ -43,7 +51,6 @@ You want to create a new project. Let me assume the project is named as "sampleP
 Then you will find a file `sampleProject/settings.gradle` has been created, which looks like:
 
     rootProject.name = 'sampleProject'
-    include('app')
 
 You will also find a file `sampleProject/build.gradle` file, but it will be empty (comments only). So you want to edit it, like this.
 
@@ -66,6 +73,8 @@ You will also find a file `sampleProject/build.gradle` file, but it will be empt
     test {
         useJUnitPlatform()
     }
+
+Please note that here you declared the dependency to the `materialstore` library.
 
 You can check if the project is properly setup by executing a command:
 
