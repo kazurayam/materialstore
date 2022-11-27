@@ -1,4 +1,9 @@
-= Materialstore
+= Materialstore Documentation
+:toc:
 :sectnums:
 
-include::../freemarker/docs/custom_freemarker_directives.adoc[]
+
+* link:https://kazurayam.github.io/materialstore/api/index.html[materialstore javadoc]
+* back to the link:https://github.com/kazurayam/materialstore[repository]
+
+include::../tutorial/docs/materialstore_tutorial.adoc[]

@@ -1,17 +1,15 @@
 rootProject.name = 'materialstore'
-include(':core', ':freemarker', ':base', ':mapper', ':facet', ':diagram')
+include(':core', ':freemarker', ':base', ':mapper', ':facet', ':diagram', ':tutorial')
 /*
  subprojects' dependency tree
      :core       -> :base
      :core                 -> :mapper
      :core                 -> :facet
      :core                 -> :tutorial
-     :dore                 -> :diagram
+     :core                 -> :diagram
      :freemarker -> :base
                     :base   -> :mapper
                     :base   -> :facet
-                    :base   -> :tutorial:ch1
-                    :base   -> :tutorial:ch2
  */
 
 // https://docs.gradle.org/current/userguide/platforms.html#sec:dependency-bundles
@@ -81,5 +79,5 @@ dependencyResolutionManagement {
         }
     }
 }
-
+include 'tutorial'
 
