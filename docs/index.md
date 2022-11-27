@@ -1,346 +1,209 @@
-# materialstore
+# Materialstore Documentation
 
 -   [materialstore javadoc](https://kazurayam.github.io/materialstore/api/index.html)
 
 -   back to the [repository](https://github.com/kazurayam/materialstore)
 
-## Introduction to materialstore
+## Materialstore Tutorial
 
-## Reporters
+Let us begin with a quick introduction to a Java library named "materialstore".
 
-## Custom FreeMarker Directives
+### Setting up a project
 
-This project is a collection of FreeMarker user-defined directives
-developed by kazurayam.
+Here I assume you have a seasoned programming skill in Java, and you have installed the build tool [Gradle](https://gradle.org/install/). Now let us create a project where you write some Java code for practice.
 
-It was tested with FreeMarker v2.3.31.
+You want to create a new project. Let me assume the project is named as "sampleProject". You would want to initialize it as a Gradle application project, as this:
 
-### readAllLines
+    $ cd ~/tmp/
+    $ mkdir sampleProject
+    $ cd sampleProject
+    $ gradle init
 
-The `readAllLines` directive reads a text file specified by the path parameter,
-iterate over all lines in it, generate the templated body.
-It will provide a loopVariable that contains the line.
+    Select type of project to generate:
+      1: basic
+      2: application
+      3: library
+      4: Gradle plugin
+    Enter selection (default: basic) [1..4] 1
 
-Synopsis
+    Select build script DSL:
+      1: Groovy
+      2: Kotlin
+    Enter selection (default: Groovy) [1..2] 1
 
-    <@readAllLines path="path to the file" ; line>
-      <p>${line}</p>
-    </@readAllLines>
+    Generate build using new APIs and behavior (some features may change in the next minor release)? (default
 
-#### Motivation
+    Project name (default: sampleProject):
 
-Let me consider a case where I am going to generate a HTML file
-using FreeMarker;
-I have a simple text file with some number of lines,
-and I want to insert HTML fragment as follows:
+    > Task :init
+    Get more help with your project: Learn more about Gradle by exploring our samples at https://docs.gradle.org/7.4.2/samples
 
-            <tr><td> ... line #1 ... </td></tr>
-            <tr><td> ... line #2 ... </td></tr>
-            <tr><td> ... line #3 ... </td></tr>
-            ...
+    BUILD SUCCESSFUL in 28s
 
-You may be or may not be aware, FreeMarker does not provide a built-in
-directive with which I can read a text content from external file, and
-transform the lines into HTML fragments.
-The following diagram shows the basic how FreeMarker works.
+Then you will find a file `sampleProject/settings.gradle` has been created, which looks like:
 
-![FreeMarker base](images/freemarker/FreeMarker_base.png)
+    rootProject.name = 'sampleProject'
+    include('app')
 
-Now I wanted to do something like this:
+You will also find a file `sampleProject/build.gradle` file, but it will be empty (comments only). So you want to edit it, like this.
 
-![FreeMarker readAllLines](images/freemarker/FreeMarker_readAllLines.png)
-
-My custom `readAllLines` directive just enables me to do it.
-
-#### Example
-
-##### Caller Java
-
-**ReadAllLinesDirectivesTest.java**
-
-    package com.kazurayam.materialstore.freemarker;
-
-    import freemarker.template.Template;
-    import freemarker.template.TemplateException;
-    import org.junit.jupiter.api.Test;
-
-    import java.io.IOException;
-    import java.io.StringWriter;
-    import java.io.Writer;
-
-    import static org.junit.jupiter.api.Assertions.assertNotNull;
-    import static org.junit.jupiter.api.Assertions.assertTrue;
-
-    public class ReadAllLinesDirectiveTest extends TestBase {
-
-        public ReadAllLinesDirectiveTest() throws IOException {
-            super();
-        }
-
-        @Test
-        public void test_execute() throws IOException, TemplateException {
-            /* Get the template (uses cache internally) */
-            Template temp = cfg.getTemplate("readAllLinesDemo.ftlh");
-
-            /* Merge data-model with template */
-            Writer out = new StringWriter();
-            temp.process(model, out);
-
-            String output = out.toString();
-            assertNotNull(output);
-            assertTrue(output.contains("<tr><td>0</td><td>publishedDate,uri,title,link,description,author</td></tr>"));
-            System.out.println(output);
-        }
+    plugins {
+        id 'java'
     }
 
-##### TestBase.java
+    repositories {
+        mavenCentral()
+    }
 
-The test classes here extends `TestBase.java` which prepares
-the configuration of FreeMarker.
-Please note that some sharedVariables are declared here,
-which includes the name of directives (e.g, `readAllLines`).
+    dependencies {
+        testImplementation group: 'com.kazurayam', name: 'materialstore', version: '0.12.5'
+        testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+        testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
+    }
 
-**TestBase**
+    test {
+        useJUnitPlatform()
+    }
 
-    package com.kazurayam.materialstore.freemarker;
+You can check if the project is properly setup by executing a command:
 
-    import freemarker.template.Configuration;
-    import freemarker.template.TemplateExceptionHandler;
-    import freemarker.template.TemplateModelException;
+    $ cd ~/sampleProject/
+    $ gradle dependencies --configuration testImplementation
+
+    ------------------------------------------------------------
+    Root project 'sampleProject'
+    ------------------------------------------------------------
+
+    testImplementation - Implementation only dependencies for source set 'test'. (n)
+    +--- com.kazurayam:materialstore:0.12.5 (n)
+    +--- org.slf4j:slf4j-api:1.7.25 (n)
+    +--- org.slf4j:slf4j-simple:1.7.25 (n)
+    \--- org.junit.jupiter:junit-jupiter-api:5.9.0 (n)
+
+    (n) - Not resolved (configuration is not meant to be resolved)
+
+    A web-based, searchable dependency report is available by adding the --scan option.
+
+    BUILD SUCCESSFUL in 1s
+    1 actionable task: 1 executed
+
+### A test with "materialstore"
+
+Now you want to write the first code that uses the materialstore library. `sampleProject/app/src/test/java/my/sample/T1HelloMaterialstoreTest.java`, as this:
+
+    package my.sample;
+
+    import com.kazurayam.materialstore.core.filesystem.FileType;
+    import com.kazurayam.materialstore.core.filesystem.JobName;
+    import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
+    import com.kazurayam.materialstore.core.filesystem.Material;
+    import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
+    import com.kazurayam.materialstore.core.filesystem.Metadata;
+    import com.kazurayam.materialstore.core.filesystem.Store;
+    import com.kazurayam.materialstore.core.filesystem.Stores;
+    import org.junit.jupiter.api.BeforeEach;
+    import org.junit.jupiter.api.Test;
+    import org.slf4j.Logger;
+    import org.slf4j.LoggerFactory;
 
     import java.io.IOException;
+    import java.nio.file.Files;
     import java.nio.file.Path;
     import java.nio.file.Paths;
-    import java.util.HashMap;
-    import java.util.Map;
 
-    public class TestBase {
-
-        protected Configuration cfg;
-        protected Map<String, Object> model;
-
-        public TestBase() throws IOException {
-
-            Path projectDir = Paths.get(System.getProperty("user.dir"));
-
-            /* ---------------------------------------------------------- */
-            /* You should do this ONLY ONCE in the whole application lifecycle */
-
-            /* Create and adjust the configuration singleton */
-            cfg = new Configuration(Configuration.VERSION_2_3_31);
-
-            Path templatesDir = projectDir.resolve("src/test/resources/freemarker_templates");
-            cfg.setDirectoryForTemplateLoading(templatesDir.toFile());
-
-            // Recommended settings for new projects:
-            cfg.setDefaultEncoding("UTF-8");
-            cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-            cfg.setLogTemplateExceptions(false);
-            cfg.setWrapUncheckedExceptions(true);
-            cfg.setFallbackOnNullLoopVariable(false);
-            cfg.setBooleanFormat("c");
-            cfg.setOutputEncoding("UTF-8");
-
-            // add custom directives
-            try {
-                cfg.setSharedVariable("readAllLines", new ReadAllLinesDirective());
-                Path store = projectDir.resolve("src/test/fixtures").resolve("store");
-                cfg.setSharedVariable("baseDir", store.normalize().toAbsolutePath().toString());
-                //
-                cfg.setSharedVariable("uppercase", new UpperCaseDirective());
-                //
-                cfg.setSharedVariable("compressToSingleLine", new CompressToSingleLineDirective());
-
-            } catch (TemplateModelException e) {
-                throw new RuntimeException(e);
-            }
-
-            /* ---------------------------------------------------------- */
-            /* You usually do these for MULTIPLE TIMES in the application life-cycle: */
-
-            /* Create a data-model */
-            model = new HashMap<>();
-        }
-    }
-
-##### Template
-
-**readAllLinesDemo.ftlh**
-
-    <#-- readAllLinesDemo.ftlh -->
-    <#-- custom directive name "readAllLines" is defined as a shared variable. See TestBase.java -->
-    <#assign x = 0>
-    <@readAllLines path="AmznPress/20220310_203757/objects/e96bd4c2e345301b567d70071dcec04fda699ce4.csv"; line>
-        <tr><td>${x}</td><td>${line}</td></tr>
-        <#assign x++>
-    </@readAllLines>
-
-##### Input
-
--   [sample CSV file](https://github.com/kazurayam/materialstore/blob/main/freemarker/src/test/fixture/store/AmznPress/20220310_203757/objects/e96bd4c2e345301b567d70071dcec04fda699ce4.csv)
-
-##### Output
-
-        <tr><td>0</td><td>publishedDate,uri,title,link,description,author</td></tr>
-        <tr><td>1</td><td>Thu Mar 10 20:00:00 JST 2022,31596,"OOO Until TBD? Majority of Canadian Office Workers Want Remote Work to Stay ",https://press.aboutamazon.com/news-releases/news-release-details/ooo-until-tbd-majority-canadian-office-workers-want-remote-work,"Half of Canadian office workers say working mostly/entirely remote is their ideal scenario; only one-quarter prefer mostly/entirely in office Ability to work remotely and flexible work hours are now more important to office workers than workplace culture, development/growth opportunities and","Amazon.com, Inc. - Press Room News Releases"</td></tr>
-
-    ... (trimmed)
-
-### compressToSingleLine
-
-The `compressToSingleLine` directive strips the following text fragments out of the body text.
-
-1.  Leading whitespaces of each lines (`^\s+`)
-
-2.  Traling whitespaces of each lines (`\s*$`)
-
-3.  Line breaks (`\r|\n`)
-
-The whitespaces between the 1st printable character and the last printable character will be preseved
-(will not be trimmed).
-
-Empty lines will be ignored.
-
-Consequently the body text will become a single line.
-
-The `compressToSingleLine` directive takes no arguments.
-
-Synopsis
-
-    <@compressToSingleLine>
-        <#-- any body text -->
-    <@compressToSIngleLine>
-
-#### Motivation
-
-FreeMarker provides a few options of white-space handling.
-See [the document](https://freemarker.apache.org/docs/dgui_misc_whitespace.html) for detail.
-
-I was not satisfied with the standard options because I had a very particular requirement for white-space handling.
-Let me show you an example.
-
-My template produced this output:
-
-          <span class="code">
-                <span class="nochange">    {&quot;cat&quot;:  &quot;Nikolai, Marcus and Ume&quot;,
-    </span>
-                <span class="nochange">     &quot;greeting&quot;:  &quot;Hello, world!&quot;}
-    </span>
-          </span>
-
-This output was problematic for me because:
-
-1.  I want to trim the indentation spaces before `<span>` in all lines.
-
-2.  I do not want to compress white-spaces inside `<span>` and `</span>`. I mean the 4 white-spaces in side `<span class="nochange"> {"cat` should be retained.
-
-3.  The output has 6 lines. But I want all `<span>` tags concatinated without line breaks.
-    A sequence of `<span>` tags should form 1 single line.
-    In other words, I want to remove `\n` and `\r`.
-
-The result I want looks as follows:
-
-    <span class="code"><span class="nochange">    {&quot;cat&quot;:  &quot;Nikolai, Marcus and Ume&quot;,</span><span class="nochange">     &quot;greeting&quot;:  &quot;Hello, world!&quot;}</span></span>
-
-The built-in [&lt;#compress&gt;](https://freemarker.apache.org/docs/dgui_misc_whitespace.html#autoid_30) directory
-does sightly different from what I want. So I developed a custom directory `@compressToSingleLine` for me.
-
-#### Example
-
-##### Caller Java
-
-**CompressToSingleLineDirectivesTest.java**
-
-    package com.kazurayam.materialstore.freemarker;
-
-    import freemarker.template.Template;
-    import freemarker.template.TemplateException;
-    import org.junit.jupiter.api.Test;
-
-    import java.io.BufferedReader;
-    import java.io.IOException;
-    import java.io.StringReader;
-    import java.io.StringWriter;
-    import java.io.Writer;
-    import java.util.ArrayList;
-    import java.util.Arrays;
-    import java.util.List;
-
-    import static org.junit.jupiter.api.Assertions.assertEquals;
     import static org.junit.jupiter.api.Assertions.assertNotNull;
-    import static org.junit.jupiter.api.Assertions.assertTrue;
 
-    public class CompressToSingleLineDirectiveTest extends TestBase {
+    /*
+     * This code demonstrate how to save a text string into an instance of
+     * "materialstore" backed with a directory on the local OS file system.
+     */
+    public class T1HelloMaterialstoreTest {
 
-        public CompressToSingleLineDirectiveTest() throws IOException {
-            super();
+        // central abstraction of Material storage
+        private Store store;
+
+        private Logger logger = LoggerFactory.getLogger(T1HelloMaterialstoreTest.class);
+
+        @BeforeEach
+        public void beforeEach() {
+            // create a base directory
+            Path dir = createTestClassOutputDir(this);   // (1)
+            // create a directory named "store"
+            Path storeDir = dir.resolve("store");   // (2)
+            // instantiate a Store object
+            store = Stores.newInstance(storeDir);        // (3)
         }
 
         @Test
-        public void test_execute() throws IOException, TemplateException {
-            /* set data into the model */
-            List<String> segments = Arrays.asList(
-                    "    {\"cat\":  \"Nikolai, Marcus and Ume\",\n",
-                    "     \"greeting\":  \"Hello, world!\"}     \n");
-            model.put("segments", segments);
-
-            /* Get the template (uses cache internally) */
-            Template temp = cfg.getTemplate("compressToSingleLineDemo.ftlh");
-
-            /* Merge data-model with template */
-            Writer out = new StringWriter();
-            temp.process(model, out);
-
-            String output = out.toString();
-            assertNotNull(output);
-
-            System.out.println("---------------------");
-            System.out.println(output);
-            System.out.println("---------------------");
-
-            BufferedReader br = new BufferedReader(new StringReader(output));
-            List<String> lines = new ArrayList<>();
-            String line;
-            while ((line = br.readLine()) != null) {
-                lines.add(line);
-            }
-            assertEquals(1, lines.size(), "should be single line");
-            assertTrue(lines.get(0).startsWith("<span"),   "^\\s+ should be trimmed");
-            assertTrue(output.contains("<span class=\"nochange\">    {&quot;cat"),
-                    "indent of text inside <span> tags should be preserved");
+        public void test01_hello_materialstore() throws MaterialstoreException {
+            JobName jobName =
+                    new JobName("test01_hello_materialstore");       // (4)
+            JobTimestamp jobTimestamp = JobTimestamp.now();          // (5)
+            String text = "Hello, materialstore!";
+            Material material = store.write(jobName, jobTimestamp,   // (6)
+                    FileType.TXT,                            // (7)
+                    Metadata.NULL_OBJECT,                    // (8)
+                    text);                                   // (9)
+            logger.info(String.format("wrote a text '%s'", text));
+            assertNotNull(material);
         }
 
+        //-----------------------------------------------------------------
+
+        Path createTestClassOutputDir(Object testClass) {
+            Path output = getTestOutputDir()
+                    .resolve(testClass.getClass().getName());
+            try {
+                if (!Files.exists(output)) {
+                    Files.createDirectories(output);
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            return output;
+        }
+
+        Path getTestOutputDir() {
+            return Paths.get(System.getProperty("user.dir"))
+                    .resolve("build/tmp/testOutput");
+        }
     }
 
-##### Template
+You would want to run this test by running Gradle test task, as this:
 
-**compressToSingleLineDemoDemo.ftlh**
+    $ gradle test
+    > Task :compileJava NO-SOURCE
+    > Task :processResources NO-SOURCE
+    > Task :classes UP-TO-DATE
+    > Task :compileTestJava
+    > Task :processTestResources NO-SOURCE
+    > Task :testClasses
+    > Task :test
 
-    <#-- compressToSingleLineDemo.ftlh -->
+    BUILD SUCCESSFUL in 2s
+    2 actionable tasks: 2 executed
 
-    <#-- sample markup text will be printed straight -->
-    <#--
-    <@sampleMarkup />
-    -->
+The `test` task of Gradle will create a report in HTML format where you can all output from the test execution. Find the `build/reports/tests/test/index.html` file as:
 
-    <#-- custom directive name "compressToSingleLine" is defined as a shared variable. See TestVase.java. -->
-    <@compressToSingleLine>
-      <@sampleMarkup/>
-    </@compressToSingleLine>
+    $ cd ~/tmp/sampleProject
+    $ tree build/reports/tests/
+    build/reports/tests/
+    └── test
+        ├── classes
+        │   └── my.sample.T1HelloMaterialstoreTest.html
+        ├── css
+        │   ├── base-style.css
+        │   └── style.css
+        ├── index.html
+        ├── js
+        │   └── report.js
+        └── packages
+            └── my.sample.html
 
-    <#macro sampleMarkup>
-        <#assign clazz="nochange">
-        <#list segments>
-          <span class="code">
-              <#items as segment>
-                <span class="${clazz}">${segment}</span>
-              </#items>
-          </span>
-        </#list>
-    </#macro>
+    5 directories, 6 files
 
-### Reference
+You want to open the `index.html` in browser.
 
-1.  [FreeMarker Programmer’s Guide / The Data Model / Directives](https://freemarker.apache.org/docs/pgui_datamodel_directive.html)
-
-2.  [FreeMarker Manual / Template Author’s Guide / Miscellaneous / Defining your own directives](https://freemarker.apache.org/docs/dgui_misc_userdefdir.html)
+![01 test report](images/01_test_report.png)
