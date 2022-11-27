@@ -1,7 +1,7 @@
--   <a href="#materialstore-documentation" id="toc-materialstore-documentation">Materialstore Documentation</a>
-    -   <a href="#materialstore-tutorial" id="toc-materialstore-tutorial">Materialstore Tutorial</a>
-        -   <a href="#setting-up-a-project" id="toc-setting-up-a-project">Setting up a project</a>
-        -   <a href="#a-test-with-materialstore" id="toc-a-test-with-materialstore">A test with "materialstore"</a>
+-   <a href="#_materialstore_documentation" id="toc-_materialstore_documentation">Materialstore Documentation</a>
+    -   <a href="#_materialstore_tutorial" id="toc-_materialstore_tutorial">Materialstore Tutorial</a>
+        -   <a href="#_setting_up_a_project" id="toc-_setting_up_a_project">Setting up a project</a>
+        -   <a href="#_a_test_with_materialstore" id="toc-_a_test_with_materialstore">A test with "materialstore"</a>
 
 # Materialstore Documentation
 
