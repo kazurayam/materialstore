@@ -85,16 +85,17 @@ BUILD SUCCESSFUL in 1s
 1 actionable task: 1 executed
 ----
 
-=== A test with "materialstore"
+=== The first test : "Hello, materialstore!"
 
-Now you want to write the first code that uses the materialstore library. `sampleProject/app/src/test/java/my/sample/T1HelloMaterialstoreTest.java`, as this:
+
+I have created a JUnit-based code that uses the materialstore library. See `sampleProject/app/src/test/java/my/sample/T1HelloMaterialstoreTest.java`:
 
 [source, java]
 ----
 include::../src/test/java/my/sample/T1HelloMaterialstoreTest.java[]
 ----
 
-You would want to run this test by running Gradle test task, as this:
+I can ran this test by running Gradle's `test` task, as this:
 
 [source]
 ----
@@ -132,6 +133,44 @@ build/reports/tests/
 5 directories, 6 files
 ```
 
-You want to open the `index.html` in browser.
+You can open the `index.html` in browser and see the test result.
 
 image::images/01_test_report.png[]
+
+=== Understanding the basics
+
+Let us read the source of the "Hello, materialstore!" test line by line to understand the fundamentals of the materialstore library.
+
+Here are assume that you are a well-trained Java programmer and you do not need any explanation how to write test using JUnit 5 Jupiter.
+
+[source, text]
+----
+    @BeforeEach
+    public void beforeEach() {
+        Path dir = createTestClassOutputDir(this);   // (1)
+----
+
+The statement commented as (1) creates a directory `build/tmp/testOutput/my.sample.T1HellowMaterialstoreTest`. In this directory the test will output everything during its run. The helper method `createTestClassOutputDir(Object)` is defined later in the source file.
+
+
+[source, text]
+----
+        Path storeDir = dir.resolve("store");   // (2)
+----
+
+The statement commented as (2) declares a new directory named `store` under the working directory created at (1).
+
+
+[source, text]
+----
+import com.kazurayam.materialstore.core.filesystem.Store;
+...
+
+    private Store store;
+...
+
+        store = Stores.newInstance(storeDir);        // (3)
+----
+
+The statement commented as (3) instantiates an object of `com.kazurayam.materialstore.core.filesystem.Store` class. The `Store` class is the central entry point of the materialstore library. The `Store` class implements methods to write "materials" into the store with various metadata, and methods to select one or more materials out of the store.
+
