@@ -1,4 +1,4 @@
-package my.materialstoretutorial;
+package my.sample;
 
 import com.kazurayam.materialstore.core.filesystem.FileType;
 import com.kazurayam.materialstore.core.filesystem.JobName;
@@ -10,6 +10,8 @@ import com.kazurayam.materialstore.core.filesystem.Store;
 import com.kazurayam.materialstore.core.filesystem.Stores;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -27,8 +29,10 @@ public class T1HelloMaterialstoreTest {
     // central abstraction of Material storage
     private Store store;
 
+    private Logger logger = LoggerFactory.getLogger(T1HelloMaterialstoreTest.class);
+
     @BeforeEach
-    public void beforeEach() throws IOException {
+    public void beforeEach() {
         // create a base directory
         Path dir = createTestClassOutputDir(this);   // (1)
         // create a directory named "store"
@@ -37,19 +41,17 @@ public class T1HelloMaterialstoreTest {
         store = Stores.newInstance(storeDir);        // (3)
     }
 
-    /**
-     *
-     * @throws MaterialstoreException
-     */
     @Test
     public void test01_hello_materialstore() throws MaterialstoreException {
         JobName jobName =
                 new JobName("test01_hello_materialstore");       // (4)
         JobTimestamp jobTimestamp = JobTimestamp.now();          // (5)
+        String text = "Hello, materialstore!";
         Material material = store.write(jobName, jobTimestamp,   // (6)
                 FileType.TXT,                            // (7)
                 Metadata.NULL_OBJECT,                    // (8)
-                "Hello, materialstore!");                // (9)
+                text);                                   // (9)
+        logger.info(String.format("wrote a text '%s'", text));
         assertNotNull(material);
     }
 

@@ -1,4 +1,4 @@
-package my.materialstoretutorial;
+package my.sample;
 
 
 import com.kazurayam.materialstore.core.util.CopyDir;
