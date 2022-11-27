@@ -1,11 +1,7 @@
-= materialstore
+= Materialstore Documentation
 :sectnums:
 
 * link:https://kazurayam.github.io/materialstore/api/index.html[materialstore javadoc]
 * back to the link:https://github.com/kazurayam/materialstore[repository]
 
-include::../core/docs/introduction_to_materialstore.adoc[]
-
-include::../base/docs/reporters.adoc[]
-
-include::../freemarker/docs/custom_freemarker_directives.adoc[]
+include::../tutorial/docs/materialstore_tutorial.adoc[]
