@@ -1,7 +1,18 @@
 -   <a href="#materialstore-documentation" id="toc-materialstore-documentation">Materialstore Documentation</a>
     -   <a href="#materialstore-tutorial" id="toc-materialstore-tutorial">Materialstore Tutorial</a>
         -   <a href="#setting-up-a-project" id="toc-setting-up-a-project">Setting up a project</a>
-        -   <a href="#a-test-with-materialstore" id="toc-a-test-with-materialstore">A test with "materialstore"</a>
+        -   <a href="#the-first-test-hello-materialstore" id="toc-the-first-test-hello-materialstore">The first test : "Hello, materialstore!"</a>
+        -   <a href="#understanding-the-basics" id="toc-understanding-the-basics">Understanding the basics</a>
+            -   <a href="#create-a-base-directory-for-output" id="toc-create-a-base-directory-for-output">create a base directory for output</a>
+            -   <a href="#create-the-store-directory" id="toc-create-the-store-directory">create the "store" directory</a>
+            -   <a href="#instantiate-the-store-object" id="toc-instantiate-the-store-object">instantiate the "store" object</a>
+            -   <a href="#create-a-jobname-object" id="toc-create-a-jobname-object">create a JobName object</a>
+            -   <a href="#create-a-jobtimestamp-object" id="toc-create-a-jobtimestamp-object">create a JobTimestamp object</a>
+            -   <a href="#create-a-file-tree-under-the-store-write-a-material-into-it" id="toc-create-a-file-tree-under-the-store-write-a-material-into-it">create a file tree under the "store", write a material into it</a>
+            -   <a href="#the-file-name-of-material" id="toc-the-file-name-of-material">the file name of "material"</a>
+            -   <a href="#the-file-name-extension" id="toc-the-file-name-extension">the file name extension</a>
+            -   <a href="#metadata" id="toc-metadata">Metadata</a>
+            -   <a href="#store-write-method-can-accept-many-types-of-objects-to-write" id="toc-store-write-method-can-accept-many-types-of-objects-to-write">"store.write()" method can accept many types of objects to write</a>
 
 # Materialstore Documentation
 
@@ -64,8 +75,6 @@ You will also find a file `sampleProject/build.gradle` file, but it will be empt
 
     dependencies {
         testImplementation group: 'com.kazurayam', name: 'materialstore', version: '0.12.5'
-        testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-        testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
     }
@@ -98,9 +107,9 @@ You can check if the project is properly setup by executing a command:
     BUILD SUCCESSFUL in 1s
     1 actionable task: 1 executed
 
-### A test with "materialstore"
+### The first test : "Hello, materialstore!"
 
-Now you want to write the first code that uses the materialstore library. `sampleProject/app/src/test/java/my/sample/T1HelloMaterialstoreTest.java`, as this:
+I have created a JUnit-based code that uses the materialstore library. See `sampleProject/src/test/java/my/sample/T1HelloMaterialstoreTest.java`:
 
     package my.sample;
 
@@ -114,8 +123,6 @@ Now you want to write the first code that uses the materialstore library. `sampl
     import com.kazurayam.materialstore.core.filesystem.Stores;
     import org.junit.jupiter.api.BeforeEach;
     import org.junit.jupiter.api.Test;
-    import org.slf4j.Logger;
-    import org.slf4j.LoggerFactory;
 
     import java.io.IOException;
     import java.nio.file.Files;
@@ -132,8 +139,6 @@ Now you want to write the first code that uses the materialstore library. `sampl
 
         // central abstraction of Material storage
         private Store store;
-
-        private Logger logger = LoggerFactory.getLogger(T1HelloMaterialstoreTest.class);
 
         @BeforeEach
         public void beforeEach() {
@@ -155,7 +160,7 @@ Now you want to write the first code that uses the materialstore library. `sampl
                     FileType.TXT,                            // (7)
                     Metadata.NULL_OBJECT,                    // (8)
                     text);                                   // (9)
-            logger.info(String.format("wrote a text '%s'", text));
+            System.out.println(String.format("wrote a text '%s'", text));
             assertNotNull(material);
         }
 
@@ -180,7 +185,7 @@ Now you want to write the first code that uses the materialstore library. `sampl
         }
     }
 
-You would want to run this test by running Gradle test task, as this:
+I can ran this test by running Gradle’s `test` task, as this:
 
     $ gradle test
     > Task :compileJava NO-SOURCE
@@ -213,6 +218,162 @@ The `test` task of Gradle will create a report in HTML format where you can all 
 
     5 directories, 6 files
 
-You want to open the `index.html` in browser.
+You can open the `index.html` in browser and see the test result.
 
 ![01 test report](images/01_test_report.png)
+
+### Understanding the basics
+
+The test will result a new file tree, like this:
+
+![02 test output file tree](images/02_test_output_file_tree.png)
+
+Let us read the source of the "Hello, materialstore!" test line by line to understand the fundamentals of the materialstore library. Here I assume that you are a well-trained Java programmer who needs no explanation about JUnit how-to.
+
+#### create a base directory for output
+
+    import java.nio.file.Path;
+    ...
+        @BeforeEach
+        public void beforeEach() {
+            Path dir = createTestClassOutputDir(this);   // (1)
+
+The statement commented as (1) creates a directory `build/tmp/testOutput/<fully qualified test case class name>`. In this directory the test will output everything during its run. The helper method `createTestClassOutputDir(Object)` is defined later in the source file.
+
+#### create the "store" directory
+
+            Path storeDir = dir.resolve("store");   // (2)
+
+The statement (2) declares a `java.nio.file.Path` object named `store` under the working directory `build` which is created at (1).
+
+#### instantiate the "store" object
+
+    import com.kazurayam.materialstore.core.filesystem.Store;
+    ...
+
+        private Store store;
+    ...
+
+            store = Stores.newInstance(storeDir);        // (3)
+
+The statement (3) instantiates an object of `com.kazurayam.materialstore.core.filesystem.Store` class. The directory `store` is actually created by the statement (3).
+
+The `Store` class is the central entry point of the materialstore library. The `Store` class implements methods to write the materials into the file tree. Also the `Store` class implements methods to select (read, retrieve) one or more materials out of the store.
+
+#### create a JobName object
+
+    import com.kazurayam.materialstore.core.filesystem.JobName;
+    ...
+        @Test
+        public void test01_hello_materialstore() throws MaterialstoreException {
+            JobName jobName =
+                    new JobName("test01_hello_materialstore");       // (4)
+
+The statement (4) declares the name of a sub-directory under the `store` directory. The String value specified for the constructor of `com.kazurayam.materialstore.core.filesystem.JobName` class can be any. It is just a directory name; no deep semantic meaning is enforced.
+
+However, you should remember that some of ASCII characters are prohibited as a part of file/directory names by the underlying OS; therefore you can not use them as the `JobName` object’s value. For example, Windows OS does not allow you to use the following characters:
+
+-   `<` (less than)
+
+-   `>` (greater than)
+
+-   `:` (colon)
+
+-   `"` (double quote)
+
+-   `/` (forward slash)
+
+-   `\` (backslash)
+
+-   `|` (vertical bar or pipe)
+
+-   `?` (question mark)
+
+-   `*` (asterisk)
+
+You can use non-latin characters as JobName. JobName can contain white spaces if necessary. For example, you can write:
+
+        JobName jobName = new JobName("わたしの仕事 means my job");
+
+#### create a JobTimestamp object
+
+    import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
+    ...
+            JobTimestamp jobTimestamp = JobTimestamp.now();          // (5)
+
+The statement (5) declares the name of a new directory under the `JobName` directory, which will have a name as current timestamp. The name will be in the format of `uuuuMMdd_hhmmss` (year, month, day, hours, minutes, seconds).
+
+#### create a file tree under the "store", write a material into it
+
+    import com.kazurayam.materialstore.core.filesystem.FileType;
+    import com.kazurayam.materialstore.core.filesystem.Material;
+    import com.kazurayam.materialstore.core.filesystem.Metadata;
+    ...
+            String text = "Hello, materialstore!";
+            Material material = store.write(jobName, jobTimestamp,   // (6)
+                    FileType.TXT,                            // (7)
+                    Metadata.NULL_OBJECT,                    // (8)
+                    text);                                   // (9)
+
+The lines (6) to (9) creates a file tree under the \`store\`directory, like this:
+
+    $ tree build/tmp/testOutput/my.sample.T1HelloMaterialstoreTest/store/
+    build/tmp/testOutput/my.sample.T1HelloMaterialstoreTest/store/
+    └── test01_hello_materialstore
+        └── 20221128_082216
+            ├── index
+            └── objects
+                └── 4eb4efec3324a630e0d3d96e355261da638c8285.txt
+
+The format of file tree under the `store` directory is specially designed to save the **materials**. The tree format is fixed. You are not supposed to customize it at all. You would delegate all tasks of creating + naming + locating files and directories under the `store` directory to the `Store` object.
+
+As the line commented as (6) tells, a "material" (actually, is a file) is always located under the sub-tree `store/<JobName>/<JobTimestamp>/objects`.
+
+The sub-directory named `objects` will contain one or more files.
+
+#### the file name of "material"
+
+All files under the `objects` have a fixed format of file name, that is:
+
+**&lt;20 characters in alpha-numerics calcurated by the SHA1 hash function&gt; .&lt;file extention&gt;**
+
+for example,
+
+`4eb4efec3324a630e0d3d96e355261da638c8285.txt`
+
+Ths `Store#write()` method call produces the leading 20 characters using the [SHA1](https://en.wikipedia.org/wiki/SHA-1) message digest function taking the byte array of the file content as the input. This cryptic 20 characters uniquely identifies the input files regardless which type of the file content: a plain text, CSV, HTML, JSON, XML, PNG image, PDF, zipped archive, MS Excel’s xlsx, etc. Because the name is calculated from the file content, **you do not need to name the materials yourself when you write it into the OS file system.**
+
+#### the file name extension
+
+The line (7) specifies `FileType.TXT`.
+
+                    FileType.TXT,                            // (7)
+
+This gives the file extenstion `txt` to the file. The `com.kazurayam.materialstore.filesystem.FileType` enum declares many concrete FileType instances ready to use. See
+<https://kazurayam.github.io/materialstore/api/com/kazurayam/materialstore/core/filesystem/FileType.html> for the complete list. Also you can create your own class that implements `com.kazurayam.materialstore.filesystem.IFileType`. See <https://kazurayam.github.io/materialstore/api/com/kazurayam/materialstore/core/filesystem/IFileType.html>
+
+#### Metadata
+
+You can associate various metadata to each materials. A typical metadata of a screenshot of a web page displayed on browser is the URL string (e.g., "https://www.google.com/?q=selenium"). In our first sample code we do not make use of the Metadata at all. So I wrote a placeholder:
+
+                    Metadata.NULL_OBJECT,                (8)
+
+We will cover how to make full use of Metadata later.
+
+#### "store.write()" method can accept many types of objects to write
+
+The javadoc of the [`Store`](https://kazurayam.github.io/materialstore/api/com/kazurayam/materialstore/core/filesystem/Store.html) shows that it can accept quite a lot of object types as input to write into the `store`:
+
+-   `java.awt.image.BufferedImage`
+
+-   `byte[]`
+
+-   `java.io.File`
+
+-   `java.nio.file.Path`
+
+-   `java.lang.String`
+
+-   `java.io.InputStream`
+
+-   `java.io.Reader`

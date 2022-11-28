@@ -296,7 +296,7 @@ You can associate various metadata to each materials. A typical metadata of a sc
 
 We will cover how to make full use of Metadata later.
 
-=== "store.write()" method can accept many types of objects to write
+==== "store.write()" method can accept many types of objects to write
 
 The javadoc of the link:https://kazurayam.github.io/materialstore/api/com/kazurayam/materialstore/core/filesystem/Store.html[`Store`] shows that it can accept quite a lot of object types as input to write into the `store`:
 
@@ -307,21 +307,3 @@ The javadoc of the link:https://kazurayam.github.io/materialstore/api/com/kazura
 * `java.lang.String`
 * `java.io.InputStream`
 * `java.io.Reader`
-
-
-
-
-
-[source,text]
-----
-    @Test
-    public void test01_hello_materialstore() throws MaterialstoreException {
-        JobName jobName =
-                new JobName("test01_hello_materialstore");       // (4)
-        JobTimestamp jobTimestamp = JobTimestamp.now();          // (5)
-        String text = "Hello, materialstore!";
-        Material material = store.write(jobName, jobTimestamp,   // (6)
-                FileType.TXT,                            // (7)
-                Metadata.NULL_OBJECT,                    // (8)
-                text);                                   // (9)
-----
