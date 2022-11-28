@@ -10,8 +10,6 @@ import com.kazurayam.materialstore.core.filesystem.Store;
 import com.kazurayam.materialstore.core.filesystem.Stores;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -28,8 +26,6 @@ public class T1HelloMaterialstoreTest {
 
     // central abstraction of Material storage
     private Store store;
-
-    private Logger logger = LoggerFactory.getLogger(T1HelloMaterialstoreTest.class);
 
     @BeforeEach
     public void beforeEach() {
@@ -51,7 +47,7 @@ public class T1HelloMaterialstoreTest {
                 FileType.TXT,                            // (7)
                 Metadata.NULL_OBJECT,                    // (8)
                 text);                                   // (9)
-        logger.info(String.format("wrote a text '%s'", text));
+        System.out.println(String.format("wrote a text '%s'", text));
         assertNotNull(material);
     }
 

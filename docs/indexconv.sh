@@ -33,7 +33,7 @@ find . -iname "*.adoc" -type f -maxdepth 1 -not -name "_*.adoc" | while read fna
     asciidoctor -b docbook -a leveloffset=+1 -o - "$fname" > "$xml"
     if [ $requireTOC = true ]; then
       # generate a Markdown file with Table of contents
-      cat "$xml" | pandoc --standalone --toc --markdown-headings=atx --wrap=preserve -t markdown_strict -f docbook - > "$target"
+      cat "$xml" | pandoc --standalone --toc --toc-depth 4 --markdown-headings=atx --wrap=preserve -t markdown_strict -f docbook - > "$target"
     else
       # without TOC
       cat "$xml" | pandoc --markdown-headings=atx --wrap=preserve -t markdown_strict -f docbook - > "$target"
