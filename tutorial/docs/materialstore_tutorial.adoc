@@ -135,13 +135,13 @@ build/reports/tests/
 
 You can open the `index.html` in browser and see the test result.
 
-image::images/01_test_report.png[]
+image::images/tutorial/01_test_report.png[]
 
 === Understanding the basics
 
 The test will result a new file tree, like this:
 
-image:images/02_test_output_file_tree.png[]
+image:images/tutorial/02_test_output_file_tree.png[]
 
 Let us read the source of the "Hello, materialstore!" test line by line to understand the fundamentals of the materialstore library. Here I assume that you are a well-trained Java programmer who needs no explanation about JUnit how-to.
 
