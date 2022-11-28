@@ -220,13 +220,13 @@ The `test` task of Gradle will create a report in HTML format where you can all 
 
 You can open the `index.html` in browser and see the test result.
 
-![01 test report](images/01_test_report.png)
+![01 test report](images/tutorial/01_test_report.png)
 
 ### Understanding the basics
 
 The test will result a new file tree, like this:
 
-![02 test output file tree](images/02_test_output_file_tree.png)
+![02 test output file tree](images/tutorial/02_test_output_file_tree.png)
 
 Let us read the source of the "Hello, materialstore!" test line by line to understand the fundamentals of the materialstore library. Here I assume that you are a well-trained Java programmer who needs no explanation about JUnit how-to.
 
