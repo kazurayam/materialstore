@@ -8,8 +8,6 @@ repositories {
 
 dependencies {
     testImplementation group: 'com.kazurayam', name: 'materialstore', version: '0.12.5'
-    testImplementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
-    testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.0'
 }
