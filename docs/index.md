@@ -335,13 +335,13 @@ The sub-directory named `objects` will contain one or more files.
 
 All files under the `objects` have a fixed format of file name, that is:
 
-**&lt;20 characters in alpha-numerics calcurated by the SHA1 hash function&gt; .&lt;file extention&gt;**
+**&lt;40 characters in alpha-numeric, calcurated by the SHA1 hash function&gt;.&lt;file extention&gt;**
 
 for example,
 
 `4eb4efec3324a630e0d3d96e355261da638c8285.txt`
 
-Ths `Store#write()` method call produces the leading 20 characters using the [SHA1](https://en.wikipedia.org/wiki/SHA-1) message digest function taking the byte array of the file content as the input. This cryptic 20 characters uniquely identifies the input files regardless which type of the file content: a plain text, CSV, HTML, JSON, XML, PNG image, PDF, zipped archive, MS Excel’s xlsx, etc. Because the name is calculated from the file content, **you do not need to name the materials yourself when you write it into the OS file system.**
+Ths `Store#write()` method call produces the leading 40 characters using the [SHA1](https://en.wikipedia.org/wiki/SHA-1) message digest function taking the byte array of the file content as the input. This cryptic 40 characters uniquely identifies the input files regardless which type of the file content: a plain text, CSV, HTML, JSON, XML, PNG image, PDF, zipped archive, MS Excel’s xlsx, etc. This 20 characters is called `ID` of a material. Because the ID of material is calculated from the file content, **you do not need to name the file yourself when you write it into the OS file system.**
 
 #### the file name extension
 
@@ -362,9 +362,7 @@ We will cover how to make full use of Metadata later.
 
 #### "store.write()" method can accept many types of objects to write
 
-The javadoc of the [`Store`](https://kazurayam.github.io/materialstore/api/com/kazurayam/materialstore/core/filesystem/Store.html) shows that it can accept quite a lot of object types as input to write into the `store`:
-
--   `java.awt.image.BufferedImage`
+The javadoc of the [`Store`](https://kazurayam.github.io/materialstore/api/com/kazurayam/materialstore/core/filesystem/Store.html) shows that it can accept multiple types of object as input to write into the `store`:
 
 -   `byte[]`
 
@@ -374,6 +372,6 @@ The javadoc of the [`Store`](https://kazurayam.github.io/materialstore/api/com/k
 
 -   `java.lang.String`
 
--   `java.io.InputStream`
+-   `java.awt.image.BufferedImage`
 
--   `java.io.Reader`
+These types will cover the most of the cases in the automated UI testing.
