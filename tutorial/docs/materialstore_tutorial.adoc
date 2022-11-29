@@ -4,15 +4,15 @@ Let us begin with a quick introduction to a Java library named "materialstore".
 
 Here I assume you have a seasoned programming skill in Java, and you have installed the build tool link:https://gradle.org/install/[Gradle]. Now let us create a project where you write some Java code for practice.
 
-You would want to initialize it as a Gradle application project. Let me assume the project is named as "sampleProject".
+Let us create a working directory; say `~/tmp/sampleProject`.
 
 [source, shell]
-```
+----
 $ cd ~/tmp/
 $ mkdir sampleProject
-```
+----
 
-You would operate in the console as this:
+You want to initialize it as a Gradle project, so you would operate in the console as this:
 
 [source, shell]
 ----
@@ -39,7 +39,6 @@ Project name (default: sampleProject):
 Get more help with your project: Learn more about Gradle by exploring our samples at https://docs.gradle.org/7.4.2/samples
 
 BUILD SUCCESSFUL in 28s
-
 ----
 
 Then you will find a file `sampleProject/settings.gradle` has been created, which looks like:
@@ -56,13 +55,15 @@ You will also find a file `sampleProject/build.gradle` file, but it will be empt
 include::../build.gradle[lines=1..30]
 ----
 
-Please note that here you declared the dependency to the `materialstore` library.
+Please note that you declared the dependency to the `materialstore` library, which is published at the Maven Central repository.
 
-You can check if the project is properly setup by executing a command:
+* https://mvnrepository.com/artifact/com.kazurayam/materialstore
+
+You can check if the project is properly setup by executing a command, as follows:
 
 [source]
 ----
-$ cd ~/sampleProject/
+$ cd ~/tmp/sampleProject/
 $ gradle dependencies --configuration testImplementation
 
 ------------------------------------------------------------
@@ -83,17 +84,16 @@ BUILD SUCCESSFUL in 1s
 1 actionable task: 1 executed
 ----
 
-== "Hello, materialstore!"
+== First sample code "Hello, materialstore!"
 
-
-I have created a JUnit-based code that uses the materialstore library. See `sampleProject/src/test/java/my/sample/T1HelloMaterialstoreTest.java`:
+I have created a JUnit-based code that uses the materialstore library: `sampleProject/src/test/java/my/sample/T1HelloMaterialstoreTest.java`, as follows:
 
 [source, java]
 ----
 include::../src/test/java/my/sample/T1HelloMaterialstoreTest.java[]
 ----
 
-I can ran this test by running Gradle's `test` task, as this:
+You can run this by running the `test` task of Gradle:
 
 [source]
 ----
@@ -110,9 +110,10 @@ BUILD SUCCESSFUL in 2s
 2 actionable tasks: 2 executed
 ----
 
-The `test` task of Gradle will create a report in HTML format where you can all output from the test execution. Find the `build/reports/tests/test/index.html` file as:
+The `test` task of Gradle will create a report in HTML format where you can find all output from the test execution. You can find the report at `build/reports/tests/test/index.html`.
 
-```
+[sorc,text]
+----
 $ cd ~/tmp/sampleProject
 $ tree build/reports/tests/
 build/reports/tests/
@@ -129,21 +130,21 @@ build/reports/tests/
         └── my.sample.html
 
 5 directories, 6 files
-```
+----
 
-You can open the `index.html` in browser and see the test result.
+You want to open the `index.html` in your Web browser to have a look at the test result.
 
 image::images/tutorial/01_test_report.png[]
 
-== Understanding the basics
+=== File tree created by "Hello, materialstore"
 
-The test will result a new file tree, like this:
+The 1st test will create a new file tree as output:
 
 image:images/tutorial/02_test_output_file_tree.png[]
 
-Let us read the source of the "Hello, materialstore!" test line by line to understand the fundamentals of the materialstore library. Here I assume that you are a well-trained Java programmer who needs no explanation about JUnit how-to.
+Let us read the Java source of the test `T1HelloMaterialstoreTest` line by line to understand the basic concept and classes of the "materialstore" library. Here I assume that you are a well-trained Java programmer who requires no explanation how to code using JUnit.
 
-=== create a base directory
+=== Create a base directory
 
 [source, text]
 ----
@@ -156,7 +157,7 @@ import java.nio.file.Path;
 
 The statement commented as (1) creates a directory `build/tmp/testOutput/<fully qualified test case class name>`. In this directory the test will output everything during its run. The helper method `createTestClassOutputDir(Object)` is defined later in the source file.
 
-=== create the "store" directory
+=== Create the "store" directory
 
 [source, text]
 ----
@@ -225,6 +226,9 @@ import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
 ----
 
 The statement (5) declares the name of a new directory under the `JobName` directory, which will have a name as current timestamp. The name will be in the format of `uuuuMMdd_hhmmss` (year, month, day, hours, minutes, seconds).
+
+The `JobTimestamp` class implements various methods that help you work on. See the link:https://kazurayam.github.io/materialstore/api/com/kazurayam/materialstore/core/filesystem/JobTimestamp.html[javadoc] for detail.
+
 
 === create a file tree, write a "material"
 
@@ -308,3 +312,6 @@ The javadoc of the link:https://kazurayam.github.io/materialstore/api/com/kazura
 These types will cover the most cases in your automated UI testing.
 
 
+
+
+== What is the benefit of "materialstore"?
