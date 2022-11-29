@@ -1,30 +1,27 @@
--   <a href="#materialstore-documentation" id="toc-materialstore-documentation">Materialstore Documentation</a>
-    -   <a href="#materialstore-tutorial" id="toc-materialstore-tutorial">Materialstore Tutorial</a>
-        -   <a href="#setting-up-a-project" id="toc-setting-up-a-project">Setting up a project</a>
-        -   <a href="#the-first-test-hello-materialstore" id="toc-the-first-test-hello-materialstore">The first test : "Hello, materialstore!"</a>
-        -   <a href="#understanding-the-basics" id="toc-understanding-the-basics">Understanding the basics</a>
-            -   <a href="#create-a-base-directory-for-output" id="toc-create-a-base-directory-for-output">create a base directory for output</a>
-            -   <a href="#create-the-store-directory" id="toc-create-the-store-directory">create the "store" directory</a>
-            -   <a href="#instantiate-the-store-object" id="toc-instantiate-the-store-object">instantiate the "store" object</a>
-            -   <a href="#create-a-jobname-object" id="toc-create-a-jobname-object">create a JobName object</a>
-            -   <a href="#create-a-jobtimestamp-object" id="toc-create-a-jobtimestamp-object">create a JobTimestamp object</a>
-            -   <a href="#create-a-file-tree-under-the-store-write-a-material-into-it" id="toc-create-a-file-tree-under-the-store-write-a-material-into-it">create a file tree under the "store", write a material into it</a>
-            -   <a href="#the-file-name-of-material" id="toc-the-file-name-of-material">the file name of "material"</a>
-            -   <a href="#the-file-name-extension" id="toc-the-file-name-extension">the file name extension</a>
-            -   <a href="#metadata" id="toc-metadata">Metadata</a>
-            -   <a href="#store-write-method-can-accept-many-types-of-objects-to-write" id="toc-store-write-method-can-accept-many-types-of-objects-to-write">"store.write()" method can accept many types of objects to write</a>
+-   <a href="#materialstore-tutorial" id="toc-materialstore-tutorial">Materialstore Tutorial</a>
+    -   <a href="#setting-up-a-project" id="toc-setting-up-a-project">Setting up a project</a>
+    -   <a href="#hello-materialstore" id="toc-hello-materialstore">"Hello, materialstore!"</a>
+    -   <a href="#understanding-the-basics" id="toc-understanding-the-basics">Understanding the basics</a>
+        -   <a href="#create-a-base-directory" id="toc-create-a-base-directory">create a base directory</a>
+        -   <a href="#create-the-store-directory" id="toc-create-the-store-directory">create the "store" directory</a>
+        -   <a href="#store-class" id="toc-store-class">Store class</a>
+        -   <a href="#jobname-class" id="toc-jobname-class">JobName class</a>
+        -   <a href="#jobtimestamp-class" id="toc-jobtimestamp-class">JobTimestamp class</a>
+        -   <a href="#create-a-file-tree-write-a-material" id="toc-create-a-file-tree-write-a-material">create a file tree, write a "material"</a>
+        -   <a href="#file-name-of-the-materials" id="toc-file-name-of-the-materials">File name of the materials</a>
+        -   <a href="#filetype" id="toc-filetype">FileType</a>
+        -   <a href="#metadata" id="toc-metadata">Metadata</a>
+        -   <a href="#types-of-objects-to-write" id="toc-types-of-objects-to-write">Types of objects to write</a>
 
-# Materialstore Documentation
+# Materialstore Tutorial
 
--   [materialstore javadoc](https://kazurayam.github.io/materialstore/api/index.html)
+-   [API javadoc](https://kazurayam.github.io/materialstore/api/index.html)
 
 -   back to the [repository](https://github.com/kazurayam/materialstore)
 
-## Materialstore Tutorial
-
 Let us begin with a quick introduction to a Java library named "materialstore".
 
-### Setting up a project
+## Setting up a project
 
 Here I assume you have a seasoned programming skill in Java, and you have installed the build tool [Gradle](https://gradle.org/install/). Now let us create a project where you write some Java code for practice.
 
@@ -107,7 +104,7 @@ You can check if the project is properly setup by executing a command:
     BUILD SUCCESSFUL in 1s
     1 actionable task: 1 executed
 
-### The first test : "Hello, materialstore!"
+## "Hello, materialstore!"
 
 I have created a JUnit-based code that uses the materialstore library. See `sampleProject/src/test/java/my/sample/T1HelloMaterialstoreTest.java`:
 
@@ -222,7 +219,7 @@ You can open the `index.html` in browser and see the test result.
 
 ![01 test report](images/tutorial/01_test_report.png)
 
-### Understanding the basics
+## Understanding the basics
 
 The test will result a new file tree, like this:
 
@@ -230,7 +227,7 @@ The test will result a new file tree, like this:
 
 Let us read the source of the "Hello, materialstore!" test line by line to understand the fundamentals of the materialstore library. Here I assume that you are a well-trained Java programmer who needs no explanation about JUnit how-to.
 
-#### create a base directory for output
+### create a base directory
 
     import java.nio.file.Path;
     ...
@@ -240,13 +237,13 @@ Let us read the source of the "Hello, materialstore!" test line by line to under
 
 The statement commented as (1) creates a directory `build/tmp/testOutput/<fully qualified test case class name>`. In this directory the test will output everything during its run. The helper method `createTestClassOutputDir(Object)` is defined later in the source file.
 
-#### create the "store" directory
+### create the "store" directory
 
             Path storeDir = dir.resolve("store");   // (2)
 
 The statement (2) declares a `java.nio.file.Path` object named `store` under the working directory `build` which is created at (1).
 
-#### instantiate the "store" object
+### Store class
 
     import com.kazurayam.materialstore.core.filesystem.Store;
     ...
@@ -260,7 +257,7 @@ The statement (3) instantiates an object of `com.kazurayam.materialstore.core.fi
 
 The `Store` class is the central entry point of the materialstore library. The `Store` class implements methods to write the materials into the file tree. Also the `Store` class implements methods to select (read, retrieve) one or more materials out of the store.
 
-#### create a JobName object
+### JobName class
 
     import com.kazurayam.materialstore.core.filesystem.JobName;
     ...
@@ -295,7 +292,7 @@ You can use non-latin characters as JobName. JobName can contain white spaces if
 
         JobName jobName = new JobName("わたしの仕事 means my job");
 
-#### create a JobTimestamp object
+### JobTimestamp class
 
     import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
     ...
@@ -303,7 +300,7 @@ You can use non-latin characters as JobName. JobName can contain white spaces if
 
 The statement (5) declares the name of a new directory under the `JobName` directory, which will have a name as current timestamp. The name will be in the format of `uuuuMMdd_hhmmss` (year, month, day, hours, minutes, seconds).
 
-#### create a file tree under the "store", write a material into it
+### create a file tree, write a "material"
 
     import com.kazurayam.materialstore.core.filesystem.FileType;
     import com.kazurayam.materialstore.core.filesystem.Material;
@@ -331,7 +328,7 @@ As the line commented as (6) tells, a "material" (actually, is a file) is always
 
 The sub-directory named `objects` will contain one or more files.
 
-#### the file name of "material"
+### File name of the materials
 
 All files under the `objects` have a fixed format of file name, that is:
 
@@ -343,7 +340,7 @@ for example,
 
 Ths `Store#write()` method call produces the leading 40 characters using the [SHA1](https://en.wikipedia.org/wiki/SHA-1) message digest function taking the byte array of the file content as the input. This cryptic 40 characters uniquely identifies the input files regardless which type of the file content: a plain text, CSV, HTML, JSON, XML, PNG image, PDF, zipped archive, MS Excel’s xlsx, etc. This 20 characters is called `ID` of a material. Because the ID of material is calculated from the file content, **you do not need to name the file yourself when you write it into the OS file system.**
 
-#### the file name extension
+### FileType
 
 The line (7) specifies `FileType.TXT`.
 
@@ -352,7 +349,7 @@ The line (7) specifies `FileType.TXT`.
 This gives the file extenstion `txt` to the file. The `com.kazurayam.materialstore.filesystem.FileType` enum declares many concrete FileType instances ready to use. See
 <https://kazurayam.github.io/materialstore/api/com/kazurayam/materialstore/core/filesystem/FileType.html> for the complete list. Also you can create your own class that implements `com.kazurayam.materialstore.filesystem.IFileType`. See <https://kazurayam.github.io/materialstore/api/com/kazurayam/materialstore/core/filesystem/IFileType.html>
 
-#### Metadata
+### Metadata
 
 You can associate various metadata to each materials. A typical metadata of a screenshot of a web page displayed on browser is the URL string (e.g., "https://www.google.com/?q=selenium"). In our first sample code we do not make use of the Metadata at all. So I wrote a placeholder:
 
@@ -360,18 +357,18 @@ You can associate various metadata to each materials. A typical metadata of a sc
 
 We will cover how to make full use of Metadata later.
 
-#### "store.write()" method can accept many types of objects to write
+### Types of objects to write
 
 The javadoc of the [`Store`](https://kazurayam.github.io/materialstore/api/com/kazurayam/materialstore/core/filesystem/Store.html) shows that it can accept multiple types of object as input to write into the `store`:
 
--   `byte[]`
+-   `java.lang.String`
 
--   `java.io.File`
+-   `byte[]`
 
 -   `java.nio.file.Path`
 
--   `java.lang.String`
+-   `java.io.File`
 
 -   `java.awt.image.BufferedImage`
 
-These types will cover the most of the cases in the automated UI testing.
+These types will cover the most cases in your automated UI testing.
