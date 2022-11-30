@@ -1,3 +1,20 @@
+-   <a href="#_materialstore_tutorial" id="toc-_materialstore_tutorial">Materialstore Tutorial</a>
+    -   <a href="#_setting_up_a_project" id="toc-_setting_up_a_project">Setting up a project</a>
+    -   <a href="#_first_sample_code_hello_materialstore" id="toc-_first_sample_code_hello_materialstore">First sample code "Hello, materialstore!"</a>
+        -   <a href="#_file_tree_created_by_hello_materialstore" id="toc-_file_tree_created_by_hello_materialstore">File tree created by "Hello, materialstore"</a>
+        -   <a href="#_create_a_base_directory" id="toc-_create_a_base_directory">Create a base directory</a>
+        -   <a href="#_create_the_store_directory" id="toc-_create_the_store_directory">Create the "store" directory</a>
+        -   <a href="#_store_class" id="toc-_store_class">Store class</a>
+        -   <a href="#_jobname_class" id="toc-_jobname_class">JobName class</a>
+        -   <a href="#_jobtimestamp_class" id="toc-_jobtimestamp_class">JobTimestamp class</a>
+        -   <a href="#_create_a_file_tree_write_a_material" id="toc-_create_a_file_tree_write_a_material">create a file tree, write a "material"</a>
+        -   <a href="#_file_name_of_the_materials" id="toc-_file_name_of_the_materials">File name of the materials</a>
+        -   <a href="#_filetype" id="toc-_filetype">FileType</a>
+        -   <a href="#_metadata" id="toc-_metadata">Metadata</a>
+        -   <a href="#_types_of_objects_to_write" id="toc-_types_of_objects_to_write">Types of objects to write</a>
+    -   <a href="#_test2_write_an_image_with_metadata_source_url" id="toc-_test2_write_an_image_with_metadata_source_url">Test2: Write an image with Metadata (source URL)</a>
+        -   <a href="#_t2metadatatest" id="toc-_t2metadatatest">T2MetadataTest</a>
+
 -   [API javadoc](https://kazurayam.github.io/materialstore/api/index.html)
 
 -   back to the [repository](https://github.com/kazurayam/materialstore)
