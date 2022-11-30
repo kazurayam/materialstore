@@ -44,6 +44,7 @@ BUILD SUCCESSFUL in 28s
 Then you will find a file `sampleProject/settings.gradle` has been created, which looks like:
 
 [source, gradle]
+.settings.gradle
 ----
 rootProject.name = 'sampleProject'
 ----
@@ -51,6 +52,7 @@ rootProject.name = 'sampleProject'
 You will also find a file `sampleProject/build.gradle` file, but it will be empty (comments only). So you want to edit it, like this.
 
 [source, gradle]
+.build.gradle
 ----
 include::../build.gradle[lines=1..30]
 ----
@@ -89,6 +91,7 @@ BUILD SUCCESSFUL in 1s
 I have created a JUnit-based code that uses the materialstore library: `sampleProject/src/test/java/my/sample/T1HelloMaterialstoreTest.java`, as follows:
 
 [source, java]
+.T1HelloMaterialstoreTest.java
 ----
 include::../src/test/java/my/sample/T1HelloMaterialstoreTest.java[]
 ----
@@ -312,6 +315,3 @@ The javadoc of the link:https://kazurayam.github.io/materialstore/api/com/kazura
 These types will cover the most cases in your automated UI testing.
 
 
-
-
-== What is the benefit of "materialstore"?

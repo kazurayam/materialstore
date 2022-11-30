@@ -6,4 +6,5 @@
 :sectnums:
 
 
-include::../tutorial/docs/materialstore_tutorial.adoc[]
+include::../tutorial/docs/T1.adoc[]
+include::../tutorial/docs/T2.adoc[]
