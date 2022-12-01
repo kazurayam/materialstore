@@ -45,8 +45,8 @@ public class T02WriteImageWithMetadataTest {
                         bytes);
 
         assertNotNull(material);
-        System.out.println(material.getID() + " " +
-                material.getDescription());                    // (14)
+        System.out.println(material.getID() + " "
+                + material.getDescription());                   // (14)
 
         assertEquals(FileType.PNG, material.getFileType());
         assertEquals("https",

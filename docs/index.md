@@ -15,7 +15,8 @@
     -   <a href="#2nd-example-write-an-image-with-metadata" id="toc-2nd-example-write-an-image-with-metadata">2nd example: write an image with Metadata</a>
         -   <a href="#metadata-based-on-url-manually-created-metadata" id="toc-metadata-based-on-url-manually-created-metadata">Metadata based on URL &amp; manually created Metadata</a>
         -   <a href="#order-of-key-value-pairs-in-metadata" id="toc-order-of-key-value-pairs-in-metadata">Order of key-value pairs in Metadata</a>
-        -   <a href="#metadata-explicitly-specified" id="toc-metadata-explicitly-specified">Metadata explicitly specified</a>
+        -   <a href="#keyvalue-pairs-explicitly-specified" id="toc-keyvalue-pairs-explicitly-specified">key:value pairs explicitly specified</a>
+        -   <a href="#retrieving-information-of-a-material" id="toc-retrieving-information-of-a-material">Retrieving information of a material</a>
     -   <a href="#3rd-example-writing-multiple-images" id="toc-3rd-example-writing-multiple-images">3rd example: writing multiple images</a>
     -   <a href="#4th-example-retrieving-a-saved-material" id="toc-4th-example-retrieving-a-saved-material">4th example : retrieving a saved material</a>
     -   <a href="#5th-example-selecting-a-materiallist" id="toc-5th-example-selecting-a-materiallist">5th example : Selecting a MaterialList</a>
@@ -395,8 +396,6 @@ These types will cover the most cases in your automated UI testing.
 
 I will show you next sample code `test02_write_image_with_metadata` of `T2MetadataTest` class.
 
-**T2MetadataTest**
-
     public class T02WriteImageWithMetadataTest {
 
         private Store store;
@@ -424,8 +423,8 @@ I will show you next sample code `test02_write_image_with_metadata` of `T2Metada
                             bytes);
 
             assertNotNull(material);
-            System.out.println(material.getID() + " " +
-                    material.getDescription());                    // (14)
+            System.out.println(material.getID() + " "
+                    + material.getDescription());                   // (14)
 
             assertEquals(FileType.PNG, material.getFileType());
             assertEquals("https",
@@ -481,11 +480,13 @@ the `index` file contains a single line of text, which is something like:
 
 **index**
 
-    27b2d39436d0655e7e8885c7f2a568a646164280 png {"step":"01", "URL.host":"kazurayam.github.io", "URL.path":"/materialstore/images/tutorial/03_apple.png", "URL.port":"80", "URL.protocol":"https"}
+    27b2d39436d0655e7e8885c7f2a568a646164280 png {"label":"red apple", "step":"01", "URL.host":"kazurayam.github.io", "URL.path":"/materialstore/images/tutorial/03_apple.png", "URL.port":"80", "URL.protocol":"https"}
 
-Here you can see a JSON-like string which contains several **key:value** pairs. I would call this section as **Metadata** of a material. The metadata was created as specified by the line (13).
+Please find a JSON-like string enclosed by a pair of curly braces (`{` and `}`). I call this section as **Metadata** of a material. The Metadata contains several **"key":"value"** pairs. The metadata was created as specified by the line (13).
 
-            Metadata.builder(url).put("step", "01") // (13)
+            Metadata.builder(url)           // (13)
+                    .put("step", "01")
+                    .put("label", "red apple")
                     .build(),
 
 The `url` variable is an instance of `java.net.URL`. You should check the [Javadoc of `URL`](https://docs.oracle.com/javase/7/docs/api/java/net/URL.html). The constructor `new URL(String spec)` can accept a string "<https://kazurayam.github.io/materialstore/images/tutorial/03_apple.png>" and parse it to its components: `protocol`, `host`, `port`, `path`, `query` and `fragment`. The `url` variable passed to the `Metadata.builder(url)` call is parsed by the URL class and transformed into key-value pair `"URL.hostname": "kazurayam.github.io"` and others.
@@ -503,17 +504,32 @@ The URL string `"https://kazurayam.github.io/materialstore/#first-sample-code-he
 
 ### Order of key-value pairs in Metadata
 
-In the pair of curly braces (`{` .. `}`), the key-value pairs are arranged by the "key", sorted by the ascending order as string. Therefore, in the above example, the key `URL.fragment` comes first, the key "URL.protocol" last.
+In the pair of curly braces (`{` .. `}`), the key-value pairs are arranged by the "key", sorted by the ascending order as string. Therefore, in the above example, the key `URL.fragment` comes first, the key "URL.protocol" comes last.
 
-### Metadata explicitly specified
+### key:value pairs explicitly specified
 
-Also the line (13) explicitly created a key:value pair: `"step": "01"`.
+Also the line (13) explicitly created 2 pairs of key:value, that is `"step": "01"` and `"label":"red apple"`.
 
-You can create as many as key:value pairs. Both of key and value must be String (no number, no boolean, no null). The key can be any string. Also the value can be any string. You can use any characters including `/` (forward slash), `\` (back slash), `:` (colon). You can use non-ascii characters, of course. For example: you can create a key-value pair `"番号": "123/456 xyz"`.
+You can create as many as key:value pairs. Both of key and value must be the type String. The key can be any string, the value can be any string as well. You can use any characters including `/` (forward slash), `\` (back slash), `:` (colon). You can use non-ascii characters, of course. For example: you can create a key-value pair `"番号": "123/456 xyz"`. The Character escaping rule of JSON applies here: a double quote character `"` will be escaped to `\"`; a back-slash character `\` will be escaped to be `\\`.
 
-You can create any key-value pairs (Metadata) as you like and associate it to the individual material objects. The metadata is stored in the `index` file, which is apart from the material file itself. The image file downloaded from URL is not altered at all. The image is saved as is into the `objects` directory. Adding to it, you can associate a rich set of Metadata with each individual materials. What sort of Metadata to associate? --- it is completely up to you.
+Metadata is stored in the `index` file, which is apart from the material file itself. The byte array of the image downloaded from a URL is not altered at all. The image is saved into the `objects` directory as is. And then, you can associate a flexible set of Metadata to each individual materials. What sort of Metadata to associate? --- it is completely up to you.
+
+Metadata plays an important role later when you start compiling advanced reports "ChronosDiff" and "TwinsDiff".
+
+### Retrieving information of a material
+
+The line (14) prints the summarized information of the material: the ID, the FileType, and the Metadata.
+
+Also you can get various information out of the `material` variable. For example, the line (15) retrieves the value of `"URL.host"` out of the material object, compares it with the expected staring value.
+
+            assertEquals("kazurayam.github.io",
+                    material.getMetadata().get("URL.host"));        // (15)
+
+Please check the [Javadoc of Material](https://kazurayam.github.io/materialstore/api/com/kazurayam/materialstore/core/filesystem/Material.html) for what sort of accessor methods are implemented.
 
 ## 3rd example: writing multiple images
+
+Web will make a test case which downloads 3 image files form URL and store them into the store.
 
     public class T03WriteMultipleImagesTest {
         private Store store;
@@ -528,12 +544,70 @@ You can create any key-value pairs (Metadata) as you like and associate it to th
                 throws MaterialstoreException {
             JobName jobName = new JobName("test03_write_multiple_images");
             JobTimestamp jobTimestamp = JobTimestamp.now();
-            SharedMethods.write3images(store, jobName, jobTimestamp);                       // (16)
+            SharedMethods.write3images(store, jobName, jobTimestamp);  // (16)
             MaterialList allMaterialList =
-                    store.select(jobName, jobTimestamp, QueryOnMetadata.ANY); // (17)
+                    store.select(jobName, jobTimestamp,
+                            QueryOnMetadata.ANY);                      // (17)
             assertEquals(3, allMaterialList.size());
         }
     }
+
+This code calls `SharedMethods.write3images(Store, JobName, JobTimestap)` method. It is implemented as this:
+
+**SharedMethod.write3images**
+
+        public static final void write3images(Store store, JobName jn, JobTimestamp jt)          // (16)
+                throws MaterialstoreException {
+            String prefix =
+                    "https://kazurayam.github.io/materialstore/images/tutorial/";
+            // Apple
+            URL url1 = SharedMethods.createURL(prefix + "03_apple.png");
+            store.write(jn, jt, FileType.PNG,
+                    Metadata.builder(url1)
+                            .putAll(ImmutableMap.of(
+                                    "step", "01",
+                                    "label", "red apple"))
+                            .build(),
+                    SharedMethods.downloadUrl(url1));
+            // Mikan
+            URL url2 = SharedMethods.createURL(prefix + "04_mikan.png");
+            store.write(jn, jt, FileType.PNG,
+                    Metadata.builder(url2)
+                            .putAll(ImmutableMap.of(
+                                    "step", "02",
+                                    "label", "mikan"))
+                            .build(),
+                    SharedMethods.downloadUrl(url2));
+            // Money
+            URL url3 = SharedMethods.createURL(prefix + "05_money.png");
+            store.write(jn, jt, FileType.PNG,
+                    Metadata.builder(url3)
+                            .putAll(ImmutableMap.of(
+                                    "step", "03",
+                                    "label", "money"))
+                            .build(),
+                    SharedMethods.downloadUrl(url3));;
+        }
+
+This code makes HTTP requests to
+
+-   <http://kazurayam.github.io/materialstore/images/tutorial/03_apple.png>
+
+-   <http://kazurayam.github.io/materialstore/images/tutorial/04_mikan.png>
+
+-   <http://kazurayam.github.io/materialstore/images/tutorial/05_money.png>
+
+and save the image files into a directory inside the store. When you run this test case, you will get a new file tree as follows.
+
+![08 writing multiple images](./images/tutorial/08_writing_multiple_images.png)
+
+The `index` file will contain 3 lines, one for each PNG image file.
+
+**index**
+
+    8a997bec64cd056c2075da95c0c281320ee7a7c1 png {"label":"mikan", "step":"02", "URL.host":"kazurayam.github.io", "URL.path":"/materialstore/images/tutorial/04_mikan.png", "URL.port":"80", "URL.protocol":"https"}
+    36f9f62bdb3ad45cb8c6bc1f4062fbbd4fd180db    png {"label":"money", "step":"03", "URL.host":"kazurayam.github.io", "URL.path":"/materialstore/images/tutorial/05_money.png", "URL.port":"80", "URL.protocol":"https"}
+    27b2d39436d0655e7e8885c7f2a568a646164280    png {"label":"red apple", "step":"01", "URL.host":"kazurayam.github.io", "URL.path":"/materialstore/images/tutorial/03_apple.png", "URL.port":"80", "URL.protocol":"https"}
 
 ## 4th example : retrieving a saved material
 

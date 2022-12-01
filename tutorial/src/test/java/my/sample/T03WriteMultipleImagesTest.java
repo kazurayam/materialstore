@@ -28,9 +28,10 @@ public class T03WriteMultipleImagesTest {
             throws MaterialstoreException {
         JobName jobName = new JobName("test03_write_multiple_images");
         JobTimestamp jobTimestamp = JobTimestamp.now();
-        SharedMethods.write3images(store, jobName, jobTimestamp);                       // (16)
+        SharedMethods.write3images(store, jobName, jobTimestamp);  // (16)
         MaterialList allMaterialList =
-                store.select(jobName, jobTimestamp, QueryOnMetadata.ANY); // (17)
+                store.select(jobName, jobTimestamp,
+                        QueryOnMetadata.ANY);                      // (17)
         assertEquals(3, allMaterialList.size());
     }
 }
