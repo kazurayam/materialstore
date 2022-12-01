@@ -12,8 +12,9 @@
         -   <a href="#filetype" id="toc-filetype">FileType</a>
         -   <a href="#metadata" id="toc-metadata">Metadata</a>
         -   <a href="#types-of-objects-to-write" id="toc-types-of-objects-to-write">Types of objects to write</a>
-    -   <a href="#test2-write-an-image-with-metadata-source-url" id="toc-test2-write-an-image-with-metadata-source-url">Test2: Write an image with Metadata (source URL)</a>
+    -   <a href="#second-sample-write-an-image-with-metadata-source-url" id="toc-second-sample-write-an-image-with-metadata-source-url">Second sample: write an image with Metadata (source URL)</a>
         -   <a href="#t2metadatatest" id="toc-t2metadatatest">T2MetadataTest</a>
+            -   <a href="#metadata-based-on-url-manually-created-metadata" id="toc-metadata-based-on-url-manually-created-metadata">Metadata based on URL &amp; manually created Metadata</a>
 
 -   [API javadoc](https://kazurayam.github.io/materialstore/api/index.html)
 
@@ -385,7 +386,7 @@ The javadoc of the [`Store`](https://kazurayam.github.io/materialstore/api/com/k
 
 These types will cover the most cases in your automated UI testing.
 
-## Test2: Write an image with Metadata (source URL)
+## Second sample: write an image with Metadata (source URL)
 
 ### T2MetadataTest
 
@@ -420,7 +421,7 @@ I will show you next sample code `test02_write_image_with_metadata` of `T2Metada
             assertEquals("01", material.getMetadata().get("step"));
         }
 
-At the statement (10), we create an instance of `java.net.URL` with a String <https://kazurayam.github.io/materialstore/images/tutorial/03_apple.png>. You can click this URL to see the image yourself: a red apple.
+At the line (10), we create an instance of `java.net.URL` with a String argument "<https://kazurayam.github.io/materialstore/images/tutorial/03_apple.png>". You can click this URL to see the image yourself. You should see an apple.
 
 I create a helper class named `my.sample.SharedMethod` with a method `createURL(String)` that instanciate an instance of `URL`.
 
@@ -459,6 +460,8 @@ The statement (12) invokes `store.write()` method, which create a new file tree,
 
 ![07 writing image with metadata](images/tutorial/07_writing_image_with_metadata.png)
 
+#### Metadata based on URL & manually created Metadata
+
 the `index` file contains a single line of text, which is something like:
 
 **index**
@@ -472,6 +475,20 @@ Here you can see a JSON-like string which contains several **key:value** pairs. 
 
 The `url` variable is an instance of `java.net.URL`. You should check the [Javadoc of `URL`](https://docs.oracle.com/javase/7/docs/api/java/net/URL.html). The constructor `new URL(String spec)` can accept a string "<https://kazurayam.github.io/materialstore/images/tutorial/03_apple.png>" and parse it to its components: `protocol`, `host`, `port`, `path`, `query` and `fragment`. The `url` variable passed to the `Metadata.builder(url)` call is parsed by the URL class and transformed into key-value pair `"URL.hostname": "kazurayam.github.io"` and others.
 
-Also the line (13) explicitly created a key:value pair: `"step": "01"`. You can create as many as key:value pairs. Both of key and value must be String (no number, no boolean, no null). The key can be any string. Also the value can be any string. You can use any characters including `/` (forward slash), `\` (back slash), `:` (colon). You can use non-ascii characters, of course. For example: you can create a key-value pair `"通番": "壱"`. You can create any key-value pairs as you like.
+Also the line (13) explicitly created a key:value pair: `"step": "01"`. You can create as many as key:value pairs. Both of key and value must be String (no number, no boolean, no null). The key can be any string. Also the value can be any string. You can use any characters including `/` (forward slash), `\` (back slash), `:` (colon). You can use non-ascii characters, of course. For example: you can create a key-value pair `"番号": "123 456 789"`.
 
 You can create any key-value pairs (Metadata) as you like and associate it to the individual material objects. The metadata is stored in the `index` file, which is apart from the material file itself. The image file downloaded from URL is not altered at all. The image is saved as is into the `objects` directory. Adding to it, you can associate a rich set of Metadata with each individual materials. What sort of Metadata to associate? --- it is completely up to you.
+
+Let me show you a few more examples.
+
+The URL string
+`https://duckduckgo.com/?q=materialstore+kazurayam&atb=v314-1&ia=images` will produce the following Metadata instance:
+
+    https://duckduckgo.com/?q=materialstore+kazurayam&atb=v314-1&ia=images
+    {"URL.host":"duckduckgo.com", "URL.path":"/", "URL.port":"80", "URL.protocol":"https", "URL.query":"q=materialstore+kazurayam&atb=v314-1&ia=images"}
+
+The URL string `https://kazurayam.github.io/materialstore/#first-sample-code-hello-materialstore` will produce the following Metadata instance:
+
+    {"URL.fragment":"first-sample-code-hello-materialstore", URL.host":"kazurayam.github.io", "URL.path":"/", "URL.port":"80", "URL.protocol":"https"}
+
+In the pair of curly braces (`{` .. `}`), the key-value pairs are arranged sorted by the ascending order as string. Therefore, in the above example, the key `URL.fragment` comes first, the key "URL.protocol" last.

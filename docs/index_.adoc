@@ -8,3 +8,4 @@
 
 include::../tutorial/docs/T1.adoc[]
 include::../tutorial/docs/T2.adoc[]
+include::../tutorial/docs/T3.adoc[]
