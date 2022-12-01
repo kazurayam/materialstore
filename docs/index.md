@@ -1,6 +1,6 @@
 -   <a href="#materialstore-tutorial" id="toc-materialstore-tutorial">Materialstore Tutorial</a>
     -   <a href="#setting-up-a-project" id="toc-setting-up-a-project">Setting up a project</a>
-    -   <a href="#first-sample-code-hello-materialstore" id="toc-first-sample-code-hello-materialstore">First sample code "Hello, materialstore!"</a>
+    -   <a href="#1st-example-hello-materialstore" id="toc-1st-example-hello-materialstore">1st example : "Hello, materialstore!"</a>
         -   <a href="#file-tree-created-by-hello-materialstore" id="toc-file-tree-created-by-hello-materialstore">File tree created by "Hello, materialstore"</a>
         -   <a href="#create-a-base-directory" id="toc-create-a-base-directory">Create a base directory</a>
         -   <a href="#create-the-store-directory" id="toc-create-the-store-directory">Create the "store" directory</a>
@@ -12,9 +12,14 @@
         -   <a href="#filetype" id="toc-filetype">FileType</a>
         -   <a href="#metadata" id="toc-metadata">Metadata</a>
         -   <a href="#types-of-objects-to-write" id="toc-types-of-objects-to-write">Types of objects to write</a>
-    -   <a href="#second-sample-write-an-image-with-metadata-source-url" id="toc-second-sample-write-an-image-with-metadata-source-url">Second sample: write an image with Metadata (source URL)</a>
-        -   <a href="#t2metadatatest" id="toc-t2metadatatest">T2MetadataTest</a>
-            -   <a href="#metadata-based-on-url-manually-created-metadata" id="toc-metadata-based-on-url-manually-created-metadata">Metadata based on URL &amp; manually created Metadata</a>
+    -   <a href="#2nd-example-write-an-image-with-metadata" id="toc-2nd-example-write-an-image-with-metadata">2nd example: write an image with Metadata</a>
+        -   <a href="#metadata-based-on-url-manually-created-metadata" id="toc-metadata-based-on-url-manually-created-metadata">Metadata based on URL &amp; manually created Metadata</a>
+        -   <a href="#order-of-key-value-pairs-in-metadata" id="toc-order-of-key-value-pairs-in-metadata">Order of key-value pairs in Metadata</a>
+        -   <a href="#metadata-explicitly-specified" id="toc-metadata-explicitly-specified">Metadata explicitly specified</a>
+    -   <a href="#3rd-example-writing-multiple-images" id="toc-3rd-example-writing-multiple-images">3rd example: writing multiple images</a>
+    -   <a href="#4th-example-retrieving-a-saved-material" id="toc-4th-example-retrieving-a-saved-material">4th example : retrieving a saved material</a>
+    -   <a href="#5th-example-selecting-a-materiallist" id="toc-5th-example-selecting-a-materiallist">5th example : Selecting a MaterialList</a>
+    -   <a href="#6th-example-generate-a-html-report-of-a-materiallist" id="toc-6th-example-generate-a-html-report-of-a-materiallist">6th example : generate a HTML report of a MaterialList</a>
 
 -   [API javadoc](https://kazurayam.github.io/materialstore/api/index.html)
 
@@ -113,11 +118,11 @@ You can check if the project is properly setup by executing a command, as follow
     BUILD SUCCESSFUL in 1s
     1 actionable task: 1 executed
 
-## First sample code "Hello, materialstore!"
+## 1st example : "Hello, materialstore!"
 
-I have created a JUnit-based code that uses the materialstore library: `sampleProject/src/test/java/my/sample/T1HelloMaterialstoreTest.java`, as follows:
+I have created a JUnit-based Java code that uses the materialstore library: `sampleProject/src/test/java/my/sample/T1HelloMaterialstoreTest.java`, as follows:
 
-**T1HelloMaterialstoreTest.java**
+**T01HelloMaterialstoreTest.java**
 
     package my.sample;
 
@@ -143,7 +148,7 @@ I have created a JUnit-based code that uses the materialstore library: `samplePr
      * This code demonstrate how to save a text string into an instance of
      * "materialstore" backed with a directory on the local OS file system.
      */
-    public class T1HelloMaterialstoreTest {
+    public class T01HelloMaterialstoreTest {
 
         // central abstraction of Material storage
         private Store store;
@@ -386,13 +391,21 @@ The javadoc of the [`Store`](https://kazurayam.github.io/materialstore/api/com/k
 
 These types will cover the most cases in your automated UI testing.
 
-## Second sample: write an image with Metadata (source URL)
-
-### T2MetadataTest
+## 2nd example: write an image with Metadata
 
 I will show you next sample code `test02_write_image_with_metadata` of `T2MetadataTest` class.
 
 **T2MetadataTest**
+
+    public class T02WriteImageWithMetadataTest {
+
+        private Store store;
+
+        @BeforeEach
+        public void beforeEach() throws IOException {
+            Path testClassOutputDir = TestHelper.createTestClassOutputDir(this);
+            store = Stores.newInstance(testClassOutputDir.resolve("store"));
+        }
 
         @Test
         public void test02_write_image_with_metadata() throws MaterialstoreException {
@@ -404,13 +417,16 @@ I will show you next sample code `test02_write_image_with_metadata` of `T2Metada
             Material material =
                     store.write(jobName, jobTimestamp,             // (12)
                             FileType.PNG,
-                            Metadata.builder(url).put("step", "01") // (13)
+                            Metadata.builder(url)                  // (13)
+                                    .put("step", "01")
+                                    .put("label", "red apple")
                                     .build(),
                             bytes);
 
             assertNotNull(material);
             System.out.println(material.getID() + " " +
                     material.getDescription());                    // (14)
+
             assertEquals(FileType.PNG, material.getFileType());
             assertEquals("https",
                     material.getMetadata().get("URL.protocol"));
@@ -420,6 +436,7 @@ I will show you next sample code `test02_write_image_with_metadata` of `T2Metada
                     material.getMetadata().get("URL.path"));
             assertEquals("01", material.getMetadata().get("step"));
         }
+    }
 
 At the line (10), we create an instance of `java.net.URL` with a String argument "<https://kazurayam.github.io/materialstore/images/tutorial/03_apple.png>". You can click this URL to see the image yourself. You should see an apple.
 
@@ -433,7 +450,6 @@ I create a helper class named `my.sample.SharedMethod` with a method `createURL(
             } catch (MalformedURLException e) {
                 throw new MaterialstoreException(e);
             }
-        }
 
 At the statement (11) we get access to the URL. We will effectively download a PNG image file from the URL and obtain a large byte array.
 The `downloadURL(URL)` method of `SharedMethods` class implements this processing: converting a URL to an array of bytes.
@@ -454,13 +470,12 @@ The `downloadURL(URL)` method of `SharedMethods` class implements this processin
                 return null;
             }
             return outputStream.toByteArray();
-        }
 
 The statement (12) invokes `store.write()` method, which create a new file tree, as this:
 
 ![07 writing image with metadata](images/tutorial/07_writing_image_with_metadata.png)
 
-#### Metadata based on URL & manually created Metadata
+### Metadata based on URL & manually created Metadata
 
 the `index` file contains a single line of text, which is something like:
 
@@ -475,20 +490,146 @@ Here you can see a JSON-like string which contains several **key:value** pairs. 
 
 The `url` variable is an instance of `java.net.URL`. You should check the [Javadoc of `URL`](https://docs.oracle.com/javase/7/docs/api/java/net/URL.html). The constructor `new URL(String spec)` can accept a string "<https://kazurayam.github.io/materialstore/images/tutorial/03_apple.png>" and parse it to its components: `protocol`, `host`, `port`, `path`, `query` and `fragment`. The `url` variable passed to the `Metadata.builder(url)` call is parsed by the URL class and transformed into key-value pair `"URL.hostname": "kazurayam.github.io"` and others.
 
-Also the line (13) explicitly created a key:value pair: `"step": "01"`. You can create as many as key:value pairs. Both of key and value must be String (no number, no boolean, no null). The key can be any string. Also the value can be any string. You can use any characters including `/` (forward slash), `\` (back slash), `:` (colon). You can use non-ascii characters, of course. For example: you can create a key-value pair `"番号": "123 456 789"`.
-
-You can create any key-value pairs (Metadata) as you like and associate it to the individual material objects. The metadata is stored in the `index` file, which is apart from the material file itself. The image file downloaded from URL is not altered at all. The image is saved as is into the `objects` directory. Adding to it, you can associate a rich set of Metadata with each individual materials. What sort of Metadata to associate? --- it is completely up to you.
-
 Let me show you a few more examples.
 
 The URL string
-`https://duckduckgo.com/?q=materialstore+kazurayam&atb=v314-1&ia=images` will produce the following Metadata instance:
+`"https://duckduckgo.com/?q=materialstore+kazurayam&atb=v314-1&ia=images"` will make the following Metadata instance:
 
-    https://duckduckgo.com/?q=materialstore+kazurayam&atb=v314-1&ia=images
     {"URL.host":"duckduckgo.com", "URL.path":"/", "URL.port":"80", "URL.protocol":"https", "URL.query":"q=materialstore+kazurayam&atb=v314-1&ia=images"}
 
-The URL string `https://kazurayam.github.io/materialstore/#first-sample-code-hello-materialstore` will produce the following Metadata instance:
+The URL string `"https://kazurayam.github.io/materialstore/#first-sample-code-hello-materialstore"` will make the following Metadata instance:
 
     {"URL.fragment":"first-sample-code-hello-materialstore", URL.host":"kazurayam.github.io", "URL.path":"/", "URL.port":"80", "URL.protocol":"https"}
 
-In the pair of curly braces (`{` .. `}`), the key-value pairs are arranged sorted by the ascending order as string. Therefore, in the above example, the key `URL.fragment` comes first, the key "URL.protocol" last.
+### Order of key-value pairs in Metadata
+
+In the pair of curly braces (`{` .. `}`), the key-value pairs are arranged by the "key", sorted by the ascending order as string. Therefore, in the above example, the key `URL.fragment` comes first, the key "URL.protocol" last.
+
+### Metadata explicitly specified
+
+Also the line (13) explicitly created a key:value pair: `"step": "01"`.
+
+You can create as many as key:value pairs. Both of key and value must be String (no number, no boolean, no null). The key can be any string. Also the value can be any string. You can use any characters including `/` (forward slash), `\` (back slash), `:` (colon). You can use non-ascii characters, of course. For example: you can create a key-value pair `"番号": "123/456 xyz"`.
+
+You can create any key-value pairs (Metadata) as you like and associate it to the individual material objects. The metadata is stored in the `index` file, which is apart from the material file itself. The image file downloaded from URL is not altered at all. The image is saved as is into the `objects` directory. Adding to it, you can associate a rich set of Metadata with each individual materials. What sort of Metadata to associate? --- it is completely up to you.
+
+## 3rd example: writing multiple images
+
+    public class T03WriteMultipleImagesTest {
+        private Store store;
+        @BeforeEach
+        public void beforeEach() throws IOException {
+            Path testClassOutputDir = TestHelper.createTestClassOutputDir(this);
+            store = Stores.newInstance(testClassOutputDir.resolve("store"));
+        }
+
+        @Test
+        public void test03_write_multiple_images()
+                throws MaterialstoreException {
+            JobName jobName = new JobName("test03_write_multiple_images");
+            JobTimestamp jobTimestamp = JobTimestamp.now();
+            SharedMethods.write3images(store, jobName, jobTimestamp);                       // (16)
+            MaterialList allMaterialList =
+                    store.select(jobName, jobTimestamp, QueryOnMetadata.ANY); // (17)
+            assertEquals(3, allMaterialList.size());
+        }
+    }
+
+## 4th example : retrieving a saved material
+
+    public class T04SelectASingleMaterialWithQueryTest {
+        private Store store;
+        @BeforeEach
+        public void beforeEach() throws IOException {
+            Path testClassOutputDir = TestHelper.createTestClassOutputDir(this);
+            store = Stores.newInstance(testClassOutputDir.resolve("store"));
+        }
+
+        @Test
+        public void test04_select_a_single_material_with_query()
+                throws MaterialstoreException {
+            JobName jobName =
+                    new JobName("test04_select_a_single_material_with_query");
+            JobTimestamp jobTimestamp = JobTimestamp.now();
+            SharedMethods.write3images(store, jobName, jobTimestamp);
+            //
+            Material material = store.selectSingle(jobName, jobTimestamp,
+                    QueryOnMetadata.builder().put("step", "02").build()); // (20)
+            assertNotNull(material);
+        }
+    }
+
+## 5th example : Selecting a MaterialList
+
+    package my.sample;
+
+    import com.kazurayam.materialstore.core.filesystem.JobName;
+    import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
+    import com.kazurayam.materialstore.core.filesystem.Material;
+    import com.kazurayam.materialstore.core.filesystem.MaterialList;
+    import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
+    import com.kazurayam.materialstore.core.filesystem.QueryOnMetadata;
+    import com.kazurayam.materialstore.core.filesystem.Store;
+    import com.kazurayam.materialstore.core.filesystem.Stores;
+    import org.junit.jupiter.api.BeforeEach;
+    import org.junit.jupiter.api.Test;
+
+    import java.io.IOException;
+    import java.nio.file.Path;
+
+    public class T05SelectMaterialListTest {
+        private Store store;
+        @BeforeEach
+        public void beforeEach() throws IOException {
+            Path testClassOutputDir = TestHelper.createTestClassOutputDir(this);
+            store = Stores.newInstance(testClassOutputDir.resolve("store"));
+        }
+
+        @Test
+        public void test05_select_list_of_material()
+                throws MaterialstoreException {
+            JobName jobName =
+                    new JobName("test04_select_lest_of_materials");
+            JobTimestamp jobTimestamp = JobTimestamp.now();
+            SharedMethods.write3images(store, jobName, jobTimestamp);
+            //
+            MaterialList materialList =
+                    store.select(jobName, jobTimestamp,
+                            QueryOnMetadata.ANY);              // (18)
+            //
+            for (Material material : materialList) {           // (19)
+                System.out.printf("%s %s%n",
+                        material.getFileType().getExtension(),
+                        material.getMetadata().getMetadataIdentification());
+            }
+        }
+    }
+
+## 6th example : generate a HTML report of a MaterialList
+
+    public class T06MaterialListReportTest {
+        private Store store;
+        @BeforeEach
+        public void beforeEach() throws IOException {
+            Path testClassOutputDir = TestHelper.createTestClassOutputDir(this);
+            store = Stores.newInstance(testClassOutputDir.resolve("store"));
+        }
+
+        @Test
+        public void test06_makeMaterialListReport() throws MaterialstoreException {
+            JobName jobName =
+                    new JobName("test06_makeMaterialListReport()");
+            JobTimestamp jobTimestamp = JobTimestamp.now();
+            SharedMethods.write3images(store, jobName, jobTimestamp);
+
+            MaterialList materialList =
+                    store.select(jobName, jobTimestamp,
+                            QueryOnMetadata.ANY);              // (18)
+
+            Inspector inspector = Inspector.newInstance(store);
+            inspector.setSortKeys(new SortKeys("step"));
+            Path report = inspector.report(materialList);
+            assertNotNull(report);
+            System.out.println("report is found at " + report);
+        }
+    }

@@ -1,0 +1,6 @@
+== 3rd example: writing multiple images
+
+[source,text]
+----
+include::../src/test/java/my/sample/T03WriteMultipleImagesTest.java[lines=18..40]
+----

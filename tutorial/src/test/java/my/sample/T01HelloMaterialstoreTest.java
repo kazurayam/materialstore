@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  * This code demonstrate how to save a text string into an instance of
  * "materialstore" backed with a directory on the local OS file system.
  */
-public class T1HelloMaterialstoreTest {
+public class T01HelloMaterialstoreTest {
 
     // central abstraction of Material storage
     private Store store;

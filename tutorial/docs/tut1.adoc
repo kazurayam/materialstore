@@ -86,14 +86,14 @@ BUILD SUCCESSFUL in 1s
 1 actionable task: 1 executed
 ----
 
-== First sample code "Hello, materialstore!"
+== 1st example : "Hello, materialstore!"
 
-I have created a JUnit-based code that uses the materialstore library: `sampleProject/src/test/java/my/sample/T1HelloMaterialstoreTest.java`, as follows:
+I have created a JUnit-based Java code that uses the materialstore library: `sampleProject/src/test/java/my/sample/T1HelloMaterialstoreTest.java`, as follows:
 
 [source, java]
-.T1HelloMaterialstoreTest.java
+.T01HelloMaterialstoreTest.java
 ----
-include::../src/test/java/my/sample/T1HelloMaterialstoreTest.java[]
+include::../src/test/java/my/sample/T01HelloMaterialstoreTest.java[]
 ----
 
 You can run this by running the `test` task of Gradle:

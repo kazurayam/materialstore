@@ -121,16 +121,31 @@ subprojects({ subproject ->
             })
         })
     })
-
     task printDependencies(type: DependencyReportTask) {}
 })
 
-task aggregateDocsImages, {
-  copy({
+
+
+task aggregateDocsImages(type: Copy) {
     from("freemarker/docs/images")
+    from("tutorial/docs/images")
     into("docs/images")
-  })
 }
+
+task compileTutorial {
+    // run docs/indexconv.sh to generate index.md from index_.adoc
+    doFirst {
+        exec {
+            workingDir './docs'
+            commandLine './indexconv.sh', '-t'
+        }
+    }
+}
+compileTutorial.finalizedBy aggregateDocsImages
+
+
+
+
 
 task allJar(type: Jar, dependsOn: subprojects.jar, {
     from subprojects.collect { subproject ->
@@ -253,3 +268,4 @@ signing {
 tasks.withType(Sign) {
     onlyIf { isReleaseVersion }
 }
+

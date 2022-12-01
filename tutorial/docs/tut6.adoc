@@ -1,0 +1,6 @@
+== 6th example : generate a HTML report of a MaterialList
+
+[source,text]
+----
+include::../src/test/java/my/sample/T06MaterialListReportTest.java[lines=20..60]
+----

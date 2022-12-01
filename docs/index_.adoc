@@ -6,6 +6,9 @@
 :sectnums:
 
 
-include::../tutorial/docs/T1.adoc[]
-include::../tutorial/docs/T2.adoc[]
-include::../tutorial/docs/T3.adoc[]
+include::../tutorial/docs/tut1.adoc[]
+include::../tutorial/docs/tut2.adoc[]
+include::../tutorial/docs/tut3.adoc[]
+include::../tutorial/docs/tut4.adoc[]
+include::../tutorial/docs/tut5.adoc[]
+include::../tutorial/docs/tut6.adoc[]

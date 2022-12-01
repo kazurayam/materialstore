@@ -1,13 +1,11 @@
-== Second sample: write an image with Metadata (source URL)
-
-=== T2MetadataTest
+== 2nd example: write an image with Metadata
 
 I will show you next sample code `test02_write_image_with_metadata` of `T2MetadataTest` class.
 
 [source, text]
 .T2MetadataTest
 ----
-include::../src/test/java/my/sample/T2MetadataTest.java[lines=33..60]
+include::../src/test/java/my/sample/T02WriteImageWithMetadataTest.java[lines=21..60]
 ----
 
 At the line (10), we create an instance of `java.net.URL` with a String argument "link:https://kazurayam.github.io/materialstore/images/tutorial/03_apple.png[]". You can click this URL to see the image yourself. You should see an apple.
@@ -33,7 +31,7 @@ The statement (12) invokes `store.write()` method, which create a new file tree,
 
 image::images/tutorial/07_writing_image_with_metadata.png[]
 
-==== Metadata based on URL & manually created Metadata
+=== Metadata based on URL & manually created Metadata
 
 the `index` file contains a single line of text, which is something like:
 
@@ -55,29 +53,33 @@ The `url` variable is an instance of `java.net.URL`. You should check the https:
 
 
 
-Also the line (13) explicitly created a key:value pair: `"step": "01"`. You can create as many as key:value pairs. Both of key and value must be String (no number, no boolean, no null). The key can be any string. Also the value can be any string. You can use any characters including `/` (forward slash), `\` (back slash), `:` (colon). You can use non-ascii characters, of course. For example: you can create a key-value pair `"番号": "123 456 789"`.
-
-You can create any key-value pairs (Metadata) as you like and associate it to the individual material objects. The metadata is stored in the `index` file, which is apart from the material file itself. The image file downloaded from URL is not altered at all. The image is saved as is into the `objects` directory. Adding to it, you can associate a rich set of Metadata with each individual materials. What sort of Metadata to associate? --- it is completely up to you.
-
 Let me show you a few more examples.
 
 The URL string
-`https://duckduckgo.com/?q=materialstore+kazurayam&atb=v314-1&ia=images` will produce the following Metadata instance:
+`"https://duckduckgo.com/?q=materialstore+kazurayam&atb=v314-1&ia=images"` will make the following Metadata instance:
 
 [source]
 ----
-https://duckduckgo.com/?q=materialstore+kazurayam&atb=v314-1&ia=images
 {"URL.host":"duckduckgo.com", "URL.path":"/", "URL.port":"80", "URL.protocol":"https", "URL.query":"q=materialstore+kazurayam&atb=v314-1&ia=images"}
 ----
 
-The URL string `https://kazurayam.github.io/materialstore/#first-sample-code-hello-materialstore` will produce the following Metadata instance:
+The URL string `"https://kazurayam.github.io/materialstore/#first-sample-code-hello-materialstore"` will make the following Metadata instance:
 
 [source]
 ----
 {"URL.fragment":"first-sample-code-hello-materialstore", URL.host":"kazurayam.github.io", "URL.path":"/", "URL.port":"80", "URL.protocol":"https"}
 ----
 
-In the pair of curly braces (`{` .. `}`), the key-value pairs are arranged sorted by the ascending order as string. Therefore, in the above example, the key `URL.fragment` comes first, the key "URL.protocol" last.
+=== Order of key-value pairs in Metadata
 
+In the pair of curly braces (`{` .. `}`), the key-value pairs are arranged by the "key", sorted by the ascending order as string. Therefore, in the above example, the key `URL.fragment` comes first, the key "URL.protocol" last.
+
+=== Metadata explicitly specified
+
+Also the line (13) explicitly created a key:value pair: `"step": "01"`.
+
+You can create as many as key:value pairs. Both of key and value must be String (no number, no boolean, no null). The key can be any string. Also the value can be any string. You can use any characters including `/` (forward slash), `\` (back slash), `:` (colon). You can use non-ascii characters, of course. For example: you can create a key-value pair `"番号": "123/456 xyz"`.
+
+You can create any key-value pairs (Metadata) as you like and associate it to the individual material objects. The metadata is stored in the `index` file, which is apart from the material file itself. The image file downloaded from URL is not altered at all. The image is saved as is into the `objects` directory. Adding to it, you can associate a rich set of Metadata with each individual materials. What sort of Metadata to associate? --- it is completely up to you.
 
 

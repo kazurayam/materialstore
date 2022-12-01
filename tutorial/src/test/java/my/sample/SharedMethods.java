@@ -1,5 +1,6 @@
 package my.sample;
 
+import com.google.common.collect.ImmutableMap;
 import com.kazurayam.materialstore.core.filesystem.FileType;
 import com.kazurayam.materialstore.core.filesystem.JobName;
 import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
@@ -46,17 +47,29 @@ public class SharedMethods {
         // Apple
         URL url1 = SharedMethods.createURL(prefix + "03_apple.png");
         store.write(jn, jt, FileType.PNG,
-                Metadata.builder(url1).put("step", "01").build(),
+                Metadata.builder(url1)
+                        .putAll(ImmutableMap.of(
+                                "step", "01",
+                                "label", "red apple"))
+                        .build(),
                 SharedMethods.downloadUrl(url1));
         // Mikan
         URL url2 = SharedMethods.createURL(prefix + "04_mikan.png");
         store.write(jn, jt, FileType.PNG,
-                Metadata.builder(url2).put("step", "02").build(),
+                Metadata.builder(url2)
+                        .putAll(ImmutableMap.of(
+                                "step", "02",
+                                "label", "mikan"))
+                        .build(),
                 SharedMethods.downloadUrl(url2));
         // Money
         URL url3 = SharedMethods.createURL(prefix + "05_money.png");
         store.write(jn, jt, FileType.PNG,
-                Metadata.builder(url3).put("step", "03").build(),
+                Metadata.builder(url3)
+                        .putAll(ImmutableMap.of(
+                                "step", "03",
+                                "label", "money"))
+                        .build(),
                 SharedMethods.downloadUrl(url3));;
     }
 
