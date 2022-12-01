@@ -1,0 +1,6 @@
+== 5th example : Selecting a MaterialList
+
+[source,text]
+----
+include::../src/test/java/my/sample/T05SelectMaterialListTest.java[]
+----

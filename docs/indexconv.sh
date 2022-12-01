@@ -58,3 +58,4 @@ done
 #     - [Solution 1](#solution-1)
 cat index.md > temp.md
 java -jar MarkdownUtils-0.2.0.jar ./temp.md ./index.md
+rm temp.md

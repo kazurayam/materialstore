@@ -121,16 +121,31 @@ subprojects({ subproject ->
             })
         })
     })
-
     task printDependencies(type: DependencyReportTask) {}
 })
 
-task aggregateDocsImages, {
-  copy({
+
+
+task aggregateDocsImages(type: Copy) {
     from("freemarker/docs/images")
+    from("tutorial/docs/images")
     into("docs/images")
-  })
 }
+
+task compileTutorial {
+    // run docs/indexconv.sh to generate index.md from index_.adoc
+    doFirst {
+        exec {
+            workingDir './docs'
+            commandLine './indexconv.sh', '-t'
+        }
+    }
+}
+compileTutorial.finalizedBy aggregateDocsImages
+
+
+
+
 
 task allJar(type: Jar, dependsOn: subprojects.jar, {
     from subprojects.collect { subproject ->
@@ -185,8 +200,9 @@ publishing {
             pom {
                 groupId = project.group
                 name = project.rootProject.name
-                description = "A Java/Groovy API to store objects (Screenshots, HTML, JSON, XML) collected during End-to-end testings empowered by diffing and reporting tools"
+                description = "A Java/Groovy API to store objects (Screenshots, HTML, JSON, XML) collected during End-to-end testings, plus empowered by diffing and reporting tools"
                 url = "https://kazurayam.github.io/materialstore/"
+
                 licenses {
                     license {
                         name = "The Apache License, Version 2.0"
@@ -204,6 +220,29 @@ publishing {
                     connection = "scm:git:https://github.com/kazurayam/${project.rootProject.name}.git"
                     developerConnection = "scm:git:git@github.com:kazurayam/${project.rootProject.name}.git"
                     url = "https://github.com/kazurayam/${project.rootProject.name}"
+                }
+            }
+            pom.withXml {
+                // https://stackoverflow.com/questions/24743562/gradle-not-including-dependencies-in-published-pom-xml
+                // The publication doesn't know about our dependencies, so we have to manually add them to the pom
+                Set<Dependency> dependencySet = new HashSet<>()
+                subprojects.each { subproject ->
+                    subproject.configurations.implementation.allDependencies.each { dp ->
+                        if (dp.getGroup() != null &&
+                                dp.getName() != null &&
+                                dp.getVersion() != null &&
+                                dp.getVersion() != "unspecified") {
+                            dependencySet.add(dp)
+                        }
+                    }
+                }
+                // modify the pom.xml; insert <dependencies> node stuffed with <dependency>
+                def dependenciesNode = asNode().appendNode('dependencies')
+                dependencySet.each { dp ->
+                    def dependencyNode = dependenciesNode.appendNode('dependency')
+                    dependencyNode.appendNode('groupId', dp.group)
+                    dependencyNode.appendNode('artifactId', dp.name)
+                    dependencyNode.appendNode('version', dp.version)
                 }
             }
         }
@@ -229,3 +268,4 @@ signing {
 tasks.withType(Sign) {
     onlyIf { isReleaseVersion }
 }
+

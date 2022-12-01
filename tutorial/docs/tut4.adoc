@@ -1,0 +1,6 @@
+== 4th example : retrieving a saved material
+
+[source,text]
+----
+include::../src/test/java/my/sample/T04SelectASingleMaterialWithQueryTest.java[lines=18..40]
+----

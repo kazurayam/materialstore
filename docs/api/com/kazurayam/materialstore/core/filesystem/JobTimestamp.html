@@ -114,6 +114,10 @@ var activeTableTab = "activeTableTab";
 <pre>public final class <span class="typeNameLabel">JobTimestamp</span>
 extends java.lang.Object
 implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&gt;, <a href="../../../../../com/kazurayam/materialstore/core/filesystem/Jsonifiable.html" title="interface in com.kazurayam.materialstore.core.filesystem">Jsonifiable</a></pre>
+<div class="block">JobTimestamp wraps an instance of java.time.LocalDateTime and
+ associates a fixed instance of java.time.format.DateTimeFormatter to be used.
+ The DateTimeFormat uses a format "uuuuMMdd_HHmmss".
+ The toString() method will return a String, for example, "20221129_110345".</div>
 </li>
 </ul>
 </div>
@@ -134,7 +138,9 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html#EPOCH_NAME">EPOCH_NAME</a></span></code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html#EPOCH_NAME">EPOCH_NAME</a></span></code>
+<div class="block">special value that represents a NULL object.</div>
+</td>
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>static java.time.format.DateTimeFormatter</code></td>
@@ -185,7 +191,9 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>static long</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html#betweenSeconds-com.kazurayam.materialstore.core.filesystem.JobTimestamp-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">betweenSeconds</a></span>(<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;previous,
-              <a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;following)</code>&nbsp;</td>
+              <a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;following)</code>
+<div class="block">calculate the time distance between following and previous in seconds.</div>
+</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>int</code></td>
@@ -213,7 +221,9 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 </tr>
 <tr id="i8" class="altColor">
 <td class="colFirst"><code>static boolean</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html#isValid-java.lang.String-">isValid</a></span>(java.lang.String&nbsp;s)</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html#isValid-java.lang.String-">isValid</a></span>(java.lang.String&nbsp;s)</code>
+<div class="block">verifies if the given string is in the format of the FORMATTER, and returns true or false.</div>
+</td>
 </tr>
 <tr id="i9" class="rowColor">
 <td class="colFirst"><code>static <a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a></code></td>
@@ -288,7 +298,10 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <tr id="i26" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html#theTimeOrLaterThan-com.kazurayam.materialstore.core.filesystem.JobTimestamp-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">theTimeOrLaterThan</a></span>(<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;thanThis,
-                  <a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;theTime)</code>&nbsp;</td>
+                  <a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;theTime)</code>
+<div class="block">When thanThis is "20221130_010101" and theTime is "20221130_010105", then a JobTimestamp of
+ "20221130_010105" will be returned.</div>
+</td>
 </tr>
 <tr id="i27" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
@@ -300,11 +313,16 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 </tr>
 <tr id="i29" class="rowColor">
 <td class="colFirst"><code>java.lang.String</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html#toString--">toString</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html#toString--">toString</a></span>()</code>
+<div class="block">E.g, 20221129_195423 represents the year 2022, the month 11, the day 29,
+ the hours 19, the minutes 54, the second 23.</div>
+</td>
 </tr>
 <tr id="i30" class="altColor">
 <td class="colFirst"><code>java.time.LocalDateTime</code></td>
-<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html#value--">value</a></span>()</code>&nbsp;</td>
+<td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html#value--">value</a></span>()</code>
+<div class="block">If the value is the special "_", then LocalDateTime.ofEpochSecond(0L, 0, ZoneOffset.UTC) will be returned</div>
+</td>
 </tr>
 </table>
 <ul class="blockList">
@@ -335,6 +353,7 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>EPOCH_NAME</h4>
 <pre>public static final&nbsp;java.lang.String EPOCH_NAME</pre>
+<div class="block">special value that represents a NULL object.</div>
 <dl>
 <dt><span class="seeLabel">See Also:</span></dt>
 <dd><a href="../../../../../constant-values.html#com.kazurayam.materialstore.core.filesystem.JobTimestamp.EPOCH_NAME">Constant Field Values</a></dd>
@@ -396,6 +415,15 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>isValid</h4>
 <pre>public static&nbsp;boolean&nbsp;isValid(java.lang.String&nbsp;s)</pre>
+<div class="block">verifies if the given string is in the format of the FORMATTER, and returns true or false.
+ A under-bar "_" is accepted as the only exception, which stands for the case where
+ no concrete JobTimestamp is given.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>s</code> - for example, "20221123_094521"</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>true if the s is in a valid format as JobTimestamp. otherwise false.</dd>
+</dl>
 </li>
 </ul>
 <a name="now--">
@@ -405,6 +433,10 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>now</h4>
 <pre>public static&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;now()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>an instance of JobTimestamp with the value of java.time.LocalDateTime.now()</dd>
+</dl>
 </li>
 </ul>
 <a name="create-java.time.LocalDateTime-">
@@ -414,6 +446,12 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>create</h4>
 <pre>public static&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;create(java.time.LocalDateTime&nbsp;theTimestamp)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>theTimestamp</code> - a JobTimestamp to copy</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp with value of theTimestamp as LocalDateTime</dd>
+</dl>
 </li>
 </ul>
 <a name="epoch--">
@@ -423,6 +461,10 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>epoch</h4>
 <pre>public static&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;epoch()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a special instance of JobName of which value is a String "_" (under-bar).</dd>
+</dl>
 </li>
 </ul>
 <a name="max-com.kazurayam.materialstore.core.filesystem.JobTimestamp...-">
@@ -432,6 +474,12 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>max</h4>
 <pre>public static&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;max(<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>...&nbsp;timestamps)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>timestamps</code> - a list of JobTimestamps to look at</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the newest JobTimestamp value among the given timestamps</dd>
+</dl>
 </li>
 </ul>
 <a name="laterThan-com.kazurayam.materialstore.core.filesystem.JobTimestamp...-">
@@ -441,6 +489,14 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>laterThan</h4>
 <pre>public static&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;laterThan(<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>...&nbsp;previous)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>previous</code> - a list of JobTimestamps as comparison basis</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp value which is assured to be newer than
+ any of previous JobTimestamps. If JobTimestamp.now() is newer than them, then
+ the value of JobTimestamp.now() will be returned.</dd>
+</dl>
 </li>
 </ul>
 <a name="theTimeOrLaterThan-com.kazurayam.materialstore.core.filesystem.JobTimestamp-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">
@@ -451,6 +507,18 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <h4>theTimeOrLaterThan</h4>
 <pre>public static&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;theTimeOrLaterThan(<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;thanThis,
                                               <a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;theTime)</pre>
+<div class="block">When thanThis is "20221130_010101" and theTime is "20221130_010105", then a JobTimestamp of
+ "20221130_010105" will be returned.
+
+ When thanThis is "20221130_010101" and theTime is "20221130_010100", then a JobTimestamp of
+ "20221130_010102", which is equal to (thanThis + 1 second), will be returned.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>thanThis</code> - a JobTimestamp as basis</dd>
+<dd><code>theTime</code> - a JobTimestamp</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp value which is assured to be newer thanThis at least for 1 second or more.</dd>
+</dl>
 </li>
 </ul>
 <a name="betweenSeconds-com.kazurayam.materialstore.core.filesystem.JobTimestamp-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">
@@ -461,6 +529,14 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <h4>betweenSeconds</h4>
 <pre>public static&nbsp;long&nbsp;betweenSeconds(<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;previous,
                                   <a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;following)</pre>
+<div class="block">calculate the time distance between following and previous in seconds.</div>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>previous</code> - e.g, 20221123_080000</dd>
+<dd><code>following</code> - e.g, 20221123_080130</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the seconds between the following minus the previous. E.g, (20221123_080130 - 20221123_080000) should return 90.</dd>
+</dl>
 </li>
 </ul>
 <a name="minus-long-java.time.temporal.TemporalUnit-">
@@ -480,6 +556,13 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>minusDays</h4>
 <pre>public&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;minusDays(long&nbsp;days)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>days</code> - number of days backward. E.g, 3 days.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp instance with the value which is "days"
+ before this JobTimestamp instance.</dd>
+</dl>
 </li>
 </ul>
 <a name="minusHours-long-">
@@ -489,6 +572,13 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>minusHours</h4>
 <pre>public&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;minusHours(long&nbsp;hours)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>hours</code> - number of hours backward. E.g, 5 hours.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp instance with the value which is "hours"
+ before this JobTimestamp instance.</dd>
+</dl>
 </li>
 </ul>
 <a name="minusMinutes-long-">
@@ -498,6 +588,13 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>minusMinutes</h4>
 <pre>public&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;minusMinutes(long&nbsp;minutes)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>minutes</code> - number of minutes backward. E.g, 4 minutes.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp instance with the value which is "minutes"
+ before this JobTimestamp instance.</dd>
+</dl>
 </li>
 </ul>
 <a name="minusMonths-long-">
@@ -507,6 +604,13 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>minusMonths</h4>
 <pre>public&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;minusMonths(long&nbsp;months)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>months</code> - nuber of months back. E.g, 2 months.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp instance with the value which is "months"
+ before this JobTimestamp instance.</dd>
+</dl>
 </li>
 </ul>
 <a name="minusSeconds-long-">
@@ -516,6 +620,13 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>minusSeconds</h4>
 <pre>public&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;minusSeconds(long&nbsp;seconds)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>seconds</code> - number of seconds back. E.g, 10 seconds.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp instance with the value which is "seconds"
+ before this JobTimestamp instance.</dd>
+</dl>
 </li>
 </ul>
 <a name="minusWeeks-long-">
@@ -525,6 +636,13 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>minusWeeks</h4>
 <pre>public&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;minusWeeks(long&nbsp;weeks)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>weeks</code> - number of weeks back. E.g, 3 weeks.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp instance with the value which is "weeks"
+ before this JobTimestamp instance.</dd>
+</dl>
 </li>
 </ul>
 <a name="plus-long-java.time.temporal.TemporalUnit-">
@@ -544,6 +662,13 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>plusDays</h4>
 <pre>public&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;plusDays(long&nbsp;days)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>days</code> - number of days ahead. E.g, 2 days.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp instance with the value which is "days"
+ after this JobTimestamp instance.</dd>
+</dl>
 </li>
 </ul>
 <a name="plusHours-long-">
@@ -553,6 +678,13 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>plusHours</h4>
 <pre>public&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;plusHours(long&nbsp;hours)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>hours</code> - number of hours ahead. E.g, 3 hours.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp instance with the value which is "hours"
+ after this JobTimestamp instance.</dd>
+</dl>
 </li>
 </ul>
 <a name="plusMinutes-long-">
@@ -562,6 +694,13 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>plusMinutes</h4>
 <pre>public&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;plusMinutes(long&nbsp;minutes)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>minutes</code> - number of minutes ahead. E.g, 2 minutes</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp instance with the value which is "minutes"
+ after this JobTimestamp instance.</dd>
+</dl>
 </li>
 </ul>
 <a name="plusMonths-long-">
@@ -571,6 +710,13 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>plusMonths</h4>
 <pre>public&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;plusMonths(long&nbsp;months)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>months</code> - number of months ahead. E.g, 2 months</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp instance with the value which is "months"
+ after this JobTimestamp instance.</dd>
+</dl>
 </li>
 </ul>
 <a name="plusSeconds-long-">
@@ -580,6 +726,13 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>plusSeconds</h4>
 <pre>public&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;plusSeconds(long&nbsp;seconds)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>seconds</code> - number of seconds ahead. E.g, 5 seconds.</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp instance with the value which is "seconds"
+ after this JobTimestamp instance.</dd>
+</dl>
 </li>
 </ul>
 <a name="plusWeeks-long-">
@@ -589,6 +742,13 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>plusWeeks</h4>
 <pre>public&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;plusWeeks(long&nbsp;weeks)</pre>
+<dl>
+<dt><span class="paramLabel">Parameters:</span></dt>
+<dd><code>weeks</code> - number of weeks ahead. E.g, 3 weeks</dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp instance with the value which is "weeks"
+ after this JobTimestamp instance.</dd>
+</dl>
 </li>
 </ul>
 <a name="beginningOfTheMonth--">
@@ -598,6 +758,12 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>beginningOfTheMonth</h4>
 <pre>public&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;beginningOfTheMonth()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp instance with the value which is the beginning of
+ the month in which this JobTimestamp instance belongs.
+ The hours will be 00, the minutes will be 00, the seconds will be 00.</dd>
+</dl>
 </li>
 </ul>
 <a name="endOfTheMonth--">
@@ -607,6 +773,11 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>endOfTheMonth</h4>
 <pre>public&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/JobTimestamp.html" title="class in com.kazurayam.materialstore.core.filesystem">JobTimestamp</a>&nbsp;endOfTheMonth()</pre>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>a new JobTimestamp instance with the value which is the last day of
+ the month in which this JobTimestamp instance belongs. The hours will be 23, the minutes will be 59, the seconds will be 59.</dd>
+</dl>
 </li>
 </ul>
 <a name="equals-java.lang.Object-">
@@ -642,6 +813,8 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>toString</h4>
 <pre>public&nbsp;java.lang.String&nbsp;toString()</pre>
+<div class="block">E.g, 20221129_195423 represents the year 2022, the month 11, the day 29,
+ the hours 19, the minutes 54, the second 23.</div>
 <dl>
 <dt><span class="overrideSpecifyLabel">Overrides:</span></dt>
 <dd><code>toString</code>&nbsp;in class&nbsp;<code>java.lang.Object</code></dd>
@@ -658,6 +831,8 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <dl>
 <dt><span class="overrideSpecifyLabel">Specified by:</span></dt>
 <dd><code><a href="../../../../../com/kazurayam/materialstore/core/filesystem/Jsonifiable.html#toJson--">toJson</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../com/kazurayam/materialstore/core/filesystem/Jsonifiable.html" title="interface in com.kazurayam.materialstore.core.filesystem">Jsonifiable</a></code></dd>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>"20221129_195423" enclosed by double-quotes</dd>
 </dl>
 </li>
 </ul>
@@ -681,6 +856,11 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>value</h4>
 <pre>public&nbsp;java.time.LocalDateTime&nbsp;value()</pre>
+<div class="block">If the value is the special "_", then LocalDateTime.ofEpochSecond(0L, 0, ZoneOffset.UTC) will be returned</div>
+<dl>
+<dt><span class="returnLabel">Returns:</span></dt>
+<dd>the LocalDateTime value of this instance</dd>
+</dl>
 </li>
 </ul>
 <a name="compareTo-com.kazurayam.materialstore.core.filesystem.JobTimestamp-">

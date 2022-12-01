@@ -1,9 +1,14 @@
-= Materialstore Documentation
+* link:https://kazurayam.github.io/materialstore/api/index.html[API javadoc]
+* back to the link:https://github.com/kazurayam/materialstore[repository]
+
+= Materialstore Tutorial
 :toc:
 :sectnums:
 
 
-* link:https://kazurayam.github.io/materialstore/api/index.html[materialstore javadoc]
-* back to the link:https://github.com/kazurayam/materialstore[repository]
-
-include::../tutorial/docs/materialstore_tutorial.adoc[]
+include::../tutorial/docs/tut1.adoc[]
+include::../tutorial/docs/tut2.adoc[]
+include::../tutorial/docs/tut3.adoc[]
+include::../tutorial/docs/tut4.adoc[]
+include::../tutorial/docs/tut5.adoc[]
+include::../tutorial/docs/tut6.adoc[]

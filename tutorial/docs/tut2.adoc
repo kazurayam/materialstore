@@ -1,0 +1,102 @@
+== 2nd example: write an image with Metadata
+
+I will show you next sample code `test02_write_image_with_metadata` of `T2MetadataTest` class.
+
+[source, text]
+----
+include::../src/test/java/my/sample/T02WriteImageWithMetadataTest.java[lines=21..60]
+----
+
+At the line (10), we create an instance of `java.net.URL` with a String argument "link:https://kazurayam.github.io/materialstore/images/tutorial/03_apple.png[]". You can click this URL to see the image yourself. You should see an apple.
+
+I create a helper class named `my.sample.SharedMethod` with a method `createURL(String)` that instanciate an instance of `URL`.
+
+[source, text]
+.createURL(String)
+----
+include::../src/test/java/my/sample/SharedMethods.java[lines=18..24]
+----
+
+At the statement (11) we get access to the URL. We will effectively download a PNG image file from the URL and obtain a large byte array.
+The `downloadURL(URL)` method of `SharedMethods` class implements this processing: converting a URL to an array of bytes.
+
+[source,text]
+.downloadUrl(URL)
+----
+include::../src/test/java/my/sample/SharedMethods.java[lines=26..40]
+----
+
+The statement (12) invokes `store.write()` method, which create a new file tree, as this:
+
+image::images/tutorial/07_writing_image_with_metadata.png[]
+
+=== Metadata based on URL & manually created Metadata
+
+the `index` file contains a single line of text, which is something like:
+
+[source,text]
+.index
+----
+27b2d39436d0655e7e8885c7f2a568a646164280	png	{"label":"red apple", "step":"01", "URL.host":"kazurayam.github.io", "URL.path":"/materialstore/images/tutorial/03_apple.png", "URL.port":"80", "URL.protocol":"https"}
+----
+
+
+Please find a JSON-like string enclosed by a pair of curly braces (`{` and `}`). I call this section as **Metadata** of a material.  The Metadata contains several **"key":"value"** pairs. The metadata was created as specified by the line (13).
+
+[source,text]
+----
+        Metadata.builder(url)           // (13)
+                .put("step", "01")
+                .put("label", "red apple")
+                .build(),
+----
+
+The `url` variable is an instance of `java.net.URL`. You should check the https://docs.oracle.com/javase/7/docs/api/java/net/URL.html[Javadoc of `URL`]. The constructor `new URL(String spec)` can accept a string "https://kazurayam.github.io/materialstore/images/tutorial/03_apple.png[]" and parse it to its components: `protocol`, `host`, `port`, `path`, `query` and `fragment`. The `url` variable passed to the `Metadata.builder(url)` call is parsed by the URL class and transformed into key-value pair `"URL.hostname": "kazurayam.github.io"` and others.
+
+Let me show you a few more examples.
+
+The URL string
+`"https://duckduckgo.com/?q=materialstore+kazurayam&atb=v314-1&ia=images"` will make the following Metadata instance:
+
+[source]
+----
+{"URL.host":"duckduckgo.com", "URL.path":"/", "URL.port":"80", "URL.protocol":"https", "URL.query":"q=materialstore+kazurayam&atb=v314-1&ia=images"}
+----
+
+The URL string `"https://kazurayam.github.io/materialstore/#first-sample-code-hello-materialstore"` will make the following Metadata instance:
+
+[source]
+----
+{"URL.fragment":"first-sample-code-hello-materialstore", URL.host":"kazurayam.github.io", "URL.path":"/", "URL.port":"80", "URL.protocol":"https"}
+----
+
+=== Order of key-value pairs in Metadata
+
+In the pair of curly braces (`{` .. `}`), the key-value pairs are arranged by the "key", sorted by the ascending order as string. Therefore, in the above example, the key `URL.fragment` comes first, the key "URL.protocol" comes last.
+
+=== key:value pairs explicitly specified
+
+Also the line (13) explicitly created 2 pairs of key:value, that is `"step": "01"` and `"label":"red apple"`.
+
+You can create as many as key:value pairs. Both of key and value must be the type String. The key can be any string, the value can be any string as well. You can use any characters including `/` (forward slash), `\` (back slash), `:` (colon). You can use non-ascii characters, of course. For example: you can create a key-value pair `"番号": "123/456 xyz"`. The Character escaping rule of JSON applies here: a double quote character `"` will be escaped to `\"`; a back-slash character `\` will be escaped to be `\\`.
+
+Metadata is stored in the `index` file, which is apart from the material file itself. The byte array of the image downloaded from a URL is not altered at all. The image is saved into the `objects` directory as is. And then, you can associate a flexible set of Metadata to each individual materials. What sort of Metadata to associate? --- it is completely up to you.
+
+Metadata plays an important role later when you start compiling advanced reports "ChronosDiff" and "TwinsDiff".
+
+=== Retrieving information of a material
+
+The line (14) prints the summarized information of the material: the ID, the FileType, and the Metadata.
+
+Also you can get various information out of the `material` variable. For example, the line (15) retrieves the value of `"URL.host"` out of the material object, compares it with the expected staring value.
+
+[source,text]
+----
+        assertEquals("kazurayam.github.io",
+                material.getMetadata().get("URL.host"));        // (15)
+
+----
+
+Please check the link:https://kazurayam.github.io/materialstore/api/com/kazurayam/materialstore/core/filesystem/Material.html[Javadoc of Material] for what sort of accessor methods are implemented.
+
+
