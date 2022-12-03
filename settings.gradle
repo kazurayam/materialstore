@@ -1,18 +1,5 @@
 rootProject.name = 'materialstore'
-include(':core', ':freemarker', ':base', ':mapper', ':facet', ':diagram')
-/*
- subprojects' dependency tree
-     :core       -> :base
-     :core                 -> :mapper
-     :core                 -> :facet
-     :core                 -> :tutorial
-     :core                 -> :diagram
-     :freemarker -> :base
-                    :base   -> :mapper
-                    :base   -> :facet
- */
 
-// https://docs.gradle.org/current/userguide/platforms.html#sec:dependency-bundles
 dependencyResolutionManagement {
     versionCatalogs {
         libs {
@@ -33,6 +20,9 @@ dependencyResolutionManagement {
 
             version('guava', '31.1-jre')
             library('guava', 'com.google.guava', 'guava').versionRef('guava')
+
+            version('httpclient', '5.2')
+            library('httpclient', 'org.apache.httpcomponents.client5', 'httpclient5').versionRef('httpclient')
 
             version('javaDiffUtils', '4.11')
             library('javaDiffUtils', 'io.github.java-diff-utils', 'java-diff-utils').versionRef('javaDiffUtils')

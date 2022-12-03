@@ -1,4 +1,0 @@
-= Custom FreeMarker Directives for Materialstore
-
-This project is a collection of FreeMarker user-defined directives
-developed for the materialstore.
