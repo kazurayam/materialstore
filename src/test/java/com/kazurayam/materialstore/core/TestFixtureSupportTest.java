@@ -19,7 +19,7 @@ public class TestFixtureSupportTest {
 
     @BeforeEach
     public void setup() {
-        testClassOutputDir = TestHelper.createTestClassOutputDir(this);
+        testClassOutputDir = TestHelper.createTestClassOutputDir(TestFixtureSupportTest.class);
         store = Stores.newInstance(testClassOutputDir.resolve("store"));
     }
 

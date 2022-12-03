@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.base.report;
 
 import com.kazurayam.materialstore.base.inspector.Inspector;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
+import com.kazurayam.materialstore.core.TestHelper;
 import com.kazurayam.materialstore.core.filesystem.JobName;
 import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
 import com.kazurayam.materialstore.core.filesystem.MaterialList;
@@ -12,6 +13,7 @@ import com.kazurayam.materialstore.core.filesystem.Store;
 import com.kazurayam.materialstore.core.filesystem.Stores;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -26,26 +28,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MaterialProductGroupReporterTest extends AbstractReporterTest {
 
     private static final Path fixtureDir =
-            Paths.get(".").resolve("src/test/fixtures/issue#80");
+            TestHelper.getFixturesDirectory().resolve("issue#80");
 
-    private static final Path testOutput =
-            Paths.get(".").resolve("build/tmp/testOutput");
+    private Store store;
+    private JobName jobNameA;
+    private Path report1;
 
-    private final static Path outputDir =
-            testOutput.resolve(MaterialProductGroupReporterTest.class.getName());
-
-    private static Store store;
-    private static JobName jobNameA;
-    private static Path report1;
-
-    @BeforeAll
-    static void beforeAll() throws IOException {
-        if (Files.exists(outputDir)) {
-            // make sure the outputDir to be empty
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Files.createDirectories(outputDir);
-        Path root = outputDir.resolve("store");
+    @BeforeEach
+    void setup() throws IOException {
+        Path testClassOutputDir = TestHelper.createTestClassOutputDir(MaterialProductGroupReporterTest.class);
+        Path root = testClassOutputDir.resolve("store");
         store = Stores.newInstance(root);
         report1 = null;
     }

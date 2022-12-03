@@ -17,7 +17,7 @@ public class DeleteDirTest {
 
     @BeforeEach
     public void beforeEach() throws IOException {
-        testClassOutputDir = TestHelper.createTestClassOutputDir(this);
+        testClassOutputDir = TestHelper.createTestClassOutputDir(DeleteDirTest.class);
     }
 
     @Test

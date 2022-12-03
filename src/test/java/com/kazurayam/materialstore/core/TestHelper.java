@@ -72,9 +72,10 @@ public class TestHelper {
     /**
      * create the out directory for the testCase object to write output files
      */
-    public static Path createTestClassOutputDir(Object testCase) {
+    public static Path createTestClassOutputDir(Class clazz) {
+        Objects.requireNonNull(clazz);
         Path output = getTestOutputDir()
-                .resolve(testCase.getClass().getName());
+                .resolve(clazz.getName());
         try {
             if (!Files.exists(output)) {
                 Files.createDirectories(output);

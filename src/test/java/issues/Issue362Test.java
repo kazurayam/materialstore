@@ -54,7 +54,7 @@ public class Issue362Test {
 
     @BeforeEach
     public void beforeEach() throws IOException {
-        Path testClassOutputDir = TestHelper.createTestClassOutputDir(this);
+        Path testClassOutputDir = TestHelper.createTestClassOutputDir(Issue362Test.class);
         store = Stores.newInstance(testClassOutputDir.resolve("store"));
         issue362fixtureDir = TestHelper.getFixturesDirectory().resolve("issue#362");
     }

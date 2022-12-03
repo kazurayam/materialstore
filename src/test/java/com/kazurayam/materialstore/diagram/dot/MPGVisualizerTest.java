@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.diagram.dot;
 
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
+import com.kazurayam.materialstore.core.TestHelper;
 import com.kazurayam.materialstore.core.filesystem.FileType;
 import com.kazurayam.materialstore.core.filesystem.JobName;
 import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
@@ -22,13 +23,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class MPGVisualizerTest {
 
     private static final Path outputDir =
-            Paths.get(System.getProperty("user.dir"))
-                    .resolve("build/tmp/testOutput")
-                    .resolve(MPGVisualizerTest.class.getName());
+            TestHelper.createTestClassOutputDir(MPGVisualizerTest.class);
 
     private static final Path issue80Dir =
-            Paths.get(".")
-                    .resolve("src/test/fixtures/issue#80");
+            TestHelper.getFixturesDirectory().resolve("issue#80");
 
     private static Store store;
     private static JobName jobName;

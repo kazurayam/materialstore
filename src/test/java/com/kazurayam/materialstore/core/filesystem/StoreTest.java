@@ -23,7 +23,7 @@ public class StoreTest {
 
     @BeforeEach
     public void beforeEach() throws IOException {
-        testClassOutputDir = TestHelper.createTestClassOutputDir(this);
+        testClassOutputDir = TestHelper.createTestClassOutputDir(StoreTest.class);
         store = Stores.newInstance(testClassOutputDir.resolve("store"));
     }
 

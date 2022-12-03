@@ -21,7 +21,7 @@ public class StoreImportTest {
 
     @BeforeEach
     public void beforeEach() throws IOException {
-        testClassOutputDir = TestHelper.createTestClassOutputDir(this);
+        testClassOutputDir = TestHelper.createTestClassOutputDir(StoreImportTest.class);
     }
 
     @Test

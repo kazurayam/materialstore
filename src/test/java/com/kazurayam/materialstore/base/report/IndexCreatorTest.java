@@ -30,7 +30,7 @@ public class IndexCreatorTest {
 
     @BeforeEach
     public void beforeEach() throws MaterialstoreException {
-        testClassOutputDir = TestHelper.createTestClassOutputDir(this);
+        testClassOutputDir = TestHelper.createTestClassOutputDir(IndexCreatorTest.class);
         store = Stores.newInstance(testClassOutputDir.resolve("store"));
         indexCreator = new IndexCreator(store);
     }
