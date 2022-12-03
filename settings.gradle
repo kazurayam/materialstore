@@ -1,5 +1,5 @@
 rootProject.name = 'materialstore'
-include(':core', ':freemarker', ':base', ':mapper', ':facet', ':diagram', ':tutorial')
+include(':core', ':freemarker', ':base', ':mapper', ':facet', ':diagram')
 /*
  subprojects' dependency tree
      :core       -> :base
@@ -79,5 +79,4 @@ dependencyResolutionManagement {
         }
     }
 }
-include 'tutorial'
 

@@ -1,30 +1,32 @@
 plugins {
     id 'java'
+    id 'java-library'
 }
 
 dependencies {
-    implementation(project(":core"))
-    testImplementation project(':core').sourceSets.test.output
-    testImplementation(project(':diagram'))
-    implementation(project(":freemarker"))
+    api(project(":core"))
+    api(project(":freemarker"))
+
+    // java-diff-utils is required by com.kazurayam.materialstore.reduce.differ.AbstractTextDiffer
+    api libs.javaDiffUtils
+
+    // FreeMarker is required by com.kazurayam.materialstore.report.MProductGroupReporterImpl
+    api libs.freemarker
+
+    // jsoup is required by com.kazurayam.materialstore.reduce.differ.TextDifferToHTML
+    api libs.jsoup
+
+    // AShot is required by com.kazurayam.materialstore.reduce.differ.ImageDifferToPNG
+    api libs.ashot
 
     // WebDriverManager is required by com.kazurayam.materialstore.materialize.MaterializingFunctions
     implementation libs.webdrivermanager
 
-    // java-diff-utils is required by com.kazurayam.materialstore.reduce.differ.AbstractTextDiffer
-    implementation libs.javaDiffUtils
-
-    // FreeMarker is required by com.kazurayam.materialstore.report.MProductGroupReporterImpl
-    implementation libs.freemarker
-
-    // jsoup is required by com.kazurayam.materialstore.reduce.differ.TextDifferToHTML
-    implementation libs.jsoup
-
     // selenium-java is required by com.kazurayam.materialstore.materialize.MaterializingFunctions
     implementation libs.selenium
 
-    // AShot is required by com.kazurayam.materialstore.reduce.differ.ImageDifferToPNG
-    implementation libs.ashot
+    testImplementation project(':core').sourceSets.test.output
+    testImplementation(project(':diagram'))
 }
 
 

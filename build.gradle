@@ -1,4 +1,5 @@
 plugins {
+    id("java-library")
     id("maven-publish")
     id("signing")
 }
@@ -125,28 +126,6 @@ subprojects({ subproject ->
 })
 
 
-
-task aggregateDocsImages(type: Copy) {
-    from("freemarker/docs/images")
-    from("tutorial/docs/images")
-    into("docs/images")
-}
-
-task compileTutorial {
-    // run docs/indexconv.sh to generate index.md from index_.adoc
-    doFirst {
-        exec {
-            workingDir './docs'
-            commandLine './indexconv.sh', '-t'
-        }
-    }
-}
-compileTutorial.finalizedBy aggregateDocsImages
-
-
-
-
-
 task allJar(type: Jar, dependsOn: subprojects.jar, {
     from subprojects.collect { subproject ->
         subproject.sourceSets.main.output
@@ -222,6 +201,7 @@ publishing {
                     url = "https://github.com/kazurayam/${project.rootProject.name}"
                 }
             }
+
             pom.withXml {
                 // https://stackoverflow.com/questions/24743562/gradle-not-including-dependencies-in-published-pom-xml
                 // The publication doesn't know about our dependencies, so we have to manually add them to the pom
@@ -245,6 +225,7 @@ publishing {
                     dependencyNode.appendNode('version', dp.version)
                 }
             }
+
         }
     }
     repositories {
