@@ -1,202 +1,93 @@
 plugins {
+    id("java-library")
+    id("jacoco")
     id("maven-publish")
     id("signing")
 }
 
 group = "com.kazurayam"
-version = "0.13.0-SNAPSHOT"
+version = "0.13.0"
 
 ext {
     isReleaseVersion = !version.endsWith("SNAPSHOT")
-    ancestorProjectsName = { proj, str = "" ->
-        if (proj.name == rootProject.name) {
-            str = rootProject.name
-        } else {
-            str = ancestorProjectsName(proj.parent) + "-" + proj.name
-        }
-        return str
-    }
-    resolveArchiveBaseName = { subproj ->
-        return ancestorProjectsName(subproj)
-    }
 }
 
-allprojects {
-    apply(plugin: "java")
-    repositories {
-        mavenCentral()
-        mavenLocal()
-    }
-    sourceCompatibility = "1.8"
-    targetCompatibility = "1.8"
-    def defaultEncoding = "UTF-8"
-    tasks.withType(AbstractCompile).each { it.options.encoding = defaultEncoding }
-    tasks.withType(GroovyCompile).each { it.groovyOptions.encoding = defaultEncoding }
-    tasks.withType(JavaCompile) {
-        options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-    }
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+def defaultEncoding = "UTF-8"
+tasks.withType(AbstractCompile).each { it.options.encoding = defaultEncoding }
+tasks.withType(GroovyCompile).each { it.groovyOptions.encoding = defaultEncoding }
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
 }
 
 
+dependencies {
+    api libs.gson
+    api libs.guava
+    api libs.javaDiffUtils
+    api libs.rome
+    api libs.selenium
 
-subprojects({ subproject ->
-    apply(plugin: "jacoco")
-    test({
-        useJUnitPlatform()
-        finalizedBy(jacocoTestReport)
-    })
-    dependencies({
-        // Gson is required by com.kazurayam.materialstore.filesystem.TemplateReady
-        implementation(libs.gson)
+    implementation libs.ashot
+    implementation libs.commons.csv
+    implementation libs.freemarker
+    implementation libs.httpclient
+    implementation libs.jsoup
+    implementation libs.poi
+    implementation libs.pdf2dom
+    implementation libs.pdfbox
+    implementation libs.pdfbox.tools
+    implementation libs.slf4j.api
+    implementation libs.subprocessj
 
-        // slf4j is required by many classes in this library
-        implementation(libs.slf4j.api)
-        testImplementation(libs.slf4j.simple)
+    testImplementation libs.slf4j.simple
+    testImplementation libs.commons.io
+    testImplementation libs.junit.jupiter
+    testImplementation libs.junit.jupiter.api
+    testImplementation libs.webdrivermanager
+    testRuntimeOnly libs.junit.jupiter.engine
+}
 
-        // https://mvnrepository.com/artifact/commons-io/commons-io
-        testImplementation(libs.commons.io)
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
 
-        // JUnit Jupiter is used by all unit tests of all subprojects
-        testImplementation(libs.junit.jupiter)
-        testImplementation(libs.junit.jupiter.api)
-        testRuntimeOnly(libs.junit.jupiter.engine)
-    })
-
-    jar({
-        archiveBaseName.set(resolveArchiveBaseName(subproject))
-        archiveVersion.set(rootProject.version)
-    })
-
-    javadoc({
-        options.showFromProtected()
-        failOnError = false
-        options.locale = "en_US"
-    })
-
-    task submission(type: Zip, {
-        destinationDirectory = file("${buildDir}/libs")
-        archiveBaseName.set(resolveArchiveBaseName(subproject))
-        archiveVersion.set(rootProject.version)
-        //archiveFileName = subproject.name + ".self-contained" + ".zip"
-        from(".")
-        exclude("build")
-    })
-
-    task showSourceSets({
-        doLast({
-            sourceSets.each({ srcSet ->
-                println("[" + srcSet.name + "]")
-                println("--> Source directories: " + srcSet.allJava.srcDirs)
-                println("--> Output directories: " + srcSet.output.classesDirs.files)
-                println("--> Compile classpath:")
-                srcSet.compileClasspath.files.each({
-                    println "  " + it.path
-                })
-                println("")
-            })
-        })
-    })
-
-    task showDependencies({
-        doFirst({
-            println("dependencies {")
-            configurations.each({config ->
-                if (config.name != "") {
-                    config.dependencies.each({ dependency ->
-                        println "    ${config.name} group: "${dependency.group}", name: "${dependency.name}", version: "${dependency.version}""
-                    })
-                }
-            })
-            println("}")
-        })
-    })
-
-    task showConfigurations({
-        doLast({
-            configurations.each({
-                println(it.getName())
-                it.getExtendsFrom().forEach({
-                    println("    extends from " + it.getName())
-                })
-            })
-        })
-    })
-    task printDependencies(type: DependencyReportTask) {}
+artifacts {
+    archives javadocJar, sourcesJar
+}
+test({
+    useJUnitPlatform()
+    finalizedBy(jacocoTestReport)
 })
 
-
-
-task aggregateDocsImages(type: Copy) {
-    from("freemarker/docs/images")
-    from("tutorial/docs/images")
-    into("docs/images")
+jar {
+    archiveBaseName.set(rootProject.name)
+    archiveVersion.set(rootProject.version)
 }
 
-task compileTutorial {
-    // run docs/indexconv.sh to generate index.md from index_.adoc
-    doFirst {
-        exec {
-            workingDir './docs'
-            commandLine './indexconv.sh', '-t'
-        }
-    }
-}
-compileTutorial.finalizedBy aggregateDocsImages
-
-
-
-
-
-task allJar(type: Jar, dependsOn: subprojects.jar, {
-    from subprojects.collect { subproject ->
-        subproject.sourceSets.main.output
-    }
-    archivesBaseName = rootProject.name
-    duplicatesStrategy("exclude")
-})
-
-task allJavadoc(type: Javadoc) {
-    group = "aggregation"
-    description = rootProject.name
-    title = "$description $version API"
-    destinationDir = file("${buildDir}/docs/javadoc")
-    def sourceProjects =
-            subprojects.findAll {
-                it.plugins.hasPlugin("java") || it.plugins.hasPlugin("groovy")
-            }
-    source sourceProjects.collect { prj -> prj.sourceSets.main.allJava }
-    classpath = files(sourceProjects.collect { prj -> prj.sourceSets.main.runtimeClasspath })
-
-    //options.overview = "gradle/api/overview.html"
+javadoc {
     options.showFromProtected()
     failOnError = false
     options.locale = "en_US"
 }
+
 task copyJavadocToDocsDir(type: Copy) {
     from "build/docs/javadoc"
     into "docs/api"
 }
-allJavadoc.finalizedBy copyJavadocToDocsDir
-
-task javadocJar(type: Jar) {
-    archiveClassifier.set("javadoc")
-    from allJavadoc
-}
-
-task sourcesJar(type: Jar) {
-    from subprojects.collect {subproject ->
-        subproject.sourceSets.main.allSource
-    }
-    archivesBaseName = rootProject.name
-    archiveClassifier.set("sources")
-}
+javadoc.finalizedBy copyJavadocToDocsDir
 
 publishing {
     publications {
         materialstore(MavenPublication) {
-            artifact allJar
-            artifact sourcesJar
-            artifact javadocJar
+            from components.java
             pom {
                 groupId = project.group
                 name = project.rootProject.name
@@ -222,29 +113,6 @@ publishing {
                     url = "https://github.com/kazurayam/${project.rootProject.name}"
                 }
             }
-            pom.withXml {
-                // https://stackoverflow.com/questions/24743562/gradle-not-including-dependencies-in-published-pom-xml
-                // The publication doesn't know about our dependencies, so we have to manually add them to the pom
-                Set<Dependency> dependencySet = new HashSet<>()
-                subprojects.each { subproject ->
-                    subproject.configurations.implementation.allDependencies.each { dp ->
-                        if (dp.getGroup() != null &&
-                                dp.getName() != null &&
-                                dp.getVersion() != null &&
-                                dp.getVersion() != "unspecified") {
-                            dependencySet.add(dp)
-                        }
-                    }
-                }
-                // modify the pom.xml; insert <dependencies> node stuffed with <dependency>
-                def dependenciesNode = asNode().appendNode('dependencies')
-                dependencySet.each { dp ->
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', dp.group)
-                    dependencyNode.appendNode('artifactId', dp.name)
-                    dependencyNode.appendNode('version', dp.version)
-                }
-            }
         }
     }
     repositories {
@@ -268,4 +136,3 @@ signing {
 tasks.withType(Sign) {
     onlyIf { isReleaseVersion }
 }
-
