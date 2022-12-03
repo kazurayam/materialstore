@@ -72,7 +72,7 @@ public class TestHelper {
     /**
      * create the out directory for the testCase object to write output files
      */
-    public static Path createTestClassOutputDir(Class clazz) {
+    public static Path createTestClassOutputDir(Class<?> clazz) {
         Objects.requireNonNull(clazz);
         Path output = getTestOutputDir()
                 .resolve(clazz.getName());

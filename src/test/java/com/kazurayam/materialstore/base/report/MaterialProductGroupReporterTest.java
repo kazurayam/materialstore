@@ -12,14 +12,12 @@ import com.kazurayam.materialstore.core.filesystem.SortKeys;
 import com.kazurayam.materialstore.core.filesystem.Store;
 import com.kazurayam.materialstore.core.filesystem.Stores;
 import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -27,11 +25,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 //@Disabled   // https://github.com/kazurayam/materialstore/issues/352
 public class MaterialProductGroupReporterTest extends AbstractReporterTest {
 
-    private static final Path fixtureDir =
+    private final Path fixtureDir =
             TestHelper.getFixturesDirectory().resolve("issue#80");
 
     private Store store;
-    private JobName jobNameA;
     private Path report1;
 
     @BeforeEach
