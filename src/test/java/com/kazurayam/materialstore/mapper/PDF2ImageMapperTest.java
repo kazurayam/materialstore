@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class PDF2ImageMapperTest {
 
     private static Path outputDir;
-    private static Path fixtureDir;
     private Store store;
 
     @BeforeAll
@@ -36,7 +35,8 @@ public class PDF2ImageMapperTest {
                 .resolve(PDF2ImageMapperTest.class.getName());
         Files.createDirectories(outputDir);
         //
-        fixtureDir = projectDir.resolve("src/test/fixtures");
+        Path fixturesDir = projectDir.resolve("src/test/fixtures");
+        Path fixtureDir = fixturesDir.resolve("mapper");
         FileUtils.copyDirectory(fixtureDir.toFile(), outputDir.toFile());
     }
 

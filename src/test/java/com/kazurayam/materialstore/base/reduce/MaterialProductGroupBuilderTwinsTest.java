@@ -8,7 +8,6 @@ import com.kazurayam.materialstore.core.filesystem.QueryOnMetadata;
 import com.kazurayam.materialstore.core.filesystem.Store;
 import com.kazurayam.materialstore.core.filesystem.Stores;
 import org.apache.commons.io.FileUtils;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +19,9 @@ import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.function.BiFunction;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MaterialProductGroupBuilderTwinsTest {
 
@@ -70,9 +72,9 @@ public class MaterialProductGroupBuilderTwinsTest {
                                 .identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"))
                                 .build();
         MaterialProductGroup reduced = Reducer.twins(store, left, right, func);
-        Assertions.assertNotNull(reduced);
-        Assertions.assertEquals(8, reduced.size());
-        Assertions.assertEquals(0, reduced.getNumberOfBachelors());
+        assertNotNull(reduced);
+        assertEquals(8, reduced.size());
+        assertEquals(0, reduced.getNumberOfBachelors());
         //println JsonOutput.prettyPrint(reduced.toString())
     }
 
@@ -85,9 +87,9 @@ public class MaterialProductGroupBuilderTwinsTest {
                                 //.identifyWithRegex(Collections.singletonMap("URL.query", "\\w{32}"))
                                 .build();
         MaterialProductGroup reduced = Reducer.twins(store, left, right, func);
-        Assertions.assertNotNull(reduced);
-        Assertions.assertEquals(9, reduced.size());
-        Assertions.assertEquals(2, reduced.getNumberOfBachelors());
+        assertNotNull(reduced);
+        assertEquals(9, reduced.size());
+        assertEquals(2, reduced.getNumberOfBachelors());
     }
 
 }

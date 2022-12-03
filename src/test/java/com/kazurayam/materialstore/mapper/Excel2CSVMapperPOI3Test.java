@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class Excel2CSVMapperPOI3Test {
 
     private static Path outputDir;
-    private static Path fixtureDir;
     private Store store;
 
     @BeforeAll
@@ -36,7 +35,8 @@ public class Excel2CSVMapperPOI3Test {
                 .resolve(Excel2CSVMapperPOI3Test.class.getName());
         Files.createDirectories(outputDir);
         //
-        fixtureDir = projectDir.resolve("src/test/fixtures");
+        Path fixturesDir = projectDir.resolve("src/test/fixtures");
+        Path fixtureDir = fixturesDir.resolve("mapper");
         FileUtils.copyDirectory(fixtureDir.toFile(), outputDir.toFile());
     }
 

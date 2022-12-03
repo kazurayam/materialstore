@@ -12,6 +12,7 @@ import com.kazurayam.materialstore.core.filesystem.Store;
 import com.kazurayam.materialstore.core.filesystem.Stores;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -22,6 +23,11 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * This test takes is tentatively disabled
+ * because it takes long time (over 1 minutes 20 seconds)
+ */
+@Disabled
 public class QueryOnMetadataAsGraphNodeTest {
 
     private static final Path outputDir =

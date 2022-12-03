@@ -26,6 +26,11 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * This test takes is tentatively disabled
+ * because it takes long time (over 1 minutes 20 seconds)
+ */
+@Disabled
 public class MaterialAsGraphNodeTest {
 
     private static Logger logger_ = LoggerFactory.getLogger(MaterialAsGraphNodeTest.class);
