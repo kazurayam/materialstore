@@ -78,7 +78,7 @@ public class MaterialProductGroupReporterTest extends AbstractReporterTest {
         // stuff the Job directory with a fixture
         Path jobNameDir = store.getRoot().resolve(jobName.toString());
         FileUtils.copyDirectory(
-                fixtureDir.resolve("MyAdmin_Visual_inspection_twins").toFile(),
+                fixtureDir.resolve("MyAdmin_visual_inspection_twins").toFile(),
                 jobNameDir.toFile());
         //
         JobTimestamp timestamp0 = new JobTimestamp("20220128_191320");
