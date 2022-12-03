@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.kazurayam"
-version = "0.13.0-SNAPSHOT"
+version = "0.13.0"
 
 ext {
     isReleaseVersion = !version.endsWith("SNAPSHOT")
@@ -54,6 +54,14 @@ dependencies {
     testRuntimeOnly libs.junit.jupiter.engine
 }
 
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
 test({
     useJUnitPlatform()
     finalizedBy(jacocoTestReport)
