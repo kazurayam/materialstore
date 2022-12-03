@@ -28,15 +28,18 @@ tasks.withType(JavaCompile) {
 
 
 dependencies {
+    api libs.gson
+    api libs.guava
+    api libs.javaDiffUtils
+    api libs.rome
+    api libs.selenium
+
     implementation libs.ashot
     implementation libs.commons.csv
     implementation libs.freemarker
-    implementation libs.gson
     implementation libs.httpclient
-    implementation libs.javaDiffUtils
     implementation libs.jsoup
     implementation libs.poi
-    implementation libs.rome
     implementation libs.pdf2dom
     implementation libs.pdfbox
     implementation libs.pdfbox.tools
@@ -47,7 +50,6 @@ dependencies {
     testImplementation libs.commons.io
     testImplementation libs.junit.jupiter
     testImplementation libs.junit.jupiter.api
-    testImplementation libs.selenium
     testImplementation libs.webdrivermanager
     testRuntimeOnly libs.junit.jupiter.engine
 }
