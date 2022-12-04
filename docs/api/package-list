@@ -12,4 +12,3 @@ com.kazurayam.materialstore.core.util
 com.kazurayam.materialstore.diagram.dot
 com.kazurayam.materialstore.facet.textgrid
 com.kazurayam.materialstore.freemarker
-com.kazurayam.materialstore.mapper
