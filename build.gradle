@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.kazurayam"
-version = "0.13.0"
+version = "0.13.1-SNAPSHOT"
 
 ext {
     isReleaseVersion = !version.endsWith("SNAPSHOT")
@@ -32,12 +32,10 @@ dependencies {
     api libs.guava
     api libs.javaDiffUtils
     api libs.rome
-    api libs.selenium
 
     implementation libs.ashot
     implementation libs.commons.csv
     implementation libs.freemarker
-    implementation libs.httpclient
     implementation libs.jsoup
     implementation libs.poi
     implementation libs.pdf2dom

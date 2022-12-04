@@ -3,6 +3,7 @@ rootProject.name = 'materialstore'
 dependencyResolutionManagement {
     versionCatalogs {
         libs {
+            // should be removed at 0.13.1
             version('ashot', '1.5.4')
             library('ashot', 'ru.yandex.qatools.ashot', 'ashot').versionRef('ashot')
 
@@ -20,9 +21,6 @@ dependencyResolutionManagement {
 
             version('guava', '31.1-jre')
             library('guava', 'com.google.guava', 'guava').versionRef('guava')
-
-            version('httpclient', '5.2')
-            library('httpclient', 'org.apache.httpcomponents.client5', 'httpclient5').versionRef('httpclient')
 
             version('javaDiffUtils', '4.11')
             library('javaDiffUtils', 'io.github.java-diff-utils', 'java-diff-utils').versionRef('javaDiffUtils')
@@ -53,9 +51,6 @@ dependencyResolutionManagement {
 
             version('rome', '1.18.0')
             library('rome', 'com.rometools', 'rome').versionRef('rome')
-
-            version('selenium', '3.141.59')
-            library('selenium', 'org.seleniumhq.selenium', 'selenium-java').versionRef('selenium')
 
             version('slf4j', '1.7.25')
             library('slf4j-api', 'org.slf4j', 'slf4j-api').versionRef('slf4j')

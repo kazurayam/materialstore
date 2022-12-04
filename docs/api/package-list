@@ -1,6 +1,5 @@
 com.kazurayam.materialstore.base.inspector
 com.kazurayam.materialstore.base.manage
-com.kazurayam.materialstore.base.materialize
 com.kazurayam.materialstore.base.reduce
 com.kazurayam.materialstore.base.reduce.differ
 com.kazurayam.materialstore.base.reduce.zipper
