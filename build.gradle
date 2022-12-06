@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.kazurayam"
-version = "0.13.0"
+version = "0.14.0"
 
 ext {
     isReleaseVersion = !version.endsWith("SNAPSHOT")
@@ -29,29 +29,17 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     api libs.gson
-    api libs.guava
     api libs.javaDiffUtils
-    api libs.rome
-    api libs.selenium
 
     implementation libs.ashot
-    implementation libs.commons.csv
     implementation libs.freemarker
-    implementation libs.httpclient
     implementation libs.jsoup
-    implementation libs.poi
-    implementation libs.pdf2dom
-    implementation libs.pdfbox
-    implementation libs.pdfbox.tools
     implementation libs.slf4j.api
     implementation libs.subprocessj
 
     testImplementation libs.slf4j.simple
-    testImplementation libs.commons.io
     testImplementation libs.junit.jupiter
-    testImplementation libs.junit.jupiter.api
-    testImplementation libs.webdrivermanager
-    testRuntimeOnly libs.junit.jupiter.engine
+    testImplementation libs.plantuml
 }
 
 java {

@@ -1,6 +1,5 @@
 com.kazurayam.materialstore.base.inspector
 com.kazurayam.materialstore.base.manage
-com.kazurayam.materialstore.base.materialize
 com.kazurayam.materialstore.base.reduce
 com.kazurayam.materialstore.base.reduce.differ
 com.kazurayam.materialstore.base.reduce.zipper
@@ -13,4 +12,3 @@ com.kazurayam.materialstore.core.util
 com.kazurayam.materialstore.diagram.dot
 com.kazurayam.materialstore.facet.textgrid
 com.kazurayam.materialstore.freemarker
-com.kazurayam.materialstore.mapper
