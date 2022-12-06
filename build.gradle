@@ -47,9 +47,6 @@ java {
     withSourcesJar()
 }
 
-artifacts {
-    archives javadocJar, sourcesJar
-}
 test({
     useJUnitPlatform()
     finalizedBy(jacocoTestReport)
@@ -72,7 +69,30 @@ task copyJavadocToDocsDir(type: Copy) {
 }
 javadoc.finalizedBy copyJavadocToDocsDir
 
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
 publishing {
+    repositories {
+        maven {
+            def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+            def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+            url = isReleaseVersion ? releaseRepo: snapshotRepo
+            credentials {
+                username = project.hasProperty("ossrhUsername") ? ossrhUsername : "Unknown user"
+                password = project.hasProperty("ossrhPassword") ? ossrhPassword : "Unknown password"
+            }
+        }
+        maven {
+            name = "gpr"
+            url = uri("https://maven.pkg.github.com/kazurayam/materialstore")
+            credentials {
+                username = project.findProperty("gpr.user")
+                password = project.findProperty("gpr.key")
+            }
+        }
+    }
     publications {
         materialstore(MavenPublication) {
             from components.java
@@ -100,17 +120,6 @@ publishing {
                     developerConnection = "scm:git:git@github.com:kazurayam/${project.rootProject.name}.git"
                     url = "https://github.com/kazurayam/${project.rootProject.name}"
                 }
-            }
-        }
-    }
-    repositories {
-        maven {
-            def releaseRepo = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
-            def snapshotRepo = "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-            url = isReleaseVersion ? releaseRepo: snapshotRepo
-            credentials {
-                username = project.hasProperty("ossrhUsername") ? ossrhUsername : "Unknown user"
-                password = project.hasProperty("ossrhPassword") ? ossrhPassword : "Unknown password"
             }
         }
     }
