@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.base.inspector;
 
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
+import com.kazurayam.materialstore.core.TestHelper;
 import com.kazurayam.materialstore.core.filesystem.ID;
 import com.kazurayam.materialstore.core.filesystem.JobName;
 import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
@@ -18,35 +19,27 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InspectorTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(InspectorTest.class.getName());
-    private static final Path storeDir = outputDir.resolve("store");
-    private static final Path issue80Dir = Paths.get(".").resolve("src/test/fixtures/issue#80");
-
-    private Store store;
+    private static Store store;
     private MaterialList left;
     private MaterialList right;
     private Inspector inspector;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-
-        Files.createDirectories(outputDir);
-        FileUtils.copyDirectory(issue80Dir.toFile(), storeDir.toFile());
+        Path testClassOutputDir = TestHelper.createTestClassOutputDir(InspectorTest.class);
+        store = Stores.newInstance(testClassOutputDir.resolve("store"));
+        Path issue80Dir = TestHelper.getFixturesDirectory().resolve("issue#80");
+        FileUtils.copyDirectory(issue80Dir.toFile(), store.getRoot().toFile());
     }
 
     @BeforeEach
     public void before() throws MaterialstoreException {
-        store = Stores.newInstance(storeDir);
         JobName jobName = new JobName("MyAdmin_visual_inspection_twins");
         JobTimestamp timestampP = new JobTimestamp("20220128_191320");
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
@@ -63,7 +56,12 @@ public class InspectorTest {
     public void test_reduceAndSort() throws MaterialstoreException {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("URL.query", "\\w{32}");
-        MaterialProductGroup reducedMPG = MaterialProductGroup.builder(left, right).ignoreKeys("environment", "URL.host", "URL.port", "URL.protocol").identifyWithRegex(map).sort("URL.host").build();
+        MaterialProductGroup reducedMPG =
+                MaterialProductGroup.builder(left, right)
+                        .ignoreKeys("environment", "URL.host", "URL.port", "URL.protocol")
+                        .identifyWithRegex(map)
+                        .sort("URL.host")
+                        .build();
         Assertions.assertNotNull(reducedMPG);
 
         MaterialProductGroup processedMPG = inspector.reduceAndSort(reducedMPG);
