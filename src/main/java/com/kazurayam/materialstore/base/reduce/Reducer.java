@@ -67,12 +67,16 @@ public final class Reducer {
         logger.info("[chronos] previousMaterialList.getJobTimestamp()=" + previousMaterialList.getJobTimestamp());
         logger.info("[chronos] previousMaterialList.size()=" + previousMaterialList.size());
 
+        /* https://github.com/kazurayam/materialstore/issues/389
+
         if (previousMaterialList.size() == 0) {
             throw new MaterialstoreException(
                     String.format("store.reflect(currentMaterialList) returned previousMaterialList of size == 0. " +
                             "currentMaterialList = %s/%s", currentMaterialList.getJobName().toString(),
                             currentMaterialList.getJobTimestamp().toString()));
         }
+
+         */
 
         // zip 2 MaterialLists to form a single MProductGroup
         MaterialProductGroup reducedMPG = func.apply(previousMaterialList, currentMaterialList);
