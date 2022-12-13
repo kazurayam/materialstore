@@ -201,5 +201,12 @@ public class JobTimestampTest {
         assertEquals(0, modified.value().getHour());
     }
 
+    @Test
+    public void test_withHour_withMinute_withSecond() {
+        JobTimestamp now = JobTimestamp.now();
+        JobTimestamp lastMidnight = now.withHour(0).withMinute(0).withSecond(0);
+        String t = lastMidnight.toString();
+        assertEquals("000000", t.substring(t.indexOf("_") + 1));
+    }
 
 }
