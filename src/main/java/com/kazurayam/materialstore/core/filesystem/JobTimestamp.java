@@ -265,6 +265,43 @@ public final class JobTimestamp implements Comparable<JobTimestamp>, Jsonifiable
     }
 
     /**
+     * return a copy of this JobTimestamp instance with the given value as second
+     * @param second
+     * @return
+     */
+    public JobTimestamp withSecond(int second) {
+        LocalDateTime base = LocalDateTime.parse(this.jobTimestamp_, FORMATTER);
+        LocalDateTime calcLDT = base.withSecond(second);
+        String calcSTR = FORMATTER.format(calcLDT);
+        return new JobTimestamp(calcSTR);
+    }
+
+    /**
+     * return a copy of this JobTimestamp instance with the given value as minute
+     * @param minute
+     * @return
+     */
+    public JobTimestamp withMinute(int minute) {
+        LocalDateTime base = LocalDateTime.parse(this.jobTimestamp_, FORMATTER);
+        LocalDateTime calcLDT = base.withMinute(minute);
+        String calcSTR = FORMATTER.format(calcLDT);
+        return new JobTimestamp(calcSTR);
+    }
+
+    /**
+     * return a copy of this JobTimestamp instance with the given value as hour
+     * @param hour
+     * @return
+     */
+    public JobTimestamp withHour(int hour) {
+        LocalDateTime base = LocalDateTime.parse(this.jobTimestamp_, FORMATTER);
+        LocalDateTime calcLDT = base.withHour(hour);
+        String calcSTR = FORMATTER.format(calcLDT);
+        return new JobTimestamp(calcSTR);
+    }
+
+
+    /**
      * @return a new JobTimestamp instance with the value which is the beginning of
      * the month in which this JobTimestamp instance belongs.
      * The hours will be 00, the minutes will be 00, the seconds will be 00.
