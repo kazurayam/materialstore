@@ -19,6 +19,7 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -56,9 +57,10 @@ public class IndexCreator {
         dataModel.put("style", StyleHelper.loadStyleFromClasspath());
         dataModel.put("style2", StyleHelper.loadStyleFromClasspath(
                 "/com/kazurayam/materialstore/base/reduce/differ/style.css"));
-        dataModel.put("title", "store/index.html");
         ReportFileList rfl = new ReportFileList(store);
-        dataModel.put("model", rfl.toTemplateModel());
+        Map<String, Object> model = rfl.toTemplateModel();
+        dataModel.put("title", makeTitle(model));
+        dataModel.put("model", model);
 
         /* Get the template */
         Template template = null;
@@ -96,6 +98,13 @@ public class IndexCreator {
         }
 
         return filePath;
+    }
+
+    public String makeTitle(Map<String, Object> model) {
+        String s = (String)model.get("store");
+        Path html = Paths.get(s);
+        Path parent = html.getParent();
+        return parent.getFileName().toString() + "/" + html.getFileName().toString();
     }
 
     static class ReportFileList implements TemplateReady {

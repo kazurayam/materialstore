@@ -13,7 +13,7 @@
 <body>
 <div class="container">
   <h4 class="title">${title}</h4>
-  <p>store : ${model.store}</p>
+  <p>Path: ${model.store}</p>
   <table class="table table-sm table-striped">
     <thead>
       <tr>
