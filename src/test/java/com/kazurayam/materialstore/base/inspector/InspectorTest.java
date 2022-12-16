@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.base.inspector;
 
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.core.TestHelper;
+import com.kazurayam.materialstore.core.filesystem.FileType;
 import com.kazurayam.materialstore.core.filesystem.ID;
 import com.kazurayam.materialstore.core.filesystem.JobName;
 import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
@@ -22,6 +23,8 @@ import java.nio.file.Path;
 import java.util.LinkedHashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class InspectorTest {
 
@@ -62,10 +65,10 @@ public class InspectorTest {
                         .identifyWithRegex(map)
                         .sort("URL.host")
                         .build();
-        Assertions.assertNotNull(reducedMPG);
+        assertNotNull(reducedMPG);
 
         MaterialProductGroup processedMPG = inspector.reduceAndSort(reducedMPG);
-        Assertions.assertNotNull(processedMPG);
+        assertNotNull(processedMPG);
 
         processedMPG.forEach(mProduct -> Assertions.assertNotEquals(ID.NULL_OBJECT,
                 mProduct.getDiff().getIndexEntry().getID()));
@@ -80,26 +83,48 @@ public class InspectorTest {
         //System.out.println("materialList=" + materialList.toTemplateModel());
         Inspector inspector = Inspector.newInstance(store);
         Path report = inspector.report(materialList);
-        Assertions.assertNotNull(report);
-        Assertions.assertTrue(Files.exists(report));
+        assertNotNull(report);
+        assertTrue(Files.exists(report));
     }
 
     @Test
     public void test_report_MaterialProductGroup() throws MaterialstoreException {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("URL.query", "\\w{32}");
-        MaterialProductGroup reducedMPG = MaterialProductGroup.builder(left, right)
+        MaterialProductGroup mpg = MaterialProductGroup.builder(left, right)
                 .ignoreKeys("environment", "URL.host", "URL.port", "URL.protocol")
                 .identifyWithRegex(map)
                 .sort("URL.host")
                 .build();
-        MaterialProductGroup processedMPG = inspector.reduceAndSort(reducedMPG);
+        MaterialProductGroup reduced = inspector.reduceAndSort(mpg);
         double threshold = 0.0D;
-        Assertions.assertTrue(processedMPG.countWarnings(threshold) > 0);
+        assertTrue(reduced.countWarnings(threshold) > 0);
 
-        Path report = inspector.report(processedMPG, threshold);
-        Assertions.assertNotNull(report);
-        Assertions.assertTrue(Files.exists(report));
+        Path report = inspector.report(reduced, threshold);
+        assertNotNull(report);
+        assertTrue(Files.exists(report));
+    }
+
+    /*
+     * https://github.com/kazurayam/materialstore/issues/393
+     * Even when the left MaterialList is empty, Inspector should work quietly
+     * and produce a report that shows "There isn't anything to compare"
+     */
+    @Test
+    public void test_report_MaterialProductGroup_ThereIsntAnythingToCompare()
+            throws MaterialstoreException {
+        MaterialList emptyML =
+                store.select(new JobName("MyAdmin_visual_inspection_twins"),
+                        new JobTimestamp("20220128_191320"),
+                        FileType.JPEG);   // I know, there is no JPEG
+        //
+        MaterialProductGroup mpg = MaterialProductGroup.builder(emptyML, right).build();
+        MaterialProductGroup reduced = inspector.reduceAndSort(mpg);
+        double threshold = 0.0D;
+        assertTrue(reduced.countWarnings(threshold) > 0);
+        Path report = inspector.report(reduced, threshold);
+        assertNotNull(report);
+        assertTrue(Files.exists(report));
     }
 
     @Test

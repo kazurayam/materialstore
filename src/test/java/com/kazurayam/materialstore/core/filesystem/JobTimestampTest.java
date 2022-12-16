@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class JobTimestampTest {
 
     private static final Pattern pattern = Pattern.compile("\\d{8}_\\d{6}");
@@ -30,14 +32,14 @@ public class JobTimestampTest {
     public void test_beginningOfTheMonth() {
         JobTimestamp currentTimestamp = new JobTimestamp("20220408_082316");
         JobTimestamp beginningOfTheMonth = currentTimestamp.beginningOfTheMonth();
-        Assertions.assertEquals("20220401_000000", beginningOfTheMonth.toString());
+        assertEquals("20220401_000000", beginningOfTheMonth.toString());
     }
 
     @Test
     public void test_endOfTheMonth() {
         JobTimestamp currentTimestamp = new JobTimestamp("20220408_082316");
         JobTimestamp endOfTheMonth = currentTimestamp.endOfTheMonth();
-        Assertions.assertEquals("20220430_235959", endOfTheMonth.toString());
+        assertEquals("20220430_235959", endOfTheMonth.toString());
     }
 
 
@@ -66,7 +68,7 @@ public class JobTimestampTest {
         JobTimestamp previous = new JobTimestamp("20220220_092830");
         JobTimestamp following = new JobTimestamp("20220220_092835");
         long between = JobTimestamp.betweenSeconds(previous, following);
-        Assertions.assertEquals(5L, between);
+        assertEquals(5L, between);
     }
 
     @Test
@@ -74,7 +76,7 @@ public class JobTimestampTest {
         JobTimestamp base = new JobTimestamp("20210727_223330");
         JobTimestamp expected = new JobTimestamp("20210726_223330");
         JobTimestamp previous = base.minusDays(1);
-        Assertions.assertEquals(expected, previous);
+        assertEquals(expected, previous);
     }
 
     @Test
@@ -82,7 +84,7 @@ public class JobTimestampTest {
         JobTimestamp base = new JobTimestamp("20210727_223330");
         JobTimestamp expected = new JobTimestamp("20210727_213330");
         JobTimestamp previous = base.minusHours(1);
-        Assertions.assertEquals(expected, previous);
+        assertEquals(expected, previous);
     }
 
     @Test
@@ -90,7 +92,7 @@ public class JobTimestampTest {
         JobTimestamp base = new JobTimestamp("20210727_223330");
         JobTimestamp expected = new JobTimestamp("20210727_223230");
         JobTimestamp previous = base.minusMinutes(1);
-        Assertions.assertEquals(expected, previous);
+        assertEquals(expected, previous);
     }
 
     @Test
@@ -98,7 +100,7 @@ public class JobTimestampTest {
         JobTimestamp base = new JobTimestamp("20210727_223330");
         JobTimestamp expected = new JobTimestamp("20210627_223330");
         JobTimestamp previous = base.minusMonths(1);
-        Assertions.assertEquals(expected, previous);
+        assertEquals(expected, previous);
     }
 
     @Test
@@ -106,7 +108,7 @@ public class JobTimestampTest {
         JobTimestamp base = new JobTimestamp("20210727_223330");
         JobTimestamp expected = new JobTimestamp("20210727_223329");
         JobTimestamp previous = base.minusSeconds(1);
-        Assertions.assertEquals(expected, previous);
+        assertEquals(expected, previous);
     }
 
     @Test
@@ -114,7 +116,7 @@ public class JobTimestampTest {
         JobTimestamp base = new JobTimestamp("20210727_223330");
         JobTimestamp expected = new JobTimestamp("20210720_223330");
         JobTimestamp previous = base.minusWeeks(1);
-        Assertions.assertEquals(expected, previous);
+        assertEquals(expected, previous);
     }
 
     @Test
@@ -122,7 +124,7 @@ public class JobTimestampTest {
         JobTimestamp base = new JobTimestamp("20210726_223330");
         JobTimestamp expected = new JobTimestamp("20210727_223330");
         JobTimestamp following = base.plusDays(1);
-        Assertions.assertEquals(expected, following);
+        assertEquals(expected, following);
     }
 
     @Test
@@ -130,7 +132,7 @@ public class JobTimestampTest {
         JobTimestamp base = new JobTimestamp("20210727_213330");
         JobTimestamp expected = new JobTimestamp("20210727_223330");
         JobTimestamp following = base.plusHours(1);
-        Assertions.assertEquals(expected, following);
+        assertEquals(expected, following);
     }
 
     @Test
@@ -138,7 +140,7 @@ public class JobTimestampTest {
         JobTimestamp base = new JobTimestamp("20210727_223230");
         JobTimestamp expected = new JobTimestamp("20210727_223330");
         JobTimestamp following = base.plusMinutes(1);
-        Assertions.assertEquals(expected, following);
+        assertEquals(expected, following);
     }
 
     @Test
@@ -146,7 +148,7 @@ public class JobTimestampTest {
         JobTimestamp base = new JobTimestamp("20210627_223330");
         JobTimestamp expected = new JobTimestamp("20210727_223330");
         JobTimestamp following = base.plusMonths(1);
-        Assertions.assertEquals(expected, following);
+        assertEquals(expected, following);
     }
 
     @Test
@@ -154,7 +156,7 @@ public class JobTimestampTest {
         JobTimestamp base = new JobTimestamp("20210727_223329");
         JobTimestamp expected = new JobTimestamp("20210727_223330");
         JobTimestamp following = base.plusSeconds(1);
-        Assertions.assertEquals(expected, following);
+        assertEquals(expected, following);
     }
 
     @Test
@@ -162,7 +164,7 @@ public class JobTimestampTest {
         JobTimestamp base = new JobTimestamp("20210720_223330");
         JobTimestamp expected = new JobTimestamp("20210727_223330");
         JobTimestamp following = base.plusWeeks(1);
-        Assertions.assertEquals(expected, following);
+        assertEquals(expected, following);
     }
 
     @Test
@@ -171,11 +173,40 @@ public class JobTimestampTest {
         // 1 argument
         JobTimestamp actual = JobTimestamp.laterThan(previous);
         Assertions.assertNotEquals(previous, actual);
-        Assertions.assertEquals(1L, JobTimestamp.betweenSeconds(previous, actual));
+        assertEquals(1L, JobTimestamp.betweenSeconds(previous, actual));
         // 2 arguments
         JobTimestamp onceMore = JobTimestamp.laterThan(previous, actual);
         Assertions.assertNotEquals(previous, onceMore);
         Assertions.assertNotEquals(actual, onceMore);
+    }
+
+    @Test
+    public void test_withSecond() {
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        JobTimestamp modified = jobTimestamp.withSecond(0);
+        assertEquals(0, modified.value().getSecond());
+    }
+
+    @Test
+    public void test_withMinute() {
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        JobTimestamp modified = jobTimestamp.withMinute(0);
+        assertEquals(0, modified.value().getMinute());
+    }
+
+    @Test
+    public void test_withHour() {
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        JobTimestamp modified = jobTimestamp.withHour(0);
+        assertEquals(0, modified.value().getHour());
+    }
+
+    @Test
+    public void test_withHour_withMinute_withSecond() {
+        JobTimestamp now = JobTimestamp.now();
+        JobTimestamp lastMidnight = now.withHour(0).withMinute(0).withSecond(0);
+        String t = lastMidnight.toString();
+        assertEquals("000000", t.substring(t.indexOf("_") + 1));
     }
 
 }

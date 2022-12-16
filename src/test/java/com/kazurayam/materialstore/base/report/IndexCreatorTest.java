@@ -18,7 +18,10 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class IndexCreatorTest {
@@ -53,5 +56,14 @@ public class IndexCreatorTest {
         //
         Path indexFile = indexCreator.create();
         assertTrue(Files.exists(indexFile));
+    }
+
+    @Test
+    public void test_makeTitle() {
+        Map<String, Object> model = new HashMap<>();
+        model.put("store", "/Users/foo/tmp/myProject/store-backup");
+        String title = indexCreator.makeTitle(model);
+        System.out.println(title);
+        assertEquals("store-backup/index.html", title);
     }
 }
