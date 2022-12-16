@@ -61,9 +61,9 @@ public class IndexCreatorTest {
     @Test
     public void test_makeTitle() {
         Map<String, Object> model = new HashMap<>();
-        model.put("store", "/Users/foo/tmp/myProject/store-backup/index2.html");
+        model.put("store", "/Users/foo/tmp/myProject/store-backup");
         String title = indexCreator.makeTitle(model);
         System.out.println(title);
-        assertEquals("store-backup/index2.html", title);
+        assertEquals("store-backup/index.html", title);
     }
 }

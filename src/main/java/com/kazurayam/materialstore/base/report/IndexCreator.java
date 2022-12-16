@@ -102,9 +102,8 @@ public class IndexCreator {
 
     public String makeTitle(Map<String, Object> model) {
         String s = (String)model.get("store");
-        Path html = Paths.get(s);
-        Path parent = html.getParent();
-        return parent.getFileName().toString() + "/" + html.getFileName().toString();
+        Path parent = Paths.get(s);
+        return parent.getFileName().toString() + "/index.html";
     }
 
     static class ReportFileList implements TemplateReady {
