@@ -10,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -105,6 +106,17 @@ public class StoreTest {
         Path jobTimestampPath = store.getPathOf(jobName, jobTimestamp);
         assertNotNull(jobTimestampPath);
         assertTrue(jobTimestampPath.toString().endsWith(jobTimestamp.toString()));
+    }
+
+    @Test
+    public void test_reflect() throws MaterialstoreException {
+        jobName = new JobName("test_reflect");
+        JobTimestamp jt = JobTimestamp.now();
+        store.write(jobName, jt, FileType.TXT, Metadata.NULL_OBJECT, "Hello");
+        MaterialList ml = store.select(jobName, jt, FileType.PNG);   // ml.size() == 0
+        // no MaterialstoreException to be thrown
+        assertDoesNotThrow(() -> store.reflect(ml, jt.minusMinutes(3)));
+        assertEquals(MaterialList.NULL_OBJECT, store.reflect(ml, jt.minusMinutes(3)));
     }
 
     @Test

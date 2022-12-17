@@ -265,9 +265,9 @@ public final class JobTimestamp implements Comparable<JobTimestamp>, Jsonifiable
     }
 
     /**
-     * return a copy of this JobTimestamp instance with the given value as second
-     * @param second
-     * @return
+     *
+     * @param second 0..59
+     * @return a copy of this JobTimestamp instance but with the given second value
      */
     public JobTimestamp withSecond(int second) {
         LocalDateTime base = LocalDateTime.parse(this.jobTimestamp_, FORMATTER);
@@ -277,9 +277,9 @@ public final class JobTimestamp implements Comparable<JobTimestamp>, Jsonifiable
     }
 
     /**
-     * return a copy of this JobTimestamp instance with the given value as minute
-     * @param minute
-     * @return
+     *
+     * @param minute 0..59
+     * @return a copy of this JobTimestamp instance but with the given minute value
      */
     public JobTimestamp withMinute(int minute) {
         LocalDateTime base = LocalDateTime.parse(this.jobTimestamp_, FORMATTER);
@@ -289,9 +289,9 @@ public final class JobTimestamp implements Comparable<JobTimestamp>, Jsonifiable
     }
 
     /**
-     * return a copy of this JobTimestamp instance with the given value as hour
-     * @param hour
-     * @return
+     *
+     * @param hour 0..23
+     * @return a copy of this JobTimestamp instance but with the given hour value
      */
     public JobTimestamp withHour(int hour) {
         LocalDateTime base = LocalDateTime.parse(this.jobTimestamp_, FORMATTER);
