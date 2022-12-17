@@ -12,6 +12,8 @@ import freemarker.template.TemplateException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.parser.Parser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -25,6 +27,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -38,6 +41,8 @@ import java.util.stream.Stream;
  * The index html presents the list of html files contained in the `store` directory.
  */
 public class IndexCreator {
+
+    Logger logger = LoggerFactory.getLogger(IndexCreator.class);
 
     private final Store store;
     private static String TEMPLATE_PATH =
@@ -58,7 +63,13 @@ public class IndexCreator {
         dataModel.put("style2", StyleHelper.loadStyleFromClasspath(
                 "/com/kazurayam/materialstore/base/reduce/differ/style.css"));
         ReportFileList rfl = new ReportFileList(store);
-        Map<String, Object> model = rfl.toTemplateModel();
+
+        Map<String, Object> model = Collections.emptyMap();
+        try {
+            model = rfl.toTemplateModel();
+        } catch (Exception e) {
+            logger.warn("rtf.toString(): " + rfl.toString());
+        }
         dataModel.put("title", makeTitle(model));
         dataModel.put("model", model);
 
@@ -141,8 +152,10 @@ public class IndexCreator {
         @Override
         public String toJson(){
             StringBuilder sb = new StringBuilder();
-            sb.append("{").append("\"store\":\"")
-                    .append(store.getRoot().toString()).append("\"")
+            sb.append("{")
+                    .append("\"store\":\"")
+                    .append(JsonUtil.escapeAsJsonString(store.getRoot().toString()))
+                    .append("\"")
                     .append(",")
                     .append("\"files\":[");
             try {
@@ -152,7 +165,9 @@ public class IndexCreator {
                     sb.append(rf.toJson());
                 }
             } catch (IOException e) {
-                sb.append("\"").append(e.getMessage()).append("\"");
+                sb.append("\"")
+                        .append(JsonUtil.escapeAsJsonString(e.getMessage()))
+                        .append("\"");
             }
             sb.append("]")
                     .append("}");
@@ -194,9 +209,13 @@ public class IndexCreator {
         public String toJson() {
             StringBuilder sb = new StringBuilder();
             sb.append("{")
-                    .append("\"fileName\":\"" + this.getFileName() + "\"")
+                    .append("\"fileName\":\"")
+                    .append(JsonUtil.escapeAsJsonString(this.getFileName()))
+                    .append("\"")
                     .append(",")
-                    .append("\"lastModified\":\"" + this.getDateTimeLastModified() + "\"")
+                    .append("\"lastModified\":\"")
+                    .append(JsonUtil.escapeAsJsonString(this.getDateTimeLastModified()))
+                    .append("\"")
                     .append("}");
             return sb.toString();
         }
