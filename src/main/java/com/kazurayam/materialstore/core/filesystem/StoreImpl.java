@@ -540,19 +540,30 @@ public final class StoreImpl implements Store {
         return reflect(base, base.getJobTimestamp());
     }
 
+    /**
+     *
+     * @param baseMaterialList
+     * @param priorTo
+     * @return
+     * @throws MaterialstoreException
+     */
     @Override
-    public MaterialList reflect(MaterialList base, JobTimestamp priorTo) throws MaterialstoreException {
-        Objects.requireNonNull(base);
+    public MaterialList reflect(MaterialList baseMaterialList, JobTimestamp priorTo) throws MaterialstoreException {
+        Objects.requireNonNull(baseMaterialList);
         Objects.requireNonNull(priorTo);
         String methodName = "[reflect]";
-        logger.debug(String.format("%s base.size()=%d", methodName, base.size()));
-        if (base.size() == 0) {
-            throw new MaterialstoreException("base.size() == 0");
+        logger.debug(String.format("%s baseMaterialList.size()=%d", methodName, baseMaterialList.size()));
+
+        /*
+        if (baseMaterialList.size() == 0) {
+            throw new MaterialstoreException("baseMaterialList.size() == 0");
         }
-        //
+         */
+
+        // get a list of JobTimestamps
         List<JobTimestamp> allJobTimestamps =
-                queryAllJobTimestampsPriorTo(base.getJobName(),
-                        base.getQueryOnMetadata(),
+                queryAllJobTimestampsPriorTo(baseMaterialList.getJobName(),
+                        baseMaterialList.getQueryOnMetadata(),
                         priorTo);
         logger.info(String.format("%s priorTo=%s", methodName, priorTo));
         for (JobTimestamp jt : allJobTimestamps) {
@@ -562,14 +573,14 @@ public final class StoreImpl implements Store {
         logger.debug(String.format("%s allJobTimestamps.size()=%d", methodName, allJobTimestamps.size()));
         for (JobTimestamp previous : allJobTimestamps) {
             logger.debug(String.format("%s previous=%s", methodName, previous));
-            MaterialList candidate = select(base.getJobName(), previous, base.getQueryOnMetadata());
-            if (similar(base, candidate)) {
-                logger.debug(String.format("%s previous=%s is similar to base=%s", methodName, previous.toString(), base.getJobTimestamp()));
-                MaterialList collected = collect(base, candidate);
+            MaterialList candidate = select(baseMaterialList.getJobName(), previous, baseMaterialList.getQueryOnMetadata());
+            if (similar(baseMaterialList, candidate)) {
+                logger.debug(String.format("%s previous=%s is similar to baseMaterialList=%s", methodName, previous.toString(), baseMaterialList.getJobTimestamp()));
+                MaterialList collected = collect(baseMaterialList, candidate);
                 logger.debug(String.format("%s collected.size()=%d", methodName, collected.size()));
                 return collected;
             } else {
-                logger.debug(String.format("%s previous=%s is not similar to base=%s", methodName, previous.toString(), base.getJobTimestamp()));
+                logger.debug(String.format("%s previous=%s is not similar to baseMaterialList=%s", methodName, previous.toString(), baseMaterialList.getJobTimestamp()));
             }
         }
         logger.debug(String.format("%s returning MaterialList.NULL_OBJECT", methodName));
