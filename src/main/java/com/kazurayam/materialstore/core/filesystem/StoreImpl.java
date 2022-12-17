@@ -541,11 +541,11 @@ public final class StoreImpl implements Store {
     }
 
     /**
-     *
-     * @param baseMaterialList
-     * @param priorTo
-     * @return
-     * @throws MaterialstoreException
+     * look up a MaterialList out of this store, of which JobName and JobTimestamp meets the criteria specified by the given parameters.
+     * @param baseMaterialList we will look for a MaterialList of which JobName is equal to this baseMaterialList
+     * @param priorTo we will look for a MaterialList of which JobTimestamp is prior to the baseMaterialList, excluding the baseMaterialList itself.
+     * @return a MaterialList in the store of which JobName and JobTimestamp meet the criteria
+     * @throws MaterialstoreException when any io to the store failed
      */
     @Override
     public MaterialList reflect(MaterialList baseMaterialList, JobTimestamp priorTo) throws MaterialstoreException {
