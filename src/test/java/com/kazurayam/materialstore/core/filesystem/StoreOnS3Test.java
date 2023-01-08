@@ -1,9 +1,14 @@
 package com.kazurayam.materialstore.core.filesystem;
 
+import com.kazurayam.materialstore.core.TestHelper;
 import com.kazurayam.materialstore.core.util.DeleteDir;
+import com.kazurayam.timekeeper.Measurement;
+import com.kazurayam.timekeeper.Table;
+import com.kazurayam.timekeeper.Timekeeper;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +20,9 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -25,23 +33,31 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class StoreOnS3Test {
 
     private final Logger logger = LoggerFactory.getLogger(StoreOnS3Test.class);
+    private final static Path testClassOutputDir = TestHelper.createTestClassOutputDir(StoreOnS3Test.class);
     private final String bucketName = "/com.kazurayam.materialstore.core.filesystem.store-on-s3-test";
     private static FileSystem s3fs;
-    private static boolean CLEANUP_ON_END = false;
+    private static final boolean CLEANUP_ON_END = false;
+    private static Timekeeper tk;
+    private static Measurement mm;
     private Path dir;
 
     @BeforeAll
     public static void beforeAll() throws URISyntaxException, IOException {
+        tk = new Timekeeper();
+        mm = new Measurement.Builder("s3fs performance analysis",
+                Arrays.asList("Step")).build();
+        tk.add(new Table.Builder(mm).build());
+        //
+        LocalDateTime beforeNewFileSystem = LocalDateTime.now();
         s3fs = FileSystems.newFileSystem(new URI("s3:///s3.ap-northeast-1.AMAZONAWS.COM/"),
                 new HashMap<String, Object>(),
                 Thread.currentThread().getContextClassLoader());
         assertNotNull(s3fs);
+        LocalDateTime afterNewFileSystem = LocalDateTime.now();
+        mm.recordDuration(Collections.singletonMap("Step", "creating new FileSystem on S3"),
+                beforeNewFileSystem, afterNewFileSystem);
     }
 
-    @AfterAll
-    public static void tearDown() throws IOException {
-        s3fs.close();
-    }
 
     @AfterEach
     public void afterEach() throws IOException {
@@ -52,29 +68,60 @@ public class StoreOnS3Test {
         }
     }
 
+    @AfterAll
+    public static void tearDown() throws IOException {
+        LocalDateTime beforeClosing = LocalDateTime.now();
+        s3fs.close();
+        LocalDateTime afterClosing = LocalDateTime.now();
+        mm.recordDuration(Collections.singletonMap("Step", "closing the FileSystem"),
+                beforeClosing, afterClosing);
+        // write the performance report
+        tk.report(testClassOutputDir.resolve("performance.md"));
+    }
+
     @Test
     public void testS3fs() throws URISyntaxException, IOException {
         // create a directory in a S3 bucket if the directory is not present
+        LocalDateTime beforeCreatingParentDir = LocalDateTime.now();
         dir = s3fs.getPath(bucketName, "testS3fs");
+        LocalDateTime afterCreatingParentDir = LocalDateTime.now();
+        mm.recordDuration(Collections.singletonMap("Step", "creating parent dir"),
+                beforeCreatingParentDir, afterCreatingParentDir);
         if (!Files.exists(dir)) {
             Files.createDirectories(dir);
         }
         assertTrue(Files.exists(dir));
 
         // create a file in the dir
+        LocalDateTime beforeWritingFile = LocalDateTime.now();
         Path file = dir.resolve("hello.txt");
         Files.write(file, "Hello, s3fs world!".getBytes());
+        LocalDateTime afterWritingFile = LocalDateTime.now();
+        mm.recordDuration(Collections.singletonMap("Step", "writing a file"),
+                beforeWritingFile, afterWritingFile);
         assertTrue(Files.exists(file));
 
         // list a directory
+        LocalDateTime beforeListingDir = LocalDateTime.now();
         assertEquals(1, Files.list(dir).count());
+        LocalDateTime afterListingDir = LocalDateTime.now();
+        mm.recordDuration(Collections.singletonMap("Step", "listing a dir"),
+                beforeListingDir, afterListingDir);
 
         // delete the file
+        LocalDateTime beforeDeletingFile = LocalDateTime.now();
         Files.delete(file);
+        LocalDateTime afterDeletingFile = LocalDateTime.now();
+        mm.recordDuration(Collections.singletonMap("Step", "deleting a file"),
+                beforeDeletingFile, afterDeletingFile);
         assertEquals(0, Files.list(dir).count());
 
         // delete the dir
+        LocalDateTime beforeDeletingDir = LocalDateTime.now();
         Files.delete(dir);
+        LocalDateTime afterDeletingDir = LocalDateTime.now();
+        mm.recordDuration(Collections.singletonMap("Step", "deleting a dir"),
+                beforeDeletingDir, afterDeletingDir);
         assertFalse(Files.exists(dir));
     }
 
@@ -100,6 +147,7 @@ public class StoreOnS3Test {
         assertTrue(Files.exists(material.toPath()));
     }
 
+    @Disabled
     @Test
     public void testNewInstanceOnAwsS3() {
         dir = s3fs.getPath(bucketName, "testCreateStore");

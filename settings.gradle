@@ -36,6 +36,9 @@ dependencyResolutionManagement {
             version('subprocessj', '0.3.4')
             library('subprocessj', 'com.kazurayam', 'subprocessj').versionRef('subprocessj')
 
+            version('timekeeper', '0.4.1')
+            library('timekeeper', 'com.kazurayam', 'timekeeper').versionRef('timekeeper')
+
         }
     }
 }
