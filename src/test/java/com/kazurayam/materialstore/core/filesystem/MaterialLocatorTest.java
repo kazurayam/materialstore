@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.core.filesystem;
 
 import com.kazurayam.materialstore.core.TestHelper;
+import com.kazurayam.materialstore.core.util.DeleteDir;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -25,7 +26,11 @@ public class MaterialLocatorTest {
 
     @Test
     public void test_constructor() throws IOException {
-        Path dir = Files.createDirectory(testClassOutputDir.resolve("test_constructor"));
+        Path dir = testClassOutputDir.resolve("test_constructor");
+        if (Files.exists(dir)) {
+            DeleteDir.deleteDirectoryRecursively(dir);
+        }
+        Files.createDirectories(dir);
         Path root = dir.resolve("store");
         Store store = Stores.newInstance(root);
         //
