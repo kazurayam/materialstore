@@ -60,11 +60,12 @@ public final class MaterialIO {
         return Files.exists(file);
     }
 
-    public static void serialize(byte[] data, Path objectsDir) throws MaterialstoreException {
-        Objects.requireNonNull(objectsDir);
+    public static void serialize(byte[] bytes, Path path) throws MaterialstoreException {
+        Objects.requireNonNull(path);
         try {
-            FileOutputStream fos = new FileOutputStream(objectsDir.toFile());
-            ByteArrayInputStream bais = new ByteArrayInputStream(data);
+            /*
+            FileOutputStream fos = new FileOutputStream(path.toFile());
+            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
             byte[] buff = new byte[BUFFER_SIZE];
             int bytesRead;
             while ((bytesRead = bais.read(buff)) != -1) {
@@ -73,6 +74,8 @@ public final class MaterialIO {
             fos.flush();
             fos.close();
             bais.close();
+             */
+            Files.write(path, bytes);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
