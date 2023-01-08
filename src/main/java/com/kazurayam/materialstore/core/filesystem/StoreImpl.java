@@ -706,7 +706,8 @@ public final class StoreImpl implements Store {
             }
             return lines;
         } else {
-            throw new MaterialstoreException("unable to read " + material.getRelativeURL() + " as text");
+            throw new MaterialstoreException("unable to read " +
+                    material.getRelativeURL() + " as text");
         }
     }
 

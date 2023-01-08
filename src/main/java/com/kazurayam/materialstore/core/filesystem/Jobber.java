@@ -13,6 +13,7 @@ public final class Jobber {
 
     private static final Logger logger = LoggerFactory.getLogger(Jobber.class);
     private static final String OBJECTS_DIR_NAME = "objects";
+    private final Store store;
     private final JobName jobName;
     private final JobTimestamp jobTimestamp;
     private final Path jobResultDir;
@@ -26,7 +27,7 @@ public final class Jobber {
         Objects.requireNonNull(store);
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(jobTimestamp);
-
+        this.store = store;
         this.jobName = jobName;
         this.jobTimestamp = jobTimestamp;
         jobResultDir = store.getRoot().resolve(jobName.toString()).resolve(jobTimestamp.toString());
@@ -85,7 +86,7 @@ public final class Jobber {
         for (IndexEntry indexEntry : index) {
             if (query.equals(QueryOnMetadata.ANY) || query.matches(indexEntry.getMetadata())) {
                 if (fileType.equals(FileType.NULL_OBJECT) || fileType.equals(indexEntry.getFileType())) {
-                    Material material = new Material(getJobName(), getJobTimestamp(), indexEntry);
+                    Material material = new Material(store, getJobName(), getJobTimestamp(), indexEntry);
                     result.add(material);
                 }
             }
@@ -105,7 +106,7 @@ public final class Jobber {
         Objects.requireNonNull(id);
         for (IndexEntry indexEntry : index) {
             if (indexEntry.getMaterialIO().getID().equals(id)) {
-                return new Material(jobName, jobTimestamp, indexEntry);
+                return new Material(store, jobName, jobTimestamp, indexEntry);
             }
         }
         return Material.NULL_OBJECT;
@@ -166,7 +167,7 @@ public final class Jobber {
                 List<IndexEntry> indexEntries = index.indexEntriesOf(fileType, metadata);
                 assert indexEntries.size() > 0;
                 // return the Material
-                return new Material(this.getJobName(), this.getJobTimestamp(), indexEntries.get(0));
+                return new Material(store, this.getJobName(), this.getJobTimestamp(), indexEntries.get(0));
 
             } else {
                 throw new RuntimeException("Unsupported DuplicationHandling " + duplicationHandling);
@@ -187,7 +188,7 @@ public final class Jobber {
             IndexEntry indexEntry = index.put(mio.getID(), fileType, metadata);
             // save the content of the "index" into a file on disk
             index.serialize(Index.getIndexFile(jobResultDir));
-            return new Material(this.getJobName(), this.getJobTimestamp(), indexEntry);
+            return new Material(store, this.getJobName(), this.getJobTimestamp(), indexEntry);
         }
 
     }

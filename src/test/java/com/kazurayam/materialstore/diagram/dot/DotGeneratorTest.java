@@ -76,11 +76,11 @@ public class DotGeneratorTest {
         Material dotMat =
                 store.write(outJobName, outJobTimestamp, FileType.DOT,
                         Metadata.NULL_OBJECT, dotText);
-        assertTrue(dotMat.toFile(store).length() > 0);
+        assertTrue(dotMat.toPath().toFile().length() > 0);
         Material pngMat =
                 store.write(outJobName, outJobTimestamp, FileType.PNG,
                         Metadata.NULL_OBJECT, bufferedImage);
-        assertTrue(pngMat.toFile(store).length() > 0);
+        assertTrue(pngMat.toPath().toFile().length() > 0);
     }
 
     //@Disabled
@@ -97,11 +97,11 @@ public class DotGeneratorTest {
         Material dotMat =
                 store.write(outJobName, outJobTimestamp, FileType.DOT,
                         Metadata.NULL_OBJECT, dotText);
-        assertTrue(dotMat.toFile(store).length() > 0);
+        assertTrue(dotMat.toPath().toFile().length() > 0);
         Material pngMat =
                 store.write(outJobName, outJobTimestamp, FileType.PNG,
                         Metadata.NULL_OBJECT, bufferedImage);
-        assertTrue(pngMat.toFile(store).length() > 0);
+        assertTrue(pngMat.toPath().toFile().length() > 0);
     }
 
     //@Disabled
@@ -124,13 +124,13 @@ public class DotGeneratorTest {
         Material dotMat =
                 store.write(outJobName, outJobTimestamp, FileType.DOT,
                         Metadata.NULL_OBJECT, dotText);
-        assertTrue(dotMat.toFile(store).length() > 0);
+        assertTrue(dotMat.toPath().toFile().length() > 0);
         //
         BufferedImage bufferedImage = DotGenerator.toImage(dotText);
         Material pngMat =
                 store.write(outJobName, outJobTimestamp, FileType.PNG,
                         Metadata.NULL_OBJECT, bufferedImage);
-        assertTrue(pngMat.toFile(store).length() > 0);
+        assertTrue(pngMat.toPath().toFile().length() > 0);
     }
 
     //@Disabled
@@ -150,13 +150,13 @@ public class DotGeneratorTest {
         Material dotMat =
                 store.write(outJobName, outJobTimestamp, FileType.DOT,
                         Metadata.NULL_OBJECT, dotText);
-        assertTrue(dotMat.toFile(store).length() > 0);
+        assertTrue(dotMat.toPath().toFile().length() > 0);
         //
         BufferedImage bufferedImage = DotGenerator.toImage(dotText);
         Material pngMat =
                 store.write(outJobName, outJobTimestamp, FileType.PNG,
                         Metadata.NULL_OBJECT, bufferedImage);
-        assertTrue(pngMat.toFile(store).length() > 0);
+        assertTrue(pngMat.toPath().toFile().length() > 0);
     }
 
     //@Disabled
@@ -187,12 +187,12 @@ public class DotGeneratorTest {
         Material dotMat =
                 store.write(outJobName, outJobTimestamp, FileType.DOT,
                         Metadata.NULL_OBJECT, dotText);
-        assertTrue(dotMat.toFile(store).length() > 0);
+        assertTrue(dotMat.toPath().toFile().length() > 0);
         // generate the image of the MProductGroup object by Graphviz
         BufferedImage bufferedImage = DotGenerator.toImage(dotText);
         Material pngMat =
                 store.write(outJobName, outJobTimestamp, FileType.PNG,
                         Metadata.NULL_OBJECT, bufferedImage);
-        assertTrue(pngMat.toFile(store).length() > 0);
+        assertTrue(pngMat.toPath().toFile().length() > 0);
     }
 }

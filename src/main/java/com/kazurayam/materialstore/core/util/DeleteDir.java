@@ -16,7 +16,14 @@ public class DeleteDir {
         }
         Files.walk(dir)
                 .sorted(Comparator.reverseOrder())
-                .map(Path::toFile)
-                .forEach(File::delete);
+                .forEach(p -> {
+                    try {
+                        if (Files.exists(p)) {
+                            Files.delete(p);
+                        }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
     }
 }

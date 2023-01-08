@@ -66,9 +66,9 @@ public final class IndexEntry implements Comparable<IndexEntry>, Jsonifiable, Te
         return mio_;
     }
 
-    public Path getFileName() {
+    public String getFileName() {
         MaterialIO mio = getMaterialIO();
-        return Paths.get(mio.getID().toString() + "." + mio.getFileType().getExtension());
+        return mio.getID().toString() + "." + mio.getFileType().getExtension();
     }
 
     public String getMetadataDescription() {

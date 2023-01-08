@@ -1,8 +1,9 @@
 package com.kazurayam.materialstore.core.filesystem;
 
-import com.kazurayam.materialstore.core.TestHelper;
+import com.kazurayam.materialstore.core.util.DeleteDir;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,8 +16,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -26,26 +25,37 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class StoreOnS3Test {
 
     private final Logger logger = LoggerFactory.getLogger(StoreOnS3Test.class);
-    private String bucketName = "/com.kazurayam.materialstore.core.filesystem.store-on-s3-test";
-    private FileSystem s3fs;
+    private final String bucketName = "/com.kazurayam.materialstore.core.filesystem.store-on-s3-test";
+    private static FileSystem s3fs;
+    private static boolean CLEANUP_ON_END = false;
+    private Path dir;
 
-    @BeforeEach
-    public void setup() throws URISyntaxException, IOException {
+    @BeforeAll
+    public static void beforeAll() throws URISyntaxException, IOException {
         s3fs = FileSystems.newFileSystem(new URI("s3:///s3.ap-northeast-1.AMAZONAWS.COM/"),
                 new HashMap<String, Object>(),
                 Thread.currentThread().getContextClassLoader());
         assertNotNull(s3fs);
     }
 
-    @AfterEach
-    public void tearDown() throws IOException {
+    @AfterAll
+    public static void tearDown() throws IOException {
         s3fs.close();
+    }
+
+    @AfterEach
+    public void afterEach() throws IOException {
+        if (CLEANUP_ON_END) {
+            if (Files.exists(dir)) {
+                DeleteDir.deleteDirectoryRecursively(dir);
+            }
+        }
     }
 
     @Test
     public void testS3fs() throws URISyntaxException, IOException {
         // create a directory in a S3 bucket if the directory is not present
-        Path dir = s3fs.getPath(bucketName, "testS3fs");
+        dir = s3fs.getPath(bucketName, "testS3fs");
         if (!Files.exists(dir)) {
             Files.createDirectories(dir);
         }
@@ -71,7 +81,7 @@ public class StoreOnS3Test {
     @Test
     public void testCreateStore() throws IOException, MaterialstoreException {
         // create a directory in a S3 bucket if the directory is not present
-        Path dir = s3fs.getPath(bucketName, "testCreateStore");
+        dir = s3fs.getPath(bucketName, "testCreateStore");
         if (!Files.exists(dir)) {
             Files.createDirectories(dir);
         }
@@ -87,6 +97,11 @@ public class StoreOnS3Test {
         Metadata metadata = Metadata.NULL_OBJECT;
         Material material =
                 store.write(jobName, jobTimestamp, FileType.TXT, metadata, "Hello, world!");
-        assertTrue(Files.exists(material.toPath(store)));
+        assertTrue(Files.exists(material.toPath()));
+    }
+
+    @Test
+    public void testNewInstanceOnAwsS3() {
+        dir = s3fs.getPath(bucketName, "testCreateStore");
     }
 }

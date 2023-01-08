@@ -14,21 +14,28 @@ import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collections;
+import java.util.Objects;
 
 public interface Differ {
 
     Logger logger = LoggerFactory.getLogger(Differ.class);
 
-    default BufferedImage readImage(final File imageFile) {
-        if (!imageFile.exists()) {
+    default BufferedImage readImage(final Path imageFile) {
+        Objects.requireNonNull(imageFile);
+        if (!Files.exists(imageFile)) {
             throw new IllegalArgumentException(imageFile + " is not found");
         }
         try {
-            BufferedImage bufferedImage = ImageIO.read(imageFile);
+            InputStream is = new BufferedInputStream(Files.newInputStream(imageFile));
+            BufferedImage bufferedImage = ImageIO.read(is);
             assert bufferedImage != null;
             return bufferedImage;
         } catch (IOException e) {

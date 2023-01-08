@@ -1,11 +1,18 @@
 package com.kazurayam.materialstore.core.filesystem;
 
+import com.kazurayam.materialstore.core.TestHelper;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MaterialLocatorTest {
+
+    private Path testClassOutputDir = TestHelper.createTestClassOutputDir(MaterialLocatorTest.class);
 
     @Test
     public void test_parse_toString() {
@@ -17,13 +24,17 @@ public class MaterialLocatorTest {
     }
 
     @Test
-    public void test_constructor() {
+    public void test_constructor() throws IOException {
+        Path dir = Files.createDirectory(testClassOutputDir.resolve("test_constructor"));
+        Path root = dir.resolve("store");
+        Store store = Stores.newInstance(root);
+        //
         String idStr = "6141b40cfe9e7340a483a3097c4f6ff5d20e04ea";
         String sampleLine = idStr + "\tpng\t{}";
         IndexEntry indexEntry = IndexEntry.parseLine(sampleLine);
         JobName jobName = new JobName("foo");
         JobTimestamp jobTimestamp = JobTimestamp.now();
-        Material material = new Material(jobName, jobTimestamp, indexEntry);
+        Material material = new Material(store, jobName, jobTimestamp, indexEntry);
         //
         MaterialLocator locator = new MaterialLocator(material);
         //

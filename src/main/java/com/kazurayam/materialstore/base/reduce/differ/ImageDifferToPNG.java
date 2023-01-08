@@ -31,10 +31,10 @@ public final class ImageDifferToPNG implements Differ {
         Objects.requireNonNull(mProduct.getRight());
 
         Material left = complementMaterialAsImage(store, mProduct, mProduct.getLeft());
-        BufferedImage leftImage = readImage(left.toFile(store));
+        BufferedImage leftImage = readImage(left.toPath());
 
         Material right = complementMaterialAsImage(store, mProduct, mProduct.getRight());
-        BufferedImage rightImage = readImage(right.toFile(store));
+        BufferedImage rightImage = readImage(right.toPath());
 
         // make a diff image using AShot
         ImageDiffer imgDiff = new ImageDiffer();

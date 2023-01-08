@@ -13,7 +13,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Objects;
 
 public final class Material implements Comparable<Material>, Jsonifiable, TemplateReady,
@@ -22,34 +21,38 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
     private static final Logger logger = LoggerFactory.getLogger(Material.class.getName());
 
     public static final Material NULL_OBJECT =
-            new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, IndexEntry.NULL_OBJECT);
+            new Material(Store.NULL_OBJECT, JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, IndexEntry.NULL_OBJECT);
 
 
     /*
-     * empty Material is used as a filler in a bachelor MaterialProduct
+     * empty but identifiable Material object is used as a filler
+     * of a bachelor MaterialProduct
      */
     public static Material newEmptyMaterial() {
-        return new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, IndexEntry.NULL_OBJECT,
+        return new Material(Store.NULL_OBJECT, JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, IndexEntry.NULL_OBJECT,
                         StringUtils.generateRandomAlphaNumericString(7));
     }
 
+    private final Store store_;
     private final JobName jobName_;
     private final JobTimestamp jobTimestamp_;
     private final IndexEntry indexEntry_;
     private final String randomId;
 
-    public Material(JobName jobName, JobTimestamp jobTimestamp, IndexEntry indexEntry) {
-        this(jobName, jobTimestamp, indexEntry, null);
+    public Material(Store store, JobName jobName, JobTimestamp jobTimestamp, IndexEntry indexEntry) {
+        this(store, jobName, jobTimestamp, indexEntry, null);
     }
 
-    public Material(JobName jobName, JobTimestamp jobTimestamp, IndexEntry indexEntry, String randomId) {
+    public Material(Store store, JobName jobName, JobTimestamp jobTimestamp, IndexEntry indexEntry, String randomId) {
+        Objects.requireNonNull(store);
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(jobTimestamp);
         Objects.requireNonNull(indexEntry);
-        // randomId may be null
+        this.store_ = store;
         this.jobName_ = jobName;
         this.jobTimestamp_ = jobTimestamp;
         this.indexEntry_ = indexEntry;
+        // randomId may be null
         this.randomId = randomId;
     }
 
@@ -89,19 +92,30 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
     }
 
     /**
-     * @return the relative path of the MaterialIO file, relative to the root dir.
+     * @return the String of relative path of the MaterialIO file,
+     * relative to the root dir.
      * On Mac and Linux, the path separator will be '/',
      * On Windows, the path separator will be '\'
      * <p>
-     * Materialオブジェクトが表すファイルのパスただしrootを基底とする相対パスを返す。
+     * Materialオブジェクトが表すファイルのパス（ただしrootを基底とする相対パス）のString表現を返す。
      * <p>
      * ああ、このメソッドひとつをきれいに実装するために materialstore を作ったのだ。
      * Materialsライブラリのぐちゃぐちゃさ加減に比べてこの実装の簡潔なことよ。
      */
     public Path getRelativePath() {
-        return Paths.get(".").resolve(jobName_.toString()).resolve(jobTimestamp_.toString()).resolve(Jobber.getOBJECTS_DIR_NAME()).resolve(this.getIndexEntry().getFileName()).normalize();
+        Path root = store_.getRoot();
+        logger.info("root.getClass().toString()=" + root.getClass().toString());
+        Path p = root
+                .resolve(jobName_.toString())
+                .resolve(jobTimestamp_.toString())
+                .resolve(Jobber.getOBJECTS_DIR_NAME())
+                .resolve(this.getIndexEntry().getFileName());
+        return root.relativize(p);
     }
 
+    public Store getStore() {
+        return this.store_;
+    }
 
     /*
      * returns the byte array of the PNG file of "No Material is found"
@@ -156,41 +170,6 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return baos.toByteArray();
     }
 
-    public File toFile(final Store store) throws MaterialstoreException {
-        return this.toFile(store.getRoot());
-    }
-
-    public File toFile(final Path root) throws MaterialstoreException {
-        Objects.requireNonNull(root);
-        if (!Files.exists(root)) {
-            throw new MaterialstoreException(root + " is not found");
-        }
-        final Path p = root.resolve(getRelativePath());
-        if (!Files.exists(p)) {
-            throw new MaterialstoreException(p + " is not found");
-        }
-        return p.toFile();
-    }
-
-    public Path toPath(Path root) throws MaterialstoreException {
-        return this.toFile(root).toPath();
-    }
-
-    public Path toPath(Store store) throws MaterialstoreException {
-        return this.toFile(store.getRoot()).toPath();
-    }
-
-    /*
-     * returns a URL in the form of "file:/". The path will be an absolute path.
-     *
-     */
-    public URL toURL(Path root) throws MaterialstoreException {
-        try {
-            return this.toFile(root).toURI().toURL();
-        } catch (MalformedURLException e) {
-            throw new MaterialstoreException(e);
-        }
-    }
 
     /**
      * @return the returned value of getRelative() is stringified, and
@@ -202,8 +181,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
      *   //8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=="
      */
     public String getRelativeURL() {
-        String s = this.getRelativePath().toString();
-        return s.replace("\\", "/");
+        return this.getRelativePath().toString().replace("\\", "/");
     }
 
     @Override
@@ -212,6 +190,25 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
     @Override
     public String getShortID() {
         return getIndexEntry().getShortID();
+    }
+
+    /**
+     * turn the Material object to a Path relative to the root.
+     */
+    public Path toPath(){
+        return this.store_.getRoot().resolve(this.getRelativePath());
+    }
+
+    /*
+     * returns a URL in the form of "file:/". The path will be an absolute path.
+     *
+     */
+    public URL toURL() throws MaterialstoreException {
+        try {
+            return this.toPath().toUri().toURL();
+        } catch (MalformedURLException e) {
+            throw new MaterialstoreException(e);
+        }
     }
 
 

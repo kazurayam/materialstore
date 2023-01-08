@@ -62,7 +62,7 @@ public class MaterialListTest {
     public void beforeEach() {
         String sampleLine = "6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{\"profile\":\"DevelopmentEnv\",\"URL\":\"http://demoaut-mimic.kazurayam.com/\"}";
         IndexEntry indexEntry = IndexEntry.parseLine(sampleLine);
-        material = new Material(JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, indexEntry);
+        material = new Material(store, JobName.NULL_OBJECT, JobTimestamp.NULL_OBJECT, indexEntry);
     }
 
     @Test
