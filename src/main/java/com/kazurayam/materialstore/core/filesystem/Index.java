@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -88,9 +89,10 @@ final class Index implements Iterable<IndexEntry> {
      * lines are sorted by the order of Metadata > FileType > ID
      */
     public void serialize(Path indexFile) throws MaterialstoreException {
+        Objects.requireNonNull(indexFile);
         try {
-            FileOutputStream fos = new FileOutputStream(indexFile.toFile());
-            OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            OutputStreamWriter osw = new OutputStreamWriter(baos, StandardCharsets.UTF_8);
             PrintWriter pw = new PrintWriter(osw);
             List<IndexEntry> sorted = lines_.stream().sorted().collect(Collectors.toList());
             sorted.forEach(indexEntry -> {
@@ -99,7 +101,8 @@ final class Index implements Iterable<IndexEntry> {
             });
             pw.flush();
             pw.close();
-        } catch (FileNotFoundException e) {
+            Files.write(indexFile, baos.toByteArray());
+        } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
     }

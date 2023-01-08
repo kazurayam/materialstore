@@ -63,18 +63,6 @@ public final class MaterialIO {
     public static void serialize(byte[] bytes, Path path) throws MaterialstoreException {
         Objects.requireNonNull(path);
         try {
-            /*
-            FileOutputStream fos = new FileOutputStream(path.toFile());
-            ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-            byte[] buff = new byte[BUFFER_SIZE];
-            int bytesRead;
-            while ((bytesRead = bais.read(buff)) != -1) {
-                fos.write(buff, 0, bytesRead);
-            }
-            fos.flush();
-            fos.close();
-            bais.close();
-             */
             Files.write(path, bytes);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
