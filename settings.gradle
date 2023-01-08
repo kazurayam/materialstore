@@ -26,6 +26,9 @@ dependencyResolutionManagement {
             version('plantuml', '8059')
             library('plantuml', 'net.sourceforge.plantuml', 'plantuml').versionRef('plantuml')
 
+            version('s3fs', '2.2.2')
+            library('s3fs', 'com.upplication', 's3fs').versionRef('s3fs')
+
             version('slf4j', '1.7.25')
             library('slf4j-api', 'org.slf4j', 'slf4j-api').versionRef('slf4j')
             library('slf4j-simple', 'org.slf4j', 'slf4j-simple').versionRef('slf4j')
