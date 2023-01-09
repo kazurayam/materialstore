@@ -29,12 +29,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 7.4.2
-          arguments: :build
-
-      - name: Run the Gradle test task
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: :test --scan
+          arguments: :build --scan
 
       - name: Upload build reports
         uses: actions/upload-artifact@v3
