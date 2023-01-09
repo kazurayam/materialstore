@@ -15,7 +15,7 @@ public class S3EndpointTest {
     @Test
     public void test_AP_NORTHEAST_1() {
         URI url = S3Endpoint.AP_NORTHEAST_1.getURI();
-        assertEquals("s3:///s3.ap-northeast-1.AMAZONAWS.COM/", url.toString());
+        assertEquals("s3://s3.ap-northeast-1.AMAZONAWS.COM", url.toString());
         assertEquals("ap-northeast-1", S3Endpoint.AP_NORTHEAST_1.getRegion());
         assertEquals("Asia Pacific(Tokyo)", S3Endpoint.AP_NORTHEAST_1.getName());
     }
