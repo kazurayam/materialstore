@@ -85,8 +85,15 @@ public final class StoreImpl implements Store {
                 try {
                     Files.walk(dir)
                             .sorted(Comparator.reverseOrder())
-                            .map(Path::toFile)
-                            .forEach(File::delete);
+                            .forEach(p -> {
+                                try {
+                                    if (Files.exists(p)) {
+                                        Files.delete(p);
+                                    }
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            });
                 } catch (IOException e) {
                     throw new MaterialstoreException(e);
                 }
@@ -111,8 +118,15 @@ public final class StoreImpl implements Store {
                 try {
                     Files.walk(dir)
                             .sorted(Comparator.reverseOrder())
-                            .map(Path::toFile)
-                            .forEach(File::delete);
+                            .forEach(p -> {
+                                try {
+                                    if (Files.exists(p)) {
+                                        Files.delete(p);
+                                    }
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            });
                 } catch (IOException e) {
                     throw new MaterialstoreException(e);
                 }
@@ -596,16 +610,18 @@ public final class StoreImpl implements Store {
     public long retrieve(Material material, Path out) throws MaterialstoreException {
         Objects.requireNonNull(material);
         Objects.requireNonNull(out);
+        long len = 0;
         try {
             if (!Files.exists(out.getParent())) {
                 Files.createDirectories(out.getParent());
             }
             byte[] bytes = read(material);
             MaterialIO.serialize(bytes, out);
+            len = bytes.length;
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
-        return out.toFile().length();
+        return len;
     }
 
     private static boolean similar(MaterialList baseList, MaterialList targetList) {
@@ -889,9 +905,9 @@ public final class StoreImpl implements Store {
         Objects.requireNonNull(input);
         assert input.exists();
         try {
-            FileInputStream fis = new FileInputStream(input);
-            byte[] data = toByteArray(fis);
-            fis.close();
+            InputStream is = new FileInputStream(input);
+            byte[] data = toByteArray(is);
+            is.close();
             return this.write(jobName, jobTimestamp, fileType, meta, data, flowControl);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
@@ -917,9 +933,9 @@ public final class StoreImpl implements Store {
         Objects.requireNonNull(input);
         assert Files.exists(input);
         try {
-            FileInputStream fis = new FileInputStream(input.toFile());
-            byte[] data = toByteArray(fis);
-            fis.close();
+            InputStream is = Files.newInputStream(input);
+            byte[] data = toByteArray(is);
+            is.close();
             return this.write(jobName, jobTimestamp, fileType, meta, data, flowControl);
         } catch (IOException e) {
             throw new MaterialstoreException(e);

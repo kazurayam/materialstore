@@ -69,7 +69,7 @@ public class StoreOnS3Test {
     }
 
     @AfterAll
-    public static void tearDown() throws IOException {
+    public static void afterAll() throws IOException {
         LocalDateTime beforeClosing = LocalDateTime.now();
         s3fs.close();
         LocalDateTime afterClosing = LocalDateTime.now();
@@ -126,9 +126,9 @@ public class StoreOnS3Test {
     }
 
     @Test
-    public void testCreateStore() throws IOException, MaterialstoreException {
+    public void testOperateStoreOnS3() throws IOException, MaterialstoreException {
         // create a directory in a S3 bucket if the directory is not present
-        dir = s3fs.getPath(bucketName, "testCreateStore");
+        dir = s3fs.getPath(bucketName, "testOperateStoreOnS3");
         if (!Files.exists(dir)) {
             Files.createDirectories(dir);
         }
@@ -145,6 +145,22 @@ public class StoreOnS3Test {
         Material material =
                 store.write(jobName, jobTimestamp, FileType.TXT, metadata, "Hello, world!");
         assertTrue(Files.exists(material.toPath()));
+
+        // select a MaterialList out of the store
+        MaterialList materialList = store.select(jobName, jobTimestamp);
+        assertEquals(1, materialList.size());
+
+        // copy materials from a JobTimestamp directory to another
+        JobTimestamp jobTimestamp2 = JobTimestamp.laterThan(jobTimestamp);
+        store.copyMaterials(jobName, jobTimestamp, jobTimestamp2);
+        MaterialList copyList = store.select(jobName, jobTimestamp2);
+        assertEquals(1, copyList.size());
+
+        // delete the JobTimestamp directory and the materials from the copied directory
+        store.deleteJobTimestamp(jobName, jobTimestamp2);
+
+        // delete the JobName directory
+        store.deleteJobName(jobName);
     }
 
     @Disabled

@@ -74,8 +74,8 @@ public final class MaterialIO {
         if (!Files.exists(objectFile)) {
             throw new IllegalArgumentException(objectFile + " is not present");
         }
-
         try {
+            /*
             FileInputStream fis = new FileInputStream(objectFile.toFile());
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             byte[] buff = new byte[BUFFER_SIZE];
@@ -83,11 +83,12 @@ public final class MaterialIO {
             while ((bytesRead = fis.read(buff)) != -1) {
                 baos.write(buff, 0, bytesRead);
             }
-
             byte[] data = baos.toByteArray();
             fis.close();
             baos.close();
             return data;
+             */
+            return Files.readAllBytes(objectFile);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
