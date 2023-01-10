@@ -1,12 +1,12 @@
 package com.kazurayam.materialstore.base.reduce.differ;
 
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
-import com.kazurayam.materialstore.core.filesystem.FileType;
-import com.kazurayam.materialstore.core.filesystem.Jobber;
-import com.kazurayam.materialstore.core.filesystem.Material;
-import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
-import com.kazurayam.materialstore.core.filesystem.Metadata;
-import com.kazurayam.materialstore.core.filesystem.Store;
+import com.kazurayam.materialstore.core.FileType;
+import com.kazurayam.materialstore.core.Jobber;
+import com.kazurayam.materialstore.core.Material;
+import com.kazurayam.materialstore.core.MaterialstoreException;
+import com.kazurayam.materialstore.core.Metadata;
+import com.kazurayam.materialstore.core.Store;
 import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;

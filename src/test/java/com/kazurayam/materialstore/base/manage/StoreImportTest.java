@@ -1,11 +1,11 @@
 package com.kazurayam.materialstore.base.manage;
 
 import com.kazurayam.materialstore.base.FixtureDirCopier;
-import com.kazurayam.materialstore.core.TestHelper;
-import com.kazurayam.materialstore.core.filesystem.JobName;
-import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
-import com.kazurayam.materialstore.core.filesystem.Store;
-import com.kazurayam.materialstore.core.filesystem.Stores;
+import com.kazurayam.materialstore.TestHelper;
+import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.MaterialstoreException;
+import com.kazurayam.materialstore.core.Store;
+import com.kazurayam.materialstore.core.Stores;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

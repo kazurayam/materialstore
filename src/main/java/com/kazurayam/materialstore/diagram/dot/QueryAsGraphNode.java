@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.diagram.dot;
 
-import com.kazurayam.materialstore.core.filesystem.QueryOnMetadata;
+import com.kazurayam.materialstore.core.QueryOnMetadata;
 
 public class QueryAsGraphNode extends AbstractGraphNode {
 

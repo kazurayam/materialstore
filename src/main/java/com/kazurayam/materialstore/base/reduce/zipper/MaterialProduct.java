@@ -1,18 +1,18 @@
 package com.kazurayam.materialstore.base.reduce.zipper;
 
-import com.kazurayam.materialstore.core.filesystem.ID;
-import com.kazurayam.materialstore.core.filesystem.Identifiable;
-import com.kazurayam.materialstore.core.filesystem.JobName;
-import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
-import com.kazurayam.materialstore.core.filesystem.Material;
-import com.kazurayam.materialstore.core.filesystem.MaterialIO;
-import com.kazurayam.materialstore.core.filesystem.QueryOnMetadata;
-import com.kazurayam.materialstore.core.filesystem.SortKeys;
-import com.kazurayam.materialstore.core.filesystem.TemplateReady;
-import com.kazurayam.materialstore.core.filesystem.metadata.IdentifyMetadataValues;
-import com.kazurayam.materialstore.core.filesystem.metadata.IgnoreMetadataKeys;
-import com.kazurayam.materialstore.core.filesystem.metadata.QueryIdentification;
-import com.kazurayam.materialstore.core.util.JsonUtil;
+import com.kazurayam.materialstore.core.ID;
+import com.kazurayam.materialstore.core.Identifiable;
+import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobTimestamp;
+import com.kazurayam.materialstore.core.Material;
+import com.kazurayam.materialstore.core.MaterialIO;
+import com.kazurayam.materialstore.core.QueryOnMetadata;
+import com.kazurayam.materialstore.core.SortKeys;
+import com.kazurayam.materialstore.core.TemplateReady;
+import com.kazurayam.materialstore.core.metadata.IdentifyMetadataValues;
+import com.kazurayam.materialstore.core.metadata.IgnoreMetadataKeys;
+import com.kazurayam.materialstore.core.metadata.QueryIdentification;
+import com.kazurayam.materialstore.util.JsonUtil;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;

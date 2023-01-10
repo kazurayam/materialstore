@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.base.reduce.zipper;
 
-import com.kazurayam.materialstore.core.filesystem.SortKeys;
-import com.kazurayam.materialstore.core.filesystem.metadata.QueryIdentification;
+import com.kazurayam.materialstore.core.SortKeys;
+import com.kazurayam.materialstore.core.metadata.QueryIdentification;
 
 import java.util.Comparator;
 import java.util.Objects;

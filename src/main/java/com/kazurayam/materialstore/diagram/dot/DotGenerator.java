@@ -2,10 +2,10 @@ package com.kazurayam.materialstore.diagram.dot;
 
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
-import com.kazurayam.materialstore.core.filesystem.Material;
-import com.kazurayam.materialstore.core.filesystem.MaterialList;
-import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
-import com.kazurayam.materialstore.core.util.StringUtils;
+import com.kazurayam.materialstore.core.Material;
+import com.kazurayam.materialstore.core.MaterialList;
+import com.kazurayam.materialstore.core.MaterialstoreException;
+import com.kazurayam.materialstore.util.StringUtils;
 import com.kazurayam.subprocessj.Subprocess;
 
 import javax.imageio.ImageIO;

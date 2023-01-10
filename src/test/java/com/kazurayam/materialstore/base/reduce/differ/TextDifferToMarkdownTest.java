@@ -2,16 +2,16 @@ package com.kazurayam.materialstore.base.reduce.differ;
 
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
-import com.kazurayam.materialstore.core.filesystem.FileType;
-import com.kazurayam.materialstore.core.filesystem.JobName;
-import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
-import com.kazurayam.materialstore.core.filesystem.Material;
-import com.kazurayam.materialstore.core.filesystem.MaterialList;
-import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
-import com.kazurayam.materialstore.core.filesystem.QueryOnMetadata;
-import com.kazurayam.materialstore.core.filesystem.Store;
-import com.kazurayam.materialstore.core.filesystem.StoreImpl;
-import com.kazurayam.materialstore.core.util.TestFixtureUtil;
+import com.kazurayam.materialstore.core.FileType;
+import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobTimestamp;
+import com.kazurayam.materialstore.core.Material;
+import com.kazurayam.materialstore.core.MaterialList;
+import com.kazurayam.materialstore.core.MaterialstoreException;
+import com.kazurayam.materialstore.core.QueryOnMetadata;
+import com.kazurayam.materialstore.core.Store;
+import com.kazurayam.materialstore.core.StoreImpl;
+import com.kazurayam.materialstore.util.TestFixtureUtil;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

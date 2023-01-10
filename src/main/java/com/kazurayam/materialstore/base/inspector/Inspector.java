@@ -2,10 +2,10 @@ package com.kazurayam.materialstore.base.inspector;
 
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.report.MaterialProductGroupReporter;
-import com.kazurayam.materialstore.core.filesystem.MaterialList;
-import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
-import com.kazurayam.materialstore.core.filesystem.SortKeys;
-import com.kazurayam.materialstore.core.filesystem.Store;
+import com.kazurayam.materialstore.core.MaterialList;
+import com.kazurayam.materialstore.core.MaterialstoreException;
+import com.kazurayam.materialstore.core.SortKeys;
+import com.kazurayam.materialstore.core.Store;
 
 import java.nio.file.Path;
 
