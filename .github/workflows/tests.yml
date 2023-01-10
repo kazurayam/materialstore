@@ -23,15 +23,15 @@ jobs:
           architecture: x64
 
       - name: Restore ~/.aws/credentials
-          env:
-            ACCESS: ${{ secrets.S3FS_ACCESS_KEY }}
-            SECRET: ${{ secrets.S3FS_SECRET_KEY }}
-          shell: bash
-          run: |
-            mkdir -p ~/.aws/
-            echo "[default]" > ~/.aws/credentials
-            echo "aws_access_key_id = ${ACCESS}" >> ~/.aws/credentials
-            echo "aws_secret_access_key = ${SECRET}" >> ~/.aws/credentials
+        env:
+          ACCESS: ${{ secrets.S3FS_ACCESS_KEY }}
+          SECRET: ${{ secrets.S3FS_SECRET_KEY }}
+        shell: bash
+        run: |
+          mkdir -p ~/.aws/
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id = ${ACCESS}" >> ~/.aws/credentials
+          echo "aws_secret_access_key = ${SECRET}" >> ~/.aws/credentials
 
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
