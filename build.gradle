@@ -37,6 +37,7 @@ dependencies {
     implementation libs.slf4j.api
     implementation libs.subprocessj
     implementation libs.s3fs
+    implementation libs.jaxb.api
 
     testImplementation libs.slf4j.simple
     testImplementation libs.junit.jupiter

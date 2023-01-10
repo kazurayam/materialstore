@@ -21,6 +21,9 @@ dependencyResolutionManagement {
             version('javaDiffUtils', '4.11')
             library('javaDiffUtils', 'io.github.java-diff-utils', 'java-diff-utils').versionRef('javaDiffUtils')
 
+            version('jaxb', '2.3.1')
+            library('jaxb-api', 'javax.xml.bind', 'jaxb-api').versionRef('jaxb')
+
             version('jsoup', '1.14.3')
             library('jsoup', 'org.jsoup', 'jsoup').versionRef('jsoup')
 
