@@ -194,9 +194,13 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
 
     /**
      * turn the Material object to a Path relative to the root.
+     * @return the absolute Path of this Material
      */
     public Path toPath(){
-        return this.store_.getRoot().resolve(this.getRelativePath());
+        return this.store_.getRoot()
+                .resolve(this.getRelativePath())
+                .normalize()
+                .toAbsolutePath();
     }
 
     /*
