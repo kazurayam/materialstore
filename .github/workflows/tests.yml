@@ -22,6 +22,17 @@ jobs:
           distribution: 'adopt'
           architecture: x64
 
+      - name: Restore ~/.aws/credentials
+        env:
+          ACCESS: ${{ secrets.S3FS_ACCESS_KEY }}
+          SECRET: ${{ secrets.S3FS_SECRET_KEY }}
+        shell: bash
+        run: |
+          mkdir -p ~/.aws/
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id = ${ACCESS}" >> ~/.aws/credentials
+          echo "aws_secret_access_key = ${SECRET}" >> ~/.aws/credentials
+
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
 
@@ -29,12 +40,7 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           gradle-version: 7.4.2
-          arguments: :build
-
-      - name: Run the Gradle test task
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: :test --scan
+          arguments: :build --scan
 
       - name: Upload build reports
         uses: actions/upload-artifact@v3

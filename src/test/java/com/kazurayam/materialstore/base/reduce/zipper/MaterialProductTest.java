@@ -1,16 +1,16 @@
 package com.kazurayam.materialstore.base.reduce.zipper;
 
-import com.kazurayam.materialstore.core.filesystem.FileType;
-import com.kazurayam.materialstore.core.filesystem.JobName;
-import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
-import com.kazurayam.materialstore.core.filesystem.Material;
-import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
-import com.kazurayam.materialstore.core.filesystem.QueryOnMetadata;
-import com.kazurayam.materialstore.core.filesystem.SortKeys;
-import com.kazurayam.materialstore.core.filesystem.Store;
-import com.kazurayam.materialstore.core.filesystem.Stores;
-import com.kazurayam.materialstore.core.filesystem.metadata.QueryIdentification;
-import com.kazurayam.materialstore.core.util.JsonUtil;
+import com.kazurayam.materialstore.core.FileType;
+import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobTimestamp;
+import com.kazurayam.materialstore.core.Material;
+import com.kazurayam.materialstore.core.MaterialstoreException;
+import com.kazurayam.materialstore.core.QueryOnMetadata;
+import com.kazurayam.materialstore.core.SortKeys;
+import com.kazurayam.materialstore.core.Store;
+import com.kazurayam.materialstore.core.Stores;
+import com.kazurayam.materialstore.core.metadata.QueryIdentification;
+import com.kazurayam.materialstore.util.JsonUtil;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

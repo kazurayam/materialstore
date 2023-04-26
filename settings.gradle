@@ -1,3 +1,7 @@
+plugins {
+    id "com.gradle.enterprise" version "3.12.2"
+}
+
 rootProject.name = 'materialstore'
 
 dependencyResolutionManagement {
@@ -17,6 +21,9 @@ dependencyResolutionManagement {
             version('javaDiffUtils', '4.11')
             library('javaDiffUtils', 'io.github.java-diff-utils', 'java-diff-utils').versionRef('javaDiffUtils')
 
+            version('jaxb', '2.3.1')
+            library('jaxb-api', 'javax.xml.bind', 'jaxb-api').versionRef('jaxb')
+
             version('jsoup', '1.14.3')
             library('jsoup', 'org.jsoup', 'jsoup').versionRef('jsoup')
 
@@ -26,6 +33,9 @@ dependencyResolutionManagement {
             version('plantuml', '8059')
             library('plantuml', 'net.sourceforge.plantuml', 'plantuml').versionRef('plantuml')
 
+            version('s3fs', '2.2.2')
+            library('s3fs', 'com.upplication', 's3fs').versionRef('s3fs')
+
             version('slf4j', '1.7.25')
             library('slf4j-api', 'org.slf4j', 'slf4j-api').versionRef('slf4j')
             library('slf4j-simple', 'org.slf4j', 'slf4j-simple').versionRef('slf4j')
@@ -33,7 +43,19 @@ dependencyResolutionManagement {
             version('subprocessj', '0.3.4')
             library('subprocessj', 'com.kazurayam', 'subprocessj').versionRef('subprocessj')
 
+            version('timekeeper', '0.4.1')
+            library('timekeeper', 'com.kazurayam', 'timekeeper').versionRef('timekeeper')
+
         }
     }
 }
 
+gradleEnterprise {
+    if (System.getenv("CI") != null) {
+        buildScan {
+            publishAlways()
+            termsOfServiceUrl = "https://gradle.com/terms-of-service"
+            termsOfServiceAgree = "yes"
+        }
+    }
+}

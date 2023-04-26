@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.base.report;
 
-import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
+import com.kazurayam.materialstore.core.MaterialstoreException;
 
 import java.io.BufferedReader;
 import java.io.IOException;

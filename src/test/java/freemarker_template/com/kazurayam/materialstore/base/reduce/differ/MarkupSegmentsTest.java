@@ -2,9 +2,9 @@ package freemarker_template.com.kazurayam.materialstore.base.reduce.differ;
 
 import com.kazurayam.materialstore.base.reduce.differ.AbstractTextDiffer;
 import com.kazurayam.materialstore.base.report.FreeMarkerConfigurator;
-import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
-import com.kazurayam.materialstore.core.filesystem.Store;
-import com.kazurayam.materialstore.core.filesystem.Stores;
+import com.kazurayam.materialstore.core.MaterialstoreException;
+import com.kazurayam.materialstore.core.Store;
+import com.kazurayam.materialstore.core.Stores;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

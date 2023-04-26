@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.base.reduce;
 
-import com.kazurayam.materialstore.core.filesystem.MaterialList;
-import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
+import com.kazurayam.materialstore.core.MaterialList;
+import com.kazurayam.materialstore.core.MaterialstoreException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

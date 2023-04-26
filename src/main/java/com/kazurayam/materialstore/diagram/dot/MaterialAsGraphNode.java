@@ -1,8 +1,8 @@
 package com.kazurayam.materialstore.diagram.dot;
 
-import com.kazurayam.materialstore.core.filesystem.Material;
-import com.kazurayam.materialstore.core.filesystem.Metadata;
-import com.kazurayam.materialstore.core.filesystem.metadata.MetadataAttribute;
+import com.kazurayam.materialstore.core.Material;
+import com.kazurayam.materialstore.core.Metadata;
+import com.kazurayam.materialstore.core.metadata.MetadataAttribute;
 
 import java.util.ArrayList;
 import java.util.Collections;

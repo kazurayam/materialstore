@@ -1,14 +1,14 @@
 package com.kazurayam.materialstore.base.reduce.differ;
 
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
-import com.kazurayam.materialstore.core.filesystem.FileType;
-import com.kazurayam.materialstore.core.filesystem.FileTypeDiffability;
-import com.kazurayam.materialstore.core.filesystem.Jobber;
-import com.kazurayam.materialstore.core.filesystem.Material;
-import com.kazurayam.materialstore.core.filesystem.MaterialLocator;
-import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
-import com.kazurayam.materialstore.core.filesystem.Metadata;
-import com.kazurayam.materialstore.core.filesystem.Store;
+import com.kazurayam.materialstore.core.FileType;
+import com.kazurayam.materialstore.core.FileTypeDiffability;
+import com.kazurayam.materialstore.core.Jobber;
+import com.kazurayam.materialstore.core.Material;
+import com.kazurayam.materialstore.core.MaterialLocator;
+import com.kazurayam.materialstore.core.MaterialstoreException;
+import com.kazurayam.materialstore.core.Metadata;
+import com.kazurayam.materialstore.core.Store;
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
 import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 
@@ -31,10 +31,10 @@ public final class ImageDifferToPNG implements Differ {
         Objects.requireNonNull(mProduct.getRight());
 
         Material left = complementMaterialAsImage(store, mProduct, mProduct.getLeft());
-        BufferedImage leftImage = readImage(left.toFile(store));
+        BufferedImage leftImage = readImage(left.toPath());
 
         Material right = complementMaterialAsImage(store, mProduct, mProduct.getRight());
-        BufferedImage rightImage = readImage(right.toFile(store));
+        BufferedImage rightImage = readImage(right.toPath());
 
         // make a diff image using AShot
         ImageDiffer imgDiff = new ImageDiffer();

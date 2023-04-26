@@ -5,12 +5,12 @@ import com.kazurayam.materialstore.base.reduce.differ.ImageDifferToPNG;
 import com.kazurayam.materialstore.base.reduce.differ.TextDifferToHTML;
 import com.kazurayam.materialstore.base.reduce.differ.VoidDiffer;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
-import com.kazurayam.materialstore.core.filesystem.FileType;
-import com.kazurayam.materialstore.core.filesystem.FileTypeUtil;
-import com.kazurayam.materialstore.core.filesystem.IFileType;
-import com.kazurayam.materialstore.core.filesystem.Material;
-import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
-import com.kazurayam.materialstore.core.filesystem.Store;
+import com.kazurayam.materialstore.core.FileType;
+import com.kazurayam.materialstore.core.FileTypeUtil;
+import com.kazurayam.materialstore.core.IFileType;
+import com.kazurayam.materialstore.core.Material;
+import com.kazurayam.materialstore.core.MaterialstoreException;
+import com.kazurayam.materialstore.core.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

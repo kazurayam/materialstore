@@ -111,7 +111,7 @@ var activeTableTab = "activeTableTab";
 </dl>
 <dl>
 <dt>Direct Known Subclasses:</dt>
-<dd><a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/MetadataImpl.html" title="class in com.kazurayam.materialstore.core.filesystem.metadata">MetadataImpl</a></dd>
+<dd><a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/MetadataImpl.html" title="class in com.kazurayam.materialstore.core.metadata">MetadataImpl</a></dd>
 </dl>
 <hr>
 <br>
@@ -222,8 +222,8 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <tr id="i1" class="rowColor">
 <td class="colFirst"><code>abstract void</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/Metadata.html#annotate-com.kazurayam.materialstore.core.filesystem.QueryOnMetadata-com.kazurayam.materialstore.core.filesystem.metadata.IgnoreMetadataKeys-com.kazurayam.materialstore.core.filesystem.metadata.IdentifyMetadataValues-">annotate</a></span>(<a href="../../../../../com/kazurayam/materialstore/core/filesystem/QueryOnMetadata.html" title="class in com.kazurayam.materialstore.core.filesystem">QueryOnMetadata</a>&nbsp;query,
-        <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/IgnoreMetadataKeys.html" title="class in com.kazurayam.materialstore.core.filesystem.metadata">IgnoreMetadataKeys</a>&nbsp;ignoreMetadataKeys,
-        <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/IdentifyMetadataValues.html" title="class in com.kazurayam.materialstore.core.filesystem.metadata">IdentifyMetadataValues</a>&nbsp;identifyMetadataValues)</code>&nbsp;</td>
+        <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/IgnoreMetadataKeys.html" title="class in com.kazurayam.materialstore.core.metadata">IgnoreMetadataKeys</a>&nbsp;ignoreMetadataKeys,
+        <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/IdentifyMetadataValues.html" title="class in com.kazurayam.materialstore.core.metadata">IdentifyMetadataValues</a>&nbsp;identifyMetadataValues)</code>&nbsp;</td>
 </tr>
 <tr id="i2" class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../com/kazurayam/materialstore/core/filesystem/Metadata.Builder.html" title="class in com.kazurayam.materialstore.core.filesystem">Metadata.Builder</a></code></td>
@@ -244,7 +244,7 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <tr id="i6" class="altColor">
 <td class="colFirst"><code>abstract boolean</code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/Metadata.html#canBeIdentified-java.lang.String-com.kazurayam.materialstore.core.filesystem.metadata.IdentifyMetadataValues-">canBeIdentified</a></span>(java.lang.String&nbsp;key,
-               <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/IdentifyMetadataValues.html" title="class in com.kazurayam.materialstore.core.filesystem.metadata">IdentifyMetadataValues</a>&nbsp;identifyMetadataValues)</code>&nbsp;</td>
+               <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/IdentifyMetadataValues.html" title="class in com.kazurayam.materialstore.core.metadata">IdentifyMetadataValues</a>&nbsp;identifyMetadataValues)</code>&nbsp;</td>
 </tr>
 <tr id="i7" class="rowColor">
 <td class="colFirst"><code>abstract boolean</code></td>
@@ -276,15 +276,15 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/Metadata.html#getMaterialLocatorRight--">getMaterialLocatorRight</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i14" class="altColor">
-<td class="colFirst"><code>abstract <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/MetadataAttribute.html" title="class in com.kazurayam.materialstore.core.filesystem.metadata">MetadataAttribute</a></code></td>
+<td class="colFirst"><code>abstract <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/MetadataAttribute.html" title="class in com.kazurayam.materialstore.core.metadata">MetadataAttribute</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/Metadata.html#getMetadataAttribute-java.lang.String-">getMetadataAttribute</a></span>(java.lang.String&nbsp;key)</code>&nbsp;</td>
 </tr>
 <tr id="i15" class="rowColor">
-<td class="colFirst"><code>abstract <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/MetadataIdentification.html" title="class in com.kazurayam.materialstore.core.filesystem.metadata">MetadataIdentification</a></code></td>
+<td class="colFirst"><code>abstract <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/MetadataIdentification.html" title="class in com.kazurayam.materialstore.core.metadata">MetadataIdentification</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/Metadata.html#getMetadataIdentification--">getMetadataIdentification</a></span>()</code>&nbsp;</td>
 </tr>
 <tr id="i16" class="altColor">
-<td class="colFirst"><code>abstract <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/MetadataIdentification.html" title="class in com.kazurayam.materialstore.core.filesystem.metadata">MetadataIdentification</a></code></td>
+<td class="colFirst"><code>abstract <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/MetadataIdentification.html" title="class in com.kazurayam.materialstore.core.metadata">MetadataIdentification</a></code></td>
 <td class="colLast"><code><span class="memberNameLink"><a href="../../../../../com/kazurayam/materialstore/core/filesystem/Metadata.html#getMetadataIdentification-com.kazurayam.materialstore.core.filesystem.SortKeys-">getMetadataIdentification</a></span>(<a href="../../../../../com/kazurayam/materialstore/core/filesystem/SortKeys.html" title="class in com.kazurayam.materialstore.core.filesystem">SortKeys</a>&nbsp;sortKeys)</code>&nbsp;</td>
 </tr>
 <tr id="i17" class="rowColor">
@@ -485,8 +485,8 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>annotate</h4>
 <pre>public abstract&nbsp;void&nbsp;annotate(<a href="../../../../../com/kazurayam/materialstore/core/filesystem/QueryOnMetadata.html" title="class in com.kazurayam.materialstore.core.filesystem">QueryOnMetadata</a>&nbsp;query,
-                              <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/IgnoreMetadataKeys.html" title="class in com.kazurayam.materialstore.core.filesystem.metadata">IgnoreMetadataKeys</a>&nbsp;ignoreMetadataKeys,
-                              <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/IdentifyMetadataValues.html" title="class in com.kazurayam.materialstore.core.filesystem.metadata">IdentifyMetadataValues</a>&nbsp;identifyMetadataValues)</pre>
+                              <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/IgnoreMetadataKeys.html" title="class in com.kazurayam.materialstore.core.metadata">IgnoreMetadataKeys</a>&nbsp;ignoreMetadataKeys,
+                              <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/IdentifyMetadataValues.html" title="class in com.kazurayam.materialstore.core.metadata">IdentifyMetadataValues</a>&nbsp;identifyMetadataValues)</pre>
 </li>
 </ul>
 <a name="canBeIdentified-java.lang.String-com.kazurayam.materialstore.core.filesystem.metadata.IdentifyMetadataValues-">
@@ -496,7 +496,7 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <li class="blockList">
 <h4>canBeIdentified</h4>
 <pre>public abstract&nbsp;boolean&nbsp;canBeIdentified(java.lang.String&nbsp;key,
-                                        <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/IdentifyMetadataValues.html" title="class in com.kazurayam.materialstore.core.filesystem.metadata">IdentifyMetadataValues</a>&nbsp;identifyMetadataValues)</pre>
+                                        <a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/IdentifyMetadataValues.html" title="class in com.kazurayam.materialstore.core.metadata">IdentifyMetadataValues</a>&nbsp;identifyMetadataValues)</pre>
 </li>
 </ul>
 <a name="canBePaired-com.kazurayam.materialstore.core.filesystem.QueryOnMetadata-java.lang.String-">
@@ -560,7 +560,7 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <ul class="blockList">
 <li class="blockList">
 <h4>getMetadataIdentification</h4>
-<pre>public abstract&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/MetadataIdentification.html" title="class in com.kazurayam.materialstore.core.filesystem.metadata">MetadataIdentification</a>&nbsp;getMetadataIdentification()</pre>
+<pre>public abstract&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/MetadataIdentification.html" title="class in com.kazurayam.materialstore.core.metadata">MetadataIdentification</a>&nbsp;getMetadataIdentification()</pre>
 </li>
 </ul>
 <a name="getMetadataIdentification-com.kazurayam.materialstore.core.filesystem.SortKeys-">
@@ -569,7 +569,7 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <ul class="blockList">
 <li class="blockList">
 <h4>getMetadataIdentification</h4>
-<pre>public abstract&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/MetadataIdentification.html" title="class in com.kazurayam.materialstore.core.filesystem.metadata">MetadataIdentification</a>&nbsp;getMetadataIdentification(<a href="../../../../../com/kazurayam/materialstore/core/filesystem/SortKeys.html" title="class in com.kazurayam.materialstore.core.filesystem">SortKeys</a>&nbsp;sortKeys)</pre>
+<pre>public abstract&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/MetadataIdentification.html" title="class in com.kazurayam.materialstore.core.metadata">MetadataIdentification</a>&nbsp;getMetadataIdentification(<a href="../../../../../com/kazurayam/materialstore/core/filesystem/SortKeys.html" title="class in com.kazurayam.materialstore.core.filesystem">SortKeys</a>&nbsp;sortKeys)</pre>
 </li>
 </ul>
 <a name="getMetadataAttribute-java.lang.String-">
@@ -578,7 +578,7 @@ implements java.lang.Comparable&lt;<a href="../../../../../com/kazurayam/materia
 <ul class="blockList">
 <li class="blockList">
 <h4>getMetadataAttribute</h4>
-<pre>public abstract&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/MetadataAttribute.html" title="class in com.kazurayam.materialstore.core.filesystem.metadata">MetadataAttribute</a>&nbsp;getMetadataAttribute(java.lang.String&nbsp;key)</pre>
+<pre>public abstract&nbsp;<a href="../../../../../com/kazurayam/materialstore/core/filesystem/metadata/MetadataAttribute.html" title="class in com.kazurayam.materialstore.core.metadata">MetadataAttribute</a>&nbsp;getMetadataAttribute(java.lang.String&nbsp;key)</pre>
 </li>
 </ul>
 <a name="isEmpty--">

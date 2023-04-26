@@ -1,16 +1,15 @@
 package com.kazurayam.materialstore.base.reduce;
 
-import com.kazurayam.materialstore.base.inspector.Inspector;
-import com.kazurayam.materialstore.core.TestHelper;
-import com.kazurayam.materialstore.core.filesystem.FileType;
-import com.kazurayam.materialstore.core.filesystem.JobName;
-import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
-import com.kazurayam.materialstore.core.filesystem.MaterialList;
-import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
-import com.kazurayam.materialstore.core.filesystem.Metadata;
-import com.kazurayam.materialstore.core.filesystem.QueryOnMetadata;
-import com.kazurayam.materialstore.core.filesystem.Store;
-import com.kazurayam.materialstore.core.filesystem.Stores;
+import com.kazurayam.materialstore.TestHelper;
+import com.kazurayam.materialstore.core.FileType;
+import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobTimestamp;
+import com.kazurayam.materialstore.core.MaterialList;
+import com.kazurayam.materialstore.core.MaterialstoreException;
+import com.kazurayam.materialstore.core.Metadata;
+import com.kazurayam.materialstore.core.QueryOnMetadata;
+import com.kazurayam.materialstore.core.Store;
+import com.kazurayam.materialstore.core.Stores;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.kazurayam"
-version = "0.14.3"
+version = "0.16.0"
 
 ext {
     isReleaseVersion = !version.endsWith("SNAPSHOT")
@@ -36,10 +36,13 @@ dependencies {
     implementation libs.jsoup
     implementation libs.slf4j.api
     implementation libs.subprocessj
+    implementation libs.s3fs
+    implementation libs.jaxb.api
 
     testImplementation libs.slf4j.simple
     testImplementation libs.junit.jupiter
     testImplementation libs.plantuml
+    testImplementation libs.timekeeper
 }
 
 java {

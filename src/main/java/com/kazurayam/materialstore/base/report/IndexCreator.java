@@ -1,11 +1,11 @@
 package com.kazurayam.materialstore.base.report;
 
-import com.kazurayam.materialstore.core.filesystem.JobTimestamp;
-import com.kazurayam.materialstore.core.filesystem.Jsonifiable;
-import com.kazurayam.materialstore.core.filesystem.MaterialstoreException;
-import com.kazurayam.materialstore.core.filesystem.Store;
-import com.kazurayam.materialstore.core.filesystem.TemplateReady;
-import com.kazurayam.materialstore.core.util.JsonUtil;
+import com.kazurayam.materialstore.core.JobTimestamp;
+import com.kazurayam.materialstore.core.Jsonifiable;
+import com.kazurayam.materialstore.core.MaterialstoreException;
+import com.kazurayam.materialstore.core.Store;
+import com.kazurayam.materialstore.core.TemplateReady;
+import com.kazurayam.materialstore.util.JsonUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
