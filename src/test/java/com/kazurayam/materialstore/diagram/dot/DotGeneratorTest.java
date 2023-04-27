@@ -24,13 +24,14 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * This test takes is tentatively disabled
  * because it takes long time (over 1 minutes 20 seconds)
  */
-@Disabled
+//@Disabled
 public class DotGeneratorTest {
 
     private static final Path outputDir =
@@ -157,6 +158,30 @@ public class DotGeneratorTest {
                 store.write(outJobName, outJobTimestamp, FileType.PNG,
                         Metadata.NULL_OBJECT, bufferedImage);
         assertTrue(pngMat.toPath().toFile().length() > 0);
+    }
+
+    /**
+     * Reproducing the issue of
+     * https://github.com/kazurayam/VisualInspectionOfExcelAndPDF/issues/11
+     * where either of the left or the right MaterialList is empty,
+     * the DotGenerator.generateDotOfMPGBeforeZip(DotGenerator.java:203) raises
+     * an IndexOutOfBoundsException: Index: 0, Size: 0
+     */
+    @Test
+    public void test_generateDotOfMPGBeforeZip_withEmptyMaterialList() throws MaterialstoreException {
+        JobTimestamp modifiedTimestamp = new JobTimestamp("20220522_000000");
+        MaterialList leftMaterialList = store.select(jobName, modifiedTimestamp); // this will be emtpy
+        MaterialList rightMaterialList = store.select(jobName, rightTimestamp);
+        JobTimestamp reducedTimestamp = JobTimestamp.now();
+        JobName outJobName = new JobName("test_generateDotOfMPGBeforeZip_withEmptyMaterialList");
+        JobTimestamp outJobTimestamp = JobTimestamp.laterThan(reducedTimestamp);
+        MaterialProductGroup mProductGroup =
+                new MaterialProductGroup.Builder(
+                        leftMaterialList,
+                        rightMaterialList).ignoreKeys("environment", "URL.host").build();
+        //
+        String dotText = DotGenerator.generateDotOfMPGBeforeZip(mProductGroup);
+        assertNotNull(dotText);
     }
 
     //@Disabled

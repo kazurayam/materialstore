@@ -59,8 +59,17 @@ public final class MaterialList
         }
     }
 
+    /**
+     *
+     * @param index
+     * @return null if the index is out of bounds.
+     */
     public Material get(int index) {
-        return materialList.get(index);
+        if (0 <= index && index < materialList.size()) {
+            return materialList.get(index);
+        } else {
+            return null;
+        }
     }
 
     @Override

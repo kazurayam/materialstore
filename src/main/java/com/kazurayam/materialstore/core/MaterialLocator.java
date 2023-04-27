@@ -32,6 +32,10 @@ public class MaterialLocator {
      */
     public static MaterialLocator parse(String loc) {
         Objects.requireNonNull(loc);
+        if (!loc.contains("/")) {
+            throw new IllegalArgumentException(
+                    String.format("loc=\"%s\" does not have a '/' character", loc));
+        }
         JobTimestamp jobTimestamp = new JobTimestamp(loc.substring(0, loc.indexOf("/")));
         ID id = new ID(loc.substring(loc.indexOf("/") + 1));
         return new MaterialLocator(jobTimestamp, id);
