@@ -297,19 +297,19 @@ public final class StoreImpl implements Store {
             throws MaterialstoreException {
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(jobTimestamp);
-        Set<JobTimestamp> reffered = new HashSet<>();
+        Set<JobTimestamp> referred = new HashSet<>();
         for (Material m : this.select(jobName, jobTimestamp)) {
             if (m.getMetadata().containsKey("category") &&
                     m.getMetadata().get("category").equals("diff")) {
                 MaterialLocator leftLocator =
                         MaterialLocator.parse(m.getMetadata().get("left"));
-                reffered.add(leftLocator.getJobTimestamp());
+                referred.add(leftLocator.getJobTimestamp());
                 MaterialLocator rightLocator =
                         MaterialLocator.parse(m.getMetadata().get("right"));
-                reffered.add(rightLocator.getJobTimestamp());
+                referred.add(rightLocator.getJobTimestamp());
             }
         }
-        List<JobTimestamp> list = new ArrayList<>(reffered);
+        List<JobTimestamp> list = new ArrayList<>(referred);
         list.sort(Comparator.reverseOrder());
         return list;
     }

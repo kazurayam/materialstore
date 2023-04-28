@@ -1,0 +1,28 @@
+@startuml sequence-web-api
+actor       Tester        as tester
+participant "Test Script" as script
+participant "Proxy"       as proxy
+participant AppServer     as server
+participant "Lambda #N"   as lambdaN
+database    Database      as database
+
+tester -> database : start
+activate database
+tester -> server   : start
+activate server
+server  -> lambdaN  : start
+activate lambdaN
+tester  -> script   : run test
+script  -> server   : call materalizing Web API
+server  -> lambdaN  : materialize x
+lambdaN -> server   : return material
+server  -> database : store material
+script  -> server   : call store Web API
+server  -> script   : return object
+script  -> tester   : say done
+deactivate lambdaN
+tester  -> server   : stop
+deactivate server
+tester  -> database : stop
+deactivate database
+@enduml

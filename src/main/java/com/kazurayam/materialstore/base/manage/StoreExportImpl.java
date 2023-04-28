@@ -56,20 +56,26 @@ public class StoreExportImpl extends StoreExport {
                 local.markNewerThanOrEqualTo(jobName, newerThanOrEqualTo);
         for (JobTimestamp jt : marked) {
             Path source = local.getPathOf(jobName, jt);
-            Path target =
-                    remote.getRoot().resolve(jobName.toString()).resolve(jt.toString());
-            try {
-                if (!Files.exists(target)) {
-                    Files.createDirectories(target);
+            if (source != null) {
+                Path target =
+                        remote.getRoot().resolve(jobName.toString()).resolve(jt.toString());
+                try {
+                    if (!Files.exists(target)) {
+                        Files.createDirectories(target);
+                    }
+                    // If a file is already existing in the remote store,
+                    // we will skip copying it.
+                    // It is to shorten the processing time.
+                    Files.walkFileTree(source,
+                            new CopyDir(source, target,
+                                    CopyDir.Option.SKIP_IF_EXISTING));
+                } catch (IOException e) {
+                    throw new MaterialstoreException(e);
                 }
-                // If a file is already existing in the remote store,
-                // we will skip copying it.
-                // It is to shorten the processing time.
-                Files.walkFileTree(source,
-                        new CopyDir(source, target,
-                                CopyDir.Option.SKIP_IF_EXISTING));
-            } catch (IOException e) {
-                throw new MaterialstoreException(e);
+            } else {
+                throw new MaterialstoreException(
+                        String.format("in %s, there is no dir of jobName=%s/jobTimestamp=%s",
+                                local.toString(), jobName.toString(), jt.toString()));
             }
         }
     }

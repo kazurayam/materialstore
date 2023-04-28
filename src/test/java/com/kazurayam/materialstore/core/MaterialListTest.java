@@ -14,6 +14,11 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class MaterialListTest {
 
     private static Path outputDir;
@@ -78,7 +83,7 @@ public class MaterialListTest {
         MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), QueryOnMetadata.ANY);
         materialList.add(material);
         Assertions.assertEquals(1, materialList.size());
-        Assertions.assertTrue(materialList.contains(material));
+        assertTrue(materialList.contains(material));
     }
 
     @Test
@@ -87,6 +92,20 @@ public class MaterialListTest {
         materialList.add(material);
         Assertions.assertNotNull(materialList.getQueryOnMetadata());
         //println materialList.getQueryOnMetadata().toString()
+    }
+
+    /**
+     * reproducing the issue https://github.com/kazurayam/VisualInspectionOfExcelAndPDF/issues/11
+     *
+     * When a materialList is empty, the call "materialList.get(0)" threw an IndexOutOfBoundsException.
+     * How to workaround it?
+     * The call "materialList.get(x)" should not throw and exception, but silently return null.
+     */
+    @Test
+    public void test_get_shouldNotThrowIndexOutOfBoundsException() {
+        MaterialList materialList = new MaterialList(jobName, JobTimestamp.now(), QueryOnMetadata.ANY);
+        Material m = materialList.get(0);
+        assertNull(m);
     }
 
     @Test

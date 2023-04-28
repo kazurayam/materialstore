@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.Jobber;
 import com.kazurayam.materialstore.core.Material;
+import com.kazurayam.materialstore.core.MaterialLocator;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Metadata;
 import com.kazurayam.materialstore.core.Store;
@@ -71,8 +72,8 @@ public final class VoidDiffer implements Differ {
             // materialize the byte[] into the store
             LinkedHashMap<String, String> map = new LinkedHashMap<>(3);
             map.put("category", "diff");
-            map.put("left", left.getIndexEntry().getID().toString());
-            map.put("right", right.getIndexEntry().getID().toString());
+            map.put("left", new MaterialLocator(left).toString());
+            map.put("right", new MaterialLocator(right).toString());
             Metadata diffMetadata = Metadata.builder(map).build();
             assert store != null;
             Jobber jobber = new Jobber(store, right.getJobName(), mProduct.getReducedTimestamp());

@@ -200,25 +200,28 @@ public class DotGenerator {
         pw.println(INDENT + "{ rank=same; LEFT, RIGHT; }");
         //
         MaterialList leftML = mProductGroup.getMaterialListLeft();
-        Material leftTop = leftML.get(0);
-        GraphNodeId leftTopId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialList(leftML, leftTop);
-        pw.println(INDENT + "LEFT -> " + leftTopId.getValue() + " [style=invis];");
+        if (leftML.size() > 0) {
+            Material leftTop = leftML.get(0);
+            GraphNodeId leftTopId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialList(leftML, leftTop);
+            pw.println(INDENT + "LEFT -> " + leftTopId.getValue() + " [style=invis];");
+            // left Material
+            String dotLeft =
+                    generateDot(mProductGroup.getMaterialListLeft(),
+                            Collections.singletonMap("sequenceNumber", "0"), false);
+            pw.println(INDENT + dotLeft);
+        }
         //
         MaterialList rightML = mProductGroup.getMaterialListRight();
-        Material rightTop = rightML.get(0);
-        GraphNodeId rightTopId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialList(rightML, rightTop);
-        pw.println(INDENT + "RIGHT -> " + rightTopId.getValue() + " [style=invis];");
-
-        // left Material
-        String dotLeft =
-                generateDot(mProductGroup.getMaterialListLeft(),
-                        Collections.singletonMap("sequenceNumber", "0"), false);
-        pw.println(INDENT + dotLeft);
-        // right Material
-        String dotRight =
-                generateDot(mProductGroup.getMaterialListRight(),
-                        Collections.singletonMap("sequenceNumber", "1"), false);
-        pw.println(INDENT + dotRight);
+        if (rightML.size() > 0) {
+            Material rightTop = rightML.get(0);
+            GraphNodeId rightTopId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialList(rightML, rightTop);
+            pw.println(INDENT + "RIGHT -> " + rightTopId.getValue() + " [style=invis];");
+            // right Material
+            String dotRight =
+                    generateDot(mProductGroup.getMaterialListRight(),
+                            Collections.singletonMap("sequenceNumber", "1"), false);
+            pw.println(INDENT + dotRight);
+        }
         // horizontal edge
         pw.println("}");
         pw.flush();
