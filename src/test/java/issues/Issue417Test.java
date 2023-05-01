@@ -46,7 +46,9 @@ public class Issue417Test {
 
     @BeforeAll
     public static void beforeAll() throws MaterialstoreException, IOException {
-        DeleteDir.deleteDirectoryRecursively(workDir);
+        if (Files.exists(workDir)) {
+            DeleteDir.deleteDirectoryRecursively(workDir);
+        }
         Files.createDirectory(workDir);
         Path rootDir = workDir.resolve("store");
         store = Stores.newInstance(rootDir);
