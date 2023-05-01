@@ -47,20 +47,22 @@ public class StoreImportImpl extends StoreImport {
                 remote.markNewerThanOrEqualTo(jobName, newerThanOrEqualTo);
         for (JobTimestamp jt : marked) {
             Path source = remote.getPathOf(jobName, jt);
-            Path target =
-                    local.getRoot().resolve(jobName.toString()).resolve(jt.toString());
-            try {
-                if (!Files.exists(target)) {
-                    Files.createDirectories(target);
+            if (source != null) {
+                Path target =
+                        local.getRoot().resolve(jobName.toString()).resolve(jt.toString());
+                try {
+                    if (!Files.exists(target)) {
+                        Files.createDirectories(target);
+                    }
+                    // If a file is already existing in the local store,
+                    // we will skip copying it.
+                    // It is to shorten the processing time.
+                    Files.walkFileTree(source,
+                            new CopyDir(source, target,
+                                    CopyDir.Option.SKIP_IF_EXISTING));
+                } catch (IOException e) {
+                    throw new MaterialstoreException(e);
                 }
-                // If a file is already existing in the local store,
-                // we will skip copying it.
-                // It is to shorten the processing time.
-                Files.walkFileTree(source,
-                        new CopyDir(source, target,
-                                CopyDir.Option.SKIP_IF_EXISTING));
-            } catch (IOException e) {
-                throw new MaterialstoreException(e);
             }
         }
     }
