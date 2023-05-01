@@ -28,7 +28,7 @@ import java.util.Objects;
  */
 public final class VoidDiffer implements Differ {
 
-    private Store store;
+    private final Store store;
     private final Configuration cfg;
 
     public VoidDiffer(Store store) {
@@ -70,11 +70,14 @@ public final class VoidDiffer implements Differ {
             byte[] diffData = baos.toByteArray();
 
             // materialize the byte[] into the store
-            LinkedHashMap<String, String> map = new LinkedHashMap<>(3);
-            map.put("category", "diff");
-            map.put("left", new MaterialLocator(left).toString());
-            map.put("right", new MaterialLocator(right).toString());
-            Metadata diffMetadata = Metadata.builder(map).build();
+            Metadata diffMetadata =
+                    Metadata.builder()
+                            .put("category", "diff")
+                            // no "ratio" attribute for non-diff-able type of files
+                            .put("left", new MaterialLocator(left).toString())
+                            .put("right", new MaterialLocator(right).toString())
+                            .build();
+
             assert store != null;
             Jobber jobber = new Jobber(store, right.getJobName(), mProduct.getReducedTimestamp());
             Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata, Jobber.DuplicationHandling.CONTINUE);

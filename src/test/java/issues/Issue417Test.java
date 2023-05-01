@@ -4,10 +4,8 @@ import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.reduce.differ.ImageDifferToPNG;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.core.FileType;
-import com.kazurayam.materialstore.core.IFileType;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobTimestamp;
-import com.kazurayam.materialstore.core.Material;
 import com.kazurayam.materialstore.core.MaterialList;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Metadata;
@@ -16,6 +14,7 @@ import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
 import com.kazurayam.materialstore.util.DeleteDir;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
 import ru.yandex.qatools.ashot.comparison.ImageDiffer;
@@ -103,9 +102,11 @@ public class Issue417Test {
     }
 
 
+    @Disabled
+    // this test is no longer necessary as I modified the ImageDifferToPng#stuffDiff()
     /**
      * Try to execute ru.yandex.qatools.ashot.comparison.ImageDiff#makeDiff(leftImage, rightImage)
-     * with the leftImage being loaded from the main/resources/com/kazurayam/materialstore/core/NoMaterialFound.png
+     * with the leftImage being loaded from the main/resources/com/kazurayam/materialstore/core/NoCounterpartFound.png
      * Interested in how much memory the method requires
      * as it possibly causes the OutOfMemoryError reported at
      * https://github.com/kazurayam/materialstore/issues/417 .
@@ -113,14 +114,37 @@ public class Issue417Test {
     @Test
     public void test_AShot_imageDiff_how_much_memory_it_requires() throws MaterialstoreException, IOException {
         Path noMaterialFoundPNG = projectDir
-                .resolve("src/main/resources/com/kazurayam/materialstore/core/NoMaterialFound.png");
+                .resolve("src/main/resources/com/kazurayam/materialstore/core/NoCounterpartFound.png");
         BufferedImage leftImage = ImageIO.read(noMaterialFoundPNG.toFile());
         Path fixturePNG = projectDir
                 .resolve("src/test/fixtures/issue#417/3a98c4ba471f11462d06a4c94ef4daa4010a466a.png");
         BufferedImage rightImage = ImageIO.read(fixturePNG.toFile());
-        ImageDiffer imgDiff = new ImageDiffer();
-        ImageDiff imageDiff = imgDiff.makeDiff(leftImage, rightImage);
+        ImageDiffer imageDiffer = new ImageDiffer();
+        ImageDiff imageDiff = imageDiffer.makeDiff(leftImage, rightImage);
         // this causes OutOfMemoryError
         assertNotNull(imageDiff);
+    }
+
+
+    @Disabled
+    // this test is no longer necessary as I modified the ImageDifferToPng#stuffDiff()
+    @Test
+    public void test_AShot_imageDiff_of_the_same_size_3445x3872() throws MaterialstoreException, IOException {
+        Path noMaterialFoundPNG = projectDir
+                .resolve("src/test/fixtures/issue#417/NoMaterialFound_3445x4872.png");
+        BufferedImage leftImage = ImageIO.read(noMaterialFoundPNG.toFile());
+        Path fixturePNG = projectDir
+                .resolve("src/test/fixtures/issue#417/3a98c4ba471f11462d06a4c94ef4daa4010a466a.png");
+        BufferedImage rightImage = ImageIO.read(fixturePNG.toFile());
+        ImageDiffer imageDiffer = new ImageDiffer();
+        ImageDiff imageDiff = imageDiffer.makeDiff(leftImage, rightImage);
+        // this does NOT raise OutOfMemoryError
+        assertNotNull(imageDiff);
+        // save the image into the store to have a look
+        BufferedImage bi = imageDiff.getDiffImage();
+        JobName jobName = new JobName("test_AShot_imageDiff_of_the_same_size_3445x3872");
+        JobTimestamp jobTimestamp = JobTimestamp.now();
+        Metadata metadata = Metadata.builder().put("description", "diff").build();
+        store.write(jobName, jobTimestamp, FileType.PNG, metadata, bi);
     }
 }

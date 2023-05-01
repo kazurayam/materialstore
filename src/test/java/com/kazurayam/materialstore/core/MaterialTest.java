@@ -135,14 +135,14 @@ public class MaterialTest {
     }
 
     @Test
-    public void test_loadNoMaterialFoundHtml() throws MaterialstoreException {
-        byte[] bytes = Material.loadNoMaterialFoundText();
+    public void test_loadNoCounterpartText() throws MaterialstoreException {
+        byte[] bytes = Material.loadNoCounterpartText();
         assertTrue(bytes.length > 0);
     }
 
     @Test
-    public void test_loadNoMaterialFoundPng() throws MaterialstoreException {
-        byte[] bytes = Material.loadNoMaterialFoundPng();
+    public void test_loadNoCounterpartPng() throws MaterialstoreException {
+        byte[] bytes = Material.loadNoCounterpartPng();
         assertTrue(bytes.length > 0);
     }
 

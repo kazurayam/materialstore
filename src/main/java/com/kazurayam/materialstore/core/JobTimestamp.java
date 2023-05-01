@@ -91,6 +91,8 @@ public final class JobTimestamp implements Comparable<JobTimestamp>, Jsonifiable
      * @return a new JobTimestamp value which is assured to be newer than
      * any of previous JobTimestamps. If JobTimestamp.now() is newer than them, then
      * the value of JobTimestamp.now() will be returned.
+     *
+     * If JobTimestamp.now() is equal to the maximum of previous timestamp, the max value will be returned.
      */
     public static JobTimestamp laterThan(JobTimestamp... previous) {
         return theTimeOrLaterThan(max(previous), now());
@@ -102,6 +104,9 @@ public final class JobTimestamp implements Comparable<JobTimestamp>, Jsonifiable
      *
      * When thanThis is "20221130_010101" and theTime is "20221130_010100", then a JobTimestamp of
      * "20221130_010102", which is equal to (thanThis + 1 second), will be returned.
+     *
+     * When thanThis is "20221130_010101" and theTime is "20221130_010101", then a JobTimestamp of
+     * "20221130_010101" will be returned.
      *
      * @param thanThis a JobTimestamp as basis
      * @param theTime a JobTimestamp
@@ -115,7 +120,6 @@ public final class JobTimestamp implements Comparable<JobTimestamp>, Jsonifiable
         } else {
             return max(thanThis, theTime).plusSeconds(1L);
         }
-
     }
 
     /**
