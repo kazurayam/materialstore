@@ -3,12 +3,15 @@ package com.kazurayam.materialstore.base.reduce.differ;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.FileTypeDiffability;
-import com.kazurayam.materialstore.core.Jobber;
+import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.Material;
 import com.kazurayam.materialstore.core.MaterialLocator;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Metadata;
 import com.kazurayam.materialstore.core.Store;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
 import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 
@@ -16,6 +19,8 @@ import java.awt.image.BufferedImage;
 import java.util.Objects;
 
 public final class ImageDifferToPNG implements Differ {
+
+    private static final Logger logger = LoggerFactory.getLogger(ImageDifferToPNG.class);
 
     private final Store store;
 
@@ -29,57 +34,49 @@ public final class ImageDifferToPNG implements Differ {
         Objects.requireNonNull(mProduct);
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());
-
-        Material left = complementMaterialAsImage(store, mProduct, mProduct.getLeft());
-        BufferedImage leftImage = readImage(left.toPath());
-
-        Material right = complementMaterialAsImage(store, mProduct, mProduct.getRight());
-        BufferedImage rightImage = readImage(right.toPath());
-
-        // make a diff image using AShot
-        ImageDiffer imgDiff = new ImageDiffer();
-        ImageDiff imageDiff = imgDiff.makeDiff(leftImage, rightImage);
-        Double diffRatio = calculateDiffRatioPercent(imageDiff);
-        //
-        Metadata diffMetadata =
-                Metadata.builder()
-                        .put("category", "diff")
-                        .put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio))
-                        .put("left", new MaterialLocator(left).toString())
-                        .put("right", new MaterialLocator(right).toString())
-                        .build();
-
-        byte[] diffData = toByteArray(imageDiff.getDiffImage(), FileType.PNG);
-
-        // write the image diff
-        Material diffMaterial =
-                new Jobber(store, mProduct.getJobName(), mProduct.getReducedTimestamp())
-                        .write(diffData, FileType.PNG, diffMetadata,
-                                Jobber.DuplicationHandling.CONTINUE);
-        //
-        MaterialProduct result = new MaterialProduct.Builder(mProduct)
-                .setLeft(left)
-                .setRight(right)
-                .build();
+        logger.debug("stuffDiff started to process " + mProduct.toJson(true));
+        Material left = mProduct.getLeft();
+        Material right = mProduct.getRight();
+        Material diffMaterial = null;
+        Double diffRatio = 0.0d;
+        if (left.getDiffability().equals(FileTypeDiffability.AS_IMAGE) &&
+                right.getDiffability().equals(FileTypeDiffability.AS_IMAGE)) {
+            // Both of the left and right Materials are diff-able as image
+            BufferedImage leftImage = readImage(left.toPath());
+            BufferedImage rightImage = readImage(right.toPath());
+            // make a diff image using AShot
+            ImageDiff imageDiff = new ImageDiffer().makeDiff(leftImage, rightImage);
+            diffRatio = calculateDiffRatioPercent(imageDiff);
+            // write the diff image into the store
+            Metadata diffMetadata = Metadata.builder()
+                    .put("category", "diff")
+                    .put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio))
+                    .put("left", new MaterialLocator(left).toString())
+                    .put("right", new MaterialLocator(right).toString())
+                    .build();
+            diffMaterial =
+                    store.write(mProduct.getJobName(), mProduct.getReducedTimestamp(),
+                            FileType.PNG, diffMetadata,
+                            imageDiff.getDiffImage());
+        } else {
+            // Either of the left or the right Material is non diff-able as image
+            diffRatio = 100.0d;
+            Metadata diffMetadata = Metadata.builder()
+                    .put("category", "diff")
+                    .put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio))
+                    .put("left", new MaterialLocator(left).toString())
+                    .put("right", new MaterialLocator(right).toString())
+                    .build();
+            diffMaterial =
+                    store.write(mProduct.getJobName(), mProduct.getReducedTimestamp(),
+                            FileType.PNG, diffMetadata,
+                            Material.loadNoCounterpartPng());
+        }
+        // stuff the diffMaterial into the MaterialProduct and return it
+        MaterialProduct result = new MaterialProduct.Builder(mProduct).build();
         result.setDiff(diffMaterial);
         result.setDiffRatio(diffRatio);
-
         return result;
-    }
-
-    /*
-     * if the given Material object is OK as an image, just return it.
-     * if the given Material object is empty one, swap it to the "No Material is found" image.
-     */
-    private Material complementMaterialAsImage(Store store,
-                                               MaterialProduct mProduct,
-                                               Material material) throws MaterialstoreException {
-        if (material.getDiffability().equals(FileTypeDiffability.AS_IMAGE)) {
-            return material;
-        } else {
-            return makeNoMaterialFoundMaterial(store, mProduct,
-                    FileType.PNG, Material.loadNoMaterialFoundPng());
-        }
     }
 
     /**
@@ -98,6 +95,5 @@ public final class ImageDifferToPNG implements Differ {
         Double diffRatio = diffSize * 1.0D / area * 100;
         return DifferUtil.roundUpTo2DecimalPlaces(diffRatio);
     }
-
 
 }

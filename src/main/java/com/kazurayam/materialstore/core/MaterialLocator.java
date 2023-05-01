@@ -6,8 +6,8 @@ public class MaterialLocator {
 
     public static final MaterialLocator NULL_OBJECT = new MaterialLocator(Material.NULL_OBJECT);
 
-    private JobTimestamp jobTimestamp;
-    private ID id;
+    private final JobTimestamp jobTimestamp;
+    private final ID id;
 
     public MaterialLocator(Material material) {
         Objects.requireNonNull(material);

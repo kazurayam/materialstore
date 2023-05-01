@@ -118,30 +118,30 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
     /*
      * returns the byte array of the PNG file of "No Material is found"
      */
-    public static byte[] loadNoMaterialFoundPng() throws MaterialstoreException {
-        return readInputStream(getNoMaterialFoundPngAsInputStream());
+    public static byte[] loadNoCounterpartPng() throws MaterialstoreException {
+        return readInputStream(getNoCounterpartPngAsInputStream());
     }
 
     /*
      * returns the byte array of the HTML file of "No Materials is found"
      */
-    public static byte[] loadNoMaterialFoundText() throws MaterialstoreException {
-        return readInputStream(getNoMaterialFoundHtmlAsInputStream());
+    public static byte[] loadNoCounterpartText() throws MaterialstoreException {
+        return readInputStream(getNoCounterpartHtmlAsInputStream());
     }
 
-    public static InputStream getNoMaterialFoundPngAsInputStream() {
+    public static InputStream getNoCounterpartPngAsInputStream() {
         ClassLoader cl = Material.class.getClassLoader();
         String resourcePath =
-                "com/kazurayam/materialstore/core/NoMaterialFound.png";
+                "com/kazurayam/materialstore/core/NoCounterpart.png";
         InputStream inputStream = cl.getResourceAsStream(resourcePath);
         assert inputStream != null : "failed to load " + resourcePath + " from CLASSPATH";
         return inputStream;
     }
 
-    public static InputStream getNoMaterialFoundHtmlAsInputStream() {
+    public static InputStream getNoCounterpartHtmlAsInputStream() {
         ClassLoader cl = Material.class.getClassLoader();
         String resourcePath =
-                "com/kazurayam/materialstore/core/NoMaterialFound.html";
+                "com/kazurayam/materialstore/core/NoCounterpart.html";
         InputStream inputStream = cl.getResourceAsStream(resourcePath);
         assert inputStream != null : "failed to load " + resourcePath + " from CLASSPATH";
         return inputStream;

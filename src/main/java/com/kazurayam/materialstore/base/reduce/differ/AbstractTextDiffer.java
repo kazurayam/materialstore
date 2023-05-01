@@ -90,7 +90,7 @@ public abstract class AbstractTextDiffer implements Differ {
             return material;
         } else {
             return makeNoMaterialFoundMaterial(store, mProduct,
-                    FileType.HTML, Material.loadNoMaterialFoundText());
+                    FileType.HTML, Material.loadNoCounterpartText());
         }
     }
 
@@ -113,6 +113,10 @@ public abstract class AbstractTextDiffer implements Differ {
         return lines;
     }
 
+    /**
+     * read a full text of the Material specified.
+     * If the Material is an NULL_OBJECT, this will return an empty string "".
+     */
     public static String readMaterial(Store store, Material material, Charset charset)
             throws MaterialstoreException {
         Objects.requireNonNull(store);

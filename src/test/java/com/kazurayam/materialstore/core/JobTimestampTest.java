@@ -182,6 +182,16 @@ public class JobTimestampTest {
     }
 
     @Test
+    public void test_laterThan_varArgs() {
+        JobTimestamp jtLeft = JobTimestamp.now();
+        JobTimestamp jtRight = JobTimestamp.laterThan(jtLeft);
+        JobTimestamp derived = JobTimestamp.laterThan(jtLeft, jtRight);
+        System.out.println(String.format("jtLeft=%s, jtRight=%s, derived=%s", jtLeft, jtRight, derived));
+        Assertions.assertTrue(derived.compareTo(jtLeft) > 0);
+        Assertions.assertTrue(derived.compareTo(jtRight) > 0);
+    }
+
+    @Test
     public void test_withSecond() {
         JobTimestamp jobTimestamp = JobTimestamp.now();
         JobTimestamp modified = jobTimestamp.withSecond(0);

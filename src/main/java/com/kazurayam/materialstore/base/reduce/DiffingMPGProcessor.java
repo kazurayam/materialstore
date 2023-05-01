@@ -40,6 +40,7 @@ public final class DiffingMPGProcessor implements MPGProcessor {
         final List<MaterialProduct> stuffedMaterialProductList = new ArrayList<>();
         for (MaterialProduct input : source) {
             // do make difference and memorize it
+            logger.info(String.format("#process %s", input.toString()));
             stuffedMaterialProductList.add(stuffDiffByDiffer(input));
         }
         logger.debug(String.format("#process stuffedMaterialProductList.size()=%d", stuffedMaterialProductList.size()));
@@ -64,7 +65,8 @@ public final class DiffingMPGProcessor implements MPGProcessor {
             fileType = materialProduct.getRight().getIndexEntry().getFileType();
         }
         Differ differ = differs.get(fileType);
-        return differ.stuffDiff(materialProduct);
+        MaterialProduct result = differ.stuffDiff(materialProduct);
+        return result;
     }
 
     public boolean hasDiffer(FileType fileType) {

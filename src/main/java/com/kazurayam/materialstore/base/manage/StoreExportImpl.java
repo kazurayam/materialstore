@@ -72,10 +72,6 @@ public class StoreExportImpl extends StoreExport {
                 } catch (IOException e) {
                     throw new MaterialstoreException(e);
                 }
-            } else {
-                throw new MaterialstoreException(
-                        String.format("in %s, there is no dir of jobName=%s/jobTimestamp=%s",
-                                local.toString(), jobName.toString(), jt.toString()));
             }
         }
     }
