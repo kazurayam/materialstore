@@ -71,7 +71,7 @@ public final class ImageDifferToPNG implements Differ {
                             FileType.PNG, diffMetadata,
                             Material.loadNoCounterpartPng());
         }
-        // stuff the diffMaterial into the MaterialProduct and return it
+        // stuff the diffMaterial into a MaterialProduct object and return it
         MaterialProduct result = new MaterialProduct.Builder(mProduct).build();
         result.setDiff(diffMaterial);
         result.setDiffRatio(diffRatio);

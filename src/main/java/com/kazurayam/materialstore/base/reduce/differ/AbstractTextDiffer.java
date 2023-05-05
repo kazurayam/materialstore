@@ -47,29 +47,42 @@ public abstract class AbstractTextDiffer implements Differ {
         Objects.requireNonNull(mProduct);
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());
-        Material left = complementMaterialAsText(store, mProduct, mProduct.getLeft());
-        Material right = complementMaterialAsText(store, mProduct, mProduct.getRight());
-        TextDiffContent textDiffContent = makeTextDiffContent(store, left, right, charset);
-        Double diffRatio = textDiffContent.getDiffRatio();
-        byte[] diffData = toByteArray(textDiffContent.getContent());
-        Metadata diffMetadata =
-                Metadata.builder()
+        Material left = mProduct.getLeft();
+        Material right = mProduct.getRight();
+        Material diffMaterial = null;
+        Double diffRatio = 0.0d;
+        if (left.getDiffability().equals(FileTypeDiffability.AS_TEXT) &&
+                right.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
+            // Both of the left and right Materials are diff-able as text
+            TextDiffContent textDiffContent = makeTextDiffContent(store, left, right, charset);
+            byte[] diffData = toByteArray(textDiffContent.getContent());
+            diffRatio = textDiffContent.getDiffRatio();
+            Metadata diffMetadata = Metadata.builder()
                         .put("category", "diff")
                         .put("left", new MaterialLocator(left).toString())
                         .put("right", new MaterialLocator(right).toString())
                         .put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio))
                         .build();
-        Jobber jobber =
-                new Jobber(store, mProduct.getJobName(),
-                        mProduct.getReducedTimestamp());
-        Material diffMaterial =
-                jobber.write(diffData, FileType.HTML,
-                        diffMetadata, Jobber.DuplicationHandling.CONTINUE);
-        MaterialProduct result =
-                new MaterialProduct.Builder(mProduct)
-                        .setLeft(left)
-                        .setRight(right)
-                        .build();
+            diffMaterial =
+                    store.write(mProduct.getJobName(), mProduct.getReducedTimestamp(),
+                            FileType.HTML, diffMetadata,
+                            diffData);
+        } else {
+            // Either of the left or right Material is non diff-able as text
+            diffRatio = 100.d;
+            Metadata diffMetadata = Metadata.builder()
+                    .put("category", "diff")
+                    .put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio))
+                    .put("left", new MaterialLocator(left).toString())
+                    .put("right", new MaterialLocator(right).toString())
+                    .build();
+            diffMaterial =
+                    store.write(mProduct.getJobName(), mProduct.getReducedTimestamp(),
+                            FileType.HTML, diffMetadata,
+                            Material.loadNoCounterpartText());
+        }
+        // stuff the diffMaterial into a MateriaProduct object and return it
+        MaterialProduct result = new MaterialProduct.Builder(mProduct).build();
         result.setDiff(diffMaterial);
         result.setDiffRatio(diffRatio);
         return result;
