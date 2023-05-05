@@ -35,8 +35,8 @@ public class ImageDifferToPNGTest {
     }
 
     @Test
-    public void test_injectDiff() throws MaterialstoreException {
-        JobName jobName = new JobName("test_makeDiff");
+    public void test_stuffDiff() throws MaterialstoreException {
+        JobName jobName = new JobName("test_stuffDiff");
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         TestFixtureUtil.setupFixture(store, jobName);
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);

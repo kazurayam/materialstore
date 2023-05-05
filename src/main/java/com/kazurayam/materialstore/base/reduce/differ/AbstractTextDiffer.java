@@ -47,16 +47,11 @@ public abstract class AbstractTextDiffer implements Differ {
         Objects.requireNonNull(mProduct);
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());
-
         Material left = complementMaterialAsText(store, mProduct, mProduct.getLeft());
         Material right = complementMaterialAsText(store, mProduct, mProduct.getRight());
-
         TextDiffContent textDiffContent = makeTextDiffContent(store, left, right, charset);
         Double diffRatio = textDiffContent.getDiffRatio();
-
-        //
         byte[] diffData = toByteArray(textDiffContent.getContent());
-
         Metadata diffMetadata =
                 Metadata.builder()
                         .put("category", "diff")
@@ -64,14 +59,12 @@ public abstract class AbstractTextDiffer implements Differ {
                         .put("right", new MaterialLocator(right).toString())
                         .put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio))
                         .build();
-        // write the diff text
         Jobber jobber =
                 new Jobber(store, mProduct.getJobName(),
                         mProduct.getReducedTimestamp());
         Material diffMaterial =
                 jobber.write(diffData, FileType.HTML,
                         diffMetadata, Jobber.DuplicationHandling.CONTINUE);
-
         MaterialProduct result =
                 new MaterialProduct.Builder(mProduct)
                         .setLeft(left)
@@ -79,7 +72,6 @@ public abstract class AbstractTextDiffer implements Differ {
                         .build();
         result.setDiff(diffMaterial);
         result.setDiffRatio(diffRatio);
-
         return result;
     }
 
