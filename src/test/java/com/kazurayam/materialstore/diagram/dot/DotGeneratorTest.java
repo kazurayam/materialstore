@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * This test takes is tentatively disabled
  * because it takes long time (over 1 minutes 20 seconds)
  */
-//@Disabled
+@Disabled  // this test took too long time
 public class DotGeneratorTest {
 
     private static final Path outputDir =

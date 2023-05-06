@@ -80,7 +80,11 @@ public final class VoidDiffer implements Differ {
 
             assert store != null;
             Jobber jobber = new Jobber(store, right.getJobName(), mProduct.getReducedTimestamp());
-            Material diffMaterial = jobber.write(diffData, FileType.HTML, diffMetadata, Jobber.DuplicationHandling.CONTINUE);
+            Material diffMaterial =
+                    jobber.write(diffData,
+                            FileType.HTML,
+                            diffMetadata,
+                            Jobber.DuplicationHandling.CONTINUE);
             //
             MaterialProduct result = new MaterialProduct.Builder(mProduct).build();
             result.setDiff(diffMaterial);

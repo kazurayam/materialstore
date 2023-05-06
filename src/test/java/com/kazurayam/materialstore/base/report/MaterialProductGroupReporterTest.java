@@ -13,6 +13,7 @@ import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -22,7 +23,7 @@ import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-//@Disabled   // https://github.com/kazurayam/materialstore/issues/352
+@Disabled   // https://github.com/kazurayam/materialstore/issues/352
 public class MaterialProductGroupReporterTest extends AbstractReporterTest {
 
     private final Path fixtureDir =

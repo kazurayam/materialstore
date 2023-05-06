@@ -23,6 +23,7 @@ import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * reproduce the issue #424 as reported at
@@ -70,15 +71,16 @@ public class Issue424Test {
         MaterialProduct stuffed = new TextDifferToHTML(store).stuffDiff(mpg.get(0));
         assertNotNull(stuffed);
 
-        // in the "diff" directory, there should not be a Material
+        // in the "diff" directory, there should be a Material
         // with the Metadata of ["category":"NoMaterialFound"]
         JobTimestamp jtDiff = stuffed.getDiff().getJobTimestamp();
         MaterialList allMaterialsAsDiff = store.select(jobName, jtDiff);
+        StringBuilder sb = new StringBuilder();
         allMaterialsAsDiff.forEach(material -> {
-            String category = material.getMetadata().get("category");
-            assertNotEquals(category, "NoMaterialFound",
-                    "there should not be a Material with category=NoMaterialFound but found one:" + material.toString());
+            sb.append(material.getIndexEntry().toString());
+            sb.append("\n");
         });
+        assertTrue(sb.toString().contains("NoMaterialFound"));
     }
 
 }

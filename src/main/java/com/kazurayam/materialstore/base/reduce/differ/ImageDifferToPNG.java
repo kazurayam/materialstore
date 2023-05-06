@@ -68,7 +68,7 @@ public final class ImageDifferToPNG implements Differ {
                     .build();
             diffMaterial =
                     store.write(mProduct.getJobName(), mProduct.getReducedTimestamp(),
-                            FileType.PNG, diffMetadata,
+                            FileType.NO_COUNTERPART, diffMetadata,
                             Material.loadNoCounterpartPng());
         }
         // stuff the diffMaterial into a MaterialProduct object and return it
