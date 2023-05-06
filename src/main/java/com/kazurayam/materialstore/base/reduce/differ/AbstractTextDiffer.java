@@ -4,6 +4,7 @@ import com.github.difflib.text.DiffRow;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.FileTypeDiffability;
+import com.kazurayam.materialstore.core.IFileType;
 import com.kazurayam.materialstore.core.Jobber;
 import com.kazurayam.materialstore.core.Material;
 import com.kazurayam.materialstore.core.MaterialLocator;
@@ -48,50 +49,44 @@ public abstract class AbstractTextDiffer implements Differ {
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());
 
-        Material left = complementMaterialAsText(store, mProduct, mProduct.getLeft());
-        Material right = complementMaterialAsText(store, mProduct, mProduct.getRight());
+        Material left = mProduct.getLeft();
+        Material right = mProduct.getRight();
 
+        if (left.getDiffability().equals(FileTypeDiffability.AS_TEXT) &&
+                right.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
+            // Both of the left and right Materials are diff-able as text
+        } else if (! left.getDiffability().equals(FileTypeDiffability.AS_TEXT) &&
+                right.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
+            // the left Material is NOT a diff-able text, but the right is a text
+            left = makeNoMaterialFoundMaterial(store, mProduct, FileType.TXT, Material.loadNoCounterpartText());
+        } else if (left.getDiffability().equals(FileTypeDiffability.AS_TEXT) &&
+                ! right.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
+            // the left Material is a diff-able text, but the right is NOT
+            right = makeNoMaterialFoundMaterial(store, mProduct, FileType.TXT, Material.loadNoCounterpartText());
+        } else {
+            throw new IllegalStateException("should not fall down here");
+        }
+
+        // generate the diff Material
         TextDiffContent textDiffContent = makeTextDiffContent(store, left, right, charset);
         Double diffRatio = textDiffContent.getDiffRatio();
-
-        //
         byte[] diffData = toByteArray(textDiffContent.getContent());
-
-        Metadata diffMetadata =
-                Metadata.builder()
-                        .put("category", "diff")
-                        .put("left", new MaterialLocator(left).toString())
-                        .put("right", new MaterialLocator(right).toString())
-                        .put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio))
-                        .build();
-        // write the diff text
-        Jobber jobber =
-                new Jobber(store, mProduct.getJobName(),
-                        mProduct.getReducedTimestamp());
+        Metadata diffMetadata = Metadata.builder()
+                .put("category", "diff")
+                .put("ratio", DifferUtil.formatDiffRatioAsString(diffRatio))
+                .put("left", new MaterialLocator(left).toString())
+                .put("right", new MaterialLocator(right).toString())
+                .build();
+        // write the diff Material into the store
         Material diffMaterial =
-                jobber.write(diffData, FileType.HTML,
-                        diffMetadata, Jobber.DuplicationHandling.CONTINUE);
+                store.write(mProduct.getJobName(), mProduct.getReducedTimestamp(),
+                        FileType.HTML, diffMetadata, diffData);
 
-        MaterialProduct result =
-                new MaterialProduct.Builder(mProduct)
-                        .setLeft(left)
-                        .setRight(right)
-                        .build();
+        // return a MaterialProduct object with the diff Material information stuffed
+        MaterialProduct result = new MaterialProduct.Builder(mProduct).build();
         result.setDiff(diffMaterial);
         result.setDiffRatio(diffRatio);
-
         return result;
-    }
-
-    private Material complementMaterialAsText(Store store,
-                                              MaterialProduct mProduct,
-                                              Material material) throws MaterialstoreException {
-        if (material.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
-            return material;
-        } else {
-            return makeNoMaterialFoundMaterial(store, mProduct,
-                    FileType.HTML, Material.loadNoCounterpartText());
-        }
     }
 
     public abstract TextDiffContent makeTextDiffContent(Store store,
@@ -113,9 +108,10 @@ public abstract class AbstractTextDiffer implements Differ {
         return lines;
     }
 
-    /**
+    /*
      * read a full text of the Material specified.
      * If the Material is an NULL_OBJECT, this will return an empty string "".
+     * @throws MaterialstoreException when something went wrong
      */
     public static String readMaterial(Store store, Material material, Charset charset)
             throws MaterialstoreException {

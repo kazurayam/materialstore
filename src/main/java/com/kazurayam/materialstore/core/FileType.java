@@ -118,8 +118,13 @@ public enum FileType implements IFileType {
     /**
      * an empty string "" as file extension
      */
-    NULL_OBJECT("",  FileTypeDiffability.UNABLE, Arrays.asList(""), "NULL Object")
-            ;
+    NULL_OBJECT("",  FileTypeDiffability.UNABLE, Arrays.asList(""), "NULL Object"),
+
+    /**
+     * https://github.com/kazurayam/materialstore/issues/423
+     */
+    NO_COUNTERPART("no_counterpart", FileTypeDiffability.UNABLE, Arrays.asList(""), "Diff when no counterpart found")
+    ;
 
     private final String extension_;
     private final List<String> mimeTypes_;
