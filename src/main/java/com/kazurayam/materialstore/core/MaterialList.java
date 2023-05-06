@@ -59,7 +59,7 @@ public final class MaterialList
         }
     }
 
-    /**
+    /*
      *
      * @param index
      * @return null if the index is out of bounds.

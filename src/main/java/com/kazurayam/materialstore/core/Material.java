@@ -126,7 +126,7 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
      * returns the byte array of the HTML file of "No Materials is found"
      */
     public static byte[] loadNoCounterpartText() throws MaterialstoreException {
-        return readInputStream(getNoCounterpartHtmlAsInputStream());
+        return readInputStream(getNoCounterpartTxtAsInputStream());
     }
 
     public static InputStream getNoCounterpartPngAsInputStream() {
@@ -138,10 +138,10 @@ public final class Material implements Comparable<Material>, Jsonifiable, Templa
         return inputStream;
     }
 
-    public static InputStream getNoCounterpartHtmlAsInputStream() {
+    public static InputStream getNoCounterpartTxtAsInputStream() {
         ClassLoader cl = Material.class.getClassLoader();
         String resourcePath =
-                "com/kazurayam/materialstore/core/NoCounterpart.html";
+                "com/kazurayam/materialstore/core/NoCounterpart.txt";
         InputStream inputStream = cl.getResourceAsStream(resourcePath);
         assert inputStream != null : "failed to load " + resourcePath + " from CLASSPATH";
         return inputStream;
