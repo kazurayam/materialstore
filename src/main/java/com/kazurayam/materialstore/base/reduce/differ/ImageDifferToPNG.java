@@ -34,7 +34,6 @@ public final class ImageDifferToPNG implements Differ {
         Objects.requireNonNull(mProduct);
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());
-        logger.debug("stuffDiff started to process " + mProduct.toJson(true));
         Material left = mProduct.getLeft();
         Material right = mProduct.getRight();
         Material diffMaterial = null;
