@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" /><!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous" />
+    <style>.container {
+        font-family: ui-monospace, SFMono-Regular, SZ Mono, Menlo, Consolas, Liberation Mono, monospace;
+        font-size: 12px;
+        line-height: 20px;
+        margin-bottom: 20px;
+    }
+    .container dl dd {
+        margin-left: 40px;
+    }
+
+    .container .title {
+        margin-left: 54px;
+    }
+
+    .container .title button {
+        float: right;
+        margin-top: 6px;
+    }
+    .container .header {
+        padding: 16px 20px;
+    }
+    .container .identified-value {
+        background-color: #FA98FA;
+    }
+    .container .semantic-version {
+        border: #FA98FA solid;
+    }
+    .container .ignored-key {
+        background-color: #CCC;
+    }
+    .container .matched-value {
+        background-color: #98FB98;
+    }
+    .container .accordion .accordion-header button .ratio {
+        padding: 4px 20px 4px 4px;
+        text-align: left;
+        font-size: 16px;
+        line-height: 24px;
+        flex-basis: 10%;
+    }
+    .container .accordion .accordion-header button .fileType {
+        padding: 4px 20px 4px 4px;
+        text-align: left;
+        font-size: 16px;
+        line-height: 24px;
+        flex-basis: 10%;
+    }
+    .container .accordion .accordion-header button .metadata {
+        padding: 4px 20px 4px 4px;
+        text-align: left;
+        font-size: 16px;
+        line-height: 24px;
+        flex-basis: 90%;
+    }
+    .container .accordion .accordion-header button .description {
+        padding: 4px 20px 4px 4px;
+        text-align: left;
+        font-size: 16px;
+        line-height: 24px;
+        flex-basis: 80%;
+    }
+    .container .accordion .accordion-header button .warning {
+        background-color: #e0ae00;
+    }
+    .container .accordion .accordion-header button .ignored {
+        background-color: #ffffff;
+        border: #e0ae00 solid;
+    }
+    .container .accordion .accordion-body .show-diff .modal .modal-body iframe {
+        position: absolute;
+        border: none;
+        height: 100%;
+        width: 100%;
+    }
+    .container .accordion .accordion-body .show-diff .modal .modal-body .carousel .carousel-inner {
+        background-color: #efefef;
+    }
+    .container .accordion .accordion-body .show-diff .modal .modal-body .carousel .carousel-inner .centered {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+    .container .accordion .accordion-body .show-diff .modal .modal-body .carousel .carousel-control-prev, .container .accordion .accordion-body .show-diff .modal .modal-body .carousel .carousel-control-next {
+        width: 12.5%;
+    }
+    .container .accordion .accordion-body .show-detail {
+        margin-top: 10px;
+        margin-bottom: 40px;
+    }
+    </style>
+    <style>
+        .accordion--custom .accordion-header {
+            display: flex; /* make flex element */
+            align-items: center; /* aligning child items */
+            column-gap: 0.6rem; /* adding gap between items in row */
+            padding-left: 0.5rem;
+        }
+    </style>
+    <title>NISA_Chronos</title>
+</head>
+<body>
+<div class="container">
+    <div style="display:flex">
+        <h4 class="title" style="padding-top:10px">NISA_Chronos-20230502_165336</h4>
+    </div>
+    <div style="display: flex;">
+        <div class="form-check form-switch" style="padding-right: 20px;">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault1" checked>
+            <label class="form-check-label" for="flexSwitchCheckDefault1">csv</label>
+        </div>
+        <div class="form-check form-switch" style="padding-right: 20px;">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault4" checked>
+            <label class="form-check-label" for="flexSwitchCheckDefault4">xlsx</label>
+        </div>
+    </div>
+    <div class="accordion accordion--custom" id="diff-contents">
+    <div id="accordion0" class="accordion-item">
+        <h2 id="heading0" class="accordion-header"> <input class="form-check-input" type="checkbox" id="ignorable0" value="" data-index="0" disabled> <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse0" area-expanded="false" aria-controls="collapse0"> <span class="ratio ">0.00%</span> <span class="fileType">xlsx</span> <span class="identification">{"seq":"1", "URL.path":"/policy/nisa/20170614-2/23.xlsx", "URL.host":"www.fsa.go.jp", "URL.port":"80", "URL.protocol":"https"}</span> </button> </h2>
+        <div id="collapse0" class="according-collapse collapse" aria-labelledby="heading0" data-bs-parent="#diff-contents">
+            <div class="accordion-body">
+                <div class="show-diff"> <span> </span>
+                </div>
+                <div class="show-detail">
+                    <h4>left (20220307_100608) </h4>
+                    <dl class="detail">
+                        <dt>
+                            Material URL
+                        </dt>
+                        <dd> <a href="NISA_Chronos/20220307_100608/objects/857900d90ec3c9c969b2c971bed1d1da30fc9447.xlsx" target="left">NISA_Chronos/20220307_100608/objects/857900d90ec3c9c969b2c971bed1d1da30fc9447.xlsx</a>
+                        </dd>
+                        <dt>
+                            fileType
+                        </dt>
+                        <dd>
+                            xlsx
+                        </dd>
+                        <dt>
+                            metadata
+                        </dt>
+                        <dd> <span>{</span><span>"seq":</span><span class="matched-value">"1"</span><span>, </span><span>"URL.host":</span><span class="matched-value">"www.fsa.go.jp"</span><span>, </span><span>"URL.path":</span><span class="matched-value">"/policy/nisa/20170614-2/23.xlsx"</span><span>, </span><span>"URL.port":</span><span class="matched-value">"80"</span><span>, </span><span>"URL.protocol":</span><span class="matched-value">"https"</span><span>}</span>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="show-detail">
+                    <h4>right (20230502_165232) </h4>
+                    <dl class="detail">
+                        <dt>
+                            Material URL
+                        </dt>
+                        <dd> <a href="NISA_Chronos/20230502_165232/objects/cd1befebe8336e3837aeffd2856220a4e7b7e4ab.xlsx" target="right">NISA_Chronos/20230502_165232/objects/cd1befebe8336e3837aeffd2856220a4e7b7e4ab.xlsx</a>
+                        </dd>
+                        <dt>
+                            fileType
+                        </dt>
+                        <dd>
+                            xlsx
+                        </dd>
+                        <dt>
+                            metadata
+                        </dt>
+                        <dd> <span>{</span><span>"seq":</span><span class="matched-value">"1"</span><span>, </span><span>"URL.host":</span><span class="matched-value">"www.fsa.go.jp"</span><span>, </span><span>"URL.path":</span><span class="matched-value">"/policy/nisa/20170614-2/23.xlsx"</span><span>, </span><span>"URL.port":</span><span class="matched-value">"80"</span><span>, </span><span>"URL.protocol":</span><span class="matched-value">"https"</span><span>}</span>
+                        </dd>
+                        <dt>
+                            Source URL
+                        </dt>
+                        <dd> <a href="https://www.fsa.go.jp/policy/nisa/20170614-2/23.xlsx" target="source">https://www.fsa.go.jp/policy/nisa/20170614-2/23.xlsx</a>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="show-detail">
+                    <h4>diff </h4>
+                    <dl class="detail">
+                        <dt>
+                            Material URL
+                        </dt>
+                        <dd> <a href="NISA_Chronos/20230502_165336/objects/ebfb58d5fae624a021d3d41e502bbb0c4b3afd54.html" target="diff">NISA_Chronos/20230502_165336/objects/ebfb58d5fae624a021d3d41e502bbb0c4b3afd54.html</a>
+                        </dd>
+                        <dt>
+                            fileType
+                        </dt>
+                        <dd>
+                            html
+                        </dd>
+                        <dt>
+                            metadata
+                        </dt>
+                        <dd> <span>{</span><span>"category":</span><span>"diff"</span><span>, </span><span>"left":</span><span>"20220307_100608/857900d90ec3c9c969b2c971bed1d1da30fc9447"</span><span>, </span><span>"right":</span><span>"20230502_165232/cd1befebe8336e3837aeffd2856220a4e7b7e4ab"</span><span>}</span>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="accordion1" class="accordion-item">
+        <h2 id="heading1" class="accordion-header"> <input class="form-check-input" type="checkbox" id="ignorable1" value="" data-index="1"> <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" area-expanded="false" aria-controls="collapse1"> <span class="ratio warning">16.67%</span> <span class="fileType">csv</span> <span class="identification">{"seq":"1", "sheet_index":"0", "URL.path":"/policy/nisa/20170614-2/23.xlsx", "URL.host":"www.fsa.go.jp", "URL.port":"80", "URL.protocol":"https", "sheet_name":"指定インデックス投資信託"}</span> </button> </h2>
+        <div id="collapse1" class="according-collapse collapse" aria-labelledby="heading1" data-bs-parent="#diff-contents">
+            <div class="accordion-body">
+                <div class="show-diff"> <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#textModal1">Show diff in Modal</button><!-- Modal to show texts diff -->
+                    <div class="modal fade" id="textModal1" tabindex="-1" aria-labelledby="textModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-fullscreen">
+                            <div class="modal-content">
+                                <h4 style="margin: 12px 0 0 130px">NISA_Chronos-20230502_165336</h4>
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="textModalLabel1"> <span>16.67% csv {"seq":"1", "sheet_index":"0", "URL.path":"/policy/nisa/20170614-2/23.xlsx", "URL.host":"www.fsa.go.jp", "URL.port":"80", "URL.protocol":"https", "sheet_name":"指定インデックス投資信託"}</span> <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> </h5>
+                                </div>
+                                <div class="modal-body"> <iframe src="NISA_Chronos/20230502_165336/objects/37e5aeeb41c4d94abdb27ccc7a1da8c57d346b98.html" title="TextDiff"></iframe>
+                                </div>
+                                <div class="modal-footer"> <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="show-detail">
+                    <h4>left (20220307_100608) </h4>
+                    <dl class="detail">
+                        <dt>
+                            Material URL
+                        </dt>
+                        <dd> <a href="NISA_Chronos/20220307_100608/objects/152b9fda855924e827c126a5673c14f81730c241.csv" target="left">NISA_Chronos/20220307_100608/objects/152b9fda855924e827c126a5673c14f81730c241.csv</a>
+                        </dd>
+                        <dt>
+                            fileType
+                        </dt>
+                        <dd>
+                            csv
+                        </dd>
+                        <dt>
+                            metadata
+                        </dt>
+                        <dd> <span>{</span><span>"seq":</span><span class="matched-value">"1"</span><span>, </span><span>"sheet_index":</span><span class="matched-value">"0"</span><span>, </span><span>"sheet_name":</span><span class="matched-value">"指定インデックス投資信託"</span><span>, </span><span>"URL.host":</span><span class="matched-value">"www.fsa.go.jp"</span><span>, </span><span>"URL.path":</span><span class="matched-value">"/policy/nisa/20170614-2/23.xlsx"</span><span>, </span><span>"URL.port":</span><span class="matched-value">"80"</span><span>, </span><span>"URL.protocol":</span><span class="matched-value">"https"</span><span>}</span>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="show-detail">
+                    <h4>right (20230502_165232) </h4>
+                    <dl class="detail">
+                        <dt>
+                            Material URL
+                        </dt>
+                        <dd> <a href="NISA_Chronos/20230502_165232/objects/0f58b2d68b0e043644b8b1436f4814f87cf8e459.csv" target="right">NISA_Chronos/20230502_165232/objects/0f58b2d68b0e043644b8b1436f4814f87cf8e459.csv</a>
+                        </dd>
+                        <dt>
+                            fileType
+                        </dt>
+                        <dd>
+                            csv
+                        </dd>
+                        <dt>
+                            metadata
+                        </dt>
+                        <dd> <span>{</span><span>"seq":</span><span class="matched-value">"1"</span><span>, </span><span>"sheet_index":</span><span class="matched-value">"0"</span><span>, </span><span>"sheet_name":</span><span class="matched-value">"指定インデックス投資信託"</span><span>, </span><span>"URL.host":</span><span class="matched-value">"www.fsa.go.jp"</span><span>, </span><span>"URL.path":</span><span class="matched-value">"/policy/nisa/20170614-2/23.xlsx"</span><span>, </span><span>"URL.port":</span><span class="matched-value">"80"</span><span>, </span><span>"URL.protocol":</span><span class="matched-value">"https"</span><span>}</span>
+                        </dd>
+                    </dl>
+                </div>
+                <div class="show-detail">
+                    <h4>diff </h4>
+                    <dl class="detail">
+                        <dt>
+                            Material URL
+                        </dt>
+                        <dd> <a href="NISA_Chronos/20230502_165336/objects/37e5aeeb41c4d94abdb27ccc7a1da8c57d346b98.html" target="diff">NISA_Chronos/20230502_165336/objects/37e5aeeb41c4d94abdb27ccc7a1da8c57d346b98.html</a>
+                        </dd>
+                        <dt>
+                            fileType
+                        </dt>
+                        <dd>
+                            html
+                        </dd>
+                        <dt>
+                            metadata
+                        </dt>
+                        <dd> <span>{</span><span>"category":</span><span>"diff"</span><span>, </span><span>"left":</span><span>"20220307_100608/152b9fda855924e827c126a5673c14f81730c241"</span><span>, </span><span>"ratio":</span><span>"16.67%"</span><span>, </span><span>"right":</span><span>"20230502_165232/0f58b2d68b0e043644b8b1436f4814f87cf8e459"</span><span>}</span>
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.js"></script>
+<script type="text/javascript">
+    $('.form-switch input[type="checkbox"]').on('change', function() {
+        console.log('Yaay, I was changed');
+    });
+</script>
+</body>
+</html>
