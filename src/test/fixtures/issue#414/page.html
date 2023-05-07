@@ -116,7 +116,7 @@
             <label class="form-check-label" for="flexSwitchCheckDefault1">csv</label>
         </div>
         <div class="form-check form-switch" style="padding-right: 20px;">
-            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault4" checked>
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault4">
             <label class="form-check-label" for="flexSwitchCheckDefault4">xlsx</label>
         </div>
     </div>
@@ -291,7 +291,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.js"></script>
 <script type="text/javascript">
     $('.form-switch input[type="checkbox"]').on('change', function() {
-        console.log('Yaay, I was changed');
+        console.log('Yaay, you switched ' + $(this).siblings().text() +
+            " to " + $(this).is(':checked'));
     });
 </script>
 </body>
