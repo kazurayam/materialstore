@@ -102,6 +102,10 @@
             column-gap: 0.6rem; /* adding gap between items in row */
             padding-left: 0.5rem;
         }
+        .ft-non-diffable .accordion-button {
+            color: #909090;
+            font-style: italic;
+        }
     </style>
     <title>NISA_Chronos</title>
 </head>
@@ -110,6 +114,7 @@
     <div style="display:flex">
         <h4 class="title" style="padding-top:10px">NISA_Chronos-20230502_165336</h4>
     </div>
+    <!--
     <div style="display: flex;">
         <div class="form-check form-switch" style="padding-right: 20px;">
             <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault1" checked>
@@ -120,8 +125,9 @@
             <label class="form-check-label" for="flexSwitchCheckDefault4">xlsx</label>
         </div>
     </div>
+    -->
     <div class="accordion accordion--custom" id="diff-contents">
-    <div id="accordion0" class="accordion-item collapse show">
+    <div id="accordion0" class="accordion-item ft-non-diffable">
         <h2 id="heading0" class="accordion-header"> <input class="form-check-input" type="checkbox" id="ignorable0" value="" data-index="0" disabled> <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse0" area-expanded="false" aria-controls="collapse0"> <span class="ratio ">0.00%</span> <span class="fileType">xlsx</span> <span class="identification">{"seq":"1", "URL.path":"/policy/nisa/20170614-2/23.xlsx", "URL.host":"www.fsa.go.jp", "URL.port":"80", "URL.protocol":"https"}</span> </button> </h2>
         <div id="collapse0" class="according-collapse collapse" aria-labelledby="heading0" data-bs-parent="#diff-contents">
             <div class="accordion-body">
@@ -198,7 +204,7 @@
             </div>
         </div>
     </div>
-    <div id="accordion1" class="accordion-item collapse show">
+    <div id="accordion1" class="accordion-item">
         <h2 id="heading1" class="accordion-header"> <input class="form-check-input" type="checkbox" id="ignorable1" value="" data-index="1"> <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" area-expanded="false" aria-controls="collapse1"> <span class="ratio warning">16.67%</span> <span class="fileType">csv</span> <span class="identification">{"seq":"1", "sheet_index":"0", "URL.path":"/policy/nisa/20170614-2/23.xlsx", "URL.host":"www.fsa.go.jp", "URL.port":"80", "URL.protocol":"https", "sheet_name":"指定インデックス投資信託"}</span> </button> </h2>
         <div id="collapse1" class="according-collapse collapse" aria-labelledby="heading1" data-bs-parent="#diff-contents">
             <div class="accordion-body">
@@ -290,6 +296,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.js"></script>
 <script type="text/javascript">
+    $(document).on('click', 'div[class*="accordion-item"]', function(e) {
+        e.stopPropagation();
+    });
+</script>
+<script type="text/javascript">
     $('.form-switch input[type="checkbox"]').on('change', function() {
         const switchFileType = $(this).siblings().text();
         const isChecked = $(this).is(':checked');
@@ -297,9 +308,9 @@
         $('#diff-contents .accordion-item').each(function(index, element) {
             const itemFileType = $(this).find('h2 span.fileType').text();
             if (itemFileType === switchFileType) {
-                $(this).collapse('toggle');
+                $(this).collapse('toggle')
                 console.log('index=' + index + ', id=' + element.id +
-                        ', filetype=' + itemFileType, ', command=' + 'toggle');
+                        ', filetype=' + itemFileType);
             }
         });
     });
