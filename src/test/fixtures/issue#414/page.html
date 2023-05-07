@@ -291,8 +291,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.js"></script>
 <script type="text/javascript">
     $('.form-switch input[type="checkbox"]').on('change', function() {
-        console.log('Yaay, you switched ' + $(this).siblings().text() +
-            " to " + $(this).is(':checked'));
+        let fileType = $(this).siblings().text();
+        let isChecked = $(this).is(':checked');
+        console.log('Yaay, you switched ' + fileType + " to " + isChecked);
+        $('#diff-contents .accordion-item').each(function(index, element) {
+            console.log('index=' + index + ', id=' + element.id +
+                ', filetype=' + $(this).find('h2 span.fileType').text());
+        });
     });
 </script>
 </body>
