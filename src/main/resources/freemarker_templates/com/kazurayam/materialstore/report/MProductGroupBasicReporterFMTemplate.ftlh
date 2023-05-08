@@ -76,7 +76,7 @@
         <#list mProductGroup.materialProductList>
           <#items as mProduct>
             <#if mProduct??>
-              <div id="accordion${index}" class="accordion-item">
+              <div id="accordion${index}" class="accordion-item <#if !mProduct.fileTypeIsDiffable>filetype-non-diffable</#if>">
                 <h2 id="heading${index}" class="accordion-header">
                   <#if mProduct.diffRatio?? && mProduct.diffRatio gt mProductGroup.threshold>
                     <input class="form-check-input" type="checkbox" id="ignorable${index}" value=""
