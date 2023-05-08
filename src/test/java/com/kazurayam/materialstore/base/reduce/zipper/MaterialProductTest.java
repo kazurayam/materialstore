@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.base.reduce.zipper;
 
 import com.kazurayam.materialstore.core.FileType;
+import com.kazurayam.materialstore.core.FileTypeDiffability;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.Material;
@@ -80,6 +81,16 @@ public class MaterialProductTest {
         assertEquals(
                 "{\"URL.file\":\"/\", \"URL.host\":\"demoaut-mimic.kazurayam.com\"}",
                 mProduct.getQueryIdentification().toString());
+    }
+
+    @Test
+    public void test_getFileTypeDiffability() {
+        MaterialProduct mProduct =
+                new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
+                        jobName, JobTimestamp.now())
+                        .setQueryOnMetadata(QueryOnMetadata.ANY)
+                        .build();
+        assertEquals(FileTypeDiffability.UNABLE, mProduct.getFileTypeDiffability());
     }
 
     @Test

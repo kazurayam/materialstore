@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.reduce.zipper;
 
+import com.kazurayam.materialstore.core.FileTypeDiffability;
 import com.kazurayam.materialstore.core.ID;
 import com.kazurayam.materialstore.core.Identifiable;
 import com.kazurayam.materialstore.core.JobName;
@@ -76,6 +77,13 @@ public final class MaterialProduct
             return this.getRight().getIndexEntry().getFileType().getExtension();
         } else {
             return this.getLeft().getIndexEntry().getFileType().getExtension();
+        }
+    }
+    public FileTypeDiffability getFileTypeDiffability() {
+        if (this.getLeft().equals(Material.NULL_OBJECT)) {
+            return this.getRight().getDiffability();
+        } else {
+            return this.getLeft().getDiffability();
         }
     }
 
@@ -214,7 +222,10 @@ public final class MaterialProduct
         sb.append(diffRatio);
         sb.append(",");
         sb.append("\"fileTypeExtension\":");
-        sb.append("\"" + getFileTypeExtension() + "\"");
+        sb.append("\"" + getFileTypeExtension() + "\""); // e.g, "txt" or "xlsx"
+        sb.append(",");
+        sb.append("\"fileTypeIsDiffable\":");
+        sb.append(getFileTypeDiffability().isDiffable().toString());  // "true" or  "false"
         sb.append(",");
         sb.append("\"queryOnMetadata\":");
         sb.append(query.getQueryIdentification(sortKeys).toString());

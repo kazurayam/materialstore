@@ -5,3 +5,8 @@
     column-gap: 0.6rem; /* adding gap between items in row */
     padding-left: 0.5rem;
 }
+
+.filetype-non-diffable .accordion-button {
+    color: #909090;
+    font-style: italic;
+}
