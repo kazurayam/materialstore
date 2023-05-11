@@ -56,6 +56,7 @@ public class GraphNodeIdResolver {
         for (MaterialProduct mp : mProductGroup) {
             if (mp.contains(material)) {
                 materialProduct = mp;
+                break;
             }
         }
         if (materialProduct == null) {

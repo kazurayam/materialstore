@@ -127,37 +127,37 @@ public interface Store {
                    BufferedImage input) throws MaterialstoreException;
 
     Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
-                   BufferedImage input, Jobber.DuplicationHandling flowControl) throws MaterialstoreException;
+                   BufferedImage input, StoreWriteParameter writeParam) throws MaterialstoreException;
 
     Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    byte[] input) throws MaterialstoreException;
 
     Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
-                   byte[] input, Jobber.DuplicationHandling flowControl) throws MaterialstoreException;
+                   byte[] input, StoreWriteParameter writeParam) throws MaterialstoreException;
 
     Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    File input) throws MaterialstoreException;
 
     Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
-                   File input, Jobber.DuplicationHandling flowControl) throws MaterialstoreException;
+                   File input, StoreWriteParameter writeParam) throws MaterialstoreException;
 
     Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    Path input) throws MaterialstoreException;
 
     Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
-                   Path input, Jobber.DuplicationHandling flowControl) throws MaterialstoreException;
+                   Path input, StoreWriteParameter writeParam) throws MaterialstoreException;
 
     Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    String input) throws MaterialstoreException;
 
     Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
-                   String input, Jobber.DuplicationHandling flowControl) throws MaterialstoreException;
+                   String input, StoreWriteParameter writeParam) throws MaterialstoreException;
 
     Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
                    String input, Charset charset) throws MaterialstoreException;
 
     Material write(JobName jobName, JobTimestamp jobTimestamp, IFileType fileType, Metadata meta,
-                   String input, Charset charset, Jobber.DuplicationHandling flowControl)
+                   String input, Charset charset, StoreWriteParameter writeParam)
             throws MaterialstoreException;
 
 }

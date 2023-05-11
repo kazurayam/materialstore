@@ -3,8 +3,6 @@ package com.kazurayam.materialstore.base.reduce.differ;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.FileTypeDiffability;
-import com.kazurayam.materialstore.core.JobName;
-import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.Material;
 import com.kazurayam.materialstore.core.MaterialLocator;
 import com.kazurayam.materialstore.core.MaterialstoreException;
@@ -18,13 +16,13 @@ import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 
-public final class ImageDifferToPNG implements Differ {
+public final class ImageDiffStuffer implements Differ {
 
-    private static final Logger logger = LoggerFactory.getLogger(ImageDifferToPNG.class);
+    private static final Logger logger = LoggerFactory.getLogger(ImageDiffStuffer.class);
 
     private final Store store;
 
-    public ImageDifferToPNG(Store store) {
+    public ImageDiffStuffer(Store store) {
         Objects.requireNonNull(store);
         this.store = store;
     }
@@ -55,7 +53,7 @@ public final class ImageDifferToPNG implements Differ {
                     .build();
             diffMaterial =
                     store.write(mProduct.getJobName(), mProduct.getReducedTimestamp(),
-                            FileType.PNG, diffMetadata,
+                            right.getFileType(), diffMetadata,
                             imageDiff.getDiffImage());
         } else {
             // Either of the left or the right Material is non diff-able as image

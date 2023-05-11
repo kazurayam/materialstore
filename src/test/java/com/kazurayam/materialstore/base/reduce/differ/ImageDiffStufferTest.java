@@ -23,9 +23,11 @@ import java.util.LinkedHashMap;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class ImageDifferToPNGTest {
+public class ImageDiffStufferTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(ImageDifferToPNGTest.class.getName());
+    private static final Path outputDir = Paths.get(".")
+            .resolve("build/tmp/testOutput")
+            .resolve(ImageDiffStufferTest.class.getName());
     private static Store store;
 
     @BeforeAll
@@ -35,7 +37,7 @@ public class ImageDifferToPNGTest {
     }
 
     @Test
-    public void test_stuffDiff() throws MaterialstoreException {
+    public void test_stuffDiff_PNG() throws MaterialstoreException {
         JobName jobName = new JobName("test_stuffDiff");
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         TestFixtureUtil.setupFixture(store, jobName);
@@ -49,7 +51,7 @@ public class ImageDifferToPNGTest {
         assertNotNull(mpg);
         Assertions.assertEquals(2, mpg.size(), JsonUtil.prettyPrint(mpg.toString()));
         //
-        MaterialProduct stuffed = new ImageDifferToPNG(store).stuffDiff(mpg.get(0));
+        MaterialProduct stuffed = new ImageDiffStuffer(store).stuffDiff(mpg.get(0));
         assertNotNull(stuffed);
         assertNotNull(stuffed.getDiff());
         Assertions.assertTrue(stuffed.getDiffRatio() > 0);

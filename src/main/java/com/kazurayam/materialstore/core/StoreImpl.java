@@ -6,7 +6,13 @@ import com.kazurayam.materialstore.map.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.imageio.stream.ImageOutputStream;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -838,36 +844,91 @@ public final class StoreImpl implements Store {
                           Metadata meta,
                           BufferedImage input)
             throws MaterialstoreException {
-        return this.write(jobName, jobTimestamp, fileType, meta, input, Jobber.DuplicationHandling.TERMINATE);
+        return this.write(jobName, jobTimestamp, fileType, meta, input, StoreWriteParameter.DEFAULT);
     }
 
     @Override
     public Material write(JobName jobName,
                           JobTimestamp jobTimestamp,
                           IFileType fileType,
-                          Metadata meta,
+                          Metadata metadata,
                           BufferedImage input,
-                          Jobber.DuplicationHandling flowControl)
+                          StoreWriteParameter writeParam)
             throws MaterialstoreException {
-        Objects.requireNonNull(input, "BufferedImage input is null");
+        Objects.requireNonNull(input,
+                "BufferedImage input must not be null");
         try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(input, fileType.getExtension(), baos);
-            byte[] data = baos.toByteArray();
-            baos.close();
-            return this.write(jobName, jobTimestamp, fileType, meta, data, flowControl);
+            if (fileType.getExtension() == FileType.PNG.getExtension() ||
+                    fileType.getExtension() == FileType.GIF.getExtension()) {
+                // PNG
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ImageIO.write(input, fileType.getExtension(), baos);
+                byte[] bytes = baos.toByteArray();
+                assert bytes.length != 0: "the length of bytes should not be 0";
+                return this.write(jobName, jobTimestamp, fileType, metadata, bytes, writeParam);
+            } else if (fileType.getExtension() == FileType.JPEG.getExtension() ||
+                    fileType.getExtension() == FileType.JPG.getExtension()) {
+                // JPEG
+                float compressionQuality = writeParam.getJpegCompressionQuality();
+                if (compressionQuality < 0.1f || 1.0f < compressionQuality) {
+                    throw new IllegalArgumentException(
+                            "compressionQuality=" + compressionQuality + " is out of range");
+                }
+                ImageWriter jpgWriter =
+                        ImageIO.getImageWritersByFormatName(FileType.JPG.getExtension()).next();
+                ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
+                jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+                jpgWriteParam.setCompressionQuality(compressionQuality);
+                //
+                File tmpFile = File.createTempFile("StoreImpl-", "-tmp");
+                tmpFile.deleteOnExit();
+                ImageOutputStream outputStream = new FileImageOutputStream(tmpFile);
+                jpgWriter.setOutput(outputStream);
+                //
+                IIOImage outputImage =
+                        // I need to remove the alpha channel data out of the png sourced image
+                        new IIOImage(removeAlphaChannel(input), null, null);
+                jpgWriter.write(null, outputImage, jpgWriteParam);
+                jpgWriter.dispose();
+                return this.write(jobName, jobTimestamp, fileType, metadata, tmpFile, writeParam);
+            } else {
+                throw new IllegalArgumentException("invalid FileType: " + fileType.toString());
+            }
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
+
+    }
+
+    /*
+     * remove the alpha-channel data contained in a PNG graphics.
+     * this is required because JPEG does not support alpha-channel.
+     *
+     */
+    private static BufferedImage removeAlphaChannel(BufferedImage img) {
+        if (!img.getColorModel().hasAlpha()) {
+            return img;
+        }
+        BufferedImage target = createImage(img.getWidth(), img.getHeight(), false);
+        Graphics2D g = target.createGraphics();
+        // g.setColor(new Color(color, false));
+        g.fillRect(0, 0, img.getWidth(), img.getHeight());
+        g.drawImage(img, 0, 0, null);
+        g.dispose();
+        return target;
+    }
+    private static BufferedImage createImage(int width, int height, boolean hasAlpha) {
+        return new BufferedImage(width, height, hasAlpha ? BufferedImage.TYPE_INT_ARGB : BufferedImage.TYPE_INT_RGB);
     }
 
     @Override
     public Material write(JobName jobName,
                           JobTimestamp jobTimestamp,
                           IFileType fileType,
-                          Metadata meta,
-                          byte[] input) throws MaterialstoreException, DuplicatingMaterialException {
-        return this.write(jobName, jobTimestamp, fileType, meta, input, Jobber.DuplicationHandling.TERMINATE);
+                          Metadata metadata,
+                          byte[] input) throws MaterialstoreException {
+        return this.write(jobName, jobTimestamp, fileType, metadata, input,
+                StoreWriteParameter.DEFAULT);
     }
 
     @Override
@@ -876,14 +937,15 @@ public final class StoreImpl implements Store {
                           IFileType fileType,
                           Metadata meta,
                           byte[] input,
-                          Jobber.DuplicationHandling flowControl) throws MaterialstoreException {
+                          StoreWriteParameter writeParam)
+            throws MaterialstoreException {
         Objects.requireNonNull(root_);
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(jobTimestamp);
         Objects.requireNonNull(meta);
         Objects.requireNonNull(fileType);
         Jobber jobber = this.getJobber(jobName, jobTimestamp);
-        return jobber.write(input, fileType, meta, flowControl);
+        return jobber.write(input, fileType, meta, writeParam.getFlowControl());
     }
 
     @Override
@@ -892,7 +954,8 @@ public final class StoreImpl implements Store {
                           IFileType fileType,
                           Metadata meta,
                           File input) throws MaterialstoreException {
-        return this.write(jobName, jobTimestamp, fileType, meta, input, Jobber.DuplicationHandling.TERMINATE);
+        return this.write(jobName, jobTimestamp, fileType, meta, input,
+                StoreWriteParameter.DEFAULT);
     }
 
     @Override
@@ -901,14 +964,15 @@ public final class StoreImpl implements Store {
                           IFileType fileType,
                           Metadata meta,
                           File input,
-                          Jobber.DuplicationHandling flowControl) throws MaterialstoreException {
+                          StoreWriteParameter writeParam) throws MaterialstoreException {
         Objects.requireNonNull(input);
         assert input.exists();
         try {
-            InputStream is = new FileInputStream(input);
+            InputStream is = Files.newInputStream(input.toPath());
             byte[] data = toByteArray(is);
             is.close();
-            return this.write(jobName, jobTimestamp, fileType, meta, data, flowControl);
+            return this.write(jobName, jobTimestamp, fileType, meta, data,
+                    writeParam);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
@@ -920,7 +984,7 @@ public final class StoreImpl implements Store {
                           IFileType fileType,
                           Metadata meta,
                           Path input) throws MaterialstoreException {
-        return this.write(jobName, jobTimestamp, fileType, meta, input, Jobber.DuplicationHandling.TERMINATE);
+        return this.write(jobName, jobTimestamp, fileType, meta, input, StoreWriteParameter.DEFAULT);
     }
 
     @Override
@@ -929,14 +993,16 @@ public final class StoreImpl implements Store {
                           IFileType fileType,
                           Metadata meta,
                           Path input,
-                          Jobber.DuplicationHandling flowControl) throws MaterialstoreException {
+                          StoreWriteParameter writeParam)
+            throws MaterialstoreException {
         Objects.requireNonNull(input);
         assert Files.exists(input);
         try {
             InputStream is = Files.newInputStream(input);
             byte[] data = toByteArray(is);
             is.close();
-            return this.write(jobName, jobTimestamp, fileType, meta, data, flowControl);
+            return this.write(jobName, jobTimestamp, fileType, meta, data,
+                    writeParam);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }
@@ -949,7 +1015,7 @@ public final class StoreImpl implements Store {
                           Metadata meta,
                           String input) throws MaterialstoreException {
         return write(jobName, jobTimestamp, fileType, meta, input,
-                StandardCharsets.UTF_8, Jobber.DuplicationHandling.TERMINATE);
+                StandardCharsets.UTF_8, StoreWriteParameter.DEFAULT);
     }
 
     @Override
@@ -960,7 +1026,7 @@ public final class StoreImpl implements Store {
                           String input,
                           Charset charset) throws MaterialstoreException {
         return write(jobName, jobTimestamp, fileType, meta, input, charset,
-                Jobber.DuplicationHandling.TERMINATE);
+                StoreWriteParameter.DEFAULT);
     }
 
     @Override
@@ -969,9 +1035,10 @@ public final class StoreImpl implements Store {
                           IFileType fileType,
                           Metadata meta,
                           String input,
-                          Jobber.DuplicationHandling flowControl) throws MaterialstoreException {
+                          StoreWriteParameter writeParam)
+            throws MaterialstoreException {
         return write(jobName, jobTimestamp, fileType, meta, input,
-                StandardCharsets.UTF_8, flowControl);
+                StandardCharsets.UTF_8, writeParam);
     }
 
 
@@ -982,16 +1049,19 @@ public final class StoreImpl implements Store {
                           Metadata meta,
                           String input,
                           Charset charset,
-                          Jobber.DuplicationHandling flowControl) throws MaterialstoreException {
+                          StoreWriteParameter writeParam)
+            throws MaterialstoreException {
         Objects.requireNonNull(input);
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            Writer wrt = new BufferedWriter(new OutputStreamWriter(baos, charset.name()));
+            Writer wrt = new BufferedWriter(
+                    new OutputStreamWriter(baos, charset));
             wrt.write(input);
             wrt.flush();
             byte[] data = baos.toByteArray();
             wrt.close();
-            return this.write(jobName, jobTimestamp, fileType, meta, data, flowControl);
+            return this.write(jobName, jobTimestamp, fileType, meta, data,
+                    writeParam);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }

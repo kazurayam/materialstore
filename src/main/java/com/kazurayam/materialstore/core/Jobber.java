@@ -150,8 +150,8 @@ public final class Jobber {
     public Material write(byte[] data, final IFileType fileType, final Metadata metadata,
                           final DuplicationHandling duplicationHandling)
             throws MaterialstoreException {
+        if (data.length == 0) throw new IllegalArgumentException("length of the input is 0");
         Objects.requireNonNull(metadata);
-        if (data.length == 0) throw new IllegalArgumentException("length of the data is 0");
         Objects.requireNonNull(fileType);
 
         if (index.containsKey(fileType, metadata)) {

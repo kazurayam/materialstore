@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.base.reduce;
 
 import com.kazurayam.materialstore.base.reduce.differ.Differ;
-import com.kazurayam.materialstore.base.reduce.differ.ImageDifferToPNG;
+import com.kazurayam.materialstore.base.reduce.differ.ImageDiffStuffer;
 import com.kazurayam.materialstore.base.reduce.differ.TextDifferToHTML;
 import com.kazurayam.materialstore.base.reduce.differ.VoidDiffer;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
@@ -91,7 +91,7 @@ public final class DiffingMPGProcessor implements MPGProcessor {
                 differs.put(ft, textDiffer);
             }
             //
-            final Differ imageDiffer = new ImageDifferToPNG(this.store);
+            final Differ imageDiffer = new ImageDiffStuffer(this.store);
             for (IFileType ft : FileTypeUtil.getFileTypesDiffableAsImage()) {
                 differs.put(ft, imageDiffer);
             }

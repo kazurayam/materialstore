@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.base.reduce;
 
-import com.kazurayam.materialstore.base.reduce.differ.ImageDifferToPNG;
+import com.kazurayam.materialstore.base.reduce.differ.ImageDiffStuffer;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobTimestamp;
@@ -42,7 +42,7 @@ public class DiffingMPGProcessorTest {
     public void test_Builder_differFor() {
         DiffingMPGProcessor differDriver =
                 new DiffingMPGProcessor.Builder(store)
-                        .differFor(FileType.JPEG, new ImageDifferToPNG(store))
+                        .differFor(FileType.JPEG, new ImageDiffStuffer(store))
                         .build();
         Assertions.assertTrue(differDriver.hasDiffer(FileType.JPEG));
     }

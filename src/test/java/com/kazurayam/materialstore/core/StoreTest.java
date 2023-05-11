@@ -2,9 +2,13 @@ package com.kazurayam.materialstore.core;
 
 import com.kazurayam.materialstore.TestFixtureSupport;
 import com.kazurayam.materialstore.TestHelper;
+import com.kazurayam.materialstore.util.DeleteDir;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,13 +22,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StoreTest {
 
-    private Path testClassOutputDir;
+    private static Path testClassOutputDir;
     private Store store;
     private JobName jobName;
 
+    @BeforeAll
+    public static void beforeAll() throws IOException {
+        testClassOutputDir = TestHelper.createTestClassOutputDir(StoreTest.class);
+        if (testClassOutputDir != null && Files.exists(testClassOutputDir)) {
+            DeleteDir.deleteDirectoryRecursively(testClassOutputDir);
+        }
+        Files.createDirectories(testClassOutputDir);
+    }
+
     @BeforeEach
     public void beforeEach() throws IOException {
-        testClassOutputDir = TestHelper.createTestClassOutputDir(StoreTest.class);
         store = Stores.newInstance(testClassOutputDir.resolve("store"));
     }
 
@@ -125,5 +137,26 @@ public class StoreTest {
         assertNotNull(obj);
         assertTrue(Files.exists(obj.getRoot()));
         //System.out.println(obj.toString());
+    }
+
+    @Test
+    public void test_write_BufferedImage_as_JPEG() throws MaterialstoreException, IOException {
+        jobName = new JobName("test_write_BufferedImage_as_JPEG");
+        JobTimestamp jobTimestamp = TestFixtureSupport.create3PNGs(store, jobName, JobTimestamp.now());
+        QueryOnMetadata query = QueryOnMetadata.builder().put("step", "01").build();
+        MaterialList materialList = store.select(jobName, jobTimestamp, FileType.PNG, query);
+        assert materialList != null;
+        //
+        Material apple = materialList.get(0);
+        assert apple != null;
+        //System.out.println("apple.id=" + apple.getID());
+        BufferedImage bufferedImage = ImageIO.read(apple.toPath().toFile());
+        assert bufferedImage != null;
+        assert bufferedImage.getHeight() > 0;
+        assert bufferedImage.getWidth() > 0;
+        //
+        Metadata metadata = Metadata.builder().put("compressionQuality", "1.0").build();
+        Material mt = store.write(jobName, jobTimestamp, FileType.JPG, metadata, bufferedImage);
+        assert mt != null;
     }
 }
