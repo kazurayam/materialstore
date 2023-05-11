@@ -16,13 +16,13 @@ import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 
-public final class ImageDifferToPNG implements Differ {
+public final class ImageDiffStuffer implements Differ {
 
-    private static final Logger logger = LoggerFactory.getLogger(ImageDifferToPNG.class);
+    private static final Logger logger = LoggerFactory.getLogger(ImageDiffStuffer.class);
 
     private final Store store;
 
-    public ImageDifferToPNG(Store store) {
+    public ImageDiffStuffer(Store store) {
         Objects.requireNonNull(store);
         this.store = store;
     }
