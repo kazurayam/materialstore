@@ -37,7 +37,7 @@ public class ImageDiffStufferTest {
     }
 
     @Test
-    public void test_stuffDiff() throws MaterialstoreException {
+    public void test_stuffDiff_PNG() throws MaterialstoreException {
         JobName jobName = new JobName("test_stuffDiff");
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         TestFixtureUtil.setupFixture(store, jobName);

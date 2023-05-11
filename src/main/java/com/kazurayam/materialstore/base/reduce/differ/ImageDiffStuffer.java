@@ -53,7 +53,7 @@ public final class ImageDiffStuffer implements Differ {
                     .build();
             diffMaterial =
                     store.write(mProduct.getJobName(), mProduct.getReducedTimestamp(),
-                            FileType.PNG, diffMetadata,
+                            right.getFileType(), diffMetadata,
                             imageDiff.getDiffImage());
         } else {
             // Either of the left or the right Material is non diff-able as image
