@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
 import ru.yandex.qatools.ashot.comparison.ImageDiffer;
+import ru.yandex.qatools.ashot.comparison.ImageMarkupPolicy;
 
 import java.awt.image.BufferedImage;
 import java.util.Objects;
@@ -42,7 +43,9 @@ public final class ImageDiffStuffer implements Differ {
             BufferedImage leftImage = readImage(left.toPath());
             BufferedImage rightImage = readImage(right.toPath());
             // make a diff image using AShot
-            ImageDiff imageDiff = new ImageDiffer().makeDiff(leftImage, rightImage);
+            ImageDiff imageDiff = new ImageDiffer()
+                    .withDiffMarkupPolicy(new ImageMarkupPolicy())
+                    .makeDiff(leftImage, rightImage);
             diffRatio = calculateDiffRatioPercent(imageDiff);
             // write the diff image into the store
             Metadata diffMetadata = Metadata.builder()
