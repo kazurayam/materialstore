@@ -3,8 +3,6 @@ package com.kazurayam.materialstore.base.reduce.differ;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.FileTypeDiffability;
-import com.kazurayam.materialstore.core.JobName;
-import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.Material;
 import com.kazurayam.materialstore.core.MaterialLocator;
 import com.kazurayam.materialstore.core.MaterialstoreException;
