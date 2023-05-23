@@ -31,6 +31,8 @@ public interface Store {
 
     int deleteJobTimestamp(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;
 
+    long export(Material material, Path out) throws MaterialstoreException;
+
     List<JobName> findAllJobNames() throws MaterialstoreException;
 
     List<JobTimestamp> findAllJobTimestamps(JobName jobName) throws MaterialstoreException;
@@ -105,6 +107,10 @@ public interface Store {
 
     String resolveReportFileName(JobName jobName, JobTimestamp jobTimestamp);
 
+    /*
+     * duplicates with export()
+     * to be deprecated
+     */
     long retrieve(Material material, Path out) throws MaterialstoreException;
 
     MaterialList select(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException;

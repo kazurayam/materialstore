@@ -144,6 +144,24 @@ public final class StoreImpl implements Store {
     }
 
     @Override
+    public long export(Material material, Path out) throws MaterialstoreException {
+        Objects.requireNonNull(material);
+        Objects.requireNonNull(out);
+        long len = 0;
+        try {
+            if (!Files.exists(out.getParent())) {
+                Files.createDirectories(out.getParent());
+            }
+            byte[] bytes = read(material);
+            MaterialIO.serialize(bytes, out);
+            len = bytes.length;
+        } catch (IOException e) {
+            throw new MaterialstoreException(e);
+        }
+        return len;
+    }
+
+    @Override
     public List<JobName> findAllJobNames() throws MaterialstoreException {
         try {
             return Files.list(root_)
@@ -614,20 +632,7 @@ public final class StoreImpl implements Store {
 
     @Override
     public long retrieve(Material material, Path out) throws MaterialstoreException {
-        Objects.requireNonNull(material);
-        Objects.requireNonNull(out);
-        long len = 0;
-        try {
-            if (!Files.exists(out.getParent())) {
-                Files.createDirectories(out.getParent());
-            }
-            byte[] bytes = read(material);
-            MaterialIO.serialize(bytes, out);
-            len = bytes.length;
-        } catch (IOException e) {
-            throw new MaterialstoreException(e);
-        }
-        return len;
+        return this.export(material, out);
     }
 
     private static boolean similar(MaterialList baseList, MaterialList targetList) {

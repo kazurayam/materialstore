@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -75,6 +76,20 @@ public class StoreTest {
         //
         int i = store.deleteJobName(jobName);
         assertFalse(store.contains(jobName));
+    }
+
+    @Test
+    public void test_export() throws MaterialstoreException {
+        jobName = new JobName("test_export");
+        JobTimestamp jobTimestamp =
+                TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
+        QueryOnMetadata query = QueryOnMetadata.builder()
+                .put("label", "it is red").build();
+        Material m = store.selectSingle(jobName, jobTimestamp, query);
+        assertNotNull(m);
+        Path target = testClassOutputDir.resolve("exported.txt");
+        store.export(m, target);
+        assertTrue(Files.exists(target));
     }
 
     @Test
