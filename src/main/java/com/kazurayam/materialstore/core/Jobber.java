@@ -156,7 +156,10 @@ public final class Jobber {
 
         if (index.containsKey(fileType, metadata)) {
             // the metadata has already been put in the index
-            String msg1 = "The combination of " + "fileType=" + fileType.getExtension() + " and metadata=" + metadata + " is already there in the index";
+            String msg1 = "The combination of " +
+                    "fileType=" + fileType.getExtension() +
+                    " and metadata=" + metadata.getMetadataIdentification() +
+                    " is already there in the index";
             if (duplicationHandling.equals(DuplicationHandling.TERMINATE)) {
                 // will stop the process entirely
                 throw new DuplicatingMaterialException(msg1 + ".");
