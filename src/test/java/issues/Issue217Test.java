@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.reduce.Reducer;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialList;
 import com.kazurayam.materialstore.core.MaterialstoreException;
@@ -57,7 +58,7 @@ public class Issue217Test {
     }
 
     @Test
-    public void test_MaterialProductGroupBuilder_chronos() throws MaterialstoreException {
+    public void test_MaterialProductGroupBuilder_chronos() throws MaterialstoreException, JobNameNotFoundException {
         MaterialList currentMaterialList =
                 store.select(jobName,
                         new JobTimestamp("20220406_134203"),

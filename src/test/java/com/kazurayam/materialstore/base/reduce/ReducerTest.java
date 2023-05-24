@@ -3,6 +3,7 @@ package com.kazurayam.materialstore.base.reduce;
 import com.kazurayam.materialstore.TestHelper;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialList;
 import com.kazurayam.materialstore.core.MaterialstoreException;
@@ -39,7 +40,7 @@ public class ReducerTest {
      * the left is stuffed, the right is also stuffed
      */
     @Test
-    public void test_chronos_both_stuffed() throws MaterialstoreException {
+    public void test_chronos_both_stuffed() throws MaterialstoreException, JobNameNotFoundException {
         JobName jobName = new JobName("test_chronos_both_stuffed");
         store.deleteJobName(jobName);
         JobTimestamp jt1 = JobTimestamp.now();
@@ -58,7 +59,7 @@ public class ReducerTest {
     }
 
     @Test
-    public void test_chronos_no_history() throws MaterialstoreException {
+    public void test_chronos_no_history() throws MaterialstoreException, JobNameNotFoundException {
         JobName jobName = new JobName("test_chronos_no_previous");
         store.deleteJobName(jobName);
         // intentionally leave the left empty

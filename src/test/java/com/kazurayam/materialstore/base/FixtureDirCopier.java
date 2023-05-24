@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.base;
 
 import com.kazurayam.materialstore.TestHelper;
 import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Store;
@@ -20,7 +21,7 @@ public class FixtureDirCopier {
 
     private FixtureDirCopier() {}
 
-    public static final Store copyIssue334FixtureInto(Path testCaseDir) throws IOException, MaterialstoreException {
+    public static final Store copyIssue334FixtureInto(Path testCaseDir) throws IOException, MaterialstoreException, JobNameNotFoundException {
         if (Files.exists(testCaseDir)) {
             DeleteDir.deleteDirectoryRecursively(testCaseDir);
         }

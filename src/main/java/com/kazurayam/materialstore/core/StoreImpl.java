@@ -18,7 +18,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -114,7 +113,7 @@ public final class StoreImpl implements Store {
     @Override
     public int deleteJobTimestamp(final JobName jobName,
                                   final JobTimestamp jobTimestamp)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(jobTimestamp);
         if (this.contains(jobName, jobTimestamp)) {
@@ -147,7 +146,7 @@ public final class StoreImpl implements Store {
     public long export(Material material, Path out) throws MaterialstoreException {
         Objects.requireNonNull(material);
         Objects.requireNonNull(out);
-        long len = 0;
+        long len;
         try {
             if (!Files.exists(out.getParent())) {
                 Files.createDirectories(out.getParent());
@@ -184,7 +183,7 @@ public final class StoreImpl implements Store {
      */
     @Override
     public List<JobTimestamp> findAllJobTimestamps(final JobName jobName)
-            throws MaterialstoreException {
+            throws JobNameNotFoundException, MaterialstoreException {
         Objects.requireNonNull(jobName);
         Path jobNameDir = root_.resolve(jobName.toString());
         if (Files.exists(jobNameDir)) {
@@ -213,14 +212,14 @@ public final class StoreImpl implements Store {
                 throw new MaterialstoreException(e);
             }
         } else {
-            throw new MaterialstoreException("JobName \"" + jobName + "\" is not found in " + root_);
+            throw new JobNameNotFoundException("JobName \"" + jobName + "\" is not found in " + root_);
         }
     }
 
     @Override
     public List<JobTimestamp> findAllJobTimestampsPriorTo(JobName jobName,
                                                           final JobTimestamp baseJobTimestamp)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(baseJobTimestamp);
         List<JobTimestamp> all = findAllJobTimestamps(jobName);
@@ -235,7 +234,7 @@ public final class StoreImpl implements Store {
     @Override
     public List<Path> findAllReportsOf(JobName jobName) throws MaterialstoreException {
         Objects.requireNonNull(jobName);
-        List<Path> list = new ArrayList<>();
+        List<Path> list;
         try {
             list = Files.list(getRoot())
                     .filter(p -> !Files.isDirectory(p))
@@ -251,7 +250,7 @@ public final class StoreImpl implements Store {
 
     @Override
     public List<JobTimestamp> findDifferentiatingJobTimestamps(JobName jobName)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobName);
         List<JobTimestamp> differentiatingJT = new ArrayList<>();
         for (JobTimestamp jt : this.findAllJobTimestamps(jobName)) {
@@ -277,7 +276,7 @@ public final class StoreImpl implements Store {
     @Override
     public Set<JobTimestamp> markOlderThan(JobName jobName,
                                            JobTimestamp olderThan)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Set<JobTimestamp> marked = new HashSet<>();
         List<JobTimestamp> all = this.findAllJobTimestamps(jobName);
         if (all.size() > 0) {
@@ -298,7 +297,7 @@ public final class StoreImpl implements Store {
     @Override
     public Set<JobTimestamp> markNewerThanOrEqualTo(JobName jobName,
                                                     JobTimestamp newerThanOrEqualTo)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Set<JobTimestamp> marked = new HashSet<>();
         List<JobTimestamp> all = this.findAllJobTimestamps(jobName);
         if (all.size() > 0) {
@@ -341,7 +340,7 @@ public final class StoreImpl implements Store {
 
     @Override
     public JobTimestamp findJobTimestampPriorTo(JobName jobName, JobTimestamp jobTimestamp)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(jobTimestamp);
         List<JobTimestamp> all = findAllJobTimestampsPriorTo(jobName, jobTimestamp);
@@ -353,7 +352,7 @@ public final class StoreImpl implements Store {
     }
 
     @Override
-    public JobTimestamp findLatestJobTimestamp(JobName jobName) throws MaterialstoreException {
+    public JobTimestamp findLatestJobTimestamp(JobName jobName) throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobName);
         List<JobTimestamp> all = findAllJobTimestamps(jobName);
         if (all.size() > 0) {
@@ -365,7 +364,7 @@ public final class StoreImpl implements Store {
     }
 
     @Override
-    public JobTimestamp findNthJobTimestamp(JobName jobName, int nth) throws MaterialstoreException {
+    public JobTimestamp findNthJobTimestamp(JobName jobName, int nth) throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobName);
         if (nth <= 0) {
             throw new IllegalArgumentException("nth=" + nth + ", must be equal to or greater than 1");
@@ -426,7 +425,7 @@ public final class StoreImpl implements Store {
         try {
             List<Path> list =
                     Files.list(getRoot())
-                            .filter(p -> Files.isDirectory(p))
+                            .filter(Files::isDirectory)
                             .filter(p -> p.getFileName().toString().equals(jobName.toString()))
                             .collect(Collectors.toList());
             if (list.size() > 0) {
@@ -448,7 +447,7 @@ public final class StoreImpl implements Store {
             try {
                 List<Path> list =
                         Files.list(jobNamePath)
-                                .filter(p -> Files.isDirectory(p))
+                                .filter(Files::isDirectory)
                                 .filter(p -> p.getFileName().toString().equals(jobTimestamp.toString()))
                                 .collect(Collectors.toList());
                 if (list.size() > 0) {
@@ -479,7 +478,7 @@ public final class StoreImpl implements Store {
     @Override
     public List<JobTimestamp> queryAllJobTimestamps(final JobName jobName,
                                                     final QueryOnMetadata query)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(query);
         List<JobTimestamp> all = findAllJobTimestamps(jobName);
@@ -527,7 +526,7 @@ public final class StoreImpl implements Store {
     public List<JobTimestamp> queryAllJobTimestampsPriorTo(JobName jobName,
                                                            QueryOnMetadata query,
                                                            final JobTimestamp jobTimestamp)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobTimestamp);
         List<JobTimestamp> all = this.queryAllJobTimestamps(jobName, query);
 
@@ -562,7 +561,7 @@ public final class StoreImpl implements Store {
     public JobTimestamp queryJobTimestampPriorTo(JobName jobName,
                                                  QueryOnMetadata query,
                                                  JobTimestamp jobTimestamp)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         List<JobTimestamp> all = queryAllJobTimestampsPriorTo(jobName, query, jobTimestamp);
         logger.debug(String.format("[queryJobTimestampPriorTo] all.size()=%d", all.size()));
         if (all.size() > 0) {
@@ -574,7 +573,8 @@ public final class StoreImpl implements Store {
     }
 
     @Override
-    public MaterialList reflect(MaterialList base) throws MaterialstoreException {
+    public MaterialList reflect(MaterialList base)
+            throws MaterialstoreException, JobNameNotFoundException {
         return reflect(base, base.getJobTimestamp());
     }
 
@@ -586,18 +586,11 @@ public final class StoreImpl implements Store {
      * @throws MaterialstoreException when any io to the store failed
      */
     @Override
-    public MaterialList reflect(MaterialList baseMaterialList, JobTimestamp priorTo) throws MaterialstoreException {
+    public MaterialList reflect(MaterialList baseMaterialList, JobTimestamp priorTo) throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(baseMaterialList);
         Objects.requireNonNull(priorTo);
         String methodName = "[reflect]";
         logger.debug(String.format("%s baseMaterialList.size()=%d", methodName, baseMaterialList.size()));
-
-        /*
-        if (baseMaterialList.size() == 0) {
-            throw new MaterialstoreException("baseMaterialList.size() == 0");
-        }
-         */
-
         // get a list of JobTimestamps
         List<JobTimestamp> allJobTimestamps =
                 queryAllJobTimestampsPriorTo(baseMaterialList.getJobName(),
@@ -674,7 +667,8 @@ public final class StoreImpl implements Store {
     }
 
     @Override
-    public boolean contains(JobName jobName, JobTimestamp jobTimestamp) throws MaterialstoreException {
+    public boolean contains(JobName jobName, JobTimestamp jobTimestamp)
+            throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(jobTimestamp);
         List<JobTimestamp> all = this.findAllJobTimestamps(jobName);
@@ -691,7 +685,7 @@ public final class StoreImpl implements Store {
     @Override
     public JobTimestamp queryLatestJobTimestamp(JobName jobName,
                                                 QueryOnMetadata query)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         List<JobTimestamp> all = queryAllJobTimestamps(jobName, query);
         if (all.size() > 0) {
             return all.get(0);
@@ -863,16 +857,16 @@ public final class StoreImpl implements Store {
         Objects.requireNonNull(input,
                 "BufferedImage input must not be null");
         try {
-            if (fileType.getExtension() == FileType.PNG.getExtension() ||
-                    fileType.getExtension() == FileType.GIF.getExtension()) {
+            if (fileType.getExtension().equals(FileType.PNG.getExtension()) ||
+                    Objects.equals(fileType.getExtension(), FileType.GIF.getExtension())) {
                 // PNG
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 ImageIO.write(input, fileType.getExtension(), baos);
                 byte[] bytes = baos.toByteArray();
                 assert bytes.length != 0: "the length of bytes should not be 0";
                 return this.write(jobName, jobTimestamp, fileType, metadata, bytes, writeParam);
-            } else if (fileType.getExtension() == FileType.JPEG.getExtension() ||
-                    fileType.getExtension() == FileType.JPG.getExtension()) {
+            } else if (Objects.equals(fileType.getExtension(), FileType.JPEG.getExtension()) ||
+                    Objects.equals(fileType.getExtension(), FileType.JPG.getExtension())) {
                 // JPEG
                 float compressionQuality = writeParam.getJpegCompressionQuality();
                 if (compressionQuality < 0.1f || 1.0f < compressionQuality) {
@@ -897,7 +891,7 @@ public final class StoreImpl implements Store {
                 jpgWriter.dispose();
                 return this.write(jobName, jobTimestamp, fileType, metadata, tmpFile, writeParam);
             } else {
-                throw new IllegalArgumentException("invalid FileType: " + fileType.toString());
+                throw new IllegalArgumentException("invalid FileType: " + fileType);
             }
         } catch (IOException e) {
             throw new MaterialstoreException(e);

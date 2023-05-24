@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.base.reduce.DiffingMPGProcessor;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.Material;
 import com.kazurayam.materialstore.core.MaterialList;
@@ -67,7 +68,7 @@ public class VoidDifferTest {
     }
 
     @Test
-    public void test_smoke() throws MaterialstoreException {
+    public void test_smoke() throws MaterialstoreException, JobNameNotFoundException {
 
         VoidDiffer voidDiffer = new VoidDiffer(store);
         DiffingMPGProcessor differDriver = new DiffingMPGProcessor.Builder(store).differFor(FileType.WOFF2, voidDiffer).build();

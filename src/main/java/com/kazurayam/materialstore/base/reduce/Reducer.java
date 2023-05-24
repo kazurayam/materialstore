@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.reduce;
 
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialList;
 import com.kazurayam.materialstore.core.MaterialstoreException;
@@ -19,7 +20,7 @@ public final class Reducer {
 
     public static MaterialProductGroup chronos(Store store,
                                                MaterialList currentMaterialList)
-        throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
 
         return chronos(store, currentMaterialList, currentMaterialList.getJobTimestamp());
     }
@@ -27,7 +28,7 @@ public final class Reducer {
     public static MaterialProductGroup chronos(Store store,
                                                MaterialList currentMaterialList,
                                                BiFunction<MaterialList, MaterialList, MaterialProductGroup> func)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         return chronos(store, currentMaterialList, currentMaterialList.getJobTimestamp(), func);
     }
 
@@ -37,7 +38,7 @@ public final class Reducer {
     public static MaterialProductGroup chronos(Store store,
                                                MaterialList currentMaterialList,
                                                JobTimestamp priorTo)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         BiFunction<MaterialList, MaterialList, MaterialProductGroup> func =
                 (MaterialList left, MaterialList right) ->
                         MaterialProductGroup.builder(left,right).build();
@@ -51,7 +52,7 @@ public final class Reducer {
                                                MaterialList currentMaterialList,
                                                JobTimestamp priorTo,
                                                BiFunction<MaterialList, MaterialList, MaterialProductGroup> func)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(store);
         Objects.requireNonNull(currentMaterialList);
         Objects.requireNonNull(priorTo);

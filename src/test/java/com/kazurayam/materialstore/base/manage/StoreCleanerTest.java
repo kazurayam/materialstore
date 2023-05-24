@@ -1,10 +1,10 @@
 package com.kazurayam.materialstore.base.manage;
 
 import com.kazurayam.materialstore.base.FixtureDirCopier;
-import com.kazurayam.materialstore.base.inspector.Inspector;
 import com.kazurayam.materialstore.TestFixtureSupport;
 import com.kazurayam.materialstore.TestHelper;
 import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Store;
@@ -29,14 +29,14 @@ public class StoreCleanerTest {
     }
 
     @Test
-    public void test_deleteJobTimestampsOlderThan() throws MaterialstoreException, IOException {
+    public void test_deleteJobTimestampsOlderThan()
+            throws MaterialstoreException, JobNameNotFoundException {
         JobName jobName = new JobName("test_deleteJobTimestampsOlderThan");
         Path testCaseDir = testClassOutputDir.resolve(jobName.toString());
         Store store = Stores.newInstance(testCaseDir.resolve("store"));
-        JobTimestamp jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
-        JobTimestamp jtB = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
         List<JobTimestamp> jobTimestampList = store.findAllJobTimestamps(jobName);
-        assertTrue(jobTimestampList.size() >= 2);
+        assertTrue(jobTimestampList.size() >= 2,
+                "jobTimestampList.size()=" + jobTimestampList.size());
         // delete JobTimestamp directories older than the one last 1 JobTimestamp.
         StoreCleaner cleaner = StoreCleaner.newInstance(store);
         int deleted = cleaner.deleteJobTimestampsOlderThan(jobName, store.findNthJobTimestamp(jobName, 1));
@@ -69,7 +69,7 @@ public class StoreCleanerTest {
      * will retain the latest unit of artifacts
      */
     @Test
-    public void test_cleanup_with_diff() throws IOException, MaterialstoreException {
+    public void test_cleanup_with_diff() throws IOException, MaterialstoreException, JobNameNotFoundException {
         String testCaseName = "test_cleanup_with_diff";
         Store store = FixtureDirCopier.copyIssue334FixtureInto(
                 testClassOutputDir.resolve(testCaseName));
@@ -85,7 +85,7 @@ public class StoreCleanerTest {
     }
 
     @Test
-    public void test_cleanup_MaterialListReports_olderThan() throws IOException, MaterialstoreException {
+    public void test_cleanup_MaterialListReports_olderThan() throws MaterialstoreException, JobNameNotFoundException {
         String testCaseName = "test_cleanup_MaterialListReports_olderThan";
         // Arrange
         Path testCaseOutputDir = testClassOutputDir.resolve(testCaseName);
@@ -95,9 +95,6 @@ public class StoreCleanerTest {
         JobTimestamp jtB = new JobTimestamp("20221029_220401");
         TestFixtureSupport.create3TXTs(store, jobName, jtA);
         TestFixtureSupport.create3TXTs(store, jobName, jtB);
-        Inspector inspector = Inspector.newInstance(store);
-        Path reportA = inspector.report(store.select(jobName, jtA));
-        Path reportB = inspector.report(store.select(jobName, jtB));
         // Action
         StoreCleaner cleaner = StoreCleaner.newInstance(store);
         JobTimestamp olderThan = jtB.minusHours(2);
@@ -118,7 +115,7 @@ public class StoreCleanerTest {
      */
     @Test
     public void test_cleanup_with_boundaryJobTimestamp()
-            throws IOException, MaterialstoreException {
+            throws IOException, MaterialstoreException, JobNameNotFoundException {
         String testCaseName = "test_cleanup_with_boundaryJobTimestamp";
         Store store = FixtureDirCopier.copyIssue334FixtureInto(testClassOutputDir.resolve(testCaseName));
         StoreCleaner cleaner = StoreCleaner.newInstance(store);
@@ -144,7 +141,7 @@ public class StoreCleanerTest {
      */
     @Test
     public void test_cleanup_with_numberOfJobTimestamps()
-            throws IOException, MaterialstoreException {
+            throws IOException, MaterialstoreException, JobNameNotFoundException {
         String testCaseName = "test_cleanup_with_numberOfJobTimestamps";
         Store store = FixtureDirCopier.copyIssue334FixtureInto(testClassOutputDir.resolve(testCaseName));
         StoreCleaner cleaner = StoreCleaner.newInstance(store);

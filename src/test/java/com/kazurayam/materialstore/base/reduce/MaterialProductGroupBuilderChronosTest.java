@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.base.reduce;
 
 import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialList;
 import com.kazurayam.materialstore.core.MaterialstoreException;
@@ -67,7 +68,7 @@ public class MaterialProductGroupBuilderChronosTest {
     }
 
     @Test
-    public void test_chronos_with_func() throws MaterialstoreException {
+    public void test_chronos_with_func() throws MaterialstoreException, JobNameNotFoundException {
         BiFunction<MaterialList, MaterialList, MaterialProductGroup> func =
                 (MaterialList left, MaterialList right) ->
                         MaterialProductGroup.builder(left,right)
@@ -90,7 +91,8 @@ public class MaterialProductGroupBuilderChronosTest {
     }
 
     @Test
-    public void test_chronos_without_func() throws MaterialstoreException {
+    public void test_chronos_without_func()
+            throws MaterialstoreException, JobNameNotFoundException {
         MaterialProductGroup reduced = Reducer.chronos(store, right);
         Assertions.assertNotNull(reduced);
         assertEquals(1, reduced.getMaterialListPrevious().countMaterialsWithIdStartingWith("5d7e467"));
@@ -99,7 +101,7 @@ public class MaterialProductGroupBuilderChronosTest {
     }
 
     @Test
-    public void test_chronos_priorTo_endOfLastMonth() throws MaterialstoreException {
+    public void test_chronos_priorTo_endOfLastMonth() throws MaterialstoreException, JobNameNotFoundException {
         JobTimestamp priorTo = right.getJobTimestamp().beginningOfTheMonth();
         assertEquals(new JobTimestamp("20220101_000000"), priorTo);
         MaterialProductGroup reduced = Reducer.chronos(store, right, priorTo);

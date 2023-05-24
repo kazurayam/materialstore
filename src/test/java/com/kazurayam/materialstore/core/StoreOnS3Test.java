@@ -127,7 +127,7 @@ public class StoreOnS3Test {
     }
 
     @Test
-    public void testOperateStoreOnS3() throws IOException, MaterialstoreException {
+    public void testOperateStoreOnS3() throws IOException, MaterialstoreException, JobNameNotFoundException {
         // create a directory in a S3 bucket if the directory is not present
         dir = s3fs.getPath(bucketName, "testOperateStoreOnS3");
         if (!Files.exists(dir)) {

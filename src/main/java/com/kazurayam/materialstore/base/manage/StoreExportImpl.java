@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.base.manage;
 
 import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Store;
@@ -29,7 +30,8 @@ public class StoreExportImpl extends StoreExport {
      *
      */
     @Override
-    public void exportReports(JobName jobName) throws MaterialstoreException {
+    public void exportReports(JobName jobName)
+            throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobName);
         JobTimestamp jt = local.findLatestJobTimestamp(jobName);
         if (jt != JobTimestamp.NULL_OBJECT) {
@@ -42,7 +44,7 @@ public class StoreExportImpl extends StoreExport {
      */
     @Override
     public void exportReports(JobName jobName, JobTimestamp newerThanOrEqualTo)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(newerThanOrEqualTo);
         exportJobTimestamps(jobName, newerThanOrEqualTo);
@@ -51,7 +53,7 @@ public class StoreExportImpl extends StoreExport {
 
 
     private void exportJobTimestamps(JobName jobName, JobTimestamp newerThanOrEqualTo)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Set<JobTimestamp> marked =
                 local.markNewerThanOrEqualTo(jobName, newerThanOrEqualTo);
         for (JobTimestamp jt : marked) {
@@ -78,7 +80,7 @@ public class StoreExportImpl extends StoreExport {
 
 
     private void exportReportFiles(JobName jobName, JobTimestamp newerThanOrEqualTo)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Set<JobTimestamp> marked =
                 local.markNewerThanOrEqualTo(jobName, newerThanOrEqualTo);
         for (JobTimestamp jt : marked) {

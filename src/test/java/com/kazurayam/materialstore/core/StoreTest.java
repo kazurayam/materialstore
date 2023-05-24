@@ -57,7 +57,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_findDifferentiatingJobTimestamps() throws MaterialstoreException, IOException {
+    public void test_findDifferentiatingJobTimestamps() throws MaterialstoreException, IOException, JobNameNotFoundException {
         Path fixtureDir = TestHelper.getFixturesDirectory().resolve("issue#331");
         TestHelper.copyDirectory(fixtureDir, testClassOutputDir);
         JobName jobName = new JobName("CURA");
@@ -93,7 +93,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_findNthJobTimestamp_normal() throws MaterialstoreException {
+    public void test_findNthJobTimestamp_normal() throws MaterialstoreException, JobNameNotFoundException {
         jobName = new JobName("test_findNthJobTimestamp_normal");
         JobTimestamp jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
         JobTimestamp jtB = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
@@ -105,7 +105,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_findNthJobTimestamp_exceedingRange() throws MaterialstoreException {
+    public void test_findNthJobTimestamp_exceedingRange() throws MaterialstoreException, JobNameNotFoundException {
         jobName = new JobName("test_findNthJobTimestamp_exceedingRange");
         JobTimestamp jtA = TestFixtureSupport.create3PNGs(store, jobName, JobTimestamp.now());
         JobTimestamp jtB = TestFixtureSupport.create3PNGs(store, jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
@@ -136,7 +136,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_reflect() throws MaterialstoreException {
+    public void test_reflect() throws MaterialstoreException, JobNameNotFoundException {
         jobName = new JobName("test_reflect");
         JobTimestamp jt = JobTimestamp.now();
         store.write(jobName, jt, FileType.TXT, Metadata.NULL_OBJECT, "Hello");

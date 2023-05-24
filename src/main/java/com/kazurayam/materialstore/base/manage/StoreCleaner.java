@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.base.manage;
 
 import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Store;
@@ -37,17 +38,17 @@ public abstract class StoreCleaner {
      * @throws MaterialstoreException
      */
     public abstract void cleanup(JobName jobName)
-            throws MaterialstoreException;
+            throws MaterialstoreException, JobNameNotFoundException;
 
     public abstract void cleanup(JobName jobName, JobTimestamp olderThan)
-            throws MaterialstoreException;
+            throws MaterialstoreException, JobNameNotFoundException;
 
     public abstract void cleanup(JobName jobName, int olderThan)
-            throws MaterialstoreException;
+            throws MaterialstoreException, JobNameNotFoundException;
 
 
     public abstract int deleteJobTimestampsOlderThan(
-            JobName jobName, JobTimestamp olderThan) throws MaterialstoreException;
+            JobName jobName, JobTimestamp olderThan) throws MaterialstoreException, JobNameNotFoundException;
 
     public abstract int deleteReportsOlderThan(
             JobName jobName, JobTimestamp olderThan) throws MaterialstoreException;

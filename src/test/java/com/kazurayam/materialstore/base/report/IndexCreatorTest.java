@@ -7,6 +7,7 @@ import com.kazurayam.materialstore.base.reduce.Reducer;
 import com.kazurayam.materialstore.TestFixtureSupport;
 import com.kazurayam.materialstore.TestHelper;
 import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialList;
 import com.kazurayam.materialstore.core.MaterialstoreException;
@@ -39,16 +40,16 @@ public class IndexCreatorTest {
     }
 
     @Test
-    public void test_create() throws MaterialstoreException, IOException {
+    public void test_create() throws MaterialstoreException, IOException, JobNameNotFoundException {
         JobName jobName = new JobName("test_create");
         JobTimestamp jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
         JobTimestamp jtB = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
-        MaterialList mlA = store.select(jobName, jtA);
+        //MaterialList mlA = store.select(jobName, jtA);
         MaterialList mlB = store.select(jobName, jtB);
         MaterialProductGroup reduced = Reducer.chronos(store, mlB);
         Inspector inspector = Inspector.newInstance(store);
         MaterialProductGroup inspected = inspector.reduceAndSort(reduced);
-        Path report = inspector.report(inspected, 0.0);
+        //Path report = inspector.report(inspected, 0.0);
         //
         JobTimestamp oldestJT = store.findNthJobTimestamp(jobName, 4);
         StoreCleaner scavenger = StoreCleaner.newInstance(store);

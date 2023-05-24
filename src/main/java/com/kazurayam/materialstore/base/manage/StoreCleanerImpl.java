@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.base.manage;
 
 import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Store;
@@ -28,7 +29,7 @@ public class StoreCleanerImpl extends StoreCleaner {
     }
 
     @Override
-    public void cleanup(JobName jobName) throws MaterialstoreException {
+    public void cleanup(JobName jobName) throws MaterialstoreException, JobNameNotFoundException {
         List<JobTimestamp> diffs = store.findDifferentiatingJobTimestamps(jobName);
         if (diffs.size() > 0) {
             this.cleanup(jobName, diffs.get(0));
@@ -38,7 +39,7 @@ public class StoreCleanerImpl extends StoreCleaner {
     }
 
     @Override
-    public void cleanup(JobName jobName, JobTimestamp olderThan) throws MaterialstoreException {
+    public void cleanup(JobName jobName, JobTimestamp olderThan) throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(olderThan);
         //logger.info(String.format("[cleanup] jobName=%s, olderThan=%s", jobName, olderThan));
@@ -56,7 +57,7 @@ public class StoreCleanerImpl extends StoreCleaner {
     }
 
     @Override
-    public void cleanup(JobName jobName, int olderThanNth) throws MaterialstoreException {
+    public void cleanup(JobName jobName, int olderThanNth) throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobName);
         if (olderThanNth <= 0) {
             throw new MaterialstoreException(
@@ -76,7 +77,8 @@ public class StoreCleanerImpl extends StoreCleaner {
         }
     }
 
-    private void doCleanup(JobName jobName, JobTimestamp olderThan) throws MaterialstoreException {
+    private void doCleanup(JobName jobName, JobTimestamp olderThan)
+            throws MaterialstoreException, JobNameNotFoundException {
         // identify which JobTimestamp directories to preserve
         Set<JobTimestamp> preserved = markToBePreserved(jobName, olderThan);
         // delete unnecessary JobTimestamps
@@ -90,7 +92,7 @@ public class StoreCleanerImpl extends StoreCleaner {
     }
 
     private Set<JobTimestamp> markToBePreserved(JobName jobName, JobTimestamp olderThan)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Set<JobTimestamp> marked = new HashSet<>();
         List<JobTimestamp> all = store.findAllJobTimestamps(jobName);
         all.sort(Collections.reverseOrder());
@@ -112,7 +114,7 @@ public class StoreCleanerImpl extends StoreCleaner {
     @Override
     public int deleteJobTimestampsOlderThan(JobName jobName,
                                             JobTimestamp olderThan)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(olderThan);
 
