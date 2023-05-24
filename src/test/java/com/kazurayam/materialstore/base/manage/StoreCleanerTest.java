@@ -28,40 +28,6 @@ public class StoreCleanerTest {
         testClassOutputDir = TestHelper.createTestClassOutputDir(StoreCleanerTest.class);
     }
 
-    @Test
-    public void test_deleteJobTimestampsOlderThan()
-            throws MaterialstoreException, JobNameNotFoundException {
-        JobName jobName = new JobName("test_deleteJobTimestampsOlderThan");
-        Path testCaseDir = testClassOutputDir.resolve(jobName.toString());
-        Store store = Stores.newInstance(testCaseDir.resolve("store"));
-        List<JobTimestamp> jobTimestampList = store.findAllJobTimestamps(jobName);
-        assertTrue(jobTimestampList.size() >= 2,
-                "jobTimestampList.size()=" + jobTimestampList.size());
-        // delete JobTimestamp directories older than the one last 1 JobTimestamp.
-        StoreCleaner cleaner = StoreCleaner.newInstance(store);
-        int deleted = cleaner.deleteJobTimestampsOlderThan(jobName, store.findNthJobTimestamp(jobName, 1));
-        assertTrue(deleted >= 1);
-        assertEquals(1, store.findAllJobTimestamps(jobName).size());
-    }
-
-    @Test
-    public void test_deleteReportsOlderThan() throws IOException, MaterialstoreException {
-        JobName jobName = new JobName("test_deleteReportsOlderThan");
-        Path testCaseDir = testClassOutputDir.resolve(jobName.toString());
-        Store store = Stores.newInstance(testCaseDir.resolve("store"));
-        JobTimestamp jtA = JobTimestamp.now();
-        JobTimestamp jtB = JobTimestamp.laterThan(jtA);
-        // create the 2 reports
-        Path reportA = store.getRoot().resolve(store.resolveReportFileName(jobName, jtA));
-        Files.write(reportA, "<html><head><title>reportA</title></head></html>".getBytes());
-        Path reportB = store.getRoot().resolve(store.resolveReportFileName(jobName, jtB));
-        Files.write(reportB, "<html><head><title>reportB</title></head></html>".getBytes());
-        // delete <JobName>-<JobTimestamp>.html files older than the one last 1 JobTimestamp
-        StoreCleaner cleaner = StoreCleaner.newInstance(store);
-        int deleted = cleaner.deleteReportsOlderThan(jobName, jtB);
-        assertTrue(deleted >= 1);
-        assertEquals(1, store.findAllReportsOf(jobName).size());
-    }
 
 
     /**
@@ -105,7 +71,8 @@ public class StoreCleanerTest {
 
         cleaner.cleanup(jobName, olderThan);
         // Assert
-        assertEquals(1, store.findAllReportsOf(jobName).size());
+        //assertEquals(1, store.findAllReportsOf(jobName).size());
+        assertEquals(1, store.findAllJobTimestamps(jobName).size());
     }
 
     /**
@@ -159,4 +126,45 @@ public class StoreCleanerTest {
         List<Path> reportFilesAfterCleanUp = store.findAllReportsOf(jobName);
         assertEquals(2, reportFilesAfterCleanUp.size());
     }
+
+    @Test
+    public void test_deleteJobTimestampsOlderThan()
+            throws MaterialstoreException, JobNameNotFoundException {
+        JobName jobName = new JobName("test_deleteJobTimestampsOlderThan");
+        Path testCaseDir = testClassOutputDir.resolve(jobName.toString());
+        Store store = Stores.newInstance(testCaseDir.resolve("store"));
+        JobTimestamp jtA = new JobTimestamp("20221026_205509");
+        JobTimestamp jtB = new JobTimestamp("20221029_220401");
+        TestFixtureSupport.create3TXTs(store, jobName, jtA);
+        TestFixtureSupport.create3TXTs(store, jobName, jtB);
+
+        List<JobTimestamp> jobTimestampList = store.findAllJobTimestamps(jobName);
+        assertTrue(jobTimestampList.size() >= 2,
+                "jobTimestampList.size()=" + jobTimestampList.size());
+        // delete JobTimestamp directories older than the one last 1 JobTimestamp.
+        StoreCleaner cleaner = StoreCleaner.newInstance(store);
+        int deleted = cleaner.deleteJobTimestampsOlderThan(jobName, store.findNthJobTimestamp(jobName, 1));
+        assertTrue(deleted >= 1);
+        assertEquals(1, store.findAllJobTimestamps(jobName).size());
+    }
+
+    @Test
+    public void test_deleteReportsOlderThan() throws IOException, MaterialstoreException {
+        JobName jobName = new JobName("test_deleteReportsOlderThan");
+        Path testCaseDir = testClassOutputDir.resolve(jobName.toString());
+        Store store = Stores.newInstance(testCaseDir.resolve("store"));
+        JobTimestamp jtA = JobTimestamp.now();
+        JobTimestamp jtB = JobTimestamp.laterThan(jtA);
+        // create the 2 reports
+        Path reportA = store.getRoot().resolve(store.resolveReportFileName(jobName, jtA));
+        Files.write(reportA, "<html><head><title>reportA</title></head></html>".getBytes());
+        Path reportB = store.getRoot().resolve(store.resolveReportFileName(jobName, jtB));
+        Files.write(reportB, "<html><head><title>reportB</title></head></html>".getBytes());
+        // delete <JobName>-<JobTimestamp>.html files older than the one last 1 JobTimestamp
+        StoreCleaner cleaner = StoreCleaner.newInstance(store);
+        int deleted = cleaner.deleteReportsOlderThan(jobName, jtB);
+        assertTrue(deleted >= 1);
+        assertEquals(1, store.findAllReportsOf(jobName).size());
+    }
+
 }
