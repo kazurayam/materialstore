@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.report;
 
+import com.kazurayam.materialstore.core.FileSystemFactory;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.Jsonifiable;
 import com.kazurayam.materialstore.core.MaterialstoreException;
@@ -21,7 +22,6 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -111,9 +111,9 @@ public class IndexCreator {
         return filePath;
     }
 
-    public String makeTitle(Map<String, Object> model) {
+    public String makeTitle(Map<String, Object> model) throws IOException {
         String s = (String)model.get("store");
-        Path parent = Paths.get(s);
+        Path parent = FileSystemFactory.newFileSystem().getPath(s);
         return parent.getFileName().toString() + "/index.html";
     }
 

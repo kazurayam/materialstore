@@ -25,7 +25,7 @@ public final class FileSystemFactory {
     /**
      *
      */
-    static FileSystem newFileSystem() throws IOException {
+    public static FileSystem newFileSystem() throws IOException {
         if (System.getProperty(SYSTEM_PROPERTY_NAME) != null) {
             try {
                 URI uri = new URI(System.getProperty(SYSTEM_PROPERTY_NAME));
@@ -44,7 +44,7 @@ public final class FileSystemFactory {
     /**
      *
      */
-    static FileSystem newFileSystem(URI uri) throws IOException {
+    public static FileSystem newFileSystem(URI uri) throws IOException {
         reviewURI(uri);
         return FileSystems.newFileSystem(uri,
                 new HashMap<String, Object>(),
