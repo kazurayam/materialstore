@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.core;
 
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,35 +11,28 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MaterialListTest {
 
-    private static Path outputDir;
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(MaterialListTest.class);
     private static Store store;
-    private static final JobName jobName = new JobName("MaterialListTest");
+    private static final JobName jobName = new JobName(MaterialListTest.class.getSimpleName());
     private static JobTimestamp jobTimestamp;
-    private static Map<String, Metadata> fixture;
     private Material material;
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        outputDir = Paths.get("build/tmp/testOutput/").resolve(MaterialListTest.class.getName());
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Files.createDirectories(outputDir);
-        jobTimestamp = JobTimestamp.now();
+        Path outputDir = too.getOutputSubDirectory();
+        too.cleanOutputSubDirectory();
         store = Stores.newInstance(outputDir);
+        jobTimestamp = JobTimestamp.now();
         // create fixture
-        fixture = createFixture();
+        Map<String, Metadata> fixture = createFixture();
         store.write(jobName, jobTimestamp, FileType.TXT, fixture.get("Google"), "Google");
         store.write(jobName, jobTimestamp, FileType.TXT, fixture.get("DuckDuckGo"), "DuckDuckGo");
     }
@@ -160,7 +154,7 @@ public class MaterialListTest {
     public void test_toTemplateModelAsJson_noArg() throws IOException, MaterialstoreException {
         MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY);
         String json = materialList.toTemplateModelAsJson(true);
-        Files.write(outputDir.resolve("test_toTemplateModelAsJSON.json"),
+        Files.write(too.resolveOutput("test_toTemplateModelAsJSON.json"),
                 json.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -169,7 +163,7 @@ public class MaterialListTest {
         MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY);
         SortKeys sortKeys = new SortKeys("timestamp","zzz");
         String json = materialList.toTemplateModelAsJson(sortKeys, true);
-        Files.write(outputDir.resolve("test_toTemplateModelAsJSON.json"),
+        Files.write(too.resolveOutput("test_toTemplateModelAsJSON.json"),
                 json.getBytes(StandardCharsets.UTF_8));
     }
 
