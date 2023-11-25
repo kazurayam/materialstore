@@ -15,7 +15,7 @@ dependencyResolutionManagement {
             version('freemarker', '2.3.31')
             library('freemarker', 'org.freemarker', 'freemarker').versionRef('freemarker')
 
-            version('gson', '2.8.2')
+            version('gson', '2.10.1')
             library('gson', 'com.google.code.gson', 'gson').versionRef('gson')
 
             version('javaDiffUtils', '4.11')
