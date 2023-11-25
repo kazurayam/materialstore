@@ -4,6 +4,8 @@ import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.unittest.TestOutputOrganizer;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -19,26 +21,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class MaterialList_order_Test {
 
-    private static Path outputDir;
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(MaterialList_order_Test.class);
     private static Store store;
     private static final JobName jobName =
-            new JobName("MaterialList_order_Test");
+            new JobName(MaterialList_order_Test.class.getSimpleName());
     private static JobTimestamp jobTimestamp;
-    private static Map<String, Metadata> fixture = new HashMap<>();
 
     private MaterialList ml;
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        outputDir = Paths.get("build/tmp/testOutput/").resolve(MaterialComparatorByMetadataDescriptionTest.class.getName());
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Files.createDirectories(outputDir);
+        too.cleanOutputSubDirectory();
         jobTimestamp = JobTimestamp.now();
-        store = Stores.newInstance(outputDir);
+        store = Stores.newInstance(too.resolveOutput("store"));
         // create fixture
-        fixture = createFixture();
+        Map<String, Metadata> fixture = createFixture();
         store.write(jobName, jobTimestamp, FileType.TXT, fixture.get("Google"), "Google");
         store.write(jobName, jobTimestamp, FileType.TXT, fixture.get("DuckDuckGo"), "DuckDuckGo");
     }
@@ -85,8 +82,4 @@ public class MaterialList_order_Test {
         assertEquals("duckduckgo.com", ml.get(0).getMetadata().get("URL.host"));
         assertEquals("www.google.com", ml.get(1).getMetadata().get("URL.host"));
     }
-
-
-
-
 }

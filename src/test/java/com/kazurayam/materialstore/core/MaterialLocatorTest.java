@@ -1,14 +1,11 @@
 package com.kazurayam.materialstore.core;
 
-import com.kazurayam.materialstore.TestHelper;
 import com.kazurayam.materialstore.TestOutputOrganizerFactory;
-import com.kazurayam.materialstore.util.DeleteDir;
 import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -17,8 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class MaterialLocatorTest {
 
     private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(MaterialLocatorTest.class);
-
-    //private Path testClassOutputDir = TestHelper.createTestClassOutputDir(MaterialLocatorTest.class);
 
     @BeforeAll
     public static void beforeAll() throws IOException {

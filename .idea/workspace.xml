@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="7959bbda-7369-46c6-be70-f44f14bd4569" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialListTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialListTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialLocatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialLocatorTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,31 +71,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Gradle.MaterialListTest">
-    <configuration name="FileSystemFactoryTest.test_dotPath" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.kazurayam.materialstore.core.FileSystemFactoryTest.test_dotPath&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Gradle.MaterialLocatorTest">
     <configuration name="MaterialListTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -110,6 +86,30 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;com.kazurayam.materialstore.core.MaterialListTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="MaterialLocatorTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.kazurayam.materialstore.core.MaterialLocatorTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -194,11 +194,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.MaterialLocatorTest" />
         <item itemvalue="Gradle.MaterialListTest" />
         <item itemvalue="Gradle.MaterialTest" />
         <item itemvalue="Gradle.ReadAllLinesDirectiveTest" />
         <item itemvalue="Gradle.ReadAllLinesDirectiveTest.test_execute" />
-        <item itemvalue="Gradle.FileSystemFactoryTest.test_dotPath" />
       </list>
     </recent_temporary>
   </component>
