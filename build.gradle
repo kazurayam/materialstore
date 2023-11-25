@@ -42,7 +42,7 @@ dependencies {
     testImplementation libs.junit.jupiter
     testImplementation libs.plantuml
     testImplementation libs.timekeeper
-    implementation libs.s3fs
+    testImplementation libs.s3fs
 
 }
 
