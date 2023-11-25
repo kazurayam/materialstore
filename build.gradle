@@ -60,9 +60,10 @@ jar {
 }
 
 javadoc {
+    options.locale = "en_US"
     options.showFromProtected()
     failOnError = false
-    options.locale = "en_US"
+
 }
 
 task copyJavadocToDocsDir(type: Copy) {
