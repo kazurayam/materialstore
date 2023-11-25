@@ -42,6 +42,7 @@ dependencies {
     testImplementation libs.plantuml
     testImplementation libs.timekeeper
     testImplementation libs.s3fs
+    testImplementation libs.unittesthelper
 }
 
 java {

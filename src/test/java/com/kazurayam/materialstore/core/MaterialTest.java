@@ -1,7 +1,8 @@
 package com.kazurayam.materialstore.core;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.util.TestFixtureUtil;
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -17,16 +18,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MaterialTest {
-    private final static Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MaterialTest.class.getName());
+    private final static TestOutputOrganizer too = TestOutputOrganizerFactory.create(MaterialTest.class);
     private static Store store;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Files.createDirectories(outputDir);
-        Path root = outputDir.resolve("store");
+        Path outputSubDir = too.getOutputSubDirectory();
+        TestOutputOrganizer.cleanDirectoryRecursively(outputSubDir);
+        Path root = outputSubDir.resolve("store");
         store = new StoreImpl(root);
     }
 
@@ -73,12 +72,10 @@ public class MaterialTest {
         assertNotNull(material);
         //
         Path leftPath = Paths.get("test_getRelativePath/20210713_093357/objects/12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490.png");
-        Path relativePath = material.getRelativePath();
-        Assertions.assertEquals(leftPath, relativePath);
+        Assertions.assertEquals(leftPath, material.getRelativePath());
         //
         String leftURL = "test_getRelativePath/20210713_093357/objects/12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490.png";
-        String relativeURL = material.getRelativeURL();
-        Assertions.assertEquals(leftURL, relativeURL);
+        Assertions.assertEquals(leftURL, material.getRelativeURL());
     }
 
     @Test
