@@ -36,13 +36,14 @@ dependencies {
     implementation libs.jsoup
     implementation libs.slf4j.api
     implementation libs.subprocessj
-    implementation libs.s3fs
     implementation libs.jaxb.api
 
     testImplementation libs.slf4j.simple
     testImplementation libs.junit.jupiter
     testImplementation libs.plantuml
     testImplementation libs.timekeeper
+    implementation libs.s3fs
+
 }
 
 java {

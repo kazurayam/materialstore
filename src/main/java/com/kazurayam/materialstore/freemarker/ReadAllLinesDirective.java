@@ -10,6 +10,8 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -21,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ReadAllLinesDirective implements TemplateDirectiveModel {
+
+    Logger logger = LoggerFactory.getLogger(ReadAllLinesDirective.class);
 
     private static final String PARAM_NAME_PATH = "path";
     private static final String VARIABLE_NAME_BASEDIR = "baseDir";
@@ -71,6 +75,9 @@ public class ReadAllLinesDirective implements TemplateDirectiveModel {
         String sp = String.valueOf(env.getVariable(VARIABLE_NAME_BASEDIR));
         FileSystem fs = FileSystemFactory.newFileSystem();
         Path baseDir = fs.getPath(sp);
+
+        logger.info("baseDir=" + baseDir);
+
         if (!baseDir.isAbsolute()) {
             baseDir = fs.getPath(System.getProperty("user.dir")).resolve(sp);
         }

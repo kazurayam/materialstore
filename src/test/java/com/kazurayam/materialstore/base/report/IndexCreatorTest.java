@@ -60,7 +60,7 @@ public class IndexCreatorTest {
     }
 
     @Test
-    public void test_makeTitle() {
+    public void test_makeTitle() throws IOException {
         Map<String, Object> model = new HashMap<>();
         model.put("store", "/Users/foo/tmp/myProject/store-backup");
         String title = indexCreator.makeTitle(model);

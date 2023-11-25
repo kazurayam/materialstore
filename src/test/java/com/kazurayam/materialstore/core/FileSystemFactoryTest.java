@@ -33,9 +33,13 @@ public class FileSystemFactoryTest {
 
     @Test
     public void test_newFileSystem_with_SystemProperty() throws IOException {
-        System.setProperty(FileSystemFactory.SYSTEM_PROPERTY_NAME,
+        System.setProperty(FileSystemFactory.S3FS_SYSTEM_PROPERTY_NAME,
                 S3Endpoint.AP_NORTHEAST_3.getURI().toString());
         FileSystem fs = FileSystemFactory.newFileSystem();
+        // Be sure to clear the property, otherwise the System Property will be retained in the JVM and
+        // will cause other tests to fail
+        System.clearProperty(FileSystemFactory.S3FS_SYSTEM_PROPERTY_NAME);
+        //
         String bucketName = "com.kazurayam.filesystemfactorytest";
         String dirName = "test_newFileSystem_with_SystemProperty";
         Path p = fs.getPath("/" + bucketName, dirName);
@@ -49,8 +53,8 @@ public class FileSystemFactoryTest {
     @Test
     public void test_newFileSystem_default() throws IOException {
         // make sure the System properties is NOT defined
-        if (System.getProperty(FileSystemFactory.SYSTEM_PROPERTY_NAME) != null) {
-            System.getProperties().remove(FileSystemFactory.SYSTEM_PROPERTY_NAME);
+        if (System.getProperty(FileSystemFactory.S3FS_SYSTEM_PROPERTY_NAME) != null) {
+            System.getProperties().remove(FileSystemFactory.S3FS_SYSTEM_PROPERTY_NAME);
         }
         FileSystem fs = FileSystemFactory.newFileSystem();
         String dirName = "test_newFileSystem_default";
