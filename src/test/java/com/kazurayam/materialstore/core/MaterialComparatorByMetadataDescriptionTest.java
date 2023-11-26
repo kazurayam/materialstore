@@ -1,14 +1,14 @@
 package com.kazurayam.materialstore.core;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,9 +16,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MaterialComparatorByMetadataDescriptionTest {
 
-    private static Path outputDir;
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(MaterialComparatorByMetadataDescriptionTest.class);
     private static Store store;
-    private static final JobName jobName = new JobName("MaterialComparatorByOrdinalDescriptionTest");
+    private static final JobName jobName = new JobName(MaterialComparatorByMetadataDescriptionTest.class.getSimpleName());
     private static JobTimestamp jobTimestamp;
     private static Map<String, Metadata> fixture = new HashMap<>();
 
@@ -27,13 +27,10 @@ public class MaterialComparatorByMetadataDescriptionTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        outputDir = Paths.get("build/tmp/testOutput/").resolve(MaterialComparatorByMetadataDescriptionTest.class.getName());
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Files.createDirectories(outputDir);
+        too.cleanClassOutputDirectory();
+        Path classOutputDir = too.getClassOutputDirectory();
         jobTimestamp = JobTimestamp.now();
-        store = Stores.newInstance(outputDir);
+        store = Stores.newInstance(classOutputDir);
         // create fixture
         fixture = createFixture();
         store.write(jobName, jobTimestamp, FileType.TXT, fixture.get("Google"), "Google");

@@ -1,7 +1,10 @@
 package com.kazurayam.materialstore.core;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.util.JsonUtil;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -12,10 +15,14 @@ import java.util.LinkedHashMap;
 
 public class IndexTest {
 
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(IndexTest.class);
+    private static final Path resultsDir = too.getProjectDir().resolve("src/test/fixtures/sample_results");
     private final String sampleLine = "6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{\"environment\":\"DevelopmentEnv\", \"URL\":\"http://demoaut-mimic.kazurayam.com/\"}";
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(IndexTest.class.getName());
-    private static final Path resultsDir = Paths.get(".").resolve("src/test/fixtures/sample_results");
+    @BeforeAll
+    public static void beforeAll() throws IOException {
+        too.cleanClassOutputDirectory();
+    }
 
     @Test
     public void test_parseLine_smoke() {
@@ -54,8 +61,8 @@ public class IndexTest {
         Path source = Index.getIndexFile(resultsDir.resolve("20210713_093357"));
         Index index = Index.deserialize(source);
         //
-        Path root = outputDir.resolve("Materials");
-        Path jobNameDir = root.resolve("test_serialized");
+        Path root = too.getMethodOutputDirectory("test_serialize");
+        Path jobNameDir = root.resolve("myJob");
         Path jobTimestampDir = jobNameDir.resolve(JobTimestamp.now().toString());
         Files.createDirectories(jobTimestampDir);
         Path target = Index.getIndexFile(jobTimestampDir);

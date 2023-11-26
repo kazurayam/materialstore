@@ -1,10 +1,10 @@
 package com.kazurayam.materialstore.core;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.util.TestFixtureUtil;
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.imageio.ImageIO;
@@ -12,31 +12,20 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.regex.Pattern;
 
 public class JobberTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(JobberTest.class.getName());
-    private static final Path imagesDir = Paths.get(".").resolve("src/test/fixtures/sample_images");
-    private static final Path resultsDir = Paths.get(".").resolve("src/test/fixtures/sample_results");
-    private Store store;
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(JobberTest.class);
+    private static final Path imagesDir = too.getProjectDir().resolve("src/test/fixtures/sample_images");
+    private static Store store;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Files.createDirectories(outputDir);
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        Path root = outputDir.resolve("store");
-        store = Stores.newInstance(root);
+        too.cleanClassOutputDirectory();
+        store = Stores.newInstance(too.getClassOutputDirectory().resolve("store"));
     }
 
     @Test

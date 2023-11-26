@@ -23,12 +23,10 @@ public class MaterialTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        Path outputSubDir = too.getOutputSubDirectory();
-        TestOutputOrganizer.cleanDirectoryRecursively(outputSubDir);
-        Path root = outputSubDir.resolve("store");
+        too.cleanClassOutputDirectory();
+        Path root = too.getClassOutputDirectory().resolve("store");
         store = new StoreImpl(root);
     }
-
 
     @Test
     public void test_smoke() throws MaterialstoreException {

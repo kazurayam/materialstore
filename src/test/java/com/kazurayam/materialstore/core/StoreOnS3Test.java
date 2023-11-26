@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.core;
 
 import com.kazurayam.materialstore.TestOutputOrganizerFactory;
-import com.kazurayam.materialstore.util.DeleteDir;
 import com.kazurayam.timekeeper.Measurement;
 import com.kazurayam.timekeeper.Table;
 import com.kazurayam.timekeeper.Timekeeper;
@@ -66,7 +65,7 @@ public class StoreOnS3Test {
     public void afterEach() throws IOException {
         if (CLEANUP_ON_END) {
             if (Files.exists(dir)) {
-                DeleteDir.deleteDirectoryRecursively(dir);
+                TestOutputOrganizer.cleanDirectoryRecursively(dir);
             }
         }
     }

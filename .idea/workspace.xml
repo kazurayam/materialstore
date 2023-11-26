@@ -6,7 +6,34 @@
   <component name="ChangeListManager">
     <list default="true" id="7959bbda-7369-46c6-be70-f44f14bd4569" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MetadataBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MetadataBuilderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/core/StoreImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/core/StoreImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/TestOutputOrganizerFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/TestOutputOrganizerFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/inspector/InspectorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/inspector/InspectorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/manage/StoreCleanerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/manage/StoreCleanerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/manage/StoreExportTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/manage/StoreExportTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/manage/StoreImportTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/manage/StoreImportTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/ImageDiffStufferTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/ImageDiffStufferTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/TextDifferToHTMLTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/TextDifferToHTMLTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/TextDifferToMarkdownTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/TextDifferToMarkdownTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/VoidDifferTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/VoidDifferTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/zipper/MaterialProductComparatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/zipper/MaterialProductComparatorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/zipper/MaterialProductTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/zipper/MaterialProductTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/zipper/ZipperTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/zipper/ZipperTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/FileSystemFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/FileSystemFactoryTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/IndexTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/IndexTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/JobberTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/JobberTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialComparatorByMetadataDescriptionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialComparatorByMetadataDescriptionTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialIOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialIOTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialListTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialListTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialList_order_Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialList_order_Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialLocatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialLocatorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MetadataTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MetadataTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/StoreOnS3Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/StoreOnS3Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/StoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/StoreTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/metadata/MetadataIdentificationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/metadata/MetadataIdentificationTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/metadata/MetadataImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/metadata/MetadataImplTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,8 +98,8 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Gradle.MetadataBuilderTest">
-    <configuration name="MaterialListTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.ZipperTest">
+    <configuration name="MaterialProductComparatorTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -85,7 +112,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.kazurayam.materialstore.core.MaterialListTest&quot;" />
+            <option value="&quot;com.kazurayam.materialstore.base.reduce.zipper.MaterialProductComparatorTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -96,7 +123,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="MaterialList_order_Test" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="MaterialProductTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -109,7 +136,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.kazurayam.materialstore.core.MaterialList_order_Test&quot;" />
+            <option value="&quot;com.kazurayam.materialstore.base.reduce.zipper.MaterialProductTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -120,7 +147,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="MaterialLocatorTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="TextDifferToMarkdownTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -133,7 +160,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.kazurayam.materialstore.core.MaterialLocatorTest&quot;" />
+            <option value="&quot;com.kazurayam.materialstore.base.reduce.differ.TextDifferToMarkdownTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -144,7 +171,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="MaterialTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="VoidDifferTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -157,7 +184,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.kazurayam.materialstore.core.MaterialTest&quot;" />
+            <option value="&quot;com.kazurayam.materialstore.base.reduce.differ.VoidDifferTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -168,7 +195,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="MetadataBuilderTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ZipperTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -181,7 +208,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.kazurayam.materialstore.core.MetadataBuilderTest&quot;" />
+            <option value="&quot;com.kazurayam.materialstore.base.reduce.zipper.ZipperTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -194,11 +221,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.MetadataBuilderTest" />
-        <item itemvalue="Gradle.MaterialList_order_Test" />
-        <item itemvalue="Gradle.MaterialLocatorTest" />
-        <item itemvalue="Gradle.MaterialListTest" />
-        <item itemvalue="Gradle.MaterialTest" />
+        <item itemvalue="Gradle.ZipperTest" />
+        <item itemvalue="Gradle.MaterialProductTest" />
+        <item itemvalue="Gradle.MaterialProductComparatorTest" />
+        <item itemvalue="Gradle.VoidDifferTest" />
+        <item itemvalue="Gradle.TextDifferToMarkdownTest" />
       </list>
     </recent_temporary>
   </component>
@@ -214,6 +241,10 @@
       <workItem from="1700802026743" duration="9362000" />
       <workItem from="1700825772011" duration="2862000" />
       <workItem from="1700895168961" duration="697000" />
+      <workItem from="1700914650642" duration="3468000" />
+      <workItem from="1700952957742" duration="15000" />
+      <workItem from="1700995940673" duration="2410000" />
+      <workItem from="1700998640664" duration="1889000" />
     </task>
     <servers />
   </component>

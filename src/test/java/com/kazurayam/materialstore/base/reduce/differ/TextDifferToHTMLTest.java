@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.reduce.differ;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.base.report.AbstractReporterTest;
@@ -12,34 +13,27 @@ import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.StoreImpl;
 import com.kazurayam.materialstore.util.TestFixtureUtil;
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 
 public class TextDifferToHTMLTest extends AbstractReporterTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(TextDifferToHTMLTest.class.getName());
-
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(TextDifferToHTMLTest.class);
     private static Store store;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-
-        Path root = outputDir.resolve("store");
+        too.cleanClassOutputDirectory();
+        Path root = too.getClassOutputDirectory().resolve("store");
         store = new StoreImpl(root);
     }
-
 
     @Test
     public void test_makeMProduct() throws MaterialstoreException {
@@ -49,7 +43,6 @@ public class TextDifferToHTMLTest extends AbstractReporterTest {
         Path jobNameDir = store.getRoot().resolve(jobName.toString());
         store.retrieve(mProductFM.getDiff(), jobNameDir.resolve("byFM.html"));
     }
-
 
     /**
      * using FreeMarker
@@ -84,6 +77,4 @@ public class TextDifferToHTMLTest extends AbstractReporterTest {
         Assertions.assertEquals(1, reducedMPG.size());
         return reducedMPG;
     }
-
-
 }

@@ -27,8 +27,8 @@ public class MaterialListTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        Path outputDir = too.getOutputSubDirectory();
-        too.cleanOutputSubDirectory();
+        Path outputDir = too.getClassOutputDirectory();
+        too.cleanClassOutputDirectory();
         store = Stores.newInstance(outputDir);
         jobTimestamp = JobTimestamp.now();
         // create fixture

@@ -1,16 +1,12 @@
 package com.kazurayam.materialstore.core;
 
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
-import com.kazurayam.unittest.TestOutputOrganizer;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,9 +27,9 @@ public class MaterialList_order_Test {
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        too.cleanOutputSubDirectory();
+        too.cleanClassOutputDirectory();
         jobTimestamp = JobTimestamp.now();
-        store = Stores.newInstance(too.resolveOutput("store"));
+        store = Stores.newInstance(too.getClassOutputDirectory().resolve("store"));
         // create fixture
         Map<String, Metadata> fixture = createFixture();
         store.write(jobName, jobTimestamp, FileType.TXT, fixture.get("Google"), "Google");

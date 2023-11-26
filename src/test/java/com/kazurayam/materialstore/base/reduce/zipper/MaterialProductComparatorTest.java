@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.reduce.zipper;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup_toVariableJsonTest;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.JobName;
@@ -11,6 +12,7 @@ import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.SortKeys;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,36 +31,26 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MaterialProductComparatorTest {
 
-    private static Path outputDir;
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(MaterialProductComparatorTest.class);
     private static Store store;
     private static JobName jobName;
     private static JobTimestamp jobTimestamp1;
     private static JobTimestamp jobTimestamp2;
-
-    private static Map<String, Metadata> fixture = new HashMap<>();
-
     private MaterialProduct mp1;
     private MaterialProduct mp2;
-
     private MaterialProductComparator comparator;
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        outputDir = Paths.get(".")
-                .resolve("build/tmp/testOutput")
-                .resolve(MaterialProductComparatorTest.class.getName());
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Files.createDirectories(outputDir);
-        Path root = outputDir.resolve("store");
+        too.cleanClassOutputDirectory();
+        Path root = too.getClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
         //
         jobName = new JobName("MaterialProductComparatorTest");
         jobTimestamp1 = JobTimestamp.now();
         jobTimestamp2 = JobTimestamp.laterThan(jobTimestamp1);
         // create fixture
-        fixture = MaterialProductGroup_toVariableJsonTest.createFixtureLeft();
+        Map<String, Metadata> fixture = MaterialProductGroup_toVariableJsonTest.createFixtureLeft();
         store.write(jobName, jobTimestamp1, FileType.TXT, fixture.get("Google"), "Google");
         store.write(jobName, jobTimestamp1, FileType.TXT, fixture.get("DuckDuckGo"), "DuckDuckGo");
         fixture = MaterialProductGroup_toVariableJsonTest.createFixtureRight();

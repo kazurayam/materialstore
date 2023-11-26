@@ -17,7 +17,7 @@ public class MaterialLocatorTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        too.cleanOutputSubDirectory();
+        too.cleanClassOutputDirectory();
     }
 
     @Test
@@ -31,7 +31,8 @@ public class MaterialLocatorTest {
 
     @Test
     public void test_constructor() throws IOException {
-        Path root = too.resolveOutput("test_constructor/store");
+        Path root = too.getMethodOutputDirectory("test_constructor")
+                .resolve("store");
         Store store = Stores.newInstance(root);
         String idStr = "6141b40cfe9e7340a483a3097c4f6ff5d20e04ea";
         String sampleLine = idStr + "\tpng\t{}";

@@ -198,14 +198,14 @@ public final class StoreImpl implements Store {
                                 .sorted(Collections.reverseOrder())
                                 .collect(Collectors.toList());
 
-                logger.debug(String.format("[findAllJobTimestamps] jobName=%s", jobName));
-                logger.debug(String.format("[findAllJobTimestamps] jobTimestamps.size()=%d", jobTimestamps.size()));
+                logger.trace(String.format("[findAllJobTimestamps] jobName=%s", jobName));
+                logger.trace(String.format("[findAllJobTimestamps] jobTimestamps.size()=%d", jobTimestamps.size()));
                 Iterator<JobTimestamp> iter = jobTimestamps.iterator();
                 int index = 0;
                 while (iter.hasNext()) {
                     JobTimestamp jt = iter.next();
                     index += 1;
-                    logger.debug(String.format("[findAllJobTimestamps] jt[%d]=%s", index, jt.toString()));
+                    logger.trace(String.format("[findAllJobTimestamps] jt[%d]=%s", index, jt.toString()));
                 }
                 return jobTimestamps;
             } catch (IOException e) {

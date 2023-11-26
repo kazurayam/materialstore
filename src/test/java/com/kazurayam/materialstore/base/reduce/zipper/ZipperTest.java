@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.reduce.zipper;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobTimestamp;
@@ -10,6 +11,7 @@ import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
 import com.kazurayam.materialstore.core.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.core.metadata.IgnoreMetadataKeys;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,7 +21,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -27,15 +28,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ZipperTest {
 
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(ZipperTest.class);
     private static final Path issue80Dir =
-            Paths.get(".")
-                    .resolve("src/test/fixtures/issue#80");
-
-    private static final Path outputDir =
-            Paths.get(".")
-                    .resolve("build/tmp/testOutput")
-                    .resolve(ZipperTest.class.getName());
-
+            too.getProjectDir().resolve("src/test/fixtures/issue#80");
     private static Store store;
     private static JobName jobName;
     private static MaterialList left;
@@ -44,12 +39,8 @@ public class ZipperTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Path root = outputDir.resolve("store");
-        store = Stores.newInstance(root);
-        Files.createDirectories(outputDir);
+        too.cleanClassOutputDirectory();
+        store = Stores.newInstance(too.getClassOutputDirectory().resolve("store"));
         FileUtils.copyDirectory(issue80Dir.toFile(), store.getRoot().toFile());
         //
         jobName = new JobName("MyAdmin_visual_inspection_twins");
@@ -89,5 +80,4 @@ public class ZipperTest {
         }
         assertEquals(8, mProductList.size());
     }
-
 }

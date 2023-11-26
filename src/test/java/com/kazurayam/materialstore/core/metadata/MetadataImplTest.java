@@ -5,9 +5,6 @@ import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialLocator;
 import com.kazurayam.materialstore.core.Metadata;
 import com.kazurayam.materialstore.core.SortKeys;
-import com.kazurayam.materialstore.core.metadata.MetadataAttribute;
-import com.kazurayam.materialstore.core.metadata.MetadataIdentification;
-import com.kazurayam.materialstore.core.metadata.MetadataImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MetadataImplTest {
 
     private static Map<String, MetadataAttribute> attributes;
-
     private static Metadata metadata;
 
     private static Metadata diffMetadata;
