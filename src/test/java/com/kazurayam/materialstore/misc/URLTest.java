@@ -1,20 +1,24 @@
 package com.kazurayam.materialstore.misc;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class URLTest {
 
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(URLTest.class);
+
     @Test
     public void test_file_URL() throws MalformedURLException {
-        Path cwd = Paths.get(System.getProperty("user.dir"));
-        Path theFile = cwd.resolve("src/test/java/misc/URLTest.java");
+        Path theFile = too.getProjectDir()
+                .resolve("src/test/java/misc/URLTest.java");
         URL url = theFile.toFile().toURI().toURL();
         System.out.println(url.toString());
         assertEquals("file", url.getProtocol());

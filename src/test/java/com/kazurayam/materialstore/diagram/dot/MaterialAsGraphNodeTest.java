@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.diagram.dot;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.inspector.Inspector;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
@@ -25,6 +26,7 @@ import java.nio.file.Paths;
 import java.util.Collections;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import com.kazurayam.unittest.TestOutputOrganizer;
 
 /**
  * This test takes is tentatively disabled
@@ -34,15 +36,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MaterialAsGraphNodeTest {
 
     private static Logger logger_ = LoggerFactory.getLogger(MaterialAsGraphNodeTest.class);
-
-    private static final Path outputDir =
-            Paths.get(System.getProperty("user.dir"))
-                    .resolve("build/tmp/testOutput")
-                    .resolve(MaterialAsGraphNodeTest.class.getName());
-
+    private static TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(MaterialAsGraphNodeTest.class);
     private static final Path issue259Dir =
-            Paths.get(".")
-                    .resolve("src/test/fixtures/issue#259");
+            too.getProjectDir().resolve("src/test/fixtures/issue#259");
 
     private static Store store;
     private static JobName jobName;
@@ -51,14 +48,11 @@ public class MaterialAsGraphNodeTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Files.createDirectories(outputDir);
-        Path root = outputDir.resolve("store");
+        too.cleanClassOutputDirectory();
+        Path root = too.getClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
         // copy a fixture into the store
-        FileUtils.copyDirectory(issue259Dir.resolve("store").toFile(), store.getRoot().toFile());
+        too.copyDir(issue259Dir.resolve("store"), store.getRoot());
         jobName = new JobName("Main_Twins");
         leftTimestamp = new JobTimestamp("20220522_094639");
         rightTimestamp = new JobTimestamp("20220522_094706");

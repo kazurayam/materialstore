@@ -78,7 +78,7 @@ public class StoreOnS3Test {
         mm.recordDuration(Collections.singletonMap("Step", "closing the FileSystem"),
                 beforeClosing, afterClosing);
         // write the performance report
-        Path markdown = too.resolveOutput("performance.md");
+        Path markdown = too.getClassOutputDirectory().resolve("performance.md");
         tk.report(markdown);
     }
 

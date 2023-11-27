@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.report;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.inspector.Inspector;
 import com.kazurayam.materialstore.base.manage.StoreCleaner;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
@@ -13,6 +14,7 @@ import com.kazurayam.materialstore.core.MaterialList;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,15 +29,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class IndexCreatorTest {
 
-    private Path testClassOutputDir;
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(IndexCreatorTest.class);
     private Store store;
-
     private IndexCreator indexCreator;
 
     @BeforeEach
-    public void beforeEach() throws MaterialstoreException {
-        testClassOutputDir = TestHelper.createTestClassOutputDir(IndexCreatorTest.class);
-        store = Stores.newInstance(testClassOutputDir.resolve("store"));
+    public void beforeEach() throws Exception {
+        Path dir = too.getClassOutputDirectory();
+        store = Stores.newInstance(dir.resolve("store"));
         indexCreator = new IndexCreator(store);
     }
 

@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.reduce;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobTimestamp;
@@ -11,7 +12,7 @@ import com.kazurayam.materialstore.core.SortKeys;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
 import com.kazurayam.materialstore.diagram.dot.DotGenerator;
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +21,6 @@ import org.junit.jupiter.api.Test;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -35,23 +35,19 @@ import java.util.List;
 @Disabled   // sometimes this fails, and I can not solve it, yet.
 public class MaterialProductGroup_issue87Test {
 
-    private static final Path outputDir =
-            Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(MaterialProductGroup_issue87Test.class.getName());
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(MaterialProductGroup_issue87Test.class);
     private static final Path fixtureDir =
-            Paths.get(".").resolve("src/test/fixtures/issue#80");
+            too.getProjectDir().resolve("src/test/fixtures/issue#80");
     private static Store store;
     private JobName jobName;
     private MaterialProductGroup mpg;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Files.createDirectories(outputDir);
-        Path storePath = outputDir.resolve("store");
-        FileUtils.copyDirectory(fixtureDir.toFile(), storePath.toFile());
+        too.cleanClassOutputDirectory();
+        Path storePath = too.getClassOutputDirectory().resolve("store");
+        too.copyDir(fixtureDir, storePath);
         store = Stores.newInstance(storePath);
     }
 

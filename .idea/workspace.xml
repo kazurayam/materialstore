@@ -4,37 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7959bbda-7369-46c6-be70-f44f14bd4569" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/core/StoreImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/core/StoreImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/TestOutputOrganizerFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/TestOutputOrganizerFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/inspector/InspectorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/inspector/InspectorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/manage/StoreCleanerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/manage/StoreCleanerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/manage/StoreExportTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/manage/StoreExportTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/manage/StoreImportTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/manage/StoreImportTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/ImageDiffStufferTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/ImageDiffStufferTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/TextDifferToHTMLTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/TextDifferToHTMLTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/TextDifferToMarkdownTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/TextDifferToMarkdownTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/VoidDifferTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/differ/VoidDifferTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/zipper/MaterialProductComparatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/zipper/MaterialProductComparatorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/zipper/MaterialProductTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/zipper/MaterialProductTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/zipper/ZipperTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/reduce/zipper/ZipperTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/FileSystemFactoryTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/FileSystemFactoryTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/IndexTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/IndexTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/JobberTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/JobberTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialComparatorByMetadataDescriptionTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialComparatorByMetadataDescriptionTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialIOTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialIOTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialListTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialListTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialList_order_Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialList_order_Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialLocatorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialLocatorTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MaterialTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MetadataTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/MetadataTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/StoreOnS3Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/StoreOnS3Test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/StoreTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/StoreTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/metadata/MetadataIdentificationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/metadata/MetadataIdentificationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/metadata/MetadataImplTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/core/metadata/MetadataImplTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="7959bbda-7369-46c6-be70-f44f14bd4569" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -245,6 +215,7 @@
       <workItem from="1700952957742" duration="15000" />
       <workItem from="1700995940673" duration="2410000" />
       <workItem from="1700998640664" duration="1889000" />
+      <workItem from="1701000537129" duration="93000" />
     </task>
     <servers />
   </component>

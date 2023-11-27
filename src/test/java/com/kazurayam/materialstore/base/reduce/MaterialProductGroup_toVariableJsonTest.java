@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.reduce;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobTimestamp;
@@ -11,7 +12,7 @@ import com.kazurayam.materialstore.core.SortKeys;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
 import com.kazurayam.materialstore.util.JsonUtil;
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,9 +20,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -31,25 +30,19 @@ import java.util.Map;
  */
 public class MaterialProductGroup_toVariableJsonTest {
 
-    private static Path outputDir;
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(MaterialProductGroup_toVariableJsonTest.class);
     private static Store store;
     private static JobName jobName;
     private static JobTimestamp jobTimestamp1;
     private static JobTimestamp jobTimestamp2;
-
     private static Map<String, Metadata> fixture = new HashMap<>();
-
     private MaterialProductGroup mpg;
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        outputDir = Paths.get(".").resolve("build/tmp/testOutput")
-                .resolve(MaterialProductGroup_toVariableJsonTest.class.getName());
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Files.createDirectories(outputDir);
-        Path storePath = outputDir.resolve("store");
+        too.cleanClassOutputDirectory();
+        Path storePath = too.getClassOutputDirectory().resolve("store");
         store = Stores.newInstance(storePath);
         jobName = new JobName("toVariableJson_test");
         jobTimestamp1 = JobTimestamp.now();

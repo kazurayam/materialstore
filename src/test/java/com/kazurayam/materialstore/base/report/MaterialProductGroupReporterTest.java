@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.report;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.inspector.Inspector;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.TestHelper;
@@ -11,6 +12,7 @@ import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.SortKeys;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -26,16 +28,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 //@Disabled   // https://github.com/kazurayam/materialstore/issues/352
 public class MaterialProductGroupReporterTest extends AbstractReporterTest {
 
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(MaterialProductGroupReporterTest.class);
     private final Path fixtureDir =
             TestHelper.getFixturesDirectory().resolve("issue#80");
-
     private Store store;
     private Path report1;
 
     @BeforeEach
     void setup() throws IOException {
-        Path testClassOutputDir = TestHelper.createTestClassOutputDir(MaterialProductGroupReporterTest.class);
-        Path root = testClassOutputDir.resolve("store");
+        Path root = too.getClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
         report1 = null;
     }

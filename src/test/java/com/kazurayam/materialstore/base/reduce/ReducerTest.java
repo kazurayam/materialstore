@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.base.reduce;
 
 import com.kazurayam.materialstore.TestHelper;
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobNameNotFoundException;
@@ -11,10 +12,12 @@ import com.kazurayam.materialstore.core.Metadata;
 import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 
@@ -23,14 +26,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ReducerTest {
 
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(ReducerTest.class);
     private static Store store;
     private static Store storeBackup;
 
     @BeforeAll
-    public static void beforeAll() {
-        Path testClassOutputDir = TestHelper.createTestClassOutputDir(ReducerTest.class);
-        store = Stores.newInstance(testClassOutputDir.resolve("store"));
-        storeBackup = Stores.newInstance(testClassOutputDir.resolve("store-backup"));
+    public static void beforeAll() throws IOException {
+        Path dir = too.getClassOutputDirectory();
+        store = Stores.newInstance(dir.resolve("store"));
+        storeBackup = Stores.newInstance(dir.resolve("store-backup"));
     }
 
     @BeforeEach

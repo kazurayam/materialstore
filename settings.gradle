@@ -43,7 +43,7 @@ dependencyResolutionManagement {
             version('timekeeper', '0.4.1')
             library('timekeeper', 'com.kazurayam', 'timekeeper').versionRef('timekeeper')
 
-            version('unittesthelper', '0.2.7-SNAPSHOT')
+            version('unittesthelper', '0.3.0')
             library('unittesthelper', 'com.kazurayam', 'unittest-helper').versionRef('unittesthelper')
 
         }

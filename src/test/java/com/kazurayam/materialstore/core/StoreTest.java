@@ -38,7 +38,7 @@ public class StoreTest {
     public void beforeEach() throws IOException {}
 
     @Test
-    public void test_contains_JobName() throws MaterialstoreException {
+    public void test_contains_JobName() throws Exception {
         Path methodDir = too.getMethodOutputDirectory("test_contains_JobName");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_contains_JobName");
@@ -47,7 +47,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_findAllJobNames() throws MaterialstoreException {
+    public void test_findAllJobNames() throws Exception {
         Path methodDir = too.getMethodOutputDirectory("test_findAllJobNames");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_findAllJobNames");
@@ -57,7 +57,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_findDifferentiatingJobTimestamps() throws MaterialstoreException, IOException, JobNameNotFoundException {
+    public void test_findDifferentiatingJobTimestamps() throws Exception {
         Path fixtureDir = TestHelper.getFixturesDirectory().resolve("issue#331");
         Path methodDir = too.getMethodOutputDirectory("test_findDifferentiatingJobTimestamps");
         too.copyDir(fixtureDir, methodDir);
@@ -71,7 +71,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_deleteJobName() throws MaterialstoreException {
+    public void test_deleteJobName() throws Exception {
         Path methodDir = too.getMethodOutputDirectory("test_deleteJobName");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_deleteJobName");
@@ -82,7 +82,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_export() throws MaterialstoreException {
+    public void test_export() throws Exception {
         Path methodDir = too.getMethodOutputDirectory("test_export");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_export");
@@ -92,13 +92,13 @@ public class StoreTest {
                 .put("label", "it is red").build();
         Material m = store.selectSingle(jobName, jobTimestamp, query);
         assertNotNull(m);
-        Path target = too.resolveOutput("exported.txt");
+        Path target = methodDir.resolve("exported.txt");
         store.export(m, target);
         assertTrue(Files.exists(target));
     }
 
     @Test
-    public void test_findNthJobTimestamp_normal() throws MaterialstoreException, JobNameNotFoundException {
+    public void test_findNthJobTimestamp_normal() throws Exception {
         Path methodDir = too.getMethodOutputDirectory("test_findNthJobTimestamp_normal");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_findNthJobTimestamp_normal");
@@ -112,7 +112,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_findNthJobTimestamp_exceedingRange() throws MaterialstoreException, JobNameNotFoundException {
+    public void test_findNthJobTimestamp_exceedingRange() throws Exception {
         Path methodDir = too.getMethodOutputDirectory("test_findNthJobTimestamp_exceedingRange");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_findNthJobTimestamp_exceedingRange");
@@ -125,7 +125,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_getPathOf_JobName() throws MaterialstoreException {
+    public void test_getPathOf_JobName() throws Exception {
         Path methodDir = too.getMethodOutputDirectory("test_getPathOf_JobName");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_getPathOf_JobName");
@@ -137,7 +137,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_getPathOf_JobTimestamp() throws MaterialstoreException {
+    public void test_getPathOf_JobTimestamp() throws Exception {
         Path methodDir = too.getMethodOutputDirectory("test_getPathOf_JobTimestamp");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_getPathOf_JobTimestamp");
@@ -149,7 +149,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_reflect() throws MaterialstoreException, JobNameNotFoundException {
+    public void test_reflect() throws Exception {
         Path methodDir = too.getMethodOutputDirectory("test_reflect");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_reflect");
@@ -170,7 +170,7 @@ public class StoreTest {
     }
 
     @Test
-    public void test_write_BufferedImage_as_JPEG() throws MaterialstoreException, IOException {
+    public void test_write_BufferedImage_as_JPEG() throws Exception {
         Path methodDir = too.getMethodOutputDirectory("test_write_BufferedImage_as_JPEG");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_write_BufferedImage_as_JPEG");

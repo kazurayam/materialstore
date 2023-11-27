@@ -1,10 +1,12 @@
 package freemarker_template.com.kazurayam.materialstore.base.reduce.differ;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.differ.AbstractTextDiffer;
 import com.kazurayam.materialstore.base.report.FreeMarkerConfigurator;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -15,7 +17,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -26,17 +27,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MarkupSegmentsTest {
 
-    private static final Path outputDir =
-            Paths.get(".")
-                    .resolve("build/tmp/testOutput")
-                    .resolve(MarkupSegmentsTest.class.getName());
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(MarkupSegmentsTest.class);
     private static Store store;
     private static Configuration cfg;
     private static final String TEMPLATE_PATH =
             "com/kazurayam/materialstore/reduce/differ/MarkupSegmentsTest.ftlh";
 
     @BeforeAll
-    public static void beforeAll() {
+    public static void beforeAll() throws IOException {
+        Path outputDir = too.getClassOutputDirectory();
         try {
             store = Stores.newInstance(outputDir.resolve("store"));
             cfg = FreeMarkerConfigurator.configureFreeMarker(store);

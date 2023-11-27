@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.diagram.dot;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.inspector.Inspector;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
@@ -12,6 +13,7 @@ import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Metadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -34,14 +36,10 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Disabled  // this test took too long time
 public class DotGeneratorTest {
 
-    private static final Path outputDir =
-            Paths.get(System.getProperty("user.dir"))
-                    .resolve("build/tmp/testOutput")
-                    .resolve(DotGeneratorTest.class.getName());
-
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(DotGeneratorTest.class);
     private static final Path issue259Dir =
-            Paths.get(".")
-                    .resolve("src/test/fixtures/issue#259");
+            too.getProjectDir().resolve("src/test/fixtures/issue#259");
 
     private static Store store;
     private static JobName jobName;
@@ -50,14 +48,11 @@ public class DotGeneratorTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Files.createDirectories(outputDir);
-        Path root = outputDir.resolve("store");
+        too.cleanClassOutputDirectory();
+        Path root = too.getClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
         // copy a fixture into the store
-        FileUtils.copyDirectory(issue259Dir.resolve("store").toFile(), store.getRoot().toFile());
+        too.copyDir(issue259Dir.resolve("store"), store.getRoot());
         jobName = new JobName("Main_Twins");
         leftTimestamp = new JobTimestamp("20220522_094639");
         rightTimestamp = new JobTimestamp("20220522_094706");

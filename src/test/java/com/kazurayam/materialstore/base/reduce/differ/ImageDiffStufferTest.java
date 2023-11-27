@@ -19,8 +19,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -31,7 +31,7 @@ public class ImageDiffStufferTest {
     private static Store store;
 
     @BeforeAll
-    public static void beforeAll() {
+    public static void beforeAll() throws IOException {
         Path classOutputDir = too.getClassOutputDirectory();
         Path root = classOutputDir.resolve("store");
         store = new StoreImpl(root);

@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore;
 
 import com.kazurayam.materialstore.util.DeleteDir;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,12 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestHelperTest {
 
-    private Path testClassOutputDir;
-
-    @BeforeEach
-    public void beforeEach() throws IOException {
-        testClassOutputDir = TestHelper.createTestClassOutputDir(TestHelperTest.class);
-    }
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(TestHelperTest.class);
 
     /**
      * execute TestHelper#copyDirectory(source,destination) twice;
@@ -26,10 +23,11 @@ public class TestHelperTest {
      */
     @Test
     public void test_copyDirectory_overwriting() throws IOException {
+        Path classOutputDir = too.getClassOutputDirectory();
         Path fixtureDir = TestHelper.getFixturesDirectory().resolve("issue#331");
-        DeleteDir.deleteDirectoryRecursively(testClassOutputDir);
-        TestHelper.copyDirectory(fixtureDir, testClassOutputDir);
-        TestHelper.copyDirectory(fixtureDir, testClassOutputDir);
-        assertTrue(Files.exists(testClassOutputDir.resolve("store/CURA")));
+        DeleteDir.deleteDirectoryRecursively(classOutputDir);
+        TestHelper.copyDirectory(fixtureDir, classOutputDir);
+        TestHelper.copyDirectory(fixtureDir, classOutputDir);
+        assertTrue(Files.exists(classOutputDir.resolve("store/CURA")));
     }
 }

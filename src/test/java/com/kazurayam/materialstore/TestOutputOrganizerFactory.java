@@ -10,7 +10,7 @@ public class TestOutputOrganizerFactory {
         return new TestOutputOrganizer.Builder(clazz)
                 .outputDirPath("build/tmp/testOutput")
                 .subDirPath(clazz)
-                // e.g, "io.github.somebody.somestuff.SampleTest"
+                // e.g, "io.github.somebody.examples.SampleTest"
                 .build();
     }
 }

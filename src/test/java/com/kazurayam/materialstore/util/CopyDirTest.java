@@ -1,7 +1,9 @@
 package com.kazurayam.materialstore.util;
 
 import com.kazurayam.materialstore.TestHelper;
-import org.junit.jupiter.api.BeforeEach;
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.unittest.TestOutputOrganizer;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -12,12 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CopyDirTest {
 
-    private Path testClassOutputDir;
-
-    @BeforeEach
-    public void beforeEach() throws IOException {
-        testClassOutputDir = TestHelper.createTestClassOutputDir(CopyDirTest.class);
-    }
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(CopyDirTest.class);
 
     /**
      * execute TestHelper#copyDirectory(source,destination) twice;
@@ -27,7 +25,7 @@ public class CopyDirTest {
     @Test
     public void test_copyDirectory_overwriting() throws IOException {
         Path sourceDir = TestHelper.getFixturesDirectory().resolve("issue#331");
-        Path targetDir = testClassOutputDir;
+        Path targetDir = too.getClassOutputDirectory();
         DeleteDir.deleteDirectoryRecursively(targetDir);
         Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));
         assertTrue(Files.exists(targetDir));

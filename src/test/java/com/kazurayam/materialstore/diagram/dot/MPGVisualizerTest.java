@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.diagram.dot;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.TestHelper;
 import com.kazurayam.materialstore.core.FileType;
@@ -9,6 +10,7 @@ import com.kazurayam.materialstore.core.MaterialList;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
@@ -38,12 +40,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Disabled
 public class MPGVisualizerTest {
 
-    private static final Path outputDir =
-            TestHelper.createTestClassOutputDir(MPGVisualizerTest.class);
-
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(MPGVisualizerTest.class);
     private static final Path issue80Dir =
             TestHelper.getFixturesDirectory().resolve("issue#80");
-
     private static Store store;
     private static JobName jobName;
     JobTimestamp leftTimestamp = new JobTimestamp("20220128_191320");
@@ -51,14 +51,11 @@ public class MPGVisualizerTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Files.createDirectories(outputDir);
-        Path root = outputDir.resolve("store");
+        too.cleanClassOutputDirectory();
+        Path root = too.getClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
         // copy a fixture into the store
-        FileUtils.copyDirectory(issue80Dir.toFile(), store.getRoot().toFile());
+        too.copyDir(issue80Dir, store.getRoot());
         jobName = new JobName("MyAdmin_visual_inspection_twins");
     }
 

@@ -1,5 +1,7 @@
 package com.kazurayam.materialstore.freemarker;
 
+import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.TemplateModelException;
@@ -12,13 +14,13 @@ import java.util.Map;
 
 public class TestBase {
 
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(TestBase.class);
     protected Configuration cfg;
     protected Map<String, Object> model;
 
     public TestBase() throws IOException {
-
-        Path projectDir = Paths.get(System.getProperty("user.dir"));
-
+        Path projectDir = too.getProjectDir();
         /* ---------------------------------------------------------- */
         /* You should do this ONLY ONCE in the whole application lifecycle */
 
