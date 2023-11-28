@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.base.reduce;
 
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialList;

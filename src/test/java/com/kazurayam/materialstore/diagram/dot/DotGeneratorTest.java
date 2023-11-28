@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.diagram.dot;
 
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.inspector.Inspector;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;

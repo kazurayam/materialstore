@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.misc;
 
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Test;
 

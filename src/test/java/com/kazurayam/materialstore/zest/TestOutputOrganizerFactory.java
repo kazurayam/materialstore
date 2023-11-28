@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore;
+package com.kazurayam.materialstore.zest;
 
 import com.kazurayam.unittest.TestOutputOrganizer;
 

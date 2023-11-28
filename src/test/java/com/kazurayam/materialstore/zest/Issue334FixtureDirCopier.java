@@ -1,6 +1,5 @@
-package com.kazurayam.materialstore.base;
+package com.kazurayam.materialstore.zest;
 
-import com.kazurayam.materialstore.TestHelper;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
@@ -17,18 +16,18 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FixtureDirCopier {
+public class Issue334FixtureDirCopier {
 
-    private FixtureDirCopier() {}
+    private Issue334FixtureDirCopier() {}
 
-    public static final Store copyIssue334FixtureInto(Path testCaseDir) throws IOException, MaterialstoreException, JobNameNotFoundException {
+    public static final Store copyFixtureInto(Path testCaseDir) throws IOException, MaterialstoreException, JobNameNotFoundException {
         if (Files.exists(testCaseDir)) {
             DeleteDir.deleteDirectoryRecursively(testCaseDir);
         }
         Store store = Stores.newInstance(testCaseDir.resolve("store"));
         // Arrange
-        Path fixtureDir = TestHelper.getFixturesDirectory().resolve("issue#334");
-        TestHelper.copyDirectory(fixtureDir, testCaseDir);
+        FixtureDirectory fixtureDir = new FixtureDirectory("issue#334");
+        fixtureDir.copyInto(testCaseDir);
         JobName jobName = new JobName("CURA");
         assertTrue(store.contains(jobName),
                 String.format("JobName \"%s\" is not found", jobName));

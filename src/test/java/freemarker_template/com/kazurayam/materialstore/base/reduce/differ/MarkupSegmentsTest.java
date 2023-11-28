@@ -1,6 +1,6 @@
 package freemarker_template.com.kazurayam.materialstore.base.reduce.differ;
 
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.differ.AbstractTextDiffer;
 import com.kazurayam.materialstore.base.report.FreeMarkerConfigurator;
 import com.kazurayam.materialstore.core.MaterialstoreException;

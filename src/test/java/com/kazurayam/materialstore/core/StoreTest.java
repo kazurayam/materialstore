@@ -1,8 +1,8 @@
 package com.kazurayam.materialstore.core;
 
-import com.kazurayam.materialstore.TestFixtureSupport;
-import com.kazurayam.materialstore.TestHelper;
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.FixtureDirectory;
+import com.kazurayam.materialstore.zest.TestFixtureSupport;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -58,9 +58,9 @@ public class StoreTest {
 
     @Test
     public void test_findDifferentiatingJobTimestamps() throws Exception {
-        Path fixtureDir = TestHelper.getFixturesDirectory().resolve("issue#331");
         Path methodDir = too.getMethodOutputDirectory("test_findDifferentiatingJobTimestamps");
-        too.copyDir(fixtureDir, methodDir);
+        FixtureDirectory fixtureDir = new FixtureDirectory("issue#331");
+        fixtureDir.copyInto(methodDir);
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("CURA");
         assertTrue(store.contains(jobName),

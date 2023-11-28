@@ -1,12 +1,11 @@
 package com.kazurayam.materialstore.base.report;
 
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.inspector.Inspector;
 import com.kazurayam.materialstore.base.manage.StoreCleaner;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.reduce.Reducer;
-import com.kazurayam.materialstore.TestFixtureSupport;
-import com.kazurayam.materialstore.TestHelper;
+import com.kazurayam.materialstore.zest.TestFixtureSupport;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;

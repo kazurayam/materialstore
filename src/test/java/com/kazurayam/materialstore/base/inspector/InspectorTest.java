@@ -1,7 +1,6 @@
 package com.kazurayam.materialstore.base.inspector;
 
-import com.kazurayam.materialstore.TestHelper;
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.ID;

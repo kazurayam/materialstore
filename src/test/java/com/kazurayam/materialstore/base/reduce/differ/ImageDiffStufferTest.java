@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.base.reduce.differ;
 
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.core.FileType;
@@ -13,7 +13,7 @@ import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.StoreImpl;
 import com.kazurayam.materialstore.util.JsonUtil;
-import com.kazurayam.materialstore.util.TestFixtureUtil;
+import com.kazurayam.materialstore.zest.TestFixtureUtil;
 import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;

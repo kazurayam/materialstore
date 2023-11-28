@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.diagram.dot;
 
-import com.kazurayam.materialstore.TestHelper;
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.FixtureDirectory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.JobName;
@@ -40,8 +40,7 @@ public class MPGVisualizerTest {
 
     private static final TestOutputOrganizer too =
             TestOutputOrganizerFactory.create(MPGVisualizerTest.class);
-    private static final Path issue80Dir =
-            TestHelper.getFixturesDirectory().resolve("issue#80");
+    private static FixtureDirectory TestFixturesDirectory;
     private static Store store;
     private static JobName jobName;
     JobTimestamp leftTimestamp = new JobTimestamp("20220128_191320");
@@ -53,7 +52,8 @@ public class MPGVisualizerTest {
         Path root = too.getClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
         // copy a fixture into the store
-        too.copyDir(issue80Dir, store.getRoot());
+        FixtureDirectory fixtureDir = new FixtureDirectory("issue#80");
+        fixtureDir.copyInto(store.getRoot());
         jobName = new JobName("MyAdmin_visual_inspection_twins");
     }
 

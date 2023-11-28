@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.core;
 
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.timekeeper.Measurement;
 import com.kazurayam.timekeeper.Table;
 import com.kazurayam.timekeeper.Timekeeper;

@@ -1,9 +1,9 @@
 package com.kazurayam.materialstore.base.report;
 
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.FixtureDirectory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.inspector.Inspector;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
-import com.kazurayam.materialstore.TestHelper;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialList;
@@ -14,7 +14,6 @@ import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
 import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -29,8 +28,7 @@ public class MaterialProductGroupReporterTest extends AbstractReporterTest {
 
     private static final TestOutputOrganizer too =
             TestOutputOrganizerFactory.create(MaterialProductGroupReporterTest.class);
-    private final Path fixtureDir =
-            TestHelper.getFixturesDirectory().resolve("issue#80");
+    //private final Path fixtureDir = FixtureDirectory.getFixturesDirectory().resolve("issue#80");
     private Store store;
     private Path report1;
 
@@ -79,9 +77,8 @@ public class MaterialProductGroupReporterTest extends AbstractReporterTest {
     private MaterialProductGroup prepareFixture(JobName jobName) throws IOException, MaterialstoreException {
         // stuff the Job directory with a fixture
         Path jobNameDir = store.getRoot().resolve(jobName.toString());
-        too.copyDir(
-                fixtureDir.resolve("MyAdmin_visual_inspection_twins"),
-                jobNameDir);
+        FixtureDirectory fixtureDir = new FixtureDirectory("issue#80");
+        too.copyDir(fixtureDir.getPath().resolve("MyAdmin_visual_inspection_twins"), jobNameDir);
         //
         JobTimestamp timestamp0 = new JobTimestamp("20220128_191320");
         JobTimestamp timestamp1 = new JobTimestamp("20220128_191342");

@@ -1,6 +1,5 @@
-package com.kazurayam.materialstore.util;
+package com.kazurayam.materialstore.zest;
 
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Store;

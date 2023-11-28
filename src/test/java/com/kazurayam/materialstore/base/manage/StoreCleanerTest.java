@@ -1,9 +1,8 @@
 package com.kazurayam.materialstore.base.manage;
 
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
-import com.kazurayam.materialstore.base.FixtureDirCopier;
-import com.kazurayam.materialstore.TestFixtureSupport;
-import com.kazurayam.materialstore.TestHelper;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.Issue334FixtureDirCopier;
+import com.kazurayam.materialstore.zest.TestFixtureSupport;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
@@ -43,7 +42,7 @@ public class StoreCleanerTest {
     @Test
     public void test_cleanup_with_diff() throws IOException, MaterialstoreException, JobNameNotFoundException {
         String testCaseName = "test_cleanup_with_diff";
-        Store store = FixtureDirCopier.copyIssue334FixtureInto(
+        Store store = Issue334FixtureDirCopier.copyFixtureInto(
                 classOutputDir.resolve(testCaseName));
         StoreCleaner cleaner = StoreCleaner.newInstance(store);
         // Action
@@ -90,7 +89,7 @@ public class StoreCleanerTest {
     public void test_cleanup_with_boundaryJobTimestamp()
             throws IOException, MaterialstoreException, JobNameNotFoundException {
         String testCaseName = "test_cleanup_with_boundaryJobTimestamp";
-        Store store = FixtureDirCopier.copyIssue334FixtureInto(classOutputDir.resolve(testCaseName));
+        Store store = Issue334FixtureDirCopier.copyFixtureInto(classOutputDir.resolve(testCaseName));
         StoreCleaner cleaner = StoreCleaner.newInstance(store);
         JobName jobName = new JobName("CURA");
         // Assert before
@@ -116,7 +115,7 @@ public class StoreCleanerTest {
     public void test_cleanup_with_numberOfJobTimestamps()
             throws IOException, MaterialstoreException, JobNameNotFoundException {
         String testCaseName = "test_cleanup_with_numberOfJobTimestamps";
-        Store store = FixtureDirCopier.copyIssue334FixtureInto(classOutputDir.resolve(testCaseName));
+        Store store = Issue334FixtureDirCopier.copyFixtureInto(classOutputDir.resolve(testCaseName));
         StoreCleaner cleaner = StoreCleaner.newInstance(store);
         JobName jobName = new JobName("CURA");
         // Assert before

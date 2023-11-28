@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore;
+package com.kazurayam.materialstore.zest;
 
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.JobName;
@@ -29,7 +29,7 @@ public class TestFixtureSupport {
                                            JobName jobName,
                                            JobTimestamp jobTimestamp)
             throws MaterialstoreException {
-        Path fixtures = TestHelper.getFixturesDirectory();
+        Path fixtures = FixtureDirectory.getFixturesDirectory();
         Material apple = writePNG(store, jobName, jobTimestamp,
                 fixtures.resolve("apple_mikan_money/apple.png"), "01", "it is red");
         Material mikan = writePNG(store, jobName, jobTimestamp,

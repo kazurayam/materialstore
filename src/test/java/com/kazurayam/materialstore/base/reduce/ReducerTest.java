@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.base.reduce;
 
-import com.kazurayam.materialstore.TestHelper;
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.FixtureDirectory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobNameNotFoundException;
@@ -29,13 +29,11 @@ public class ReducerTest {
     private static final TestOutputOrganizer too =
             TestOutputOrganizerFactory.create(ReducerTest.class);
     private static Store store;
-    private static Store storeBackup;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
         Path dir = too.getClassOutputDirectory();
         store = Stores.newInstance(dir.resolve("store"));
-        storeBackup = Stores.newInstance(dir.resolve("store-backup"));
     }
 
     @BeforeEach
@@ -88,8 +86,8 @@ public class ReducerTest {
      */
     private void writeRedApple(Store store, JobName jobName, JobTimestamp jobTimestamp)
             throws MaterialstoreException {
-        Path dir = TestHelper.getFixturesDirectory().resolve("apple_mikan_money");
-        Path png = dir.resolve("03_apple.png");
+        FixtureDirectory fixtureDir = new FixtureDirectory("apple_mikan_money");
+        Path png = fixtureDir.getPath().resolve("03_apple.png");
         try {
             store.write(jobName, jobTimestamp, FileType.PNG,
                     Metadata.builder(png.toFile().toURI().toURL())
@@ -103,8 +101,8 @@ public class ReducerTest {
 
     private void writeGreenApple(Store store, JobName jobName, JobTimestamp jobTimestamp)
             throws MaterialstoreException {
-        Path dir = TestHelper.getFixturesDirectory().resolve("apple_mikan_money");
-        Path png = dir.resolve("06_green-apple.png");
+        FixtureDirectory fixtureDir = new FixtureDirectory("apple_mikan_money");
+        Path png = fixtureDir.getPath().resolve("06_green-apple.png");
         try {
             store.write(jobName, jobTimestamp, FileType.PNG,
                     Metadata.builder(png.toFile().toURI().toURL())
@@ -119,8 +117,8 @@ public class ReducerTest {
 
     private void writeMikan(Store store, JobName jobName, JobTimestamp jobTimestamp)
             throws MaterialstoreException {
-        Path dir = TestHelper.getFixturesDirectory().resolve("apple_mikan_money");
-        Path png = dir.resolve("04_mikan.png");
+        FixtureDirectory fixtureDir = new FixtureDirectory("apple_mikan_money");
+        Path png = fixtureDir.getPath().resolve("04_mikan.png");
         try {
             store.write(jobName, jobTimestamp, FileType.PNG,
                     Metadata.builder(png.toFile().toURI().toURL())

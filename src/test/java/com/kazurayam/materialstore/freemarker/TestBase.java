@@ -1,6 +1,6 @@
 package com.kazurayam.materialstore.freemarker;
 
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.unittest.TestOutputOrganizer;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
@@ -8,7 +8,6 @@ import freemarker.template.TemplateModelException;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 

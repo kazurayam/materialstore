@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.base.manage;
 
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
-import com.kazurayam.materialstore.base.FixtureDirCopier;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.Issue334FixtureDirCopier;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.MaterialstoreException;
@@ -30,7 +30,7 @@ public class StoreImportTest {
     public void test_importReports_latest() throws IOException, MaterialstoreException, JobNameNotFoundException {
         // Arrange
         Path methodOutputDir = too.getMethodOutputDirectory("test_importReports_latest");
-        Store remote = FixtureDirCopier.copyIssue334FixtureInto(methodOutputDir);
+        Store remote = Issue334FixtureDirCopier.copyFixtureInto(methodOutputDir);
         Store local = Stores.newInstance(methodOutputDir.resolve("local"));
         // Action
         StoreImport storeImport = StoreImport.newInstance(remote, local);

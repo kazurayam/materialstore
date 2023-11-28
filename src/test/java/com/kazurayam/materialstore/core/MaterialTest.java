@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.core;
 
-import com.kazurayam.materialstore.TestOutputOrganizerFactory;
-import com.kazurayam.materialstore.util.TestFixtureUtil;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.TestFixtureUtil;
 import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
