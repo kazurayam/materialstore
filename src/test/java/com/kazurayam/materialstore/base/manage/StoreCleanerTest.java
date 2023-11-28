@@ -1,8 +1,8 @@
 package com.kazurayam.materialstore.base.manage;
 
+import com.kazurayam.materialstore.zest.SampleFixtureInjector;
 import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.zest.Issue334FixtureDirCopier;
-import com.kazurayam.materialstore.zest.TestFixtureSupport;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
@@ -64,8 +64,8 @@ public class StoreCleanerTest {
         JobName jobName = new JobName(testCaseName);
         JobTimestamp jtA = new JobTimestamp("20221026_205509");
         JobTimestamp jtB = new JobTimestamp("20221029_220401");
-        TestFixtureSupport.create3TXTs(store, jobName, jtA);
-        TestFixtureSupport.create3TXTs(store, jobName, jtB);
+        SampleFixtureInjector.create3TXTs(store, jobName, jtA);
+        SampleFixtureInjector.create3TXTs(store, jobName, jtB);
         // Action
         StoreCleaner cleaner = StoreCleaner.newInstance(store);
         JobTimestamp olderThan = jtB.minusHours(2);
@@ -140,8 +140,8 @@ public class StoreCleanerTest {
         Store store = Stores.newInstance(testCaseDir.resolve("store"));
         JobTimestamp jtA = new JobTimestamp("20221026_205509");
         JobTimestamp jtB = new JobTimestamp("20221029_220401");
-        TestFixtureSupport.create3TXTs(store, jobName, jtA);
-        TestFixtureSupport.create3TXTs(store, jobName, jtB);
+        SampleFixtureInjector.create3TXTs(store, jobName, jtA);
+        SampleFixtureInjector.create3TXTs(store, jobName, jtB);
 
         List<JobTimestamp> jobTimestampList = store.findAllJobTimestamps(jobName);
         assertTrue(jobTimestampList.size() >= 2,

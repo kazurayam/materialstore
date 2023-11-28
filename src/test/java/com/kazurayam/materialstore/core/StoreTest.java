@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.core;
 
 import com.kazurayam.materialstore.zest.FixtureDirectory;
-import com.kazurayam.materialstore.zest.TestFixtureSupport;
+import com.kazurayam.materialstore.zest.SampleFixtureInjector;
 import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeAll;
@@ -42,7 +42,7 @@ public class StoreTest {
         Path methodDir = too.getMethodOutputDirectory("test_contains_JobName");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_contains_JobName");
-        JobTimestamp jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
+        JobTimestamp jtA = SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.now());
         assertTrue(store.contains(jobName));
     }
 
@@ -51,7 +51,7 @@ public class StoreTest {
         Path methodDir = too.getMethodOutputDirectory("test_findAllJobNames");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_findAllJobNames");
-        JobTimestamp jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
+        JobTimestamp jtA = SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.now());
         assertTrue(!store.findAllJobNames().isEmpty());
         assertTrue(store.findAllJobNames().contains(jobName));
     }
@@ -75,7 +75,7 @@ public class StoreTest {
         Path methodDir = too.getMethodOutputDirectory("test_deleteJobName");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_deleteJobName");
-        JobTimestamp jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
+        JobTimestamp jtA = SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.now());
         assertTrue(store.contains(jobName));
         int i = store.deleteJobName(jobName);
         assertFalse(store.contains(jobName));
@@ -87,7 +87,7 @@ public class StoreTest {
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_export");
         JobTimestamp jobTimestamp =
-                TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
+                SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.now());
         QueryOnMetadata query = QueryOnMetadata.builder()
                 .put("label", "it is red").build();
         Material m = store.selectSingle(jobName, jobTimestamp, query);
@@ -102,8 +102,8 @@ public class StoreTest {
         Path methodDir = too.getMethodOutputDirectory("test_findNthJobTimestamp_normal");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_findNthJobTimestamp_normal");
-        JobTimestamp jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
-        JobTimestamp jtB = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
+        JobTimestamp jtA = SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.now());
+        JobTimestamp jtB = SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
         List<JobTimestamp> jobTimestampList = store.findAllJobTimestamps(jobName);
         assertTrue(jobTimestampList.size() >= 2);
         // findNthJobTimestamps regards the list of JobTimestamp in the descending order
@@ -116,8 +116,8 @@ public class StoreTest {
         Path methodDir = too.getMethodOutputDirectory("test_findNthJobTimestamp_exceedingRange");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_findNthJobTimestamp_exceedingRange");
-        JobTimestamp jtA = TestFixtureSupport.create3PNGs(store, jobName, JobTimestamp.now());
-        JobTimestamp jtB = TestFixtureSupport.create3PNGs(store, jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
+        JobTimestamp jtA = SampleFixtureInjector.create3PNGs(store, jobName, JobTimestamp.now());
+        JobTimestamp jtB = SampleFixtureInjector.create3PNGs(store, jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
         List<JobTimestamp> jobTimestampList = store.findAllJobTimestamps(jobName);
         assertTrue(jobTimestampList.size() >= 2);
         // if nth parameter exceeds the range, return the last jobTimestamp
@@ -129,7 +129,7 @@ public class StoreTest {
         Path methodDir = too.getMethodOutputDirectory("test_getPathOf_JobName");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_getPathOf_JobName");
-        JobTimestamp jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
+        JobTimestamp jtA = SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.now());
         //
         Path jobNamePath = store.getPathOf(jobName);
         assertNotNull(jobNamePath);
@@ -141,7 +141,7 @@ public class StoreTest {
         Path methodDir = too.getMethodOutputDirectory("test_getPathOf_JobTimestamp");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_getPathOf_JobTimestamp");
-        JobTimestamp jobTimestamp = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
+        JobTimestamp jobTimestamp = SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.now());
         //
         Path jobTimestampPath = store.getPathOf(jobName, jobTimestamp);
         assertNotNull(jobTimestampPath);
@@ -174,7 +174,7 @@ public class StoreTest {
         Path methodDir = too.getMethodOutputDirectory("test_write_BufferedImage_as_JPEG");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_write_BufferedImage_as_JPEG");
-        JobTimestamp jobTimestamp = TestFixtureSupport.create3PNGs(store, jobName, JobTimestamp.now());
+        JobTimestamp jobTimestamp = SampleFixtureInjector.create3PNGs(store, jobName, JobTimestamp.now());
         QueryOnMetadata query = QueryOnMetadata.builder().put("step", "01").build();
         MaterialList materialList = store.select(jobName, jobTimestamp, FileType.PNG, query);
         assert materialList != null;

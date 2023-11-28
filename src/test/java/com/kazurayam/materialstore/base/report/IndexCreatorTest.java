@@ -1,11 +1,11 @@
 package com.kazurayam.materialstore.base.report;
 
+import com.kazurayam.materialstore.zest.SampleFixtureInjector;
 import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.inspector.Inspector;
 import com.kazurayam.materialstore.base.manage.StoreCleaner;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.reduce.Reducer;
-import com.kazurayam.materialstore.zest.TestFixtureSupport;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
@@ -43,8 +43,8 @@ public class IndexCreatorTest {
     @Test
     public void test_create() throws MaterialstoreException, IOException, JobNameNotFoundException {
         JobName jobName = new JobName("test_create");
-        JobTimestamp jtA = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.now());
-        JobTimestamp jtB = TestFixtureSupport.create3TXTs(store, jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
+        JobTimestamp jtA = SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.now());
+        JobTimestamp jtB = SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.laterThan(jtA)); // intentionally create 2 JobTimestamps
         //MaterialList mlA = store.select(jobName, jtA);
         MaterialList mlB = store.select(jobName, jtB);
         MaterialProductGroup reduced = Reducer.chronos(store, mlB);
