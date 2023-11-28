@@ -12,7 +12,7 @@ import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.StoreImpl;
-import com.kazurayam.materialstore.zest.TestFixtureUtil;
+import com.kazurayam.materialstore.zest.SampleFixtureInjector;
 import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ public class TextDifferToMarkdownTest {
         Store store = new StoreImpl(root);
         JobName jobName = new JobName("test_makeDiff");
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         //
         LinkedHashMap<String, String> map = new LinkedHashMap<>(2);
         map.put("category", "page source");

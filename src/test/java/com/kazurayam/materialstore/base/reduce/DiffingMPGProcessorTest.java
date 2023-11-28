@@ -10,7 +10,7 @@ import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.StoreImpl;
-import com.kazurayam.materialstore.zest.TestFixtureUtil;
+import com.kazurayam.materialstore.zest.SampleFixtureInjector;
 import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -44,7 +44,7 @@ public class DiffingMPGProcessorTest {
     @Test
     public void test_TextDiffer() throws MaterialstoreException {
         JobName jobName = new JobName("test_TextDiffer");
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
 
         JobTimestamp timestamp1 = new JobTimestamp("20210715_145922");
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
@@ -70,7 +70,7 @@ public class DiffingMPGProcessorTest {
     @Test
     public void test_ImageDiffer() throws MaterialstoreException {
         JobName jobName = new JobName("test_ImageDiffer");
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         //
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);

@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.core;
 
+import com.kazurayam.materialstore.zest.FixtureDirectory;
 import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
@@ -15,8 +16,8 @@ import java.nio.file.Path;
 public class MaterialIOTest {
 
     private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(MaterialIOTest.class);
-    private static final Path imagesDir = too.getProjectDir().resolve("src/test/fixtures/sample_images");
-    private static final Path htmlDir = too.getProjectDir().resolve("src/test/fixtures/sample_html");
+    private static final Path imagesDir = new FixtureDirectory("sample_images").getPath();
+    private static final Path htmlDir = new FixtureDirectory("sample_html").getPath();
 
     @BeforeAll
     public static void beforeAll() throws IOException {
@@ -35,7 +36,7 @@ public class MaterialIOTest {
 
     @Test
     public void test_getFileName() throws UnsupportedEncodingException {
-        byte[] bytes = "Hello, world".getBytes("UTF-8");
+        byte[] bytes = "Hello, world".getBytes(StandardCharsets.UTF_8);
         ID id = new ID(MaterialIO.hashJDK(bytes));
         MaterialIO mio = new MaterialIO(id, FileType.TXT);
         Assertions.assertEquals("e02aa1b106d5c7c6a98def2b13005d5b84fd8dc8.txt", mio.getFileName());

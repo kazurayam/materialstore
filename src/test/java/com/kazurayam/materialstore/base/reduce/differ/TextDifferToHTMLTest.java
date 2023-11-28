@@ -12,7 +12,7 @@ import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.StoreImpl;
-import com.kazurayam.materialstore.zest.TestFixtureUtil;
+import com.kazurayam.materialstore.zest.SampleFixtureInjector;
 import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -38,7 +38,7 @@ public class TextDifferToHTMLTest extends AbstractReporterTest {
     @Test
     public void test_makeMProduct() throws MaterialstoreException {
         JobName jobName = new JobName("test_makeMProduct");
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         MaterialProduct mProductFM = injectDiffAsMaterialProductFM(store, jobName);
         Path jobNameDir = store.getRoot().resolve(jobName.toString());
         store.retrieve(mProductFM.getDiff(), jobNameDir.resolve("byFM.html"));

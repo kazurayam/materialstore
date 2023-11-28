@@ -13,7 +13,7 @@ import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.StoreImpl;
 import com.kazurayam.materialstore.util.JsonUtil;
-import com.kazurayam.materialstore.zest.TestFixtureUtil;
+import com.kazurayam.materialstore.zest.SampleFixtureInjector;
 import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -41,7 +41,7 @@ public class ImageDiffStufferTest {
     public void test_stuffDiff_PNG() throws MaterialstoreException {
         JobName jobName = new JobName("test_stuffDiff");
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
         map.put("environment", "ProductionEnv");
         MaterialList left = store.select(jobName, jobTimestamp, FileType.PNG, QueryOnMetadata.builder(map).build());

@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.core;
 
 import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
-import com.kazurayam.materialstore.zest.TestFixtureUtil;
+import com.kazurayam.materialstore.zest.SampleFixtureInjector;
 import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -62,7 +62,7 @@ public class MaterialTest {
     public void test_getRelativePath_getRelativeURL() throws MaterialstoreException {
         JobName jobName = new JobName("test_getRelativePath");
         // copy the fixture files to the output dir
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
@@ -80,7 +80,7 @@ public class MaterialTest {
     public void test_toFile_and_toURL() throws MaterialstoreException {
         JobName jobName = new JobName("test_toFile_and_toURL");
         // copy the fixture files to the output dir
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
@@ -97,7 +97,7 @@ public class MaterialTest {
     public void test_toTemplateModel() throws MaterialstoreException {
         JobName jobName = new JobName("test_toTemplateModel");
         //
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
         Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"));
@@ -145,7 +145,7 @@ public class MaterialTest {
     public void test_toPath() throws MaterialstoreException {
         JobName jobName = new JobName("test_toPath");
         //
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
         Material material = jobber.selectMaterial(
