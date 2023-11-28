@@ -13,7 +13,6 @@ import com.kazurayam.materialstore.core.SortKeys;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
 import com.kazurayam.unittest.TestOutputOrganizer;
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -80,9 +79,9 @@ public class MaterialProductGroupReporterTest extends AbstractReporterTest {
     private MaterialProductGroup prepareFixture(JobName jobName) throws IOException, MaterialstoreException {
         // stuff the Job directory with a fixture
         Path jobNameDir = store.getRoot().resolve(jobName.toString());
-        FileUtils.copyDirectory(
-                fixtureDir.resolve("MyAdmin_visual_inspection_twins").toFile(),
-                jobNameDir.toFile());
+        too.copyDir(
+                fixtureDir.resolve("MyAdmin_visual_inspection_twins"),
+                jobNameDir);
         //
         JobTimestamp timestamp0 = new JobTimestamp("20220128_191320");
         JobTimestamp timestamp1 = new JobTimestamp("20220128_191342");

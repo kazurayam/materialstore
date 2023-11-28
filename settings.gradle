@@ -11,7 +11,6 @@ dependencyResolutionManagement {
             version('ashot', '1.5.4')
             library('ashot', 'ru.yandex.qatools.ashot', 'ashot').versionRef('ashot')
 
-
             version('freemarker', '2.3.31')
             library('freemarker', 'org.freemarker', 'freemarker').versionRef('freemarker')
 

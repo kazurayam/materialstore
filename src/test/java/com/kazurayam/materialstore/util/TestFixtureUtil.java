@@ -5,11 +5,10 @@ import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.unittest.TestOutputOrganizer;
-import org.apache.commons.io.FileUtils;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class TestFixtureUtil {
 
@@ -20,11 +19,13 @@ public class TestFixtureUtil {
 
     public static void setupFixture(Store store, JobName jobName) throws MaterialstoreException {
         try {
-            // make sure the Job directory to be empty
-            FileUtils.deleteDirectory(store.getRoot().resolve(jobName.toString()).toFile());
-            // stuff the Job directory with a fixture
             Path jobNameDir = store.getRoot().resolve(jobName.toString());
-            FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile());
+            // make sure the Job directory to be empty
+            if (Files.exists(jobNameDir)) {
+                too.deleteDir(store.getRoot().resolve(jobName.toString()));
+            }
+            // stuff the Job directory with a fixture
+            too.copyDir(resultsDir, jobNameDir);
         } catch (IOException e) {
             throw new MaterialstoreException(e);
         }

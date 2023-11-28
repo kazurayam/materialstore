@@ -14,7 +14,6 @@ import com.kazurayam.materialstore.core.Stores;
 import com.kazurayam.materialstore.core.metadata.QueryIdentification;
 import com.kazurayam.materialstore.util.JsonUtil;
 import com.kazurayam.unittest.TestOutputOrganizer;
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +38,7 @@ public class MaterialProductTest {
         too.cleanClassOutputDirectory();
         Path root = too.getClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
-        FileUtils.copyDirectory(fixtureDir.toFile(), root.toFile());
+        too.copyDir(fixtureDir, root);
     }
 
     @Test

@@ -12,7 +12,6 @@ import com.kazurayam.materialstore.core.Stores;
 import com.kazurayam.materialstore.core.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.core.metadata.IgnoreMetadataKeys;
 import com.kazurayam.unittest.TestOutputOrganizer;
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +39,7 @@ public class ZipperTest {
     public static void beforeAll() throws IOException, MaterialstoreException {
         too.cleanClassOutputDirectory();
         store = Stores.newInstance(too.getClassOutputDirectory().resolve("store"));
-        FileUtils.copyDirectory(issue80Dir.toFile(), store.getRoot().toFile());
+        too.copyDir(issue80Dir, store.getRoot());
         //
         jobName = new JobName("MyAdmin_visual_inspection_twins");
         JobTimestamp timestampP = new JobTimestamp("20220128_191320");

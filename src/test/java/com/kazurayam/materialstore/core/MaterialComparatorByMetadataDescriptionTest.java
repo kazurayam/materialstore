@@ -2,7 +2,6 @@ package com.kazurayam.materialstore.core;
 
 import com.kazurayam.materialstore.TestOutputOrganizerFactory;
 import com.kazurayam.unittest.TestOutputOrganizer;
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
