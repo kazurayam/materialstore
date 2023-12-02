@@ -1,10 +1,10 @@
 package com.kazurayam.materialstore.core;
 
-import com.kazurayam.materialstore.TestHelper;
-import com.kazurayam.materialstore.util.DeleteDir;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.timekeeper.Measurement;
 import com.kazurayam.timekeeper.Table;
 import com.kazurayam.timekeeper.Timekeeper;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -21,7 +21,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 
@@ -30,12 +29,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@Disabled  // this test took too long time
+// this test may take long time because remote I/O to AWS S3 is slow,
+// so usually this test should be disabled for faster test run
+@Disabled
 public class StoreOnS3Test {
 
-    private final Logger logger = LoggerFactory.getLogger(StoreOnS3Test.class);
-    private final static Path testClassOutputDir = TestHelper.createTestClassOutputDir(StoreOnS3Test.class);
-    private final String bucketName = "/com.kazurayam.materialstore.core.filesystem.store-on-s3-test";
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(StoreOnS3Test.class);
+    private static final Logger logger = LoggerFactory.getLogger(StoreOnS3Test.class);
+    private static final String BUCKET_NAME = "/com.kazurayam.materialstore.core.filesystem.store-on-s3-test";
     private static FileSystem s3fs;
     private static final boolean CLEANUP_ON_END = false;
     private static Timekeeper tk;
@@ -46,7 +47,7 @@ public class StoreOnS3Test {
     public static void beforeAll() throws URISyntaxException, IOException {
         tk = new Timekeeper();
         mm = new Measurement.Builder("s3fs performance analysis",
-                Arrays.asList("Step")).build();
+                Collections.singletonList("Step")).build();
         tk.add(new Table.Builder(mm).build());
         //
         LocalDateTime beforeNewFileSystem = LocalDateTime.now();
@@ -64,7 +65,7 @@ public class StoreOnS3Test {
     public void afterEach() throws IOException {
         if (CLEANUP_ON_END) {
             if (Files.exists(dir)) {
-                DeleteDir.deleteDirectoryRecursively(dir);
+                TestOutputOrganizer.cleanDirectoryRecursively(dir);
             }
         }
     }
@@ -77,14 +78,15 @@ public class StoreOnS3Test {
         mm.recordDuration(Collections.singletonMap("Step", "closing the FileSystem"),
                 beforeClosing, afterClosing);
         // write the performance report
-        tk.report(testClassOutputDir.resolve("performance.md"));
+        Path markdown = too.getClassOutputDirectory().resolve("performance.md");
+        tk.report(markdown);
     }
 
     @Test
     public void testS3fs() throws URISyntaxException, IOException {
         // create a directory in a S3 bucket if the directory is not present
         LocalDateTime beforeCreatingParentDir = LocalDateTime.now();
-        dir = s3fs.getPath(bucketName, "testS3fs");
+        dir = s3fs.getPath(BUCKET_NAME, "testS3fs");
         LocalDateTime afterCreatingParentDir = LocalDateTime.now();
         mm.recordDuration(Collections.singletonMap("Step", "creating parent dir"),
                 beforeCreatingParentDir, afterCreatingParentDir);
@@ -127,9 +129,9 @@ public class StoreOnS3Test {
     }
 
     @Test
-    public void testOperateStoreOnS3() throws IOException, MaterialstoreException {
+    public void testOperateStoreOnS3() throws IOException, MaterialstoreException, JobNameNotFoundException {
         // create a directory in a S3 bucket if the directory is not present
-        dir = s3fs.getPath(bucketName, "testOperateStoreOnS3");
+        dir = s3fs.getPath(BUCKET_NAME, "testOperateStoreOnS3");
         if (!Files.exists(dir)) {
             Files.createDirectories(dir);
         }

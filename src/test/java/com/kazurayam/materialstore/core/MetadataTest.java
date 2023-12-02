@@ -1,9 +1,9 @@
 package com.kazurayam.materialstore.core;
 
-import com.kazurayam.materialstore.core.MaterialstoreException;
-import com.kazurayam.materialstore.core.Metadata;
 import com.kazurayam.materialstore.util.KeyValuePair;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -14,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class MetadataTest {
+
+    Logger log = LoggerFactory.getLogger(MetadataTest.class);
 
     @Test
     public void testParseQuery() {
@@ -41,7 +43,7 @@ public class MetadataTest {
                         .build();
         assertNotEquals("file://null_object", metadata.toURLAsString());
         assertEquals(url, metadata.toURL());
-        //System.out.println(metadata.toURL().toString());
+        log.debug(metadata.toURL().toString());
     }
 
 }

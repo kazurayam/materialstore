@@ -1,8 +1,10 @@
 package com.kazurayam.materialstore.base.reduce;
 
-import com.kazurayam.materialstore.TestHelper;
+import com.kazurayam.materialstore.zest.FixtureDirectory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialList;
 import com.kazurayam.materialstore.core.MaterialstoreException;
@@ -10,10 +12,12 @@ import com.kazurayam.materialstore.core.Metadata;
 import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
 
@@ -22,14 +26,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ReducerTest {
 
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(ReducerTest.class);
     private static Store store;
-    private static Store storeBackup;
 
     @BeforeAll
-    public static void beforeAll() {
-        Path testClassOutputDir = TestHelper.createTestClassOutputDir(ReducerTest.class);
-        store = Stores.newInstance(testClassOutputDir.resolve("store"));
-        storeBackup = Stores.newInstance(testClassOutputDir.resolve("store-backup"));
+    public static void beforeAll() throws IOException {
+        Path dir = too.getClassOutputDirectory();
+        store = Stores.newInstance(dir.resolve("store"));
     }
 
     @BeforeEach
@@ -39,7 +43,7 @@ public class ReducerTest {
      * the left is stuffed, the right is also stuffed
      */
     @Test
-    public void test_chronos_both_stuffed() throws MaterialstoreException {
+    public void test_chronos_both_stuffed() throws MaterialstoreException, JobNameNotFoundException {
         JobName jobName = new JobName("test_chronos_both_stuffed");
         store.deleteJobName(jobName);
         JobTimestamp jt1 = JobTimestamp.now();
@@ -58,7 +62,7 @@ public class ReducerTest {
     }
 
     @Test
-    public void test_chronos_no_history() throws MaterialstoreException {
+    public void test_chronos_no_history() throws MaterialstoreException, JobNameNotFoundException {
         JobName jobName = new JobName("test_chronos_no_previous");
         store.deleteJobName(jobName);
         // intentionally leave the left empty
@@ -82,8 +86,8 @@ public class ReducerTest {
      */
     private void writeRedApple(Store store, JobName jobName, JobTimestamp jobTimestamp)
             throws MaterialstoreException {
-        Path dir = TestHelper.getFixturesDirectory().resolve("apple_mikan_money");
-        Path png = dir.resolve("03_apple.png");
+        FixtureDirectory fixtureDir = new FixtureDirectory("apple_mikan_money");
+        Path png = fixtureDir.getPath().resolve("03_apple.png");
         try {
             store.write(jobName, jobTimestamp, FileType.PNG,
                     Metadata.builder(png.toFile().toURI().toURL())
@@ -97,8 +101,8 @@ public class ReducerTest {
 
     private void writeGreenApple(Store store, JobName jobName, JobTimestamp jobTimestamp)
             throws MaterialstoreException {
-        Path dir = TestHelper.getFixturesDirectory().resolve("apple_mikan_money");
-        Path png = dir.resolve("06_green-apple.png");
+        FixtureDirectory fixtureDir = new FixtureDirectory("apple_mikan_money");
+        Path png = fixtureDir.getPath().resolve("06_green-apple.png");
         try {
             store.write(jobName, jobTimestamp, FileType.PNG,
                     Metadata.builder(png.toFile().toURI().toURL())
@@ -113,8 +117,8 @@ public class ReducerTest {
 
     private void writeMikan(Store store, JobName jobName, JobTimestamp jobTimestamp)
             throws MaterialstoreException {
-        Path dir = TestHelper.getFixturesDirectory().resolve("apple_mikan_money");
-        Path png = dir.resolve("04_mikan.png");
+        FixtureDirectory fixtureDir = new FixtureDirectory("apple_mikan_money");
+        Path png = fixtureDir.getPath().resolve("04_mikan.png");
         try {
             store.write(jobName, jobTimestamp, FileType.PNG,
                     Metadata.builder(png.toFile().toURI().toURL())

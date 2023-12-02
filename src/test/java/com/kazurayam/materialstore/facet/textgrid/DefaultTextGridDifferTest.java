@@ -1,18 +1,22 @@
 package com.kazurayam.materialstore.facet.textgrid;
 
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.core.MaterialstoreException;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class DefaultTextGridDifferTest {
 
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(DefaultTextGridDifferTest.class);
     private final List<List<String>> input1 = new ArrayList<List<String>>() {{
         add(Arrays.asList("Customer A", "Retail B", "x"));
         add(Arrays.asList("Customer C", "Retail B", "x"));
@@ -21,6 +25,8 @@ public class DefaultTextGridDifferTest {
         add(Arrays.asList("Customer F", "Key Account", "x"));
         add(Arrays.asList("Customer G", "Key Account", "x"));
     }};
+
+    private Path outputDir;
 
     private final List<List<String>> input2 = new ArrayList<List<String>>() {{
         add(Arrays.asList("Customer A", "Retail B", "x"));
@@ -31,22 +37,17 @@ public class DefaultTextGridDifferTest {
         add(Arrays.asList("Customer G", "Key Account", "x"));
     }};
 
-    private Path projectDir;
-    private Path outputDir;
-
     @BeforeEach
-    public void setup() {
-        projectDir = Paths.get(System.getProperty("user.dir"));
-        outputDir = projectDir.resolve("build/tmp/testOutput")
-                .resolve(this.getClass().getName());
+    public void setup() throws IOException {
+        outputDir = too.getClassOutputDirectory();
     }
 
     @Test
     public void test_diffTextGrids_typical() throws MaterialstoreException {
         DefaultTextGridDiffer differ = new DefaultTextGridDiffer(outputDir);
         int warnings = differ.diffTextGrids(input1, input2, new KeyRange(0, 1), "SampleCase");
-        System.out.println("the report is found at " + differ.getReportPathRelativeTo(projectDir));
+        System.out.println("the report is found at " +
+                differ.getReportPathRelativeTo(too.getProjectDir()));
         Assertions.assertTrue(warnings > 0);
     }
-
 }

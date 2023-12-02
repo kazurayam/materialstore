@@ -1,11 +1,11 @@
 package com.kazurayam.materialstore.core;
 
-import com.kazurayam.materialstore.TestHelper;
-import com.kazurayam.materialstore.util.DeleteDir;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
+import com.kazurayam.unittest.TestOutputOrganizer;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,7 +13,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MaterialLocatorTest {
 
-    private Path testClassOutputDir = TestHelper.createTestClassOutputDir(MaterialLocatorTest.class);
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(MaterialLocatorTest.class);
+
+    @BeforeAll
+    public static void beforeAll() throws IOException {
+        too.cleanClassOutputDirectory();
+    }
 
     @Test
     public void test_parse_toString() {
@@ -26,14 +31,9 @@ public class MaterialLocatorTest {
 
     @Test
     public void test_constructor() throws IOException {
-        Path dir = testClassOutputDir.resolve("test_constructor");
-        if (Files.exists(dir)) {
-            DeleteDir.deleteDirectoryRecursively(dir);
-        }
-        Files.createDirectories(dir);
-        Path root = dir.resolve("store");
+        Path root = too.getMethodOutputDirectory("test_constructor")
+                .resolve("store");
         Store store = Stores.newInstance(root);
-        //
         String idStr = "6141b40cfe9e7340a483a3097c4f6ff5d20e04ea";
         String sampleLine = idStr + "\tpng\t{}";
         IndexEntry indexEntry = IndexEntry.parseLine(sampleLine);

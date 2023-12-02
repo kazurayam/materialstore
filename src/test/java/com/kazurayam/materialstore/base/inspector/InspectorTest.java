@@ -1,7 +1,7 @@
 package com.kazurayam.materialstore.base.inspector;
 
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
-import com.kazurayam.materialstore.TestHelper;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.ID;
 import com.kazurayam.materialstore.core.JobName;
@@ -11,7 +11,7 @@ import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,6 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class InspectorTest {
 
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(InspectorTest.class);
     private static Store store;
     private MaterialList left;
     private MaterialList right;
@@ -35,10 +36,11 @@ public class InspectorTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        Path testClassOutputDir = TestHelper.createTestClassOutputDir(InspectorTest.class);
-        store = Stores.newInstance(testClassOutputDir.resolve("store"));
-        Path issue80Dir = TestHelper.getFixturesDirectory().resolve("issue#80");
-        FileUtils.copyDirectory(issue80Dir.toFile(), store.getRoot().toFile());
+        too.cleanClassOutputDirectory();
+        store = Stores.newInstance(too.getClassOutputDirectory().resolve("store"));
+        Path issue80Dir = too.getProjectDir().resolve("src/test/fixtures")
+                .resolve("issue#80");
+        too.copyDir(issue80Dir, store.getRoot());
     }
 
     @BeforeEach

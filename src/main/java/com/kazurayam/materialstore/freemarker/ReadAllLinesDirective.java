@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.freemarker;
 
 
+import com.kazurayam.materialstore.core.FileSystemFactory;
 import freemarker.core.Environment;
 import freemarker.template.SimpleScalar;
 import freemarker.template.TemplateDirectiveBody;
@@ -9,17 +10,21 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateScalarModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 public class ReadAllLinesDirective implements TemplateDirectiveModel {
+
+    Logger logger = LoggerFactory.getLogger(ReadAllLinesDirective.class);
 
     private static final String PARAM_NAME_PATH = "path";
     private static final String VARIABLE_NAME_BASEDIR = "baseDir";
@@ -68,9 +73,13 @@ public class ReadAllLinesDirective implements TemplateDirectiveModel {
             throw new TemplateModelException(VARIABLE_NAME_BASEDIR + " is not defined");
         }
         String sp = String.valueOf(env.getVariable(VARIABLE_NAME_BASEDIR));
-        Path baseDir = Paths.get(sp);
+        FileSystem fs = FileSystemFactory.newFileSystem();
+        Path baseDir = fs.getPath(sp);
+
+        logger.info("baseDir=" + baseDir);
+
         if (!baseDir.isAbsolute()) {
-            baseDir = Paths.get(System.getProperty("user.dir")).resolve(sp);
+            baseDir = fs.getPath(System.getProperty("user.dir")).resolve(sp);
         }
         if (!Files.exists(baseDir)) {
             throw new TemplateModelException(

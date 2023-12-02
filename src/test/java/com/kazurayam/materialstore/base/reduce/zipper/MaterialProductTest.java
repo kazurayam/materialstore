@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.reduce.zipper;
 
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.FileTypeDiffability;
 import com.kazurayam.materialstore.core.JobName;
@@ -12,44 +13,32 @@ import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
 import com.kazurayam.materialstore.core.metadata.QueryIdentification;
 import com.kazurayam.materialstore.util.JsonUtil;
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MaterialProductTest {
 
-    private static final Path outputDir = Paths.get(".")
-            .resolve("build/tmp/testOutput")
-            .resolve(MaterialProductTest.class.getName());
-
-    private static final Path fixtureDir = Paths.get(".")
-            .resolve("src/test/fixtures/issue#73/");
-
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(MaterialProductTest.class);
+    private static final Path fixtureDir =
+            too.getProjectDir().resolve("src/test/fixtures/issue#73/");
     private static Store store;
-    private JobName jobName = new JobName("MyAdmin_visual_inspection_twins");
-    private JobTimestamp leftJobTimestamp = new JobTimestamp("20220125_140449");
-    private JobTimestamp rightJobTimestamp = new JobTimestamp("20220125_140509");
+    private final JobName jobName = new JobName("MyAdmin_visual_inspection_twins");
+    private final JobTimestamp leftJobTimestamp = new JobTimestamp("20220125_140449");
+    private final JobTimestamp rightJobTimestamp = new JobTimestamp("20220125_140509");
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Files.createDirectories(outputDir);
-        Path root = outputDir.resolve("store");
+        too.cleanClassOutputDirectory();
+        Path root = too.getClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
-        //
-        FileUtils.copyDirectory(fixtureDir.toFile(), root.toFile());
-        //
-
+        too.copyDir(fixtureDir, root);
     }
 
     @Test

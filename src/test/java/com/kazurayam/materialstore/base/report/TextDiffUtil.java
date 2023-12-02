@@ -5,9 +5,11 @@ import com.github.difflib.text.DiffRowGenerator;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class TextDiffUtil {
      */
     public static void writeDiff(List<String> original, List<String> revised, Path file,
                                  List<String> ignoreLinesContaining)
-            throws FileNotFoundException {
+            throws IOException {
         DiffRowGenerator generator = DiffRowGenerator.create()
                 .showInlineDiffs(true)
                 .inlineDiffByWord(true)
@@ -37,7 +39,7 @@ public class TextDiffUtil {
                 original,
                 revised);
         PrintWriter pw = new PrintWriter(new OutputStreamWriter(
-                new FileOutputStream(file.toFile()), StandardCharsets.UTF_8));
+                Files.newOutputStream(file.toFile().toPath()), StandardCharsets.UTF_8));
         pw.println("|Line#|original|new|");
         pw.println("|-----|--------|---|");
         for (int i = 0; i < rows.size(); i++) {
@@ -60,7 +62,7 @@ public class TextDiffUtil {
 
     static boolean shouldBeIgnored(String line, List<String> ignoreLinesContaining) {
         for (String pattern : ignoreLinesContaining) {
-            if (pattern.length() > 0 && line.contains(pattern)) {
+            if (!pattern.isEmpty() && line.contains(pattern)) {
                 return true;
             }
         }

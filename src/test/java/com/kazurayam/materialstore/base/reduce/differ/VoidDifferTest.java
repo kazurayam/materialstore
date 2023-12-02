@@ -1,9 +1,11 @@
 package com.kazurayam.materialstore.base.reduce.differ;
 
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.DiffingMPGProcessor;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.Material;
 import com.kazurayam.materialstore.core.MaterialList;
@@ -11,41 +13,31 @@ import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 
 public class VoidDifferTest {
 
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(VoidDifferTest.class);
     private static Store store;
     private JobName jobName;
     private MaterialProductGroup reducedMPG;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        Path projectDir = Paths.get(System.getProperty("user.dir"));
-        Path outputDir = projectDir.resolve("build/tmp/testOutput").resolve(VoidDifferTest.class.getName());
-        if (Files.exists(outputDir)) {
-            Files.walk(outputDir)
-                    .sorted(Comparator.reverseOrder())
-                    .map(Path::toFile)
-                    .forEach(File::delete);
-        }
-
-        Files.createDirectories(outputDir);
-        Path fixtureDir = projectDir.resolve("src/test/fixtures");
-        FileUtils.copyDirectory(fixtureDir.resolve("issue#80").toFile(), outputDir.resolve("store").toFile());
-        Path root = outputDir.resolve("store");
+        too.cleanClassOutputDirectory();
+        Path classOutputDir = too.getClassOutputDirectory();
+        Path fixtureDir = too.getProjectDir().resolve("src/test/fixtures");
+        too.copyDir(fixtureDir.resolve("issue#80"),
+                classOutputDir.resolve("store"));
+        Path root = classOutputDir.resolve("store");
         store = Stores.newInstance(root);
     }
 
@@ -67,8 +59,7 @@ public class VoidDifferTest {
     }
 
     @Test
-    public void test_smoke() throws MaterialstoreException {
-
+    public void test_smoke() throws MaterialstoreException, JobNameNotFoundException {
         VoidDiffer voidDiffer = new VoidDiffer(store);
         DiffingMPGProcessor differDriver = new DiffingMPGProcessor.Builder(store).differFor(FileType.WOFF2, voidDiffer).build();
         differDriver.process(reducedMPG);

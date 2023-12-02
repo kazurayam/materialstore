@@ -3,6 +3,8 @@ package com.kazurayam.materialstore.core;
 import com.kazurayam.materialstore.core.Metadata;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -12,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MetadataBuilderTest {
+
+    private Logger log = LoggerFactory.getLogger(MetadataBuilderTest.class);
 
     private static final String fixture = "https://www.google.com/search?q=katalon&source=hp&ei=TkZLY9meB6O12roPw5-SmAU&iflsig=AJiK0e8AAAAAY0tUXrwBwDKRE8CXoRWoDezm2LZ9PhlV&ved=0ahUKEwjZ_ZXMteP6AhWjmlYBHcOPBFMQ4dUDCAk&uact=5&oq=katalon&gs_lcp=Cgdnd3Mtd2l6EAMyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEMgUIABCABDIFCAAQgAQyBQgAEIAEOg0IABAEEIAEELEDEIMBOgcIABAEEIAEOgcIABCABBAKUABYIGD2G2gAcAB4AIABxAGIAaAFkgEDMS4zmAEAoAEB&sclient=gws-wiz#main";
     private static Metadata metadata;
@@ -70,7 +74,7 @@ public class MetadataBuilderTest {
         assertTrue(md.containsKey("URL.query?q"));
         assertFalse(md.containsKey("URL.query?iflsig"));
         assertFalse(md.containsKey("URL.query?gs_lcp"));
-        //System.out.println("[MetadataBuilderTest#testExclude] md=" + md.toJson(true));
+        log.debug("[testExclude] md=" + md.toJson(true));
     }
 
     @Test
@@ -78,7 +82,7 @@ public class MetadataBuilderTest {
         String fileUrlString = "file:/Users/who/bar/baz.txt";
         URL url = new URL(fileUrlString);
         Metadata md = new Metadata.Builder(url).build();
-        System.out.println(md.toJson(true));
+        log.info("[testFileURLSupport] " + md.toJson(true));
         assertTrue(md.containsKey("URL.protocol"), "URL.protocol is not contained");
         assertEquals("file", md.get("URL.protocol"));
         assertTrue(md.containsKey("URL.path"), "URL.path is not contained");

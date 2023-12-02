@@ -1,7 +1,8 @@
 package com.kazurayam.materialstore.util;
 
-import com.kazurayam.materialstore.TestHelper;
-import org.junit.jupiter.api.BeforeEach;
+import com.kazurayam.materialstore.zest.FixtureDirectory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -13,20 +14,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DeleteDirTest {
 
-    private Path testClassOutputDir;
-
-    @BeforeEach
-    public void beforeEach() throws IOException {
-        testClassOutputDir = TestHelper.createTestClassOutputDir(DeleteDirTest.class);
-    }
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(DeleteDirTest.class);
 
     @Test
     public void test_deleteDirectoryRecursively() throws IOException {
-        Path sourceDir = TestHelper.getFixturesDirectory().resolve("issue#331");
-        Path targetDir = testClassOutputDir;
-        Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));
+        Path targetDir = too.getClassOutputDirectory();
+        FixtureDirectory fixtureDir = new FixtureDirectory("issue#331");
+        fixtureDir.copyInto(targetDir);
         assertTrue(Files.exists(targetDir));
-        DeleteDir.deleteDirectoryRecursively(targetDir);
+        too.deleteDir(targetDir);
         assertFalse(Files.exists(targetDir));
     }
 }

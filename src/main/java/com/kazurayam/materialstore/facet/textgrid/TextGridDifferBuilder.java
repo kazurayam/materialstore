@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.facet.textgrid;
 
 import com.kazurayam.materialstore.base.inspector.Inspector;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
+import com.kazurayam.materialstore.core.FileSystemFactory;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialList;
@@ -20,7 +21,6 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,8 +29,8 @@ import java.util.Objects;
  */
 public abstract class TextGridDifferBuilder {
 
-    public TextGridDifferBuilder() {
-        this(Paths.get(System.getProperty("user.dir")));
+    public TextGridDifferBuilder() throws IOException {
+        this(FileSystemFactory.newFileSystem().getPath(System.getProperty("user.dir")));
     }
 
     public TextGridDifferBuilder(Path projectDir) {

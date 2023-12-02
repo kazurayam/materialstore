@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.reduce.differ;
 
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.core.FileType;
@@ -11,25 +12,27 @@ import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.StoreImpl;
-import com.kazurayam.materialstore.util.TestFixtureUtil;
+import com.kazurayam.materialstore.zest.SampleFixtureInjector;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 
 public class TextDifferToMarkdownTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(TextDifferToMarkdownTest.class.getName());
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(TextDifferToMarkdownTest.class);
 
     @Test
-    public void test_injectDiff() throws MaterialstoreException {
-        Path root = outputDir.resolve("store");
+    public void test_injectDiff() throws MaterialstoreException, IOException {
+        too.cleanClassOutputDirectory();
+        Path root = too.getClassOutputDirectory().resolve("store");
         Store store = new StoreImpl(root);
         JobName jobName = new JobName("test_makeDiff");
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         //
         LinkedHashMap<String, String> map = new LinkedHashMap<>(2);
         map.put("category", "page source");

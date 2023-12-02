@@ -150,13 +150,20 @@ public final class Jobber {
     public Material write(byte[] data, final IFileType fileType, final Metadata metadata,
                           final DuplicationHandling duplicationHandling)
             throws MaterialstoreException {
-        if (data.length == 0) throw new IllegalArgumentException("length of the input is 0");
-        Objects.requireNonNull(metadata);
-        Objects.requireNonNull(fileType);
+        Objects.requireNonNull(data, "data must not be null");
+        Objects.requireNonNull(fileType, "filetype must not be null");
+        Objects.requireNonNull(metadata, "metadata must not be null");
+        Objects.requireNonNull(duplicationHandling, "duplicationHandling must not be null");
+        if (data.length == 0) {
+            throw new IllegalArgumentException("the data has 0 byte length");
+        }
 
         if (index.containsKey(fileType, metadata)) {
             // the metadata has already been put in the index
-            String msg1 = "The combination of " + "fileType=" + fileType.getExtension() + " and metadata=" + metadata + " is already there in the index";
+            String msg1 = "The combination of " +
+                    "fileType=" + fileType.getExtension() +
+                    " and metadata=" + metadata.getMetadataIdentification() +
+                    " is already there in the index";
             if (duplicationHandling.equals(DuplicationHandling.TERMINATE)) {
                 // will stop the process entirely
                 throw new DuplicatingMaterialException(msg1 + ".");

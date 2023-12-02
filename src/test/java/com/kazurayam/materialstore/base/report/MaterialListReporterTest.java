@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.report;
 
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialList;
@@ -8,14 +9,13 @@ import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.SortKeys;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -32,25 +32,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class MaterialListReporterTest extends AbstractReporterTest {
 
-    private final static Path outputDir =
-            Paths.get(".").resolve("build/tmp/testOutput")
-                    .resolve(MaterialListReporterTest.class.getName());
-
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(MaterialListReporterTest.class);
     private final static Path resultsDir =
-            Paths.get(".").resolve("src/test/fixtures/sample_results");
-
+            too.getProjectDir().resolve("src/test/fixtures/sample_results");
     private static Store store;
-
     private static Path reportByFreeMarker;
 
     @BeforeAll
     static void beforeAll() throws IOException {
-        //if (Files.exists(outputDir)) {
-            // make sure the outputDir to be empty
-            //FileUtils.deleteDirectory(outputDir.toFile());
-        //}
-        Files.createDirectories(outputDir);
-        Path root = outputDir.resolve("store");
+        too.getClassOutputDirectory();
+        Path root = too.getClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
         reportByFreeMarker = null;
     }
@@ -61,8 +53,6 @@ public class MaterialListReporterTest extends AbstractReporterTest {
         runMaterialListReporterImpl();
     }
 
-
-
     /**
      *
      */
@@ -70,7 +60,7 @@ public class MaterialListReporterTest extends AbstractReporterTest {
         JobName jobName = new JobName("runMaterialListReporterImpl");
         // stuff the Job directory with a fixture
         Path jobNameDir = store.getRoot().resolve(jobName.toString());
-        FileUtils.copyDirectory(resultsDir.toFile(), jobNameDir.toFile());
+        too.copyDir(resultsDir, jobNameDir);
         MaterialListReporter reporter = new MaterialListReporterImpl(store);
         reporter.enablePrettyPrinting(true);
         //

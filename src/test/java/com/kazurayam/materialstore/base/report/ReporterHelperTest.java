@@ -11,7 +11,7 @@ public class ReporterHelperTest {
         String style = StyleHelper.loadStyleFromClasspath(); // https://stackoverflow.com/questions/16570523/getresourceasstream-returns-null
         Assertions.assertNotNull(style);
         //println style
-        Assertions.assertTrue(style.length() > 0);
+        Assertions.assertTrue(!style.isEmpty());
     }
 
 }

@@ -1,10 +1,11 @@
 package issues;
 
+import com.kazurayam.materialstore.zest.FixtureDirectory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.inspector.Inspector;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.reduce.differ.TextDifferToHTML;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
-import com.kazurayam.materialstore.TestHelper;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.JobName;
 import com.kazurayam.materialstore.core.JobTimestamp;
@@ -16,6 +17,7 @@ import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
 import com.kazurayam.materialstore.util.CopyDir;
 import com.kazurayam.materialstore.util.DeleteDir;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -49,14 +51,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Disabled
 public class Issue362Test {
 
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(Issue362Test.class);
     private Store store;
     private Path issue362fixtureDir;
 
     @BeforeEach
     public void beforeEach() throws IOException {
-        Path testClassOutputDir = TestHelper.createTestClassOutputDir(Issue362Test.class);
-        store = Stores.newInstance(testClassOutputDir.resolve("store"));
-        issue362fixtureDir = TestHelper.getFixturesDirectory().resolve("issue#362");
+        store = Stores.newInstance(too.getClassOutputDirectory().resolve("store"));
+        issue362fixtureDir = FixtureDirectory.getFixturesDirectory().resolve("issue#362");
     }
 
     @Test
@@ -110,7 +113,7 @@ public class Issue362Test {
         JobName jobName = new JobName("test_compare_logs");
         JobTimestamp jobTimestamp = JobTimestamp.now();
         //
-        Path fixtureDir = TestHelper.getFixturesDirectory().resolve(
+        Path fixtureDir = FixtureDirectory.getFixturesDirectory().resolve(
                 "issue#362_DiffingMPGProcessor_debug_logs");
         Path jsonLeft = fixtureDir.resolve("before_engraving.json");
         Path jsonRight = fixtureDir.resolve("after_engraving.json");

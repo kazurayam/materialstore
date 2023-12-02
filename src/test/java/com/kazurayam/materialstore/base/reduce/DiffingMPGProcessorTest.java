@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.reduce;
 
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.differ.ImageDiffStuffer;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.JobName;
@@ -9,32 +10,25 @@ import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.StoreImpl;
-import com.kazurayam.materialstore.util.TestFixtureUtil;
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.materialstore.zest.SampleFixtureInjector;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 
 public class DiffingMPGProcessorTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(DiffingMPGProcessorTest.class.getName());
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(DiffingMPGProcessorTest.class);
     private static Store store;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-
-        Files.createDirectories(outputDir);
-        Path root = outputDir.resolve("store");
-        Files.createDirectories(root);
+        too.cleanClassOutputDirectory();
+        Path root = too.getClassOutputDirectory().resolve("store");
         store = new StoreImpl(root);
     }
 
@@ -50,7 +44,7 @@ public class DiffingMPGProcessorTest {
     @Test
     public void test_TextDiffer() throws MaterialstoreException {
         JobName jobName = new JobName("test_TextDiffer");
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
 
         JobTimestamp timestamp1 = new JobTimestamp("20210715_145922");
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
@@ -76,7 +70,7 @@ public class DiffingMPGProcessorTest {
     @Test
     public void test_ImageDiffer() throws MaterialstoreException {
         JobName jobName = new JobName("test_ImageDiffer");
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         //
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);

@@ -1,5 +1,6 @@
 package issues;
 
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.reduce.differ.ImageDiffStuffer;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
@@ -12,7 +13,7 @@ import com.kazurayam.materialstore.core.Metadata;
 import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
-import com.kazurayam.materialstore.util.DeleteDir;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -22,9 +23,7 @@ import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -36,21 +35,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
  */
 public class Issue417Test {
 
-    private static Path projectDir = Paths.get(".");
-
-    private static Path fixtureDir = projectDir.resolve("src/test/fixtures/issue#417");
-
-    private static Path workDir = projectDir.resolve("build/tmp/testOutput")
-                    .resolve(Issue417Test.class.getSimpleName());
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(Issue417Test.class);
+    private static final Path fixtureDir =
+            too.getProjectDir().resolve("src/test/fixtures/issue#417");
     private static Store store;
 
     @BeforeAll
     public static void beforeAll() throws MaterialstoreException, IOException {
-        if (Files.exists(workDir)) {
-            DeleteDir.deleteDirectoryRecursively(workDir);
-        }
-        Files.createDirectory(workDir);
-        Path rootDir = workDir.resolve("store");
+        too.cleanClassOutputDirectory();
+        Path rootDir = too.getClassOutputDirectory().resolve("store");
         store = Stores.newInstance(rootDir);
     }
 
@@ -115,10 +109,10 @@ public class Issue417Test {
      */
     @Test
     public void test_AShot_imageDiff_how_much_memory_it_requires() throws MaterialstoreException, IOException {
-        Path noMaterialFoundPNG = projectDir
+        Path noMaterialFoundPNG = too.getProjectDir()
                 .resolve("src/main/resources/com/kazurayam/materialstore/core/NoCounterpartFound.png");
         BufferedImage leftImage = ImageIO.read(noMaterialFoundPNG.toFile());
-        Path fixturePNG = projectDir
+        Path fixturePNG = too.getProjectDir()
                 .resolve("src/test/fixtures/issue#417/3a98c4ba471f11462d06a4c94ef4daa4010a466a.png");
         BufferedImage rightImage = ImageIO.read(fixturePNG.toFile());
         ImageDiffer imageDiffer = new ImageDiffer();
@@ -132,10 +126,10 @@ public class Issue417Test {
     // this test is no longer necessary as I modified the ImageDifferToPng#stuffDiff()
     @Test
     public void test_AShot_imageDiff_of_the_same_size_3445x3872() throws MaterialstoreException, IOException {
-        Path noMaterialFoundPNG = projectDir
+        Path noMaterialFoundPNG = too.getProjectDir()
                 .resolve("src/test/fixtures/issue#417/NoMaterialFound_3445x4872.png");
         BufferedImage leftImage = ImageIO.read(noMaterialFoundPNG.toFile());
-        Path fixturePNG = projectDir
+        Path fixturePNG = too.getProjectDir()
                 .resolve("src/test/fixtures/issue#417/3a98c4ba471f11462d06a4c94ef4daa4010a466a.png");
         BufferedImage rightImage = ImageIO.read(fixturePNG.toFile());
         ImageDiffer imageDiffer = new ImageDiffer();

@@ -1,10 +1,11 @@
 package com.kazurayam.materialstore.core;
 
-import com.kazurayam.materialstore.util.TestFixtureUtil;
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.materialstore.zest.FixtureDirectory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.SampleFixtureInjector;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import javax.imageio.ImageIO;
@@ -12,37 +13,26 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.regex.Pattern;
 
 public class JobberTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(JobberTest.class.getName());
-    private static final Path imagesDir = Paths.get(".").resolve("src/test/fixtures/sample_images");
-    private static final Path resultsDir = Paths.get(".").resolve("src/test/fixtures/sample_results");
-    private Store store;
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(JobberTest.class);
+    private static final Path imagesDir = new FixtureDirectory("sample_images").getPath();
+    private static Store store;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Files.createDirectories(outputDir);
-    }
-
-    @BeforeEach
-    public void beforeEach() {
-        Path root = outputDir.resolve("store");
-        store = Stores.newInstance(root);
+        too.cleanClassOutputDirectory();
+        store = Stores.newInstance(too.getClassOutputDirectory().resolve("store"));
     }
 
     @Test
     public void test_constructor() throws MaterialstoreException {
         JobName jobName = new JobName("test_constructor");
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         Jobber jobber = store.getJobber(jobName, new JobTimestamp("20210713_093357"));
         Assertions.assertNotNull(jobber);
         // When constructed, the Jobber object should deserialize the index file from Disk
@@ -52,7 +42,7 @@ public class JobberTest {
     @Test
     public void test_read_by_ID() throws MaterialstoreException {
         JobName jobName = new JobName("test_read_by_ID");
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
@@ -64,7 +54,7 @@ public class JobberTest {
     @Test
     public void test_read_by_Material() throws MaterialstoreException {
         JobName jobName = new JobName("test_read_by_Material");
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
         Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"));
@@ -79,7 +69,7 @@ public class JobberTest {
     @Test
     public void test_selectMaterial_byID() throws MaterialstoreException {
         JobName jobName = new JobName("test_selectMaterial_byID");
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
         Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"));
@@ -107,7 +97,7 @@ public class JobberTest {
     @Test
     public void test_selectMaterials_without_FileType() throws MaterialstoreException {
         JobName jobName = new JobName("test_selectMaterials_without_FileType");
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
@@ -121,7 +111,7 @@ public class JobberTest {
     @Test
     public void test_selectMaterial_with_QueryOnMetadataANY() throws MaterialstoreException {
         JobName jobName = new JobName("test_selectMaterials_without_FileType");
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);

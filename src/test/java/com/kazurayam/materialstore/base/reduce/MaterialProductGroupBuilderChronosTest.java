@@ -1,21 +1,21 @@
 package com.kazurayam.materialstore.base.reduce;
 
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialList;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.function.BiFunction;
@@ -24,8 +24,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MaterialProductGroupBuilderChronosTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MaterialProductGroupBuilderChronosTest.class.getName());
-    private static final Path fixtureDir = Paths.get(".").resolve("src/test/fixtures/issue#80");
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(MaterialProductGroupBuilderChronosTest.class);
+    private static final Path fixtureDir = too.getProjectDir().resolve("src/test/fixtures/issue#80");
     private static final boolean verbose = true;
     private static Store store;
     private static MaterialList left;
@@ -33,13 +34,9 @@ public class MaterialProductGroupBuilderChronosTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-
-        Files.createDirectories(outputDir);
-        Path storePath = outputDir.resolve("store");
-        FileUtils.copyDirectory(fixtureDir.toFile(), storePath.toFile());
+        too.cleanClassOutputDirectory();
+        Path storePath = too.getClassOutputDirectory().resolve("store");
+        too.copyDir(fixtureDir, storePath);
         store = Stores.newInstance(storePath);
         //
         if (verbose) {
@@ -67,7 +64,7 @@ public class MaterialProductGroupBuilderChronosTest {
     }
 
     @Test
-    public void test_chronos_with_func() throws MaterialstoreException {
+    public void test_chronos_with_func() throws MaterialstoreException, JobNameNotFoundException {
         BiFunction<MaterialList, MaterialList, MaterialProductGroup> func =
                 (MaterialList left, MaterialList right) ->
                         MaterialProductGroup.builder(left,right)
@@ -90,7 +87,8 @@ public class MaterialProductGroupBuilderChronosTest {
     }
 
     @Test
-    public void test_chronos_without_func() throws MaterialstoreException {
+    public void test_chronos_without_func()
+            throws MaterialstoreException, JobNameNotFoundException {
         MaterialProductGroup reduced = Reducer.chronos(store, right);
         Assertions.assertNotNull(reduced);
         assertEquals(1, reduced.getMaterialListPrevious().countMaterialsWithIdStartingWith("5d7e467"));
@@ -99,7 +97,7 @@ public class MaterialProductGroupBuilderChronosTest {
     }
 
     @Test
-    public void test_chronos_priorTo_endOfLastMonth() throws MaterialstoreException {
+    public void test_chronos_priorTo_endOfLastMonth() throws MaterialstoreException, JobNameNotFoundException {
         JobTimestamp priorTo = right.getJobTimestamp().beginningOfTheMonth();
         assertEquals(new JobTimestamp("20220101_000000"), priorTo);
         MaterialProductGroup reduced = Reducer.chronos(store, right, priorTo);

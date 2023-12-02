@@ -1,5 +1,6 @@
 package issues;
 
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.MaterialProductGroup;
 import com.kazurayam.materialstore.base.reduce.differ.TextDifferToHTML;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
@@ -12,16 +13,13 @@ import com.kazurayam.materialstore.core.Metadata;
 import com.kazurayam.materialstore.core.QueryOnMetadata;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
-import com.kazurayam.materialstore.util.DeleteDir;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -31,23 +29,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  */
 public class Issue424Test {
 
-    private static Path projectDir = Paths.get(".");
-
-    private static Path fixtureDir = projectDir.resolve("src/test/fixtures/issue#424");
-
-    private static Path workDir = projectDir.resolve("build/tmp/testOutput")
-            .resolve(Issue424Test.class.getSimpleName());
-
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(Issue424Test.class);
+    private static final Path fixtureDir =
+            too.getProjectDir().resolve("src/test/fixtures/issue#424");
     private static Store store;
 
     @BeforeAll
     public static void beforeAll() throws MaterialstoreException, IOException {
-        if (Files.exists(workDir)) {
-            DeleteDir.deleteDirectoryRecursively(workDir);
-        }
-        Files.createDirectories(workDir);
-        Path rootDir = workDir.resolve("store");
-        store = Stores.newInstance(rootDir);
+        too.cleanClassOutputDirectory();
+        Path root = too.getClassOutputDirectory().resolve("store");
+        store = Stores.newInstance(root);
     }
 
     /**

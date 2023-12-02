@@ -1,7 +1,8 @@
 package com.kazurayam.materialstore.core;
 
-import com.kazurayam.materialstore.util.TestFixtureUtil;
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.SampleFixtureInjector;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -17,19 +18,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MaterialTest {
-    private final static Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MaterialTest.class.getName());
+    private final static TestOutputOrganizer too = TestOutputOrganizerFactory.create(MaterialTest.class);
     private static Store store;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Files.createDirectories(outputDir);
-        Path root = outputDir.resolve("store");
+        too.cleanClassOutputDirectory();
+        Path root = too.getClassOutputDirectory().resolve("store");
         store = new StoreImpl(root);
     }
-
 
     @Test
     public void test_smoke() throws MaterialstoreException {
@@ -65,7 +62,7 @@ public class MaterialTest {
     public void test_getRelativePath_getRelativeURL() throws MaterialstoreException {
         JobName jobName = new JobName("test_getRelativePath");
         // copy the fixture files to the output dir
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
@@ -73,19 +70,17 @@ public class MaterialTest {
         assertNotNull(material);
         //
         Path leftPath = Paths.get("test_getRelativePath/20210713_093357/objects/12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490.png");
-        Path relativePath = material.getRelativePath();
-        Assertions.assertEquals(leftPath, relativePath);
+        Assertions.assertEquals(leftPath, material.getRelativePath());
         //
         String leftURL = "test_getRelativePath/20210713_093357/objects/12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490.png";
-        String relativeURL = material.getRelativeURL();
-        Assertions.assertEquals(leftURL, relativeURL);
+        Assertions.assertEquals(leftURL, material.getRelativeURL());
     }
 
     @Test
     public void test_toFile_and_toURL() throws MaterialstoreException {
         JobName jobName = new JobName("test_toFile_and_toURL");
         // copy the fixture files to the output dir
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         //
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
@@ -102,7 +97,7 @@ public class MaterialTest {
     public void test_toTemplateModel() throws MaterialstoreException {
         JobName jobName = new JobName("test_toTemplateModel");
         //
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
         Material material = jobber.selectMaterial(new ID("12a1a5ee4d0ee278ef4998c3f4ebd4951e6d2490"));
@@ -150,7 +145,7 @@ public class MaterialTest {
     public void test_toPath() throws MaterialstoreException {
         JobName jobName = new JobName("test_toPath");
         //
-        TestFixtureUtil.setupFixture(store, jobName);
+        SampleFixtureInjector.injectSampleResults(store, jobName);
         JobTimestamp jobTimestamp = new JobTimestamp("20210713_093357");
         Jobber jobber = new Jobber(store, jobName, jobTimestamp);
         Material material = jobber.selectMaterial(

@@ -1,11 +1,13 @@
 package com.kazurayam.materialstore.base.manage;
 
-import com.kazurayam.materialstore.base.FixtureDirCopier;
-import com.kazurayam.materialstore.TestHelper;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
+import com.kazurayam.materialstore.zest.Issue334FixtureDirCopier;
 import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Store;
 import com.kazurayam.materialstore.core.Stores;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -17,20 +19,19 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class StoreExportTest {
 
-    private Path testClassOutputDir;
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(StoreExportTest.class);
 
     @BeforeEach
     public void beforeEach() throws IOException {
-        testClassOutputDir = TestHelper.createTestClassOutputDir(StoreExportTest.class);
+        too.cleanClassOutputDirectory();
     }
 
     @Test
-    public void test_exportReports_latest() throws IOException, MaterialstoreException {
+    public void test_exportReports_latest() throws IOException, MaterialstoreException, JobNameNotFoundException {
         // Arrange
-        String testCaseName = "test_exportReports_latest";
-        Path testCaseOutputDir = testClassOutputDir.resolve(testCaseName);
-        Store local = FixtureDirCopier.copyIssue334FixtureInto(testCaseOutputDir);
-        Store remote = Stores.newInstance(testCaseOutputDir.resolve("remote"));
+        Path methodOutputDir = too.getMethodOutputDirectory("test_exportReports_latest");
+        Store local = Issue334FixtureDirCopier.copyFixtureInto(methodOutputDir);
+        Store remote = Stores.newInstance(methodOutputDir.resolve("remote"));
         // Action
         StoreExport storeExport = StoreExport.newInstance(local, remote);
         JobName jobName = new JobName("CURA");
@@ -41,5 +42,4 @@ public class StoreExportTest {
         assertEquals(3, remote.findAllJobTimestamps(jobName).size());
         assertEquals(1, remote.findAllReportsOf(jobName).size());
     }
-
 }

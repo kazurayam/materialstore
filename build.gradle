@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.kazurayam"
-version = "0.16.5"
+version = "0.17.0"
 
 ext {
     isReleaseVersion = !version.endsWith("SNAPSHOT")
@@ -36,13 +36,13 @@ dependencies {
     implementation libs.jsoup
     implementation libs.slf4j.api
     implementation libs.subprocessj
-    implementation libs.s3fs
-    implementation libs.jaxb.api
 
     testImplementation libs.slf4j.simple
     testImplementation libs.junit.jupiter
     testImplementation libs.plantuml
     testImplementation libs.timekeeper
+    testImplementation libs.s3fs
+    testImplementation libs.unittesthelper
 }
 
 java {
@@ -61,9 +61,10 @@ jar {
 }
 
 javadoc {
+    options.locale = "en_US"
     options.showFromProtected()
     failOnError = false
-    options.locale = "en_US"
+
 }
 
 task copyJavadocToDocsDir(type: Copy) {

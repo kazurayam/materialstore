@@ -1,6 +1,7 @@
 package com.kazurayam.materialstore.base.manage;
 
 import com.kazurayam.materialstore.core.JobName;
+import com.kazurayam.materialstore.core.JobNameNotFoundException;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.MaterialstoreException;
 import com.kazurayam.materialstore.core.Store;
@@ -25,7 +26,8 @@ public class StoreImportImpl extends StoreImport {
     }
 
     @Override
-    public void importReports(JobName jobName) throws MaterialstoreException {
+    public void importReports(JobName jobName)
+            throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobName);
         JobTimestamp jt = remote.findLatestJobTimestamp(jobName);
         if (jt != JobTimestamp.NULL_OBJECT) {
@@ -34,7 +36,8 @@ public class StoreImportImpl extends StoreImport {
     }
 
     @Override
-    public void importReports(JobName jobName, JobTimestamp newerThanOrEqualTo) throws MaterialstoreException {
+    public void importReports(JobName jobName, JobTimestamp newerThanOrEqualTo)
+            throws MaterialstoreException, JobNameNotFoundException {
         Objects.requireNonNull(jobName);
         Objects.requireNonNull(newerThanOrEqualTo);
         importJobTimestamps(jobName, newerThanOrEqualTo);
@@ -42,7 +45,7 @@ public class StoreImportImpl extends StoreImport {
     }
 
     private void importJobTimestamps(JobName jobName, JobTimestamp newerThanOrEqualTo)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Set<JobTimestamp> marked =
                 remote.markNewerThanOrEqualTo(jobName, newerThanOrEqualTo);
         for (JobTimestamp jt : marked) {
@@ -68,7 +71,7 @@ public class StoreImportImpl extends StoreImport {
     }
 
     private void importReportFiles(JobName jobName, JobTimestamp newerThanOrEqualTo)
-            throws MaterialstoreException {
+            throws MaterialstoreException, JobNameNotFoundException {
         Set<JobTimestamp> marked =
                 remote.markNewerThanOrEqualTo(jobName, newerThanOrEqualTo);
         for (JobTimestamp jt : marked) {

@@ -1,6 +1,8 @@
 package com.kazurayam.materialstore.core;
 
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.materialstore.zest.FixtureDirectory;
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -10,21 +12,16 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 public class MaterialIOTest {
 
-    private static final Path outputDir = Paths.get(".").resolve("build/tmp/testOutput").resolve(MaterialIOTest.class.getName());
-    private static final Path imagesDir = Paths.get(".").resolve("src/test/fixtures/sample_images");
-    private static final Path htmlDir = Paths.get(".").resolve("src/test/fixtures/sample_html");
+    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(MaterialIOTest.class);
+    private static final Path imagesDir = new FixtureDirectory("sample_images").getPath();
+    private static final Path htmlDir = new FixtureDirectory("sample_html").getPath();
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-
-        Files.createDirectories(outputDir);
+        too.cleanClassOutputDirectory();
     }
 
     @Test
@@ -38,8 +35,8 @@ public class MaterialIOTest {
     }
 
     @Test
-    public void test_getFileName() throws MaterialstoreException, UnsupportedEncodingException {
-        byte[] bytes = "Hello, world".getBytes("UTF-8");
+    public void test_getFileName() throws UnsupportedEncodingException {
+        byte[] bytes = "Hello, world".getBytes(StandardCharsets.UTF_8);
         ID id = new ID(MaterialIO.hashJDK(bytes));
         MaterialIO mio = new MaterialIO(id, FileType.TXT);
         Assertions.assertEquals("e02aa1b106d5c7c6a98def2b13005d5b84fd8dc8.txt", mio.getFileName());
@@ -58,7 +55,7 @@ public class MaterialIOTest {
         byte[] data = MaterialIO.deserialize(f);
         ID id = new ID(MaterialIO.hashJDK(data));
         MaterialIO mio = new MaterialIO(id, FileType.PNG);
-        Path work = outputDir.resolve("test_serialize_png");
+        Path work = too.getMethodOutputDirectory("test_serialize_png");
         Path objectsDir = work.resolve("objects");
         Files.createDirectories(objectsDir);
         Path objectFile = objectsDir.resolve(mio.getFileName());
@@ -78,12 +75,10 @@ public class MaterialIOTest {
         byte[] data = MaterialIO.deserialize(f);
         ID id = new ID(MaterialIO.hashJDK(data));
         MaterialIO mio = new MaterialIO(id, FileType.HTML);
-        Path work = outputDir.resolve("test_serialize_html");
+        Path work = too.getMethodOutputDirectory("test_serialize_html");
         Path objectsDir = work.resolve("objects");
         Files.createDirectories(objectsDir);
         Path objectFile = objectsDir.resolve(mio.getFileName());
         MaterialIO.serialize(data, objectFile);
     }
-
-
 }

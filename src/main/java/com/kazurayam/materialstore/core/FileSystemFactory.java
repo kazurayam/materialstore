@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.file.FileSystem;
+import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.FileSystems;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,31 +21,39 @@ public final class FileSystemFactory {
 
     private static final Logger logger = LoggerFactory.getLogger(FileSystemFactory.class);
 
-    public static final String SYSTEM_PROPERTY_NAME = "s3fs.uri";
+    public static final String S3FS_SYSTEM_PROPERTY_NAME = "s3fs.uri";
 
     /**
      *
      */
-    static FileSystem newFileSystem() throws IOException {
-        if (System.getProperty(SYSTEM_PROPERTY_NAME) != null) {
+    public static FileSystem newFileSystem() throws IOException {
+        if (System.getProperty(S3FS_SYSTEM_PROPERTY_NAME) == null) {
+            return FileSystems.getDefault();  // the file system of the local disk
+        } else {
+
+            logger.info(S3FS_SYSTEM_PROPERTY_NAME + "=" + System.getProperty(S3FS_SYSTEM_PROPERTY_NAME));
+
+            // the file system on a remote device, such as AWS S3
             try {
-                URI uri = new URI(System.getProperty(SYSTEM_PROPERTY_NAME));
+                URI uri = new URI(System.getProperty(S3FS_SYSTEM_PROPERTY_NAME));
                 reviewURI(uri);
-                return FileSystems.newFileSystem(uri,
+                try {
+                    return FileSystems.getFileSystem(uri);
+                } catch (FileSystemNotFoundException e) {
+                    return FileSystems.newFileSystem(uri,
                             new HashMap<String, Object>(),
                             Thread.currentThread().getContextClassLoader());
+                }
             } catch (URISyntaxException e) {
                 throw new RuntimeException(e);
             }
-        } else {
-            return FileSystems.getDefault();
         }
     }
 
     /**
      *
      */
-    static FileSystem newFileSystem(URI uri) throws IOException {
+    public static FileSystem newFileSystem(URI uri) throws IOException {
         reviewURI(uri);
         return FileSystems.newFileSystem(uri,
                 new HashMap<String, Object>(),

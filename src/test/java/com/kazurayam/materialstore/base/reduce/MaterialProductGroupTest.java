@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.reduce;
 
+import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.core.FileType;
 import com.kazurayam.materialstore.core.ID;
@@ -16,16 +17,14 @@ import com.kazurayam.materialstore.core.Stores;
 import com.kazurayam.materialstore.core.metadata.IdentifyMetadataValues;
 import com.kazurayam.materialstore.core.metadata.IgnoreMetadataKeys;
 import com.kazurayam.materialstore.util.JsonUtil;
-import org.apache.commons.io.FileUtils;
+import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -35,15 +34,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class MaterialProductGroupTest {
 
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(MaterialProductGroupTest.class);
     private static final Path issue80Dir =
-            Paths.get(".")
-                    .resolve("src/test/fixtures/issue#80");
-
-    private static final Path outputDir =
-            Paths.get(".")
-                    .resolve("build/tmp/testOutput")
-                    .resolve(MaterialProductGroupTest.class.getName());
-
+            too.getProjectDir().resolve("src/test/fixtures/issue#80");
     private static Store store;
     private static JobName jobName;
     private static MaterialList left;
@@ -52,13 +46,10 @@ public class MaterialProductGroupTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        if (Files.exists(outputDir)) {
-            FileUtils.deleteDirectory(outputDir.toFile());
-        }
-        Path root = outputDir.resolve("store");
+        too.cleanClassOutputDirectory();
+        Path root = too.getClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
-        Files.createDirectories(outputDir);
-        FileUtils.copyDirectory(issue80Dir.toFile(), store.getRoot().toFile());
+        too.copyDir(issue80Dir, store.getRoot());
         //
         jobName = new JobName("MyAdmin_visual_inspection_twins");
         JobTimestamp timestampP = new JobTimestamp("20220128_191320");

@@ -11,18 +11,14 @@ dependencyResolutionManagement {
             version('ashot', '1.5.4')
             library('ashot', 'ru.yandex.qatools.ashot', 'ashot').versionRef('ashot')
 
-
             version('freemarker', '2.3.31')
             library('freemarker', 'org.freemarker', 'freemarker').versionRef('freemarker')
 
-            version('gson', '2.8.2')
+            version('gson', '2.10.1')
             library('gson', 'com.google.code.gson', 'gson').versionRef('gson')
 
             version('javaDiffUtils', '4.11')
             library('javaDiffUtils', 'io.github.java-diff-utils', 'java-diff-utils').versionRef('javaDiffUtils')
-
-            version('jaxb', '2.3.1')
-            library('jaxb-api', 'javax.xml.bind', 'jaxb-api').versionRef('jaxb')
 
             version('jsoup', '1.14.3')
             library('jsoup', 'org.jsoup', 'jsoup').versionRef('jsoup')
@@ -45,6 +41,9 @@ dependencyResolutionManagement {
 
             version('timekeeper', '0.4.1')
             library('timekeeper', 'com.kazurayam', 'timekeeper').versionRef('timekeeper')
+
+            version('unittesthelper', '0.3.0')
+            library('unittesthelper', 'com.kazurayam', 'unittest-helper').versionRef('unittesthelper')
 
         }
     }
