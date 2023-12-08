@@ -1,6 +1,7 @@
 <#-- report/MaterialListBasicReporterTemplate.ftlh -->
 <#import "../filesystem/QueryOnMetadataTemplate.ftlh" as QueryOnMetadata>
 <#import "../filesystem/MetadataTemplate.ftlh" as Metadata>
+<#import "./AdjustImgWidthTemplate.ftlh" as AdjustImgWidth>
 
 <!doctype html>
 <html lang="en">
@@ -63,6 +64,26 @@
       </div>
     </div><!-- Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.js"></script>
+    <script type="text/javascript">
+      /*
+       * registering event handlers that triggers the adjustImgWidth function
+       */
+      document.addEventListener("DOMContentLoaded", function() {
+        // <div class="modal"> should have event-handler for 'shown.bs.modal' event
+        let collapseDivs = document.querySelectorAll('div.collapse')
+        for (let collapseDiv of collapseDivs) {
+          $(collapseDiv).on('shown.bs.collapse', function() {
+            let imgs = collapseDiv.querySelectorAll("img.img-fluid");
+            for (let img of imgs) {
+              //console.log("adjusting img.src=" + img.src);
+              adjustImgWidth.bind(img)();
+            }
+          });
+        }
+      }, false);
+    </script>
+    <@AdjustImgWidth.adjustImgWidthScript />
   </body>
 </html>
 
@@ -89,7 +110,7 @@
       </#if>
     </dl>
     <#if material.diffability == "AS_IMAGE">
-      <img class="img-fluid border d-block w-75 centered" alt="image-material" src="${material.relativeUrl}" />
+      <div><img class="img-fluid border d-block w-75 centered" alt="image-material" src="${material.relativeUrl}" /></div>
     <#elseif material.diffability == "AS_TEXT">
       <table id="text-content">
         <colgroup>

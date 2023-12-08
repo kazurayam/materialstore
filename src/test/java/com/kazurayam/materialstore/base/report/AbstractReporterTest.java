@@ -23,7 +23,7 @@ public abstract class AbstractReporterTest {
         return trimmed;
     }
 
-    String readString(Path file) throws IOException {
+    public String readString(Path file) throws IOException {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
         List<String> lines = Files.readAllLines(file);

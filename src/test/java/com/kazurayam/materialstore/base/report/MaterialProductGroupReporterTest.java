@@ -86,7 +86,7 @@ public class MaterialProductGroupReporterTest extends AbstractReporterTest {
         MaterialList right = createMaterialList(jobName, timestamp1, "MyAdmin_DevelopmentEnv");
         Inspector inspector = Inspector.newInstance(store);
         // make diff of the 2 MaterialList objects
-        MaterialProductGroup reducedMPG =
+        MaterialProductGroup mpg =
                 MaterialProductGroup.builder(left, right)
                         .ignoreKeys("environment", "URL.host", "URL.protocol", "URL.port")
                         .identifyWithRegex(
@@ -95,15 +95,13 @@ public class MaterialProductGroupReporterTest extends AbstractReporterTest {
                         .labelLeft("ProductionEnv")
                         .labelRight("DevelopmentEnv")
                         .build();
-        return inspector.reduceAndSort(reducedMPG);
+        return inspector.reduceAndSort(mpg);
     }
 
     private MaterialList createMaterialList(JobName jobName, JobTimestamp timestamp, String profileName)
             throws MaterialstoreException {
         return store.select(jobName, timestamp,
-                QueryOnMetadata.builder(
-                        Collections.singletonMap("environment", profileName))
-                        .build());
+                QueryOnMetadata.builder(Collections.singletonMap("environment", profileName)).build());
     }
 
 }

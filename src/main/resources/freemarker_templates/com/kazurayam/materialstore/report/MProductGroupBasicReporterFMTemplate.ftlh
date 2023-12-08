@@ -2,6 +2,7 @@
 <#import "../filesystem/IgnoreMetadataKeysTemplate.ftlh" as IgnoreMetadataKeys>
 <#import "../filesystem/QueryOnMetadataTemplate.ftlh" as QueryOnMetadata>
 <#import "../filesystem/MetadataTemplate.ftlh" as Metadata>
+<#import "./AdjustImgWidthTemplate.ftlh" as AdjustImgWidth>
 
 <!doctype html>
 <html lang="en">
@@ -127,6 +128,27 @@
         const model = ${model?no_esc};
     </script>
     <script type="text/javascript">${js?no_esc}</script>
+
+    <script type="text/javascript">
+      /*
+       * registering event handlers that triggers the adjustImgWidth function
+       */
+      document.addEventListener("DOMContentLoaded", function() {
+        // <div class="modal"> should have event-handler for 'shown.bs.modal' event
+        let modalDivs = document.querySelectorAll('.modal')
+        for (let modalDiv of modalDivs) {
+          $(modalDiv).on('shown.bs.modal', function() {
+            let imgs = modalDiv.querySelectorAll("img.img-fluid");
+            for (let img of imgs) {
+              //console.log("adjusting img.src=" + img.src);
+              adjustImgWidth.bind(img)();
+            }
+          });
+        }
+      }, false);
+    </script>
+
+    <@AdjustImgWidth.adjustImgWidthScript />
   </body>
 </html>
 
@@ -155,15 +177,21 @@
                 <div class="carousel-inner">
                   <div class="carousel-item">
                     <h3 class="centered">Left <#if mProductGroup.labelLeft != "">(${mProductGroup.labelLeft})</#if></h3>
-                    <img class="img-fluid border d-block w-75 centered" alt="left" src="${mProduct.left.relativeUrl}">
+                    <div>
+                      <img class="img-fluid border d-block w-75 centered" alt="left" src="${mProduct.left.relativeUrl}">
+                    </div>
                   </div>
                   <div class="carousel-item active">
                     <h3 class="centered">Diff</h3>
-                    <img class="img-fluid border d-block w-75 centered" alt="diff" src="${mProduct.diff.relativeUrl}">
+                    <div>
+                      <img class="img-fluid border d-block w-75 centered" alt="diff" src="${mProduct.diff.relativeUrl}">
+                    </div>
                   </div>
                   <div class="carousel-item">
                     <h3 class="centered">Right <#if mProductGroup.labelRight != "">(${mProductGroup.labelRight})</#if></h3>
-                    <img class="img-fluid border d-block w-75 centered" alt="right" src="${mProduct.right.relativeUrl}">
+                    <div>
+                      <img class="img-fluid border d-block w-75 centered" alt="right" src="${mProduct.right.relativeUrl}">
+                    </div>
                   </div>
                 </div>
                 <button class="carousel-control-prev" type="button" data-bs-target="#${carouselId}" data-bs-slide="prev">
