@@ -57,7 +57,7 @@ public class GraphNodeIdResolverTest {
         MaterialList materialList = store.select(jobName, leftJobTimestamp, FileType.PNG);
         Material material = materialList.get(0);
         GraphNodeId graphNodeId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialList(materialList, material);
-        assertEquals(new GraphNodeId("MLe6804ee_Mf526e62"), graphNodeId);
+        assertEquals(new GraphNodeId("ML0086c83_Mf526e62"), graphNodeId);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class GraphNodeIdResolverTest {
                         jobName,
                         reducedTimestamp).build();
         GraphNodeId graphNodeId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialProduct(mProduct, Role.L);
-        assertEquals(new GraphNodeId("MPb2096a4_Mf526e62_L"), graphNodeId);
+        assertEquals(new GraphNodeId("MP434032c_Mf526e62_L"), graphNodeId);
     }
 
     @Disabled  // https://github.com/kazurayam/materialstore/issues/430

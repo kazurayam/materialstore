@@ -25,9 +25,7 @@ import java.util.regex.Matcher;
 public final class MetadataImpl extends Metadata {
 
     private static final Logger logger = LoggerFactory.getLogger(MetadataImpl.class.getName());
-
     private final Map<String, MetadataAttribute> attributes;
-
     private URL url;
 
     public MetadataImpl(Map<String, MetadataAttribute> attributes) {

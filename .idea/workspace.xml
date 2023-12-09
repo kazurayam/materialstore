@@ -5,22 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7959bbda-7369-46c6-be70-f44f14bd4569" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/freemarker_templates/com/kazurayam/materialstore/report/AdjustImgWidthTemplate.ftlh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleShootings/20231207_230444/index" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleShootings/20231207_230444/objects/d84bfc0bce168d30a94d40547b4b72726c9af6ca.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleTwinsDiff/20231207_230425/index" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleTwinsDiff/20231207_230425/objects/a64cccaef5ef32ca8ed2ab56593503f832754363.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleTwinsDiff/20231207_230429/index" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleTwinsDiff/20231207_230429/objects/d0670ac9c08ee338981a416a1100aba73a351298.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleTwinsDiff/20231207_230432/index" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleTwinsDiff/20231207_230432/objects/5131f0c18394f1da355960f641b78cb6c67f64b6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/issues/Issue449Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/issues/Issue450Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/freemarker_templates/com/kazurayam/materialstore/report/MProductGroupBasicReporterFMTemplate.ftlh" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/freemarker_templates/com/kazurayam/materialstore/report/MProductGroupBasicReporterFMTemplate.ftlh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/freemarker_templates/com/kazurayam/materialstore/report/MaterialListBasicReporterTemplate.ftlh" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/freemarker_templates/com/kazurayam/materialstore/report/MaterialListBasicReporterTemplate.ftlh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/report/AbstractReporterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/report/AbstractReporterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/report/MaterialProductGroupReporterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/report/MaterialProductGroupReporterTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,31 +84,7 @@
       <recent name="com.kazurayam.materialstore.zest" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Issue449Test">
-    <configuration name="FixtureDirectoryTest.test_copyInto" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.kazurayam.materialstore.zest.FixtureDirectoryTest.test_copyInto&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
+  <component name="RunManager" selected="Gradle.Issue450Test">
     <configuration name="Issue449Test" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -160,6 +123,30 @@
             <option value=":test" />
             <option value="--tests" />
             <option value="&quot;issues.Issue449Test.test_report_AppleTwinsDiff&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="Issue450Test" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;issues.Issue450Test&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -220,11 +207,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.Issue450Test" />
         <item itemvalue="Gradle.Issue449Test" />
         <item itemvalue="Gradle.Issue449Test.test_report_AppleTwinsDiff" />
         <item itemvalue="Gradle.MaterialListReporterTest" />
         <item itemvalue="Gradle.MaterialProductGroupReporterTest" />
-        <item itemvalue="Gradle.FixtureDirectoryTest.test_copyInto" />
       </list>
     </recent_temporary>
   </component>
@@ -254,6 +241,7 @@
       <workItem from="1701861433172" duration="78000" />
       <workItem from="1701953747861" duration="866000" />
       <workItem from="1702010661150" duration="9706000" />
+      <workItem from="1702034954034" duration="2137000" />
     </task>
     <servers />
   </component>

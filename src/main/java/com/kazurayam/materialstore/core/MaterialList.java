@@ -49,7 +49,7 @@ public final class MaterialList
     }
 
     public void add(Material material) {
-        material.getMetadata().annotate(query);
+        //material.getMetadata().annotate(query);
         materialList.add(material);
     }
 
