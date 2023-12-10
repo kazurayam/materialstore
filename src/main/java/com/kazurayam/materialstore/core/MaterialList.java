@@ -50,6 +50,11 @@ public final class MaterialList
 
     public void add(Material material) {
         //material.getMetadata().annotate(query);
+        if (!query.equals(QueryOnMetadata.ANY)) {
+            // set "matchedByValue" and "matchedIndividually" attributes if appropriate
+            material.getMetadata().annotate(query);
+        }
+
         materialList.add(material);
     }
 

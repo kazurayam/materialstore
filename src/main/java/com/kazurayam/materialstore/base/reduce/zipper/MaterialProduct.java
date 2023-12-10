@@ -51,10 +51,11 @@ public final class MaterialProduct
         this.diffRatio = builder.diffRatio;
     }
 
-    public void annotate(IgnoreMetadataKeys ignoreMetadataKeys,
+    public MaterialProduct annotate(IgnoreMetadataKeys ignoreMetadataKeys,
                          IdentifyMetadataValues identifyMetadataValues) {
         this.left.getMetadata().annotate(query, ignoreMetadataKeys, identifyMetadataValues);
         this.right.getMetadata().annotate(query, ignoreMetadataKeys, identifyMetadataValues);
+        return this;
     }
 
     public void setDiff(Material diff) {
@@ -184,6 +185,10 @@ public final class MaterialProduct
         } else {
             return 0;
         }
+    }
+
+    public static MaterialProduct clone(MaterialProduct source) {
+        return new MaterialProduct.Builder(source).build();
     }
 
     @Override

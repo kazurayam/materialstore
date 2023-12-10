@@ -87,10 +87,6 @@ public final class Jobber {
             if (fileType.equals(FileType.NULL_OBJECT) || fileType.equals(indexEntry.getFileType())) {
                 if (query.equals(QueryOnMetadata.ANY) || query.matches(indexEntry.getMetadata())) {
                     Material material = new Material(store, getJobName(), getJobTimestamp(), indexEntry);
-                    if (!query.equals(QueryOnMetadata.ANY)) {
-                        // set "matchedByValue" and "matchedIndividually" attributes if appropriate
-                        material.getMetadata().annotate(query);
-                    }
                     result.add(material);
                 }
             }
