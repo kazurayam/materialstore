@@ -5,23 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7959bbda-7369-46c6-be70-f44f14bd4569" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/AppleTwinsDiff-20231208_203845.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/AppleTwinsDiff/20231208_203823/index" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/AppleTwinsDiff/20231208_203823/objects/a64cccaef5ef32ca8ed2ab56593503f832754363.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/AppleTwinsDiff/20231208_203823/objects/aa5afbb083316f28020896d7fbb60f40b19de1f6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/AppleTwinsDiff/20231208_203823/objects/c46e777bd6bab98e677ac83f4be50b3be77141ba.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/AppleTwinsDiff/20231208_203823/objects/d0670ac9c08ee338981a416a1100aba73a351298.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/AppleTwinsDiff/20231208_203835/index" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/AppleTwinsDiff/20231208_203835/objects/486e95f8fd977dbbbaa7ff177457eac47b49fade.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/AppleTwinsDiff/20231208_203835/objects/c46e777bd6bab98e677ac83f4be50b3be77141ba.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/AppleTwinsDiff/20231208_203835/objects/d0670ac9c08ee338981a416a1100aba73a351298.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/AppleTwinsDiff/20231208_203845/index" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/AppleTwinsDiff/20231208_203845/objects/5131f0c18394f1da355960f641b78cb6c67f64b6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/AppleTwinsDiff/20231208_203845/objects/80a503e482cc20ab2dceb9257930da253f63bf84.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/AppleTwinsDiff/20231208_203845/objects/c46e777bd6bab98e677ac83f4be50b3be77141ba.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/AppleTwinsDiff/20231208_203845/objects/d0670ac9c08ee338981a416a1100aba73a351298.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#450/store/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/issues/Issue450Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/api/allclasses-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/allclasses-index.html" afterDir="false" />
@@ -178,10 +161,11 @@
       <change beforePath="$PROJECT_DIR$/docs/api/overview-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/overview-summary.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/api/overview-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/overview-tree.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/api/serialized-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/serialized-form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/base/reduce/DiffingMPGProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/base/reduce/DiffingMPGProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/base/reduce/MaterialProductGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/base/reduce/MaterialProductGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/base/reduce/zipper/MaterialProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/base/reduce/zipper/MaterialProduct.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/core/Jobber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/core/Jobber.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/core/MaterialList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/core/MaterialList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/core/metadata/MetadataImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/core/metadata/MetadataImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/diagram/dot/GraphNodeIdResolverTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/diagram/dot/GraphNodeIdResolverTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -422,6 +406,9 @@
       <workItem from="1702129512843" duration="1538000" />
       <workItem from="1702158397938" duration="3271000" />
       <workItem from="1702165156433" duration="20000" />
+      <workItem from="1702167837967" duration="23000" />
+      <workItem from="1702168317468" duration="4405000" />
+      <workItem from="1702185024556" duration="5824000" />
     </task>
     <servers />
   </component>
