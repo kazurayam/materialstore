@@ -1,0 +1,4 @@
+c46e777bd6bab98e677ac83f4be50b3be77141ba	png	{"description":"lorem ipsum", "image-height":"199", "image-width":"200", "step":"03", "URL.host":"kazurayam.github.io", "URL.path":"/myApple/page3.html", "URL.port":"80", "URL.protocol":"https"}
+a64cccaef5ef32ca8ed2ab56593503f832754363	png	{"description":"resized", "image-height":"100", "image-width":"100", "step":"02", "URL.host":"kazurayam.github.io", "URL.path":"/myApple/page2.html", "URL.port":"80", "URL.protocol":"https"}
+aa5afbb083316f28020896d7fbb60f40b19de1f6	png	{"description":"rotated", "image-height":"199", "image-width":"200", "step":"04", "URL.host":"kazurayam.github.io", "URL.path":"/myApple/page4.html", "URL.port":"80", "URL.protocol":"https"}
+d0670ac9c08ee338981a416a1100aba73a351298	png	{"description":"the original", "image-height":"199", "image-width":"200", "step":"01", "URL.host":"kazurayam.github.io", "URL.path":"/myApple/page1.html", "URL.port":"80", "URL.protocol":"https"}

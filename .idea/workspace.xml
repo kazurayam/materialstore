@@ -5,22 +5,167 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7959bbda-7369-46c6-be70-f44f14bd4569" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/freemarker_templates/com/kazurayam/materialstore/report/AdjustImgWidthTemplate.ftlh" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleShootings/20231207_230444/index" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleShootings/20231207_230444/objects/d84bfc0bce168d30a94d40547b4b72726c9af6ca.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleTwinsDiff/20231207_230425/index" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleTwinsDiff/20231207_230425/objects/a64cccaef5ef32ca8ed2ab56593503f832754363.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleTwinsDiff/20231207_230429/index" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleTwinsDiff/20231207_230429/objects/d0670ac9c08ee338981a416a1100aba73a351298.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleTwinsDiff/20231207_230432/index" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/fixtures/issue#449/store/AppleTwinsDiff/20231207_230432/objects/5131f0c18394f1da355960f641b78cb6c67f64b6.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/issues/Issue449Test.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/freemarker_templates/com/kazurayam/materialstore/report/MProductGroupBasicReporterFMTemplate.ftlh" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/freemarker_templates/com/kazurayam/materialstore/report/MProductGroupBasicReporterFMTemplate.ftlh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/freemarker_templates/com/kazurayam/materialstore/report/MaterialListBasicReporterTemplate.ftlh" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/freemarker_templates/com/kazurayam/materialstore/report/MaterialListBasicReporterTemplate.ftlh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/report/AbstractReporterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/report/AbstractReporterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/report/MaterialProductGroupReporterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/kazurayam/materialstore/base/report/MaterialProductGroupReporterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/allclasses-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/allclasses-index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/allpackages-index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/allpackages-index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/inspector/Inspector.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/inspector/Inspector.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/inspector/InspectorImpl.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/inspector/InspectorImpl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/inspector/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/inspector/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/inspector/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/inspector/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/StoreCleaner.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/StoreCleaner.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/StoreCleanerImpl.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/StoreCleanerImpl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/StoreExport.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/StoreExport.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/StoreExportImpl.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/StoreExportImpl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/StoreImport.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/StoreImport.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/StoreImportImpl.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/StoreImportImpl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/manage/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/DiffingMPGProcessor.Builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/DiffingMPGProcessor.Builder.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/DiffingMPGProcessor.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/DiffingMPGProcessor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/MPGProcessor.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/MPGProcessor.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/MaterialProductGroup.Builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/MaterialProductGroup.Builder.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/MaterialProductGroup.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/MaterialProductGroup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/Reducer.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/Reducer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/AbstractTextDiffer.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/AbstractTextDiffer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/Differ.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/Differ.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/DifferUtil.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/DifferUtil.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/ImageDiffStuffer.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/ImageDiffStuffer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/TextDiffContent.Builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/TextDiffContent.Builder.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/TextDiffContent.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/TextDiffContent.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/TextDifferToHTML.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/TextDifferToHTML.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/TextDifferToMarkdown.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/TextDifferToMarkdown.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/VoidDiffer.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/VoidDiffer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/differ/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/zipper/MaterialProduct.Builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/zipper/MaterialProduct.Builder.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/zipper/MaterialProduct.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/zipper/MaterialProduct.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/zipper/MaterialProductComparator.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/zipper/MaterialProductComparator.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/zipper/Zipper.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/zipper/Zipper.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/zipper/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/zipper/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/zipper/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/reduce/zipper/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/AbstractReporter.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/AbstractReporter.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/FreeMarkerConfigurator.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/FreeMarkerConfigurator.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/HTMLPrettyPrintingCapable.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/HTMLPrettyPrintingCapable.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/IndexCreator.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/IndexCreator.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/MaterialListReporter.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/MaterialListReporter.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/MaterialListReporterImpl.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/MaterialListReporterImpl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/MaterialProductGroupReporter.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/MaterialProductGroupReporter.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/MaterialProductGroupReporterImpl.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/MaterialProductGroupReporterImpl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/StyleHelper.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/StyleHelper.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/base/report/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/DuplicatingMaterialException.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/DuplicatingMaterialException.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/FileSystemFactory.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/FileSystemFactory.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/FileType.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/FileType.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/FileTypeDiffability.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/FileTypeDiffability.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/FileTypeUtil.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/FileTypeUtil.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/GraphvizReady.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/GraphvizReady.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/ID.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/ID.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/IFileType.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/IFileType.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Identifiable.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Identifiable.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/IndexEntry.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/IndexEntry.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/JobName.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/JobName.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/JobNameNotFoundException.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/JobNameNotFoundException.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/JobTimestamp.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/JobTimestamp.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Jobber.DuplicationHandling.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Jobber.DuplicationHandling.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Jobber.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Jobber.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Jsonifiable.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Jsonifiable.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Material.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Material.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/MaterialComparatorByMetadataDescription.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/MaterialComparatorByMetadataDescription.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/MaterialIO.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/MaterialIO.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/MaterialList.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/MaterialList.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/MaterialLocator.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/MaterialLocator.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/MaterialstoreException.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/MaterialstoreException.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Metadata.Builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Metadata.Builder.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Metadata.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Metadata.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/QueryOnMetadata.Builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/QueryOnMetadata.Builder.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/QueryOnMetadata.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/QueryOnMetadata.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/S3Endpoint.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/S3Endpoint.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/SortKeys.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/SortKeys.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Store.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Store.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/StoreImpl.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/StoreImpl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/StoreWriteParameter.Builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/StoreWriteParameter.Builder.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/StoreWriteParameter.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/StoreWriteParameter.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Stores.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/Stores.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/TemplateReady.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/TemplateReady.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/TemplateReadySortable.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/TemplateReadySortable.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/data/DataURLEnabler.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/data/DataURLEnabler.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/data/Handler.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/data/Handler.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/data/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/data/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/data/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/data/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/IdentifyMetadataValues.Builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/IdentifyMetadataValues.Builder.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/IdentifyMetadataValues.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/IdentifyMetadataValues.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/IdentifyMetadataValuesImpl.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/IdentifyMetadataValuesImpl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/IgnoreMetadataKeys.Builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/IgnoreMetadataKeys.Builder.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/IgnoreMetadataKeys.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/IgnoreMetadataKeys.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/IgnoreMetadataKeysImpl.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/IgnoreMetadataKeysImpl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/MetadataAttribute.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/MetadataAttribute.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/MetadataIdentification.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/MetadataIdentification.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/MetadataImpl.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/MetadataImpl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/QEntry.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/QEntry.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/QValue.Builder.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/QValue.Builder.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/QValue.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/QValue.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/QueryIdentification.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/QueryIdentification.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/QueryOnMetadataImpl.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/QueryOnMetadataImpl.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/SemanticVersionMatcherResult.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/SemanticVersionMatcherResult.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/SemanticVersionPattern.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/SemanticVersionPattern.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/metadata/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/core/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/AbstractGraphNode.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/AbstractGraphNode.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/DotGenerator.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/DotGenerator.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/GraphNodeId.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/GraphNodeId.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/GraphNodeIdResolver.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/GraphNodeIdResolver.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/MPGVisualizer.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/MPGVisualizer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/MaterialAsGraphNode.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/MaterialAsGraphNode.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/QueryAsGraphNode.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/QueryAsGraphNode.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/Role.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/Role.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/diagram/dot/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/DefaultTextGridDiffer.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/DefaultTextGridDiffer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/Key.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/Key.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/KeyRange.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/KeyRange.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/Row.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/Row.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/TextGridDifferBuilder.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/TextGridDifferBuilder.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/Values.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/Values.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/facet/textgrid/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/freemarker/CompressToSingleLineDirective.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/freemarker/CompressToSingleLineDirective.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/freemarker/ReadAllLinesDirective.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/freemarker/ReadAllLinesDirective.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/freemarker/UpperCaseDirective.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/freemarker/UpperCaseDirective.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/freemarker/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/freemarker/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/freemarker/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/freemarker/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/map/IdentityMapper.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/map/IdentityMapper.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/map/MappedResultSerializer.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/map/MappedResultSerializer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/map/Mapper.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/map/Mapper.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/map/MappingListener.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/map/MappingListener.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/map/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/map/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/map/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/map/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/CopyDir.Option.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/CopyDir.Option.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/CopyDir.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/CopyDir.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/DeleteDir.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/DeleteDir.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/GsonHelper.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/GsonHelper.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/JsonUtil.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/JsonUtil.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/KeyValuePair.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/KeyValuePair.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/StringUtils.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/StringUtils.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/package-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/package-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/package-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/com/kazurayam/materialstore/util/package-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/constant-values.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/constant-values.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/help-doc.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/help-doc.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/index-all.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/index-all.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/overview-summary.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/overview-summary.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/overview-tree.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/overview-tree.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/api/serialized-form.html" beforeDir="false" afterPath="$PROJECT_DIR$/docs/api/serialized-form.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/base/reduce/DiffingMPGProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/base/reduce/DiffingMPGProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/base/reduce/MaterialProductGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/base/reduce/MaterialProductGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/base/reduce/zipper/MaterialProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/base/reduce/zipper/MaterialProduct.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/core/Jobber.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/core/Jobber.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/core/MaterialList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kazurayam/materialstore/core/MaterialList.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,8 +242,8 @@
       <recent name="com.kazurayam.materialstore.zest" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.Issue449Test">
-    <configuration name="FixtureDirectoryTest.test_copyInto" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+  <component name="RunManager" selected="Gradle.GraphNodeIdResolverTest.test_getGraphNodeId_Material_in_MaterialProduct">
+    <configuration name="GraphNodeIdResolverTest.test_getGraphNodeId_Material_in_MaterialList" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -111,7 +256,31 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.kazurayam.materialstore.zest.FixtureDirectoryTest.test_copyInto&quot;" />
+            <option value="&quot;com.kazurayam.materialstore.diagram.dot.GraphNodeIdResolverTest.test_getGraphNodeId_Material_in_MaterialList&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="GraphNodeIdResolverTest.test_getGraphNodeId_Material_in_MaterialProduct" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;com.kazurayam.materialstore.diagram.dot.GraphNodeIdResolverTest.test_getGraphNodeId_Material_in_MaterialProduct&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -146,7 +315,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="Issue449Test.test_report_AppleTwinsDiff" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="Issue450Test" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -159,7 +328,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;issues.Issue449Test.test_report_AppleTwinsDiff&quot;" />
+            <option value="&quot;issues.Issue450Test&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -170,7 +339,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="MaterialListReporterTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="MetadataImplTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -183,31 +352,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;com.kazurayam.materialstore.base.report.MaterialListReporterTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="MaterialProductGroupReporterTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;com.kazurayam.materialstore.base.report.MaterialProductGroupReporterTest&quot;" />
+            <option value="&quot;com.kazurayam.materialstore.core.metadata.MetadataImplTest&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -220,11 +365,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.GraphNodeIdResolverTest.test_getGraphNodeId_Material_in_MaterialProduct" />
+        <item itemvalue="Gradle.GraphNodeIdResolverTest.test_getGraphNodeId_Material_in_MaterialList" />
+        <item itemvalue="Gradle.MetadataImplTest" />
+        <item itemvalue="Gradle.Issue450Test" />
         <item itemvalue="Gradle.Issue449Test" />
-        <item itemvalue="Gradle.Issue449Test.test_report_AppleTwinsDiff" />
-        <item itemvalue="Gradle.MaterialListReporterTest" />
-        <item itemvalue="Gradle.MaterialProductGroupReporterTest" />
-        <item itemvalue="Gradle.FixtureDirectoryTest.test_copyInto" />
       </list>
     </recent_temporary>
   </component>
@@ -254,6 +399,16 @@
       <workItem from="1701861433172" duration="78000" />
       <workItem from="1701953747861" duration="866000" />
       <workItem from="1702010661150" duration="9706000" />
+      <workItem from="1702034954034" duration="2637000" />
+      <workItem from="1702037721051" duration="1188000" />
+      <workItem from="1702125466648" duration="1089000" />
+      <workItem from="1702126852931" duration="403000" />
+      <workItem from="1702129512843" duration="1538000" />
+      <workItem from="1702158397938" duration="3271000" />
+      <workItem from="1702165156433" duration="20000" />
+      <workItem from="1702167837967" duration="23000" />
+      <workItem from="1702168317468" duration="4405000" />
+      <workItem from="1702185024556" duration="5824000" />
     </task>
     <servers />
   </component>

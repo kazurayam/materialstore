@@ -87,7 +87,9 @@ public final class MaterialProductGroup
         //
         final List<MaterialProduct> tmp = new ArrayList<>();
         for (MaterialProduct sourceMProduct : source) {
-            tmp.add(new MaterialProduct.Builder(sourceMProduct).build());
+            MaterialProduct mp = MaterialProduct.clone(sourceMProduct);
+            mp.annotate(this.ignoreMetadataKeys, this.identifyMetadataValues);
+            tmp.add(mp);
         }
         this.materialProductList = tmp;
     }
@@ -105,6 +107,9 @@ public final class MaterialProductGroup
         this.materialProductList = newMaterialProductList;
     }
 
+    /*
+     * convenience method for unit-testing
+     */
     public void add(MaterialProduct mProduct) {
         mProduct.annotate(ignoreMetadataKeys, identifyMetadataValues);
         materialProductList.add(mProduct);

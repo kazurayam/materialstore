@@ -31,7 +31,7 @@ public final class DiffingMPGProcessor implements MPGProcessor {
         this.differs = builder.differs;
     }
 
-    // implements Reducer
+    // implements MPGProcessor
     @Override
     public MaterialProductGroup process(MaterialProductGroup source) throws MaterialstoreException {
         Objects.requireNonNull(source);

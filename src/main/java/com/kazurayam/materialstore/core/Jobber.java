@@ -84,8 +84,8 @@ public final class Jobber {
         Objects.requireNonNull(fileType);
         final MaterialList result = new MaterialList(jobName, jobTimestamp, query);
         for (IndexEntry indexEntry : index) {
-            if (query.equals(QueryOnMetadata.ANY) || query.matches(indexEntry.getMetadata())) {
-                if (fileType.equals(FileType.NULL_OBJECT) || fileType.equals(indexEntry.getFileType())) {
+            if (fileType.equals(FileType.NULL_OBJECT) || fileType.equals(indexEntry.getFileType())) {
+                if (query.equals(QueryOnMetadata.ANY) || query.matches(indexEntry.getMetadata())) {
                     Material material = new Material(store, getJobName(), getJobTimestamp(), indexEntry);
                     result.add(material);
                 }
