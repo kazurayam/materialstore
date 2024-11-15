@@ -17,8 +17,12 @@ repositories {
     mavenLocal()
 }
 
-sourceCompatibility = "1.8"
-targetCompatibility = "1.8"
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
 def defaultEncoding = "UTF-8"
 tasks.withType(AbstractCompile).each { it.options.encoding = defaultEncoding }
 tasks.withType(GroovyCompile).each { it.groovyOptions.encoding = defaultEncoding }
