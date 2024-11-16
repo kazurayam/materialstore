@@ -32,13 +32,12 @@ public class Issue424Test {
     private static final TestOutputOrganizer too =
             TestOutputOrganizerFactory.create(Issue424Test.class);
     private static final Path fixtureDir =
-            too.getProjectDir().resolve("src/test/fixtures/issue#424");
+            too.getProjectDirectory().resolve("src/test/fixtures/issue#424");
     private static Store store;
 
     @BeforeAll
     public static void beforeAll() throws MaterialstoreException, IOException {
-        too.cleanClassOutputDirectory();
-        Path root = too.getClassOutputDirectory().resolve("store");
+        Path root = too.cleanClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
     }
 

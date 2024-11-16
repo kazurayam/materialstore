@@ -42,9 +42,8 @@ dependencyResolutionManagement {
             version('timekeeper', '0.4.1')
             library('timekeeper', 'com.kazurayam', 'timekeeper').versionRef('timekeeper')
 
-            version('unittesthelper', '0.3.0')
+            version('unittesthelper', '0.5.1')
             library('unittesthelper', 'com.kazurayam', 'unittest-helper').versionRef('unittesthelper')
-
         }
     }
 }

@@ -39,7 +39,7 @@ public class DefaultTextGridDifferTest {
 
     @BeforeEach
     public void setup() throws IOException {
-        outputDir = too.getClassOutputDirectory();
+        outputDir = too.cleanClassOutputDirectory();
     }
 
     @Test
@@ -47,7 +47,7 @@ public class DefaultTextGridDifferTest {
         DefaultTextGridDiffer differ = new DefaultTextGridDiffer(outputDir);
         int warnings = differ.diffTextGrids(input1, input2, new KeyRange(0, 1), "SampleCase");
         System.out.println("the report is found at " +
-                differ.getReportPathRelativeTo(too.getProjectDir()));
+                differ.getReportPathRelativeTo(too.getProjectDirectory()));
         Assertions.assertTrue(warnings > 0);
     }
 }

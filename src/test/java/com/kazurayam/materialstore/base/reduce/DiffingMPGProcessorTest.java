@@ -27,8 +27,7 @@ public class DiffingMPGProcessorTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        too.cleanClassOutputDirectory();
-        Path root = too.getClassOutputDirectory().resolve("store");
+        Path root = too.cleanClassOutputDirectory().resolve("store");
         store = new StoreImpl(root);
     }
 
@@ -90,6 +89,4 @@ public class DiffingMPGProcessorTest {
         Assertions.assertNotNull(resolved);
         Assertions.assertEquals(2, resolved.size());
     }
-
-
 }

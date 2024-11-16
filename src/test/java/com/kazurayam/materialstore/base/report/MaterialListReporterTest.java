@@ -33,16 +33,17 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class MaterialListReporterTest extends AbstractReporterTest {
 
     private static final TestOutputOrganizer too =
-            TestOutputOrganizerFactory.create(MaterialListReporterTest.class);
+            TestOutputOrganizerFactory
+                    .create(MaterialListReporterTest.class);
     private final static Path resultsDir =
-            too.getProjectDir().resolve("src/test/fixtures/sample_results");
+            too.getProjectDirectory()
+                    .resolve("src/test/fixtures/sample_results");
     private static Store store;
     private static Path reportByFreeMarker;
 
     @BeforeAll
     static void beforeAll() throws IOException {
-        too.getClassOutputDirectory();
-        Path root = too.getClassOutputDirectory().resolve("store");
+        Path root = too.cleanClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
         reportByFreeMarker = null;
     }

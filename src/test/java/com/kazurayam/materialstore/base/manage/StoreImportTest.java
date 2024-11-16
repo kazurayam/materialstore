@@ -29,7 +29,8 @@ public class StoreImportTest {
     @Test
     public void test_importReports_latest() throws IOException, MaterialstoreException, JobNameNotFoundException {
         // Arrange
-        Path methodOutputDir = too.getMethodOutputDirectory("test_importReports_latest");
+        Path methodOutputDir =
+                too.resolveMethodOutputDirectory("test_importReports_latest");
         Store remote = Issue334FixtureDirCopier.copyFixtureInto(methodOutputDir);
         Store local = Stores.newInstance(methodOutputDir.resolve("local"));
         // Action
@@ -42,5 +43,4 @@ public class StoreImportTest {
         assertEquals(3, local.findAllJobTimestamps(jobName).size());
         assertEquals(1, local.findAllReportsOf(jobName).size());
     }
-
 }

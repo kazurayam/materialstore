@@ -35,7 +35,7 @@ public class IndexCreatorTest {
 
     @BeforeEach
     public void beforeEach() throws Exception {
-        Path dir = too.getClassOutputDirectory();
+        Path dir = too.cleanClassOutputDirectory();
         store = Stores.newInstance(dir.resolve("store"));
         indexCreator = new IndexCreator(store);
     }

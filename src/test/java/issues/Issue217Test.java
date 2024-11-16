@@ -34,7 +34,7 @@ public class Issue217Test {
     private static final TestOutputOrganizer too =
             TestOutputOrganizerFactory.create(Issue217Test.class);
     static final Path fixtureDir =
-            too.getProjectDir().resolve("src/test/fixtures/issue#217");
+            too.getProjectDirectory().resolve("src/test/fixtures/issue#217");
     private static Store store;
     private static final JobName jobName = new JobName("NISA");
 
@@ -45,8 +45,7 @@ public class Issue217Test {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        too.cleanClassOutputDirectory();
-        Path outputDir = too.getClassOutputDirectory();
+        Path outputDir = too.cleanClassOutputDirectory();
         too.copyDir(fixtureDir, outputDir);
         Path storePath = outputDir.resolve("store");
         store = Stores.newInstance(storePath);

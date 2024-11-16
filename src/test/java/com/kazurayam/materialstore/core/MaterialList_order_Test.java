@@ -27,11 +27,10 @@ public class MaterialList_order_Test {
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        too.cleanClassOutputDirectory();
-        jobTimestamp = JobTimestamp.now();
-        store = Stores.newInstance(too.getClassOutputDirectory().resolve("store"));
+        store = Stores.newInstance(too.cleanClassOutputDirectory().resolve("store"));
         // create fixture
         Map<String, Metadata> fixture = createFixture();
+        jobTimestamp = JobTimestamp.now();
         store.write(jobName, jobTimestamp, FileType.TXT, fixture.get("Google"), "Google");
         store.write(jobName, jobTimestamp, FileType.TXT, fixture.get("DuckDuckGo"), "DuckDuckGo");
     }

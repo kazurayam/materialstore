@@ -36,7 +36,7 @@ public class MarkupSegmentsTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        Path outputDir = too.getClassOutputDirectory();
+        Path outputDir = too.cleanClassOutputDirectory();
         try {
             store = Stores.newInstance(outputDir.resolve("store"));
             cfg = FreeMarkerConfigurator.configureFreeMarker(store);

@@ -19,7 +19,7 @@ public class TestBase {
     protected Map<String, Object> model;
 
     public TestBase() throws IOException {
-        Path projectDir = too.getProjectDir();
+        Path projectDir = too.getProjectDirectory();
         /* ---------------------------------------------------------- */
         /* You should do this ONLY ONCE in the whole application lifecycle */
 

@@ -58,7 +58,7 @@ public class Issue362Test {
 
     @BeforeEach
     public void beforeEach() throws IOException {
-        store = Stores.newInstance(too.getClassOutputDirectory().resolve("store"));
+        store = Stores.newInstance(too.cleanClassOutputDirectory().resolve("store"));
         issue362fixtureDir = FixtureDirectory.getFixturesDirectory().resolve("issue#362");
     }
 

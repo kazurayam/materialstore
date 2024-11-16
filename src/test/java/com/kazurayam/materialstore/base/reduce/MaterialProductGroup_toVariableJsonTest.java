@@ -41,8 +41,7 @@ public class MaterialProductGroup_toVariableJsonTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        too.cleanClassOutputDirectory();
-        Path storePath = too.getClassOutputDirectory().resolve("store");
+        Path storePath = too.cleanClassOutputDirectory().resolve("store");
         store = Stores.newInstance(storePath);
         jobName = new JobName("toVariableJson_test");
         jobTimestamp1 = JobTimestamp.now();

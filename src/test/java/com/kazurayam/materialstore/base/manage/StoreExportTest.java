@@ -29,7 +29,7 @@ public class StoreExportTest {
     @Test
     public void test_exportReports_latest() throws IOException, MaterialstoreException, JobNameNotFoundException {
         // Arrange
-        Path methodOutputDir = too.getMethodOutputDirectory("test_exportReports_latest");
+        Path methodOutputDir = too.resolveMethodOutputDirectory("test_exportReports_latest");
         Store local = Issue334FixtureDirCopier.copyFixtureInto(methodOutputDir);
         Store remote = Stores.newInstance(methodOutputDir.resolve("remote"));
         // Action

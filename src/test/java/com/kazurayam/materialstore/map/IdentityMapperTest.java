@@ -23,14 +23,13 @@ public class IdentityMapperTest {
     private static final TestOutputOrganizer too =
             TestOutputOrganizerFactory.create(IdentityMapperTest.class);
     private static final Path resultsDir =
-            too.getProjectDir().resolve("src/test/fixtures/sample_results");
+            too.getProjectDirectory().resolve("src/test/fixtures/sample_results");
     private static Store store;
     private static JobName jobName;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        too.cleanClassOutputDirectory();
-        Path root = too.getClassOutputDirectory().resolve("store");
+        Path root = too.cleanClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
         jobName = new JobName("IdentityMapperTest");
         Path target = root.resolve(jobName.toString());

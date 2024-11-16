@@ -24,7 +24,7 @@ public class FixtureDirectory {
     }
 
     public static Path getFixturesDirectory() {
-        Path projectDir = too.getProjectDir();
+        Path projectDir = too.getProjectDirectory();
         return projectDir.resolve(FIXTURES_PATH);
     }
 

@@ -39,7 +39,7 @@ public class StoreTest {
 
     @Test
     public void test_contains_JobName() throws Exception {
-        Path methodDir = too.getMethodOutputDirectory("test_contains_JobName");
+        Path methodDir = too.resolveMethodOutputDirectory("test_contains_JobName");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_contains_JobName");
         JobTimestamp jtA = SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.now());
@@ -48,7 +48,7 @@ public class StoreTest {
 
     @Test
     public void test_findAllJobNames() throws Exception {
-        Path methodDir = too.getMethodOutputDirectory("test_findAllJobNames");
+        Path methodDir = too.resolveMethodOutputDirectory("test_findAllJobNames");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_findAllJobNames");
         JobTimestamp jtA = SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.now());
@@ -58,7 +58,7 @@ public class StoreTest {
 
     @Test
     public void test_findDifferentiatingJobTimestamps() throws Exception {
-        Path methodDir = too.getMethodOutputDirectory("test_findDifferentiatingJobTimestamps");
+        Path methodDir = too.resolveMethodOutputDirectory("test_findDifferentiatingJobTimestamps");
         FixtureDirectory fixtureDir = new FixtureDirectory("issue#331");
         fixtureDir.copyInto(methodDir);
         Store store = Stores.newInstance(methodDir.resolve("store"));
@@ -72,7 +72,7 @@ public class StoreTest {
 
     @Test
     public void test_deleteJobName() throws Exception {
-        Path methodDir = too.getMethodOutputDirectory("test_deleteJobName");
+        Path methodDir = too.resolveMethodOutputDirectory("test_deleteJobName");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_deleteJobName");
         JobTimestamp jtA = SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.now());
@@ -83,7 +83,7 @@ public class StoreTest {
 
     @Test
     public void test_export() throws Exception {
-        Path methodDir = too.getMethodOutputDirectory("test_export");
+        Path methodDir = too.resolveMethodOutputDirectory("test_export");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_export");
         JobTimestamp jobTimestamp =
@@ -99,7 +99,7 @@ public class StoreTest {
 
     @Test
     public void test_findNthJobTimestamp_normal() throws Exception {
-        Path methodDir = too.getMethodOutputDirectory("test_findNthJobTimestamp_normal");
+        Path methodDir = too.resolveMethodOutputDirectory("test_findNthJobTimestamp_normal");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_findNthJobTimestamp_normal");
         JobTimestamp jtA = SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.now());
@@ -113,7 +113,7 @@ public class StoreTest {
 
     @Test
     public void test_findNthJobTimestamp_exceedingRange() throws Exception {
-        Path methodDir = too.getMethodOutputDirectory("test_findNthJobTimestamp_exceedingRange");
+        Path methodDir = too.resolveMethodOutputDirectory("test_findNthJobTimestamp_exceedingRange");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_findNthJobTimestamp_exceedingRange");
         JobTimestamp jtA = SampleFixtureInjector.create3PNGs(store, jobName, JobTimestamp.now());
@@ -126,7 +126,7 @@ public class StoreTest {
 
     @Test
     public void test_getPathOf_JobName() throws Exception {
-        Path methodDir = too.getMethodOutputDirectory("test_getPathOf_JobName");
+        Path methodDir = too.resolveMethodOutputDirectory("test_getPathOf_JobName");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_getPathOf_JobName");
         JobTimestamp jtA = SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.now());
@@ -138,7 +138,7 @@ public class StoreTest {
 
     @Test
     public void test_getPathOf_JobTimestamp() throws Exception {
-        Path methodDir = too.getMethodOutputDirectory("test_getPathOf_JobTimestamp");
+        Path methodDir = too.resolveMethodOutputDirectory("test_getPathOf_JobTimestamp");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_getPathOf_JobTimestamp");
         JobTimestamp jobTimestamp = SampleFixtureInjector.create3TXTs(store, jobName, JobTimestamp.now());
@@ -150,7 +150,7 @@ public class StoreTest {
 
     @Test
     public void test_reflect() throws Exception {
-        Path methodDir = too.getMethodOutputDirectory("test_reflect");
+        Path methodDir = too.resolveMethodOutputDirectory("test_reflect");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_reflect");
         JobTimestamp jt = JobTimestamp.now();
@@ -171,7 +171,7 @@ public class StoreTest {
 
     @Test
     public void test_write_BufferedImage_as_JPEG() throws Exception {
-        Path methodDir = too.getMethodOutputDirectory("test_write_BufferedImage_as_JPEG");
+        Path methodDir = too.resolveMethodOutputDirectory("test_write_BufferedImage_as_JPEG");
         Store store = Stores.newInstance(methodDir.resolve("store"));
         JobName jobName = new JobName("test_write_BufferedImage_as_JPEG");
         JobTimestamp jobTimestamp = SampleFixtureInjector.create3PNGs(store, jobName, JobTimestamp.now());

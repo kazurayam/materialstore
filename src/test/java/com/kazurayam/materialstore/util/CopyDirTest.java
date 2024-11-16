@@ -24,8 +24,10 @@ public class CopyDirTest {
     @Test
     public void test_copyDirectory_overwriting() throws IOException {
         Path sourceDir = FixtureDirectory.getFixturesDirectory().resolve("issue#331");
-        Path targetDir = too.getClassOutputDirectory();
-        DeleteDir.deleteDirectoryRecursively(targetDir);
+        Path targetDir = too.resolveClassOutputDirectory();
+        if (Files.exists(targetDir)) {
+            DeleteDir.deleteDirectoryRecursively(targetDir);
+        }
         Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));
         assertTrue(Files.exists(targetDir));
         Files.walkFileTree(sourceDir, new CopyDir(sourceDir, targetDir));

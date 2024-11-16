@@ -40,14 +40,14 @@ public class Issue449Test extends AbstractReporterTest {
     private static final TestOutputOrganizer too =
             TestOutputOrganizerFactory.create(Issue449Test.class);
     private static final Path fixtureDir =
-            too.getProjectDir().resolve("src/test/fixtures/issue#449");
+            too.getProjectDirectory().resolve("src/test/fixtures/issue#449");
     private static Store store;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
         too.cleanClassOutputDirectory();
-        too.copyDir(fixtureDir, too.getClassOutputDirectory());
-        Path storePath = too.getClassOutputDirectory().resolve("store");
+        too.copyDir(fixtureDir, too.resolveClassOutputDirectory());
+        Path storePath = too.resolveClassOutputDirectory().resolve("store");
         store = Stores.newInstance(storePath);
     }
 

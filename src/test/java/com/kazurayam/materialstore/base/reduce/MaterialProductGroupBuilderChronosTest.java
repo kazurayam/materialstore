@@ -26,7 +26,8 @@ public class MaterialProductGroupBuilderChronosTest {
 
     private static final TestOutputOrganizer too =
             TestOutputOrganizerFactory.create(MaterialProductGroupBuilderChronosTest.class);
-    private static final Path fixtureDir = too.getProjectDir().resolve("src/test/fixtures/issue#80");
+    private static final Path fixtureDir =
+            too.getProjectDirectory().resolve("src/test/fixtures/issue#80");
     private static final boolean verbose = true;
     private static Store store;
     private static MaterialList left;
@@ -34,8 +35,7 @@ public class MaterialProductGroupBuilderChronosTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        too.cleanClassOutputDirectory();
-        Path storePath = too.getClassOutputDirectory().resolve("store");
+        Path storePath = too.cleanClassOutputDirectory().resolve("store");
         too.copyDir(fixtureDir, storePath);
         store = Stores.newInstance(storePath);
         //

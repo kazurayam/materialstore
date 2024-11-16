@@ -55,7 +55,7 @@ public class MaterialIOTest {
         byte[] data = MaterialIO.deserialize(f);
         ID id = new ID(MaterialIO.hashJDK(data));
         MaterialIO mio = new MaterialIO(id, FileType.PNG);
-        Path work = too.getMethodOutputDirectory("test_serialize_png");
+        Path work = too.resolveMethodOutputDirectory("test_serialize_png");
         Path objectsDir = work.resolve("objects");
         Files.createDirectories(objectsDir);
         Path objectFile = objectsDir.resolve(mio.getFileName());
@@ -75,7 +75,7 @@ public class MaterialIOTest {
         byte[] data = MaterialIO.deserialize(f);
         ID id = new ID(MaterialIO.hashJDK(data));
         MaterialIO mio = new MaterialIO(id, FileType.HTML);
-        Path work = too.getMethodOutputDirectory("test_serialize_html");
+        Path work = too.resolveMethodOutputDirectory("test_serialize_html");
         Path objectsDir = work.resolve("objects");
         Files.createDirectories(objectsDir);
         Path objectFile = objectsDir.resolve(mio.getFileName());

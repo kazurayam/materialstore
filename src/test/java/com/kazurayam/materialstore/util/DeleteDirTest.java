@@ -19,7 +19,7 @@ public class DeleteDirTest {
 
     @Test
     public void test_deleteDirectoryRecursively() throws IOException {
-        Path targetDir = too.getClassOutputDirectory();
+        Path targetDir = too.resolveClassOutputDirectory();
         FixtureDirectory fixtureDir = new FixtureDirectory("issue#331");
         fixtureDir.copyInto(targetDir);
         assertTrue(Files.exists(targetDir));

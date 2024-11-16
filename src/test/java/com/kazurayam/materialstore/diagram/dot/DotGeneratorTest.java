@@ -36,7 +36,7 @@ public class DotGeneratorTest {
     private static final TestOutputOrganizer too =
             TestOutputOrganizerFactory.create(DotGeneratorTest.class);
     private static final Path issue259Dir =
-            too.getProjectDir().resolve("src/test/fixtures/issue#259");
+            too.getProjectDirectory().resolve("src/test/fixtures/issue#259");
 
     private static Store store;
     private static JobName jobName;
@@ -45,8 +45,7 @@ public class DotGeneratorTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        too.cleanClassOutputDirectory();
-        Path root = too.getClassOutputDirectory().resolve("store");
+        Path root = too.cleanClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
         // copy a fixture into the store
         too.copyDir(issue259Dir.resolve("store"), store.getRoot());

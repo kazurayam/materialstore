@@ -32,7 +32,7 @@ public class ImageDiffStufferTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        Path classOutputDir = too.getClassOutputDirectory();
+        Path classOutputDir = too.cleanClassOutputDirectory();
         Path root = classOutputDir.resolve("store");
         store = new StoreImpl(root);
     }
