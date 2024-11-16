@@ -10,10 +10,12 @@ import com.kazurayam.materialstore.core.Metadata;
 import com.kazurayam.materialstore.core.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.yandex.qatools.ashot.comparison.DiffMarkupPolicy;
 import ru.yandex.qatools.ashot.comparison.ImageDiff;
 import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 import ru.yandex.qatools.ashot.comparison.ImageMarkupPolicy;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 
@@ -22,10 +24,16 @@ public final class ImageDiffStuffer implements Differ {
     private static final Logger logger = LoggerFactory.getLogger(ImageDiffStuffer.class);
 
     private final Store store;
+    private Color diffColor = Color.RED;
 
     public ImageDiffStuffer(Store store) {
         Objects.requireNonNull(store);
         this.store = store;
+    }
+
+    public ImageDiffStuffer withDiffColor(Color color) {
+        this.diffColor = color;
+        return this;
     }
 
     @Override
@@ -43,8 +51,9 @@ public final class ImageDiffStuffer implements Differ {
             BufferedImage leftImage = readImage(left.toPath());
             BufferedImage rightImage = readImage(right.toPath());
             // make a diff image using AShot
+            DiffMarkupPolicy dmp = new ImageMarkupPolicy().withDiffColor(diffColor);
             ImageDiff imageDiff = new ImageDiffer()
-                    .withDiffMarkupPolicy(new ImageMarkupPolicy())
+                    .withDiffMarkupPolicy(dmp)
                     .makeDiff(leftImage, rightImage);
             diffRatio = calculateDiffRatioPercent(imageDiff);
             // write the diff image into the store

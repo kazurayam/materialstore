@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
@@ -27,19 +28,15 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class ImageDiffStufferTest {
 
-    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(ImageDiffStufferTest.class);
-    private static Store store;
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(ImageDiffStufferTest.class);
 
     @BeforeAll
     public static void beforeAll() throws IOException {
         Path classOutputDir = too.cleanClassOutputDirectory();
-        Path root = classOutputDir.resolve("store");
-        store = new StoreImpl(root);
     }
 
-    @Test
-    public void test_stuffDiff_PNG() throws MaterialstoreException {
-        JobName jobName = new JobName("test_stuffDiff");
+    private MaterialProductGroup prepareFixture(Store store, JobName jobName) throws MaterialstoreException {
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");
         SampleFixtureInjector.injectSampleResults(store, jobName);
         LinkedHashMap<String, String> map = new LinkedHashMap<>(1);
@@ -51,8 +48,42 @@ public class ImageDiffStufferTest {
         MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).ignoreKeys("environment", "URL", "URL.host").build();
         assertNotNull(mpg);
         Assertions.assertEquals(2, mpg.size(), JsonUtil.prettyPrint(mpg.toString()));
+        return mpg;
+    }
+
+    @Test
+    public void test_stuffDiff() throws MaterialstoreException, IOException {
+        String methodName = "test_stuffDiff";
+        Path methodOutputDirectory =
+                too.cleanMethodOutputDirectory(methodName);
+        Store store = new StoreImpl(methodOutputDirectory.resolve("store"));
+        JobName jobName = new JobName(methodName);
         //
-        MaterialProduct stuffed = new ImageDiffStuffer(store).stuffDiff(mpg.get(0));
+        MaterialProductGroup mpg = prepareFixture(store, jobName);
+        //
+        MaterialProduct stuffed =
+                new ImageDiffStuffer(store).stuffDiff(mpg.get(0));
+        assertNotNull(stuffed);
+        assertNotNull(stuffed.getDiff());
+        Assertions.assertTrue(stuffed.getDiffRatio() > 0);
+        Assertions.assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff());
+    }
+
+    @Test
+    public void test_DiffColorGray() throws MaterialstoreException, IOException {
+        String methodName = "test_DiffColorGray";
+        Path methodOutputDirectory =
+                too.cleanMethodOutputDirectory(methodName);
+        Store store = new StoreImpl(methodOutputDirectory.resolve("store"));
+        JobName jobName = new JobName(methodName);
+        //
+        MaterialProductGroup mpg = prepareFixture(store, jobName);
+        //
+        MaterialProduct stuffed =
+                new ImageDiffStuffer(store)
+                        // paint the diff pixels with dark gray color
+                        .withDiffColor(Color.DARK_GRAY)
+                        .stuffDiff(mpg.get(0));
         assertNotNull(stuffed);
         assertNotNull(stuffed.getDiff());
         Assertions.assertTrue(stuffed.getDiffRatio() > 0);
