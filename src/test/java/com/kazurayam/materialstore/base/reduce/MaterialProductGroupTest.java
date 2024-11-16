@@ -37,7 +37,7 @@ public class MaterialProductGroupTest {
     private static final TestOutputOrganizer too =
             TestOutputOrganizerFactory.create(MaterialProductGroupTest.class);
     private static final Path issue80Dir =
-            too.getProjectDir().resolve("src/test/fixtures/issue#80");
+            too.getProjectDirectory().resolve("src/test/fixtures/issue#80");
     private static Store store;
     private static JobName jobName;
     private static MaterialList left;
@@ -47,7 +47,7 @@ public class MaterialProductGroupTest {
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
         too.cleanClassOutputDirectory();
-        Path root = too.getClassOutputDirectory().resolve("store");
+        Path root = too.resolveClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
         too.copyDir(issue80Dir, store.getRoot());
         //
@@ -66,9 +66,9 @@ public class MaterialProductGroupTest {
 
     @BeforeEach
     public void beforeEach() {
-        mpg =
-                MaterialProductGroup.builder(
-                        MaterialList.NULL_OBJECT, MaterialList.NULL_OBJECT).build();
+        mpg = MaterialProductGroup
+                .builder(MaterialList.NULL_OBJECT, MaterialList.NULL_OBJECT)
+                .build();
     }
 
     @Test

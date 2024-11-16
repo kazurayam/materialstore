@@ -25,8 +25,7 @@ public class JobberTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        too.cleanClassOutputDirectory();
-        store = Stores.newInstance(too.getClassOutputDirectory().resolve("store"));
+        store = Stores.newInstance(too.cleanClassOutputDirectory().resolve("store"));
     }
 
     @Test

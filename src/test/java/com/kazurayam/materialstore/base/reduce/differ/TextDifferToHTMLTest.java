@@ -25,13 +25,13 @@ import java.util.Objects;
 
 public class TextDifferToHTMLTest extends AbstractReporterTest {
 
-    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(TextDifferToHTMLTest.class);
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(TextDifferToHTMLTest.class);
     private static Store store;
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        too.cleanClassOutputDirectory();
-        Path root = too.getClassOutputDirectory().resolve("store");
+        Path root = too.cleanClassOutputDirectory().resolve("store");
         store = new StoreImpl(root);
     }
 

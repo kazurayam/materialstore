@@ -25,10 +25,11 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ZipperTest {
-
-    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(ZipperTest.class);
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory.create(ZipperTest.class);
     private static final Path issue80Dir =
-            too.getProjectDir().resolve("src/test/fixtures/issue#80");
+            too.getProjectDirectory()
+                    .resolve("src/test/fixtures/issue#80");
     private static Store store;
     private static JobName jobName;
     private static MaterialList left;
@@ -37,8 +38,7 @@ public class ZipperTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        too.cleanClassOutputDirectory();
-        store = Stores.newInstance(too.getClassOutputDirectory().resolve("store"));
+        store = Stores.newInstance(too.cleanClassOutputDirectory().resolve("store"));
         too.copyDir(issue80Dir, store.getRoot());
         //
         jobName = new JobName("MyAdmin_visual_inspection_twins");
@@ -74,7 +74,7 @@ public class ZipperTest {
         Assertions.assertNotNull(mProductList);
         for (MaterialProduct mProduct : mProductList) {
             //println JsonOutput.prettyPrint(mProduct.toString())
-            Assertions.assertFalse(mProduct.getReducedTimestamp().equals(JobTimestamp.NULL_OBJECT));
+            Assertions.assertNotEquals(mProduct.getReducedTimestamp(), JobTimestamp.NULL_OBJECT);
         }
         assertEquals(8, mProductList.size());
     }

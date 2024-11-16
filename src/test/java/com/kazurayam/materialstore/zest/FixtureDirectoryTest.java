@@ -20,7 +20,7 @@ public class FixtureDirectoryTest {
         Path p = FixtureDirectory.getFixturesDirectory();
         assertNotNull(p);
         assertEquals(p.getFileName().toString(), "fixtures");
-        Path alt = too.getProjectDir().resolve(FixtureDirectory.FIXTURES_PATH);
+        Path alt = too.getProjectDirectory().resolve(FixtureDirectory.FIXTURES_PATH);
         assertEquals(alt, p);
     }
 
@@ -33,8 +33,7 @@ public class FixtureDirectoryTest {
 
     @Test
     public void test_copyInto() throws IOException {
-        too.getClassOutputDirectory();
-        Path targetDir = too.getClassOutputDirectory();
+        Path targetDir = too.resolveClassOutputDirectory();
         FixtureDirectory fixtureDir = new FixtureDirectory("issue#73");
         fixtureDir.copyInto(targetDir);
         Path myAdmin = targetDir.resolve("MyAdmin_visual_inspection_twins");

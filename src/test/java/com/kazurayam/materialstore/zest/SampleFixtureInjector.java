@@ -21,7 +21,7 @@ public class SampleFixtureInjector {
 
     public static void injectSampleResults(Store store, JobName jobName) throws MaterialstoreException {
         Path resultsDir =
-                too.getProjectDir().resolve("src/test/fixtures/sample_results");
+                too.getProjectDirectory().resolve("src/test/fixtures/sample_results");
         injectSample(resultsDir, store, jobName);
     }
 

@@ -49,7 +49,7 @@ public class MPGVisualizerTest {
     @BeforeAll
     public static void beforeAll() throws IOException {
         too.cleanClassOutputDirectory();
-        Path root = too.getClassOutputDirectory().resolve("store");
+        Path root = too.resolveClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
         // copy a fixture into the store
         FixtureDirectory fixtureDir = new FixtureDirectory("issue#80");

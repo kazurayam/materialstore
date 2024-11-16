@@ -32,7 +32,7 @@ public class ReducerTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        Path dir = too.getClassOutputDirectory();
+        Path dir = too.cleanClassOutputDirectory();
         store = Stores.newInstance(dir.resolve("store"));
     }
 

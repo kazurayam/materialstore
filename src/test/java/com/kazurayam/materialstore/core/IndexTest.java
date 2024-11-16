@@ -15,7 +15,7 @@ import java.util.LinkedHashMap;
 public class IndexTest {
 
     private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(IndexTest.class);
-    private static final Path resultsDir = too.getProjectDir().resolve("src/test/fixtures/sample_results");
+    private static final Path resultsDir = too.getProjectDirectory().resolve("src/test/fixtures/sample_results");
     private final String sampleLine = "6141b40cfe9e7340a483a3097c4f6ff5d20e04ea\tpng\t{\"environment\":\"DevelopmentEnv\", \"URL\":\"http://demoaut-mimic.kazurayam.com/\"}";
 
     @BeforeAll
@@ -60,7 +60,7 @@ public class IndexTest {
         Path source = Index.getIndexFile(resultsDir.resolve("20210713_093357"));
         Index index = Index.deserialize(source);
         //
-        Path root = too.getMethodOutputDirectory("test_serialize");
+        Path root = too.resolveMethodOutputDirectory("test_serialize");
         Path jobNameDir = root.resolve("myJob");
         Path jobTimestampDir = jobNameDir.resolve(JobTimestamp.now().toString());
         Files.createDirectories(jobTimestampDir);
@@ -77,5 +77,4 @@ public class IndexTest {
         String s = index.toString();
         System.out.println(JsonUtil.prettyPrint(s));
     }
-
 }

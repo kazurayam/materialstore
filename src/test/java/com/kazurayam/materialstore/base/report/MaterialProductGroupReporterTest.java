@@ -34,7 +34,7 @@ public class MaterialProductGroupReporterTest extends AbstractReporterTest {
 
     @BeforeEach
     void setup() throws IOException {
-        Path root = too.getClassOutputDirectory().resolve("store");
+        Path root = too.resolveClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
         report1 = null;
     }

@@ -26,8 +26,7 @@ public class MaterialComparatorByMetadataDescriptionTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        too.cleanClassOutputDirectory();
-        Path classOutputDir = too.getClassOutputDirectory();
+        Path classOutputDir = too.cleanClassOutputDirectory();
         jobTimestamp = JobTimestamp.now();
         store = Stores.newInstance(classOutputDir);
         // create fixture

@@ -27,7 +27,7 @@ public class MaterialListTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        Path outputDir = too.getClassOutputDirectory();
+        Path outputDir = too.resolveClassOutputDirectory();
         too.cleanClassOutputDirectory();
         store = Stores.newInstance(outputDir);
         jobTimestamp = JobTimestamp.now();
@@ -154,7 +154,7 @@ public class MaterialListTest {
     public void test_toTemplateModelAsJson_noArg() throws IOException, MaterialstoreException {
         MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY);
         String json = materialList.toTemplateModelAsJson(true);
-        Files.write(too.getClassOutputDirectory().resolve("test_toTemplateModelAsJSON.json"),
+        Files.write(too.resolveClassOutputDirectory().resolve("test_toTemplateModelAsJSON.json"),
                 json.getBytes(StandardCharsets.UTF_8));
     }
 
@@ -163,7 +163,7 @@ public class MaterialListTest {
         MaterialList materialList = store.select(jobName, jobTimestamp, QueryOnMetadata.ANY);
         SortKeys sortKeys = new SortKeys("timestamp","zzz");
         String json = materialList.toTemplateModelAsJson(sortKeys, true);
-        Files.write(too.getClassOutputDirectory().resolve("test_toTemplateModelAsJSON.json"),
+        Files.write(too.resolveClassOutputDirectory().resolve("test_toTemplateModelAsJSON.json"),
                 json.getBytes(StandardCharsets.UTF_8));
     }
 

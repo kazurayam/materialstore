@@ -23,12 +23,13 @@ import java.util.LinkedHashMap;
 
 public class TextDifferToMarkdownTest {
 
-    private static final TestOutputOrganizer too = TestOutputOrganizerFactory.create(TextDifferToMarkdownTest.class);
+    private static final TestOutputOrganizer too =
+            TestOutputOrganizerFactory
+                    .create(TextDifferToMarkdownTest.class);
 
     @Test
     public void test_injectDiff() throws MaterialstoreException, IOException {
-        too.cleanClassOutputDirectory();
-        Path root = too.getClassOutputDirectory().resolve("store");
+        Path root = too.cleanClassOutputDirectory().resolve("store");
         Store store = new StoreImpl(root);
         JobName jobName = new JobName("test_makeDiff");
         JobTimestamp jobTimestamp = new JobTimestamp("20210715_145922");

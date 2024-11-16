@@ -38,13 +38,12 @@ public class Issue417Test {
     private static final TestOutputOrganizer too =
             TestOutputOrganizerFactory.create(Issue417Test.class);
     private static final Path fixtureDir =
-            too.getProjectDir().resolve("src/test/fixtures/issue#417");
+            too.getProjectDirectory().resolve("src/test/fixtures/issue#417");
     private static Store store;
 
     @BeforeAll
     public static void beforeAll() throws MaterialstoreException, IOException {
-        too.cleanClassOutputDirectory();
-        Path rootDir = too.getClassOutputDirectory().resolve("store");
+        Path rootDir = too.cleanClassOutputDirectory().resolve("store");
         store = Stores.newInstance(rootDir);
     }
 
@@ -109,10 +108,10 @@ public class Issue417Test {
      */
     @Test
     public void test_AShot_imageDiff_how_much_memory_it_requires() throws MaterialstoreException, IOException {
-        Path noMaterialFoundPNG = too.getProjectDir()
+        Path noMaterialFoundPNG = too.getProjectDirectory()
                 .resolve("src/main/resources/com/kazurayam/materialstore/core/NoCounterpartFound.png");
         BufferedImage leftImage = ImageIO.read(noMaterialFoundPNG.toFile());
-        Path fixturePNG = too.getProjectDir()
+        Path fixturePNG = too.getProjectDirectory()
                 .resolve("src/test/fixtures/issue#417/3a98c4ba471f11462d06a4c94ef4daa4010a466a.png");
         BufferedImage rightImage = ImageIO.read(fixturePNG.toFile());
         ImageDiffer imageDiffer = new ImageDiffer();
@@ -126,10 +125,10 @@ public class Issue417Test {
     // this test is no longer necessary as I modified the ImageDifferToPng#stuffDiff()
     @Test
     public void test_AShot_imageDiff_of_the_same_size_3445x3872() throws MaterialstoreException, IOException {
-        Path noMaterialFoundPNG = too.getProjectDir()
+        Path noMaterialFoundPNG = too.getProjectDirectory()
                 .resolve("src/test/fixtures/issue#417/NoMaterialFound_3445x4872.png");
         BufferedImage leftImage = ImageIO.read(noMaterialFoundPNG.toFile());
-        Path fixturePNG = too.getProjectDir()
+        Path fixturePNG = too.getProjectDirectory()
                 .resolve("src/test/fixtures/issue#417/3a98c4ba471f11462d06a4c94ef4daa4010a466a.png");
         BufferedImage rightImage = ImageIO.read(fixturePNG.toFile());
         ImageDiffer imageDiffer = new ImageDiffer();

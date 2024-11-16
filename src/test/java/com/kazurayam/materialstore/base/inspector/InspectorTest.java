@@ -36,10 +36,12 @@ public class InspectorTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        too.cleanClassOutputDirectory();
-        store = Stores.newInstance(too.getClassOutputDirectory().resolve("store"));
-        Path issue80Dir = too.getProjectDir().resolve("src/test/fixtures")
-                .resolve("issue#80");
+        store = Stores.newInstance(too.cleanClassOutputDirectory()
+                .resolve("store"));
+        Path issue80Dir =
+                too.getProjectDirectory()
+                        .resolve("src/test/fixtures")
+                        .resolve("issue#80");
         too.copyDir(issue80Dir, store.getRoot());
     }
 

@@ -39,8 +39,7 @@ public class MaterialProductComparatorTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException, MaterialstoreException {
-        too.cleanClassOutputDirectory();
-        Path root = too.getClassOutputDirectory().resolve("store");
+        Path root = too.cleanClassOutputDirectory().resolve("store");
         store = Stores.newInstance(root);
         //
         jobName = new JobName("MaterialProductComparatorTest");

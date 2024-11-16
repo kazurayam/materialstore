@@ -32,9 +32,8 @@ public class VoidDifferTest {
 
     @BeforeAll
     public static void beforeAll() throws IOException {
-        too.cleanClassOutputDirectory();
-        Path classOutputDir = too.getClassOutputDirectory();
-        Path fixtureDir = too.getProjectDir().resolve("src/test/fixtures");
+        Path classOutputDir = too.cleanClassOutputDirectory();
+        Path fixtureDir = too.getProjectDirectory().resolve("src/test/fixtures");
         too.copyDir(fixtureDir.resolve("issue#80"),
                 classOutputDir.resolve("store"));
         Path root = classOutputDir.resolve("store");

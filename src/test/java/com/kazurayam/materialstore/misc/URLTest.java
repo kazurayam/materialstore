@@ -17,7 +17,7 @@ public class URLTest {
 
     @Test
     public void test_file_URL() throws MalformedURLException {
-        Path theFile = too.getProjectDir()
+        Path theFile = too.getProjectDirectory()
                 .resolve("src/test/java/misc/URLTest.java");
         URL url = theFile.toFile().toURI().toURL();
         System.out.println(url.toString());

@@ -31,8 +31,7 @@ public class StoreCleanerTest {
 
     @BeforeEach
     public void beforeEach() throws IOException {
-        too.cleanClassOutputDirectory();
-        classOutputDir = too.getClassOutputDirectory();
+        classOutputDir = too.cleanClassOutputDirectory();
     }
 
     /**

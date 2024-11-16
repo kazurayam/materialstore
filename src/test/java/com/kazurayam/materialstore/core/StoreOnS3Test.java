@@ -4,6 +4,7 @@ import com.kazurayam.materialstore.zest.TestOutputOrganizerFactory;
 import com.kazurayam.timekeeper.Measurement;
 import com.kazurayam.timekeeper.Table;
 import com.kazurayam.timekeeper.Timekeeper;
+import com.kazurayam.unittest.DeleteDir;
 import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
@@ -65,7 +66,7 @@ public class StoreOnS3Test {
     public void afterEach() throws IOException {
         if (CLEANUP_ON_END) {
             if (Files.exists(dir)) {
-                TestOutputOrganizer.cleanDirectoryRecursively(dir);
+                DeleteDir.deleteDirectoryRecursively(dir);
             }
         }
     }
@@ -78,7 +79,7 @@ public class StoreOnS3Test {
         mm.recordDuration(Collections.singletonMap("Step", "closing the FileSystem"),
                 beforeClosing, afterClosing);
         // write the performance report
-        Path markdown = too.getClassOutputDirectory().resolve("performance.md");
+        Path markdown = too.cleanClassOutputDirectory().resolve("performance.md");
         tk.report(markdown);
     }
 
@@ -166,5 +167,4 @@ public class StoreOnS3Test {
         //store.deleteJobName(jobName);
         // the above line will fail because no empty directory can be present on S3 bucket.
     }
-
 }
