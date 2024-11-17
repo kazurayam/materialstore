@@ -1,4 +1,4 @@
-package com.kazurayam.materialstore.base.reduce.zipper;
+package com.kazurayam.materialstore.core;
 
 import java.awt.Color;
 
