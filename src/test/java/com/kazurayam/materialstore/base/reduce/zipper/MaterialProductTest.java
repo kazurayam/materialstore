@@ -17,11 +17,13 @@ import com.kazurayam.unittest.TestOutputOrganizer;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MaterialProductTest {
 
@@ -103,8 +105,11 @@ public class MaterialProductTest {
         MaterialProduct mProduct =
                 new MaterialProduct.Builder(Material.NULL_OBJECT, Material.NULL_OBJECT,
                         jobName, JobTimestamp.now())
-                        .setQueryOnMetadata(mp).build();
+                        .setQueryOnMetadata(mp)
+                        .withDiffColor(new DiffColor(Color.GRAY))
+                        .build();
         String json = mProduct.toJson(true);
+        assertTrue(json.contains("#808080"));   // Color.GRAY
         System.out.println(json);
     }
 

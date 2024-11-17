@@ -2,6 +2,7 @@ package com.kazurayam.materialstore.base.reduce;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.kazurayam.materialstore.base.reduce.zipper.DiffColor;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProductComparator;
 import com.kazurayam.materialstore.base.reduce.zipper.Zipper;
@@ -436,6 +437,7 @@ public final class MaterialProductGroup
         private List<MaterialProduct> materialProductList;
         private String labelLeft;
         private String labelRight;
+        private DiffColor withDiffColor;
 
         public Builder(final MaterialList materialList0, final MaterialList materialList1) {
             this.materialList0 = materialList0;
@@ -450,6 +452,7 @@ public final class MaterialProductGroup
             this.threshold = 0.0d;
             this.labelLeft = materialList0.getJobTimestamp().toString();
             this.labelRight = materialList1.getJobTimestamp().toString();
+            this.withDiffColor = DiffColor.DEFAULT;
         }
 
         public Builder ignoreKey(String key) {
@@ -507,12 +510,19 @@ public final class MaterialProductGroup
             return this;
         }
 
+        public Builder withDiffColor(DiffColor withDiffColor) {
+            this.withDiffColor = withDiffColor;
+            return this;
+        }
+
         public MaterialProductGroup build() {
 
             /* =============================================================
              * this is the most mysterious part of the materialstore library
              */
-            Zipper zipper = new Zipper(ignoreMetadataKeys, identifyMetadataValues);
+            Zipper zipper =
+                    new Zipper(ignoreMetadataKeys, identifyMetadataValues)
+                            .withDiffColor(withDiffColor);
             this.materialProductList =
                     zipper.zipMaterials(materialList0, materialList1, resultTimestamp);
 

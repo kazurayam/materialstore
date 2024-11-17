@@ -80,10 +80,7 @@ public class ImageDiffStufferTest {
         MaterialProductGroup mpg = prepareFixture(store, jobName);
         //
         MaterialProduct stuffed =
-                new ImageDiffStuffer(store)
-                        // paint the diff pixels with dark gray color
-                        .withDiffColor(Color.DARK_GRAY)
-                        .stuffDiff(mpg.get(0));
+                new ImageDiffStuffer(store).stuffDiff(mpg.get(0));
         assertNotNull(stuffed);
         assertNotNull(stuffed.getDiff());
         Assertions.assertTrue(stuffed.getDiffRatio() > 0);

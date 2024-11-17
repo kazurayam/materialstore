@@ -24,16 +24,10 @@ public final class ImageDiffStuffer implements Differ {
     private static final Logger logger = LoggerFactory.getLogger(ImageDiffStuffer.class);
 
     private final Store store;
-    private Color diffColor = Color.RED;
 
     public ImageDiffStuffer(Store store) {
         Objects.requireNonNull(store);
         this.store = store;
-    }
-
-    public ImageDiffStuffer withDiffColor(Color color) {
-        this.diffColor = color;
-        return this;
     }
 
     @Override
@@ -51,7 +45,8 @@ public final class ImageDiffStuffer implements Differ {
             BufferedImage leftImage = readImage(left.toPath());
             BufferedImage rightImage = readImage(right.toPath());
             // make a diff image using AShot
-            DiffMarkupPolicy dmp = new ImageMarkupPolicy().withDiffColor(diffColor);
+            DiffMarkupPolicy dmp = new ImageMarkupPolicy()
+                            .withDiffColor(mProduct.getWithDiffColor().getColor());
             ImageDiff imageDiff = new ImageDiffer()
                     .withDiffMarkupPolicy(dmp)
                     .makeDiff(leftImage, rightImage);

@@ -73,7 +73,7 @@ public class GraphNodeIdResolverTest {
                         jobName,
                         reducedTimestamp).build();
         GraphNodeId graphNodeId = GraphNodeIdResolver.resolveIdOfMaterialInMaterialProduct(mProduct, Role.L);
-        assertEquals(new GraphNodeId("MP434032c_Mf526e62_L"), graphNodeId);
+        assertEquals(new GraphNodeId("MP211b06a_Mf526e62_L"), graphNodeId);
     }
 
     @Disabled  // https://github.com/kazurayam/materialstore/issues/430
