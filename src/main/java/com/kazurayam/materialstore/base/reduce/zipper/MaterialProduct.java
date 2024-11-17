@@ -38,8 +38,10 @@ public final class MaterialProduct
     private final JobName jobName;
     private final JobTimestamp reducedTimestamp;
     private final QueryOnMetadata query;
-    private Material diff;
+    private final DiffColor withDiffColor;
     private Double diffRatio;
+
+    private Material diff;
 
     private MaterialProduct(Builder builder) {
         this.left = builder.left;
@@ -48,6 +50,7 @@ public final class MaterialProduct
         this.jobName = builder.jobName;
         this.reducedTimestamp = builder.reducedTimestamp;
         this.query = builder.query;
+        this.withDiffColor = builder.withDiffColor;
         this.diffRatio = builder.diffRatio;
     }
 
@@ -72,7 +75,6 @@ public final class MaterialProduct
         return this.left;
     }
 
-
     public String getFileTypeExtension() {
         if (this.getLeft().equals(Material.NULL_OBJECT)) {
             return this.getRight().getIndexEntry().getFileType().getExtension();
@@ -80,6 +82,7 @@ public final class MaterialProduct
             return this.getLeft().getIndexEntry().getFileType().getExtension();
         }
     }
+
     public FileTypeDiffability getFileTypeDiffability() {
         if (this.getLeft().equals(Material.NULL_OBJECT)) {
             return this.getRight().getDiffability();
@@ -95,6 +98,8 @@ public final class MaterialProduct
     public Material getDiff() {
         return this.diff;
     }
+
+    public DiffColor getWithDiffColor() { return this.withDiffColor; }
 
     public Double getDiffRatio() { return this.diffRatio; }
 
@@ -159,7 +164,6 @@ public final class MaterialProduct
         if (this.getDiff() != null) {
             hash = 31 * hash + this.getDiff().hashCode();
         }
-
         return hash;
     }
 
@@ -235,8 +239,9 @@ public final class MaterialProduct
         sb.append("\"queryOnMetadata\":");
         sb.append(query.getQueryIdentification(sortKeys).toString());
         sb.append(",");
-        sb.append("\"identification\":");
-        sb.append("\"" + JsonUtil.escapeAsJsonString(query.getQueryIdentification(sortKeys).toString()) + "\"");
+        sb.append("\"identification\":\"");
+        sb.append(JsonUtil.escapeAsJsonString(query.getQueryIdentification(sortKeys).toString()));
+        sb.append("\"");
         sb.append(",");
         sb.append("\"left\":");
         sb.append(left.toJson());
@@ -244,13 +249,15 @@ public final class MaterialProduct
         sb.append("\"right\":");
         sb.append(right.toJson());
         sb.append(",");
+        sb.append("\"withDiffColor\":\"");
+        sb.append(withDiffColor.toRGB());
+        sb.append("\"");
+        sb.append(",");
         sb.append("\"diff\":");
         sb.append(diff.toJson());
         sb.append("}");
         return sb.toString();
     }
-
-
 
     /**
      *
@@ -262,6 +269,7 @@ public final class MaterialProduct
         private final JobTimestamp reducedTimestamp;
         private final Material diff;
         private QueryOnMetadata query;
+        private DiffColor withDiffColor;
         private final Double diffRatio;
         public Builder(Material left, Material right,
                        JobName jobName, JobTimestamp reducedTimestamp) {
@@ -275,6 +283,7 @@ public final class MaterialProduct
             this.reducedTimestamp = reducedTimestamp;
             this.diff = Material.NULL_OBJECT;
             this.query = QueryOnMetadata.NULL_OBJECT;
+            this.withDiffColor = DiffColor.DEFAULT;
             this.diffRatio = 0.0d;
         }
 
@@ -286,6 +295,7 @@ public final class MaterialProduct
             this.jobName = source.getJobName();
             this.reducedTimestamp = source.getReducedTimestamp();
             this.query = source.getQueryOnMetadata();
+            this.withDiffColor = source.getWithDiffColor();
             this.diffRatio = source.getDiffRatio();
         }
 
@@ -304,6 +314,12 @@ public final class MaterialProduct
         public Builder setQueryOnMetadata(QueryOnMetadata query) {
             Objects.requireNonNull(query);
             this.query = query;
+            return this;
+        }
+
+        public Builder withDiffColor(DiffColor diffColor) {
+            Objects.requireNonNull(diffColor);
+            this.withDiffColor = diffColor;
             return this;
         }
 

@@ -28,6 +28,7 @@ public final class Zipper {
 
     private final IgnoreMetadataKeys ignoreMetadataKeys;
     private final IdentifyMetadataValues identifyMetadataValues;
+    private DiffColor withDiffColor;
 
     public Zipper(final IgnoreMetadataKeys ignoreMetadataKeys,
                   final IdentifyMetadataValues identifyMetadataValues) {
@@ -35,6 +36,12 @@ public final class Zipper {
         Objects.requireNonNull(identifyMetadataValues);
         this.ignoreMetadataKeys = ignoreMetadataKeys;
         this.identifyMetadataValues = identifyMetadataValues;
+        this.withDiffColor = DiffColor.DEFAULT;
+    }
+
+    public Zipper withDiffColor(final DiffColor diffColor) {
+        this.withDiffColor = diffColor;
+        return this;
     }
 
     /*
@@ -71,6 +78,7 @@ public final class Zipper {
                             new MaterialProduct.Builder(left, right,
                                     right.getJobName(), resultTimestamp)
                                     .setQueryOnMetadata(rightPattern)
+                                    .withDiffColor(withDiffColor)
                                     .build();
                     mProductList.add(mp);
                     logger.debug(methodName + "left Y " + left.getShortID() + " "
@@ -86,6 +94,7 @@ public final class Zipper {
                         new MaterialProduct.Builder(Material.newEmptyMaterial(), right,
                                 right.getJobName(), resultTimestamp)
                                 .setQueryOnMetadata(rightPattern)
+                                .withDiffColor(withDiffColor)
                                 .build();
                 mProductList.add(mp);
             }
@@ -124,6 +133,7 @@ public final class Zipper {
                         new MaterialProduct.Builder(left, Material.newEmptyMaterial(),
                                 left.getJobName(), resultTimestamp)
                                 .setQueryOnMetadata(leftPattern)
+                                .withDiffColor(withDiffColor)
                                 .build();
                 mProductList.add(mProduct);
             }

@@ -14,6 +14,7 @@ import com.kazurayam.materialstore.core.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -80,12 +81,25 @@ public final class DiffingMPGProcessor implements MPGProcessor {
 
         private final Store store;
         private final Map<IFileType, Differ> differs;
+        private Color diffColor = Color.RED;
 
         public Builder(Store store) {
             Objects.requireNonNull(store);
             this.store = store;
             differs = new HashMap<>();
-            //
+        }
+
+        public Builder differFor(FileType fileType, Differ differ) {
+            differs.put(fileType, differ);
+            return this;
+        }
+
+        public Builder diffColor(Color diffColor) {
+            this.diffColor = diffColor;
+            return this;
+        }
+
+        public DiffingMPGProcessor build() {
             final Differ textDiffer = new TextDifferToHTML(store);
             for (IFileType ft : FileTypeUtil.getFileTypesDiffableAsText()) {
                 differs.put(ft, textDiffer);
@@ -100,14 +114,6 @@ public final class DiffingMPGProcessor implements MPGProcessor {
             for (IFileType ft : FileTypeUtil.getFileTypesUnableToDiff()) {
                 differs.put(ft, voidDiffer);
             }
-        }
-
-        public Builder differFor(FileType fileType, Differ differ) {
-            differs.put(fileType, differ);
-            return this;
-        }
-
-        public DiffingMPGProcessor build() {
             return new DiffingMPGProcessor(this);
         }
     }
