@@ -2,7 +2,7 @@ package com.kazurayam.materialstore.base.reduce;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
-import com.kazurayam.materialstore.base.reduce.zipper.DiffColor;
+import com.kazurayam.materialstore.core.DiffColor;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProduct;
 import com.kazurayam.materialstore.base.reduce.zipper.MaterialProductComparator;
 import com.kazurayam.materialstore.base.reduce.zipper.Zipper;

@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.reduce.zipper;
 
+import com.kazurayam.materialstore.core.DiffColor;
 import com.kazurayam.materialstore.core.IFileType;
 import com.kazurayam.materialstore.core.JobTimestamp;
 import com.kazurayam.materialstore.core.Material;

@@ -1,5 +1,6 @@
 package com.kazurayam.materialstore.base.reduce.zipper;
 
+import com.kazurayam.materialstore.core.DiffColor;
 import com.kazurayam.materialstore.core.FileTypeDiffability;
 import com.kazurayam.materialstore.core.ID;
 import com.kazurayam.materialstore.core.Identifiable;
