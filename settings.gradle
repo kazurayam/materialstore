@@ -31,8 +31,11 @@ dependencyResolutionManagement {
 
             version('s3fs', '2.2.2')
             library('s3fs', 'com.upplication', 's3fs').versionRef('s3fs')
+            
+            version('seleniumjava', '4.33.0')
+            library('seleniumjava', 'org.seleniumhq.selenium', 'selenium-java').versionRef('seleniumjava')
 
-            version('slf4j', '1.7.25')
+            version('slf4j', '2.0.17')
             library('slf4j-api', 'org.slf4j', 'slf4j-api').versionRef('slf4j')
             library('slf4j-simple', 'org.slf4j', 'slf4j-simple').versionRef('slf4j')
 
