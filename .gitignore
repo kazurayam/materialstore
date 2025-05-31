@@ -28,3 +28,4 @@ tmp/
 # groovydoc
 #docs/api/
 
+.idea/
