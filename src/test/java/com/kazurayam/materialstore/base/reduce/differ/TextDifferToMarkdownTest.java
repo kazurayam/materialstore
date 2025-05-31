@@ -49,7 +49,7 @@ public class TextDifferToMarkdownTest {
         Assertions.assertNotNull(mpg);
         Assertions.assertEquals(1, mpg.size());
         //
-        MaterialProduct stuffed = new TextDifferToMarkdown(store).stuffDiff(mpg.get(0));
+        MaterialProduct stuffed = new TextDifferToMarkdown(store).generateDiff(mpg.get(0));
         Assertions.assertNotNull(stuffed);
         Assertions.assertNotNull(stuffed.getDiff());
         Assertions.assertNotEquals(Material.NULL_OBJECT, stuffed.getDiff());

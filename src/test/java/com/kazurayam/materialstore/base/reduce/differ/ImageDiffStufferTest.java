@@ -19,7 +19,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.LinkedHashMap;
@@ -52,7 +51,7 @@ public class ImageDiffStufferTest {
     }
 
     @Test
-    public void test_stuffDiff() throws MaterialstoreException, IOException {
+    public void test_generateDiff() throws MaterialstoreException, IOException {
         String methodName = "test_stuffDiff";
         Path methodOutputDirectory =
                 too.cleanMethodOutputDirectory(methodName);
@@ -62,7 +61,7 @@ public class ImageDiffStufferTest {
         MaterialProductGroup mpg = prepareFixture(store, jobName);
         //
         MaterialProduct stuffed =
-                new ImageDiffStuffer(store).stuffDiff(mpg.get(0));
+                new ImageDiffStuffer(store).generateDiff(mpg.get(0));
         assertNotNull(stuffed);
         assertNotNull(stuffed.getDiff());
         Assertions.assertTrue(stuffed.getDiffRatio() > 0);
@@ -80,7 +79,7 @@ public class ImageDiffStufferTest {
         MaterialProductGroup mpg = prepareFixture(store, jobName);
         //
         MaterialProduct stuffed =
-                new ImageDiffStuffer(store).stuffDiff(mpg.get(0));
+                new ImageDiffStuffer(store).generateDiff(mpg.get(0));
         assertNotNull(stuffed);
         assertNotNull(stuffed.getDiff());
         Assertions.assertTrue(stuffed.getDiffRatio() > 0);

@@ -126,7 +126,7 @@ public class Issue362Test {
         //
         MaterialProduct mp = new MaterialProduct.Builder(left, right, jobName, jobTimestamp).build();
         TextDifferToHTML differ = new TextDifferToHTML(store);
-        MaterialProduct stuffed = differ.stuffDiff(mp);
+        MaterialProduct stuffed = differ.generateDiff(mp);
 
 
     }

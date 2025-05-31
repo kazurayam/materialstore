@@ -66,7 +66,7 @@ public final class DiffingMPGProcessor implements MPGProcessor {
             fileType = materialProduct.getRight().getIndexEntry().getFileType();
         }
         Differ differ = differs.get(fileType);
-        MaterialProduct result = differ.stuffDiff(materialProduct);
+        MaterialProduct result = differ.generateDiff(materialProduct);
         return result;
     }
 

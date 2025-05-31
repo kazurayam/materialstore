@@ -74,7 +74,7 @@ public interface Differ {
         }
     }
 
-    MaterialProduct stuffDiff(MaterialProduct mProduct) throws MaterialstoreException;
+    MaterialProduct generateDiff(MaterialProduct mProduct) throws MaterialstoreException;
 
     default byte[] toByteArray(BufferedImage input, FileType fileType)
             throws MaterialstoreException {
