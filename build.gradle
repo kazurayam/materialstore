@@ -47,6 +47,7 @@ dependencies {
     testImplementation libs.timekeeper
     testImplementation libs.s3fs
     testImplementation libs.unittesthelper
+    testImplementation libs.seleniumjava
 }
 
 java {
