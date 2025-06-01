@@ -60,40 +60,40 @@
       <tr>
         <th>Material</th>
         <td>
-          <a href="../../../${leftData.relativeURL}" target="Left">${leftData.relativeURL}</a>
+          <a href="../../../${splitData.left.relativeURL}" target="Left">${splitData.left.relativeURL}</a>
         </td>
         <td>
-          <a href="../../../${rightData.relativeURL}" target="Right">${rightData.relativeURL}</a>
+          <a href="../../../${splitData.right.relativeURL}" target="Right">${splitData.right.relativeURL}</a>
         </td>
       </tr>
       <tr>
         <th>FileType</th>
         <td>
-          <span>${leftData.fileType}</span>
+          <span>${splitData.left.fileType}</span>
         </td>
         <td>
-          <span>${rightData.fileType}</span>
+          <span>${splitData.right.fileType}</span>
         </td>
       </tr>
       <tr>
         <th>Metadata</th>
         <td>
-          <span>${leftData.metadata}</span>
+          <span>${splitData.left.metadata}</span>
         </td>
         <td>
-          <span>${rightData.metadata}</span>
+          <span>${splitData.right.metadata}</span>
         </td>
       </tr>
       <tr>
         <th>Source</th>
         <td>
-          <#if leftData.url??>
-            <a href="${leftData.url}" target="Left">${leftData.url}</a>
+          <#if splitData.left.url??>
+            <a href="${splitData.left.url}" target="Left">${splitData.left.url}</a>
           </#if>
         </td>
         <td>
-            <#if rightData.url??>
-              <a href="${rightData.url}" target="Right">${rightData.url}</a>
+            <#if splitData.right.url??>
+              <a href="${splitData.right.url}" target="Right">${splitData.right.url}</a>
             </#if>
         </td>
       </tr>
@@ -104,7 +104,7 @@
       </tr>
     </thead>
     <tbody>
-      <#list rows>
+      <#list splitData.rows>
           <#items as row>
             <tr>
               <th class="${row.class}">${row.index}</th>
