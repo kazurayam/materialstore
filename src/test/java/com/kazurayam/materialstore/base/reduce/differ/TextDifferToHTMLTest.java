@@ -24,16 +24,17 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 
@@ -73,11 +74,11 @@ public class TextDifferToHTMLTest extends AbstractReporterTest {
     }
 
     @Test
-    public void test_splitDiff() throws MaterialstoreException, IOException {
+    public void test_sideBySideDiff() throws MaterialstoreException, IOException {
         Path htmlFile = generateDiffHTML("test_splitDiff");
         driver.get(htmlFile.toUri().toURL().toExternalForm());
         //
-        assertTrue(driver.findElement(By.xpath("//table[@id='split-diff']")).isDisplayed(),
+        assertTrue(driver.findElement(By.xpath("//table[@id='side-by-side']")).isDisplayed(),
                 "missing <table id='split-diff'>");
     }
 
@@ -85,8 +86,13 @@ public class TextDifferToHTMLTest extends AbstractReporterTest {
     public void test_unifiedDiff() throws MaterialstoreException, MalformedURLException {
         Path htmlFile = generateDiffHTML("test_unifiedDiff");
         driver.get(htmlFile.toUri().toURL().toExternalForm());
-        //
-        assertTrue(driver.findElement(By.xpath("//table[@id='unified-diff']")).isDisplayed(),
+        // click the radio button to switch the diff format from Side-by-side to Unified
+        new WebDriverWait(driver, Duration.ofSeconds(20))
+                .until(ExpectedConditions.elementToBeClickable(
+                        By.xpath("//input[@name='diffFormat' and @value='unified']"))
+                ).click();
+        // assert that `<table id='unified'>` is visible
+        assertTrue(driver.findElement(By.xpath("//table[@id='unified']")).isDisplayed(),
                     "missing <table id='unified-diff'>");
     }
 
