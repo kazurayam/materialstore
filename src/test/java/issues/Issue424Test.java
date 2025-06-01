@@ -59,7 +59,7 @@ public class Issue424Test {
         MaterialList left = store.select(jobName, jtLeft, FileType.CSV, QueryOnMetadata.ANY);
         MaterialList right = store.select(jobName, jtRight, FileType.CSV, QueryOnMetadata.ANY);
         MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).build();
-        MaterialProduct stuffed = new TextDifferToHTML(store).stuffDiff(mpg.get(0));
+        MaterialProduct stuffed = new TextDifferToHTML(store).generateDiff(mpg.get(0));
         assertNotNull(stuffed);
 
         // in the "diff" directory, there should be a Material

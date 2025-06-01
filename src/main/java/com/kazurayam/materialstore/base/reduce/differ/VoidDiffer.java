@@ -46,7 +46,7 @@ public final class VoidDiffer implements Differ {
     }
 
     @Override
-    public MaterialProduct stuffDiff(MaterialProduct mProduct) throws MaterialstoreException {
+    public MaterialProduct generateDiff(MaterialProduct mProduct) throws MaterialstoreException {
         Objects.requireNonNull(mProduct);
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());

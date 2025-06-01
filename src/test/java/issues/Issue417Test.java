@@ -69,7 +69,7 @@ public class Issue417Test {
         MaterialList mlRight = store.select(jobName, jtRight,
                 FileType.PNG, QueryOnMetadata.ANY);
         MaterialProductGroup mpg = MaterialProductGroup.builder(mlLeft, mlRight).build();
-        MaterialProduct stuffed = new ImageDiffStuffer(store).stuffDiff(mpg.get(0));
+        MaterialProduct stuffed = new ImageDiffStuffer(store).generateDiff(mpg.get(0));
         assertNotNull(stuffed);
     }
 
@@ -91,7 +91,7 @@ public class Issue417Test {
         MaterialList left = store.select(jobName, jtLeft, FileType.PNG, QueryOnMetadata.ANY);
         MaterialList right = store.select(jobName, jtRight, FileType.PNG, QueryOnMetadata.ANY);
         MaterialProductGroup mpg = MaterialProductGroup.builder(left, right).build();
-        MaterialProduct stuffed = new ImageDiffStuffer(store).stuffDiff(mpg.get(0));
+        MaterialProduct stuffed = new ImageDiffStuffer(store).generateDiff(mpg.get(0));
         assertNotNull(stuffed);
         // OutOfMemoryError will occur
     }

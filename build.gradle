@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.kazurayam"
-version = "0.18.4"
+version = "0.18.5"
 
 ext {
     isReleaseVersion = !version.endsWith("SNAPSHOT")
@@ -47,6 +47,7 @@ dependencies {
     testImplementation libs.timekeeper
     testImplementation libs.s3fs
     testImplementation libs.unittesthelper
+    testImplementation libs.seleniumjava
 }
 
 java {

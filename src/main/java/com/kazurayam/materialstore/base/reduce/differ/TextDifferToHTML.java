@@ -1,5 +1,8 @@
 package com.kazurayam.materialstore.base.reduce.differ;
 
+import com.github.difflib.DiffUtils;
+import com.github.difflib.patch.AbstractDelta;
+import com.github.difflib.patch.Patch;
 import com.github.difflib.text.DiffRow;
 import com.github.difflib.text.DiffRowGenerator;
 import com.kazurayam.materialstore.base.report.FreeMarkerConfigurator;
@@ -83,6 +86,7 @@ public final class TextDifferToHTML extends AbstractTextDiffer implements Differ
                                 .replaceAll("&amp;", "&"))
                         .build();
 
+        // generate the split-diff rows
         final List<DiffRow> rows = generator.generateDiffRows(leftLines, rightLines);
 
         final List<DiffRow> insertedRows =
@@ -123,6 +127,13 @@ public final class TextDifferToHTML extends AbstractTextDiffer implements Differ
         model.put("ratio", ratio);
         model.put("style", StyleHelper.loadStyleFromClasspath("/com/kazurayam/materialstore/base/reduce/differ/style.css"));
         model.put("title", "TextDifferToHTML output");
+        model.put("OLD_TAG", OLD_TAG);
+        model.put("NEW_TAG", NEW_TAG);
+
+        // generate the split-diff data
+        Map<String, Object> splitData = new HashMap<>();
+        model.put("splitData", splitData);
+
         Map<String, String> leftData = new HashMap<String, String>() {{
             put("relativeURL", left.getRelativeURL());
             put("fileType", left.getFileType().getExtension());
@@ -135,8 +146,8 @@ public final class TextDifferToHTML extends AbstractTextDiffer implements Differ
             put("metadata", right.getMetadata().toString());
             put("url", right.getMetadata().toURLAsString());
         }};
-        model.put("leftData", leftData);
-        model.put("rightData", rightData);
+        splitData.put("left", leftData);
+        splitData.put("right", rightData);
 
         List<Map<String, Object>> rowsAsModel = new ArrayList<>();
         int count = 1;
@@ -150,13 +161,30 @@ public final class TextDifferToHTML extends AbstractTextDiffer implements Differ
             //
             count += 1;
         }
+        splitData.put("rows", rowsAsModel);
         logger.debug("#makeTextDiffContent rowsAsModel.size()=" + rowsAsModel.size());
-        model.put("rows", rowsAsModel);
-        model.put("OLD_TAG", OLD_TAG);
-        model.put("NEW_TAG", NEW_TAG);
 
+        //-------------------------------------------------------------
+
+        // compute the patch
+        Patch<String> patch = DiffUtils.diff(leftLines, rightLines);
+        // for debug
+        for (AbstractDelta<String> delta: patch.getDeltas()) {
+            logger.debug(delta.toString());
+        }
+        // get the unified-diff lines
+        List<String> unifiedDiffLines = UnifiedDiffUtils.generateUnifiedDiff(
+                left.getRelativeURL(),
+                right.getRelativeURL(),
+                leftLines,
+                patch, 3);
+
+        model.put("unifiedDiffLines", unifiedDiffLines);
+
+        //-------------------------------------------------------------
         // compile the report content
         String content = makeContentString(model);
+
         if (isPrettyPrintingEnabled()) {
             Document doc = Jsoup.parse(content, "", Parser.htmlParser());
             doc.outputSettings().indentAmount(2);

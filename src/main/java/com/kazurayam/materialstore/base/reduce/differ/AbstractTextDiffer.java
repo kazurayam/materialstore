@@ -44,7 +44,7 @@ public abstract class AbstractTextDiffer implements Differ {
     }
 
     @Override
-    public MaterialProduct stuffDiff(MaterialProduct mProduct) throws MaterialstoreException {
+    public MaterialProduct generateDiff(MaterialProduct mProduct) throws MaterialstoreException {
         Objects.requireNonNull(mProduct);
         Objects.requireNonNull(mProduct.getLeft());
         Objects.requireNonNull(mProduct.getRight());
@@ -54,7 +54,7 @@ public abstract class AbstractTextDiffer implements Differ {
 
         if (left.getDiffability().equals(FileTypeDiffability.AS_TEXT) &&
                 right.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
-            // Both of the left and right Materials are diff-able as text
+            logger.debug("Both of the left and right Materials are diff-able as text");
         } else if (! left.getDiffability().equals(FileTypeDiffability.AS_TEXT) &&
                 right.getDiffability().equals(FileTypeDiffability.AS_TEXT)) {
             // the left Material is NOT a diff-able text, but the right is a text
